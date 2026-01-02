@@ -3,6 +3,37 @@ import type { CandidateWithScores, CargoType, Flag } from '@/types/database'
 
 const supabase = createClient()
 
+// Type for ranking view row
+interface RankingViewRow {
+  id: string
+  slug: string
+  full_name: string
+  photo_url: string | null
+  cargo: CargoType
+  party_id: string | null
+  party_name: string | null
+  party_short_name: string | null
+  party_color: string | null
+  district_id: string | null
+  district_name: string | null
+  district_slug: string | null
+  competence: number
+  integrity: number
+  transparency: number
+  confidence: number
+  score_balanced: number
+  score_merit: number
+  score_integrity: number
+  red_flags_count: number
+  amber_flags_count: number
+  total_flags_count: number
+}
+
+// Type for flag with candidate_id
+interface FlagRow extends Flag {
+  candidate_id: string
+}
+
 /**
  * Get all candidates with scores and flags
  */
@@ -49,19 +80,22 @@ export async function getCandidates(options?: {
 
   const { data, error } = await query.order('score_balanced', { ascending: false })
 
-  if (error) {
+  if (error || !data) {
     console.error('Error fetching candidates:', error)
     return []
   }
 
+  const rows = data as RankingViewRow[]
+
   // Fetch flags for each candidate
-  const candidateIds = data.map((c: { id: string }) => c.id)
-  const { data: flags } = await supabase
+  const candidateIds = rows.map((c) => c.id)
+  const { data: flagsData } = await supabase
     .from('flags')
     .select('*')
     .in('candidate_id', candidateIds)
 
-  const flagsByCandidate = (flags || []).reduce((acc: Record<string, Flag[]>, flag: Flag & { candidate_id: string }) => {
+  const flags = (flagsData || []) as FlagRow[]
+  const flagsByCandidate = flags.reduce<Record<string, Flag[]>>((acc, flag) => {
     if (!acc[flag.candidate_id]) {
       acc[flag.candidate_id] = []
     }
@@ -69,33 +103,33 @@ export async function getCandidates(options?: {
     return acc
   }, {})
 
-  return data.map((row: Record<string, unknown>) => ({
-    id: row.id as string,
-    slug: row.slug as string,
-    full_name: row.full_name as string,
-    photo_url: row.photo_url as string | null,
-    cargo: row.cargo as CargoType,
+  return rows.map((row) => ({
+    id: row.id,
+    slug: row.slug,
+    full_name: row.full_name,
+    photo_url: row.photo_url,
+    cargo: row.cargo,
     party: row.party_id ? {
-      id: row.party_id as string,
-      name: row.party_name as string,
-      short_name: row.party_short_name as string | null,
-      color: row.party_color as string | null,
+      id: row.party_id,
+      name: row.party_name || '',
+      short_name: row.party_short_name,
+      color: row.party_color,
     } : null,
     district: row.district_id ? {
-      id: row.district_id as string,
-      name: row.district_name as string,
-      slug: row.district_slug as string,
+      id: row.district_id,
+      name: row.district_name || '',
+      slug: row.district_slug || '',
     } : null,
     scores: {
-      competence: row.competence as number,
-      integrity: row.integrity as number,
-      transparency: row.transparency as number,
-      confidence: row.confidence as number,
-      score_balanced: row.score_balanced as number,
-      score_merit: row.score_merit as number,
-      score_integrity: row.score_integrity as number,
+      competence: row.competence,
+      integrity: row.integrity,
+      transparency: row.transparency,
+      confidence: row.confidence,
+      score_balanced: row.score_balanced,
+      score_merit: row.score_merit,
+      score_integrity: row.score_integrity,
     },
-    flags: flagsByCandidate[row.id as string] || [],
+    flags: flagsByCandidate[row.id] || [],
   }))
 }
 
@@ -114,39 +148,43 @@ export async function getCandidateBySlug(slug: string): Promise<CandidateWithSco
     return null
   }
 
+  const row = data as RankingViewRow
+
   // Fetch flags
-  const { data: flags } = await supabase
+  const { data: flagsData } = await supabase
     .from('flags')
     .select('*')
-    .eq('candidate_id', data.id)
+    .eq('candidate_id', row.id)
+
+  const flags = (flagsData || []) as FlagRow[]
 
   return {
-    id: data.id,
-    slug: data.slug,
-    full_name: data.full_name,
-    photo_url: data.photo_url,
-    cargo: data.cargo,
-    party: data.party_id ? {
-      id: data.party_id,
-      name: data.party_name,
-      short_name: data.party_short_name,
-      color: data.party_color,
+    id: row.id,
+    slug: row.slug,
+    full_name: row.full_name,
+    photo_url: row.photo_url,
+    cargo: row.cargo,
+    party: row.party_id ? {
+      id: row.party_id,
+      name: row.party_name || '',
+      short_name: row.party_short_name,
+      color: row.party_color,
     } : null,
-    district: data.district_id ? {
-      id: data.district_id,
-      name: data.district_name,
-      slug: data.district_slug,
+    district: row.district_id ? {
+      id: row.district_id,
+      name: row.district_name || '',
+      slug: row.district_slug || '',
     } : null,
     scores: {
-      competence: data.competence,
-      integrity: data.integrity,
-      transparency: data.transparency,
-      confidence: data.confidence,
-      score_balanced: data.score_balanced,
-      score_merit: data.score_merit,
-      score_integrity: data.score_integrity,
+      competence: row.competence,
+      integrity: row.integrity,
+      transparency: row.transparency,
+      confidence: row.confidence,
+      score_balanced: row.score_balanced,
+      score_merit: row.score_merit,
+      score_integrity: row.score_integrity,
     },
-    flags: flags || [],
+    flags: flags,
   }
 }
 
@@ -164,13 +202,16 @@ export async function getCandidatesByIds(ids: string[]): Promise<CandidateWithSc
     return []
   }
 
+  const rows = data as RankingViewRow[]
+
   // Fetch flags
-  const { data: flags } = await supabase
+  const { data: flagsData } = await supabase
     .from('flags')
     .select('*')
     .in('candidate_id', ids)
 
-  const flagsByCandidate = (flags || []).reduce((acc: Record<string, Flag[]>, flag: Flag & { candidate_id: string }) => {
+  const flags = (flagsData || []) as FlagRow[]
+  const flagsByCandidate = flags.reduce<Record<string, Flag[]>>((acc, flag) => {
     if (!acc[flag.candidate_id]) {
       acc[flag.candidate_id] = []
     }
@@ -178,7 +219,7 @@ export async function getCandidatesByIds(ids: string[]): Promise<CandidateWithSc
     return acc
   }, {})
 
-  return data.map((row) => ({
+  return rows.map((row) => ({
     id: row.id,
     slug: row.slug,
     full_name: row.full_name,
@@ -186,14 +227,14 @@ export async function getCandidatesByIds(ids: string[]): Promise<CandidateWithSc
     cargo: row.cargo,
     party: row.party_id ? {
       id: row.party_id,
-      name: row.party_name,
+      name: row.party_name || '',
       short_name: row.party_short_name,
       color: row.party_color,
     } : null,
     district: row.district_id ? {
       id: row.district_id,
-      name: row.district_name,
-      slug: row.district_slug,
+      name: row.district_name || '',
+      slug: row.district_slug || '',
     } : null,
     scores: {
       competence: row.competence,
@@ -251,7 +292,7 @@ export async function getCandidateCountByCargo(): Promise<Record<CargoType, numb
     .select('cargo')
     .eq('is_active', true)
 
-  if (error) {
+  if (error || !data) {
     console.error('Error fetching counts:', error)
     return {
       presidente: 0,
@@ -262,6 +303,8 @@ export async function getCandidateCountByCargo(): Promise<Record<CargoType, numb
     }
   }
 
+  const rows = data as Array<{ cargo: string }>
+
   const counts: Record<CargoType, number> = {
     presidente: 0,
     vicepresidente: 0,
@@ -270,7 +313,7 @@ export async function getCandidateCountByCargo(): Promise<Record<CargoType, numb
     parlamento_andino: 0,
   }
 
-  data.forEach((row) => {
+  rows.forEach((row) => {
     counts[row.cargo as CargoType]++
   })
 
