@@ -1,5 +1,5 @@
 import { sql } from './index'
-import type { CandidateWithScores, CargoType, Flag } from '@/types/database'
+import type { CandidateWithScores, CargoType, Flag, ScoreBreakdown, CivilPenalty } from '@/types/database'
 
 interface CandidateRow {
   id: string
@@ -292,4 +292,52 @@ export async function getCandidateCountByCargo(): Promise<Record<CargoType, numb
   })
 
   return counts
+}
+
+/**
+ * Get score breakdown for a candidate
+ */
+export async function getScoreBreakdown(candidateId: string): Promise<ScoreBreakdown | null> {
+  const rows = await sql`
+    SELECT * FROM score_breakdowns WHERE candidate_id = ${candidateId} LIMIT 1
+  `
+
+  if (rows.length === 0) return null
+
+  const row = rows[0]
+
+  return {
+    education: {
+      total: Number(row.education_level_points) + Number(row.education_depth_points),
+      level: Number(row.education_level_points),
+      depth: Number(row.education_depth_points),
+    },
+    experience: {
+      total: Number(row.experience_total_points),
+      relevant: Number(row.experience_relevant_points),
+    },
+    leadership: {
+      total: Number(row.leadership_seniority_points) + Number(row.leadership_stability_points),
+      seniority: Number(row.leadership_seniority_points),
+      stability: Number(row.leadership_stability_points),
+    },
+    integrity: {
+      base: Number(row.integrity_base),
+      penal_penalty: Number(row.penal_penalty),
+      civil_penalties: (row.civil_penalties as CivilPenalty[]) || [],
+      resignation_penalty: Number(row.resignation_penalty),
+      final: Number(row.integrity_base) - Number(row.penal_penalty) - Number(row.resignation_penalty),
+    },
+    transparency: {
+      completeness: Number(row.completeness_points),
+      consistency: Number(row.consistency_points),
+      assets_quality: Number(row.assets_quality_points),
+      total: Number(row.completeness_points) + Number(row.consistency_points) + Number(row.assets_quality_points),
+    },
+    confidence: {
+      verification: Number(row.verification_points),
+      coverage: Number(row.coverage_points),
+      total: Number(row.verification_points) + Number(row.coverage_points),
+    },
+  }
 }

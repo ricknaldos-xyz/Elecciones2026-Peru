@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
-import { getCandidateBySlug } from '@/lib/db/queries'
+import { getCandidateBySlug, getScoreBreakdown } from '@/lib/db/queries'
 import { CandidateProfileContent } from './CandidateProfileContent'
 
 interface PageProps {
@@ -17,12 +17,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
   }
 
+  const ogParams = new URLSearchParams({
+    name: candidate.full_name,
+    party: candidate.party?.short_name || candidate.party?.name || '',
+    score: candidate.scores.score_balanced.toFixed(1),
+    c: candidate.scores.competence.toFixed(0),
+    i: candidate.scores.integrity.toFixed(0),
+    t: candidate.scores.transparency.toFixed(0),
+  })
+
   return {
     title: `${candidate.full_name} - Ranking Electoral 2026`,
     description: `Score: ${candidate.scores.score_balanced.toFixed(1)}/100. Ver mérito, integridad y evidencia de ${candidate.full_name}.`,
     openGraph: {
       title: `${candidate.full_name} - Ranking Electoral 2026`,
       description: `Score: ${candidate.scores.score_balanced.toFixed(1)}/100. Ver mérito, integridad y transparencia.`,
+      images: [`/api/og?${ogParams.toString()}`],
     },
   }
 }
@@ -35,5 +45,7 @@ export default async function CandidatePage({ params }: PageProps) {
     notFound()
   }
 
-  return <CandidateProfileContent candidate={candidate} />
+  const breakdown = await getScoreBreakdown(candidate.id)
+
+  return <CandidateProfileContent candidate={candidate} breakdown={breakdown} />
 }

@@ -13,10 +13,11 @@ import { SubScoreBar } from '@/components/candidate/SubScoreBar'
 import { FlagChips } from '@/components/candidate/FlagChip'
 import { ConfidenceBadge } from '@/components/candidate/ConfidenceBadge'
 import { PRESETS } from '@/lib/constants'
-import type { CandidateWithScores, PresetType } from '@/types/database'
+import type { CandidateWithScores, PresetType, ScoreBreakdown } from '@/types/database'
 
 interface CandidateProfileContentProps {
   candidate: CandidateWithScores
+  breakdown: ScoreBreakdown | null
 }
 
 const cargoLabels: Record<string, string> = {
@@ -41,7 +42,7 @@ const severityColors: Record<string, { bg: string; text: string; border: string 
   GRAY: { bg: 'bg-gray-100 dark:bg-gray-800', text: 'text-gray-700 dark:text-gray-300', border: 'border-gray-200 dark:border-gray-700' },
 }
 
-export function CandidateProfileContent({ candidate }: CandidateProfileContentProps) {
+export function CandidateProfileContent({ candidate, breakdown }: CandidateProfileContentProps) {
   const [mode, setMode] = useState<PresetType>('balanced')
 
   const getScore = () => {
@@ -403,84 +404,119 @@ export function CandidateProfileContent({ candidate }: CandidateProfileContentPr
                 <CardTitle>Desglose del Puntaje</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-6">
-                  {/* Competence Breakdown */}
-                  <div>
-                    <h4 className="font-medium text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-blue-500" />
-                      Competencia: {candidate.scores.competence}/100
-                    </h4>
-                    <div className="ml-5 space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                      <div className="flex justify-between">
-                        <span>Educación (máx. 30)</span>
-                        <span className="font-medium text-gray-900 dark:text-white">--</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Experiencia Total (máx. 25)</span>
-                        <span className="font-medium text-gray-900 dark:text-white">--</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Experiencia Relevante (máx. 25)</span>
-                        <span className="font-medium text-gray-900 dark:text-white">--</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Liderazgo (máx. 20)</span>
-                        <span className="font-medium text-gray-900 dark:text-white">--</span>
-                      </div>
-                    </div>
-                    <p className="mt-2 text-xs text-gray-400 dark:text-gray-500 ml-5">
-                      * Datos detallados disponibles cuando se integre con Supabase
-                    </p>
-                  </div>
-
-                  {/* Integrity Breakdown */}
-                  <div>
-                    <h4 className="font-medium text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-green-500" />
-                      Integridad: {candidate.scores.integrity}/100
-                    </h4>
-                    <div className="ml-5 space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                      <div className="flex justify-between">
-                        <span>Base</span>
-                        <span className="font-medium text-gray-900 dark:text-white">100</span>
-                      </div>
-                      {candidate.flags.filter(f => f.severity === 'RED').length > 0 && (
-                        <div className="flex justify-between text-red-600 dark:text-red-400">
-                          <span>Sentencias penales</span>
-                          <span className="font-medium">-{100 - candidate.scores.integrity}</span>
+                {breakdown ? (
+                  <div className="space-y-6">
+                    {/* Competence Breakdown */}
+                    <div>
+                      <h4 className="font-medium text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-blue-500" />
+                        Competencia: {candidate.scores.competence.toFixed(1)}/100
+                      </h4>
+                      <div className="ml-5 space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                        <div className="flex justify-between">
+                          <span>Nivel educativo (máx. 22)</span>
+                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.education.level.toFixed(1)}</span>
                         </div>
-                      )}
-                      {candidate.flags.filter(f => f.severity === 'AMBER').length > 0 && (
-                        <div className="flex justify-between text-amber-600 dark:text-amber-400">
-                          <span>Otras penalidades</span>
-                          <span className="font-medium">Ver evidencia</span>
+                        <div className="flex justify-between">
+                          <span>Profundidad educativa (máx. 8)</span>
+                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.education.depth.toFixed(1)}</span>
                         </div>
-                      )}
+                        <div className="flex justify-between">
+                          <span>Experiencia total (máx. 25)</span>
+                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.experience.total.toFixed(1)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Experiencia relevante (máx. 25)</span>
+                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.experience.relevant.toFixed(1)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Liderazgo - Seniority (máx. 14)</span>
+                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.leadership.seniority.toFixed(1)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Liderazgo - Estabilidad (máx. 6)</span>
+                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.leadership.stability.toFixed(1)}</span>
+                        </div>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Transparency Breakdown */}
-                  <div>
-                    <h4 className="font-medium text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full bg-purple-500" />
-                      Transparencia: {candidate.scores.transparency}/100
-                    </h4>
-                    <div className="ml-5 space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                      <div className="flex justify-between">
-                        <span>Completitud (máx. 35)</span>
-                        <span className="font-medium text-gray-900 dark:text-white">--</span>
+                    {/* Integrity Breakdown */}
+                    <div>
+                      <h4 className="font-medium text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-green-500" />
+                        Integridad: {candidate.scores.integrity.toFixed(1)}/100
+                      </h4>
+                      <div className="ml-5 space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                        <div className="flex justify-between">
+                          <span>Base</span>
+                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.integrity.base.toFixed(0)}</span>
+                        </div>
+                        {breakdown.integrity.penal_penalty > 0 && (
+                          <div className="flex justify-between text-red-600 dark:text-red-400">
+                            <span>Sentencias penales</span>
+                            <span className="font-medium">-{breakdown.integrity.penal_penalty.toFixed(0)}</span>
+                          </div>
+                        )}
+                        {breakdown.integrity.civil_penalties.map((penalty, idx) => (
+                          <div key={idx} className="flex justify-between text-amber-600 dark:text-amber-400">
+                            <span>Sentencia civil ({penalty.type})</span>
+                            <span className="font-medium">-{penalty.penalty.toFixed(0)}</span>
+                          </div>
+                        ))}
+                        {breakdown.integrity.resignation_penalty > 0 && (
+                          <div className="flex justify-between text-amber-600 dark:text-amber-400">
+                            <span>Renuncias a partidos</span>
+                            <span className="font-medium">-{breakdown.integrity.resignation_penalty.toFixed(0)}</span>
+                          </div>
+                        )}
                       </div>
-                      <div className="flex justify-between">
-                        <span>Consistencia (máx. 35)</span>
-                        <span className="font-medium text-gray-900 dark:text-white">--</span>
+                    </div>
+
+                    {/* Transparency Breakdown */}
+                    <div>
+                      <h4 className="font-medium text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-purple-500" />
+                        Transparencia: {candidate.scores.transparency.toFixed(1)}/100
+                      </h4>
+                      <div className="ml-5 space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                        <div className="flex justify-between">
+                          <span>Completitud (máx. 35)</span>
+                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.transparency.completeness.toFixed(1)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Consistencia (máx. 35)</span>
+                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.transparency.consistency.toFixed(1)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Calidad Patrimonial (máx. 30)</span>
+                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.transparency.assets_quality.toFixed(1)}</span>
+                        </div>
                       </div>
-                      <div className="flex justify-between">
-                        <span>Calidad Patrimonial (máx. 30)</span>
-                        <span className="font-medium text-gray-900 dark:text-white">--</span>
+                    </div>
+
+                    {/* Confidence Breakdown */}
+                    <div>
+                      <h4 className="font-medium text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-gray-500" />
+                        Confianza de datos: {candidate.scores.confidence.toFixed(1)}/100
+                      </h4>
+                      <div className="ml-5 space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                        <div className="flex justify-between">
+                          <span>Verificación (máx. 50)</span>
+                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.confidence.verification.toFixed(1)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span>Cobertura (máx. 50)</span>
+                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.confidence.coverage.toFixed(1)}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                    <p>Datos de desglose no disponibles para este candidato.</p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabPanel>
