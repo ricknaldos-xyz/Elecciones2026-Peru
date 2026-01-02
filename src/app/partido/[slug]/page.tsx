@@ -106,9 +106,6 @@ export default async function PartidoPage({ params }: PageProps) {
                   candidate={candidate}
                   rank={index + 1}
                   mode="balanced"
-                  onCompare={() => {}}
-                  onView={() => {}}
-                  onShare={() => {}}
                 />
               ))}
             </div>

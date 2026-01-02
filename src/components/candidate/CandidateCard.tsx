@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -9,7 +10,6 @@ import { SubScoreBarMini } from './SubScoreBar'
 import { FlagChips } from './FlagChip'
 import { ConfidenceBadge } from './ConfidenceBadge'
 import type { CandidateWithScores, PresetType, Weights } from '@/types/database'
-import { PRESETS } from '@/lib/constants'
 
 interface CandidateCardProps {
   candidate: CandidateWithScores
@@ -56,12 +56,46 @@ export function CandidateCard({
   isSelected = false,
   className,
 }: CandidateCardProps) {
+  const router = useRouter()
   const score = getScoreByMode(candidate.scores, mode, weights)
+
+  const handleView = () => {
+    if (onView) {
+      onView()
+    } else {
+      router.push(`/candidato/${candidate.slug}`)
+    }
+  }
+
+  const handleShare = () => {
+    if (onShare) {
+      onShare()
+    } else {
+      const url = `${window.location.origin}/candidato/${candidate.slug}`
+      if (navigator.share) {
+        navigator.share({
+          title: `${candidate.full_name} - Ranking Electoral 2026`,
+          text: `Score: ${score.toFixed(1)}/100`,
+          url,
+        })
+      } else {
+        navigator.clipboard.writeText(url)
+      }
+    }
+  }
+
+  const handleCompare = () => {
+    if (onCompare) {
+      onCompare()
+    } else {
+      router.push(`/comparar?ids=${candidate.id}`)
+    }
+  }
 
   return (
     <Card
       hover
-      onClick={onView}
+      onClick={handleView}
       className={cn(
         'relative',
         isSelected && 'ring-2 ring-blue-500',
@@ -143,7 +177,7 @@ export function CandidateCard({
             size="sm"
             onClick={(e) => {
               e.stopPropagation()
-              onCompare?.()
+              handleCompare()
             }}
             className="flex-1"
           >
@@ -154,7 +188,7 @@ export function CandidateCard({
             size="sm"
             onClick={(e) => {
               e.stopPropagation()
-              onView?.()
+              handleView()
             }}
             className="flex-1"
           >
@@ -165,7 +199,7 @@ export function CandidateCard({
             size="sm"
             onClick={(e) => {
               e.stopPropagation()
-              onShare?.()
+              handleShare()
             }}
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

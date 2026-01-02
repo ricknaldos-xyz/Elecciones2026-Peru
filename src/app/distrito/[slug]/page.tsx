@@ -83,9 +83,6 @@ export default async function DistritoPage({ params }: PageProps) {
                   candidate={candidate}
                   rank={index + 1}
                   mode="balanced"
-                  onCompare={() => {}}
-                  onView={() => {}}
-                  onShare={() => {}}
                 />
               ))}
             </div>
@@ -104,9 +101,6 @@ export default async function DistritoPage({ params }: PageProps) {
                   candidate={candidate}
                   rank={index + 1}
                   mode="balanced"
-                  onCompare={() => {}}
-                  onView={() => {}}
-                  onShare={() => {}}
                 />
               ))}
             </div>
