@@ -1,5 +1,6 @@
 -- ============================================
 -- RANKING ELECTORAL PERU 2026 - DATABASE SCHEMA
+-- Compatible with Neon (PostgreSQL)
 -- ============================================
 
 -- Enable UUID extension
@@ -8,7 +9,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- ============================================
 -- PARTIES TABLE
 -- ============================================
-CREATE TABLE parties (
+CREATE TABLE IF NOT EXISTS parties (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   name TEXT NOT NULL,
   short_name TEXT,
@@ -21,7 +22,7 @@ CREATE TABLE parties (
 -- ============================================
 -- DISTRICTS TABLE
 -- ============================================
-CREATE TABLE districts (
+CREATE TABLE IF NOT EXISTS districts (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   name TEXT NOT NULL,
   slug TEXT UNIQUE NOT NULL,
@@ -34,7 +35,7 @@ CREATE TABLE districts (
 -- ============================================
 -- CANDIDATES TABLE
 -- ============================================
-CREATE TABLE candidates (
+CREATE TABLE IF NOT EXISTS candidates (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   slug TEXT UNIQUE NOT NULL,
   full_name TEXT NOT NULL,
@@ -76,7 +77,7 @@ CREATE TABLE candidates (
 -- ============================================
 -- SCORES TABLE
 -- ============================================
-CREATE TABLE scores (
+CREATE TABLE IF NOT EXISTS scores (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   candidate_id UUID NOT NULL REFERENCES candidates(id) ON DELETE CASCADE,
 
@@ -99,7 +100,7 @@ CREATE TABLE scores (
 -- ============================================
 -- SCORE BREAKDOWNS TABLE
 -- ============================================
-CREATE TABLE score_breakdowns (
+CREATE TABLE IF NOT EXISTS score_breakdowns (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   candidate_id UUID NOT NULL REFERENCES candidates(id) ON DELETE CASCADE,
 
@@ -134,7 +135,7 @@ CREATE TABLE score_breakdowns (
 -- ============================================
 -- FLAGS TABLE
 -- ============================================
-CREATE TABLE flags (
+CREATE TABLE IF NOT EXISTS flags (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   candidate_id UUID NOT NULL REFERENCES candidates(id) ON DELETE CASCADE,
   type TEXT NOT NULL CHECK (type IN (
@@ -163,22 +164,22 @@ CREATE TABLE flags (
 -- ============================================
 
 -- Candidates indexes
-CREATE INDEX idx_candidates_cargo ON candidates(cargo);
-CREATE INDEX idx_candidates_party ON candidates(party_id);
-CREATE INDEX idx_candidates_district ON candidates(district_id);
-CREATE INDEX idx_candidates_active ON candidates(is_active);
-CREATE INDEX idx_candidates_slug ON candidates(slug);
+CREATE INDEX IF NOT EXISTS idx_candidates_cargo ON candidates(cargo);
+CREATE INDEX IF NOT EXISTS idx_candidates_party ON candidates(party_id);
+CREATE INDEX IF NOT EXISTS idx_candidates_district ON candidates(district_id);
+CREATE INDEX IF NOT EXISTS idx_candidates_active ON candidates(is_active);
+CREATE INDEX IF NOT EXISTS idx_candidates_slug ON candidates(slug);
 
 -- Scores indexes (for ranking queries)
-CREATE INDEX idx_scores_balanced ON scores(score_balanced DESC);
-CREATE INDEX idx_scores_merit ON scores(score_merit DESC);
-CREATE INDEX idx_scores_integrity ON scores(score_integrity DESC);
-CREATE INDEX idx_scores_confidence ON scores(confidence DESC);
+CREATE INDEX IF NOT EXISTS idx_scores_balanced ON scores(score_balanced DESC);
+CREATE INDEX IF NOT EXISTS idx_scores_merit ON scores(score_merit DESC);
+CREATE INDEX IF NOT EXISTS idx_scores_integrity ON scores(score_integrity DESC);
+CREATE INDEX IF NOT EXISTS idx_scores_confidence ON scores(confidence DESC);
 
 -- Flags indexes
-CREATE INDEX idx_flags_candidate ON flags(candidate_id);
-CREATE INDEX idx_flags_severity ON flags(severity);
-CREATE INDEX idx_flags_type ON flags(type);
+CREATE INDEX IF NOT EXISTS idx_flags_candidate ON flags(candidate_id);
+CREATE INDEX IF NOT EXISTS idx_flags_severity ON flags(severity);
+CREATE INDEX IF NOT EXISTS idx_flags_type ON flags(type);
 
 -- ============================================
 -- UPDATED_AT TRIGGER
@@ -191,117 +192,26 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
+DROP TRIGGER IF EXISTS update_candidates_updated_at ON candidates;
 CREATE TRIGGER update_candidates_updated_at
   BEFORE UPDATE ON candidates
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_scores_updated_at ON scores;
 CREATE TRIGGER update_scores_updated_at
   BEFORE UPDATE ON scores
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_score_breakdowns_updated_at ON score_breakdowns;
 CREATE TRIGGER update_score_breakdowns_updated_at
   BEFORE UPDATE ON score_breakdowns
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_parties_updated_at ON parties;
 CREATE TRIGGER update_parties_updated_at
   BEFORE UPDATE ON parties
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
-
--- ============================================
--- ROW LEVEL SECURITY (RLS)
--- ============================================
-
--- Enable RLS on all tables
-ALTER TABLE parties ENABLE ROW LEVEL SECURITY;
-ALTER TABLE districts ENABLE ROW LEVEL SECURITY;
-ALTER TABLE candidates ENABLE ROW LEVEL SECURITY;
-ALTER TABLE scores ENABLE ROW LEVEL SECURITY;
-ALTER TABLE score_breakdowns ENABLE ROW LEVEL SECURITY;
-ALTER TABLE flags ENABLE ROW LEVEL SECURITY;
-
--- Public read access for all tables (anonymous users can read)
-CREATE POLICY "Public read access" ON parties FOR SELECT USING (true);
-CREATE POLICY "Public read access" ON districts FOR SELECT USING (true);
-CREATE POLICY "Public read access" ON candidates FOR SELECT USING (true);
-CREATE POLICY "Public read access" ON scores FOR SELECT USING (true);
-CREATE POLICY "Public read access" ON score_breakdowns FOR SELECT USING (true);
-CREATE POLICY "Public read access" ON flags FOR SELECT USING (true);
-
--- Service role can do everything (for admin scripts)
-CREATE POLICY "Service role full access" ON parties FOR ALL USING (auth.role() = 'service_role');
-CREATE POLICY "Service role full access" ON districts FOR ALL USING (auth.role() = 'service_role');
-CREATE POLICY "Service role full access" ON candidates FOR ALL USING (auth.role() = 'service_role');
-CREATE POLICY "Service role full access" ON scores FOR ALL USING (auth.role() = 'service_role');
-CREATE POLICY "Service role full access" ON score_breakdowns FOR ALL USING (auth.role() = 'service_role');
-CREATE POLICY "Service role full access" ON flags FOR ALL USING (auth.role() = 'service_role');
-
--- ============================================
--- VIEWS FOR COMMON QUERIES
--- ============================================
-
--- Candidate with all related data
-CREATE OR REPLACE VIEW candidates_full AS
-SELECT
-  c.*,
-  p.name as party_name,
-  p.short_name as party_short_name,
-  p.color as party_color,
-  p.logo_url as party_logo_url,
-  d.name as district_name,
-  d.slug as district_slug,
-  s.competence,
-  s.integrity,
-  s.transparency,
-  s.confidence,
-  s.score_balanced,
-  s.score_merit,
-  s.score_integrity
-FROM candidates c
-LEFT JOIN parties p ON c.party_id = p.id
-LEFT JOIN districts d ON c.district_id = d.id
-LEFT JOIN scores s ON c.id = s.candidate_id
-WHERE c.is_active = true;
-
--- Ranking view with flags count
-CREATE OR REPLACE VIEW ranking_view AS
-SELECT
-  c.id,
-  c.slug,
-  c.full_name,
-  c.photo_url,
-  c.cargo,
-  c.party_id,
-  p.name as party_name,
-  p.short_name as party_short_name,
-  p.color as party_color,
-  c.district_id,
-  d.name as district_name,
-  d.slug as district_slug,
-  s.competence,
-  s.integrity,
-  s.transparency,
-  s.confidence,
-  s.score_balanced,
-  s.score_merit,
-  s.score_integrity,
-  COALESCE(f.red_flags, 0) as red_flags_count,
-  COALESCE(f.amber_flags, 0) as amber_flags_count,
-  COALESCE(f.total_flags, 0) as total_flags_count
-FROM candidates c
-LEFT JOIN parties p ON c.party_id = p.id
-LEFT JOIN districts d ON c.district_id = d.id
-LEFT JOIN scores s ON c.id = s.candidate_id
-LEFT JOIN (
-  SELECT
-    candidate_id,
-    COUNT(*) FILTER (WHERE severity = 'RED') as red_flags,
-    COUNT(*) FILTER (WHERE severity = 'AMBER') as amber_flags,
-    COUNT(*) as total_flags
-  FROM flags
-  GROUP BY candidate_id
-) f ON c.id = f.candidate_id
-WHERE c.is_active = true;

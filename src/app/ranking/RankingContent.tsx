@@ -6,7 +6,7 @@ import { PresetSelector } from '@/components/ranking/PresetSelector'
 import { RankingFilters } from '@/components/ranking/RankingFilters'
 import { RankingList } from '@/components/ranking/RankingList'
 import { CompareTray } from '@/components/compare/CompareTray'
-import { getMockCandidates, sortCandidatesByScore, filterCandidates } from '@/lib/mock-data'
+import { useCandidates } from '@/hooks/useCandidates'
 import { PRESETS, WEIGHT_LIMITS } from '@/lib/constants'
 import type { PresetType, CargoType, Weights, CandidateWithScores } from '@/types/database'
 
@@ -16,6 +16,19 @@ const cargoLabels: Record<CargoType, string> = {
   senador: 'Senador',
   diputado: 'Diputado',
   parlamento_andino: 'Parlamento Andino',
+}
+
+function sortCandidatesByScore(
+  candidates: CandidateWithScores[],
+  mode: 'balanced' | 'merit' | 'integrity'
+): CandidateWithScores[] {
+  const scoreKey = mode === 'balanced'
+    ? 'score_balanced'
+    : mode === 'merit'
+    ? 'score_merit'
+    : 'score_integrity'
+
+  return [...candidates].sort((a, b) => b.scores[scoreKey] - a.scores[scoreKey])
 }
 
 export function RankingContent() {
@@ -78,6 +91,15 @@ export function RankingContent() {
   // Panel de filtros móvil
   const [showFilters, setShowFilters] = useState(false)
 
+  // Fetch candidates from API
+  const { candidates: rawCandidates, loading, error } = useCandidates({
+    cargo,
+    distrito,
+    partyId,
+    minConfidence: minConfidence > 0 ? minConfidence : undefined,
+    onlyClean,
+  })
+
   // Helper para actualizar URL sin recargar
   const updateURL = useCallback((params: Record<string, string>) => {
     const current = new URLSearchParams(searchParams.toString())
@@ -92,24 +114,11 @@ export function RankingContent() {
     window.history.replaceState(null, '', `/ranking${newURL}`)
   }, [searchParams])
 
-  // Obtener y procesar candidatos
+  // Ordenar candidatos por modo
   const candidates = useMemo(() => {
-    let result = getMockCandidates(cargo)
-
-    // Aplicar filtros
-    result = filterCandidates(result, {
-      partyId,
-      districtSlug: distrito,
-      minConfidence,
-      onlyClean,
-    })
-
-    // Ordenar por modo
     const sortMode = mode === 'custom' ? 'balanced' : mode
-    result = sortCandidatesByScore(result, sortMode)
-
-    return result
-  }, [cargo, partyId, distrito, minConfidence, onlyClean, mode])
+    return sortCandidatesByScore(rawCandidates, sortMode)
+  }, [rawCandidates, mode])
 
   // Pesos actuales
   const currentWeights = useMemo(() => {
@@ -232,7 +241,7 @@ export function RankingContent() {
             Ranking de Candidatos - {cargoLabels[cargo]}
           </h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">
-            {candidates.length} candidatos encontrados
+            {loading ? 'Cargando...' : `${candidates.length} candidatos encontrados`}
           </p>
         </div>
 
@@ -321,15 +330,36 @@ export function RankingContent() {
 
           {/* Main Content */}
           <div className="flex-1 min-w-0">
-            <RankingList
-              candidates={candidates}
-              mode={mode}
-              weights={currentWeights}
-              selectedIds={selectedIds}
-              onCompare={handleCompare}
-              onView={handleViewCandidate}
-              onShare={handleShareCandidate}
-            />
+            {error ? (
+              <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-4 rounded-lg">
+                Error: {error}
+              </div>
+            ) : loading ? (
+              <div className="space-y-4">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <div key={i} className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-4 animate-pulse">
+                    <div className="flex gap-4">
+                      <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-full" />
+                      <div className="flex-1">
+                        <div className="h-5 w-48 bg-gray-200 dark:bg-gray-700 rounded mb-2" />
+                        <div className="h-4 w-32 bg-gray-200 dark:bg-gray-700 rounded" />
+                      </div>
+                      <div className="w-20 h-12 bg-gray-200 dark:bg-gray-700 rounded" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <RankingList
+                candidates={candidates}
+                mode={mode}
+                weights={currentWeights}
+                selectedIds={selectedIds}
+                onCompare={handleCompare}
+                onView={handleViewCandidate}
+                onShare={handleShareCandidate}
+              />
+            )}
           </div>
         </div>
       </main>

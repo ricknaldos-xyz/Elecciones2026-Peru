@@ -7,27 +7,10 @@ import { cn } from '@/lib/utils'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
-import { Progress } from '@/components/ui/Progress'
 import { PresetSelector } from '@/components/ranking/PresetSelector'
-import { MOCK_PRESIDENTIAL_CANDIDATES, getMockCandidates } from '@/lib/mock-data'
+import { useCandidatesByIds } from '@/hooks/useCandidates'
 import { PRESETS } from '@/lib/constants'
 import type { CandidateWithScores, PresetType, Weights } from '@/types/database'
-
-function getCandidate(id: string): CandidateWithScores | null {
-  // Try presidential candidates first
-  let candidate = MOCK_PRESIDENTIAL_CANDIDATES.find((c) => c.id === id)
-  if (candidate) return candidate
-
-  // Try other cargos
-  const cargos = ['vicepresidente', 'senador', 'diputado', 'parlamento_andino'] as const
-  for (const cargo of cargos) {
-    const candidates = getMockCandidates(cargo)
-    candidate = candidates.find((c) => c.id === id)
-    if (candidate) return candidate
-  }
-
-  return null
-}
 
 function getScoreByMode(
   scores: CandidateWithScores['scores'],
@@ -98,11 +81,7 @@ export function CompareContent() {
     return idsParam.split(',').filter(Boolean)
   }, [searchParams])
 
-  const candidates = useMemo(() => {
-    return candidateIds
-      .map((id) => getCandidate(id))
-      .filter((c): c is CandidateWithScores => c !== null)
-  }, [candidateIds])
+  const { candidates, loading, error } = useCandidatesByIds(candidateIds)
 
   const currentWeights = mode === 'custom' ? customWeights : PRESETS[mode]
 
@@ -173,7 +152,7 @@ export function CompareContent() {
               Comparar Candidatos
             </h1>
             <p className="text-gray-500 dark:text-gray-400 mt-1">
-              {candidates.length} candidato{candidates.length !== 1 ? 's' : ''} seleccionado{candidates.length !== 1 ? 's' : ''}
+              {loading ? 'Cargando...' : `${candidates.length} candidato${candidates.length !== 1 ? 's' : ''} seleccionado${candidates.length !== 1 ? 's' : ''}`}
             </p>
           </div>
           <div className="flex gap-2">
@@ -205,7 +184,29 @@ export function CompareContent() {
           />
         </div>
 
-        {candidates.length === 0 ? (
+        {error ? (
+          <Card>
+            <CardContent className="py-12 text-center">
+              <div className="text-red-600 dark:text-red-400">
+                Error: {error}
+              </div>
+            </CardContent>
+          </Card>
+        ) : loading ? (
+          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {[1, 2, 3].map((i) => (
+              <Card key={i} className="animate-pulse">
+                <CardContent className="p-4">
+                  <div className="flex flex-col items-center">
+                    <div className="w-20 h-20 bg-gray-200 dark:bg-gray-700 rounded-full mb-3" />
+                    <div className="h-5 w-32 bg-gray-200 dark:bg-gray-700 rounded mb-2" />
+                    <div className="h-4 w-24 bg-gray-200 dark:bg-gray-700 rounded" />
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        ) : candidates.length === 0 ? (
           <Card>
             <CardContent className="py-12 text-center">
               <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center">
