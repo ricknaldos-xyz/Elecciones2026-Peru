@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
-import { getCandidateBySlug, getScoreBreakdown } from '@/lib/db/queries'
+import { getCandidateBySlug, getScoreBreakdown, getCandidateDetails } from '@/lib/db/queries'
 import { CandidateProfileContent } from './CandidateProfileContent'
 
 interface PageProps {
@@ -45,7 +45,10 @@ export default async function CandidatePage({ params }: PageProps) {
     notFound()
   }
 
-  const breakdown = await getScoreBreakdown(candidate.id)
+  const [breakdown, details] = await Promise.all([
+    getScoreBreakdown(candidate.id),
+    getCandidateDetails(candidate.id),
+  ])
 
-  return <CandidateProfileContent candidate={candidate} breakdown={breakdown} />
+  return <CandidateProfileContent candidate={candidate} breakdown={breakdown} details={details} />
 }

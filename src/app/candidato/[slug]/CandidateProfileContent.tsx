@@ -14,10 +14,12 @@ import { FlagChips } from '@/components/candidate/FlagChip'
 import { ConfidenceBadge } from '@/components/candidate/ConfidenceBadge'
 import { PRESETS } from '@/lib/constants'
 import type { CandidateWithScores, PresetType, ScoreBreakdown } from '@/types/database'
+import type { CandidateDetails } from '@/lib/db/queries'
 
 interface CandidateProfileContentProps {
   candidate: CandidateWithScores
   breakdown: ScoreBreakdown | null
+  details: CandidateDetails | null
 }
 
 const cargoLabels: Record<string, string> = {
@@ -42,7 +44,19 @@ const severityColors: Record<string, { bg: string; text: string; border: string 
   GRAY: { bg: 'bg-zinc-100 dark:bg-zinc-800', text: 'text-zinc-700 dark:text-zinc-300', border: 'border-zinc-200 dark:border-zinc-700' },
 }
 
-export function CandidateProfileContent({ candidate, breakdown }: CandidateProfileContentProps) {
+function formatCurrency(value: number): string {
+  return new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'PEN' }).format(value)
+}
+
+function formatDate(dateStr: string): string {
+  try {
+    return new Date(dateStr).toLocaleDateString('es-PE', { year: 'numeric', month: 'long', day: 'numeric' })
+  } catch {
+    return dateStr
+  }
+}
+
+export function CandidateProfileContent({ candidate, breakdown, details }: CandidateProfileContentProps) {
   const [mode, setMode] = useState<PresetType>('balanced')
 
   const getScore = () => {
@@ -219,18 +233,6 @@ export function CandidateProfileContent({ candidate, breakdown }: CandidateProfi
           </Card>
         )}
 
-        {/* Detailed Scores Card */}
-        <Card className="mb-6">
-          <CardHeader>
-            <CardTitle>Puntajes Detallados</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <SubScoreBar type="competence" value={candidate.scores.competence} size="lg" />
-            <SubScoreBar type="integrity" value={candidate.scores.integrity} size="lg" />
-            <SubScoreBar type="transparency" value={candidate.scores.transparency} size="lg" />
-          </CardContent>
-        </Card>
-
         {/* Tabs */}
         <Tabs defaultTab="resumen">
           <TabList className="mb-4">
@@ -239,164 +241,449 @@ export function CandidateProfileContent({ candidate, breakdown }: CandidateProfi
             <Tab value="breakdown">Desglose</Tab>
           </TabList>
 
+          {/* ==================== RESUMEN TAB ==================== */}
           <TabPanel value="resumen">
-            <Card>
-              <CardHeader>
-                <CardTitle>Resumen del Candidato</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-6">
-                  {/* Score Summary */}
-                  <div>
-                    <h4 className="font-medium text-gray-900 dark:text-white mb-3">
-                      Puntajes por Modo
-                    </h4>
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="text-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                        <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                          {candidate.scores.score_balanced.toFixed(1)}
-                        </div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">Equilibrado</div>
-                      </div>
-                      <div className="text-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                        <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                          {candidate.scores.score_merit.toFixed(1)}
-                        </div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">Mérito</div>
-                      </div>
-                      <div className="text-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                        <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                          {candidate.scores.score_integrity.toFixed(1)}
-                        </div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">Integridad</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Party Info */}
-                  {candidate.party && (
-                    <div>
-                      <h4 className="font-medium text-gray-900 dark:text-white mb-3">
-                        Partido Político
-                      </h4>
-                      <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
-                        <div
-                          className="w-4 h-4 rounded-full"
-                          style={{ backgroundColor: candidate.party.color || '#6B7280' }}
-                        />
+            <div className="space-y-6">
+              {/* Datos Personales */}
+              {details && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Datos Personales</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 gap-4">
+                      {details.birth_date && (
                         <div>
-                          <div className="font-medium text-gray-900 dark:text-white">
-                            {candidate.party.name}
-                          </div>
-                          {candidate.party.short_name && (
-                            <div className="text-sm text-gray-500 dark:text-gray-400">
-                              {candidate.party.short_name}
-                            </div>
-                          )}
+                          <span className="text-sm text-zinc-500 dark:text-zinc-400">Fecha de nacimiento</span>
+                          <p className="font-medium text-zinc-900 dark:text-white">{formatDate(details.birth_date)}</p>
                         </div>
-                      </div>
+                      )}
+                      {details.dni && (
+                        <div>
+                          <span className="text-sm text-zinc-500 dark:text-zinc-400">DNI</span>
+                          <p className="font-medium text-zinc-900 dark:text-white">{details.dni}</p>
+                        </div>
+                      )}
                     </div>
-                  )}
-
-                  {/* Flags Summary */}
-                  {candidate.flags.length > 0 && (
-                    <div>
-                      <h4 className="font-medium text-gray-900 dark:text-white mb-3">
-                        Alertas
-                      </h4>
-                      <FlagChips flags={candidate.flags} maxVisible={10} />
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
-          </TabPanel>
-
-          <TabPanel value="evidencia">
-            <Card>
-              <CardHeader>
-                <CardTitle>Evidencia y Fuentes</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {candidate.flags.length > 0 ? (
-                  <div className="space-y-4">
-                    {candidate.flags.map((flag) => {
-                      const colors = severityColors[flag.severity] || severityColors.GRAY
-                      return (
-                        <div
-                          key={flag.id}
-                          className={cn(
-                            'p-4 rounded-lg border',
-                            colors.bg,
-                            colors.border
-                          )}
+                    {details.djhv_url && (
+                      <div className="mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800">
+                        <a
+                          href={details.djhv_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:text-blue-700 dark:text-blue-400 text-sm flex items-center gap-1"
                         >
-                          <div className="flex items-start justify-between gap-3">
-                            <div>
-                              <div className="flex items-center gap-2 mb-1">
-                                <Badge
-                                  variant={flag.severity === 'RED' ? 'destructive' : flag.severity === 'AMBER' ? 'warning' : 'default'}
-                                  size="sm"
-                                >
-                                  {flag.severity}
-                                </Badge>
-                                <span className={cn('text-sm font-medium', colors.text)}>
-                                  {flagTypeLabels[flag.type] || flag.type}
-                                </span>
-                              </div>
-                              <h4 className={cn('font-semibold mb-1', colors.text)}>
-                                {flag.title}
-                              </h4>
-                              {flag.description && (
-                                <p className={cn('text-sm mb-2', colors.text)}>
-                                  {flag.description}
-                                </p>
-                              )}
-                              <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
-                                <span>Fuente: {flag.source}</span>
-                                {flag.date_captured && (
-                                  <span>
-                                    Capturado: {new Date(flag.date_captured).toLocaleDateString('es-PE')}
-                                  </span>
+                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                          Ver Hoja de Vida JNE
+                        </a>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Educación */}
+              {details && details.education_details.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Formación Académica</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {details.education_details.map((edu, idx) => (
+                        <div key={idx} className="flex gap-4 pb-4 border-b border-zinc-100 dark:border-zinc-800 last:border-0 last:pb-0">
+                          <div className={cn(
+                            'w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0',
+                            edu.level === 'Doctorado' ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400' :
+                            edu.level === 'Maestría' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' :
+                            edu.level === 'Universitario' || edu.level === 'Título Profesional' ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400' :
+                            'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400'
+                          )}>
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path d="M12 14l9-5-9-5-9 5 9 5z" />
+                              <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-start justify-between">
+                              <div>
+                                <h4 className="font-medium text-zinc-900 dark:text-white">
+                                  {edu.degree || edu.level}
+                                </h4>
+                                <p className="text-sm text-zinc-600 dark:text-zinc-400">{edu.institution}</p>
+                                {edu.field && (
+                                  <p className="text-xs text-zinc-500 dark:text-zinc-500">{edu.field}</p>
                                 )}
                               </div>
+                              <Badge variant="outline" size="sm">
+                                {edu.year_end || 'En curso'}
+                              </Badge>
                             </div>
-                            {flag.evidence_url && (
-                              <a
-                                href={flag.evidence_url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex-shrink-0 p-2 text-blue-600 hover:text-blue-700 dark:text-blue-400"
-                              >
-                                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                </svg>
-                              </a>
+                            {edu.country && edu.country !== 'Perú' && (
+                              <span className="text-xs text-zinc-500 dark:text-zinc-500 mt-1 inline-block">
+                                {edu.country}
+                              </span>
                             )}
                           </div>
                         </div>
-                      )
-                    })}
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <div className="w-16 h-16 mx-auto mb-4 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
-                      <svg className="w-8 h-8 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
+                      ))}
                     </div>
-                    <h4 className="font-medium text-gray-900 dark:text-white mb-1">
-                      Sin alertas registradas
-                    </h4>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      No se encontraron antecedentes negativos verificados para este candidato.
-                    </p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Experiencia Laboral */}
+              {details && details.experience_details.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Experiencia Profesional</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {details.experience_details.map((exp, idx) => (
+                        <div key={idx} className="flex gap-4 pb-4 border-b border-zinc-100 dark:border-zinc-800 last:border-0 last:pb-0">
+                          <div className={cn(
+                            'w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0',
+                            exp.type === 'publico' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400' : 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400'
+                          )}>
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-start justify-between">
+                              <div>
+                                <h4 className="font-medium text-zinc-900 dark:text-white">{exp.position}</h4>
+                                <p className="text-sm text-zinc-600 dark:text-zinc-400">{exp.institution}</p>
+                              </div>
+                              <Badge variant={exp.type === 'publico' ? 'secondary' : 'outline'} size="sm">
+                                {exp.year_start} - {exp.year_end}
+                              </Badge>
+                            </div>
+                            {exp.description && (
+                              <p className="text-sm text-zinc-500 dark:text-zinc-500 mt-1">{exp.description}</p>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Trayectoria Política */}
+              {details && details.political_trajectory.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Trayectoria Política</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {details.political_trajectory.map((pol, idx) => (
+                        <div key={idx} className="flex gap-4 pb-4 border-b border-zinc-100 dark:border-zinc-800 last:border-0 last:pb-0">
+                          <div className={cn(
+                            'w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0',
+                            pol.type === 'cargo_electivo' ? 'bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400' :
+                            pol.type === 'cargo_partidario' ? 'bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400' :
+                            pol.type === 'candidatura' ? 'bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400' :
+                            'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400'
+                          )}>
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-start justify-between">
+                              <div>
+                                <h4 className="font-medium text-zinc-900 dark:text-white">
+                                  {pol.position || (pol.type === 'afiliacion' ? 'Afiliación partidaria' : pol.type === 'candidatura' ? 'Candidatura' : 'Cargo político')}
+                                </h4>
+                                <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                                  {pol.party || pol.institution}
+                                </p>
+                              </div>
+                              <div className="text-right">
+                                {pol.year_start && (
+                                  <Badge variant="outline" size="sm">
+                                    {pol.year_start}{pol.year_end === null ? ' - Actualidad' : pol.year_end ? ` - ${pol.year_end}` : ''}
+                                  </Badge>
+                                )}
+                                {pol.year && (
+                                  <Badge variant="outline" size="sm">{pol.year}</Badge>
+                                )}
+                              </div>
+                            </div>
+                            {pol.result && (
+                              <Badge
+                                variant={pol.result === 'Electo' ? 'success' : 'default'}
+                                size="sm"
+                                className="mt-1"
+                              >
+                                {pol.result}
+                              </Badge>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Patrimonio */}
+              {details && details.assets_declaration && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Declaración Patrimonial {details.assets_declaration.declaration_year}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {/* Resumen */}
+                      <div className="grid grid-cols-2 gap-4 p-4 bg-zinc-50 dark:bg-zinc-800/50 rounded-lg">
+                        <div>
+                          <span className="text-sm text-zinc-500 dark:text-zinc-400">Patrimonio Total</span>
+                          <p className="text-xl font-bold text-zinc-900 dark:text-white">
+                            {formatCurrency(details.assets_declaration.total_value)}
+                          </p>
+                        </div>
+                        <div>
+                          <span className="text-sm text-zinc-500 dark:text-zinc-400">Ingreso Mensual</span>
+                          <p className="text-xl font-bold text-zinc-900 dark:text-white">
+                            {formatCurrency(details.assets_declaration.income.monthly_salary)}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Lista de bienes */}
+                      <div>
+                        <h4 className="text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-2">Bienes Declarados</h4>
+                        <div className="space-y-2">
+                          {details.assets_declaration.assets.map((asset, idx) => (
+                            <div key={idx} className="flex justify-between items-center py-2 border-b border-zinc-100 dark:border-zinc-800 last:border-0">
+                              <div>
+                                <span className="text-sm font-medium text-zinc-900 dark:text-white">{asset.type}</span>
+                                <p className="text-xs text-zinc-500 dark:text-zinc-400">{asset.description}</p>
+                              </div>
+                              <span className="text-sm font-medium text-zinc-900 dark:text-white">
+                                {formatCurrency(asset.value)}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Fuente de ingresos */}
+                      {details.assets_declaration.income.source && (
+                        <div className="pt-2">
+                          <span className="text-sm text-zinc-500 dark:text-zinc-400">Fuente de ingresos: </span>
+                          <span className="text-sm text-zinc-900 dark:text-white">{details.assets_declaration.income.source}</span>
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Partido Político */}
+              {candidate.party && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Partido Político</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Link href={`/partido/${candidate.party.id}`} className="flex items-center gap-3 p-3 bg-zinc-50 dark:bg-zinc-800 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-colors">
+                      <div
+                        className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold"
+                        style={{ backgroundColor: candidate.party.color || '#6B7280' }}
+                      >
+                        {candidate.party.short_name?.substring(0, 2) || candidate.party.name.substring(0, 2)}
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-medium text-zinc-900 dark:text-white">
+                          {candidate.party.name}
+                        </div>
+                        {candidate.party.short_name && (
+                          <div className="text-sm text-zinc-500 dark:text-zinc-400">
+                            {candidate.party.short_name}
+                          </div>
+                        )}
+                      </div>
+                      <svg className="w-5 h-5 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </Link>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
           </TabPanel>
 
+          {/* ==================== EVIDENCIA TAB ==================== */}
+          <TabPanel value="evidencia">
+            <div className="space-y-6">
+              {/* Sentencias Penales */}
+              {details && details.penal_sentences.length > 0 && (
+                <Card className="border-red-200 dark:border-red-900">
+                  <CardHeader className="bg-red-50 dark:bg-red-950/30">
+                    <CardTitle className="text-red-800 dark:text-red-200 flex items-center gap-2">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                      </svg>
+                      Sentencias Penales
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-4">
+                    {details.penal_sentences.map((sentence, idx) => (
+                      <div key={idx} className="p-4 bg-red-50 dark:bg-red-950/20 rounded-lg border border-red-200 dark:border-red-900 mb-3 last:mb-0">
+                        <div className="flex justify-between items-start mb-2">
+                          <Badge variant="destructive">{sentence.type}</Badge>
+                          <span className="text-xs text-zinc-500">{sentence.case_number}</span>
+                        </div>
+                        <p className="text-sm text-zinc-700 dark:text-zinc-300 mb-2">{sentence.sentence}</p>
+                        <div className="grid grid-cols-2 gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+                          <div><strong>Juzgado:</strong> {sentence.court}</div>
+                          <div><strong>Fecha:</strong> {formatDate(sentence.date)}</div>
+                          <div><strong>Estado:</strong> {sentence.status}</div>
+                          <div><strong>Fuente:</strong> {sentence.source}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Sentencias Civiles */}
+              {details && details.civil_sentences.length > 0 && (
+                <Card className="border-amber-200 dark:border-amber-900">
+                  <CardHeader className="bg-amber-50 dark:bg-amber-950/30">
+                    <CardTitle className="text-amber-800 dark:text-amber-200 flex items-center gap-2">
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
+                      </svg>
+                      Sentencias Civiles
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-4">
+                    {details.civil_sentences.map((sentence, idx) => (
+                      <div key={idx} className="p-4 bg-amber-50 dark:bg-amber-950/20 rounded-lg border border-amber-200 dark:border-amber-900 mb-3 last:mb-0">
+                        <div className="flex justify-between items-start mb-2">
+                          <Badge variant="warning">{sentence.type}</Badge>
+                          <span className="text-xs text-zinc-500">{sentence.case_number}</span>
+                        </div>
+                        {sentence.amount && (
+                          <p className="text-lg font-semibold text-amber-700 dark:text-amber-300 mb-2">
+                            Monto: {formatCurrency(sentence.amount)}
+                          </p>
+                        )}
+                        <div className="grid grid-cols-2 gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+                          <div><strong>Juzgado:</strong> {sentence.court}</div>
+                          <div><strong>Fecha:</strong> {formatDate(sentence.date)}</div>
+                          <div><strong>Estado:</strong> {sentence.status}</div>
+                          <div><strong>Fuente:</strong> {sentence.source}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Flags from database */}
+              {candidate.flags.length > 0 && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Alertas Verificadas</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {candidate.flags.map((flag) => {
+                        const colors = severityColors[flag.severity] || severityColors.GRAY
+                        return (
+                          <div
+                            key={flag.id}
+                            className={cn(
+                              'p-4 rounded-lg border',
+                              colors.bg,
+                              colors.border
+                            )}
+                          >
+                            <div className="flex items-start justify-between gap-3">
+                              <div>
+                                <div className="flex items-center gap-2 mb-1">
+                                  <Badge
+                                    variant={flag.severity === 'RED' ? 'destructive' : flag.severity === 'AMBER' ? 'warning' : 'default'}
+                                    size="sm"
+                                  >
+                                    {flag.severity}
+                                  </Badge>
+                                  <span className={cn('text-sm font-medium', colors.text)}>
+                                    {flagTypeLabels[flag.type] || flag.type}
+                                  </span>
+                                </div>
+                                <h4 className={cn('font-semibold mb-1', colors.text)}>
+                                  {flag.title}
+                                </h4>
+                                {flag.description && (
+                                  <p className={cn('text-sm mb-2', colors.text)}>
+                                    {flag.description}
+                                  </p>
+                                )}
+                                <div className="flex items-center gap-4 text-xs text-zinc-500 dark:text-zinc-400">
+                                  <span>Fuente: {flag.source}</span>
+                                  {flag.date_captured && (
+                                    <span>
+                                      Capturado: {new Date(flag.date_captured).toLocaleDateString('es-PE')}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                              {flag.evidence_url && (
+                                <a
+                                  href={flag.evidence_url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="flex-shrink-0 p-2 text-blue-600 hover:text-blue-700 dark:text-blue-400"
+                                >
+                                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                  </svg>
+                                </a>
+                              )}
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Sin alertas */}
+              {(!details || (details.penal_sentences.length === 0 && details.civil_sentences.length === 0)) && candidate.flags.length === 0 && (
+                <Card>
+                  <CardContent className="py-12">
+                    <div className="text-center">
+                      <div className="w-16 h-16 mx-auto mb-4 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
+                        <svg className="w-8 h-8 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <h4 className="font-medium text-zinc-900 dark:text-white mb-1">
+                        Sin alertas registradas
+                      </h4>
+                      <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                        No se encontraron antecedentes negativos verificados para este candidato.
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          </TabPanel>
+
+          {/* ==================== DESGLOSE TAB ==================== */}
           <TabPanel value="breakdown">
             <Card>
               <CardHeader>
@@ -407,48 +694,48 @@ export function CandidateProfileContent({ candidate, breakdown }: CandidateProfi
                   <div className="space-y-6">
                     {/* Competence Breakdown */}
                     <div>
-                      <h4 className="font-medium text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                      <h4 className="font-medium text-zinc-900 dark:text-white mb-3 flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-blue-500" />
                         Competencia: {candidate.scores.competence.toFixed(1)}/100
                       </h4>
-                      <div className="ml-5 space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                      <div className="ml-5 space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
                         <div className="flex justify-between">
                           <span>Nivel educativo (máx. 22)</span>
-                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.education.level.toFixed(1)}</span>
+                          <span className="font-medium text-zinc-900 dark:text-white">{breakdown.education.level.toFixed(1)}</span>
                         </div>
                         <div className="flex justify-between">
                           <span>Profundidad educativa (máx. 8)</span>
-                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.education.depth.toFixed(1)}</span>
+                          <span className="font-medium text-zinc-900 dark:text-white">{breakdown.education.depth.toFixed(1)}</span>
                         </div>
                         <div className="flex justify-between">
                           <span>Experiencia total (máx. 25)</span>
-                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.experience.total.toFixed(1)}</span>
+                          <span className="font-medium text-zinc-900 dark:text-white">{breakdown.experience.total.toFixed(1)}</span>
                         </div>
                         <div className="flex justify-between">
                           <span>Experiencia relevante (máx. 25)</span>
-                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.experience.relevant.toFixed(1)}</span>
+                          <span className="font-medium text-zinc-900 dark:text-white">{breakdown.experience.relevant.toFixed(1)}</span>
                         </div>
                         <div className="flex justify-between">
                           <span>Liderazgo - Seniority (máx. 14)</span>
-                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.leadership.seniority.toFixed(1)}</span>
+                          <span className="font-medium text-zinc-900 dark:text-white">{breakdown.leadership.seniority.toFixed(1)}</span>
                         </div>
                         <div className="flex justify-between">
                           <span>Liderazgo - Estabilidad (máx. 6)</span>
-                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.leadership.stability.toFixed(1)}</span>
+                          <span className="font-medium text-zinc-900 dark:text-white">{breakdown.leadership.stability.toFixed(1)}</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Integrity Breakdown */}
                     <div>
-                      <h4 className="font-medium text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                      <h4 className="font-medium text-zinc-900 dark:text-white mb-3 flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-green-500" />
                         Integridad: {candidate.scores.integrity.toFixed(1)}/100
                       </h4>
-                      <div className="ml-5 space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                      <div className="ml-5 space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
                         <div className="flex justify-between">
                           <span>Base</span>
-                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.integrity.base.toFixed(0)}</span>
+                          <span className="font-medium text-zinc-900 dark:text-white">{breakdown.integrity.base.toFixed(0)}</span>
                         </div>
                         {breakdown.integrity.penal_penalty > 0 && (
                           <div className="flex justify-between text-red-600 dark:text-red-400">
@@ -473,46 +760,46 @@ export function CandidateProfileContent({ candidate, breakdown }: CandidateProfi
 
                     {/* Transparency Breakdown */}
                     <div>
-                      <h4 className="font-medium text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                      <h4 className="font-medium text-zinc-900 dark:text-white mb-3 flex items-center gap-2">
                         <div className="w-3 h-3 rounded-full bg-purple-500" />
                         Transparencia: {candidate.scores.transparency.toFixed(1)}/100
                       </h4>
-                      <div className="ml-5 space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                      <div className="ml-5 space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
                         <div className="flex justify-between">
                           <span>Completitud (máx. 35)</span>
-                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.transparency.completeness.toFixed(1)}</span>
+                          <span className="font-medium text-zinc-900 dark:text-white">{breakdown.transparency.completeness.toFixed(1)}</span>
                         </div>
                         <div className="flex justify-between">
                           <span>Consistencia (máx. 35)</span>
-                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.transparency.consistency.toFixed(1)}</span>
+                          <span className="font-medium text-zinc-900 dark:text-white">{breakdown.transparency.consistency.toFixed(1)}</span>
                         </div>
                         <div className="flex justify-between">
                           <span>Calidad Patrimonial (máx. 30)</span>
-                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.transparency.assets_quality.toFixed(1)}</span>
+                          <span className="font-medium text-zinc-900 dark:text-white">{breakdown.transparency.assets_quality.toFixed(1)}</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Confidence Breakdown */}
                     <div>
-                      <h4 className="font-medium text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-                        <div className="w-3 h-3 rounded-full bg-gray-500" />
+                      <h4 className="font-medium text-zinc-900 dark:text-white mb-3 flex items-center gap-2">
+                        <div className="w-3 h-3 rounded-full bg-zinc-500" />
                         Confianza de datos: {candidate.scores.confidence.toFixed(1)}/100
                       </h4>
-                      <div className="ml-5 space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                      <div className="ml-5 space-y-2 text-sm text-zinc-600 dark:text-zinc-400">
                         <div className="flex justify-between">
                           <span>Verificación (máx. 50)</span>
-                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.confidence.verification.toFixed(1)}</span>
+                          <span className="font-medium text-zinc-900 dark:text-white">{breakdown.confidence.verification.toFixed(1)}</span>
                         </div>
                         <div className="flex justify-between">
                           <span>Cobertura (máx. 50)</span>
-                          <span className="font-medium text-gray-900 dark:text-white">{breakdown.confidence.coverage.toFixed(1)}</span>
+                          <span className="font-medium text-zinc-900 dark:text-white">{breakdown.confidence.coverage.toFixed(1)}</span>
                         </div>
                       </div>
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center py-8 text-gray-500 dark:text-gray-400">
+                  <div className="text-center py-8 text-zinc-500 dark:text-zinc-400">
                     <p>Datos de desglose no disponibles para este candidato.</p>
                   </div>
                 )}

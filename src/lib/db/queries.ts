@@ -656,6 +656,121 @@ export async function getAllPartiesWithFinances() {
   }))
 }
 
+// ============================================
+// CANDIDATE DETAILS QUERIES
+// ============================================
+
+export interface CandidateDetails {
+  birth_date: string | null
+  dni: string | null
+  education_details: EducationRecord[]
+  experience_details: ExperienceRecord[]
+  political_trajectory: PoliticalRecord[]
+  assets_declaration: AssetsDeclaration | null
+  penal_sentences: SentenceRecord[]
+  civil_sentences: SentenceRecord[]
+  party_resignations: number
+  djhv_url: string | null
+}
+
+export interface EducationRecord {
+  level: string
+  institution: string
+  degree?: string
+  field?: string
+  year_start?: number
+  year_end?: number
+  completed: boolean
+  country?: string
+}
+
+export interface ExperienceRecord {
+  type: 'publico' | 'privado'
+  institution: string
+  position: string
+  year_start: number
+  year_end: number
+  description?: string
+}
+
+export interface PoliticalRecord {
+  type: 'afiliacion' | 'cargo_partidario' | 'cargo_electivo' | 'candidatura'
+  party?: string
+  position?: string
+  year_start?: number
+  year_end?: number | null
+  year?: number
+  institution?: string
+  result?: string
+}
+
+export interface AssetsDeclaration {
+  assets: {
+    type: string
+    description: string
+    value: number
+    currency: string
+    acquisition_year?: number
+  }[]
+  total_value: number
+  income: {
+    monthly_salary: number
+    other_income: number
+    source: string
+  }
+  declaration_year: number
+  djhv_compliant: boolean
+}
+
+export interface SentenceRecord {
+  type: string
+  case_number: string
+  court: string
+  date: string
+  sentence?: string
+  amount?: number
+  status: string
+  source: string
+}
+
+/**
+ * Get detailed candidate information
+ */
+export async function getCandidateDetails(candidateId: string): Promise<CandidateDetails | null> {
+  const rows = await sql`
+    SELECT
+      birth_date,
+      dni,
+      education_details,
+      experience_details,
+      political_trajectory,
+      assets_declaration,
+      penal_sentences,
+      civil_sentences,
+      party_resignations,
+      djhv_url
+    FROM candidates
+    WHERE id = ${candidateId}
+    LIMIT 1
+  `
+
+  if (rows.length === 0) return null
+
+  const row = rows[0]
+  return {
+    birth_date: row.birth_date as string | null,
+    dni: row.dni as string | null,
+    education_details: (row.education_details as EducationRecord[]) || [],
+    experience_details: (row.experience_details as ExperienceRecord[]) || [],
+    political_trajectory: (row.political_trajectory as PoliticalRecord[]) || [],
+    assets_declaration: row.assets_declaration as AssetsDeclaration | null,
+    penal_sentences: (row.penal_sentences as SentenceRecord[]) || [],
+    civil_sentences: (row.civil_sentences as SentenceRecord[]) || [],
+    party_resignations: Number(row.party_resignations) || 0,
+    djhv_url: row.djhv_url as string | null,
+  }
+}
+
 /**
  * Get score breakdown for a candidate
  */
