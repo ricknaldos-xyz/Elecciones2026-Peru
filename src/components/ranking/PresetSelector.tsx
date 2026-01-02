@@ -15,15 +15,15 @@ interface PresetSelectorProps {
 
 const presetConfig: Record<Exclude<PresetType, 'custom'>, { label: string; description: string }> = {
   balanced: {
-    label: 'Balanced',
+    label: 'Equilibrado',
     description: 'Equilibra preparación e integridad',
   },
   merit: {
-    label: 'Merit-first',
+    label: 'Mérito',
     description: 'Prioriza experiencia y estudios; mantiene integridad como filtro clave',
   },
   integrity: {
-    label: 'Integrity-first',
+    label: 'Integridad',
     description: 'Prioriza historial limpio y señales verificables',
   },
 }
@@ -122,7 +122,7 @@ export function PresetSelector({
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
             </svg>
-            Custom
+            Personalizado
           </button>
         </Tooltip>
       </div>
@@ -166,7 +166,7 @@ export function PresetSelector({
             }}
             className="text-xs text-blue-600 dark:text-blue-400 hover:underline"
           >
-            Resetear a Balanced
+            Resetear a Equilibrado
           </button>
         </div>
       )}

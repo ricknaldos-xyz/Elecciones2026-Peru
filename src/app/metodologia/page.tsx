@@ -117,7 +117,7 @@ export default function MetodologiaPage() {
                 <tbody>
                   <tr className="border-b border-gray-100 dark:border-gray-800">
                     <td className="py-2 text-gray-700 dark:text-gray-300">
-                      <Badge variant="default">Balanced</Badge>
+                      <Badge variant="default">Equilibrado</Badge>
                     </td>
                     <td className="text-center py-2 text-gray-600 dark:text-gray-400">45%</td>
                     <td className="text-center py-2 text-gray-600 dark:text-gray-400">45%</td>
@@ -125,7 +125,7 @@ export default function MetodologiaPage() {
                   </tr>
                   <tr className="border-b border-gray-100 dark:border-gray-800">
                     <td className="py-2 text-gray-700 dark:text-gray-300">
-                      <Badge variant="secondary">Merit-first</Badge>
+                      <Badge variant="secondary">Mérito</Badge>
                     </td>
                     <td className="text-center py-2 text-gray-600 dark:text-gray-400">60%</td>
                     <td className="text-center py-2 text-gray-600 dark:text-gray-400">30%</td>
@@ -133,7 +133,7 @@ export default function MetodologiaPage() {
                   </tr>
                   <tr className="border-b border-gray-100 dark:border-gray-800">
                     <td className="py-2 text-gray-700 dark:text-gray-300">
-                      <Badge variant="outline">Integrity-first</Badge>
+                      <Badge variant="outline">Integridad</Badge>
                     </td>
                     <td className="text-center py-2 text-gray-600 dark:text-gray-400">30%</td>
                     <td className="text-center py-2 text-gray-600 dark:text-gray-400">60%</td>
@@ -141,7 +141,7 @@ export default function MetodologiaPage() {
                   </tr>
                   <tr>
                     <td className="py-2 text-gray-700 dark:text-gray-300">
-                      <Badge>Custom</Badge>
+                      <Badge>Personalizado</Badge>
                     </td>
                     <td className="text-center py-2 text-gray-600 dark:text-gray-400">20-75%</td>
                     <td className="text-center py-2 text-gray-600 dark:text-gray-400">20-75%</td>

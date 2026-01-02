@@ -50,25 +50,25 @@ export function PartyFinanceContent({ initialData }: PartyFinanceContentProps) {
       </nav>
 
       {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-8">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 md:gap-6 mb-8">
+        <div className="flex items-center gap-3 sm:gap-4">
           <div
-            className="w-16 h-16 rounded-2xl flex items-center justify-center text-white text-xl font-bold"
+            className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center text-white text-base sm:text-xl font-bold flex-shrink-0"
             style={{ backgroundColor: party.color || '#ef4444' }}
           >
             {party.short_name || party.name.substring(0, 2)}
           </div>
-          <div>
-            <h1 className="text-3xl font-bold text-zinc-900 dark:text-white">
+          <div className="min-w-0">
+            <h1 className="text-xl sm:text-3xl font-bold text-zinc-900 dark:text-white truncate">
               {party.name}
             </h1>
-            <p className="text-zinc-500 dark:text-zinc-400 mt-1">
+            <p className="text-sm sm:text-base text-zinc-500 dark:text-zinc-400 mt-0.5 sm:mt-1">
               Transparencia Financiera
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <Link href={`/ranking?partido=${party.id}`}>
             <Button variant="outline" size="sm">
               Ver Candidatos
@@ -80,7 +80,7 @@ export function PartyFinanceContent({ initialData }: PartyFinanceContentProps) {
             rel="noopener noreferrer"
           >
             <Button variant="outline" size="sm">
-              Ver en ONPE
+              <span className="hidden sm:inline">Ver en </span>ONPE
               <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>
@@ -91,13 +91,13 @@ export function PartyFinanceContent({ initialData }: PartyFinanceContentProps) {
 
       {/* Year Selector */}
       {years.length > 1 && (
-        <div className="flex items-center gap-2 mb-6">
-          <span className="text-sm text-zinc-500 dark:text-zinc-400 mr-2">Año:</span>
+        <div className="flex flex-wrap items-center gap-2 mb-6">
+          <span className="text-sm text-zinc-500 dark:text-zinc-400 mr-1 sm:mr-2">Año:</span>
           {years.map(year => (
             <button
               key={year}
               onClick={() => setSelectedYear(year)}
-              className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-sm font-medium transition-colors ${
                 selectedYear === year
                   ? 'bg-red-600 text-white'
                   : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-200 dark:hover:bg-zinc-700'
@@ -110,65 +110,65 @@ export function PartyFinanceContent({ initialData }: PartyFinanceContentProps) {
       )}
 
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <Card className="p-5">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400">
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-8">
+        <Card className="p-3 sm:p-5">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400 flex-shrink-0">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
               </svg>
             </div>
-            <div>
-              <div className="text-sm text-zinc-500 dark:text-zinc-400">Público Total</div>
-              <div className="text-xl font-bold text-zinc-900 dark:text-white">
+            <div className="min-w-0">
+              <div className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400">Público</div>
+              <div className="text-base sm:text-xl font-bold text-zinc-900 dark:text-white truncate">
                 {formatCurrency(totals.totalPublicFunding)}
               </div>
             </div>
           </div>
         </Card>
 
-        <Card className="p-5">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <Card className="p-3 sm:p-5">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 flex-shrink-0">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
             </div>
-            <div>
-              <div className="text-sm text-zinc-500 dark:text-zinc-400">Privado Total</div>
-              <div className="text-xl font-bold text-zinc-900 dark:text-white">
+            <div className="min-w-0">
+              <div className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400">Privado</div>
+              <div className="text-base sm:text-xl font-bold text-zinc-900 dark:text-white truncate">
                 {formatCurrency(totals.totalPrivateFunding)}
               </div>
             </div>
           </div>
         </Card>
 
-        <Card className="p-5">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600 dark:text-red-400">
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <Card className="p-3 sm:p-5">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600 dark:text-red-400 flex-shrink-0">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
               </svg>
             </div>
-            <div>
-              <div className="text-sm text-zinc-500 dark:text-zinc-400">Gastos Totales</div>
-              <div className="text-xl font-bold text-zinc-900 dark:text-white">
+            <div className="min-w-0">
+              <div className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400">Gastos</div>
+              <div className="text-base sm:text-xl font-bold text-zinc-900 dark:text-white truncate">
                 {formatCurrency(totals.totalExpenses)}
               </div>
             </div>
           </div>
         </Card>
 
-        <Card className="p-5">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <Card className="p-3 sm:p-5">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400 flex-shrink-0">
+              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
             </div>
-            <div>
-              <div className="text-sm text-zinc-500 dark:text-zinc-400">Donantes</div>
-              <div className="text-xl font-bold text-zinc-900 dark:text-white">
+            <div className="min-w-0">
+              <div className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400">Donantes</div>
+              <div className="text-base sm:text-xl font-bold text-zinc-900 dark:text-white">
                 {totals.donorCount.toLocaleString()}
               </div>
             </div>
@@ -199,15 +199,15 @@ export function PartyFinanceContent({ initialData }: PartyFinanceContentProps) {
               {100 - publicPercentage >= 10 && `${(100 - publicPercentage).toFixed(0)}%`}
             </div>
           </div>
-          <div className="flex items-center justify-center gap-8">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-8">
             <div className="flex items-center gap-2">
-              <span className="w-4 h-4 bg-green-500 rounded" />
+              <span className="w-4 h-4 bg-green-500 rounded flex-shrink-0" />
               <span className="text-sm text-zinc-600 dark:text-zinc-400">
                 Público: {formatCurrency(totals.totalPublicFunding)}
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-4 h-4 bg-blue-500 rounded" />
+              <span className="w-4 h-4 bg-blue-500 rounded flex-shrink-0" />
               <span className="text-sm text-zinc-600 dark:text-zinc-400">
                 Privado: {formatCurrency(totals.totalPrivateFunding)}
               </span>
@@ -249,16 +249,16 @@ export function PartyFinanceContent({ initialData }: PartyFinanceContentProps) {
           </CardHeader>
           <CardContent className="p-0">
             <div className="overflow-x-auto">
-              <table className="w-full">
+              <table className="w-full min-w-[600px]">
                 <thead>
                   <tr className="border-b border-zinc-100 dark:border-zinc-800">
-                    <th className="text-left py-3 px-4 text-sm font-medium text-zinc-500">Año</th>
-                    <th className="text-right py-3 px-4 text-sm font-medium text-zinc-500">Público</th>
-                    <th className="text-right py-3 px-4 text-sm font-medium text-zinc-500">Privado</th>
-                    <th className="text-right py-3 px-4 text-sm font-medium text-zinc-500">Total Ingresos</th>
-                    <th className="text-right py-3 px-4 text-sm font-medium text-zinc-500">Gastos</th>
-                    <th className="text-right py-3 px-4 text-sm font-medium text-zinc-500">Balance</th>
-                    <th className="text-right py-3 px-4 text-sm font-medium text-zinc-500">Donantes</th>
+                    <th className="text-left py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium text-zinc-500">Año</th>
+                    <th className="text-right py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium text-zinc-500">Público</th>
+                    <th className="text-right py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium text-zinc-500">Privado</th>
+                    <th className="text-right py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium text-zinc-500">Total</th>
+                    <th className="text-right py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium text-zinc-500">Gastos</th>
+                    <th className="text-right py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium text-zinc-500">Balance</th>
+                    <th className="text-right py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium text-zinc-500">Don.</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -269,17 +269,17 @@ export function PartyFinanceContent({ initialData }: PartyFinanceContentProps) {
                         key={f.year}
                         className="border-b border-zinc-100 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-800/50"
                       >
-                        <td className="py-3 px-4 font-medium text-zinc-900 dark:text-white">{f.year}</td>
-                        <td className="py-3 px-4 text-right text-green-600">{formatCurrency(f.public_funding)}</td>
-                        <td className="py-3 px-4 text-right text-blue-600">{formatCurrency(f.private_funding_total)}</td>
-                        <td className="py-3 px-4 text-right font-medium text-zinc-900 dark:text-white">
+                        <td className="py-3 px-3 sm:px-4 font-medium text-zinc-900 dark:text-white text-sm">{f.year}</td>
+                        <td className="py-3 px-3 sm:px-4 text-right text-green-600 text-xs sm:text-sm whitespace-nowrap">{formatCurrency(f.public_funding)}</td>
+                        <td className="py-3 px-3 sm:px-4 text-right text-blue-600 text-xs sm:text-sm whitespace-nowrap">{formatCurrency(f.private_funding_total)}</td>
+                        <td className="py-3 px-3 sm:px-4 text-right font-medium text-zinc-900 dark:text-white text-xs sm:text-sm whitespace-nowrap">
                           {formatCurrency(f.total_income)}
                         </td>
-                        <td className="py-3 px-4 text-right text-red-600">{formatCurrency(f.total_expenses)}</td>
-                        <td className={`py-3 px-4 text-right font-medium ${balance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                        <td className="py-3 px-3 sm:px-4 text-right text-red-600 text-xs sm:text-sm whitespace-nowrap">{formatCurrency(f.total_expenses)}</td>
+                        <td className={`py-3 px-3 sm:px-4 text-right font-medium text-xs sm:text-sm whitespace-nowrap ${balance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                           {balance >= 0 ? '+' : ''}{formatCurrency(balance)}
                         </td>
-                        <td className="py-3 px-4 text-right text-zinc-500">{f.donor_count}</td>
+                        <td className="py-3 px-3 sm:px-4 text-right text-zinc-500 text-xs sm:text-sm">{f.donor_count}</td>
                       </tr>
                     )
                   })}

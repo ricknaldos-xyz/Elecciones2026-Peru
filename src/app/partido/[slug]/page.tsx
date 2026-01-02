@@ -132,22 +132,22 @@ export default async function PartidoPage({ params }: PageProps) {
                 </h2>
                 <Badge variant="outline">ONPE</Badge>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 <div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400">Financiamiento Público</div>
-                  <div className="text-lg font-semibold text-green-600">{formatCurrency(latestFinance.public_funding)}</div>
+                  <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Público</div>
+                  <div className="text-base sm:text-lg font-semibold text-green-600">{formatCurrency(latestFinance.public_funding)}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400">Aportes Privados</div>
-                  <div className="text-lg font-semibold text-blue-600">{formatCurrency(latestFinance.private_funding_total)}</div>
+                  <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Privado</div>
+                  <div className="text-base sm:text-lg font-semibold text-blue-600">{formatCurrency(latestFinance.private_funding_total)}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400">Total Ingresos</div>
-                  <div className="text-lg font-semibold text-gray-900 dark:text-white">{formatCurrency(latestFinance.total_income)}</div>
+                  <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Total</div>
+                  <div className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">{formatCurrency(latestFinance.total_income)}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400">Donantes</div>
-                  <div className="text-lg font-semibold text-gray-900 dark:text-white">{latestFinance.donor_count}</div>
+                  <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">Donantes</div>
+                  <div className="text-base sm:text-lg font-semibold text-gray-900 dark:text-white">{latestFinance.donor_count}</div>
                 </div>
               </div>
               <div className="mt-4 flex items-center text-sm text-red-600 font-medium">

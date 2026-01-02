@@ -256,19 +256,19 @@ export function CandidateProfileContent({ candidate, breakdown }: CandidateProfi
                         <div className="text-2xl font-bold text-gray-900 dark:text-white">
                           {candidate.scores.score_balanced.toFixed(1)}
                         </div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">Balanced</div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400">Equilibrado</div>
                       </div>
                       <div className="text-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
                         <div className="text-2xl font-bold text-gray-900 dark:text-white">
                           {candidate.scores.score_merit.toFixed(1)}
                         </div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">Merit</div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400">Mérito</div>
                       </div>
                       <div className="text-center p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
                         <div className="text-2xl font-bold text-gray-900 dark:text-white">
                           {candidate.scores.score_integrity.toFixed(1)}
                         </div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">Integrity</div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400">Integridad</div>
                       </div>
                     </div>
                   </div>

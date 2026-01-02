@@ -134,14 +134,14 @@ export function DonorsList({
                 <div className="font-medium text-zinc-900 dark:text-white truncate">
                   {donor.donor_name}
                 </div>
-                <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-                  <span>{getDonorTypeLabel(donor.donor_type)}</span>
-                  <span>•</span>
-                  <span>{getDonationTypeLabel(donor.donation_type)}</span>
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-zinc-500 dark:text-zinc-400">
+                  <span className="whitespace-nowrap">{getDonorTypeLabel(donor.donor_type)}</span>
+                  <span className="hidden sm:inline">•</span>
+                  <span className="whitespace-nowrap">{getDonationTypeLabel(donor.donation_type)}</span>
                   {donor.is_verified && (
                     <>
-                      <span>•</span>
-                      <span className="text-green-600 flex items-center gap-1">
+                      <span className="hidden sm:inline">•</span>
+                      <span className="text-green-600 flex items-center gap-1 whitespace-nowrap">
                         <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>

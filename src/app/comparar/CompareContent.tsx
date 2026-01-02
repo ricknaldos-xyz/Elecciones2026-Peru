@@ -55,7 +55,7 @@ interface CompareMetric {
 }
 
 const metrics: CompareMetric[] = [
-  { label: 'Score Total', key: 'total', max: 100 },
+  { label: 'Puntaje Total', key: 'total', max: 100 },
   { label: 'Competencia', key: 'competence', max: 100 },
   { label: 'Integridad', key: 'integrity', max: 100 },
   { label: 'Transparencia', key: 'transparency', max: 100 },

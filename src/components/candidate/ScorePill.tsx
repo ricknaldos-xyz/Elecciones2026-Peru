@@ -17,8 +17,8 @@ interface ScorePillProps {
 }
 
 const modeLabels: Record<PresetType, string> = {
-  balanced: 'Balanceado',
-  merit: 'Meritocrático',
+  balanced: 'Equilibrado',
+  merit: 'Mérito',
   integrity: 'Integridad',
   custom: 'Personalizado',
 }
