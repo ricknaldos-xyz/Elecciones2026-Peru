@@ -63,6 +63,8 @@ export const MOCK_PRESIDENTIAL_CANDIDATES: CandidateWithScores[] = [
         date_captured: '2025-12-01',
       },
     ],
+    data_verified: true,
+    data_source: 'mock_data',
   },
   {
     id: '2',
@@ -82,6 +84,8 @@ export const MOCK_PRESIDENTIAL_CANDIDATES: CandidateWithScores[] = [
       score_integrity: 77.4,
     },
     flags: [],
+    data_verified: true,
+    data_source: 'mock_data',
   },
   {
     id: '3',
@@ -112,6 +116,8 @@ export const MOCK_PRESIDENTIAL_CANDIDATES: CandidateWithScores[] = [
         date_captured: '2025-12-01',
       },
     ],
+    data_verified: true,
+    data_source: 'mock_data',
   },
   {
     id: '4',
@@ -131,6 +137,8 @@ export const MOCK_PRESIDENTIAL_CANDIDATES: CandidateWithScores[] = [
       score_integrity: 78.0,
     },
     flags: [],
+    data_verified: true,
+    data_source: 'mock_data',
   },
   {
     id: '5',
@@ -161,6 +169,8 @@ export const MOCK_PRESIDENTIAL_CANDIDATES: CandidateWithScores[] = [
         date_captured: '2025-12-01',
       },
     ],
+    data_verified: true,
+    data_source: 'mock_data',
   },
   {
     id: '6',
@@ -180,6 +190,8 @@ export const MOCK_PRESIDENTIAL_CANDIDATES: CandidateWithScores[] = [
       score_integrity: 72.9,
     },
     flags: [],
+    data_verified: true,
+    data_source: 'mock_data',
   },
   {
     id: '7',
@@ -199,6 +211,8 @@ export const MOCK_PRESIDENTIAL_CANDIDATES: CandidateWithScores[] = [
       score_integrity: 87.4,
     },
     flags: [],
+    data_verified: true,
+    data_source: 'mock_data',
   },
   {
     id: '8',
@@ -218,6 +232,8 @@ export const MOCK_PRESIDENTIAL_CANDIDATES: CandidateWithScores[] = [
       score_integrity: 91.1,
     },
     flags: [],
+    data_verified: true,
+    data_source: 'mock_data',
   },
   {
     id: '9',
@@ -248,6 +264,8 @@ export const MOCK_PRESIDENTIAL_CANDIDATES: CandidateWithScores[] = [
         date_captured: '2025-12-01',
       },
     ],
+    data_verified: true,
+    data_source: 'mock_data',
   },
   {
     id: '10',
@@ -278,6 +296,8 @@ export const MOCK_PRESIDENTIAL_CANDIDATES: CandidateWithScores[] = [
         date_captured: '2025-12-01',
       },
     ],
+    data_verified: true,
+    data_source: 'mock_data',
   },
 ]
 

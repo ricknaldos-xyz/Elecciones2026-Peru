@@ -134,6 +134,21 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                   )}
                 </div>
                 <div className="flex items-center justify-center sm:justify-start gap-3">
+                  {candidate.data_verified ? (
+                    <Badge variant="success" size="sm" className="gap-1">
+                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Verificado JNE
+                    </Badge>
+                  ) : (
+                    <Badge variant="warning" size="sm" className="gap-1">
+                      <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                      </svg>
+                      Sin verificar
+                    </Badge>
+                  )}
                   <ConfidenceBadge value={candidate.scores.confidence} size="md" />
                   <Button variant="ghost" size="sm" onClick={handleShare}>
                     <svg className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">

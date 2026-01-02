@@ -21,6 +21,8 @@ interface CandidateRow {
   score_balanced: number | null
   score_merit: number | null
   score_integrity: number | null
+  data_verified: boolean | null
+  data_source: string | null
 }
 
 function mapRowToCandidate(row: CandidateRow, flags: Flag[] = []): CandidateWithScores {
@@ -51,6 +53,8 @@ function mapRowToCandidate(row: CandidateRow, flags: Flag[] = []): CandidateWith
       score_integrity: Number(row.score_integrity) || 0,
     },
     flags,
+    data_verified: row.data_verified ?? false,
+    data_source: row.data_source,
   }
 }
 
@@ -88,7 +92,9 @@ export async function getCandidates(options?: {
       s.confidence,
       s.score_balanced,
       s.score_merit,
-      s.score_integrity
+      s.score_integrity,
+      c.data_verified,
+      c.data_source
     FROM candidates c
     LEFT JOIN parties p ON c.party_id = p.id
     LEFT JOIN districts d ON c.district_id = d.id
@@ -174,7 +180,9 @@ export async function getCandidateBySlug(slug: string): Promise<CandidateWithSco
       s.confidence,
       s.score_balanced,
       s.score_merit,
-      s.score_integrity
+      s.score_integrity,
+      c.data_verified,
+      c.data_source
     FROM candidates c
     LEFT JOIN parties p ON c.party_id = p.id
     LEFT JOIN districts d ON c.district_id = d.id

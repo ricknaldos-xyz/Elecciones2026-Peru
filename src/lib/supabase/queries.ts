@@ -27,6 +27,8 @@ interface RankingViewRow {
   red_flags_count: number
   amber_flags_count: number
   total_flags_count: number
+  data_verified: boolean | null
+  data_source: string | null
 }
 
 // Type for flag with candidate_id
@@ -130,6 +132,8 @@ export async function getCandidates(options?: {
       score_integrity: row.score_integrity,
     },
     flags: flagsByCandidate[row.id] || [],
+    data_verified: row.data_verified ?? false,
+    data_source: row.data_source,
   }))
 }
 
@@ -185,6 +189,8 @@ export async function getCandidateBySlug(slug: string): Promise<CandidateWithSco
       score_integrity: row.score_integrity,
     },
     flags: flags,
+    data_verified: row.data_verified ?? false,
+    data_source: row.data_source,
   }
 }
 
@@ -246,6 +252,8 @@ export async function getCandidatesByIds(ids: string[]): Promise<CandidateWithSc
       score_integrity: row.score_integrity,
     },
     flags: flagsByCandidate[row.id] || [],
+    data_verified: row.data_verified ?? false,
+    data_source: row.data_source,
   }))
 }
 

@@ -87,6 +87,12 @@ export interface Database {
           civil_sentences: Sentence[]
           party_resignations: number
           djhv_url: string | null
+          jne_id: string | null
+          data_source: string | null
+          data_verified: boolean
+          inscription_status: string | null
+          inscription_date: string | null
+          verification_date: string | null
           last_updated: string
           is_active: boolean
           created_at: string
@@ -109,6 +115,12 @@ export interface Database {
           civil_sentences?: Sentence[]
           party_resignations?: number
           djhv_url?: string | null
+          jne_id?: string | null
+          data_source?: string | null
+          data_verified?: boolean
+          inscription_status?: string | null
+          inscription_date?: string | null
+          verification_date?: string | null
           last_updated?: string
           is_active?: boolean
           created_at?: string
@@ -131,6 +143,12 @@ export interface Database {
           civil_sentences?: Sentence[]
           party_resignations?: number
           djhv_url?: string | null
+          jne_id?: string | null
+          data_source?: string | null
+          data_verified?: boolean
+          inscription_status?: string | null
+          inscription_date?: string | null
+          verification_date?: string | null
           last_updated?: string
           is_active?: boolean
           created_at?: string
@@ -435,6 +453,8 @@ export interface CandidateWithScores {
     score_integrity: number
   }
   flags: Flag[]
+  data_verified: boolean
+  data_source: string | null
 }
 
 export interface Flag {

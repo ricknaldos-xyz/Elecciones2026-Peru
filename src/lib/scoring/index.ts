@@ -359,12 +359,21 @@ export function calculateIntegrity(data: CandidateData): {
   let score = 100
   const civilPenalties: { type: string; penalty: number }[] = []
 
+  // Sentencias penales firmes (mayor penalidad)
   const firmPenalCount = data.penalSentences.filter((s) => s.isFirm).length
+  // Sentencias penales en proceso/apelación (penalidad menor pero significativa)
+  const pendingPenalCount = data.penalSentences.filter((s) => !s.isFirm).length
+
   let penalPenalty = 0
+  // Penalidad por sentencias firmes
   if (firmPenalCount >= 2) {
     penalPenalty = 85
   } else if (firmPenalCount === 1) {
     penalPenalty = 70
+  }
+  // Penalidad adicional por casos en proceso/apelación (35 puntos por caso)
+  if (pendingPenalCount > 0 && penalPenalty < 85) {
+    penalPenalty += Math.min(pendingPenalCount * 35, 85 - penalPenalty)
   }
   score -= penalPenalty
 
