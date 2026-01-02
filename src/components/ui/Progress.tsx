@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils'
 
-type ProgressVariant = 'default' | 'success' | 'warning' | 'danger'
+type ProgressVariant = 'default' | 'success' | 'warning' | 'danger' | 'primary'
 
 interface ProgressProps {
   value: number
@@ -16,15 +16,16 @@ interface ProgressProps {
 
 const variantStyles: Record<ProgressVariant, string> = {
   default: 'bg-blue-500',
-  success: 'bg-green-500',
+  success: 'bg-emerald-500',
   warning: 'bg-amber-500',
   danger: 'bg-red-500',
+  primary: 'bg-red-600',
 }
 
 const sizeStyles = {
-  sm: 'h-1.5',
-  md: 'h-2.5',
-  lg: 'h-4',
+  sm: 'h-1',
+  md: 'h-1.5',
+  lg: 'h-2',
 }
 
 export function Progress({
@@ -42,9 +43,9 @@ export function Progress({
     <div className={cn('w-full', className)}>
       {(showLabel || label) && (
         <div className="flex justify-between mb-1">
-          {label && <span className="text-sm text-gray-600 dark:text-gray-400">{label}</span>}
+          {label && <span className="text-sm text-zinc-600 dark:text-zinc-400">{label}</span>}
           {showLabel && (
-            <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
+            <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
               {Math.round(percentage)}%
             </span>
           )}
@@ -52,12 +53,12 @@ export function Progress({
       )}
       <div
         className={cn(
-          'w-full bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden',
+          'w-full bg-zinc-200 dark:bg-zinc-700 rounded-full overflow-hidden',
           sizeStyles[size]
         )}
       >
         <div
-          className={cn('h-full rounded-full transition-all duration-300', variantStyles[variant])}
+          className={cn('h-full rounded-full transition-all duration-500', variantStyles[variant])}
           style={{ width: `${percentage}%` }}
         />
       </div>

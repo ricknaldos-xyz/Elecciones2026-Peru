@@ -3,13 +3,13 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
+import { Header } from '@/components/layout/Header'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
-import { Progress } from '@/components/ui/Progress'
 import { Tabs, TabList, Tab, TabPanel } from '@/components/ui/Tabs'
 import { ScorePill } from '@/components/candidate/ScorePill'
-import { SubScoreBar } from '@/components/candidate/SubScoreBar'
+import { SubScoreBar, SubScoreStat } from '@/components/candidate/SubScoreBar'
 import { FlagChips } from '@/components/candidate/FlagChip'
 import { ConfidenceBadge } from '@/components/candidate/ConfidenceBadge'
 import { PRESETS } from '@/lib/constants'
@@ -37,9 +37,9 @@ const flagTypeLabels: Record<string, string> = {
 }
 
 const severityColors: Record<string, { bg: string; text: string; border: string }> = {
-  RED: { bg: 'bg-red-100 dark:bg-red-900/30', text: 'text-red-700 dark:text-red-300', border: 'border-red-200 dark:border-red-800' },
-  AMBER: { bg: 'bg-amber-100 dark:bg-amber-900/30', text: 'text-amber-700 dark:text-amber-300', border: 'border-amber-200 dark:border-amber-800' },
-  GRAY: { bg: 'bg-gray-100 dark:bg-gray-800', text: 'text-gray-700 dark:text-gray-300', border: 'border-gray-200 dark:border-gray-700' },
+  RED: { bg: 'bg-red-50 dark:bg-red-950/50', text: 'text-red-700 dark:text-red-300', border: 'border-red-200 dark:border-red-800' },
+  AMBER: { bg: 'bg-amber-50 dark:bg-amber-950/50', text: 'text-amber-700 dark:text-amber-300', border: 'border-amber-200 dark:border-amber-800' },
+  GRAY: { bg: 'bg-zinc-100 dark:bg-zinc-800', text: 'text-zinc-700 dark:text-zinc-300', border: 'border-zinc-200 dark:border-zinc-700' },
 }
 
 export function CandidateProfileContent({ candidate, breakdown }: CandidateProfileContentProps) {
@@ -70,123 +70,121 @@ export function CandidateProfileContent({ candidate, breakdown }: CandidateProfi
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      {/* Header */}
-      <header className="sticky top-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-4">
-              <Link href="/ranking" className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </Link>
-              <Link href="/" className="text-xl font-bold text-gray-900 dark:text-white">
-                Ranking Electoral
-              </Link>
-            </div>
-            <Button variant="outline" size="sm" onClick={handleShare}>
-              <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-              </svg>
-              Compartir
-            </Button>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
+      <Header />
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Hero Section */}
-        <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-6 mb-6">
-          <div className="flex flex-col sm:flex-row gap-6">
-            {/* Photo */}
-            <div className="flex-shrink-0">
-              <div className="w-32 h-32 rounded-xl bg-gray-200 dark:bg-gray-700 overflow-hidden mx-auto sm:mx-0">
-                {candidate.photo_url ? (
-                  <img
-                    src={candidate.photo_url}
-                    alt={candidate.full_name}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-400 dark:text-gray-500">
-                    <svg className="w-16 h-16" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                    </svg>
-                  </div>
-                )}
+        <Card className="mb-6 overflow-hidden">
+          <div className="p-6 sm:p-8">
+            <div className="flex flex-col sm:flex-row gap-6">
+              {/* Photo */}
+              <div className="flex-shrink-0">
+                <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl bg-zinc-200 dark:bg-zinc-700 overflow-hidden mx-auto sm:mx-0">
+                  {candidate.photo_url ? (
+                    <img
+                      src={candidate.photo_url}
+                      alt={candidate.full_name}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-zinc-400 dark:text-zinc-500 text-3xl font-bold">
+                      {candidate.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
 
-            {/* Info */}
-            <div className="flex-1 text-center sm:text-left">
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                {candidate.full_name}
-              </h1>
-              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-4">
-                <Badge variant="default">
-                  {cargoLabels[candidate.cargo] || candidate.cargo}
-                </Badge>
-                {candidate.party && (
-                  <Badge
-                    style={{
-                      backgroundColor: candidate.party.color || '#6B7280',
-                      color: '#fff',
-                    }}
-                  >
-                    {candidate.party.name}
+              {/* Info */}
+              <div className="flex-1 text-center sm:text-left">
+                <h1 className="text-2xl sm:text-3xl font-bold text-zinc-900 dark:text-white mb-3">
+                  {candidate.full_name}
+                </h1>
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-4">
+                  <Badge variant="primary" size="md">
+                    {cargoLabels[candidate.cargo] || candidate.cargo}
                   </Badge>
-                )}
-                {candidate.district && (
-                  <Badge variant="outline">{candidate.district.name}</Badge>
-                )}
+                  {candidate.party && (
+                    <Badge
+                      size="md"
+                      style={{
+                        backgroundColor: candidate.party.color || '#6B7280',
+                        color: '#fff',
+                      }}
+                    >
+                      {candidate.party.name}
+                    </Badge>
+                  )}
+                  {candidate.district && (
+                    <Badge variant="outline" size="md">{candidate.district.name}</Badge>
+                  )}
+                </div>
+                <div className="flex items-center justify-center sm:justify-start gap-3">
+                  <ConfidenceBadge value={candidate.scores.confidence} size="md" />
+                  <Button variant="ghost" size="sm" onClick={handleShare}>
+                    <svg className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                    </svg>
+                    Compartir
+                  </Button>
+                </div>
               </div>
-              <ConfidenceBadge value={candidate.scores.confidence} showLabel />
-            </div>
 
-            {/* Score */}
-            <div className="flex-shrink-0 flex flex-col items-center justify-center">
-              <ScorePill
-                score={getScore()}
-                mode={mode}
-                weights={PRESETS[mode as keyof typeof PRESETS]}
-                size="lg"
-              />
-              <div className="flex gap-1 mt-3">
-                {(['balanced', 'merit', 'integrity'] as const).map((m) => (
-                  <button
-                    key={m}
-                    onClick={() => setMode(m)}
-                    className={cn(
-                      'px-2 py-1 text-xs rounded transition-colors',
-                      mode === m
-                        ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
-                        : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200'
-                    )}
-                  >
-                    {m === 'balanced' ? 'Bal' : m === 'merit' ? 'Mér' : 'Int'}
-                  </button>
-                ))}
+              {/* Score */}
+              <div className="flex-shrink-0 flex flex-col items-center justify-center">
+                <ScorePill
+                  score={getScore()}
+                  mode={mode}
+                  weights={PRESETS[mode as keyof typeof PRESETS]}
+                  size="lg"
+                  variant="default"
+                  showMode
+                />
+                <div className="flex gap-1 mt-3">
+                  {(['balanced', 'merit', 'integrity'] as const).map((m) => (
+                    <button
+                      key={m}
+                      onClick={() => setMode(m)}
+                      className={cn(
+                        'px-3 py-1.5 text-xs font-medium rounded-lg transition-colors',
+                        mode === m
+                          ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300'
+                          : 'text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800'
+                      )}
+                    >
+                      {m === 'balanced' ? 'Balanceado' : m === 'merit' ? 'Mérito' : 'Integridad'}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-        </div>
+
+          {/* Sub-scores strip */}
+          <div className="px-6 sm:px-8 py-4 bg-zinc-50 dark:bg-zinc-800/50 border-t border-zinc-100 dark:border-zinc-800">
+            <div className="grid grid-cols-3 gap-6">
+              <SubScoreStat type="competence" value={candidate.scores.competence} size="md" />
+              <SubScoreStat type="integrity" value={candidate.scores.integrity} size="md" />
+              <SubScoreStat type="transparency" value={candidate.scores.transparency} size="md" />
+            </div>
+          </div>
+        </Card>
 
         {/* Flags Alert */}
         {candidate.flags.length > 0 && (
-          <div className="mb-6">
-            <div className={cn(
-              'rounded-xl border p-4',
-              candidate.flags.some(f => f.severity === 'RED')
-                ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800'
-                : 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800'
-            )}>
-              <div className="flex items-start gap-3">
+          <Card className={cn(
+            'mb-6 border-2',
+            candidate.flags.some(f => f.severity === 'RED')
+              ? 'bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-900'
+              : 'bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-900'
+          )}>
+            <div className="p-5">
+              <div className="flex items-start gap-4">
                 <div className={cn(
-                  'p-2 rounded-lg',
+                  'p-2.5 rounded-xl flex-shrink-0',
                   candidate.flags.some(f => f.severity === 'RED')
-                    ? 'bg-red-100 dark:bg-red-900/30'
-                    : 'bg-amber-100 dark:bg-amber-900/30'
+                    ? 'bg-red-100 dark:bg-red-900/50'
+                    : 'bg-amber-100 dark:bg-amber-900/50'
                 )}>
                   <svg className={cn(
                     'w-5 h-5',
@@ -207,28 +205,29 @@ export function CandidateProfileContent({ candidate, breakdown }: CandidateProfi
                     {candidate.flags.length} Alerta{candidate.flags.length > 1 ? 's' : ''} Registrada{candidate.flags.length > 1 ? 's' : ''}
                   </h3>
                   <p className={cn(
-                    'text-sm',
+                    'text-sm mb-3',
                     candidate.flags.some(f => f.severity === 'RED')
                       ? 'text-red-700 dark:text-red-300'
                       : 'text-amber-700 dark:text-amber-300'
                   )}>
                     Este candidato tiene antecedentes verificados que afectan su puntaje de integridad.
                   </p>
+                  <FlagChips flags={candidate.flags} maxVisible={5} size="md" />
                 </div>
               </div>
             </div>
-          </div>
+          </Card>
         )}
 
-        {/* Scores Card */}
+        {/* Detailed Scores Card */}
         <Card className="mb-6">
           <CardHeader>
             <CardTitle>Puntajes Detallados</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <SubScoreBar type="competence" value={candidate.scores.competence} />
-            <SubScoreBar type="integrity" value={candidate.scores.integrity} />
-            <SubScoreBar type="transparency" value={candidate.scores.transparency} />
+            <SubScoreBar type="competence" value={candidate.scores.competence} size="lg" />
+            <SubScoreBar type="integrity" value={candidate.scores.integrity} size="lg" />
+            <SubScoreBar type="transparency" value={candidate.scores.transparency} size="lg" />
           </CardContent>
         </Card>
 

@@ -297,6 +297,368 @@ export async function getCandidateCountByCargo(): Promise<Record<CargoType, numb
 /**
  * Get score breakdown for a candidate
  */
+// ===========================================
+// PARTY FINANCE QUERIES
+// ===========================================
+
+export interface PartyFinance {
+  id: string
+  party_id: string
+  year: number
+  public_funding: number
+  private_funding_total: number
+  donor_count: number
+  campaign_expenses: number
+  operational_expenses: number
+  total_income: number
+  total_expenses: number
+  source_url: string | null
+  last_updated: string
+}
+
+export interface PartyDonor {
+  id: string
+  party_id: string
+  year: number
+  donor_type: 'natural' | 'juridica'
+  donor_name: string
+  donor_ruc: string | null
+  amount: number
+  donation_type: 'efectivo' | 'especie' | 'servicios'
+  donation_date: string | null
+  is_verified: boolean
+  source: string | null
+}
+
+export interface PartyExpense {
+  id: string
+  party_id: string
+  year: number
+  campaign_id: string | null
+  category: string
+  subcategory: string | null
+  description: string | null
+  amount: number
+  expense_date: string | null
+  vendor_name: string | null
+  vendor_ruc: string | null
+  source: string | null
+}
+
+export interface PartyFinanceSummary {
+  party: {
+    id: string
+    name: string
+    short_name: string | null
+    logo_url: string | null
+    color: string | null
+  }
+  finances: PartyFinance[]
+  topDonors: PartyDonor[]
+  expensesByCategory: {
+    category: string
+    total_amount: number
+    transaction_count: number
+  }[]
+  totals: {
+    totalPublicFunding: number
+    totalPrivateFunding: number
+    totalExpenses: number
+    donorCount: number
+  }
+}
+
+/**
+ * Get party by ID
+ */
+export async function getPartyById(id: string) {
+  const rows = await sql`
+    SELECT * FROM parties WHERE id = ${id} LIMIT 1
+  `
+  return rows.length > 0 ? rows[0] : null
+}
+
+/**
+ * Get party finance summary
+ */
+export async function getPartyFinances(partyId: string, year?: number): Promise<PartyFinance[]> {
+  if (year) {
+    const rows = await sql`
+      SELECT
+        id,
+        party_id,
+        year,
+        public_funding,
+        private_funding_total,
+        donor_count,
+        campaign_expenses,
+        operational_expenses,
+        (COALESCE(public_funding, 0) + COALESCE(private_funding_total, 0)) as total_income,
+        (COALESCE(campaign_expenses, 0) + COALESCE(operational_expenses, 0)) as total_expenses,
+        source_url,
+        last_updated
+      FROM party_finances
+      WHERE party_id = ${partyId} AND year = ${year}
+      ORDER BY year DESC
+    `
+    return rows.map(r => ({
+      ...r,
+      public_funding: Number(r.public_funding) || 0,
+      private_funding_total: Number(r.private_funding_total) || 0,
+      donor_count: Number(r.donor_count) || 0,
+      campaign_expenses: Number(r.campaign_expenses) || 0,
+      operational_expenses: Number(r.operational_expenses) || 0,
+      total_income: Number(r.total_income) || 0,
+      total_expenses: Number(r.total_expenses) || 0,
+    })) as PartyFinance[]
+  }
+
+  const rows = await sql`
+    SELECT
+      id,
+      party_id,
+      year,
+      public_funding,
+      private_funding_total,
+      donor_count,
+      campaign_expenses,
+      operational_expenses,
+      (COALESCE(public_funding, 0) + COALESCE(private_funding_total, 0)) as total_income,
+      (COALESCE(campaign_expenses, 0) + COALESCE(operational_expenses, 0)) as total_expenses,
+      source_url,
+      last_updated
+    FROM party_finances
+    WHERE party_id = ${partyId}
+    ORDER BY year DESC
+  `
+  return rows.map(r => ({
+    ...r,
+    public_funding: Number(r.public_funding) || 0,
+    private_funding_total: Number(r.private_funding_total) || 0,
+    donor_count: Number(r.donor_count) || 0,
+    campaign_expenses: Number(r.campaign_expenses) || 0,
+    operational_expenses: Number(r.operational_expenses) || 0,
+    total_income: Number(r.total_income) || 0,
+    total_expenses: Number(r.total_expenses) || 0,
+  })) as PartyFinance[]
+}
+
+/**
+ * Get party donors
+ */
+export async function getPartyDonors(partyId: string, options?: {
+  year?: number
+  limit?: number
+  offset?: number
+}): Promise<PartyDonor[]> {
+  const limit = options?.limit || 50
+  const offset = options?.offset || 0
+
+  if (options?.year) {
+    const rows = await sql`
+      SELECT *
+      FROM party_donors
+      WHERE party_id = ${partyId} AND year = ${options.year}
+      ORDER BY amount DESC
+      LIMIT ${limit} OFFSET ${offset}
+    `
+    return rows.map(r => ({
+      ...r,
+      amount: Number(r.amount) || 0,
+    })) as PartyDonor[]
+  }
+
+  const rows = await sql`
+    SELECT *
+    FROM party_donors
+    WHERE party_id = ${partyId}
+    ORDER BY amount DESC
+    LIMIT ${limit} OFFSET ${offset}
+  `
+  return rows.map(r => ({
+    ...r,
+    amount: Number(r.amount) || 0,
+  })) as PartyDonor[]
+}
+
+/**
+ * Get party expenses
+ */
+export async function getPartyExpenses(partyId: string, options?: {
+  year?: number
+  category?: string
+  limit?: number
+  offset?: number
+}): Promise<PartyExpense[]> {
+  const limit = options?.limit || 50
+  const offset = options?.offset || 0
+
+  let rows
+  if (options?.year && options?.category) {
+    rows = await sql`
+      SELECT *
+      FROM party_expenses
+      WHERE party_id = ${partyId} AND year = ${options.year} AND category = ${options.category}
+      ORDER BY amount DESC
+      LIMIT ${limit} OFFSET ${offset}
+    `
+  } else if (options?.year) {
+    rows = await sql`
+      SELECT *
+      FROM party_expenses
+      WHERE party_id = ${partyId} AND year = ${options.year}
+      ORDER BY amount DESC
+      LIMIT ${limit} OFFSET ${offset}
+    `
+  } else if (options?.category) {
+    rows = await sql`
+      SELECT *
+      FROM party_expenses
+      WHERE party_id = ${partyId} AND category = ${options.category}
+      ORDER BY amount DESC
+      LIMIT ${limit} OFFSET ${offset}
+    `
+  } else {
+    rows = await sql`
+      SELECT *
+      FROM party_expenses
+      WHERE party_id = ${partyId}
+      ORDER BY amount DESC
+      LIMIT ${limit} OFFSET ${offset}
+    `
+  }
+
+  return rows.map(r => ({
+    ...r,
+    amount: Number(r.amount) || 0,
+  })) as PartyExpense[]
+}
+
+/**
+ * Get party expenses by category (aggregated)
+ */
+export async function getPartyExpensesByCategory(partyId: string, year?: number) {
+  if (year) {
+    const rows = await sql`
+      SELECT
+        category,
+        SUM(amount) as total_amount,
+        COUNT(*) as transaction_count
+      FROM party_expenses
+      WHERE party_id = ${partyId} AND year = ${year}
+      GROUP BY category
+      ORDER BY total_amount DESC
+    `
+    return rows.map(r => ({
+      category: r.category,
+      total_amount: Number(r.total_amount) || 0,
+      transaction_count: Number(r.transaction_count) || 0,
+    }))
+  }
+
+  const rows = await sql`
+    SELECT
+      category,
+      SUM(amount) as total_amount,
+      COUNT(*) as transaction_count
+    FROM party_expenses
+    WHERE party_id = ${partyId}
+    GROUP BY category
+    ORDER BY total_amount DESC
+  `
+  return rows.map(r => ({
+    category: r.category,
+    total_amount: Number(r.total_amount) || 0,
+    transaction_count: Number(r.transaction_count) || 0,
+  }))
+}
+
+/**
+ * Get full party finance summary
+ */
+export async function getPartyFinanceSummary(partyId: string): Promise<PartyFinanceSummary | null> {
+  const party = await getPartyById(partyId)
+  if (!party) return null
+
+  const finances = await getPartyFinances(partyId)
+  const topDonors = await getPartyDonors(partyId, { limit: 10 })
+  const expensesByCategory = await getPartyExpensesByCategory(partyId)
+
+  // Calculate totals
+  const totals = finances.reduce((acc, f) => ({
+    totalPublicFunding: acc.totalPublicFunding + f.public_funding,
+    totalPrivateFunding: acc.totalPrivateFunding + f.private_funding_total,
+    totalExpenses: acc.totalExpenses + f.total_expenses,
+    donorCount: acc.donorCount + f.donor_count,
+  }), {
+    totalPublicFunding: 0,
+    totalPrivateFunding: 0,
+    totalExpenses: 0,
+    donorCount: 0,
+  })
+
+  return {
+    party: {
+      id: party.id,
+      name: party.name,
+      short_name: party.short_name,
+      logo_url: party.logo_url,
+      color: party.color,
+    },
+    finances,
+    topDonors,
+    expensesByCategory,
+    totals,
+  }
+}
+
+/**
+ * Get all parties with their latest finance summary
+ */
+export async function getAllPartiesWithFinances() {
+  const rows = await sql`
+    SELECT
+      p.id,
+      p.name,
+      p.short_name,
+      p.logo_url,
+      p.color,
+      pf.year,
+      pf.public_funding,
+      pf.private_funding_total,
+      pf.donor_count,
+      pf.campaign_expenses,
+      pf.operational_expenses,
+      (COALESCE(pf.public_funding, 0) + COALESCE(pf.private_funding_total, 0)) as total_income,
+      (COALESCE(pf.campaign_expenses, 0) + COALESCE(pf.operational_expenses, 0)) as total_expenses
+    FROM parties p
+    LEFT JOIN party_finances pf ON p.id = pf.party_id
+    WHERE pf.year = (SELECT MAX(year) FROM party_finances WHERE party_id = p.id)
+    ORDER BY total_income DESC
+  `
+
+  return rows.map(r => ({
+    party: {
+      id: r.id,
+      name: r.name,
+      short_name: r.short_name,
+      logo_url: r.logo_url,
+      color: r.color,
+    },
+    latestFinance: r.year ? {
+      year: r.year,
+      public_funding: Number(r.public_funding) || 0,
+      private_funding_total: Number(r.private_funding_total) || 0,
+      donor_count: Number(r.donor_count) || 0,
+      total_income: Number(r.total_income) || 0,
+      total_expenses: Number(r.total_expenses) || 0,
+    } : null,
+  }))
+}
+
+/**
+ * Get score breakdown for a candidate
+ */
 export async function getScoreBreakdown(candidateId: string): Promise<ScoreBreakdown | null> {
   const rows = await sql`
     SELECT * FROM score_breakdowns WHERE candidate_id = ${candidateId} LIMIT 1

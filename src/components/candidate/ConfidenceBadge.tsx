@@ -8,6 +8,7 @@ interface ConfidenceBadgeProps {
   value: number
   className?: string
   showLabel?: boolean
+  size?: 'sm' | 'md'
 }
 
 function getConfidenceStatus(value: number): 'high' | 'medium' | 'low' {
@@ -19,49 +20,52 @@ function getConfidenceStatus(value: number): 'high' | 'medium' | 'low' {
 const statusConfig = {
   high: {
     label: 'Data alta',
-    color: 'bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-300',
+    color: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
+    dot: 'bg-emerald-500',
     description: 'Datos completos y verificables',
   },
   medium: {
     label: 'Data media',
-    color: 'bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300',
+    color: 'bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
+    dot: 'bg-amber-500',
     description: 'Algunos datos pueden estar incompletos',
   },
   low: {
     label: 'Data baja',
-    color: 'bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-300',
+    color: 'bg-red-50 text-red-700 dark:bg-red-950/50 dark:text-red-300',
+    dot: 'bg-red-500',
     description: 'Información limitada. El puntaje puede cambiar.',
   },
 }
 
-export function ConfidenceBadge({ value, className, showLabel = false }: ConfidenceBadgeProps) {
+export function ConfidenceBadge({ value, className, showLabel = false, size = 'sm' }: ConfidenceBadgeProps) {
   const status = getConfidenceStatus(value)
   const config = statusConfig[status]
+
+  const sizeStyles = {
+    sm: 'px-2 py-0.5 text-xs gap-1.5',
+    md: 'px-2.5 py-1 text-sm gap-2',
+  }
+
+  const dotSizes = {
+    sm: 'w-1.5 h-1.5',
+    md: 'w-2 h-2',
+  }
 
   return (
     <Tooltip content={config.description}>
       <span
         className={cn(
-          'inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded',
+          'inline-flex items-center font-medium rounded-lg',
+          sizeStyles[size],
           config.color,
           className
         )}
       >
-        <svg
-          className="w-3 h-3"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-          />
-        </svg>
-        {showLabel && <span className="mr-1">Confianza:</span>}
-        {config.label} {value.toFixed(0)}%
+        <span className={cn('rounded-full flex-shrink-0', dotSizes[size], config.dot)} />
+        {showLabel && <span>Confianza:</span>}
+        <span>{config.label}</span>
+        <span className="opacity-75">{value.toFixed(0)}%</span>
       </span>
     </Tooltip>
   )

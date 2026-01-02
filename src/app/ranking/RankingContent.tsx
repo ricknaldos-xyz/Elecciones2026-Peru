@@ -2,6 +2,9 @@
 
 import { useState, useMemo, useCallback } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { Header } from '@/components/layout/Header'
+import { Card } from '@/components/ui/Card'
+import { Badge } from '@/components/ui/Badge'
 import { PresetSelector } from '@/components/ranking/PresetSelector'
 import { RankingFilters } from '@/components/ranking/RankingFilters'
 import { RankingList } from '@/components/ranking/RankingList'
@@ -206,47 +209,28 @@ export function RankingContent() {
   const selectedIds = useMemo(() => selectedForCompare.map((c) => c.id), [selectedForCompare])
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      {/* Header */}
-      <header className="sticky top-0 z-40 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-4">
-              <a href="/" className="text-xl font-bold text-gray-900 dark:text-white">
-                Ranking Electoral
-              </a>
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                Perú 2026
-              </span>
+    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
+      <Header currentPath="/ranking" />
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* Page Header with Stats */}
+        <div className="mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+            <div>
+              <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
+                Ranking de {cargoLabels[cargo]}
+              </h1>
+              <p className="text-zinc-500 dark:text-zinc-400 mt-1">
+                {loading ? 'Cargando candidatos...' : `${candidates.length} candidatos encontrados`}
+              </p>
             </div>
-            <nav className="hidden md:flex items-center gap-6">
-              <a href="/ranking" className="text-sm font-medium text-blue-600 dark:text-blue-400">
-                Ranking
-              </a>
-              <a href="/comparar" className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                Comparar
-              </a>
-              <a href="/metodologia" className="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
-                Metodología
-              </a>
-            </nav>
+            <div className="flex items-center gap-2">
+              <Badge variant="primary" size="md">Elecciones 2026</Badge>
+              <Badge variant="outline" size="md">{cargo}</Badge>
+            </div>
           </div>
-        </div>
-      </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Page Title */}
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-            Ranking de Candidatos - {cargoLabels[cargo]}
-          </h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">
-            {loading ? 'Cargando...' : `${candidates.length} candidatos encontrados`}
-          </p>
-        </div>
-
-        {/* Preset Selector */}
-        <div className="mb-6">
+          {/* Preset Selector */}
           <PresetSelector
             value={mode}
             weights={customWeights}
@@ -260,11 +244,14 @@ export function RankingContent() {
           />
         </div>
 
-        <div className="flex gap-8">
+        <div className="flex gap-6">
           {/* Sidebar Filters - Desktop */}
-          <aside className="hidden lg:block w-64 flex-shrink-0">
-            <div className="sticky top-24 bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-800 p-4">
-              <h2 className="font-semibold text-gray-900 dark:text-white mb-4">
+          <aside className="hidden lg:block w-72 flex-shrink-0">
+            <Card className="sticky top-20 p-5">
+              <h2 className="font-semibold text-zinc-900 dark:text-white mb-4 flex items-center gap-2">
+                <svg className="w-4 h-4 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                </svg>
                 Filtros
               </h2>
               <RankingFilters
@@ -280,13 +267,13 @@ export function RankingContent() {
                 onOnlyCleanChange={handleOnlyCleanChange}
                 onReset={handleResetFilters}
               />
-            </div>
+            </Card>
           </aside>
 
           {/* Mobile Filter Button */}
           <button
             onClick={() => setShowFilters(true)}
-            className="lg:hidden fixed bottom-20 right-4 z-30 bg-blue-600 text-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2"
+            className="lg:hidden fixed bottom-20 right-4 z-30 bg-red-600 text-white px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2 font-medium"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
@@ -296,15 +283,18 @@ export function RankingContent() {
 
           {/* Mobile Filter Panel */}
           {showFilters && (
-            <div className="lg:hidden fixed inset-0 z-50 bg-black/50">
-              <div className="absolute right-0 top-0 bottom-0 w-80 bg-white dark:bg-gray-900 p-4 overflow-y-auto">
+            <div className="lg:hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm">
+              <div className="absolute right-0 top-0 bottom-0 w-80 bg-white dark:bg-zinc-900 p-5 overflow-y-auto shadow-xl">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="font-semibold text-gray-900 dark:text-white">
+                  <h2 className="font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
+                    <svg className="w-4 h-4 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                    </svg>
                     Filtros
                   </h2>
                   <button
                     onClick={() => setShowFilters(false)}
-                    className="p-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300"
+                    className="p-2 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800"
                   >
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -331,22 +321,27 @@ export function RankingContent() {
           {/* Main Content */}
           <div className="flex-1 min-w-0">
             {error ? (
-              <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 p-4 rounded-lg">
-                Error: {error}
-              </div>
+              <Card className="p-6 bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-900">
+                <div className="flex items-center gap-3 text-red-600 dark:text-red-400">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  <span>Error: {error}</span>
+                </div>
+              </Card>
             ) : loading ? (
               <div className="space-y-4">
                 {[1, 2, 3, 4, 5].map((i) => (
-                  <div key={i} className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-800 p-4 animate-pulse">
-                    <div className="flex gap-4">
-                      <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-full" />
+                  <Card key={i} className="p-5">
+                    <div className="flex gap-4 animate-pulse">
+                      <div className="w-14 h-14 bg-zinc-200 dark:bg-zinc-700 rounded-xl" />
                       <div className="flex-1">
-                        <div className="h-5 w-48 bg-gray-200 dark:bg-gray-700 rounded mb-2" />
-                        <div className="h-4 w-32 bg-gray-200 dark:bg-gray-700 rounded" />
+                        <div className="h-5 w-48 bg-zinc-200 dark:bg-zinc-700 rounded mb-2" />
+                        <div className="h-4 w-32 bg-zinc-200 dark:bg-zinc-700 rounded" />
                       </div>
-                      <div className="w-20 h-12 bg-gray-200 dark:bg-gray-700 rounded" />
+                      <div className="w-16 h-12 bg-zinc-200 dark:bg-zinc-700 rounded-xl" />
                     </div>
-                  </div>
+                  </Card>
                 ))}
               </div>
             ) : (

@@ -2,13 +2,12 @@
 
 import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
-import { Card, CardContent } from '@/components/ui/Card'
+import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { ScorePill } from './ScorePill'
-import { SubScoreBarMini } from './SubScoreBar'
+import { SubScoreStat } from './SubScoreBar'
 import { FlagChips } from './FlagChip'
-import { ConfidenceBadge } from './ConfidenceBadge'
 import type { CandidateWithScores, PresetType, Weights } from '@/types/database'
 
 interface CandidateCardProps {
@@ -20,6 +19,7 @@ interface CandidateCardProps {
   onView?: () => void
   onShare?: () => void
   isSelected?: boolean
+  variant?: 'default' | 'compact' | 'featured'
   className?: string
 }
 
@@ -54,6 +54,7 @@ export function CandidateCard({
   onView,
   onShare,
   isSelected = false,
+  variant = 'default',
   className,
 }: CandidateCardProps) {
   const router = useRouter()
@@ -92,26 +93,78 @@ export function CandidateCard({
     }
   }
 
+  if (variant === 'compact') {
+    return (
+      <Card
+        hover
+        onClick={handleView}
+        className={cn(
+          'relative overflow-hidden',
+          isSelected && 'ring-2 ring-red-500',
+          className
+        )}
+      >
+        <div className="p-4 flex items-center gap-4">
+          {/* Rank */}
+          {rank && (
+            <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
+              <span className="text-sm font-bold text-zinc-600 dark:text-zinc-400">
+                #{rank}
+              </span>
+            </div>
+          )}
+
+          {/* Photo */}
+          <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-zinc-200 dark:bg-zinc-700 overflow-hidden">
+            {candidate.photo_url ? (
+              <img src={candidate.photo_url} alt={candidate.full_name} className="w-full h-full object-cover" />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-zinc-400 text-xs font-bold">
+                {candidate.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+              </div>
+            )}
+          </div>
+
+          {/* Info */}
+          <div className="flex-1 min-w-0">
+            <h3 className="font-semibold text-zinc-900 dark:text-white truncate text-sm">
+              {candidate.full_name}
+            </h3>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
+              {candidate.party?.short_name || candidate.cargo}
+            </p>
+          </div>
+
+          {/* Score */}
+          <ScorePill score={score} mode={mode} weights={weights} size="sm" variant="minimal" />
+        </div>
+      </Card>
+    )
+  }
+
   return (
     <Card
       hover
       onClick={handleView}
       className={cn(
-        'relative',
-        isSelected && 'ring-2 ring-blue-500',
+        'relative overflow-hidden',
+        isSelected && 'ring-2 ring-red-500',
         className
       )}
     >
-      <CardContent className="p-4">
-        <div className="flex gap-4">
-          {/* Photo & Rank */}
-          <div className="relative flex-shrink-0">
+      <div className="p-5">
+        {/* Header: Rank + Score */}
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex items-center gap-3">
             {rank && (
-              <div className="absolute -top-2 -left-2 w-6 h-6 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded-full flex items-center justify-center text-xs font-bold z-10">
-                {rank}
+              <div className="w-10 h-10 rounded-xl bg-zinc-900 dark:bg-white flex items-center justify-center">
+                <span className="text-lg font-bold text-white dark:text-zinc-900">
+                  #{rank}
+                </span>
               </div>
             )}
-            <div className="w-16 h-16 rounded-lg bg-gray-200 dark:bg-gray-700 overflow-hidden">
+            {/* Photo */}
+            <div className="w-14 h-14 rounded-xl bg-zinc-200 dark:bg-zinc-700 overflow-hidden">
               {candidate.photo_url ? (
                 <img
                   src={candidate.photo_url}
@@ -119,59 +172,54 @@ export function CandidateCard({
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-400 dark:text-gray-500">
-                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                  </svg>
+                <div className="w-full h-full flex items-center justify-center text-zinc-400 dark:text-zinc-500 text-lg font-bold">
+                  {candidate.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
                 </div>
               )}
             </div>
           </div>
 
-          {/* Info */}
-          <div className="flex-1 min-w-0">
-            {/* Name & Party */}
-            <div className="flex items-start justify-between gap-2 mb-1">
-              <div>
-                <h3 className="font-semibold text-gray-900 dark:text-gray-100 truncate">
-                  {candidate.full_name}
-                </h3>
-                <div className="flex items-center gap-2 mt-0.5">
-                  {candidate.party && (
-                    <Badge variant="default" size="sm">
-                      {candidate.party.short_name || candidate.party.name}
-                    </Badge>
-                  )}
-                  {candidate.district && (
-                    <span className="text-xs text-gray-500 dark:text-gray-400">
-                      {candidate.district.name}
-                    </span>
-                  )}
-                </div>
-              </div>
-              <ScorePill score={score} mode={mode} weights={weights} size="sm" />
-            </div>
+          <ScorePill score={score} mode={mode} weights={weights} size="md" variant="card" />
+        </div>
 
-            {/* Sub-scores */}
-            <div className="space-y-1 my-2">
-              <SubScoreBarMini type="competence" value={candidate.scores.competence} />
-              <SubScoreBarMini type="integrity" value={candidate.scores.integrity} />
-              <SubScoreBarMini type="transparency" value={candidate.scores.transparency} />
-            </div>
-
-            {/* Confidence & Flags */}
-            <div className="flex items-center justify-between gap-2 mt-2">
-              <ConfidenceBadge value={candidate.scores.confidence} />
-              <FlagChips
-                flags={candidate.flags}
-                maxVisible={2}
-              />
-            </div>
+        {/* Name & Party */}
+        <div className="mb-4">
+          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white leading-tight">
+            {candidate.full_name}
+          </h3>
+          <div className="flex items-center gap-2 mt-1.5">
+            {candidate.party && (
+              <Badge variant="secondary" size="sm">
+                {candidate.party.short_name || candidate.party.name}
+              </Badge>
+            )}
+            {candidate.district && (
+              <span className="text-xs text-zinc-500 dark:text-zinc-400">
+                {candidate.district.name}
+              </span>
+            )}
+            <Badge variant="outline" size="sm">
+              {candidate.cargo}
+            </Badge>
           </div>
         </div>
 
+        {/* Sub-scores grid */}
+        <div className="grid grid-cols-3 gap-4 py-4 border-t border-zinc-100 dark:border-zinc-800">
+          <SubScoreStat type="competence" value={candidate.scores.competence} size="sm" />
+          <SubScoreStat type="integrity" value={candidate.scores.integrity} size="sm" />
+          <SubScoreStat type="transparency" value={candidate.scores.transparency} size="sm" />
+        </div>
+
+        {/* Flags */}
+        {candidate.flags.length > 0 && (
+          <div className="pt-3 border-t border-zinc-100 dark:border-zinc-800">
+            <FlagChips flags={candidate.flags} maxVisible={3} />
+          </div>
+        )}
+
         {/* Actions */}
-        <div className="flex items-center gap-2 mt-4 pt-3 border-t border-gray-100 dark:border-gray-800">
+        <div className="flex items-center gap-2 mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800">
           <Button
             variant="outline"
             size="sm"
@@ -184,7 +232,7 @@ export function CandidateCard({
             {isSelected ? 'Quitar' : 'Comparar'}
           </Button>
           <Button
-            variant="secondary"
+            variant="primary"
             size="sm"
             onClick={(e) => {
               e.stopPropagation()
@@ -201,13 +249,14 @@ export function CandidateCard({
               e.stopPropagation()
               handleShare()
             }}
+            aria-label="Compartir"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
             </svg>
           </Button>
         </div>
-      </CardContent>
+      </div>
     </Card>
   )
 }

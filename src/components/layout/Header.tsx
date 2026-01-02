@@ -77,36 +77,43 @@ export function Header({ currentPath }: HeaderProps) {
   const navLinks = [
     { href: '/ranking', label: 'Ranking' },
     { href: '/comparar', label: 'Comparar' },
-    { href: '/metodologia', label: 'Metodología' },
+    { href: '/transparencia', label: 'Transparencia' },
+    { href: '/metodologia', label: 'Metodologia' },
   ]
 
   return (
-    <header className="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+    <header className="sticky top-0 z-50 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-lg border-b border-zinc-100 dark:border-zinc-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center gap-4">
-            <Link href="/" className="flex items-center gap-2">
-              <span className="text-xl font-bold text-gray-900 dark:text-white">
-                Ranking Electoral
-              </span>
-              <span className="text-sm text-gray-500 dark:text-gray-400 hidden sm:inline">
-                Perú 2026
-              </span>
+          <div className="flex items-center gap-3">
+            <Link href="/" className="flex items-center gap-2 group">
+              {/* Peru Flag Icon */}
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-600 to-red-700 flex items-center justify-center shadow-sm">
+                <span className="text-white font-bold text-sm">PE</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-lg font-bold text-zinc-900 dark:text-white leading-tight">
+                  Ranking Electoral
+                </span>
+                <span className="text-xs text-red-600 dark:text-red-400 font-medium leading-tight">
+                  Peru 2026
+                </span>
+              </div>
             </Link>
           </div>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  'text-sm transition-colors',
+                  'px-4 py-2 text-sm font-medium rounded-xl transition-colors',
                   currentPath === link.href
-                    ? 'font-medium text-blue-600 dark:text-blue-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                    ? 'bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-300'
+                    : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white hover:bg-zinc-100 dark:hover:bg-zinc-800'
                 )}
               >
                 {link.label}
@@ -120,7 +127,8 @@ export function Header({ currentPath }: HeaderProps) {
             <div ref={searchRef} className="relative">
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
-                className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                className="p-2 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                aria-label="Buscar"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -129,22 +137,22 @@ export function Header({ currentPath }: HeaderProps) {
 
               {/* Search Dropdown */}
               {searchOpen && (
-                <div className="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-gray-900 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <div className="absolute right-0 top-full mt-2 w-80 bg-white dark:bg-zinc-900 rounded-2xl shadow-lg border border-zinc-100 dark:border-zinc-800 overflow-hidden">
                   <div className="p-3">
                     <input
                       type="text"
                       placeholder="Buscar candidato..."
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 border border-zinc-200 dark:border-zinc-700 rounded-xl bg-white dark:bg-zinc-800 text-zinc-900 dark:text-white placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
                       autoFocus
                     />
                   </div>
                   {isSearching && (
-                    <div className="px-4 py-3 text-sm text-gray-500">Buscando...</div>
+                    <div className="px-4 py-3 text-sm text-zinc-500">Buscando...</div>
                   )}
                   {searchResults.length > 0 && (
-                    <div className="border-t border-gray-200 dark:border-gray-700">
+                    <div className="border-t border-zinc-100 dark:border-zinc-800">
                       {searchResults.map((candidate) => (
                         <button
                           key={candidate.id}
@@ -153,25 +161,28 @@ export function Header({ currentPath }: HeaderProps) {
                             setSearchOpen(false)
                             setSearchQuery('')
                           }}
-                          className="w-full px-4 py-3 text-left hover:bg-gray-50 dark:hover:bg-gray-800 flex items-center gap-3"
+                          className="w-full px-4 py-3 text-left hover:bg-zinc-50 dark:hover:bg-zinc-800 flex items-center gap-3 transition-colors"
                         >
-                          <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-xs font-medium">
+                          <div className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center text-sm font-bold text-zinc-600 dark:text-zinc-400">
                             {candidate.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
                           </div>
-                          <div>
-                            <div className="text-sm font-medium text-gray-900 dark:text-white">
+                          <div className="flex-1 min-w-0">
+                            <div className="text-sm font-medium text-zinc-900 dark:text-white truncate">
                               {candidate.full_name}
                             </div>
-                            <div className="text-xs text-gray-500">
+                            <div className="text-xs text-zinc-500 dark:text-zinc-400">
                               {candidate.party?.short_name || candidate.cargo}
                             </div>
+                          </div>
+                          <div className="text-lg font-bold text-zinc-900 dark:text-white">
+                            {candidate.scores.score_balanced.toFixed(0)}
                           </div>
                         </button>
                       ))}
                     </div>
                   )}
                   {searchQuery.length >= 2 && !isSearching && searchResults.length === 0 && (
-                    <div className="px-4 py-3 text-sm text-gray-500 border-t border-gray-200 dark:border-gray-700">
+                    <div className="px-4 py-3 text-sm text-zinc-500 border-t border-zinc-100 dark:border-zinc-800">
                       No se encontraron resultados
                     </div>
                   )}
@@ -182,7 +193,8 @@ export function Header({ currentPath }: HeaderProps) {
             {/* Dark Mode Toggle */}
             <button
               onClick={toggleDarkMode}
-              className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              className="p-2 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+              aria-label="Cambiar tema"
             >
               {darkMode ? (
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -195,10 +207,18 @@ export function Header({ currentPath }: HeaderProps) {
               )}
             </button>
 
+            {/* CTA Button - Desktop */}
+            <Link href="/ranking" className="hidden md:block">
+              <Button variant="primary" size="sm">
+                Ver Ranking
+              </Button>
+            </Link>
+
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+              className="md:hidden p-2 text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white rounded-xl hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+              aria-label="Menu"
             >
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {mobileMenuOpen ? (
@@ -213,23 +233,32 @@ export function Header({ currentPath }: HeaderProps) {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 dark:border-gray-800 py-4">
-            <nav className="flex flex-col gap-2">
+          <div className="md:hidden border-t border-zinc-100 dark:border-zinc-800 py-4">
+            <nav className="flex flex-col gap-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
-                    'px-4 py-2 rounded-lg transition-colors',
+                    'px-4 py-3 rounded-xl transition-colors font-medium',
                     currentPath === link.href
-                      ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 font-medium'
-                      : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
+                      ? 'bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-300'
+                      : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800'
                   )}
                 >
                   {link.label}
                 </Link>
               ))}
+              <Link
+                href="/ranking"
+                onClick={() => setMobileMenuOpen(false)}
+                className="mt-2"
+              >
+                <Button variant="primary" size="lg" className="w-full">
+                  Ver Ranking
+                </Button>
+              </Link>
             </nav>
           </div>
         )}
