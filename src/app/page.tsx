@@ -55,7 +55,7 @@ export default async function Home() {
                   </Button>
                 </Link>
                 <Link href="/comparar">
-                  <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
+                  <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white/10">
                     Comparar
                   </Button>
                 </Link>
@@ -207,7 +207,7 @@ export default async function Home() {
               </p>
             </div>
             <Link href="/ranking?cargo=diputado">
-              <Button variant="outline" size="sm" className="border-[var(--background)] text-[var(--background)] hover:bg-[var(--background)]/10">
+              <Button variant="outline" size="sm" className="bg-transparent border-[var(--background)] text-[var(--background)] hover:bg-[var(--background)]/10">
                 Ver todos los distritos
               </Button>
             </Link>
