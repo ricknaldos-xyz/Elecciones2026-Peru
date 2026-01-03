@@ -1,22 +1,4 @@
 {
-  "crons": [
-    {
-      "path": "/api/sync/jne",
-      "schedule": "0 3 * * *"
-    },
-    {
-      "path": "/api/sync/onpe",
-      "schedule": "0 4 * * *"
-    },
-    {
-      "path": "/api/sync/news",
-      "schedule": "0 5 * * *"
-    },
-    {
-      "path": "/api/sync/judicial",
-      "schedule": "0 6 * * *"
-    }
-  ],
   "functions": {
     "src/app/api/sync/**/*.ts": {
       "maxDuration": 300

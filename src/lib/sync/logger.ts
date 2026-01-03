@@ -1,6 +1,6 @@
 import { sql } from '@/lib/db'
 
-export type SyncSource = 'jne' | 'onpe' | 'poder_judicial' | 'news'
+export type SyncSource = 'jne' | 'onpe' | 'poder_judicial' | 'news' | 'youtube' | 'google_news' | 'tiktok' | 'twitter' | 'expanded_rss' | 'ai_analysis'
 export type SyncStatus = 'started' | 'running' | 'completed' | 'failed'
 
 export interface SyncResult {

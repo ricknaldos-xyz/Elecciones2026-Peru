@@ -209,24 +209,24 @@ export function RankingContent() {
   const selectedIds = useMemo(() => selectedForCompare.map((c) => c.id), [selectedForCompare])
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
+    <div className="min-h-screen bg-[var(--background)]">
       <Header currentPath="/ranking" />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Page Header with Stats */}
+        {/* Page Header - NEO BRUTAL */}
         <div className="mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
             <div>
-              <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
+              <h1 className="text-2xl font-black text-[var(--foreground)] uppercase tracking-tight">
                 Ranking de {cargoLabels[cargo]}
               </h1>
-              <p className="text-zinc-500 dark:text-zinc-400 mt-1">
+              <p className="text-[var(--muted-foreground)] font-bold mt-1">
                 {loading ? 'Cargando candidatos...' : `${candidates.length} candidatos encontrados`}
               </p>
             </div>
             <div className="flex items-center gap-2">
               <Badge variant="primary" size="md">Elecciones 2026</Badge>
-              <Badge variant="outline" size="md">{cargo}</Badge>
+              <Badge variant="outline" size="md">{cargo.toUpperCase()}</Badge>
             </div>
           </div>
 
@@ -245,12 +245,12 @@ export function RankingContent() {
         </div>
 
         <div className="flex gap-6">
-          {/* Sidebar Filters - Desktop */}
+          {/* Sidebar Filters - Desktop - NEO BRUTAL */}
           <aside className="hidden lg:block w-72 flex-shrink-0">
             <Card className="sticky top-20 p-5">
-              <h2 className="font-semibold text-zinc-900 dark:text-white mb-4 flex items-center gap-2">
-                <svg className="w-4 h-4 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+              <h2 className="font-black text-[var(--foreground)] mb-4 flex items-center gap-2 uppercase tracking-wide">
+                <svg className="w-4 h-4 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="square" strokeLinejoin="miter" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                 </svg>
                 Filtros
               </h2>
@@ -270,34 +270,34 @@ export function RankingContent() {
             </Card>
           </aside>
 
-          {/* Mobile Filter Button */}
+          {/* Mobile Filter Button - NEO BRUTAL */}
           <button
             onClick={() => setShowFilters(true)}
-            className="lg:hidden fixed bottom-20 right-4 z-30 bg-red-600 text-white px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2 font-medium"
+            className="lg:hidden fixed bottom-20 right-4 z-30 bg-[var(--primary)] text-white px-4 py-2.5 border-3 border-[var(--border)] shadow-[var(--shadow-brutal)] flex items-center gap-2 font-bold uppercase tracking-wide transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-lg)]"
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="square" strokeLinejoin="miter" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
             </svg>
             Filtros
           </button>
 
-          {/* Mobile Filter Panel */}
+          {/* Mobile Filter Panel - NEO BRUTAL */}
           {showFilters && (
-            <div className="lg:hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm">
-              <div className="absolute right-0 top-0 bottom-0 w-80 bg-white dark:bg-zinc-900 p-5 overflow-y-auto shadow-xl">
+            <div className="lg:hidden fixed inset-0 z-50 bg-black/50">
+              <div className="absolute right-0 top-0 bottom-0 w-80 bg-[var(--card)] border-l-3 border-[var(--border)] p-5 overflow-y-auto shadow-[var(--shadow-brutal-xl)]">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
-                    <svg className="w-4 h-4 text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+                  <h2 className="font-black text-[var(--foreground)] flex items-center gap-2 uppercase tracking-wide">
+                    <svg className="w-4 h-4 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="square" strokeLinejoin="miter" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                     </svg>
                     Filtros
                   </h2>
                   <button
                     onClick={() => setShowFilters(false)}
-                    className="p-2 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                    className="p-2 text-[var(--foreground)] border-2 border-transparent hover:border-[var(--border)] hover:bg-[var(--muted)] transition-all duration-100"
                   >
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="square" strokeLinejoin="miter" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                   </button>
                 </div>
@@ -321,12 +321,12 @@ export function RankingContent() {
           {/* Main Content */}
           <div className="flex-1 min-w-0">
             {error ? (
-              <Card className="p-6 bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-900">
-                <div className="flex items-center gap-3 text-red-600 dark:text-red-400">
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              <Card className="p-6 bg-[var(--flag-red-bg)]">
+                <div className="flex items-center gap-3 text-[var(--flag-red)] font-bold">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="square" strokeLinejoin="miter" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                   </svg>
-                  <span>Error: {error}</span>
+                  <span className="uppercase">Error: {error}</span>
                 </div>
               </Card>
             ) : loading ? (
@@ -334,12 +334,12 @@ export function RankingContent() {
                 {[1, 2, 3, 4, 5].map((i) => (
                   <Card key={i} className="p-5">
                     <div className="flex gap-4 animate-pulse">
-                      <div className="w-14 h-14 bg-zinc-200 dark:bg-zinc-700 rounded-xl" />
+                      <div className="w-14 h-14 bg-[var(--muted)] border-2 border-[var(--border)]" />
                       <div className="flex-1">
-                        <div className="h-5 w-48 bg-zinc-200 dark:bg-zinc-700 rounded mb-2" />
-                        <div className="h-4 w-32 bg-zinc-200 dark:bg-zinc-700 rounded" />
+                        <div className="h-5 w-48 bg-[var(--muted)] border border-[var(--border)] mb-2" />
+                        <div className="h-4 w-32 bg-[var(--muted)] border border-[var(--border)]" />
                       </div>
-                      <div className="w-16 h-12 bg-zinc-200 dark:bg-zinc-700 rounded-xl" />
+                      <div className="w-16 h-12 bg-[var(--muted)] border-2 border-[var(--border)]" />
                     </div>
                   </Card>
                 ))}

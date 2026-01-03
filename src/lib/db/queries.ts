@@ -809,7 +809,9 @@ export async function getScoreBreakdown(candidateId: string): Promise<ScoreBreak
     integrity: {
       base: Number(row.integrity_base),
       penal_penalty: Number(row.penal_penalty),
-      civil_penalties: (row.civil_penalties as CivilPenalty[]) || [],
+      civil_penalties: (typeof row.civil_penalties === 'string'
+        ? JSON.parse(row.civil_penalties)
+        : row.civil_penalties) as CivilPenalty[] || [],
       resignation_penalty: Number(row.resignation_penalty),
       final: Number(row.integrity_base) - Number(row.penal_penalty) - Number(row.resignation_penalty),
     },

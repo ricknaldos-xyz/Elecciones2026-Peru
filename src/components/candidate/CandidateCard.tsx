@@ -45,6 +45,20 @@ function getScoreByMode(
   }
 }
 
+// Get rank medal style
+function getRankStyle(rank: number): { bg: string; text: string; label: string } {
+  switch (rank) {
+    case 1:
+      return { bg: 'bg-[var(--rank-gold)]', text: 'text-black', label: '1°' }
+    case 2:
+      return { bg: 'bg-[var(--rank-silver)]', text: 'text-black', label: '2°' }
+    case 3:
+      return { bg: 'bg-[var(--rank-bronze)]', text: 'text-white', label: '3°' }
+    default:
+      return { bg: 'bg-[var(--muted)]', text: 'text-[var(--foreground)]', label: `${rank}°` }
+  }
+}
+
 export function CandidateCard({
   candidate,
   rank,
@@ -93,6 +107,7 @@ export function CandidateCard({
     }
   }
 
+  // Compact variant
   if (variant === 'compact') {
     return (
       <Card
@@ -100,26 +115,31 @@ export function CandidateCard({
         onClick={handleView}
         className={cn(
           'relative overflow-hidden',
-          isSelected && 'ring-2 ring-red-500',
+          isSelected && 'ring-4 ring-[var(--primary)]',
           className
         )}
       >
         <div className="p-4 flex items-center gap-4">
-          {/* Rank */}
+          {/* Rank Medal */}
           {rank && (
-            <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center">
-              <span className="text-sm font-bold text-zinc-600 dark:text-zinc-400">
-                #{rank}
-              </span>
+            <div className={cn(
+              'flex-shrink-0 w-10 h-10',
+              'border-3 border-[var(--border)]',
+              'flex items-center justify-center',
+              'font-bold text-lg',
+              getRankStyle(rank).bg,
+              getRankStyle(rank).text,
+            )}>
+              {getRankStyle(rank).label}
             </div>
           )}
 
           {/* Photo */}
-          <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-zinc-200 dark:bg-zinc-700 overflow-hidden">
+          <div className="flex-shrink-0 w-12 h-12 border-3 border-[var(--border)] bg-[var(--muted)] overflow-hidden">
             {candidate.photo_url ? (
               <img src={candidate.photo_url} alt={candidate.full_name} className="w-full h-full object-cover" />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-zinc-400 text-xs font-bold">
+              <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)] text-sm font-bold">
                 {candidate.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
               </div>
             )}
@@ -127,10 +147,10 @@ export function CandidateCard({
 
           {/* Info */}
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-zinc-900 dark:text-white truncate text-sm">
+            <h3 className="font-bold text-[var(--foreground)] truncate">
               {candidate.full_name}
             </h3>
-            <p className="text-xs text-zinc-500 dark:text-zinc-400 truncate">
+            <p className="text-sm font-medium text-[var(--muted-foreground)] truncate">
               {candidate.party?.short_name || candidate.cargo}
             </p>
           </div>
@@ -142,29 +162,38 @@ export function CandidateCard({
     )
   }
 
+  // Default variant
   return (
     <Card
       hover
       onClick={handleView}
+      variant={rank === 1 ? 'gold' : rank === 2 ? 'silver' : rank === 3 ? 'bronze' : 'default'}
       className={cn(
         'relative overflow-hidden',
-        isSelected && 'ring-2 ring-red-500',
+        isSelected && 'ring-4 ring-[var(--primary)]',
         className
       )}
     >
       <div className="p-5">
-        {/* Header: Rank + Score */}
+        {/* Header: Rank + Photo + Score */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
+            {/* Rank Medal */}
             {rank && (
-              <div className="w-10 h-10 rounded-xl bg-zinc-900 dark:bg-white flex items-center justify-center">
-                <span className="text-lg font-bold text-white dark:text-zinc-900">
-                  #{rank}
-                </span>
+              <div className={cn(
+                'w-12 h-12',
+                'border-3 border-[var(--border)]',
+                'shadow-[var(--shadow-brutal-sm)]',
+                'flex items-center justify-center',
+                'font-bold text-xl',
+                getRankStyle(rank).bg,
+                getRankStyle(rank).text,
+              )}>
+                {getRankStyle(rank).label}
               </div>
             )}
             {/* Photo */}
-            <div className="w-14 h-14 rounded-xl bg-zinc-200 dark:bg-zinc-700 overflow-hidden">
+            <div className="w-16 h-16 border-3 border-[var(--border)] bg-[var(--muted)] overflow-hidden">
               {candidate.photo_url ? (
                 <img
                   src={candidate.photo_url}
@@ -172,31 +201,31 @@ export function CandidateCard({
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-zinc-400 dark:text-zinc-500 text-lg font-bold">
+                <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)] text-xl font-bold">
                   {candidate.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
                 </div>
               )}
             </div>
           </div>
 
-          <ScorePill score={score} mode={mode} weights={weights} size="md" variant="card" />
+          <ScorePill score={score} mode={mode} weights={weights} size="lg" variant="card" />
         </div>
 
         {/* Name & Party */}
         <div className="mb-4">
-          <h3 className="text-lg font-semibold text-zinc-900 dark:text-white leading-tight">
+          <h3 className="text-xl font-bold text-[var(--foreground)] leading-tight tracking-tight">
             {candidate.full_name}
           </h3>
-          <div className="flex items-center gap-2 mt-1.5">
+          <div className="flex items-center gap-2 mt-2 flex-wrap">
             {candidate.party && (
-              <Badge variant="secondary" size="sm">
+              <Badge variant="primary" size="sm">
                 {candidate.party.short_name || candidate.party.name}
               </Badge>
             )}
             {candidate.district && (
-              <span className="text-xs text-zinc-500 dark:text-zinc-400">
+              <Badge variant="secondary" size="sm">
                 {candidate.district.name}
-              </span>
+              </Badge>
             )}
             <Badge variant="outline" size="sm">
               {candidate.cargo}
@@ -205,7 +234,7 @@ export function CandidateCard({
         </div>
 
         {/* Sub-scores grid */}
-        <div className="grid grid-cols-3 gap-4 py-4 border-t border-zinc-100 dark:border-zinc-800">
+        <div className="grid grid-cols-3 gap-3 py-4 border-t-3 border-[var(--border)]">
           <SubScoreStat type="competence" value={candidate.scores.competence} size="sm" />
           <SubScoreStat type="integrity" value={candidate.scores.integrity} size="sm" />
           <SubScoreStat type="transparency" value={candidate.scores.transparency} size="sm" />
@@ -213,13 +242,13 @@ export function CandidateCard({
 
         {/* Flags */}
         {candidate.flags.length > 0 && (
-          <div className="pt-3 border-t border-zinc-100 dark:border-zinc-800">
+          <div className="pt-3 border-t-3 border-[var(--border)]">
             <FlagChips flags={candidate.flags} maxVisible={3} />
           </div>
         )}
 
         {/* Actions */}
-        <div className="flex items-center gap-2 mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800">
+        <div className="flex items-center gap-2 mt-4 pt-4 border-t-3 border-[var(--border)]">
           <Button
             variant="outline"
             size="sm"
@@ -251,8 +280,8 @@ export function CandidateCard({
             }}
             aria-label="Compartir"
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="square" strokeLinejoin="miter" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
             </svg>
           </Button>
         </div>

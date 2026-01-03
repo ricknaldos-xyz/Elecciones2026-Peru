@@ -12,29 +12,37 @@ interface FlagChipProps {
   className?: string
 }
 
+// NEO BRUTAL severity styles - solid colors, no transparency
 const severityStyles: Record<FlagSeverity, string> = {
-  RED: 'bg-red-50 text-red-700 dark:bg-red-950/50 dark:text-red-300',
-  AMBER: 'bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
-  GRAY: 'bg-zinc-100 text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400',
+  RED: 'bg-[var(--flag-red-bg)] text-[var(--flag-red)]',
+  AMBER: 'bg-[var(--flag-amber-bg)] text-[var(--flag-amber)]',
+  GRAY: 'bg-[var(--muted)] text-[var(--muted-foreground)]',
+}
+
+const severityBorders: Record<FlagSeverity, string> = {
+  RED: 'border-[var(--flag-red)]',
+  AMBER: 'border-[var(--flag-amber)]',
+  GRAY: 'border-[var(--border)]',
 }
 
 const severityDots: Record<FlagSeverity, string> = {
-  RED: 'bg-red-500',
-  AMBER: 'bg-amber-500',
-  GRAY: 'bg-zinc-400',
+  RED: 'bg-[var(--flag-red)]',
+  AMBER: 'bg-[var(--flag-amber)]',
+  GRAY: 'bg-[var(--muted-foreground)]',
 }
 
 export function FlagChip({ type, severity, title, onClick, size = 'sm', className }: FlagChipProps) {
   const isClickable = !!onClick
 
+  // NEO BRUTAL sizing - more padding, bolder
   const sizeStyles = {
-    sm: 'px-2 py-0.5 text-xs gap-1.5',
-    md: 'px-2.5 py-1 text-sm gap-2',
+    sm: 'px-2.5 py-1 text-xs gap-2',
+    md: 'px-3 py-1.5 text-sm gap-2',
   }
 
   const dotSizes = {
-    sm: 'w-1.5 h-1.5',
-    md: 'w-2 h-2',
+    sm: 'w-2 h-2',
+    md: 'w-2.5 h-2.5',
   }
 
   return (
@@ -42,15 +50,29 @@ export function FlagChip({ type, severity, title, onClick, size = 'sm', classNam
       onClick={onClick}
       disabled={!isClickable}
       className={cn(
-        'inline-flex items-center font-medium rounded-lg transition-all',
+        // NEO BRUTAL chip
+        'inline-flex items-center',
+        'font-bold uppercase tracking-wide',
+        'border-2',
+        'shadow-[var(--shadow-brutal-sm)]',
+        'transition-all duration-100',
         sizeStyles[size],
         severityStyles[severity],
-        isClickable && 'cursor-pointer hover:opacity-80',
+        severityBorders[severity],
+        // Hover effect for clickable
+        isClickable && [
+          'cursor-pointer',
+          'hover:-translate-x-0.5 hover:-translate-y-0.5',
+          'hover:shadow-[var(--shadow-brutal)]',
+          'active:translate-x-0 active:translate-y-0',
+          'active:shadow-none',
+        ],
         !isClickable && 'cursor-default',
         className
       )}
     >
-      <span className={cn('rounded-full flex-shrink-0', dotSizes[size], severityDots[severity])} />
+      {/* Square dot indicator */}
+      <span className={cn('flex-shrink-0', dotSizes[size], severityDots[severity])} />
       <span className="truncate max-w-[120px]">{title}</span>
     </button>
   )
@@ -89,7 +111,7 @@ export function FlagChips({
   const hiddenCount = sortedFlags.length - maxVisible
 
   return (
-    <div className={cn('flex flex-wrap gap-1.5', className)}>
+    <div className={cn('flex flex-wrap gap-2', className)}>
       {visibleFlags.map((flag) => (
         <FlagChip
           key={flag.id}
@@ -101,7 +123,15 @@ export function FlagChips({
         />
       ))}
       {hiddenCount > 0 && (
-        <span className="inline-flex items-center px-2 py-0.5 text-xs font-medium text-zinc-500 dark:text-zinc-400 bg-zinc-100 dark:bg-zinc-800 rounded-lg">
+        <span className={cn(
+          'inline-flex items-center',
+          'px-2.5 py-1 text-xs',
+          'font-bold uppercase tracking-wide',
+          'text-[var(--muted-foreground)]',
+          'bg-[var(--muted)]',
+          'border-2 border-[var(--border)]',
+          'shadow-[var(--shadow-brutal-sm)]',
+        )}>
           +{hiddenCount} más
         </span>
       )}

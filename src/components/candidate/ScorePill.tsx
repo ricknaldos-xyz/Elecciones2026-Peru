@@ -23,22 +23,26 @@ const modeLabels: Record<PresetType, string> = {
   custom: 'Personalizado',
 }
 
-function getScoreColor(score: number): { text: string; bg: string } {
+function getScoreColor(score: number): { text: string; bg: string; border: string } {
   if (score >= 80) return {
-    text: 'text-emerald-600 dark:text-emerald-400',
-    bg: 'bg-emerald-50 dark:bg-emerald-950/50'
+    text: 'text-[var(--score-excellent)]',
+    bg: 'bg-[var(--score-excellent-bg)]',
+    border: 'border-[var(--score-excellent)]',
   }
   if (score >= 60) return {
-    text: 'text-blue-600 dark:text-blue-400',
-    bg: 'bg-blue-50 dark:bg-blue-950/50'
+    text: 'text-[var(--score-good)]',
+    bg: 'bg-[var(--score-good-bg)]',
+    border: 'border-[var(--score-good)]',
   }
   if (score >= 40) return {
-    text: 'text-amber-600 dark:text-amber-400',
-    bg: 'bg-amber-50 dark:bg-amber-950/50'
+    text: 'text-[var(--score-medium)]',
+    bg: 'bg-[var(--score-medium-bg)]',
+    border: 'border-[var(--score-medium)]',
   }
   return {
-    text: 'text-red-600 dark:text-red-400',
-    bg: 'bg-red-50 dark:bg-red-950/50'
+    text: 'text-[var(--score-low)]',
+    bg: 'bg-[var(--score-low-bg)]',
+    border: 'border-[var(--score-low)]',
   }
 }
 
@@ -56,20 +60,20 @@ export function ScorePill({
   const colors = getScoreColor(score)
 
   const tooltipContent = (
-    <div className="text-xs">
-      <div className="font-medium mb-1">Fórmula:</div>
+    <div className="text-xs font-bold">
+      <div className="font-black mb-2 uppercase tracking-wide">Fórmula:</div>
       <div>Score = {(displayWeights.wC * 100).toFixed(0)}% Competencia</div>
       <div className="ml-4">+ {(displayWeights.wI * 100).toFixed(0)}% Integridad</div>
       <div className="ml-4">+ {(displayWeights.wT * 100).toFixed(0)}% Transparencia</div>
     </div>
   )
 
-  // Size configurations for the large number display style
+  // Size configurations - NEO BRUTAL with bigger, bolder numbers
   const sizeConfig = {
-    sm: { score: 'text-2xl', max: 'text-xs', gap: 'gap-0' },
-    md: { score: 'text-4xl', max: 'text-sm', gap: 'gap-0.5' },
-    lg: { score: 'text-6xl', max: 'text-base', gap: 'gap-1' },
-    xl: { score: 'text-7xl', max: 'text-lg', gap: 'gap-1' },
+    sm: { score: 'text-2xl', max: 'text-xs', gap: 'gap-0', padding: 'px-3 py-1' },
+    md: { score: 'text-4xl', max: 'text-sm', gap: 'gap-0.5', padding: 'px-4 py-2' },
+    lg: { score: 'text-5xl', max: 'text-base', gap: 'gap-1', padding: 'px-5 py-3' },
+    xl: { score: 'text-6xl', max: 'text-lg', gap: 'gap-1', padding: 'px-6 py-4' },
   }
 
   const config = sizeConfig[size]
@@ -78,11 +82,18 @@ export function ScorePill({
     return (
       <Tooltip content={tooltipContent}>
         <div className={cn('inline-flex items-baseline', config.gap, className)}>
-          <span className={cn('font-black score-display', config.score, colors.text)}>
+          <span className={cn(
+            'font-black score-display tracking-tighter',
+            config.score,
+            colors.text
+          )}>
             {score.toFixed(0)}
           </span>
           {showMax && (
-            <span className={cn('font-normal text-zinc-400 dark:text-zinc-500', config.max)}>
+            <span className={cn(
+              'font-bold text-[var(--muted-foreground)]',
+              config.max
+            )}>
               /100
             </span>
           )}
@@ -96,17 +107,24 @@ export function ScorePill({
       <Tooltip content={tooltipContent}>
         <div className={cn('flex flex-col items-end', className)}>
           <div className={cn('inline-flex items-baseline', config.gap)}>
-            <span className={cn('font-black score-display', config.score, colors.text)}>
+            <span className={cn(
+              'font-black score-display tracking-tighter',
+              config.score,
+              colors.text
+            )}>
               {score.toFixed(0)}
             </span>
             {showMax && (
-              <span className={cn('font-normal text-zinc-400 dark:text-zinc-500', config.max)}>
+              <span className={cn(
+                'font-bold text-[var(--muted-foreground)]',
+                config.max
+              )}>
                 /100
               </span>
             )}
           </div>
           {showMode && (
-            <span className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5">
+            <span className="text-xs font-bold text-[var(--muted-foreground)] mt-1 uppercase tracking-wide">
               {modeLabels[mode]}
             </span>
           )}
@@ -115,28 +133,38 @@ export function ScorePill({
     )
   }
 
-  // Default variant with background
+  // Default variant with background - NEO BRUTAL BOX
   return (
     <Tooltip content={tooltipContent}>
       <div
         className={cn(
-          'inline-flex flex-col items-center rounded-2xl px-4 py-2',
+          'inline-flex flex-col items-center',
+          'border-3 border-[var(--border)]',
+          'shadow-[var(--shadow-brutal-sm)]',
           colors.bg,
+          config.padding,
           className
         )}
       >
         <div className={cn('inline-flex items-baseline', config.gap)}>
-          <span className={cn('font-black score-display', config.score, colors.text)}>
+          <span className={cn(
+            'font-black score-display tracking-tighter',
+            config.score,
+            colors.text
+          )}>
             {score.toFixed(0)}
           </span>
           {showMax && (
-            <span className={cn('font-medium text-zinc-400 dark:text-zinc-500', config.max)}>
+            <span className={cn(
+              'font-bold text-[var(--muted-foreground)]',
+              config.max
+            )}>
               /100
             </span>
           )}
         </div>
         {showMode && (
-          <span className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
+          <span className="text-xs font-bold text-[var(--muted-foreground)] mt-1 uppercase tracking-wide">
             {modeLabels[mode]}
           </span>
         )}

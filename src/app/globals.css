@@ -2,88 +2,139 @@
 
 /* ========================================
    RANKING ELECTORAL PERU 2026
-   Paleta: Rojo y Blanco (Colores de Peru)
+   NEO-BRUTALISM UI 🇵🇪
+   Colores: Rojo, Blanco, Negro
    ======================================== */
 
 :root {
-  /* Background & Foreground */
+  /* === COLORES PERUANOS === */
+  --brutal-red: #D91023;
+  --brutal-red-light: #FF4D5A;
+  --brutal-red-dark: #A80D1A;
+  --brutal-red-bg: #FFE5E7;
+  --brutal-white: #FFFFFF;
+  --brutal-black: #000000;
+
+  /* === FONDOS === */
   --background: #FFFFFF;
-  --foreground: #18181B;
+  --background-secondary: #FFF5F5;
+  --background-accent: #FFE5E7;
+  --foreground: #000000;
 
-  /* Primary - Rojo Peru */
-  --primary: #DC2626;
-  --primary-hover: #B91C1C;
-  --primary-light: #FEE2E2;
+  /* === PRIMARIO === */
+  --primary: #D91023;
+  --primary-hover: #FF4D5A;
+  --primary-active: #A80D1A;
   --primary-foreground: #FFFFFF;
 
-  /* Muted/Secondary */
-  --muted: #F4F4F5;
-  --muted-foreground: #71717A;
+  /* === MUTED === */
+  --muted: #F5F5F5;
+  --muted-foreground: #525252;
 
-  /* Cards */
+  /* === CARDS === */
   --card: #FFFFFF;
-  --card-foreground: #18181B;
-  --card-hover: #FAFAFA;
+  --card-foreground: #000000;
+  --card-hover: #FFF5F5;
 
-  /* Borders */
-  --border: #E4E4E7;
-  --border-subtle: #F4F4F5;
+  /* === BORDES === */
+  --border: #000000;
+  --border-subtle: #E5E5E5;
+  --border-width: 3px;
+  --border-width-thick: 4px;
 
-  /* Score Colors */
+  /* === RANKINGS (Medallas) === */
+  --rank-gold: #FFD700;
+  --rank-gold-bg: #FFFBEB;
+  --rank-silver: #C0C0C0;
+  --rank-silver-bg: #F5F5F5;
+  --rank-bronze: #CD7F32;
+  --rank-bronze-bg: #FEF3E7;
+
+  /* === SCORES === */
   --score-excellent: #22C55E;
+  --score-excellent-bg: #DCFCE7;
   --score-good: #3B82F6;
-  --score-medium: #F59E0B;
+  --score-good-bg: #DBEAFE;
+  --score-medium: #FBBF24;
+  --score-medium-bg: #FEF3C7;
   --score-low: #EF4444;
+  --score-low-bg: #FEE2E2;
 
-  /* Flag Colors */
+  /* === FLAGS === */
   --flag-red: #DC2626;
-  --flag-red-bg: #FEF2F2;
-  --flag-amber: #F59E0B;
-  --flag-amber-bg: #FFFBEB;
-  --flag-gray: #71717A;
-  --flag-gray-bg: #F4F4F5;
+  --flag-red-bg: #FEE2E2;
+  --flag-amber: #F97316;
+  --flag-amber-bg: #FFEDD5;
+  --flag-gray: #525252;
+  --flag-gray-bg: #F5F5F5;
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  /* === SOMBRAS BRUTALES === */
+  --shadow-brutal-sm: 2px 2px 0px 0px #000000;
+  --shadow-brutal: 4px 4px 0px 0px #000000;
+  --shadow-brutal-md: 4px 4px 0px 0px #000000;
+  --shadow-brutal-lg: 6px 6px 0px 0px #000000;
+  --shadow-brutal-xl: 8px 8px 0px 0px #000000;
+
+  /* Sombras hover (más grandes) */
+  --shadow-brutal-hover: 6px 6px 0px 0px #000000;
+  --shadow-brutal-lg-hover: 8px 8px 0px 0px #000000;
+
+  /* Sombras active (más pequeñas) */
+  --shadow-brutal-active: 2px 2px 0px 0px #000000;
+  --shadow-brutal-pressed: 1px 1px 0px 0px #000000;
 }
 
+/* === DARK MODE === */
 .dark {
-  /* Background & Foreground */
-  --background: #09090B;
-  --foreground: #FAFAFA;
+  --background: #0A0A0A;
+  --background-secondary: #171717;
+  --background-accent: #2D1215;
+  --foreground: #FFFFFF;
 
-  /* Primary - Rojo Peru (lighter in dark) */
-  --primary: #EF4444;
-  --primary-hover: #F87171;
-  --primary-light: #7F1D1D;
-  --primary-foreground: #FFFFFF;
+  --primary: #FF4D5A;
+  --primary-hover: #FF6B76;
+  --primary-active: #D91023;
+  --primary-foreground: #000000;
 
-  /* Muted/Secondary */
-  --muted: #27272A;
-  --muted-foreground: #A1A1AA;
+  --muted: #262626;
+  --muted-foreground: #A3A3A3;
 
-  /* Cards */
-  --card: #18181B;
-  --card-foreground: #FAFAFA;
-  --card-hover: #27272A;
+  --card: #171717;
+  --card-foreground: #FFFFFF;
+  --card-hover: #262626;
 
-  /* Borders */
-  --border: #27272A;
-  --border-subtle: #3F3F46;
+  --border: #FFFFFF;
+  --border-subtle: #404040;
 
-  /* Flag Colors - Dark mode */
+  /* Rankings dark */
+  --rank-gold-bg: #422006;
+  --rank-silver-bg: #262626;
+  --rank-bronze-bg: #431407;
+
+  /* Scores dark */
+  --score-excellent-bg: #14532D;
+  --score-good-bg: #1E3A5F;
+  --score-medium-bg: #713F12;
+  --score-low-bg: #7F1D1D;
+
+  /* Flags dark */
   --flag-red-bg: #450A0A;
-  --flag-amber-bg: #451A03;
-  --flag-gray-bg: #27272A;
+  --flag-amber-bg: #431407;
+  --flag-gray-bg: #262626;
 
-  /* Shadows - Darker */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+  /* Sombras dark (blancas) */
+  --shadow-brutal-sm: 2px 2px 0px 0px #FFFFFF;
+  --shadow-brutal: 4px 4px 0px 0px #FFFFFF;
+  --shadow-brutal-md: 4px 4px 0px 0px #FFFFFF;
+  --shadow-brutal-lg: 6px 6px 0px 0px #FFFFFF;
+  --shadow-brutal-xl: 8px 8px 0px 0px #FFFFFF;
+  --shadow-brutal-hover: 6px 6px 0px 0px #FFFFFF;
+  --shadow-brutal-lg-hover: 8px 8px 0px 0px #FFFFFF;
+  --shadow-brutal-active: 2px 2px 0px 0px #FFFFFF;
+  --shadow-brutal-pressed: 1px 1px 0px 0px #FFFFFF;
 }
 
+/* === TAILWIND THEME INLINE === */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -91,56 +142,251 @@
   --color-muted: var(--muted);
   --color-card: var(--card);
   --color-border: var(--border);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-space-grotesk);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+/* === BASE STYLES === */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  font-family: var(--font-space-grotesk), system-ui, -apple-system, sans-serif;
+  font-weight: 500;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 /* ========================================
-   UTILITY CLASSES
+   NEO-BRUTAL UTILITY CLASSES
    ======================================== */
 
-/* Score number styling - prominente */
+/* === SOMBRAS === */
+.shadow-brutal-sm {
+  box-shadow: var(--shadow-brutal-sm);
+}
+
+.shadow-brutal {
+  box-shadow: var(--shadow-brutal);
+}
+
+.shadow-brutal-md {
+  box-shadow: var(--shadow-brutal-md);
+}
+
+.shadow-brutal-lg {
+  box-shadow: var(--shadow-brutal-lg);
+}
+
+.shadow-brutal-xl {
+  box-shadow: var(--shadow-brutal-xl);
+}
+
+/* === BORDES === */
+.border-brutal {
+  border: 3px solid var(--border);
+}
+
+.border-brutal-2 {
+  border: 2px solid var(--border);
+}
+
+.border-brutal-4 {
+  border: 4px solid var(--border);
+}
+
+/* === HOVER/ACTIVE BRUTAL === */
+.hover-brutal {
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.hover-brutal:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-brutal-hover);
+}
+
+.hover-brutal:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-brutal-pressed);
+}
+
+/* Button brutal effect */
+.btn-brutal {
+  border: 3px solid var(--border);
+  box-shadow: var(--shadow-brutal);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  font-weight: 700;
+}
+
+.btn-brutal:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: var(--shadow-brutal-hover);
+}
+
+.btn-brutal:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-brutal-pressed);
+}
+
+/* Card brutal hover */
+.card-brutal {
+  border: 3px solid var(--border);
+  box-shadow: var(--shadow-brutal-lg);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card-brutal:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: var(--shadow-brutal-xl);
+}
+
+/* === TIPOGRAFÍA BRUTAL === */
+.text-brutal-title {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.text-brutal-display {
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+/* Score number styling */
 .score-display {
   font-feature-settings: "tnum" 1, "lnum" 1;
+  font-weight: 700;
   letter-spacing: -0.02em;
 }
 
-/* Card hover transition */
-.card-hover {
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+/* === FONDOS BRUTALES === */
+.bg-brutal-primary {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
 }
 
-.card-hover:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
+.bg-brutal-accent {
+  background-color: var(--background-accent);
 }
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
+.bg-brutal-gold {
+  background-color: var(--rank-gold);
+  color: #000000;
 }
 
-/* Focus visible */
+.bg-brutal-silver {
+  background-color: var(--rank-silver);
+  color: #000000;
+}
+
+.bg-brutal-bronze {
+  background-color: var(--rank-bronze);
+  color: #FFFFFF;
+}
+
+/* === RANKINGS MEDALLERO === */
+.rank-medal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 3px solid var(--border);
+  font-weight: 700;
+  font-size: 1.125rem;
+}
+
+.rank-medal-gold {
+  background-color: var(--rank-gold);
+  color: #000000;
+}
+
+.rank-medal-silver {
+  background-color: var(--rank-silver);
+  color: #000000;
+}
+
+.rank-medal-bronze {
+  background-color: var(--rank-bronze);
+  color: #FFFFFF;
+}
+
+/* === INPUTS BRUTALES === */
+.input-brutal {
+  border: 3px solid var(--border);
+  background: var(--background);
+  padding: 0.75rem 1rem;
+  font-weight: 500;
+  transition: box-shadow 0.1s ease;
+}
+
+.input-brutal:focus {
+  outline: none;
+  box-shadow: var(--shadow-brutal-sm);
+}
+
+/* === FOCUS STYLES === */
 *:focus-visible {
-  outline: 2px solid var(--primary);
+  outline: 3px solid var(--primary);
   outline-offset: 2px;
 }
 
-/* Selection color */
+/* === SELECTION === */
 ::selection {
-  background-color: var(--primary-light);
-  color: var(--primary);
+  background-color: var(--primary);
+  color: var(--primary-foreground);
 }
 
-.dark ::selection {
-  background-color: var(--primary);
-  color: white;
+/* === SCROLLBAR BRUTAL === */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--muted);
+  border: 2px solid var(--border);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border: 2px solid var(--border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-hover);
+}
+
+/* === ANIMACIONES BRUTALES === */
+@keyframes brutal-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes brutal-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+}
+
+.animate-brutal-bounce {
+  animation: brutal-bounce 0.5s ease-in-out;
+}
+
+.animate-brutal-shake {
+  animation: brutal-shake 0.3s ease-in-out;
 }

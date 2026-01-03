@@ -90,18 +90,30 @@ export function PresetSelector({
 
   return (
     <div className={cn('space-y-3', className)}>
-      {/* Preset Pills */}
-      <div className="flex items-center gap-1 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
+      {/* Preset Pills - NEO BRUTAL */}
+      <div className="flex items-center gap-1 p-1 bg-[var(--muted)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)]">
         {(Object.keys(presetConfig) as Array<Exclude<PresetType, 'custom'>>).map(
           (preset) => (
             <Tooltip key={preset} content={presetConfig[preset].description}>
               <button
                 onClick={() => handlePresetClick(preset)}
                 className={cn(
-                  'flex-1 px-3 py-1.5 text-sm font-medium rounded-md transition-colors',
+                  'flex-1 px-4 py-2 text-sm font-bold uppercase tracking-wide',
+                  'border-2 transition-all duration-100',
                   value === preset && !showCustom
-                    ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+                    ? [
+                        'bg-[var(--primary)] text-white',
+                        'border-[var(--border)]',
+                        'shadow-[var(--shadow-brutal-sm)]',
+                        '-translate-x-0.5 -translate-y-0.5',
+                      ]
+                    : [
+                        'bg-[var(--background)] text-[var(--foreground)]',
+                        'border-transparent',
+                        'hover:border-[var(--border)]',
+                        'hover:-translate-x-0.5 hover:-translate-y-0.5',
+                        'hover:shadow-[var(--shadow-brutal-sm)]',
+                      ]
                 )}
               >
                 {presetConfig[preset].label}
@@ -113,29 +125,41 @@ export function PresetSelector({
           <button
             onClick={handleCustomClick}
             className={cn(
-              'flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-md transition-colors',
+              'flex items-center gap-2 px-4 py-2 text-sm font-bold uppercase tracking-wide',
+              'border-2 transition-all duration-100',
               showCustom
-                ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm'
-                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+                ? [
+                    'bg-[var(--primary)] text-white',
+                    'border-[var(--border)]',
+                    'shadow-[var(--shadow-brutal-sm)]',
+                    '-translate-x-0.5 -translate-y-0.5',
+                  ]
+                : [
+                    'bg-[var(--background)] text-[var(--foreground)]',
+                    'border-transparent',
+                    'hover:border-[var(--border)]',
+                    'hover:-translate-x-0.5 hover:-translate-y-0.5',
+                    'hover:shadow-[var(--shadow-brutal-sm)]',
+                  ]
             )}
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="square" strokeLinejoin="miter" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
             </svg>
-            Personalizado
+            Custom
           </button>
         </Tooltip>
       </div>
 
-      {/* Custom Sliders */}
+      {/* Custom Sliders - NEO BRUTAL */}
       {showCustom && (
-        <div className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg space-y-4">
-          <p className="text-xs text-gray-500 dark:text-gray-400">
+        <div className="p-4 bg-[var(--muted)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)] space-y-4">
+          <p className="text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wide">
             Este ranking es personalizado. La información base no cambia; cambian tus
             prioridades (pesos).
           </p>
 
-          <div className="space-y-3">
+          <div className="space-y-4">
             <WeightSlider
               label="Competencia"
               value={customWeights.wC}
@@ -164,7 +188,7 @@ export function PresetSelector({
               setCustomWeights(PRESETS.balanced)
               onChange('custom', PRESETS.balanced)
             }}
-            className="text-xs text-blue-600 dark:text-blue-400 hover:underline"
+            className="text-xs font-bold text-[var(--primary)] hover:underline uppercase tracking-wide"
           >
             Resetear a Equilibrado
           </button>
@@ -184,10 +208,10 @@ interface WeightSliderProps {
 
 function WeightSlider({ label, value, min, max, onChange }: WeightSliderProps) {
   return (
-    <div className="space-y-1">
+    <div className="space-y-2">
       <div className="flex justify-between text-sm">
-        <span className="text-gray-700 dark:text-gray-300">{label}</span>
-        <span className="font-medium text-gray-900 dark:text-gray-100">
+        <span className="font-bold text-[var(--foreground)] uppercase tracking-wide">{label}</span>
+        <span className="font-black text-[var(--foreground)]">
           {(value * 100).toFixed(0)}%
         </span>
       </div>
@@ -197,9 +221,9 @@ function WeightSlider({ label, value, min, max, onChange }: WeightSliderProps) {
         max={max * 100}
         value={value * 100}
         onChange={(e) => onChange(Number(e.target.value) / 100)}
-        className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-600"
+        className="w-full h-3 bg-[var(--background)] border-2 border-[var(--border)] appearance-none cursor-pointer accent-[var(--primary)]"
       />
-      <div className="flex justify-between text-xs text-gray-400">
+      <div className="flex justify-between text-xs font-bold text-[var(--muted-foreground)]">
         <span>{(min * 100).toFixed(0)}%</span>
         <span>{(max * 100).toFixed(0)}%</span>
       </div>

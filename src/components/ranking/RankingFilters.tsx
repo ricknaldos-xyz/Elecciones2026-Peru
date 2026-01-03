@@ -47,15 +47,22 @@ export function RankingFilters({
 
   return (
     <div className={cn('space-y-4', className)}>
-      {/* Cargo */}
+      {/* Cargo - NEO BRUTAL */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        <label className="block text-sm font-bold text-[var(--foreground)] mb-2 uppercase tracking-wide">
           Cargo
         </label>
         <select
           value={cargo}
           onChange={(e) => onCargoChange(e.target.value as CargoType)}
-          className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className={cn(
+            'w-full px-3 py-2.5',
+            'bg-[var(--background)]',
+            'border-2 border-[var(--border)]',
+            'text-sm font-bold text-[var(--foreground)]',
+            'focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2',
+            'cursor-pointer'
+          )}
         >
           {Object.entries(CARGOS).map(([key, value]) => (
             <option key={value} value={value}>
@@ -65,16 +72,23 @@ export function RankingFilters({
         </select>
       </div>
 
-      {/* Distrito */}
+      {/* Distrito - NEO BRUTAL */}
       {showDistrito && (
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-bold text-[var(--foreground)] mb-2 uppercase tracking-wide">
             Distrito Electoral
           </label>
           <select
             value={distrito || ''}
             onChange={(e) => onDistritoChange(e.target.value || undefined)}
-            className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className={cn(
+              'w-full px-3 py-2.5',
+              'bg-[var(--background)]',
+              'border-2 border-[var(--border)]',
+              'text-sm font-bold text-[var(--foreground)]',
+              'focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2',
+              'cursor-pointer'
+            )}
           >
             <option value="">Todos los distritos</option>
             {DISTRICTS.map((d) => (
@@ -86,15 +100,22 @@ export function RankingFilters({
         </div>
       )}
 
-      {/* Partido */}
+      {/* Partido - NEO BRUTAL */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+        <label className="block text-sm font-bold text-[var(--foreground)] mb-2 uppercase tracking-wide">
           Partido Político
         </label>
         <select
           value={partyId || ''}
           onChange={(e) => onPartyChange(e.target.value || undefined)}
-          className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className={cn(
+            'w-full px-3 py-2.5',
+            'bg-[var(--background)]',
+            'border-2 border-[var(--border)]',
+            'text-sm font-bold text-[var(--foreground)]',
+            'focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2',
+            'cursor-pointer'
+          )}
         >
           <option value="">Todos los partidos</option>
           {MOCK_PARTIES.map((p) => (
@@ -105,10 +126,10 @@ export function RankingFilters({
         </select>
       </div>
 
-      {/* Min Confidence */}
+      {/* Min Confidence - NEO BRUTAL */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-          Confianza mínima de datos: {minConfidence}%
+        <label className="block text-sm font-bold text-[var(--foreground)] mb-2 uppercase tracking-wide">
+          Confianza mínima: <span className="text-[var(--primary)]">{minConfidence}%</span>
         </label>
         <input
           type="range"
@@ -117,33 +138,33 @@ export function RankingFilters({
           step={10}
           value={minConfidence}
           onChange={(e) => onMinConfidenceChange(Number(e.target.value))}
-          className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-600"
+          className="w-full h-3 bg-[var(--muted)] border-2 border-[var(--border)] appearance-none cursor-pointer accent-[var(--primary)]"
         />
-        <div className="flex justify-between text-xs text-gray-400 mt-1">
+        <div className="flex justify-between text-xs font-bold text-[var(--muted-foreground)] mt-1">
           <span>0%</span>
           <span>100%</span>
         </div>
       </div>
 
-      {/* Only Clean */}
-      <div className="flex items-center gap-2">
+      {/* Only Clean - NEO BRUTAL */}
+      <div className="flex items-center gap-3">
         <input
           type="checkbox"
           id="onlyClean"
           checked={onlyClean}
           onChange={(e) => onOnlyCleanChange(e.target.checked)}
-          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          className="w-5 h-5 bg-[var(--background)] border-2 border-[var(--border)] text-[var(--primary)] focus:ring-[var(--primary)] focus:ring-2 cursor-pointer"
         />
         <label
           htmlFor="onlyClean"
-          className="text-sm text-gray-700 dark:text-gray-300"
+          className="text-sm font-bold text-[var(--foreground)] uppercase tracking-wide cursor-pointer"
         >
           Solo sin Red Flags
         </label>
       </div>
 
-      {/* Reset */}
-      <Button variant="ghost" size="sm" onClick={onReset} className="w-full">
+      {/* Reset - NEO BRUTAL */}
+      <Button variant="outline" size="sm" onClick={onReset} className="w-full">
         Limpiar filtros
       </Button>
     </div>

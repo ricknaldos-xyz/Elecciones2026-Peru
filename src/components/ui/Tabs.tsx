@@ -43,7 +43,13 @@ export function TabList({ children, className }: TabListProps) {
   return (
     <div
       className={cn(
-        'flex border-b border-gray-200 dark:border-gray-800',
+        // NEO BRUTAL tab list
+        'flex',
+        'bg-[var(--muted)]',
+        'border-3 border-[var(--border)]',
+        'shadow-[var(--shadow-brutal-sm)]',
+        'p-1',
+        'gap-1',
         className
       )}
     >
@@ -66,11 +72,28 @@ export function Tab({ value, children, className }: TabProps) {
     <button
       onClick={() => setActiveTab(value)}
       className={cn(
-        'px-4 py-2 text-sm font-medium transition-colors',
-        'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2',
+        // NEO BRUTAL tab
+        'px-5 py-2.5',
+        'text-sm font-bold uppercase tracking-wide',
+        'transition-all duration-100',
+        'border-2',
+        'focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] focus-visible:ring-offset-2',
         isActive
-          ? 'text-blue-600 border-b-2 border-blue-600 dark:text-blue-400 dark:border-blue-400'
-          : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300',
+          ? [
+              'bg-[var(--primary)]',
+              'text-white',
+              'border-[var(--border)]',
+              'shadow-[var(--shadow-brutal-sm)]',
+              '-translate-x-0.5 -translate-y-0.5',
+            ]
+          : [
+              'bg-[var(--background)]',
+              'text-[var(--foreground)]',
+              'border-transparent',
+              'hover:border-[var(--border)]',
+              'hover:-translate-x-0.5 hover:-translate-y-0.5',
+              'hover:shadow-[var(--shadow-brutal-sm)]',
+            ],
         className
       )}
     >

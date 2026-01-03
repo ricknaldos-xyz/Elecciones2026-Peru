@@ -28,26 +28,66 @@ interface SyncLog {
   duration_ms: number | null
 }
 
-const SOURCE_LABELS: Record<string, { name: string; description: string; icon: string }> = {
+const SOURCE_LABELS: Record<string, { name: string; description: string; icon: string; frequency: string }> = {
   jne: {
     name: 'JNE',
     description: 'Candidatos y hojas de vida',
     icon: '📋',
+    frequency: 'Diario 3:00 AM',
   },
   onpe: {
     name: 'ONPE CLARIDAD',
     description: 'Financiamiento de partidos',
     icon: '💰',
-  },
-  news: {
-    name: 'Noticias',
-    description: 'Medios digitales y RSS',
-    icon: '📰',
+    frequency: 'Diario 4:00 AM',
   },
   poder_judicial: {
     name: 'Poder Judicial',
     description: 'Antecedentes judiciales',
     icon: '⚖️',
+    frequency: 'Diario 6:00 AM',
+  },
+  expanded_rss: {
+    name: 'RSS Expandido',
+    description: '15+ medios peruanos',
+    icon: '📰',
+    frequency: 'Cada 4 horas',
+  },
+  youtube: {
+    name: 'YouTube',
+    description: 'Videos y comentarios',
+    icon: '▶️',
+    frequency: 'Cada 6 horas',
+  },
+  google_news: {
+    name: 'Google News',
+    description: 'Búsqueda de noticias',
+    icon: '🔍',
+    frequency: 'Manual',
+  },
+  ai_analysis: {
+    name: 'AI Analysis',
+    description: 'Análisis con Claude',
+    icon: '🤖',
+    frequency: 'Manual',
+  },
+  tiktok: {
+    name: 'TikTok',
+    description: 'Videos (experimental)',
+    icon: '🎵',
+    frequency: 'Manual',
+  },
+  twitter: {
+    name: 'Twitter/X',
+    description: 'Tweets via Nitter',
+    icon: '🐦',
+    frequency: 'Manual',
+  },
+  news: {
+    name: 'Noticias (legacy)',
+    description: 'RSS básico',
+    icon: '📄',
+    frequency: 'Deshabilitado',
   },
 }
 
@@ -56,6 +96,20 @@ const STATUS_STYLES: Record<string, string> = {
   running: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
   started: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
   failed: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+}
+
+// Map source keys to API paths
+const API_PATHS: Record<string, string> = {
+  jne: 'jne',
+  onpe: 'onpe',
+  poder_judicial: 'judicial',
+  expanded_rss: 'news-expanded',
+  google_news: 'google-news',
+  youtube: 'youtube',
+  ai_analysis: 'ai-analysis',
+  tiktok: 'tiktok',
+  twitter: 'twitter',
+  news: 'news',
 }
 
 function formatDuration(ms: number | null): string {
@@ -153,7 +207,8 @@ export function SyncDashboard() {
     setError(null)
 
     try {
-      const response = await fetch(`/api/sync/${source}`, {
+      const apiPath = API_PATHS[source] || source
+      const response = await fetch(`/api/sync/${apiPath}`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_CRON_SECRET || 'test'}`,
@@ -413,26 +468,21 @@ export function SyncDashboard() {
 
       {/* Schedule Info */}
       <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
-        <h3 className="font-medium text-blue-900 dark:text-blue-200 mb-2">
+        <h3 className="font-medium text-blue-900 dark:text-blue-200 mb-3">
           Programación de Sincronización Automática
         </h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-          <div>
-            <p className="text-blue-700 dark:text-blue-300 font-medium">JNE</p>
-            <p className="text-blue-600 dark:text-blue-400">Diario a las 3:00 AM</p>
-          </div>
-          <div>
-            <p className="text-blue-700 dark:text-blue-300 font-medium">ONPE</p>
-            <p className="text-blue-600 dark:text-blue-400">Diario a las 4:00 AM</p>
-          </div>
-          <div>
-            <p className="text-blue-700 dark:text-blue-300 font-medium">Noticias</p>
-            <p className="text-blue-600 dark:text-blue-400">Diario a las 5:00 AM</p>
-          </div>
-          <div>
-            <p className="text-blue-700 dark:text-blue-300 font-medium">Judicial</p>
-            <p className="text-blue-600 dark:text-blue-400">Diario a las 6:00 AM</p>
-          </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 text-sm">
+          {Object.entries(SOURCE_LABELS)
+            .filter(([key]) => key !== 'news') // Exclude legacy
+            .map(([key, info]) => (
+              <div key={key} className="flex items-start gap-2">
+                <span className="text-lg">{info.icon}</span>
+                <div>
+                  <p className="text-blue-700 dark:text-blue-300 font-medium">{info.name}</p>
+                  <p className="text-blue-600 dark:text-blue-400 text-xs">{info.frequency}</p>
+                </div>
+              </div>
+            ))}
         </div>
       </div>
     </div>

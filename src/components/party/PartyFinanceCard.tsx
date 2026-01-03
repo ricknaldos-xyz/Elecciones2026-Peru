@@ -42,15 +42,15 @@ export function PartyFinanceCard({
 
   return (
     <Card className={cn('overflow-hidden', className)}>
-      <CardHeader className="bg-gradient-to-r from-red-600 to-red-700 text-white border-0">
+      <CardHeader className="bg-[var(--primary)] text-white border-b-3 border-[var(--border)]">
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-white">{partyName}</CardTitle>
-            <CardDescription className="text-red-100">
+            <CardTitle className="text-white uppercase">{partyName}</CardTitle>
+            <CardDescription className="text-white/80">
               Financiamiento {year}
             </CardDescription>
           </div>
-          <Badge variant="outline" className="bg-white/20 text-white border-white/30">
+          <Badge variant="outline" className="bg-white/20 text-white border-white/30 font-black">
             {year}
           </Badge>
         </div>
@@ -58,14 +58,14 @@ export function PartyFinanceCard({
 
       <CardContent className="p-0">
         {/* Income Section */}
-        <div className="p-5 border-b border-zinc-100 dark:border-zinc-800">
-          <h4 className="text-sm font-medium text-zinc-500 dark:text-zinc-400 mb-3 flex items-center gap-2">
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <div className="p-5 border-b-2 border-[var(--border)]">
+          <h4 className="text-sm font-black uppercase text-[var(--muted-foreground)] mb-3 flex items-center gap-2">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="square" strokeLinejoin="miter" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             Ingresos Totales
           </h4>
-          <div className="text-2xl font-bold text-zinc-900 dark:text-white mb-4">
+          <div className="text-2xl font-black text-[var(--foreground)] mb-4">
             {formatCurrency(totalIncome)}
           </div>
 
@@ -73,12 +73,12 @@ export function PartyFinanceCard({
           <div className="space-y-3">
             <div>
               <div className="flex items-center justify-between text-sm mb-1">
-                <span className="text-zinc-600 dark:text-zinc-400">Financiamiento Público</span>
-                <span className="font-medium text-green-600">{formatCurrency(publicFunding)}</span>
+                <span className="font-bold text-[var(--muted-foreground)]">Financiamiento Público</span>
+                <span className="font-black text-[var(--score-high)]">{formatCurrency(publicFunding)}</span>
               </div>
-              <div className="h-2 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
+              <div className="h-2 bg-[var(--muted)] border border-[var(--border)] overflow-hidden">
                 <div
-                  className="h-full bg-green-500 rounded-full transition-all duration-500"
+                  className="h-full bg-[var(--score-high)] transition-all duration-500"
                   style={{ width: `${publicPercentage}%` }}
                 />
               </div>
@@ -86,12 +86,12 @@ export function PartyFinanceCard({
 
             <div>
               <div className="flex items-center justify-between text-sm mb-1">
-                <span className="text-zinc-600 dark:text-zinc-400">Aportes Privados</span>
-                <span className="font-medium text-blue-600">{formatCurrency(privateFunding)}</span>
+                <span className="font-bold text-[var(--muted-foreground)]">Aportes Privados</span>
+                <span className="font-black text-[var(--score-competence)]">{formatCurrency(privateFunding)}</span>
               </div>
-              <div className="h-2 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
+              <div className="h-2 bg-[var(--muted)] border border-[var(--border)] overflow-hidden">
                 <div
-                  className="h-full bg-blue-500 rounded-full transition-all duration-500"
+                  className="h-full bg-[var(--score-competence)] transition-all duration-500"
                   style={{ width: `${100 - publicPercentage}%` }}
                 />
               </div>
@@ -100,26 +100,26 @@ export function PartyFinanceCard({
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 divide-x divide-zinc-100 dark:divide-zinc-800">
+        <div className="grid grid-cols-2 divide-x-2 divide-[var(--border)]">
           <div className="p-4 text-center">
-            <div className="text-sm text-zinc-500 dark:text-zinc-400 mb-1">Gastos</div>
-            <div className="text-lg font-semibold text-red-600">{formatCurrency(totalExpenses)}</div>
+            <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase mb-1">Gastos</div>
+            <div className="text-lg font-black text-[var(--flag-red)]">{formatCurrency(totalExpenses)}</div>
           </div>
           <div className="p-4 text-center">
-            <div className="text-sm text-zinc-500 dark:text-zinc-400 mb-1">Donantes</div>
-            <div className="text-lg font-semibold text-zinc-900 dark:text-white">{formatNumber(donorCount)}</div>
+            <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase mb-1">Donantes</div>
+            <div className="text-lg font-black text-[var(--foreground)]">{formatNumber(donorCount)}</div>
           </div>
         </div>
 
         {/* Balance */}
         <div className={cn(
-          'p-4 text-center border-t border-zinc-100 dark:border-zinc-800',
-          balance >= 0 ? 'bg-green-50 dark:bg-green-950/30' : 'bg-red-50 dark:bg-red-950/30'
+          'p-4 text-center border-t-2 border-[var(--border)]',
+          balance >= 0 ? 'bg-[var(--score-high)]/10' : 'bg-[var(--flag-red)]/10'
         )}>
-          <div className="text-sm text-zinc-500 dark:text-zinc-400 mb-1">Balance</div>
+          <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase mb-1">Balance</div>
           <div className={cn(
-            'text-xl font-bold',
-            balance >= 0 ? 'text-green-600' : 'text-red-600'
+            'text-xl font-black',
+            balance >= 0 ? 'text-[var(--score-high)]' : 'text-[var(--flag-red)]'
           )}>
             {balance >= 0 ? '+' : ''}{formatCurrency(balance)}
           </div>
@@ -151,40 +151,40 @@ export function PartyFinanceCardCompact({
     >
       <div className="flex items-center justify-between mb-3">
         <div>
-          <h4 className="font-semibold text-zinc-900 dark:text-white">{partyName}</h4>
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">{year}</p>
+          <h4 className="font-black text-[var(--foreground)] uppercase">{partyName}</h4>
+          <p className="text-sm text-[var(--muted-foreground)] font-medium">{year}</p>
         </div>
         <div className="text-right">
-          <div className="text-lg font-bold text-zinc-900 dark:text-white">
+          <div className="text-lg font-black text-[var(--foreground)]">
             {formatCurrency(totalIncome)}
           </div>
-          <div className="text-xs text-zinc-500">
+          <div className="text-xs text-[var(--muted-foreground)] font-bold">
             {donorCount} donantes
           </div>
         </div>
       </div>
 
       {/* Stacked bar */}
-      <div className="h-3 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden flex">
+      <div className="h-3 bg-[var(--muted)] border border-[var(--border)] overflow-hidden flex">
         <div
-          className="h-full bg-green-500 transition-all duration-500"
+          className="h-full bg-[var(--score-high)] transition-all duration-500"
           style={{ width: `${publicPercentage}%` }}
           title={`Público: ${formatCurrency(publicFunding)}`}
         />
         <div
-          className="h-full bg-blue-500 transition-all duration-500"
+          className="h-full bg-[var(--score-competence)] transition-all duration-500"
           style={{ width: `${100 - publicPercentage}%` }}
           title={`Privado: ${formatCurrency(privateFunding)}`}
         />
       </div>
 
-      <div className="flex items-center justify-between mt-2 text-xs text-zinc-500">
+      <div className="flex items-center justify-between mt-2 text-xs text-[var(--muted-foreground)] font-bold">
         <span className="flex items-center gap-1">
-          <span className="w-2 h-2 bg-green-500 rounded-full" />
+          <span className="w-2 h-2 bg-[var(--score-high)] border border-[var(--border)]" />
           Público: {publicPercentage.toFixed(0)}%
         </span>
         <span className="flex items-center gap-1">
-          <span className="w-2 h-2 bg-blue-500 rounded-full" />
+          <span className="w-2 h-2 bg-[var(--score-competence)] border border-[var(--border)]" />
           Privado: {(100 - publicPercentage).toFixed(0)}%
         </span>
       </div>

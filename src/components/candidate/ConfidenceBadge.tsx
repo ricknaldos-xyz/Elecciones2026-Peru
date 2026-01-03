@@ -20,20 +20,20 @@ function getConfidenceStatus(value: number): 'high' | 'medium' | 'low' {
 const statusConfig = {
   high: {
     label: 'Data alta',
-    color: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-300',
-    dot: 'bg-emerald-500',
+    color: 'bg-[var(--score-high)]/15 text-[var(--score-high)] border-[var(--score-high)]/30',
+    dot: 'bg-[var(--score-high)]',
     description: 'Datos completos y verificables',
   },
   medium: {
     label: 'Data media',
-    color: 'bg-amber-50 text-amber-700 dark:bg-amber-950/50 dark:text-amber-300',
-    dot: 'bg-amber-500',
+    color: 'bg-[var(--score-medium)]/15 text-[var(--score-medium)] border-[var(--score-medium)]/30',
+    dot: 'bg-[var(--score-medium)]',
     description: 'Algunos datos pueden estar incompletos',
   },
   low: {
     label: 'Data baja',
-    color: 'bg-red-50 text-red-700 dark:bg-red-950/50 dark:text-red-300',
-    dot: 'bg-red-500',
+    color: 'bg-[var(--flag-red)]/15 text-[var(--flag-red)] border-[var(--flag-red)]/30',
+    dot: 'bg-[var(--flag-red)]',
     description: 'Información limitada. El puntaje puede cambiar.',
   },
 }
@@ -56,16 +56,16 @@ export function ConfidenceBadge({ value, className, showLabel = false, size = 's
     <Tooltip content={config.description}>
       <span
         className={cn(
-          'inline-flex items-center font-medium rounded-lg',
+          'inline-flex items-center font-bold border-2',
           sizeStyles[size],
           config.color,
           className
         )}
       >
-        <span className={cn('rounded-full flex-shrink-0', dotSizes[size], config.dot)} />
-        {showLabel && <span>Confianza:</span>}
-        <span>{config.label}</span>
-        <span className="opacity-75">{value.toFixed(0)}%</span>
+        <span className={cn('flex-shrink-0', dotSizes[size], config.dot)} />
+        {showLabel && <span className="uppercase">Confianza:</span>}
+        <span className="uppercase">{config.label}</span>
+        <span className="font-black">{value.toFixed(0)}%</span>
       </span>
     </Tooltip>
   )

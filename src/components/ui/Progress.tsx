@@ -15,17 +15,17 @@ interface ProgressProps {
 }
 
 const variantStyles: Record<ProgressVariant, string> = {
-  default: 'bg-blue-500',
-  success: 'bg-emerald-500',
-  warning: 'bg-amber-500',
-  danger: 'bg-red-500',
-  primary: 'bg-red-600',
+  default: 'bg-[var(--score-good)]',
+  success: 'bg-[var(--score-excellent)]',
+  warning: 'bg-[var(--score-medium)]',
+  danger: 'bg-[var(--flag-red)]',
+  primary: 'bg-[var(--primary)]',
 }
 
 const sizeStyles = {
-  sm: 'h-1',
-  md: 'h-1.5',
-  lg: 'h-2',
+  sm: 'h-3',
+  md: 'h-4',
+  lg: 'h-6',
 }
 
 export function Progress({
@@ -42,10 +42,14 @@ export function Progress({
   return (
     <div className={cn('w-full', className)}>
       {(showLabel || label) && (
-        <div className="flex justify-between mb-1">
-          {label && <span className="text-sm text-zinc-600 dark:text-zinc-400">{label}</span>}
+        <div className="flex justify-between mb-2">
+          {label && (
+            <span className="text-sm font-bold text-[var(--foreground)] uppercase tracking-wide">
+              {label}
+            </span>
+          )}
           {showLabel && (
-            <span className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
+            <span className="text-sm font-bold text-[var(--foreground)]">
               {Math.round(percentage)}%
             </span>
           )}
@@ -53,12 +57,18 @@ export function Progress({
       )}
       <div
         className={cn(
-          'w-full bg-zinc-200 dark:bg-zinc-700 rounded-full overflow-hidden',
+          // Container - NEO BRUTAL
+          'w-full bg-[var(--muted)]',
+          'border-2 border-[var(--border)]',
+          'overflow-hidden',
           sizeStyles[size]
         )}
       >
         <div
-          className={cn('h-full rounded-full transition-all duration-500', variantStyles[variant])}
+          className={cn(
+            'h-full transition-all duration-300',
+            variantStyles[variant]
+          )}
           style={{ width: `${percentage}%` }}
         />
       </div>

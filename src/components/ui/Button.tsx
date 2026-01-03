@@ -15,22 +15,34 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variantStyles: Record<ButtonVariant, string> = {
-  primary:
-    'bg-red-600 text-white hover:bg-red-700 active:bg-red-800 dark:bg-red-500 dark:hover:bg-red-600',
-  secondary:
-    'bg-zinc-100 text-zinc-900 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700',
-  outline:
-    'border border-zinc-200 bg-transparent text-zinc-700 hover:bg-zinc-50 hover:border-zinc-300 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800',
-  ghost:
-    'bg-transparent text-zinc-700 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:bg-zinc-800',
-  danger:
-    'bg-red-600 text-white hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600',
+  primary: [
+    'bg-[var(--primary)] text-white',
+    'hover:bg-[var(--primary-hover)]',
+    'active:bg-[var(--primary-active)]',
+  ].join(' '),
+  secondary: [
+    'bg-[var(--muted)] text-[var(--foreground)]',
+    'hover:bg-[var(--background-accent)]',
+  ].join(' '),
+  outline: [
+    'bg-[var(--background)] text-[var(--foreground)]',
+    'hover:bg-[var(--background-secondary)]',
+  ].join(' '),
+  ghost: [
+    'bg-transparent text-[var(--foreground)]',
+    'border-transparent shadow-none',
+    'hover:bg-[var(--muted)] hover:border-[var(--border)] hover:shadow-[var(--shadow-brutal-sm)]',
+  ].join(' '),
+  danger: [
+    'bg-[var(--flag-red)] text-white',
+    'hover:brightness-90',
+  ].join(' '),
 }
 
 const sizeStyles: Record<ButtonSize, string> = {
-  sm: 'text-sm px-3 py-1.5 gap-1.5',
-  md: 'text-sm px-4 py-2 gap-2',
-  lg: 'text-base px-6 py-3 gap-2',
+  sm: 'text-sm px-4 py-2 gap-2',
+  md: 'text-base px-5 py-2.5 gap-2',
+  lg: 'text-lg px-8 py-3.5 gap-3',
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -48,13 +60,33 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
+    const isGhost = variant === 'ghost'
+
     return (
       <button
         ref={ref}
         className={cn(
-          'inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200',
-          'focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2',
-          'disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none',
+          // Base styles - NEO BRUTAL
+          'inline-flex items-center justify-center',
+          'font-bold uppercase tracking-wide',
+          // Border & Shadow
+          !isGhost && 'border-3 border-[var(--border)]',
+          !isGhost && 'shadow-[var(--shadow-brutal)]',
+          // Transitions
+          'transition-all duration-100 ease-out',
+          // Hover - lift up
+          !isGhost && 'hover:-translate-x-0.5 hover:-translate-y-0.5',
+          !isGhost && 'hover:shadow-[var(--shadow-brutal-hover)]',
+          // Active - press down
+          !isGhost && 'active:translate-x-0.5 active:translate-y-0.5',
+          !isGhost && 'active:shadow-[var(--shadow-brutal-pressed)]',
+          // Focus
+          'focus:outline-none focus-visible:ring-3 focus-visible:ring-[var(--primary)] focus-visible:ring-offset-2',
+          // Disabled
+          'disabled:opacity-50 disabled:cursor-not-allowed',
+          'disabled:hover:translate-x-0 disabled:hover:translate-y-0',
+          'disabled:hover:shadow-[var(--shadow-brutal)]',
+          // Variant & Size
           variantStyles[variant],
           sizeStyles[size],
           className
@@ -64,7 +96,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {isLoading ? (
           <svg
-            className="animate-spin h-4 w-4"
+            className="animate-spin h-5 w-5"
             fill="none"
             viewBox="0 0 24 24"
           >
