@@ -59,19 +59,20 @@ function getBarColor(type: ScoreType, value: number): string {
 }
 
 function getTextColor(type: ScoreType, value: number): string {
+  // Usar colores de texto de alto contraste para mejor legibilidad
   if (type === 'integrity') {
-    if (value >= 90) return 'text-[var(--score-excellent)]'
-    if (value >= 70) return 'text-[var(--score-medium)]'
-    return 'text-[var(--score-low)]'
+    if (value >= 90) return 'text-[var(--score-excellent-text)]'
+    if (value >= 70) return 'text-[var(--score-medium-text)]'
+    return 'text-[var(--score-low-text)]'
   }
   if (type === 'confidence') {
-    if (value >= 70) return 'text-[var(--score-excellent)]'
-    if (value >= 40) return 'text-[var(--score-medium)]'
-    return 'text-[var(--score-low)]'
+    if (value >= 70) return 'text-[var(--score-excellent-text)]'
+    if (value >= 40) return 'text-[var(--score-medium-text)]'
+    return 'text-[var(--score-low-text)]'
   }
-  if (value >= 70) return 'text-[var(--score-excellent)]'
-  if (value >= 40) return 'text-[var(--score-good)]'
-  return 'text-[var(--score-medium)]'
+  if (value >= 70) return 'text-[var(--score-excellent-text)]'
+  if (value >= 40) return 'text-[var(--score-good-text)]'
+  return 'text-[var(--score-medium-text)]'
 }
 
 export function SubScoreBar({

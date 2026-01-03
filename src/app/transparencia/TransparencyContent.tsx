@@ -87,10 +87,10 @@ export function TransparencyContent() {
         </div>
 
         <div className="bg-[var(--score-competence)]/10 border-2 border-[var(--score-competence)] p-3 sm:p-4 flex items-start gap-2 sm:gap-3">
-          <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--score-competence)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--score-competence-text)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="square" strokeLinejoin="miter" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <div className="text-xs sm:text-sm text-[var(--score-competence)] font-medium">
+          <div className="text-xs sm:text-sm text-[var(--score-competence-text)] font-medium">
             <strong>Fuente oficial:</strong> Portal CLARIDAD de la ONPE. Los datos son declaraciones públicas de los partidos.
             <span className="hidden sm:inline"> El financiamiento público directo para 2026 asciende a S/ 8,881,057.39 a distribuir entre 10 partidos.</span>
           </div>
@@ -180,8 +180,8 @@ export function TransparencyContent() {
               </div>
             </div>
           ) : error ? (
-            <div className="p-8 text-center text-[var(--flag-red)]">
-              <svg className="w-12 h-12 mx-auto mb-3 text-[var(--flag-red)]/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <div className="p-8 text-center text-[var(--flag-red-text)]">
+              <svg className="w-12 h-12 mx-auto mb-3 text-[var(--flag-red-text)]/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="square" strokeLinejoin="miter" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
               <p className="font-bold">Error: {error}</p>
@@ -230,13 +230,13 @@ export function TransparencyContent() {
                     <div className="hidden md:flex items-center gap-6">
                       <div className="text-right">
                         <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase">Público</div>
-                        <div className="font-black text-[var(--score-high)]">
+                        <div className="font-black text-[var(--score-excellent-text)]">
                           {formatCurrency(item.latestFinance!.public_funding)}
                         </div>
                       </div>
                       <div className="text-right">
                         <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase">Privado</div>
-                        <div className="font-black text-[var(--score-competence)]">
+                        <div className="font-black text-[var(--score-competence-text)]">
                           {formatCurrency(item.latestFinance!.private_funding_total)}
                         </div>
                       </div>

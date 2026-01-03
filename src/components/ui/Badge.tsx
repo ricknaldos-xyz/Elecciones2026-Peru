@@ -15,13 +15,13 @@ interface BadgeProps {
 
 const variantStyles: Record<BadgeVariant, string> = {
   default: 'bg-[var(--muted)] text-[var(--foreground)]',
-  primary: 'bg-[var(--primary)] text-white',
+  primary: 'bg-[var(--primary)] text-[var(--primary-foreground)]',
   success: 'bg-[var(--score-excellent)] text-white',
-  warning: 'bg-[var(--score-medium)] text-black',
+  warning: 'bg-[var(--score-medium-bg)] text-[var(--score-medium-text)] border-[var(--score-medium)]',
   danger: 'bg-[var(--flag-red)] text-white',
   destructive: 'bg-[var(--flag-red)] text-white',
   info: 'bg-[var(--score-good)] text-white',
-  gray: 'bg-[var(--muted)] text-[var(--muted-foreground)]',
+  gray: 'bg-[var(--muted)] text-[var(--flag-gray-text)]',
   secondary: 'bg-[var(--background-secondary)] text-[var(--foreground)]',
   outline: 'bg-[var(--background)] text-[var(--foreground)]',
 }

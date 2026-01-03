@@ -39,9 +39,9 @@ const flagTypeLabels: Record<string, string> = {
 }
 
 const severityColors: Record<string, { bg: string; text: string; border: string }> = {
-  RED: { bg: 'bg-[var(--flag-red)]/10', text: 'text-[var(--flag-red)]', border: 'border-[var(--flag-red)]' },
-  AMBER: { bg: 'bg-[var(--flag-amber)]/10', text: 'text-[var(--flag-amber)]', border: 'border-[var(--flag-amber)]' },
-  GRAY: { bg: 'bg-[var(--muted)]', text: 'text-[var(--muted-foreground)]', border: 'border-[var(--border)]' },
+  RED: { bg: 'bg-[var(--flag-red-bg)]', text: 'text-[var(--flag-red-text)]', border: 'border-[var(--flag-red)]' },
+  AMBER: { bg: 'bg-[var(--flag-amber-bg)]', text: 'text-[var(--flag-amber-text)]', border: 'border-[var(--flag-amber)]' },
+  GRAY: { bg: 'bg-[var(--muted)]', text: 'text-[var(--flag-gray-text)]', border: 'border-[var(--border)]' },
 }
 
 function formatCurrency(value: number): string {
@@ -212,14 +212,14 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                 <div className={cn(
                   'p-2.5 border-2 flex-shrink-0',
                   candidate.flags.some(f => f.severity === 'RED')
-                    ? 'bg-[var(--flag-red)]/20 border-[var(--flag-red)]'
-                    : 'bg-[var(--flag-amber)]/20 border-[var(--flag-amber)]'
+                    ? 'bg-[var(--flag-red-bg)] border-[var(--flag-red)]'
+                    : 'bg-[var(--flag-amber-bg)] border-[var(--flag-amber)]'
                 )}>
                   <svg className={cn(
                     'w-5 h-5',
                     candidate.flags.some(f => f.severity === 'RED')
-                      ? 'text-[var(--flag-red)]'
-                      : 'text-[var(--flag-amber)]'
+                      ? 'text-[var(--flag-red-text)]'
+                      : 'text-[var(--flag-amber-text)]'
                   )} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="square" strokeLinejoin="miter" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                   </svg>
@@ -228,16 +228,16 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                   <h3 className={cn(
                     'font-black uppercase tracking-wide mb-1',
                     candidate.flags.some(f => f.severity === 'RED')
-                      ? 'text-[var(--flag-red)]'
-                      : 'text-[var(--flag-amber)]'
+                      ? 'text-[var(--flag-red-text)]'
+                      : 'text-[var(--flag-amber-text)]'
                   )}>
                     {candidate.flags.length} Alerta{candidate.flags.length > 1 ? 's' : ''} Registrada{candidate.flags.length > 1 ? 's' : ''}
                   </h3>
                   <p className={cn(
                     'text-sm font-medium mb-3',
                     candidate.flags.some(f => f.severity === 'RED')
-                      ? 'text-[var(--flag-red)]'
-                      : 'text-[var(--flag-amber)]'
+                      ? 'text-[var(--flag-red-text)]'
+                      : 'text-[var(--flag-amber-text)]'
                   )}>
                     Este candidato tiene antecedentes verificados que afectan su puntaje de integridad.
                   </p>
@@ -311,9 +311,9 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                         <div key={idx} className="flex gap-4 pb-4 border-b-2 border-[var(--border)] last:border-0 last:pb-0">
                           <div className={cn(
                             'w-10 h-10 border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0',
-                            edu.level === 'Doctorado' ? 'bg-[var(--score-integrity)]/20 text-[var(--score-integrity)]' :
-                            edu.level === 'Maestría' ? 'bg-[var(--score-transparency)]/20 text-[var(--score-transparency)]' :
-                            edu.level === 'Universitario' || edu.level === 'Título Profesional' ? 'bg-[var(--score-competence)]/20 text-[var(--score-competence)]' :
+                            edu.level === 'Doctorado' ? 'bg-[var(--score-integrity)]/20 text-[var(--score-integrity-text)]' :
+                            edu.level === 'Maestría' ? 'bg-[var(--score-transparency)]/20 text-[var(--score-transparency-text)]' :
+                            edu.level === 'Universitario' || edu.level === 'Título Profesional' ? 'bg-[var(--score-competence)]/20 text-[var(--score-competence-text)]' :
                             'bg-[var(--muted)] text-[var(--muted-foreground)]'
                           )}>
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -362,7 +362,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                         <div key={idx} className="flex gap-4 pb-4 border-b-2 border-[var(--border)] last:border-0 last:pb-0">
                           <div className={cn(
                             'w-10 h-10 border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0',
-                            exp.type === 'publico' ? 'bg-[var(--score-transparency)]/20 text-[var(--score-transparency)]' : 'bg-[var(--score-competence)]/20 text-[var(--score-competence)]'
+                            exp.type === 'publico' ? 'bg-[var(--score-transparency)]/20 text-[var(--score-transparency-text)]' : 'bg-[var(--score-competence)]/20 text-[var(--score-competence-text)]'
                           )}>
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                               <path strokeLinecap="square" strokeLinejoin="miter" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -401,9 +401,9 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                         <div key={idx} className="flex gap-4 pb-4 border-b-2 border-[var(--border)] last:border-0 last:pb-0">
                           <div className={cn(
                             'w-10 h-10 border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0',
-                            pol.type === 'cargo_electivo' ? 'bg-[var(--flag-red)]/20 text-[var(--flag-red)]' :
-                            pol.type === 'cargo_partidario' ? 'bg-[var(--flag-amber)]/20 text-[var(--flag-amber)]' :
-                            pol.type === 'candidatura' ? 'bg-[var(--score-integrity)]/20 text-[var(--score-integrity)]' :
+                            pol.type === 'cargo_electivo' ? 'bg-[var(--flag-red-bg)] text-[var(--flag-red-text)]' :
+                            pol.type === 'cargo_partidario' ? 'bg-[var(--flag-amber-bg)] text-[var(--flag-amber-text)]' :
+                            pol.type === 'candidatura' ? 'bg-[var(--score-integrity)]/20 text-[var(--score-integrity-text)]' :
                             'bg-[var(--muted)] text-[var(--muted-foreground)]'
                           )}>
                             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -543,7 +543,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
               {details && details.penal_sentences.length > 0 && (
                 <Card className="border-[var(--flag-red)]">
                   <CardHeader className="bg-[var(--flag-red)]/10">
-                    <CardTitle className="text-[var(--flag-red)] flex items-center gap-2">
+                    <CardTitle className="text-[var(--flag-red-text)] flex items-center gap-2">
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="square" strokeLinejoin="miter" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                       </svg>
@@ -574,7 +574,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
               {details && details.civil_sentences.length > 0 && (
                 <Card className="border-[var(--flag-amber)]">
                   <CardHeader className="bg-[var(--flag-amber)]/10">
-                    <CardTitle className="text-[var(--flag-amber)] flex items-center gap-2">
+                    <CardTitle className="text-[var(--flag-amber-text)] flex items-center gap-2">
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="square" strokeLinejoin="miter" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
                       </svg>
@@ -589,7 +589,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                           <span className="text-xs text-[var(--muted-foreground)] font-mono">{sentence.case_number}</span>
                         </div>
                         {sentence.amount && (
-                          <p className="text-lg font-black text-[var(--flag-amber)] mb-2">
+                          <p className="text-lg font-black text-[var(--flag-amber-text)] mb-2">
                             Monto: {formatCurrency(sentence.amount)}
                           </p>
                         )}
@@ -680,8 +680,8 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                 <Card>
                   <CardContent className="py-12">
                     <div className="text-center">
-                      <div className="w-16 h-16 mx-auto mb-4 bg-[var(--score-high)]/20 border-3 border-[var(--score-high)] flex items-center justify-center">
-                        <svg className="w-8 h-8 text-[var(--score-high)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <div className="w-16 h-16 mx-auto mb-4 bg-[var(--score-excellent-bg)] border-3 border-[var(--score-excellent)] flex items-center justify-center">
+                        <svg className="w-8 h-8 text-[var(--score-excellent-text)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                           <path strokeLinecap="square" strokeLinejoin="miter" d="M5 13l4 4L19 7" />
                         </svg>
                       </div>
@@ -753,19 +753,19 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                           <span className="font-bold text-[var(--foreground)]">{breakdown.integrity.base.toFixed(0)}</span>
                         </div>
                         {breakdown.integrity.penal_penalty > 0 && (
-                          <div className="flex justify-between text-[var(--flag-red)]">
+                          <div className="flex justify-between text-[var(--flag-red-text)]">
                             <span>Sentencias penales</span>
                             <span className="font-bold">-{breakdown.integrity.penal_penalty.toFixed(0)}</span>
                           </div>
                         )}
                         {breakdown.integrity.civil_penalties.map((penalty, idx) => (
-                          <div key={idx} className="flex justify-between text-[var(--flag-amber)]">
+                          <div key={idx} className="flex justify-between text-[var(--flag-amber-text)]">
                             <span>Sentencia civil ({penalty.type})</span>
                             <span className="font-bold">-{penalty.penalty.toFixed(0)}</span>
                           </div>
                         ))}
                         {breakdown.integrity.resignation_penalty > 0 && (
-                          <div className="flex justify-between text-[var(--flag-amber)]">
+                          <div className="flex justify-between text-[var(--flag-amber-text)]">
                             <span>Renuncias a partidos</span>
                             <span className="font-bold">-{breakdown.integrity.resignation_penalty.toFixed(0)}</span>
                           </div>

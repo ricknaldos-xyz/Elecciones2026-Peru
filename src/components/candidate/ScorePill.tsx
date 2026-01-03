@@ -24,23 +24,24 @@ const modeLabels: Record<PresetType, string> = {
 }
 
 function getScoreColor(score: number): { text: string; bg: string; border: string } {
+  // Usar colores de texto de alto contraste para mejor legibilidad
   if (score >= 80) return {
-    text: 'text-[var(--score-excellent)]',
+    text: 'text-[var(--score-excellent-text)]',
     bg: 'bg-[var(--score-excellent-bg)]',
     border: 'border-[var(--score-excellent)]',
   }
   if (score >= 60) return {
-    text: 'text-[var(--score-good)]',
+    text: 'text-[var(--score-good-text)]',
     bg: 'bg-[var(--score-good-bg)]',
     border: 'border-[var(--score-good)]',
   }
   if (score >= 40) return {
-    text: 'text-[var(--score-medium)]',
+    text: 'text-[var(--score-medium-text)]',
     bg: 'bg-[var(--score-medium-bg)]',
     border: 'border-[var(--score-medium)]',
   }
   return {
-    text: 'text-[var(--score-low)]',
+    text: 'text-[var(--score-low-text)]',
     bg: 'bg-[var(--score-low-bg)]',
     border: 'border-[var(--score-low)]',
   }

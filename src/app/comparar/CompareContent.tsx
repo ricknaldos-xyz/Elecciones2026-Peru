@@ -36,15 +36,16 @@ function getScoreByMode(
 }
 
 function getScoreColor(score: number): string {
-  if (score >= 80) return 'text-[var(--score-high)]'
-  if (score >= 60) return 'text-[var(--score-competence)]'
-  if (score >= 40) return 'text-[var(--score-medium)]'
-  return 'text-[var(--score-low)]'
+  // Usar colores de texto de alto contraste
+  if (score >= 80) return 'text-[var(--score-excellent-text)]'
+  if (score >= 60) return 'text-[var(--score-good-text)]'
+  if (score >= 40) return 'text-[var(--score-medium-text)]'
+  return 'text-[var(--score-low-text)]'
 }
 
 function getBarColor(score: number): string {
-  if (score >= 80) return 'bg-[var(--score-high)]'
-  if (score >= 60) return 'bg-[var(--score-competence)]'
+  if (score >= 80) return 'bg-[var(--score-excellent)]'
+  if (score >= 60) return 'bg-[var(--score-good)]'
   if (score >= 40) return 'bg-[var(--score-medium)]'
   return 'bg-[var(--score-low)]'
 }
@@ -158,7 +159,7 @@ export function CompareContent() {
         {error ? (
           <Card>
             <CardContent className="py-12 text-center">
-              <div className="text-[var(--flag-red)] font-bold">
+              <div className="text-[var(--flag-red-text)] font-bold">
                 Error: {error}
               </div>
             </CardContent>
@@ -342,7 +343,7 @@ export function CompareContent() {
                                   <div className="flex flex-col items-center gap-2">
                                     <div className={cn(
                                       'font-black text-lg',
-                                      isBest ? 'text-[var(--score-high)]' : 'text-[var(--foreground)]'
+                                      isBest ? 'text-[var(--score-excellent-text)]' : 'text-[var(--foreground)]'
                                     )}>
                                       {value.toFixed(1)}
                                       {isBest && (

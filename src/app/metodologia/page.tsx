@@ -40,7 +40,7 @@ export default function MetodologiaPage() {
               <div className="p-4 bg-[var(--score-competence)]/10 border-2 border-[var(--score-competence)]">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 bg-[var(--score-competence)]" />
-                  <span className="font-black text-[var(--score-competence)] uppercase">Competencia</span>
+                  <span className="font-black text-[var(--score-competence-text)] uppercase">Competencia</span>
                 </div>
                 <p className="text-sm font-medium text-[var(--foreground)]">
                   Educación, experiencia profesional y capacidad de liderazgo demostrada.
@@ -49,7 +49,7 @@ export default function MetodologiaPage() {
               <div className="p-4 bg-[var(--score-integrity)]/10 border-2 border-[var(--score-integrity)]">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 bg-[var(--score-integrity)]" />
-                  <span className="font-black text-[var(--score-integrity)] uppercase">Integridad</span>
+                  <span className="font-black text-[var(--score-integrity-text)] uppercase">Integridad</span>
                 </div>
                 <p className="text-sm font-medium text-[var(--foreground)]">
                   Ausencia de sentencias penales, civiles y comportamiento ético verificable.
@@ -58,7 +58,7 @@ export default function MetodologiaPage() {
               <div className="p-4 bg-[var(--score-transparency)]/10 border-2 border-[var(--score-transparency)]">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 bg-[var(--score-transparency)]" />
-                  <span className="font-black text-[var(--score-transparency)] uppercase">Transparencia</span>
+                  <span className="font-black text-[var(--score-transparency-text)] uppercase">Transparencia</span>
                 </div>
                 <p className="text-sm font-medium text-[var(--foreground)]">
                   Calidad y completitud de la información declarada en el DJHV.
@@ -317,27 +317,27 @@ export default function MetodologiaPage() {
                 <tbody className="text-[var(--muted-foreground)]">
                   <tr className="border-b border-[var(--border)]">
                     <td className="py-1.5 font-medium">Sentencia penal firme (1)</td>
-                    <td className="text-center text-[var(--flag-red)] font-bold">-70</td>
+                    <td className="text-center text-[var(--flag-red-text)] font-bold">-70</td>
                     <td className="text-center"><Badge variant="destructive" size="sm">RED</Badge></td>
                   </tr>
                   <tr className="border-b border-[var(--border)]">
                     <td className="py-1.5 font-medium">Sentencias penales (2+)</td>
-                    <td className="text-center text-[var(--flag-red)] font-bold">-85 (cap)</td>
+                    <td className="text-center text-[var(--flag-red-text)] font-bold">-85 (cap)</td>
                     <td className="text-center"><Badge variant="destructive" size="sm">RED</Badge></td>
                   </tr>
                   <tr className="border-b border-[var(--border)]">
                     <td className="py-1.5 font-medium">Violencia familiar</td>
-                    <td className="text-center text-[var(--flag-amber)] font-bold">-50</td>
+                    <td className="text-center text-[var(--flag-amber-text)] font-bold">-50</td>
                     <td className="text-center"><Badge variant="warning" size="sm">AMBER</Badge></td>
                   </tr>
                   <tr className="border-b border-[var(--border)]">
                     <td className="py-1.5 font-medium">Omisión alimentaria</td>
-                    <td className="text-center text-[var(--flag-amber)] font-bold">-35</td>
+                    <td className="text-center text-[var(--flag-amber-text)] font-bold">-35</td>
                     <td className="text-center"><Badge variant="warning" size="sm">AMBER</Badge></td>
                   </tr>
                   <tr className="border-b border-[var(--border)]">
                     <td className="py-1.5 font-medium">Sentencia laboral</td>
-                    <td className="text-center text-[var(--flag-amber)] font-bold">-25</td>
+                    <td className="text-center text-[var(--flag-amber-text)] font-bold">-25</td>
                     <td className="text-center"><Badge variant="warning" size="sm">AMBER</Badge></td>
                   </tr>
                   <tr className="border-b border-[var(--border)]">
@@ -410,17 +410,17 @@ export default function MetodologiaPage() {
             </p>
 
             <div className="flex gap-4">
-              <div className="flex-1 p-3 bg-[var(--score-high)]/10 border-2 border-[var(--score-high)] text-center">
-                <div className="font-black text-[var(--score-high)]">70-100</div>
-                <div className="text-xs font-bold text-[var(--score-high)] uppercase">Alta confianza</div>
+              <div className="flex-1 p-3 bg-[var(--score-excellent-bg)] border-2 border-[var(--score-excellent)] text-center">
+                <div className="font-black text-[var(--score-excellent-text)]">70-100</div>
+                <div className="text-xs font-bold text-[var(--score-excellent-text)] uppercase">Alta confianza</div>
               </div>
-              <div className="flex-1 p-3 bg-[var(--score-medium)]/10 border-2 border-[var(--score-medium)] text-center">
-                <div className="font-black text-[var(--score-medium)]">40-69</div>
-                <div className="text-xs font-bold text-[var(--score-medium)] uppercase">Media</div>
+              <div className="flex-1 p-3 bg-[var(--score-medium-bg)] border-2 border-[var(--score-medium)] text-center">
+                <div className="font-black text-[var(--score-medium-text)]">40-69</div>
+                <div className="text-xs font-bold text-[var(--score-medium-text)] uppercase">Media</div>
               </div>
-              <div className="flex-1 p-3 bg-[var(--score-low)]/10 border-2 border-[var(--score-low)] text-center">
-                <div className="font-black text-[var(--score-low)]">0-39</div>
-                <div className="text-xs font-bold text-[var(--score-low)] uppercase">Baja</div>
+              <div className="flex-1 p-3 bg-[var(--score-low-bg)] border-2 border-[var(--score-low)] text-center">
+                <div className="font-black text-[var(--score-low-text)]">0-39</div>
+                <div className="text-xs font-bold text-[var(--score-low-text)] uppercase">Baja</div>
               </div>
             </div>
           </CardContent>
@@ -437,25 +437,25 @@ export default function MetodologiaPage() {
             </p>
             <ul className="space-y-2 text-[var(--muted-foreground)]">
               <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-[var(--score-high)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <svg className="w-5 h-5 text-[var(--score-excellent-text)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M5 13l4 4L19 7" />
                 </svg>
                 <span className="font-medium"><strong>DJHV del JNE</strong> - Declaración Jurada de Hoja de Vida</span>
               </li>
               <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-[var(--score-high)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <svg className="w-5 h-5 text-[var(--score-excellent-text)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M5 13l4 4L19 7" />
                 </svg>
                 <span className="font-medium"><strong>Infogob</strong> - Portal de información electoral del JNE</span>
               </li>
               <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-[var(--score-high)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <svg className="w-5 h-5 text-[var(--score-excellent-text)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M5 13l4 4L19 7" />
                 </svg>
                 <span className="font-medium"><strong>Poder Judicial</strong> - Consulta de sentencias firmes</span>
               </li>
               <li className="flex items-start gap-2">
-                <svg className="w-5 h-5 text-[var(--score-high)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <svg className="w-5 h-5 text-[var(--score-excellent-text)] flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M5 13l4 4L19 7" />
                 </svg>
                 <span className="font-medium"><strong>SUNEDU</strong> - Verificación de grados académicos</span>
@@ -467,7 +467,7 @@ export default function MetodologiaPage() {
         {/* Disclaimer */}
         <Card className="mb-8 border-[var(--flag-amber)] bg-[var(--flag-amber)]/10">
           <CardContent className="p-6">
-            <h3 className="font-black text-[var(--flag-amber)] mb-2 uppercase">
+            <h3 className="font-black text-[var(--flag-amber-text)] mb-2 uppercase">
               Disclaimer Importante
             </h3>
             <p className="text-sm text-[var(--foreground)] font-medium">

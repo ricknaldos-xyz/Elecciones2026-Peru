@@ -12,11 +12,11 @@ interface FlagChipProps {
   className?: string
 }
 
-// NEO BRUTAL severity styles - solid colors, no transparency
+// NEO BRUTAL severity styles - usando colores de texto de alto contraste
 const severityStyles: Record<FlagSeverity, string> = {
-  RED: 'bg-[var(--flag-red-bg)] text-[var(--flag-red)]',
-  AMBER: 'bg-[var(--flag-amber-bg)] text-[var(--flag-amber)]',
-  GRAY: 'bg-[var(--muted)] text-[var(--muted-foreground)]',
+  RED: 'bg-[var(--flag-red-bg)] text-[var(--flag-red-text)]',
+  AMBER: 'bg-[var(--flag-amber-bg)] text-[var(--flag-amber-text)]',
+  GRAY: 'bg-[var(--muted)] text-[var(--flag-gray-text)]',
 }
 
 const severityBorders: Record<FlagSeverity, string> = {

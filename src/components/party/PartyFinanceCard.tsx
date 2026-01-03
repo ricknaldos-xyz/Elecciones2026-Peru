@@ -74,7 +74,7 @@ export function PartyFinanceCard({
             <div>
               <div className="flex items-center justify-between text-sm mb-1">
                 <span className="font-bold text-[var(--muted-foreground)]">Financiamiento Público</span>
-                <span className="font-black text-[var(--score-high)]">{formatCurrency(publicFunding)}</span>
+                <span className="font-black text-[var(--score-excellent-text)]">{formatCurrency(publicFunding)}</span>
               </div>
               <div className="h-2 bg-[var(--muted)] border border-[var(--border)] overflow-hidden">
                 <div
@@ -87,7 +87,7 @@ export function PartyFinanceCard({
             <div>
               <div className="flex items-center justify-between text-sm mb-1">
                 <span className="font-bold text-[var(--muted-foreground)]">Aportes Privados</span>
-                <span className="font-black text-[var(--score-competence)]">{formatCurrency(privateFunding)}</span>
+                <span className="font-black text-[var(--score-competence-text)]">{formatCurrency(privateFunding)}</span>
               </div>
               <div className="h-2 bg-[var(--muted)] border border-[var(--border)] overflow-hidden">
                 <div
@@ -103,7 +103,7 @@ export function PartyFinanceCard({
         <div className="grid grid-cols-2 divide-x-2 divide-[var(--border)]">
           <div className="p-4 text-center">
             <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase mb-1">Gastos</div>
-            <div className="text-lg font-black text-[var(--flag-red)]">{formatCurrency(totalExpenses)}</div>
+            <div className="text-lg font-black text-[var(--flag-red-text)]">{formatCurrency(totalExpenses)}</div>
           </div>
           <div className="p-4 text-center">
             <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase mb-1">Donantes</div>
@@ -114,12 +114,12 @@ export function PartyFinanceCard({
         {/* Balance */}
         <div className={cn(
           'p-4 text-center border-t-2 border-[var(--border)]',
-          balance >= 0 ? 'bg-[var(--score-high)]/10' : 'bg-[var(--flag-red)]/10'
+          balance >= 0 ? 'bg-[var(--score-excellent-bg)]' : 'bg-[var(--flag-red-bg)]'
         )}>
           <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase mb-1">Balance</div>
           <div className={cn(
             'text-xl font-black',
-            balance >= 0 ? 'text-[var(--score-high)]' : 'text-[var(--flag-red)]'
+            balance >= 0 ? 'text-[var(--score-excellent-text)]' : 'text-[var(--flag-red-text)]'
           )}>
             {balance >= 0 ? '+' : ''}{formatCurrency(balance)}
           </div>

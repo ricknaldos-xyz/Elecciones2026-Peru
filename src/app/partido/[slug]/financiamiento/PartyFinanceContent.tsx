@@ -270,13 +270,13 @@ export function PartyFinanceContent({ initialData }: PartyFinanceContentProps) {
                         className="border-b-2 border-[var(--border)] hover:bg-[var(--muted)] transition-colors"
                       >
                         <td className="py-3 px-3 sm:px-4 font-black text-[var(--foreground)] text-sm">{f.year}</td>
-                        <td className="py-3 px-3 sm:px-4 text-right text-[var(--score-high)] font-bold text-xs sm:text-sm whitespace-nowrap">{formatCurrency(f.public_funding)}</td>
-                        <td className="py-3 px-3 sm:px-4 text-right text-[var(--score-competence)] font-bold text-xs sm:text-sm whitespace-nowrap">{formatCurrency(f.private_funding_total)}</td>
+                        <td className="py-3 px-3 sm:px-4 text-right text-[var(--score-excellent-text)] font-bold text-xs sm:text-sm whitespace-nowrap">{formatCurrency(f.public_funding)}</td>
+                        <td className="py-3 px-3 sm:px-4 text-right text-[var(--score-good-text)] font-bold text-xs sm:text-sm whitespace-nowrap">{formatCurrency(f.private_funding_total)}</td>
                         <td className="py-3 px-3 sm:px-4 text-right font-black text-[var(--foreground)] text-xs sm:text-sm whitespace-nowrap">
                           {formatCurrency(f.total_income)}
                         </td>
-                        <td className="py-3 px-3 sm:px-4 text-right text-[var(--flag-red)] font-bold text-xs sm:text-sm whitespace-nowrap">{formatCurrency(f.total_expenses)}</td>
-                        <td className={`py-3 px-3 sm:px-4 text-right font-black text-xs sm:text-sm whitespace-nowrap ${balance >= 0 ? 'text-[var(--score-high)]' : 'text-[var(--flag-red)]'}`}>
+                        <td className="py-3 px-3 sm:px-4 text-right text-[var(--flag-red-text)] font-bold text-xs sm:text-sm whitespace-nowrap">{formatCurrency(f.total_expenses)}</td>
+                        <td className={`py-3 px-3 sm:px-4 text-right font-black text-xs sm:text-sm whitespace-nowrap ${balance >= 0 ? 'text-[var(--score-excellent-text)]' : 'text-[var(--flag-red-text)]'}`}>
                           {balance >= 0 ? '+' : ''}{formatCurrency(balance)}
                         </td>
                         <td className="py-3 px-3 sm:px-4 text-right text-[var(--muted-foreground)] font-bold text-xs sm:text-sm">{f.donor_count}</td>

@@ -123,8 +123,8 @@ export function DonorsList({
               <div className={cn(
                 'w-10 h-10 border-2 border-[var(--border)] flex items-center justify-center',
                 donor.donor_type === 'natural'
-                  ? 'bg-[var(--score-competence)]/20 text-[var(--score-competence)]'
-                  : 'bg-[var(--score-transparency)]/20 text-[var(--score-transparency)]'
+                  ? 'bg-[var(--score-competence)]/20 text-[var(--score-competence-text)]'
+                  : 'bg-[var(--score-transparency)]/20 text-[var(--score-transparency-text)]'
               )}>
                 {getDonorTypeIcon(donor.donor_type)}
               </div>
@@ -141,7 +141,7 @@ export function DonorsList({
                   {donor.is_verified && (
                     <>
                       <span className="hidden sm:inline">-</span>
-                      <span className="text-[var(--score-high)] flex items-center gap-1 whitespace-nowrap font-bold">
+                      <span className="text-[var(--score-excellent-text)] flex items-center gap-1 whitespace-nowrap font-bold">
                         <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>

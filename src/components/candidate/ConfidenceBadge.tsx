@@ -20,19 +20,20 @@ function getConfidenceStatus(value: number): 'high' | 'medium' | 'low' {
 const statusConfig = {
   high: {
     label: 'Data alta',
-    color: 'bg-[var(--score-high)]/15 text-[var(--score-high)] border-[var(--score-high)]/30',
-    dot: 'bg-[var(--score-high)]',
+    // Usando colores sólidos de alto contraste en lugar de transparencias
+    color: 'bg-[var(--score-excellent-bg)] text-[var(--score-excellent-text)] border-[var(--score-excellent)]',
+    dot: 'bg-[var(--score-excellent)]',
     description: 'Datos completos y verificables',
   },
   medium: {
     label: 'Data media',
-    color: 'bg-[var(--score-medium)]/15 text-[var(--score-medium)] border-[var(--score-medium)]/30',
+    color: 'bg-[var(--score-medium-bg)] text-[var(--score-medium-text)] border-[var(--score-medium)]',
     dot: 'bg-[var(--score-medium)]',
     description: 'Algunos datos pueden estar incompletos',
   },
   low: {
     label: 'Data baja',
-    color: 'bg-[var(--flag-red)]/15 text-[var(--flag-red)] border-[var(--flag-red)]/30',
+    color: 'bg-[var(--flag-red-bg)] text-[var(--flag-red-text)] border-[var(--flag-red)]',
     dot: 'bg-[var(--flag-red)]',
     description: 'Información limitada. El puntaje puede cambiar.',
   },

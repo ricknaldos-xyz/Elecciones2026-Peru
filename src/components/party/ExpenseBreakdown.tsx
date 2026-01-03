@@ -140,7 +140,7 @@ export function ExpenseBreakdown({
               </svg>
               Desglose de Gastos
             </CardTitle>
-            <div className="text-lg font-black text-[var(--flag-red)]">
+            <div className="text-lg font-black text-[var(--flag-red-text)]">
               {formatCurrency(totalExpenses)}
             </div>
           </div>

@@ -111,7 +111,7 @@ export default async function PartidoPage({ params }: PageProps) {
             <Card className="mb-8 p-5 hover:shadow-[var(--shadow-brutal)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-100 cursor-pointer">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-black text-[var(--foreground)] flex items-center gap-2 uppercase">
-                  <svg className="w-5 h-5 text-[var(--score-high)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <svg className="w-5 h-5 text-[var(--score-excellent-text)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="square" strokeLinejoin="miter" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   Transparencia Financiera {latestFinance.year}
@@ -121,11 +121,11 @@ export default async function PartidoPage({ params }: PageProps) {
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 <div>
                   <div className="text-xs sm:text-sm text-[var(--muted-foreground)] font-bold uppercase">Público</div>
-                  <div className="text-base sm:text-lg font-black text-[var(--score-high)]">{formatCurrency(latestFinance.public_funding)}</div>
+                  <div className="text-base sm:text-lg font-black text-[var(--score-excellent-text)]">{formatCurrency(latestFinance.public_funding)}</div>
                 </div>
                 <div>
                   <div className="text-xs sm:text-sm text-[var(--muted-foreground)] font-bold uppercase">Privado</div>
-                  <div className="text-base sm:text-lg font-black text-[var(--score-competence)]">{formatCurrency(latestFinance.private_funding_total)}</div>
+                  <div className="text-base sm:text-lg font-black text-[var(--score-good-text)]">{formatCurrency(latestFinance.private_funding_total)}</div>
                 </div>
                 <div>
                   <div className="text-xs sm:text-sm text-[var(--muted-foreground)] font-bold uppercase">Total</div>
