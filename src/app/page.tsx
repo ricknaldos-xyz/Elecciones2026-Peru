@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Header } from '@/components/layout/Header'
-import { ElectionCountdown } from '@/components/viral/ElectionCountdown'
+import { CountdownBanner } from '@/components/viral/CountdownBanner'
 import { DailyFact } from '@/components/viral/DailyFact'
 import { TrendingNews } from '@/components/news/TrendingNews'
 import { CandidateCardMini } from '@/components/candidate/CandidateCardMini'
@@ -81,18 +81,21 @@ export default async function Home() {
     <div className="min-h-screen bg-[var(--background)]">
       <Header currentPath="/" />
 
-      {/* Hero Bento Grid - NEO BRUTAL - Compacto */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
+      {/* Countdown Banner - Full Width Urgency */}
+      <CountdownBanner />
 
-          {/* Main Hero Card - Spans more on desktop */}
-          <div className="col-span-2 md:col-span-4 lg:col-span-4 lg:row-span-2 bg-[var(--primary)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-xl)] overflow-hidden">
-            <div className="h-full p-4 sm:p-6 lg:p-8 flex flex-col justify-between text-white min-h-[280px] sm:min-h-[320px]">
+      {/* Hero Section: CTA + Top 5 Side by Side */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+
+          {/* Left: Hero CTA */}
+          <div className="bg-[var(--primary)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-xl)] overflow-hidden">
+            <div className="h-full p-5 sm:p-6 lg:p-8 flex flex-col justify-between text-white min-h-[300px] sm:min-h-[380px]">
               <div>
                 <Badge variant="warning" size="md" className="mb-3">
                   12 de Abril 2026
                 </Badge>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black leading-tight mb-2 uppercase tracking-tight">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black leading-tight mb-3 uppercase tracking-tight">
                   Elige con datos,<br />
                   no con promesas.
                 </h1>
@@ -100,13 +103,27 @@ export default async function Home() {
                   Ranking transparente de candidatos basado en hechos verificables.
                 </p>
               </div>
-              <div className="flex flex-wrap gap-2 sm:gap-3 mt-4">
+
+              {/* Stats inline */}
+              <div className="flex items-center gap-4 my-4 py-3 border-t border-b border-white/20">
+                <div className="text-center">
+                  <span className="text-2xl sm:text-3xl font-black">{stats.totalCandidates}</span>
+                  <span className="text-[10px] sm:text-xs font-bold text-white/70 ml-1 uppercase">candidatos</span>
+                </div>
+                <div className="w-px h-8 bg-white/30" />
+                <div className="text-center">
+                  <span className="text-2xl sm:text-3xl font-black">{stats.totalParties}</span>
+                  <span className="text-[10px] sm:text-xs font-bold text-white/70 ml-1 uppercase">partidos</span>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-2 sm:gap-3">
                 <Link href="/ranking">
                   <Button size="lg" className="bg-white text-[var(--primary)] hover:bg-[var(--muted)] border-[var(--border)]">
                     Ver Ranking
                   </Button>
                 </Link>
-                <Link href="/comparar" className="hidden sm:block">
+                <Link href="/comparar">
                   <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white/10">
                     Comparar
                   </Button>
@@ -115,127 +132,94 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* Stats compactos - 2 en fila */}
-          <Card className="flex flex-col justify-center items-center text-center p-3 sm:p-4">
-            <span className="text-3xl sm:text-4xl font-black text-[var(--foreground)] score-display">
-              {stats.totalCandidates}
-            </span>
-            <span className="text-[10px] sm:text-xs font-bold text-[var(--muted-foreground)] mt-1 uppercase tracking-wide">
-              Candidatos
-            </span>
-          </Card>
+          {/* Right: Top 5 Presidenciables */}
+          <div className="border-3 border-[var(--border)] bg-[var(--card)] shadow-[var(--shadow-brutal-lg)]">
+            <div className="p-4 sm:p-5 border-b-3 border-[var(--border)] bg-[var(--muted)]">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 bg-[var(--primary)] border-2 border-[var(--border)] flex items-center justify-center">
+                    <span className="text-white font-black text-xs">P</span>
+                  </div>
+                  <h2 className="text-base sm:text-lg font-black text-[var(--foreground)] uppercase">
+                    Top 5 Presidenciables
+                  </h2>
+                </div>
+                <Link
+                  href="/ranking?cargo=presidente"
+                  className="text-xs font-bold text-[var(--primary)] hover:underline uppercase flex items-center gap-1"
+                >
+                  Ver más
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
 
-          <Card className="flex flex-col justify-center items-center text-center p-3 sm:p-4">
-            <span className="text-3xl sm:text-4xl font-black text-[var(--foreground)] score-display">
-              {stats.totalParties}
-            </span>
-            <span className="text-[10px] sm:text-xs font-bold text-[var(--muted-foreground)] mt-1 uppercase tracking-wide">
-              Partidos
-            </span>
-          </Card>
+            {/* Top 5 Grid - 5 cards en row móvil scroll, 5 en desktop */}
+            {topCandidates.length > 0 ? (
+              <div className="p-3 sm:p-4">
+                <div className="flex gap-2 sm:gap-3 overflow-x-auto sm:overflow-visible -mx-3 px-3 sm:mx-0 sm:px-0 pb-2 sm:pb-0 snap-x snap-mandatory sm:snap-none sm:grid sm:grid-cols-5">
+                  {topCandidates.map((candidate, index) => (
+                    <CandidateCardMini
+                      key={candidate.id}
+                      rank={index + 1}
+                      candidate={candidate}
+                      className="snap-start flex-shrink-0 w-[110px] sm:w-auto"
+                    />
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div className="p-8 text-center">
+                <p className="text-sm text-[var(--muted-foreground)]">Cargando candidatos...</p>
+              </div>
+            )}
 
-          {/* Cargos compactos - grid 2x2 */}
-          <div className="col-span-2 grid grid-cols-2 gap-2">
-            <Link href="/ranking?cargo=presidente" className="flex items-center gap-2 p-2.5 bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100">
-              <div className="w-7 h-7 bg-[var(--primary)] border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0">
-                <span className="text-white font-black text-xs">P</span>
+            {/* Otros cargos - Mini links */}
+            <div className="px-4 pb-4 pt-2 border-t-2 border-[var(--border)]">
+              <p className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase mb-2">También ver:</p>
+              <div className="flex flex-wrap gap-2">
+                <Link href="/ranking?cargo=senador" className="inline-flex items-center gap-1.5 px-2 py-1 text-[10px] font-bold bg-[var(--background)] border-2 border-[var(--border)] hover:bg-[var(--score-good)] hover:text-white transition-colors uppercase">
+                  <span className="w-4 h-4 bg-[var(--score-good)] border border-[var(--border)] flex items-center justify-center text-white text-[8px] font-black">S</span>
+                  Senadores
+                </Link>
+                <Link href="/ranking?cargo=diputado" className="inline-flex items-center gap-1.5 px-2 py-1 text-[10px] font-bold bg-[var(--background)] border-2 border-[var(--border)] hover:bg-[var(--score-excellent)] hover:text-white transition-colors uppercase">
+                  <span className="w-4 h-4 bg-[var(--score-excellent)] border border-[var(--border)] flex items-center justify-center text-white text-[8px] font-black">D</span>
+                  Diputados
+                </Link>
+                <Link href="/ranking?cargo=parlamento_andino" className="inline-flex items-center gap-1.5 px-2 py-1 text-[10px] font-bold bg-[var(--background)] border-2 border-[var(--border)] hover:bg-[var(--score-medium)] hover:text-black transition-colors uppercase">
+                  <span className="w-4 h-4 bg-[var(--score-medium)] border border-[var(--border)] flex items-center justify-center text-black text-[8px] font-black">A</span>
+                  P. Andino
+                </Link>
               </div>
-              <span className="text-xs font-bold text-[var(--foreground)] uppercase">Presidente</span>
-            </Link>
-            <Link href="/ranking?cargo=senador" className="flex items-center gap-2 p-2.5 bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100">
-              <div className="w-7 h-7 bg-[var(--score-good)] border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0">
-                <span className="text-white font-black text-xs">S</span>
-              </div>
-              <span className="text-xs font-bold text-[var(--foreground)] uppercase">Senadores</span>
-            </Link>
-            <Link href="/ranking?cargo=diputado" className="flex items-center gap-2 p-2.5 bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100">
-              <div className="w-7 h-7 bg-[var(--score-excellent)] border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0">
-                <span className="text-white font-black text-xs">D</span>
-              </div>
-              <span className="text-xs font-bold text-[var(--foreground)] uppercase">Diputados</span>
-            </Link>
-            <Link href="/ranking?cargo=parlamento_andino" className="flex items-center gap-2 p-2.5 bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100">
-              <div className="w-7 h-7 bg-[var(--score-medium)] border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0">
-                <span className="text-black font-black text-xs">A</span>
-              </div>
-              <span className="text-xs font-bold text-[var(--foreground)] uppercase truncate">P. Andino</span>
-            </Link>
+            </div>
           </div>
 
         </div>
       </section>
 
-      {/* Top 5 Presidenciables - NEO BRUTAL */}
-      {topCandidates.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mb-4">
-            <div>
-              <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight">
-                Top 5 Presidenciables
-              </h2>
-              <p className="text-xs sm:text-sm text-[var(--muted-foreground)] font-medium mt-0.5">
-                Los candidatos mejor evaluados según nuestro análisis
-              </p>
-            </div>
-            <Link
-              href="/ranking?cargo=presidente"
-              className="text-sm font-bold text-[var(--primary)] hover:underline uppercase flex items-center gap-1 self-start sm:self-auto"
-            >
-              Ver ranking completo
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-          </div>
-
-          {/* Grid: 5 cols desktop, scroll horizontal móvil */}
-          <div className="flex gap-3 sm:gap-4 overflow-x-auto sm:overflow-visible -mx-4 px-4 sm:mx-0 sm:px-0 pb-2 sm:pb-0 snap-x snap-mandatory sm:snap-none sm:grid sm:grid-cols-5">
-            {topCandidates.map((candidate, index) => (
-              <CandidateCardMini
-                key={candidate.id}
-                rank={index + 1}
-                candidate={candidate}
-                className="snap-start flex-shrink-0 w-[140px] sm:w-auto"
-              />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Countdown + Quiz - Compacto y balanceado */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-          {/* Countdown - Más compacto */}
-          <Card className="p-4 sm:p-6 flex flex-col items-center justify-center">
-            <span className="text-xs font-bold text-[var(--muted-foreground)] mb-2 uppercase tracking-wide">
-              Faltan
-            </span>
-            <ElectionCountdown />
-          </Card>
-
-          {/* Quiz CTA - Mismo tamaño que Countdown */}
-          <div className="bg-gradient-to-br from-[var(--primary)] to-[#8B0000] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-lg)] p-4 sm:p-6 flex flex-col justify-between">
-            <div>
-              <Badge variant="warning" size="sm" className="mb-2">
-                Nuevo
-              </Badge>
-              <h3 className="text-lg sm:text-xl font-black text-white uppercase leading-tight mb-2">
+      {/* Quiz CTA - Full width accent */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-4">
+        <Link href="/quiz" className="block">
+          <div className="bg-gradient-to-r from-[var(--primary)] via-[#8B0000] to-[var(--primary)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal)] p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-3 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal-xl)] transition-all duration-100">
+            <div className="flex items-center gap-3">
+              <Badge variant="warning" size="sm">Nuevo</Badge>
+              <span className="text-base sm:text-lg font-black text-white uppercase">
                 ¿Quién piensa como tú?
-              </h3>
-              <p className="text-white/80 text-xs sm:text-sm font-medium mb-3">
-                10 preguntas para encontrar candidatos con tu visión.
-              </p>
+              </span>
+              <span className="text-white/70 text-sm hidden sm:inline">
+                10 preguntas para encontrar tu candidato ideal
+              </span>
             </div>
-            <Link href="/quiz">
-              <Button className="w-full bg-white text-[var(--primary)] hover:bg-[var(--muted)] border-[var(--border)]">
-                Hacer el Quiz
-                <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="square" strokeLinejoin="miter" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </Button>
-            </Link>
+            <Button size="sm" className="bg-white text-[var(--primary)] hover:bg-[var(--muted)] border-[var(--border)] whitespace-nowrap">
+              Hacer el Quiz
+              <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="square" strokeLinejoin="miter" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Button>
           </div>
-        </div>
+        </Link>
       </section>
 
       {/* Daily Fact + News - Side by side en desktop */}
