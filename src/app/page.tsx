@@ -31,301 +31,266 @@ export default async function Home() {
     <div className="min-h-screen bg-[var(--background)]">
       <Header currentPath="/" />
 
-      {/* Hero Bento Grid - NEO BRUTAL - Mobile Optimized */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 auto-rows-[minmax(160px,auto)] md:auto-rows-[180px]">
+      {/* Hero Bento Grid - NEO BRUTAL - Compacto */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
 
-          {/* Main Hero Card - NEO BRUTAL - Mobile First */}
-          <div className="md:col-span-2 md:row-span-2 bg-[var(--primary)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-xl)] overflow-hidden relative">
-            <div className="relative h-full p-4 sm:p-6 lg:p-8 flex flex-col justify-between text-white">
+          {/* Main Hero Card - Spans more on desktop */}
+          <div className="col-span-2 md:col-span-4 lg:col-span-4 lg:row-span-2 bg-[var(--primary)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-xl)] overflow-hidden">
+            <div className="h-full p-4 sm:p-6 lg:p-8 flex flex-col justify-between text-white min-h-[280px] sm:min-h-[320px]">
               <div>
-                <Badge variant="warning" size="md" className="mb-3 sm:mb-4">
-                  Elecciones 12 de Abril 2026
+                <Badge variant="warning" size="md" className="mb-3">
+                  12 de Abril 2026
                 </Badge>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black leading-tight mb-2 sm:mb-3 uppercase tracking-tight">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black leading-tight mb-2 uppercase tracking-tight">
                   Elige con datos,<br />
-                  no con promesas vacías.
+                  no con promesas.
                 </h1>
-                <p className="text-white/80 text-sm sm:text-base max-w-md font-medium leading-relaxed">
-                  Ranking transparente de candidatos.
-                  Basado en hechos, no en promesas.
+                <p className="text-white/80 text-sm sm:text-base max-w-md font-medium">
+                  Ranking transparente de candidatos basado en hechos verificables.
                 </p>
               </div>
-              <div className="flex flex-col xs:flex-row flex-wrap gap-2 sm:gap-3 mt-4">
-                <Link href="/ranking" className="flex-1 xs:flex-initial">
-                  <Button size="lg" className="w-full xs:w-auto bg-white text-[var(--primary)] hover:bg-[var(--muted)] border-[var(--border)]">
+              <div className="flex flex-wrap gap-2 sm:gap-3 mt-4">
+                <Link href="/ranking">
+                  <Button size="lg" className="bg-white text-[var(--primary)] hover:bg-[var(--muted)] border-[var(--border)]">
                     Ver Ranking
                   </Button>
                 </Link>
-                <Link href="/comparar" className="flex-1 xs:flex-initial">
-                  <Button size="lg" variant="outline" className="w-full xs:w-auto bg-transparent border-white text-white hover:bg-white/10">
-                    Comparar Candidatos
+                <Link href="/comparar" className="hidden sm:block">
+                  <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white/10">
+                    Comparar
                   </Button>
                 </Link>
               </div>
             </div>
           </div>
 
-          {/* Stats Card - Candidatos - NEO BRUTAL - Mobile Optimized */}
-          <Card className="flex flex-col justify-center items-center text-center p-4 sm:p-6">
-            <span className="text-4xl sm:text-5xl lg:text-6xl font-black text-[var(--foreground)] score-display">
+          {/* Stats compactos - 2 en fila */}
+          <Card className="flex flex-col justify-center items-center text-center p-3 sm:p-4">
+            <span className="text-3xl sm:text-4xl font-black text-[var(--foreground)] score-display">
               {stats.totalCandidates}
             </span>
-            <span className="text-xs sm:text-sm font-bold text-[var(--muted-foreground)] mt-2 uppercase tracking-wide">
-              Candidatos evaluados
+            <span className="text-[10px] sm:text-xs font-bold text-[var(--muted-foreground)] mt-1 uppercase tracking-wide">
+              Candidatos
             </span>
           </Card>
 
-          {/* Stats Card - Partidos - NEO BRUTAL - Mobile Optimized */}
-          <Card className="flex flex-col justify-center items-center text-center p-4 sm:p-6">
-            <span className="text-4xl sm:text-5xl lg:text-6xl font-black text-[var(--foreground)] score-display">
+          <Card className="flex flex-col justify-center items-center text-center p-3 sm:p-4">
+            <span className="text-3xl sm:text-4xl font-black text-[var(--foreground)] score-display">
               {stats.totalParties}
             </span>
-            <span className="text-xs sm:text-sm font-bold text-[var(--muted-foreground)] mt-2 uppercase tracking-wide">
-              Partidos políticos
+            <span className="text-[10px] sm:text-xs font-bold text-[var(--muted-foreground)] mt-1 uppercase tracking-wide">
+              Partidos
             </span>
           </Card>
 
-          {/* Cargos Card - NEO BRUTAL - Mobile Adaptive Grid */}
-          <Card className="lg:col-span-2 p-4 sm:p-6">
-            <h3 className="text-xs sm:text-sm font-bold text-[var(--muted-foreground)] mb-3 uppercase tracking-wide">
-              Cargos a elegir
-            </h3>
-            <div className="grid grid-cols-1 xs:grid-cols-2 gap-2 sm:gap-3">
-              <Link href="/ranking?cargo=presidente" className="flex items-center gap-2 sm:gap-2.5 p-2.5 sm:p-3 min-h-[48px] bg-[var(--muted)] border-2 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100">
-                <div className="w-8 h-8 sm:w-9 sm:h-9 bg-[var(--primary)] border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0">
-                  <span className="text-white font-black text-xs sm:text-sm">P</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-sm sm:text-base font-bold text-[var(--foreground)] uppercase">Presidente</div>
-                </div>
-              </Link>
-              <Link href="/ranking?cargo=senador" className="flex items-center gap-2 sm:gap-2.5 p-2.5 sm:p-3 min-h-[48px] bg-[var(--muted)] border-2 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100">
-                <div className="w-8 h-8 sm:w-9 sm:h-9 bg-[var(--score-good)] border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0">
-                  <span className="text-white font-black text-xs sm:text-sm">S</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-sm sm:text-base font-bold text-[var(--foreground)] uppercase">Senadores</div>
-                </div>
-              </Link>
-              <Link href="/ranking?cargo=diputado" className="flex items-center gap-2 sm:gap-2.5 p-2.5 sm:p-3 min-h-[48px] bg-[var(--muted)] border-2 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100">
-                <div className="w-8 h-8 sm:w-9 sm:h-9 bg-[var(--score-excellent)] border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0">
-                  <span className="text-white font-black text-xs sm:text-sm">D</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-sm sm:text-base font-bold text-[var(--foreground)] uppercase">Diputados</div>
-                </div>
-              </Link>
-              <Link href="/ranking?cargo=parlamento_andino" className="flex items-center gap-2 sm:gap-2.5 p-2.5 sm:p-3 min-h-[48px] bg-[var(--muted)] border-2 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100">
-                <div className="w-8 h-8 sm:w-9 sm:h-9 bg-[var(--score-medium)] border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0">
-                  <span className="text-black font-black text-xs sm:text-sm">A</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-sm sm:text-base font-bold text-[var(--foreground)] uppercase truncate">Parlamento Andino</div>
-                </div>
-              </Link>
-            </div>
-          </Card>
+          {/* Cargos compactos - grid 2x2 */}
+          <div className="col-span-2 grid grid-cols-2 gap-2">
+            <Link href="/ranking?cargo=presidente" className="flex items-center gap-2 p-2.5 bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100">
+              <div className="w-7 h-7 bg-[var(--primary)] border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0">
+                <span className="text-white font-black text-xs">P</span>
+              </div>
+              <span className="text-xs font-bold text-[var(--foreground)] uppercase">Presidente</span>
+            </Link>
+            <Link href="/ranking?cargo=senador" className="flex items-center gap-2 p-2.5 bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100">
+              <div className="w-7 h-7 bg-[var(--score-good)] border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0">
+                <span className="text-white font-black text-xs">S</span>
+              </div>
+              <span className="text-xs font-bold text-[var(--foreground)] uppercase">Senadores</span>
+            </Link>
+            <Link href="/ranking?cargo=diputado" className="flex items-center gap-2 p-2.5 bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100">
+              <div className="w-7 h-7 bg-[var(--score-excellent)] border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0">
+                <span className="text-white font-black text-xs">D</span>
+              </div>
+              <span className="text-xs font-bold text-[var(--foreground)] uppercase">Diputados</span>
+            </Link>
+            <Link href="/ranking?cargo=parlamento_andino" className="flex items-center gap-2 p-2.5 bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100">
+              <div className="w-7 h-7 bg-[var(--score-medium)] border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0">
+                <span className="text-black font-black text-xs">A</span>
+              </div>
+              <span className="text-xs font-bold text-[var(--foreground)] uppercase truncate">P. Andino</span>
+            </Link>
+          </div>
 
         </div>
       </section>
 
-      {/* Election Countdown + Daily Fact + Quiz CTA - NEO BRUTAL - Mobile Optimized */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4">
-          {/* Countdown */}
-          <Card className="lg:col-span-2 p-4 sm:p-6 lg:p-8 flex flex-col items-center justify-center min-h-[200px]">
-            <h2 className="text-base sm:text-lg font-black text-[var(--muted-foreground)] mb-3 sm:mb-4 uppercase tracking-wide text-center">
-              Quedan
-            </h2>
+      {/* Countdown + Quiz - Compacto y balanceado */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+          {/* Countdown - Más compacto */}
+          <Card className="p-4 sm:p-6 flex flex-col items-center justify-center">
+            <span className="text-xs font-bold text-[var(--muted-foreground)] mb-2 uppercase tracking-wide">
+              Faltan
+            </span>
             <ElectionCountdown />
           </Card>
 
-          {/* Quiz CTA - Mobile Optimized */}
-          <div className="bg-gradient-to-br from-[var(--primary)] to-[#8B0000] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-lg)] p-4 sm:p-6 lg:p-8 flex flex-col justify-between min-h-[200px]">
+          {/* Quiz CTA - Mismo tamaño que Countdown */}
+          <div className="bg-gradient-to-br from-[var(--primary)] to-[#8B0000] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-lg)] p-4 sm:p-6 flex flex-col justify-between">
             <div>
-              <Badge variant="warning" size="sm" className="mb-2 sm:mb-3">
+              <Badge variant="warning" size="sm" className="mb-2">
                 Nuevo
               </Badge>
-              <h3 className="text-lg sm:text-xl lg:text-2xl font-black text-white uppercase leading-tight mb-2">
+              <h3 className="text-lg sm:text-xl font-black text-white uppercase leading-tight mb-2">
                 ¿Quién piensa como tú?
               </h3>
-              <p className="text-white/80 text-sm font-medium mb-3 sm:mb-4 leading-relaxed">
-                Responde 10 preguntas y descubre qué candidatos comparten tu visión.
+              <p className="text-white/80 text-xs sm:text-sm font-medium mb-3">
+                10 preguntas para encontrar candidatos con tu visión.
               </p>
             </div>
             <Link href="/quiz">
               <Button className="w-full bg-white text-[var(--primary)] hover:bg-[var(--muted)] border-[var(--border)]">
-                Responder el Quiz
-                <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                Hacer el Quiz
+                <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </Button>
             </Link>
           </div>
         </div>
+      </section>
 
-        {/* Daily Fact Banner + Full-width News */}
-        <div className="mt-4 space-y-4">
-          <DailyFact variant="banner" />
-          <TrendingNews limit={6} variant="grid" />
+      {/* Daily Fact + News - Side by side en desktop */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4">
+          {/* Daily Fact - Card variant, 1/3 width */}
+          <DailyFact variant="card" className="lg:col-span-1" />
+          {/* Trending News - 2/3 width */}
+          <div className="lg:col-span-2">
+            <TrendingNews limit={6} variant="grid" />
+          </div>
         </div>
       </section>
 
-      {/* Scoring Methodology - NEO BRUTAL - Mobile Optimized */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
-          <h2 className="text-xl sm:text-2xl font-black text-[var(--foreground)] uppercase tracking-tight">
+      {/* Scoring Methodology - Con hover interactivo */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mb-4">
+          <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight">
             Cómo evaluamos
           </h2>
-          <Link href="/metodologia">
-            <Button variant="ghost" size="sm" className="w-full sm:w-auto">
-              Ver metodología
-              <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
-              </svg>
-            </Button>
+          <Link href="/metodologia" className="text-sm font-bold text-[var(--primary)] hover:underline uppercase flex items-center gap-1">
+            Ver metodología completa
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
+            </svg>
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
-          <Card className="p-4 sm:p-6">
-            <div className="flex items-start gap-3 sm:gap-4">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[var(--score-good)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)] flex items-center justify-center flex-shrink-0">
-                <span className="text-xl sm:text-2xl font-black text-white">C</span>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <Link href="/metodologia#competencia" className="group">
+            <Card className="p-4 h-full hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal-lg)] transition-all duration-100">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[var(--score-competence)] border-3 border-[var(--border)] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <span className="text-lg sm:text-xl font-black text-white">C</span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-sm font-black text-[var(--foreground)] mb-1 uppercase group-hover:text-[var(--primary)] transition-colors">
+                    Competencia
+                  </h3>
+                  <p className="text-xs text-[var(--muted-foreground)] leading-relaxed font-medium">
+                    Educación, experiencia y liderazgo.
+                  </p>
+                </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="text-sm sm:text-base font-black text-[var(--foreground)] mb-1 uppercase">
-                  Competencia
-                </h3>
-                <p className="text-xs sm:text-sm text-[var(--muted-foreground)] leading-relaxed font-medium">
-                  Educación, experiencia profesional, experiencia en el cargo y capacidad de liderazgo.
-                </p>
-              </div>
-            </div>
-          </Card>
+            </Card>
+          </Link>
 
-          <Card className="p-4 sm:p-6">
-            <div className="flex items-start gap-3 sm:gap-4">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[var(--score-excellent)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)] flex items-center justify-center flex-shrink-0">
-                <span className="text-xl sm:text-2xl font-black text-white">I</span>
+          <Link href="/metodologia#integridad" className="group">
+            <Card className="p-4 h-full hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal-lg)] transition-all duration-100">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[var(--score-integrity)] border-3 border-[var(--border)] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <span className="text-lg sm:text-xl font-black text-white">I</span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-sm font-black text-[var(--foreground)] mb-1 uppercase group-hover:text-[var(--primary)] transition-colors">
+                    Integridad
+                  </h3>
+                  <p className="text-xs text-[var(--muted-foreground)] leading-relaxed font-medium">
+                    Historial limpio, sin sentencias.
+                  </p>
+                </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="text-sm sm:text-base font-black text-[var(--foreground)] mb-1 uppercase">
-                  Integridad
-                </h3>
-                <p className="text-xs sm:text-sm text-[var(--muted-foreground)] leading-relaxed font-medium">
-                  Historial limpio. Sin sentencias ni investigaciones activas.
-                </p>
-              </div>
-            </div>
-          </Card>
+            </Card>
+          </Link>
 
-          <Card className="p-4 sm:p-6">
-            <div className="flex items-start gap-3 sm:gap-4">
-              <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[var(--score-medium)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)] flex items-center justify-center flex-shrink-0">
-                <span className="text-xl sm:text-2xl font-black text-black">T</span>
+          <Link href="/metodologia#transparencia" className="group">
+            <Card className="p-4 h-full hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal-lg)] transition-all duration-100">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[var(--score-transparency)] border-3 border-[var(--border)] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <span className="text-lg sm:text-xl font-black text-black">T</span>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-sm font-black text-[var(--foreground)] mb-1 uppercase group-hover:text-[var(--primary)] transition-colors">
+                    Transparencia
+                  </h3>
+                  <p className="text-xs text-[var(--muted-foreground)] leading-relaxed font-medium">
+                    Info completa en Hoja de Vida.
+                  </p>
+                </div>
               </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="text-sm sm:text-base font-black text-[var(--foreground)] mb-1 uppercase">
-                  Transparencia
-                </h3>
-                <p className="text-xs sm:text-sm text-[var(--muted-foreground)] leading-relaxed font-medium">
-                  Información completa y consistente en su Hoja de Vida.
-                </p>
-              </div>
-            </div>
-          </Card>
+            </Card>
+          </Link>
+        </div>
+
+        {/* Trust indicators inline - más compacto que sección separada */}
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-4 sm:gap-6 py-3 border-t-2 border-b-2 border-[var(--border)]">
+          <div className="flex items-center gap-2 text-xs font-bold text-[var(--muted-foreground)] uppercase">
+            <svg className="w-4 h-4 text-[var(--score-excellent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="square" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+            Fuentes oficiales
+          </div>
+          <div className="flex items-center gap-2 text-xs font-bold text-[var(--muted-foreground)] uppercase">
+            <svg className="w-4 h-4 text-[var(--score-good)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="square" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            100% verificable
+          </div>
+          <div className="flex items-center gap-2 text-xs font-bold text-[var(--muted-foreground)] uppercase">
+            <svg className="w-4 h-4 text-[var(--primary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="square" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+            </svg>
+            Sin afiliación política
+          </div>
         </div>
       </section>
 
-      {/* Districts Quick Access - NEO BRUTAL - Mobile Optimized */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-        <div className="bg-[var(--foreground)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-xl)] p-4 sm:p-6 lg:p-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
-            <div>
-              <h2 className="text-lg sm:text-xl font-black text-[var(--background)] mb-1 uppercase tracking-tight">
-                Diputados por Distrito
-              </h2>
-              <p className="text-xs sm:text-sm font-medium text-[var(--background)]/70">
-                Encuentra a quiénes compiten por representar tu zona
-              </p>
-            </div>
-            <Link href="/ranking?cargo=diputado" className="w-full md:w-auto">
-              <Button variant="outline" size="sm" className="w-full md:w-auto bg-transparent border-[var(--background)] text-[var(--background)] hover:bg-[var(--background)]/10">
-                Ver todos los distritos
-              </Button>
+      {/* Districts - Más compacto, integrado */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+        <Card className="p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+            <h2 className="text-sm sm:text-base font-black text-[var(--foreground)] uppercase tracking-tight">
+              Diputados por Distrito
+            </h2>
+            <Link href="/ranking?cargo=diputado" className="text-xs font-bold text-[var(--primary)] hover:underline uppercase">
+              Ver todos →
             </Link>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {DISTRICTS.slice(0, 15).map((district) => (
+          <div className="flex flex-wrap gap-1.5 sm:gap-2">
+            {DISTRICTS.slice(0, 12).map((district) => (
               <Link
                 key={district.slug}
                 href={`/distrito/${district.slug}`}
               >
                 <Badge
-                  variant="secondary"
-                  size="md"
-                  className="cursor-pointer bg-[var(--background)]/10 hover:bg-[var(--background)]/20 text-[var(--background)] border-[var(--background)]/30 transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 text-xs sm:text-sm min-h-[32px]"
+                  variant="outline"
+                  size="sm"
+                  className="cursor-pointer hover:bg-[var(--primary)] hover:text-white hover:border-[var(--primary)] transition-all duration-100 text-xs"
                 >
                   {district.name}
                 </Badge>
               </Link>
             ))}
-            {DISTRICTS.length > 15 && (
+            {DISTRICTS.length > 12 && (
               <Link href="/ranking?cargo=diputado">
-                <Badge variant="primary" size="md" className="cursor-pointer min-h-[32px]">
-                  +{DISTRICTS.length - 15} más
+                <Badge variant="primary" size="sm" className="cursor-pointer">
+                  +{DISTRICTS.length - 12} más
                 </Badge>
               </Link>
             )}
           </div>
-        </div>
-      </section>
-
-      {/* Trust Badges - NEO BRUTAL - Mobile Optimized */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-          <Card className="p-3 sm:p-4 text-center">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[var(--score-excellent)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)] flex items-center justify-center mx-auto mb-2 sm:mb-3">
-              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="square" strokeLinejoin="miter" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-              </svg>
-            </div>
-            <div className="text-xs sm:text-sm font-black text-[var(--foreground)] uppercase leading-tight">Fuentes oficiales</div>
-            <div className="text-[10px] sm:text-xs font-bold text-[var(--muted-foreground)] mt-1">DJHV, JNE, ONPE</div>
-          </Card>
-
-          <Card className="p-3 sm:p-4 text-center">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[var(--score-good)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)] flex items-center justify-center mx-auto mb-2 sm:mb-3">
-              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="square" strokeLinejoin="miter" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-            </div>
-            <div className="text-xs sm:text-sm font-black text-[var(--foreground)] uppercase leading-tight">Metodología pública</div>
-            <div className="text-[10px] sm:text-xs font-bold text-[var(--muted-foreground)] mt-1">100% verificable</div>
-          </Card>
-
-          <Card className="p-3 sm:p-4 text-center">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[var(--primary)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)] flex items-center justify-center mx-auto mb-2 sm:mb-3">
-              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="square" strokeLinejoin="miter" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-              </svg>
-            </div>
-            <div className="text-xs sm:text-sm font-black text-[var(--foreground)] uppercase leading-tight">Sin afiliación</div>
-            <div className="text-[10px] sm:text-xs font-bold text-[var(--muted-foreground)] mt-1">100% independiente</div>
-          </Card>
-
-          <Card className="p-3 sm:p-4 text-center">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[var(--score-medium)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)] flex items-center justify-center mx-auto mb-2 sm:mb-3">
-              <svg className="w-5 h-5 sm:w-6 sm:h-6 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                <path strokeLinecap="square" strokeLinejoin="miter" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-              </svg>
-            </div>
-            <div className="text-xs sm:text-sm font-black text-[var(--foreground)] uppercase leading-tight">Derecho a réplica</div>
-            <div className="text-[10px] sm:text-xs font-bold text-[var(--muted-foreground)] mt-1">Puedes corregir tu información</div>
-          </Card>
-        </div>
+        </Card>
       </section>
 
       {/* Footer - NEO BRUTAL - Mobile Optimized */}
