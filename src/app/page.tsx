@@ -54,7 +54,7 @@ async function getTopPresidentialCandidates(): Promise<TopCandidate[]> {
       LEFT JOIN parties p ON c.party_id = p.id
       WHERE c.cargo = 'presidente' AND c.is_active = true
       ORDER BY s.score_balanced DESC NULLS LAST
-      LIMIT 5
+      LIMIT 3
     `
     return result.map(row => ({
       id: row.id as string,
@@ -141,7 +141,7 @@ export default async function Home() {
                     <span className="text-white font-black text-xs">P</span>
                   </div>
                   <h2 className="text-base sm:text-lg font-black text-[var(--foreground)] uppercase">
-                    Top 5 Presidenciables
+                    Top 3 Presidenciables
                   </h2>
                 </div>
                 <Link
@@ -156,16 +156,15 @@ export default async function Home() {
               </div>
             </div>
 
-            {/* Top 5 Grid - 5 cards en row móvil scroll, 5 en desktop */}
+            {/* Top 3 Grid */}
             {topCandidates.length > 0 ? (
               <div className="p-3 sm:p-4">
-                <div className="flex gap-2 sm:gap-3 overflow-x-auto sm:overflow-visible -mx-3 px-3 sm:mx-0 sm:px-0 pb-2 sm:pb-0 snap-x snap-mandatory sm:snap-none sm:grid sm:grid-cols-5">
+                <div className="grid grid-cols-3 gap-2 sm:gap-3">
                   {topCandidates.map((candidate, index) => (
                     <CandidateCardMini
                       key={candidate.id}
                       rank={index + 1}
                       candidate={candidate}
-                      className="snap-start flex-shrink-0 w-[110px] sm:w-auto"
                     />
                   ))}
                 </div>
@@ -222,16 +221,14 @@ export default async function Home() {
         </Link>
       </section>
 
-      {/* Daily Fact + News - Side by side en desktop */}
+      {/* Daily Fact - Full width */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4">
-          {/* Daily Fact - Card variant, 1/3 width */}
-          <DailyFact variant="card" className="lg:col-span-1" />
-          {/* Trending News - 2/3 width */}
-          <div className="lg:col-span-2">
-            <TrendingNews limit={6} variant="grid" />
-          </div>
-        </div>
+        <DailyFact variant="card" />
+      </section>
+
+      {/* Trending News - Full width */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+        <TrendingNews limit={6} variant="grid" />
       </section>
 
       {/* Scoring Methodology - Con hover interactivo */}
