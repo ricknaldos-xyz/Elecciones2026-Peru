@@ -76,6 +76,7 @@ export function Header({ currentPath }: HeaderProps) {
 
   const navLinks = [
     { href: '/ranking', label: 'Ranking' },
+    { href: '/quiz', label: 'Quiz', isNew: true },
     { href: '/comparar', label: 'Comparar' },
     { href: '/transparencia', label: 'Transparencia' },
     { href: '/metodologia', label: 'Metodologia' },
@@ -127,6 +128,7 @@ export function Header({ currentPath }: HeaderProps) {
                   'px-4 py-2 text-sm font-bold uppercase tracking-wide',
                   'border-2 border-transparent',
                   'transition-all duration-100',
+                  'flex items-center gap-1.5',
                   currentPath === link.href
                     ? [
                         'bg-[var(--primary)]',
@@ -144,6 +146,11 @@ export function Header({ currentPath }: HeaderProps) {
                 )}
               >
                 {link.label}
+                {link.isNew && (
+                  <span className="text-[10px] font-black bg-[var(--score-medium)] text-black px-1.5 py-0.5 leading-none">
+                    NEW
+                  </span>
+                )}
               </Link>
             ))}
           </nav>
@@ -332,6 +339,7 @@ export function Header({ currentPath }: HeaderProps) {
                   className={cn(
                     'px-4 py-3 font-bold uppercase tracking-wide',
                     'border-2 transition-all duration-100',
+                    'flex items-center gap-2',
                     currentPath === link.href
                       ? [
                           'bg-[var(--primary)]',
@@ -348,6 +356,11 @@ export function Header({ currentPath }: HeaderProps) {
                   )}
                 >
                   {link.label}
+                  {link.isNew && (
+                    <span className="text-[10px] font-black bg-[var(--score-medium)] text-black px-1.5 py-0.5 leading-none">
+                      NEW
+                    </span>
+                  )}
                 </Link>
               ))}
               <Link

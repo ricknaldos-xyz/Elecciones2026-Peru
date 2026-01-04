@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Header } from '@/components/layout/Header'
+import { ElectionCountdown } from '@/components/viral/ElectionCountdown'
+import { DailyFact } from '@/components/viral/DailyFact'
 import { DISTRICTS } from '@/lib/constants'
 import { sql } from '@/lib/db'
 
@@ -124,6 +126,47 @@ export default async function Home() {
             </div>
           </Card>
 
+        </div>
+      </section>
+
+      {/* Election Countdown + Daily Fact + Quiz CTA - NEO BRUTAL */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          {/* Countdown */}
+          <Card className="lg:col-span-2 p-6 sm:p-8 flex flex-col items-center justify-center">
+            <h2 className="text-lg font-black text-[var(--muted-foreground)] mb-4 uppercase tracking-wide text-center">
+              Faltan
+            </h2>
+            <ElectionCountdown />
+          </Card>
+
+          {/* Quiz CTA */}
+          <div className="bg-gradient-to-br from-[var(--primary)] to-[#8B0000] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-lg)] p-6 sm:p-8 flex flex-col justify-between">
+            <div>
+              <Badge variant="warning" size="sm" className="mb-3">
+                Nuevo
+              </Badge>
+              <h3 className="text-xl sm:text-2xl font-black text-white uppercase leading-tight mb-2">
+                Quien piensa como tu?
+              </h3>
+              <p className="text-white/80 text-sm font-medium mb-4">
+                Responde 10 preguntas y descubre que candidatos tienen posiciones similares a las tuyas.
+              </p>
+            </div>
+            <Link href="/quiz">
+              <Button className="w-full bg-white text-[var(--primary)] hover:bg-[var(--muted)] border-[var(--border)]">
+                Hacer el Quiz
+                <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="square" strokeLinejoin="miter" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </Button>
+            </Link>
+          </div>
+        </div>
+
+        {/* Daily Fact */}
+        <div className="mt-4">
+          <DailyFact />
         </div>
       </section>
 

@@ -12,6 +12,7 @@ import { ScorePill } from '@/components/candidate/ScorePill'
 import { SubScoreBar, SubScoreStat } from '@/components/candidate/SubScoreBar'
 import { FlagChips } from '@/components/candidate/FlagChip'
 import { ConfidenceBadge } from '@/components/candidate/ConfidenceBadge'
+import { ShareButton } from '@/components/share/ShareButton'
 import { PRESETS } from '@/lib/constants'
 import type { CandidateWithScores, PresetType, ScoreBreakdown } from '@/types/database'
 import type { CandidateDetails } from '@/lib/db/queries'
@@ -70,18 +71,8 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
     }
   }
 
-  const handleShare = () => {
-    const url = window.location.href
-    if (navigator.share) {
-      navigator.share({
-        title: `${candidate.full_name} - Ranking Electoral 2026`,
-        text: `Score: ${getScore().toFixed(1)}/100`,
-        url,
-      })
-    } else {
-      navigator.clipboard.writeText(url)
-    }
-  }
+  const shareTitle = `${candidate.full_name} - Ranking Electoral 2026`
+  const shareDescription = `Score: ${getScore().toFixed(1)}/100 | Competencia: ${candidate.scores.competence.toFixed(0)} | Integridad: ${candidate.scores.integrity.toFixed(0)} | Transparencia: ${candidate.scores.transparency.toFixed(0)}`
 
   return (
     <div className="min-h-screen bg-[var(--background)]">
@@ -150,12 +141,11 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                     </Badge>
                   )}
                   <ConfidenceBadge value={candidate.scores.confidence} size="md" />
-                  <Button variant="ghost" size="sm" onClick={handleShare}>
-                    <svg className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="square" strokeLinejoin="miter" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                    </svg>
-                    COMPARTIR
-                  </Button>
+                  <ShareButton
+                    title={shareTitle}
+                    description={shareDescription}
+                    variant="icon"
+                  />
                 </div>
               </div>
 
