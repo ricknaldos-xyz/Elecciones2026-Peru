@@ -43,15 +43,25 @@ export function TabList({ children, className }: TabListProps) {
   return (
     <div
       className={cn(
-        // NEO BRUTAL tab list
+        // NEO BRUTAL tab list with horizontal scroll for mobile
         'flex',
         'bg-[var(--muted)]',
         'border-3 border-[var(--border)]',
         'shadow-[var(--shadow-brutal-sm)]',
         'p-1',
         'gap-1',
+        // Mobile: horizontal scroll with snap
+        'overflow-x-auto',
+        'snap-x snap-mandatory',
+        'scrollbar-hide',
+        '-webkit-overflow-scrolling-touch',
         className
       )}
+      style={{
+        // Hide scrollbar but keep functionality
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
+      }}
     >
       {children}
     </div>
@@ -72,11 +82,16 @@ export function Tab({ value, children, className }: TabProps) {
     <button
       onClick={() => setActiveTab(value)}
       className={cn(
-        // NEO BRUTAL tab
-        'px-5 py-2.5',
-        'text-sm font-bold uppercase tracking-wide',
+        // NEO BRUTAL tab with mobile-friendly touch targets
+        'px-3 py-3 sm:px-5 sm:py-2.5',
+        'text-xs sm:text-sm font-bold uppercase tracking-wide',
         'transition-all duration-100',
         'border-2',
+        'whitespace-nowrap',
+        'snap-start',
+        'flex-shrink-0',
+        // Minimum touch target 44x44px for accessibility
+        'min-h-[44px]',
         'focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] focus-visible:ring-offset-2',
         isActive
           ? [

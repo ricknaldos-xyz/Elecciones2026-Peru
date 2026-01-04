@@ -178,6 +178,9 @@
   --color-border: var(--border);
   --font-sans: var(--font-space-grotesk);
   --font-mono: var(--font-jetbrains-mono);
+
+  /* Custom breakpoint for very small mobile devices (360px) */
+  --breakpoint-xs: 360px;
 }
 
 /* === BASE STYLES === */

@@ -134,15 +134,15 @@ export function QuizContent() {
 
   // Questions state
   return (
-    <div className="max-w-2xl mx-auto space-y-6">
+    <div className="max-w-3xl mx-auto space-y-6">
       <QuizProgress
         currentQuestion={currentQuestionIndex + 1}
         totalQuestions={QUIZ_QUESTIONS.length}
       />
 
       <Card className={cn(
-        'p-6 sm:p-8 transition-opacity duration-200',
-        isTransitioning && 'opacity-50'
+        'p-6 sm:p-10 transition-opacity duration-200',
+        isTransitioning && 'opacity-50 pointer-events-none'
       )}>
         <QuizQuestion
           question={currentQuestion}
@@ -154,14 +154,15 @@ export function QuizContent() {
       {currentQuestionIndex > 0 && (
         <div className="flex justify-start">
           <Button
-            variant="ghost"
+            variant="outline"
             onClick={handlePrevious}
             disabled={isTransitioning}
+            className="min-h-[48px] px-5"
           >
-            <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="square" strokeLinejoin="miter" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
             </svg>
-            Anterior
+            <span className="font-bold">Anterior</span>
           </Button>
         </div>
       )}

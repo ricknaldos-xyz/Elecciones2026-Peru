@@ -174,26 +174,26 @@ export function CandidateCard({
         className
       )}
     >
-      <div className="p-5">
-        {/* Header: Rank + Photo + Score */}
-        <div className="flex items-start justify-between mb-4">
+      <div className="p-4 sm:p-5">
+        {/* Header: Rank + Photo + Score - Responsive layout */}
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-0 mb-4">
           <div className="flex items-center gap-3">
-            {/* Rank Medal */}
+            {/* Rank Medal - Smaller on mobile */}
             {rank && (
               <div className={cn(
-                'w-12 h-12',
+                'w-10 h-10 sm:w-12 sm:h-12',
                 'border-3 border-[var(--border)]',
                 'shadow-[var(--shadow-brutal-sm)]',
                 'flex items-center justify-center',
-                'font-bold text-xl',
+                'font-bold text-lg sm:text-xl',
                 getRankStyle(rank).bg,
                 getRankStyle(rank).text,
               )}>
                 {getRankStyle(rank).label}
               </div>
             )}
-            {/* Photo */}
-            <div className="w-16 h-16 border-3 border-[var(--border)] bg-[var(--muted)] overflow-hidden">
+            {/* Photo - Smaller on mobile */}
+            <div className="w-14 h-14 sm:w-16 sm:h-16 border-3 border-[var(--border)] bg-[var(--muted)] overflow-hidden">
               {candidate.photo_url ? (
                 <img
                   src={candidate.photo_url}
@@ -201,22 +201,24 @@ export function CandidateCard({
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)] text-xl font-bold">
+                <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)] text-lg sm:text-xl font-bold">
                   {candidate.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
                 </div>
               )}
             </div>
           </div>
 
-          <ScorePill score={score} mode={mode} weights={weights} size="lg" variant="card" />
+          {/* Score - Medium on mobile, Large on desktop */}
+          <ScorePill score={score} mode={mode} weights={weights} size="md" variant="card" className="sm:hidden" />
+          <ScorePill score={score} mode={mode} weights={weights} size="lg" variant="card" className="hidden sm:flex" />
         </div>
 
         {/* Name & Party */}
-        <div className="mb-4">
-          <h3 className="text-xl font-bold text-[var(--foreground)] leading-tight tracking-tight">
+        <div className="mb-3 sm:mb-4">
+          <h3 className="text-lg sm:text-xl font-bold text-[var(--foreground)] leading-tight tracking-tight">
             {candidate.full_name}
           </h3>
-          <div className="flex items-center gap-2 mt-2 flex-wrap">
+          <div className="flex items-center gap-1.5 sm:gap-2 mt-2 flex-wrap">
             {candidate.party && (
               <Badge variant="primary" size="sm">
                 {candidate.party.short_name || candidate.party.name}
@@ -233,8 +235,8 @@ export function CandidateCard({
           </div>
         </div>
 
-        {/* Sub-scores grid */}
-        <div className="grid grid-cols-3 gap-3 py-4 border-t-3 border-[var(--border)]">
+        {/* Sub-scores grid - Reduced gap on mobile */}
+        <div className="grid grid-cols-3 gap-2 sm:gap-3 py-3 sm:py-4 border-t-3 border-[var(--border)]">
           <SubScoreStat type="competence" value={candidate.scores.competence} size="sm" />
           <SubScoreStat type="integrity" value={candidate.scores.integrity} size="sm" />
           <SubScoreStat type="transparency" value={candidate.scores.transparency} size="sm" />
@@ -242,13 +244,13 @@ export function CandidateCard({
 
         {/* Flags */}
         {candidate.flags.length > 0 && (
-          <div className="pt-3 border-t-3 border-[var(--border)]">
+          <div className="pt-2 sm:pt-3 border-t-3 border-[var(--border)]">
             <FlagChips flags={candidate.flags} maxVisible={3} />
           </div>
         )}
 
-        {/* Actions */}
-        <div className="flex items-center gap-2 mt-4 pt-4 border-t-3 border-[var(--border)]">
+        {/* Actions - Better mobile spacing and touch targets */}
+        <div className="flex items-center gap-2 mt-3 sm:mt-4 pt-3 sm:pt-4 border-t-3 border-[var(--border)]">
           <Button
             variant="outline"
             size="sm"
@@ -256,9 +258,10 @@ export function CandidateCard({
               e.stopPropagation()
               handleCompare()
             }}
-            className="flex-1"
+            className="flex-1 min-h-[44px]"
           >
-            {isSelected ? 'Quitar' : 'Comparar'}
+            <span className="hidden sm:inline">{isSelected ? 'Quitar' : 'Comparar'}</span>
+            <span className="sm:hidden">{isSelected ? 'Quitar' : 'Comp.'}</span>
           </Button>
           <Button
             variant="primary"
@@ -267,7 +270,7 @@ export function CandidateCard({
               e.stopPropagation()
               handleView()
             }}
-            className="flex-1"
+            className="flex-1 min-h-[44px]"
           >
             Ver perfil
           </Button>
@@ -279,6 +282,7 @@ export function CandidateCard({
               handleShare()
             }}
             aria-label="Compartir"
+            className="min-h-[44px] min-w-[44px]"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="square" strokeLinejoin="miter" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />

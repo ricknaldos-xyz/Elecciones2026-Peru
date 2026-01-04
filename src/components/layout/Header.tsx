@@ -91,13 +91,13 @@ export function Header({ currentPath }: HeaderProps) {
       'shadow-[var(--shadow-brutal-sm)]'
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo - NEO BRUTAL */}
-          <div className="flex items-center gap-3">
-            <Link href="/" className="flex items-center gap-3 group">
-              {/* Peru Flag Icon - Blocky */}
+        <div className="flex items-center justify-between h-14 sm:h-16">
+          {/* Logo - NEO BRUTAL - Mobile Optimized */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Link href="/" className="flex items-center gap-2 sm:gap-3 group">
+              {/* Peru Flag Icon - Blocky - Responsive */}
               <div className={cn(
-                'w-10 h-10',
+                'w-8 h-8 sm:w-10 sm:h-10',
                 'bg-[var(--primary)]',
                 'border-3 border-[var(--border)]',
                 'shadow-[var(--shadow-brutal-sm)]',
@@ -106,13 +106,13 @@ export function Header({ currentPath }: HeaderProps) {
                 'group-hover:-translate-x-0.5 group-hover:-translate-y-0.5',
                 'group-hover:shadow-[var(--shadow-brutal)]'
               )}>
-                <span className="text-white font-black text-sm tracking-tighter">PE</span>
+                <span className="text-white font-black text-xs sm:text-sm tracking-tighter">PE</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-lg font-black text-[var(--foreground)] leading-tight tracking-tight uppercase">
+                <span className="text-sm sm:text-base lg:text-lg font-black text-[var(--foreground)] leading-tight tracking-tight uppercase">
                   Ranking Electoral
                 </span>
-                <span className="text-xs text-[var(--primary)] font-bold leading-tight uppercase tracking-widest">
+                <span className="text-[10px] sm:text-xs text-[var(--primary)] font-bold leading-tight uppercase tracking-widest">
                   Peru 2026
                 </span>
               </div>
@@ -158,12 +158,14 @@ export function Header({ currentPath }: HeaderProps) {
 
           {/* Actions */}
           <div className="flex items-center gap-2">
-            {/* Search Button - NEO BRUTAL */}
+            {/* Search Button - NEO BRUTAL - 44px Touch Target */}
             <div ref={searchRef} className="relative">
               <button
                 onClick={() => setSearchOpen(!searchOpen)}
                 className={cn(
-                  'p-2',
+                  'p-2.5 sm:p-2',
+                  'min-w-[44px] min-h-[44px]',
+                  'flex items-center justify-center',
                   'text-[var(--foreground)]',
                   'border-2 border-transparent',
                   'transition-all duration-100',
@@ -184,10 +186,11 @@ export function Header({ currentPath }: HeaderProps) {
                 </svg>
               </button>
 
-              {/* Search Dropdown - NEO BRUTAL */}
+              {/* Search Dropdown - NEO BRUTAL - Mobile Responsive */}
               {searchOpen && (
                 <div className={cn(
-                  'absolute right-0 top-full mt-2 w-80',
+                  'absolute right-0 top-full mt-2',
+                  'w-[calc(100vw-2rem)] sm:w-80 max-w-md',
                   'bg-[var(--card)]',
                   'border-3 border-[var(--border)]',
                   'shadow-[var(--shadow-brutal-lg)]',
@@ -267,11 +270,13 @@ export function Header({ currentPath }: HeaderProps) {
               )}
             </div>
 
-            {/* Dark Mode Toggle - NEO BRUTAL */}
+            {/* Dark Mode Toggle - NEO BRUTAL - 44px Touch Target */}
             <button
               onClick={toggleDarkMode}
               className={cn(
-                'p-2',
+                'p-2.5 sm:p-2',
+                'min-w-[44px] min-h-[44px]',
+                'flex items-center justify-center',
                 'text-[var(--foreground)]',
                 'border-2 border-transparent',
                 'transition-all duration-100',
@@ -300,11 +305,13 @@ export function Header({ currentPath }: HeaderProps) {
               </Button>
             </Link>
 
-            {/* Mobile Menu Button - NEO BRUTAL */}
+            {/* Mobile Menu Button - NEO BRUTAL - 44px Touch Target */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className={cn(
-                'md:hidden p-2',
+                'md:hidden p-2.5',
+                'min-w-[44px] min-h-[44px]',
+                'flex items-center justify-center',
                 'text-[var(--foreground)]',
                 'border-2 border-transparent',
                 'transition-all duration-100',
@@ -328,7 +335,7 @@ export function Header({ currentPath }: HeaderProps) {
           </div>
         </div>
 
-        {/* Mobile Menu - NEO BRUTAL */}
+        {/* Mobile Menu - NEO BRUTAL - Improved Touch Targets */}
         {mobileMenuOpen && (
           <div className="md:hidden border-t-3 border-[var(--border)] py-4">
             <nav className="flex flex-col gap-2">
@@ -338,7 +345,9 @@ export function Header({ currentPath }: HeaderProps) {
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
-                    'px-4 py-3 font-bold uppercase tracking-wide',
+                    'px-4 py-3.5',
+                    'min-h-[48px]',
+                    'font-bold uppercase tracking-wide text-sm',
                     'border-2 transition-all duration-100',
                     'flex items-center gap-2',
                     currentPath === link.href

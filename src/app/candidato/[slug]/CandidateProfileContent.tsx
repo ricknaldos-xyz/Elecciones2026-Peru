@@ -80,13 +80,13 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
       <Header />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Hero Section */}
+        {/* Hero Section - Mobile Optimized */}
         <Card className="mb-6 overflow-hidden">
-          <div className="p-6 sm:p-8">
-            <div className="flex flex-col sm:flex-row gap-6">
-              {/* Photo */}
+          <div className="p-4 sm:p-6 lg:p-8">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+              {/* Photo - Smaller on mobile */}
               <div className="flex-shrink-0">
-                <div className="w-28 h-28 sm:w-32 sm:h-32 border-3 border-[var(--border)] bg-[var(--muted)] overflow-hidden mx-auto sm:mx-0">
+                <div className="w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 border-3 border-[var(--border)] bg-[var(--muted)] overflow-hidden mx-auto sm:mx-0">
                   {candidate.photo_url ? (
                     <img
                       src={candidate.photo_url}
@@ -94,7 +94,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)] text-3xl font-black uppercase">
+                    <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)] text-2xl sm:text-3xl font-black uppercase">
                       {candidate.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
                     </div>
                   )}
@@ -103,16 +103,17 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
 
               {/* Info */}
               <div className="flex-1 text-center sm:text-left">
-                <h1 className="text-2xl sm:text-3xl font-black text-[var(--foreground)] mb-3 uppercase tracking-tight">
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-black text-[var(--foreground)] mb-2 sm:mb-3 uppercase tracking-tight">
                   {candidate.full_name}
                 </h1>
-                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-4">
-                  <Badge variant="primary" size="md">
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 sm:gap-2 mb-3 sm:mb-4">
+                  <Badge variant="primary" size="sm" className="sm:size-md">
                     {cargoLabels[candidate.cargo] || candidate.cargo}
                   </Badge>
                   {candidate.party && (
                     <Badge
-                      size="md"
+                      size="sm"
+                      className="sm:size-md"
                       style={{
                         backgroundColor: candidate.party.color || '#6B7280',
                         color: '#fff',
@@ -122,10 +123,10 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                     </Badge>
                   )}
                   {candidate.district && (
-                    <Badge variant="outline" size="md">{candidate.district.name}</Badge>
+                    <Badge variant="outline" size="sm" className="sm:size-md">{candidate.district.name}</Badge>
                   )}
                 </div>
-                <div className="flex items-center justify-center sm:justify-start gap-3">
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
                   {candidate.data_verified ? (
                     <Badge variant="success" size="sm" className="gap-1">
                       <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -150,23 +151,38 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                 </div>
               </div>
 
-              {/* Score */}
+              {/* Score - Responsive sizing and touch-friendly mode buttons */}
               <div className="flex-shrink-0 flex flex-col items-center justify-center">
-                <ScorePill
-                  score={getScore()}
-                  mode={mode}
-                  weights={PRESETS[mode as keyof typeof PRESETS]}
-                  size="lg"
-                  variant="default"
-                  showMode
-                />
-                <div className="flex gap-1 mt-3">
+                {/* Mobile: md size, Desktop: lg size */}
+                <div className="sm:hidden">
+                  <ScorePill
+                    score={getScore()}
+                    mode={mode}
+                    weights={PRESETS[mode as keyof typeof PRESETS]}
+                    size="md"
+                    variant="default"
+                    showMode
+                  />
+                </div>
+                <div className="hidden sm:flex">
+                  <ScorePill
+                    score={getScore()}
+                    mode={mode}
+                    weights={PRESETS[mode as keyof typeof PRESETS]}
+                    size="lg"
+                    variant="default"
+                    showMode
+                  />
+                </div>
+                {/* Mode selector with touch-friendly targets (44px min) */}
+                <div className="flex flex-wrap justify-center gap-1 sm:gap-1.5 mt-3">
                   {(['balanced', 'merit', 'integrity'] as const).map((m) => (
                     <button
                       key={m}
                       onClick={() => setMode(m)}
                       className={cn(
-                        'px-3 py-1.5 text-xs font-bold uppercase tracking-wide border-2 transition-all duration-100',
+                        'px-2.5 py-2.5 sm:px-3 sm:py-1.5 text-xs font-bold uppercase tracking-wide border-2 transition-all duration-100',
+                        'min-h-[44px] min-w-[64px] sm:min-h-0 sm:min-w-0',
                         mode === m
                           ? 'bg-[var(--primary)] text-white border-[var(--border)] shadow-[var(--shadow-brutal-sm)] -translate-x-0.5 -translate-y-0.5'
                           : 'bg-[var(--background)] text-[var(--foreground)] border-transparent hover:border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5'
@@ -180,12 +196,12 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
             </div>
           </div>
 
-          {/* Sub-scores strip */}
-          <div className="px-6 sm:px-8 py-4 bg-[var(--muted)] border-t-3 border-[var(--border)]">
-            <div className="grid grid-cols-3 gap-6">
-              <SubScoreStat type="competence" value={candidate.scores.competence} size="md" />
-              <SubScoreStat type="integrity" value={candidate.scores.integrity} size="md" />
-              <SubScoreStat type="transparency" value={candidate.scores.transparency} size="md" />
+          {/* Sub-scores strip - Responsive gaps */}
+          <div className="px-4 sm:px-6 lg:px-8 py-3 sm:py-4 bg-[var(--muted)] border-t-3 border-[var(--border)]">
+            <div className="grid grid-cols-3 gap-2 sm:gap-4 lg:gap-6">
+              <SubScoreStat type="competence" value={candidate.scores.competence} size="sm" />
+              <SubScoreStat type="integrity" value={candidate.scores.integrity} size="sm" />
+              <SubScoreStat type="transparency" value={candidate.scores.transparency} size="sm" />
             </div>
           </div>
         </Card>
@@ -198,16 +214,17 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
               ? 'bg-[var(--flag-red)]/10 border-[var(--flag-red)]'
               : 'bg-[var(--flag-amber)]/10 border-[var(--flag-amber)]'
           )}>
-            <div className="p-5">
-              <div className="flex items-start gap-4">
+            {/* Reduced padding on mobile */}
+            <div className="p-4 sm:p-5">
+              <div className="flex items-start gap-3 sm:gap-4">
                 <div className={cn(
-                  'p-2.5 border-2 flex-shrink-0',
+                  'p-2 sm:p-2.5 border-2 flex-shrink-0',
                   candidate.flags.some(f => f.severity === 'RED')
                     ? 'bg-[var(--flag-red-bg)] border-[var(--flag-red)]'
                     : 'bg-[var(--flag-amber-bg)] border-[var(--flag-amber)]'
                 )}>
                   <svg className={cn(
-                    'w-5 h-5',
+                    'w-4 h-4 sm:w-5 sm:h-5',
                     candidate.flags.some(f => f.severity === 'RED')
                       ? 'text-[var(--flag-red-text)]'
                       : 'text-[var(--flag-amber-text)]'
@@ -217,7 +234,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                 </div>
                 <div className="flex-1">
                   <h3 className={cn(
-                    'font-black uppercase tracking-wide mb-1',
+                    'text-sm sm:text-base font-black uppercase tracking-wide mb-1',
                     candidate.flags.some(f => f.severity === 'RED')
                       ? 'text-[var(--flag-red-text)]'
                       : 'text-[var(--flag-amber-text)]'
@@ -225,14 +242,14 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                     {candidate.flags.length} Alerta{candidate.flags.length > 1 ? 's' : ''} Registrada{candidate.flags.length > 1 ? 's' : ''}
                   </h3>
                   <p className={cn(
-                    'text-sm font-medium mb-3',
+                    'text-xs sm:text-sm font-medium mb-2 sm:mb-3',
                     candidate.flags.some(f => f.severity === 'RED')
                       ? 'text-[var(--flag-red-text)]'
                       : 'text-[var(--flag-amber-text)]'
                   )}>
                     Este candidato tiene antecedentes verificados que afectan su puntaje de integridad.
                   </p>
-                  <FlagChips flags={candidate.flags} maxVisible={5} size="md" />
+                  <FlagChips flags={candidate.flags} maxVisible={5} size="sm" className="sm:size-md" />
                 </div>
               </div>
             </div>
@@ -258,7 +275,8 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                     <CardTitle>DATOS PERSONALES</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="grid grid-cols-2 gap-4">
+                    {/* Grid-1 on mobile, grid-2 on tablet+ */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {details.birth_date && (
                         <div>
                           <span className="text-sm font-bold uppercase text-[var(--muted-foreground)]">Fecha de nacimiento</span>
@@ -300,15 +318,16 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                   <CardContent>
                     <div className="space-y-4">
                       {details.education_details.map((edu, idx) => (
-                        <div key={idx} className="flex gap-4 pb-4 border-b-2 border-[var(--border)] last:border-0 last:pb-0">
+                        <div key={idx} className="flex gap-3 sm:gap-4 pb-4 border-b-2 border-[var(--border)] last:border-0 last:pb-0">
+                          {/* Smaller icon on mobile */}
                           <div className={cn(
-                            'w-10 h-10 border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0',
+                            'w-8 h-8 sm:w-10 sm:h-10 border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0',
                             edu.level === 'Doctorado' ? 'bg-[var(--score-integrity)]/20 text-[var(--score-integrity-text)]' :
                             edu.level === 'Maestría' ? 'bg-[var(--score-transparency)]/20 text-[var(--score-transparency-text)]' :
                             edu.level === 'Universitario' || edu.level === 'Título Profesional' ? 'bg-[var(--score-competence)]/20 text-[var(--score-competence-text)]' :
                             'bg-[var(--muted)] text-[var(--muted-foreground)]'
                           )}>
-                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                               <path d="M12 14l9-5-9-5-9 5 9 5z" />
                               <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
                               <path strokeLinecap="square" strokeLinejoin="miter" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
@@ -351,12 +370,13 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                   <CardContent>
                     <div className="space-y-4">
                       {details.experience_details.map((exp, idx) => (
-                        <div key={idx} className="flex gap-4 pb-4 border-b-2 border-[var(--border)] last:border-0 last:pb-0">
+                        <div key={idx} className="flex gap-3 sm:gap-4 pb-4 border-b-2 border-[var(--border)] last:border-0 last:pb-0">
+                          {/* Smaller icon on mobile */}
                           <div className={cn(
-                            'w-10 h-10 border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0',
+                            'w-8 h-8 sm:w-10 sm:h-10 border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0',
                             exp.type === 'publico' ? 'bg-[var(--score-transparency)]/20 text-[var(--score-transparency-text)]' : 'bg-[var(--score-competence)]/20 text-[var(--score-competence-text)]'
                           )}>
-                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                               <path strokeLinecap="square" strokeLinejoin="miter" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
                           </div>
@@ -390,15 +410,16 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                   <CardContent>
                     <div className="space-y-4">
                       {details.political_trajectory.map((pol, idx) => (
-                        <div key={idx} className="flex gap-4 pb-4 border-b-2 border-[var(--border)] last:border-0 last:pb-0">
+                        <div key={idx} className="flex gap-3 sm:gap-4 pb-4 border-b-2 border-[var(--border)] last:border-0 last:pb-0">
+                          {/* Smaller icon on mobile */}
                           <div className={cn(
-                            'w-10 h-10 border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0',
+                            'w-8 h-8 sm:w-10 sm:h-10 border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0',
                             pol.type === 'cargo_electivo' ? 'bg-[var(--flag-red-bg)] text-[var(--flag-red-text)]' :
                             pol.type === 'cargo_partidario' ? 'bg-[var(--flag-amber-bg)] text-[var(--flag-amber-text)]' :
                             pol.type === 'candidatura' ? 'bg-[var(--score-integrity)]/20 text-[var(--score-integrity-text)]' :
                             'bg-[var(--muted)] text-[var(--muted-foreground)]'
                           )}>
-                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                               <path strokeLinecap="square" strokeLinejoin="miter" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                             </svg>
                           </div>
@@ -448,17 +469,17 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      {/* Resumen */}
-                      <div className="grid grid-cols-2 gap-4 p-4 bg-[var(--muted)] border-2 border-[var(--border)]">
+                      {/* Resumen - Grid-1 on mobile, grid-2 on tablet+ */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-[var(--muted)] border-2 border-[var(--border)]">
                         <div>
                           <span className="text-sm font-bold uppercase text-[var(--muted-foreground)]">Patrimonio Total</span>
-                          <p className="text-xl font-black text-[var(--foreground)]">
+                          <p className="text-lg sm:text-xl font-black text-[var(--foreground)]">
                             {formatCurrency(details.assets_declaration.total_value)}
                           </p>
                         </div>
                         <div>
                           <span className="text-sm font-bold uppercase text-[var(--muted-foreground)]">Ingreso Mensual</span>
-                          <p className="text-xl font-black text-[var(--foreground)]">
+                          <p className="text-lg sm:text-xl font-black text-[var(--foreground)]">
                             {formatCurrency(details.assets_declaration.income.monthly_salary)}
                           </p>
                         </div>

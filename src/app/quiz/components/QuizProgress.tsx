@@ -16,16 +16,16 @@ export function QuizProgress({
   const progress = ((currentQuestion) / totalQuestions) * 100
 
   return (
-    <div className={cn('space-y-2', className)}>
+    <div className={cn('space-y-3', className)}>
       <div className="flex items-center justify-between">
-        <span className="text-sm font-bold text-[var(--muted-foreground)] uppercase tracking-wide">
+        <span className="text-sm sm:text-base font-bold text-[var(--muted-foreground)] uppercase tracking-wide">
           Pregunta {currentQuestion} de {totalQuestions}
         </span>
-        <span className="text-sm font-black text-[var(--foreground)]">
+        <span className="text-base sm:text-lg font-black text-[var(--foreground)]">
           {Math.round(progress)}%
         </span>
       </div>
-      <div className="h-3 bg-[var(--muted)] border-2 border-[var(--border)]">
+      <div className="h-4 sm:h-5 bg-[var(--muted)] border-2 border-[var(--border)] overflow-hidden">
         <div
           className="h-full bg-[var(--primary)] transition-all duration-300 ease-out"
           style={{ width: `${progress}%` }}

@@ -69,12 +69,12 @@ export function ScorePill({
     </div>
   )
 
-  // Size configurations - NEO BRUTAL with bigger, bolder numbers
+  // Size configurations - NEO BRUTAL with responsive sizes for mobile
   const sizeConfig = {
-    sm: { score: 'text-2xl', max: 'text-xs', gap: 'gap-0', padding: 'px-3 py-1' },
-    md: { score: 'text-4xl', max: 'text-sm', gap: 'gap-0.5', padding: 'px-4 py-2' },
-    lg: { score: 'text-5xl', max: 'text-base', gap: 'gap-1', padding: 'px-5 py-3' },
-    xl: { score: 'text-6xl', max: 'text-lg', gap: 'gap-1', padding: 'px-6 py-4' },
+    sm: { score: 'text-xl sm:text-2xl', max: 'text-xs', gap: 'gap-0', padding: 'px-2 py-1 sm:px-3' },
+    md: { score: 'text-2xl sm:text-4xl', max: 'text-xs sm:text-sm', gap: 'gap-0.5', padding: 'px-3 py-1.5 sm:px-4 sm:py-2' },
+    lg: { score: 'text-3xl sm:text-5xl', max: 'text-sm sm:text-base', gap: 'gap-0.5 sm:gap-1', padding: 'px-4 py-2 sm:px-5 sm:py-3' },
+    xl: { score: 'text-4xl sm:text-6xl', max: 'text-base sm:text-lg', gap: 'gap-0.5 sm:gap-1', padding: 'px-5 py-3 sm:px-6 sm:py-4' },
   }
 
   const config = sizeConfig[size]
