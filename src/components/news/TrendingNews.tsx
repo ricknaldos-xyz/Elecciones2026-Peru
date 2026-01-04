@@ -101,7 +101,7 @@ export function TrendingNews({ className, limit = 5 }: TrendingNewsProps) {
   }
 
   return (
-    <Card className={className}>
+    <Card className={cn('h-full', className)}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <div className="w-8 h-8 bg-[var(--primary)] border-2 border-[var(--border)] flex items-center justify-center">

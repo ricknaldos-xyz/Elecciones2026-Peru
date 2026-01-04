@@ -82,7 +82,7 @@ export function DailyFact({ className }: DailyFactProps) {
   const iconPath = FACT_TYPE_ICONS[fact.fact_type] || FACT_TYPE_ICONS.statistic
 
   return (
-    <Card className={cn('p-4 sm:p-5', className)}>
+    <Card className={cn('p-4 sm:p-5 h-full', className)}>
       <div className="flex items-start gap-3 sm:gap-4">
         <div className={cn(
           'w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0',
