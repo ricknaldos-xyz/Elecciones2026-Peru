@@ -46,22 +46,23 @@ export function RankingFilters({
   const showDistrito = cargo === 'diputado' || cargo === 'senador'
 
   return (
-    <div className={cn('space-y-4', className)}>
+    <div className={cn('space-y-5', className)}>
       {/* Cargo - NEO BRUTAL */}
       <div>
         <label className="block text-sm font-bold text-[var(--foreground)] mb-2 uppercase tracking-wide">
-          Cargo
+          ¿A qué cargo postulan?
         </label>
         <select
           value={cargo}
           onChange={(e) => onCargoChange(e.target.value as CargoType)}
           className={cn(
-            'w-full px-3 py-2.5',
+            'w-full px-3 py-3',
             'bg-[var(--background)]',
             'border-2 border-[var(--border)]',
             'text-sm font-bold text-[var(--foreground)]',
             'focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2',
-            'cursor-pointer'
+            'cursor-pointer',
+            'min-h-[48px]'
           )}
         >
           {Object.entries(CARGOS).map(([key, value]) => (
@@ -76,18 +77,19 @@ export function RankingFilters({
       {showDistrito && (
         <div>
           <label className="block text-sm font-bold text-[var(--foreground)] mb-2 uppercase tracking-wide">
-            Distrito Electoral
+            ¿De qué región?
           </label>
           <select
             value={distrito || ''}
             onChange={(e) => onDistritoChange(e.target.value || undefined)}
             className={cn(
-              'w-full px-3 py-2.5',
+              'w-full px-3 py-3',
               'bg-[var(--background)]',
               'border-2 border-[var(--border)]',
               'text-sm font-bold text-[var(--foreground)]',
               'focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2',
-              'cursor-pointer'
+              'cursor-pointer',
+              'min-h-[48px]'
             )}
           >
             <option value="">Todos los distritos</option>
@@ -103,18 +105,19 @@ export function RankingFilters({
       {/* Partido - NEO BRUTAL */}
       <div>
         <label className="block text-sm font-bold text-[var(--foreground)] mb-2 uppercase tracking-wide">
-          Partido Político
+          ¿De qué partido?
         </label>
         <select
           value={partyId || ''}
           onChange={(e) => onPartyChange(e.target.value || undefined)}
           className={cn(
-            'w-full px-3 py-2.5',
+            'w-full px-3 py-3',
             'bg-[var(--background)]',
             'border-2 border-[var(--border)]',
             'text-sm font-bold text-[var(--foreground)]',
             'focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2',
-            'cursor-pointer'
+            'cursor-pointer',
+            'min-h-[48px]'
           )}
         >
           <option value="">Todos los partidos</option>
@@ -129,7 +132,7 @@ export function RankingFilters({
       {/* Min Confidence - NEO BRUTAL */}
       <div>
         <label className="block text-sm font-bold text-[var(--foreground)] mb-2 uppercase tracking-wide">
-          Confianza mínima: <span className="text-[var(--primary)]">{minConfidence}%</span>
+          Nivel de información mínimo: <span className="text-[var(--primary)]">{minConfidence}%</span>
         </label>
         <input
           type="range"
@@ -138,7 +141,7 @@ export function RankingFilters({
           step={10}
           value={minConfidence}
           onChange={(e) => onMinConfidenceChange(Number(e.target.value))}
-          className="w-full h-3 bg-[var(--muted)] border-2 border-[var(--border)] appearance-none cursor-pointer accent-[var(--primary)]"
+          className="w-full h-4 bg-[var(--muted)] border-2 border-[var(--border)] appearance-none cursor-pointer accent-[var(--primary)]"
         />
         <div className="flex justify-between text-xs font-bold text-[var(--muted-foreground)] mt-1">
           <span>0%</span>
@@ -146,25 +149,33 @@ export function RankingFilters({
         </div>
       </div>
 
-      {/* Only Clean - NEO BRUTAL */}
-      <div className="flex items-center gap-3">
+      {/* Only Clean - NEO BRUTAL - Better touch target */}
+      <label
+        htmlFor="onlyClean"
+        className={cn(
+          'flex items-center gap-3 p-3',
+          'bg-[var(--muted)]',
+          'border-2 border-[var(--border)]',
+          'cursor-pointer',
+          'hover:bg-[var(--background)]',
+          'transition-colors',
+          'min-h-[48px]'
+        )}
+      >
         <input
           type="checkbox"
           id="onlyClean"
           checked={onlyClean}
           onChange={(e) => onOnlyCleanChange(e.target.checked)}
-          className="w-5 h-5 bg-[var(--background)] border-2 border-[var(--border)] text-[var(--primary)] focus:ring-[var(--primary)] focus:ring-2 cursor-pointer"
+          className="w-5 h-5 bg-[var(--background)] border-2 border-[var(--border)] text-[var(--primary)] focus:ring-[var(--primary)] focus:ring-2 cursor-pointer flex-shrink-0"
         />
-        <label
-          htmlFor="onlyClean"
-          className="text-sm font-bold text-[var(--foreground)] uppercase tracking-wide cursor-pointer"
-        >
+        <span className="text-sm font-bold text-[var(--foreground)] uppercase tracking-wide">
           Solo sin antecedentes negativos
-        </label>
-      </div>
+        </span>
+      </label>
 
       {/* Reset - NEO BRUTAL */}
-      <Button variant="outline" size="sm" onClick={onReset} className="w-full">
+      <Button variant="outline" size="sm" onClick={onReset} className="w-full min-h-[48px]">
         Limpiar filtros
       </Button>
     </div>

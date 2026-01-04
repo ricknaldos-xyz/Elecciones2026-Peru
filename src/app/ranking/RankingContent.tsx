@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useCallback } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { cn } from '@/lib/utils'
 import { Header } from '@/components/layout/Header'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
@@ -270,10 +271,24 @@ export function RankingContent() {
             </Card>
           </aside>
 
-          {/* Mobile Filter Button - NEO BRUTAL */}
+          {/* Mobile Filter Button - NEO BRUTAL - Adjusts position when CompareTray is visible */}
           <button
             onClick={() => setShowFilters(true)}
-            className="lg:hidden fixed bottom-20 right-4 z-30 bg-[var(--primary)] text-white px-4 py-2.5 border-3 border-[var(--border)] shadow-[var(--shadow-brutal)] flex items-center gap-2 font-bold uppercase tracking-wide transition-all duration-100 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-lg)]"
+            className={cn(
+              'lg:hidden fixed right-4 z-30',
+              'bg-[var(--primary)] text-white',
+              'px-4 py-3 min-h-[48px]',
+              'border-3 border-[var(--border)]',
+              'shadow-[var(--shadow-brutal)]',
+              'flex items-center gap-2',
+              'font-bold uppercase tracking-wide',
+              'transition-all duration-200',
+              'hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-lg)]',
+              // Move up when CompareTray is visible
+              selectedForCompare.length > 0
+                ? 'bottom-32 sm:bottom-24'
+                : 'bottom-6'
+            )}
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="square" strokeLinejoin="miter" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
@@ -281,11 +296,25 @@ export function RankingContent() {
             Filtros
           </button>
 
-          {/* Mobile Filter Panel - NEO BRUTAL */}
+          {/* Mobile Filter Panel - NEO BRUTAL with safe-area support */}
           {showFilters && (
-            <div className="lg:hidden fixed inset-0 z-50 bg-black/50">
-              <div className="absolute right-0 top-0 bottom-0 w-80 bg-[var(--card)] border-l-3 border-[var(--border)] p-5 overflow-y-auto shadow-[var(--shadow-brutal-xl)]">
-                <div className="flex items-center justify-between mb-4">
+            <div className="lg:hidden fixed inset-0 z-50">
+              {/* Backdrop */}
+              <div
+                className="absolute inset-0 bg-black/50"
+                onClick={() => setShowFilters(false)}
+              />
+              {/* Panel */}
+              <div className={cn(
+                'absolute right-0 top-0 bottom-0',
+                'w-[85vw] max-w-[320px]',
+                'bg-[var(--card)]',
+                'border-l-3 border-[var(--border)]',
+                'shadow-[var(--shadow-brutal-xl)]',
+                'flex flex-col'
+              )}>
+                {/* Header - Fixed */}
+                <div className="flex items-center justify-between p-4 border-b-3 border-[var(--border)] bg-[var(--muted)]">
                   <h2 className="font-black text-[var(--foreground)] flex items-center gap-2 uppercase tracking-wide">
                     <svg className="w-4 h-4 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="square" strokeLinejoin="miter" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
@@ -294,26 +323,60 @@ export function RankingContent() {
                   </h2>
                   <button
                     onClick={() => setShowFilters(false)}
-                    className="p-2 text-[var(--foreground)] border-2 border-transparent hover:border-[var(--border)] hover:bg-[var(--muted)] transition-all duration-100"
+                    className={cn(
+                      'w-10 h-10',
+                      'flex items-center justify-center',
+                      'text-[var(--foreground)]',
+                      'border-2 border-[var(--border)]',
+                      'bg-[var(--background)]',
+                      'hover:bg-[var(--flag-red)] hover:text-white hover:border-[var(--flag-red)]',
+                      'transition-all duration-100'
+                    )}
+                    aria-label="Cerrar filtros"
                   >
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="square" strokeLinejoin="miter" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                   </button>
                 </div>
-                <RankingFilters
-                  cargo={cargo}
-                  distrito={distrito}
-                  partyId={partyId}
-                  minConfidence={minConfidence}
-                  onlyClean={onlyClean}
-                  onCargoChange={handleCargoChange}
-                  onDistritoChange={handleDistritoChange}
-                  onPartyChange={handlePartyChange}
-                  onMinConfidenceChange={handleMinConfidenceChange}
-                  onOnlyCleanChange={handleOnlyCleanChange}
-                  onReset={handleResetFilters}
-                />
+
+                {/* Scrollable Content */}
+                <div className="flex-1 overflow-y-auto p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+                  <RankingFilters
+                    cargo={cargo}
+                    distrito={distrito}
+                    partyId={partyId}
+                    minConfidence={minConfidence}
+                    onlyClean={onlyClean}
+                    onCargoChange={(newCargo) => {
+                      handleCargoChange(newCargo)
+                      setShowFilters(false)
+                    }}
+                    onDistritoChange={handleDistritoChange}
+                    onPartyChange={handlePartyChange}
+                    onMinConfidenceChange={handleMinConfidenceChange}
+                    onOnlyCleanChange={handleOnlyCleanChange}
+                    onReset={handleResetFilters}
+                  />
+                </div>
+
+                {/* Apply Button - Fixed at bottom */}
+                <div className="p-4 border-t-3 border-[var(--border)] bg-[var(--muted)] pb-[calc(1rem+env(safe-area-inset-bottom))]">
+                  <button
+                    onClick={() => setShowFilters(false)}
+                    className={cn(
+                      'w-full min-h-[48px]',
+                      'bg-[var(--primary)] text-white',
+                      'border-3 border-[var(--border)]',
+                      'shadow-[var(--shadow-brutal-sm)]',
+                      'font-bold uppercase tracking-wide',
+                      'hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal)]',
+                      'transition-all duration-100'
+                    )}
+                  >
+                    Ver {candidates.length} candidatos
+                  </button>
+                </div>
               </div>
             </div>
           )}

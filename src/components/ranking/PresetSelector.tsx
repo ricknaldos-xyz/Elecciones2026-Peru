@@ -90,65 +90,71 @@ export function PresetSelector({
 
   return (
     <div className={cn('space-y-3', className)}>
-      {/* Preset Pills - NEO BRUTAL */}
-      <div className="flex items-center gap-1 p-1 bg-[var(--muted)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)]">
-        {(Object.keys(presetConfig) as Array<Exclude<PresetType, 'custom'>>).map(
-          (preset) => (
-            <Tooltip key={preset} content={presetConfig[preset].description}>
-              <button
-                onClick={() => handlePresetClick(preset)}
-                className={cn(
-                  'flex-1 px-4 py-2 text-sm font-bold uppercase tracking-wide',
-                  'border-2 transition-all duration-100',
-                  value === preset && !showCustom
-                    ? [
-                        'bg-[var(--primary)] text-white',
-                        'border-[var(--border)]',
-                        'shadow-[var(--shadow-brutal-sm)]',
-                        '-translate-x-0.5 -translate-y-0.5',
-                      ]
-                    : [
-                        'bg-[var(--background)] text-[var(--foreground)]',
-                        'border-transparent',
-                        'hover:border-[var(--border)]',
-                        'hover:-translate-x-0.5 hover:-translate-y-0.5',
-                        'hover:shadow-[var(--shadow-brutal-sm)]',
-                      ]
-                )}
-              >
-                {presetConfig[preset].label}
-              </button>
-            </Tooltip>
-          )
-        )}
-        <Tooltip content="Define tus pesos (con límites para evitar rankings engañosos)">
-          <button
-            onClick={handleCustomClick}
-            className={cn(
-              'flex items-center gap-2 px-4 py-2 text-sm font-bold uppercase tracking-wide',
-              'border-2 transition-all duration-100',
-              showCustom
-                ? [
-                    'bg-[var(--primary)] text-white',
-                    'border-[var(--border)]',
-                    'shadow-[var(--shadow-brutal-sm)]',
-                    '-translate-x-0.5 -translate-y-0.5',
-                  ]
-                : [
-                    'bg-[var(--background)] text-[var(--foreground)]',
-                    'border-transparent',
-                    'hover:border-[var(--border)]',
-                    'hover:-translate-x-0.5 hover:-translate-y-0.5',
-                    'hover:shadow-[var(--shadow-brutal-sm)]',
-                  ]
-            )}
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="square" strokeLinejoin="miter" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-            </svg>
-            Custom
-          </button>
-        </Tooltip>
+      {/* Preset Pills - NEO BRUTAL - Horizontal scroll on mobile */}
+      <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible">
+        <div className="flex items-center gap-1 p-1 bg-[var(--muted)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)] min-w-max sm:min-w-0">
+          {(Object.keys(presetConfig) as Array<Exclude<PresetType, 'custom'>>).map(
+            (preset) => (
+              <Tooltip key={preset} content={presetConfig[preset].description}>
+                <button
+                  onClick={() => handlePresetClick(preset)}
+                  className={cn(
+                    'px-3 sm:px-4 py-2.5 sm:py-2 text-sm font-bold uppercase tracking-wide',
+                    'border-2 transition-all duration-100',
+                    'min-h-[44px] sm:min-h-0 whitespace-nowrap',
+                    'sm:flex-1',
+                    value === preset && !showCustom
+                      ? [
+                          'bg-[var(--primary)] text-white',
+                          'border-[var(--border)]',
+                          'shadow-[var(--shadow-brutal-sm)]',
+                          '-translate-x-0.5 -translate-y-0.5',
+                        ]
+                      : [
+                          'bg-[var(--background)] text-[var(--foreground)]',
+                          'border-transparent',
+                          'hover:border-[var(--border)]',
+                          'hover:-translate-x-0.5 hover:-translate-y-0.5',
+                          'hover:shadow-[var(--shadow-brutal-sm)]',
+                        ]
+                  )}
+                >
+                  {presetConfig[preset].label}
+                </button>
+              </Tooltip>
+            )
+          )}
+          <Tooltip content="Define tus pesos (con límites para evitar rankings engañosos)">
+            <button
+              onClick={handleCustomClick}
+              className={cn(
+                'flex items-center gap-2 px-3 sm:px-4 py-2.5 sm:py-2 text-sm font-bold uppercase tracking-wide',
+                'border-2 transition-all duration-100',
+                'min-h-[44px] sm:min-h-0 whitespace-nowrap',
+                showCustom
+                  ? [
+                      'bg-[var(--primary)] text-white',
+                      'border-[var(--border)]',
+                      'shadow-[var(--shadow-brutal-sm)]',
+                      '-translate-x-0.5 -translate-y-0.5',
+                    ]
+                  : [
+                      'bg-[var(--background)] text-[var(--foreground)]',
+                      'border-transparent',
+                      'hover:border-[var(--border)]',
+                      'hover:-translate-x-0.5 hover:-translate-y-0.5',
+                      'hover:shadow-[var(--shadow-brutal-sm)]',
+                    ]
+              )}
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="square" strokeLinejoin="miter" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+              </svg>
+              <span className="hidden sm:inline">Custom</span>
+              <span className="sm:hidden">Ajustar</span>
+            </button>
+          </Tooltip>
+        </div>
       </div>
 
       {/* Custom Sliders - NEO BRUTAL */}
