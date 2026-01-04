@@ -150,38 +150,50 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
-                'group p-4',
-                'bg-[var(--background)]',
-                'border-2 border-[var(--border)]',
-                'hover:-translate-x-0.5 hover:-translate-y-0.5',
-                'hover:shadow-[var(--shadow-brutal-sm)]',
+                'group flex flex-col',
+                'p-4',
+                'bg-[var(--card)]',
+                'border-3 border-[var(--border)]',
+                'shadow-[var(--shadow-brutal-sm)]',
+                'hover:-translate-x-1 hover:-translate-y-1',
+                'hover:shadow-[var(--shadow-brutal)]',
                 'transition-all duration-100'
               )}
             >
-              <div className="flex items-center gap-2 mb-2">
+              {/* Source header */}
+              <div className="flex items-center gap-2 mb-3 pb-2 border-b-2 border-[var(--border)]">
                 <NewsSourceBadge source={item.source} size="sm" />
-                <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">
-                  {item.source}
+                <span className="text-[10px] font-black text-[var(--muted-foreground)] uppercase truncate">
+                  {item.source.replace('news.google.com', 'Google News').replace('.com', '').replace('.pe', '')}
                 </span>
                 {item.published_at && (
-                  <span className="text-xs text-[var(--muted-foreground)] ml-auto">
+                  <span className="text-[10px] font-bold text-[var(--muted-foreground)] ml-auto whitespace-nowrap">
                     {formatTimeAgo(item.published_at)}
                   </span>
                 )}
               </div>
-              <p className="text-sm font-medium text-[var(--foreground)] line-clamp-2 group-hover:text-[var(--primary)] transition-colors">
+
+              {/* Title */}
+              <p className="text-sm font-bold text-[var(--foreground)] line-clamp-3 group-hover:text-[var(--primary)] transition-colors flex-1">
                 {item.title}
               </p>
-              <div className="flex items-center gap-2 mt-2">
-                {item.sentiment && (
-                  <NewsSentimentBadge sentiment={item.sentiment} size="sm" />
-                )}
-                {item.candidate_name && (
-                  <span className="text-xs font-bold text-[var(--primary)]">
+
+              {/* Footer with candidate tag */}
+              {item.candidate_name && (
+                <div className="flex items-center gap-2 mt-3 pt-2 border-t border-[var(--border)]">
+                  <span className={cn(
+                    'inline-flex items-center px-2 py-1',
+                    'text-[10px] font-black uppercase',
+                    'bg-[var(--primary)] text-white',
+                    'border-2 border-[var(--border)]'
+                  )}>
                     {item.candidate_name.split(' ').pop()}
                   </span>
-                )}
-              </div>
+                  {item.sentiment && (
+                    <NewsSentimentBadge sentiment={item.sentiment} size="sm" />
+                  )}
+                </div>
+              )}
             </a>
           ))}
         </div>

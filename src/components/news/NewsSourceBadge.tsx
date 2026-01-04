@@ -17,7 +17,16 @@ const SOURCE_CONFIG: Record<string, { abbr: string; color: string }> = {
   'Infobae': { abbr: 'IB', color: 'bg-pink-600' },
   'IDL Reporteros': { abbr: 'IDL', color: 'bg-indigo-600' },
   'Exitosa': { abbr: 'EX', color: 'bg-cyan-600' },
-  'Google News': { abbr: 'GN', color: 'bg-gray-600' },
+  'Google News': { abbr: 'GN', color: 'bg-[#4285F4]' },
+  'news.google.com': { abbr: 'GN', color: 'bg-[#4285F4]' },
+  'google': { abbr: 'GN', color: 'bg-[#4285F4]' },
+  'n60.pe': { abbr: 'N60', color: 'bg-slate-700' },
+  'Perú Libre': { abbr: 'PL', color: 'bg-red-700' },
+  'Canal N': { abbr: 'CN', color: 'bg-red-500' },
+  'ATV': { abbr: 'ATV', color: 'bg-orange-500' },
+  'Latina': { abbr: 'LA', color: 'bg-blue-500' },
+  'Panamericana': { abbr: 'PA', color: 'bg-blue-700' },
+  'Willax': { abbr: 'WX', color: 'bg-amber-600' },
 }
 
 function getSourceConfig(source: string) {
