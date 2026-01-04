@@ -16,6 +16,7 @@ interface DailyFact {
 
 interface DailyFactProps {
   className?: string
+  variant?: 'card' | 'banner'
 }
 
 const FACT_TYPE_ICONS: Record<string, string> = {
@@ -34,7 +35,7 @@ const FALLBACK_FACTS: DailyFact[] = [
   { id: '5', fact_text: '12 candidatos presidenciales tienen sentencias o procesos judiciales registrados.', fact_type: 'statistic' },
 ]
 
-export function DailyFact({ className }: DailyFactProps) {
+export function DailyFact({ className, variant = 'card' }: DailyFactProps) {
   const [fact, setFact] = useState<DailyFact | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -62,6 +63,60 @@ export function DailyFact({ className }: DailyFactProps) {
     fetchFact()
   }, [])
 
+  const iconPath = fact ? (FACT_TYPE_ICONS[fact.fact_type] || FACT_TYPE_ICONS.statistic) : FACT_TYPE_ICONS.statistic
+
+  // Banner variant - slim horizontal ticker
+  if (variant === 'banner') {
+    if (loading) {
+      return (
+        <div className={cn(
+          'flex items-center gap-3 p-3 sm:p-4',
+          'bg-[var(--muted)]',
+          'border-2 border-[var(--border)]',
+          'animate-pulse',
+          className
+        )}>
+          <div className="w-8 h-8 bg-[var(--border)]" />
+          <div className="flex-1 h-4 bg-[var(--border)]" />
+        </div>
+      )
+    }
+
+    if (!fact) return null
+
+    return (
+      <div className={cn(
+        'flex items-center gap-3 p-3 sm:p-4',
+        'bg-[var(--score-good)]/10',
+        'border-2 border-[var(--score-good)]',
+        className
+      )}>
+        <div className={cn(
+          'w-8 h-8 flex-shrink-0',
+          'bg-[var(--score-good)]',
+          'border-2 border-[var(--border)]',
+          'flex items-center justify-center'
+        )}>
+          <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="square" strokeLinejoin="miter" d={iconPath} />
+          </svg>
+        </div>
+        <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+          <span className="text-xs font-black text-[var(--score-good)] uppercase tracking-wide whitespace-nowrap">
+            Dato del Dia
+          </span>
+          <p className="text-sm font-medium text-[var(--foreground)] line-clamp-1 sm:line-clamp-none">
+            {fact.fact_text}
+          </p>
+        </div>
+        <span className="text-xs text-[var(--muted-foreground)] whitespace-nowrap hidden sm:block">
+          {new Date().toLocaleDateString('es-PE', { day: 'numeric', month: 'short' })}
+        </span>
+      </div>
+    )
+  }
+
+  // Card variant (default) - original full card
   if (loading) {
     return (
       <Card className={cn('p-4 animate-pulse', className)}>
@@ -78,8 +133,6 @@ export function DailyFact({ className }: DailyFactProps) {
   }
 
   if (!fact) return null
-
-  const iconPath = FACT_TYPE_ICONS[fact.fact_type] || FACT_TYPE_ICONS.statistic
 
   return (
     <Card className={cn('p-4 sm:p-5 h-full', className)}>

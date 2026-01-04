@@ -165,10 +165,10 @@ export default async function Home() {
           </div>
         </div>
 
-        {/* Daily Fact + Trending News */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
-          <DailyFact />
-          <TrendingNews limit={4} />
+        {/* Daily Fact Banner + Full-width News */}
+        <div className="mt-4 space-y-4">
+          <DailyFact variant="banner" />
+          <TrendingNews limit={6} variant="grid" />
         </div>
       </section>
 

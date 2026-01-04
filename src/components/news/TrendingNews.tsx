@@ -30,6 +30,7 @@ interface CandidateActivity {
 interface TrendingNewsProps {
   className?: string
   limit?: number
+  variant?: 'list' | 'grid'
 }
 
 function formatTimeAgo(dateString: string | null | undefined): string {
@@ -49,7 +50,7 @@ function formatTimeAgo(dateString: string | null | undefined): string {
   return date.toLocaleDateString('es-PE', { day: 'numeric', month: 'short' })
 }
 
-export function TrendingNews({ className, limit = 5 }: TrendingNewsProps) {
+export function TrendingNews({ className, limit = 5, variant = 'list' }: TrendingNewsProps) {
   const [news, setNews] = useState<NewsItem[]>([])
   const [candidateActivity, setCandidateActivity] = useState<CandidateActivity[]>([])
   const [loading, setLoading] = useState(true)
@@ -73,6 +74,134 @@ export function TrendingNews({ className, limit = 5 }: TrendingNewsProps) {
     fetchTrending()
   }, [limit])
 
+  // Grid variant - full width with horizontal news cards
+  if (variant === 'grid') {
+    if (loading) {
+      return (
+        <Card className={cn('p-4 sm:p-6', className)}>
+          <div className="animate-pulse">
+            <div className="flex items-center justify-between mb-4">
+              <div className="h-6 bg-[var(--muted)] w-1/4" />
+              <div className="h-6 bg-[var(--muted)] w-1/6" />
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="p-4 bg-[var(--muted)] border-2 border-[var(--border)]">
+                  <div className="h-4 bg-[var(--border)] w-full mb-2" />
+                  <div className="h-4 bg-[var(--border)] w-3/4" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </Card>
+      )
+    }
+
+    if (news.length === 0) return null
+
+    return (
+      <Card className={cn('p-4 sm:p-6', className)}>
+        {/* Header with title and most mentioned */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-[var(--primary)] border-2 border-[var(--border)] flex items-center justify-center">
+              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+              </svg>
+            </div>
+            <h2 className="text-lg font-black text-[var(--foreground)] uppercase">
+              Noticias del Momento
+            </h2>
+          </div>
+
+          {/* Most mentioned tags inline */}
+          {candidateActivity.length > 0 && (
+            <div className="flex items-center gap-2 overflow-x-auto">
+              <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase whitespace-nowrap">
+                Trending:
+              </span>
+              {candidateActivity.slice(0, 4).map((candidate) => (
+                <Link
+                  key={candidate.candidate_slug}
+                  href={`/candidato/${candidate.candidate_slug}`}
+                  className={cn(
+                    'inline-flex items-center gap-1 px-2 py-1',
+                    'text-xs font-bold whitespace-nowrap',
+                    'bg-[var(--muted)]',
+                    'border-2 border-[var(--border)]',
+                    'hover:bg-[var(--primary)] hover:text-white',
+                    'transition-colors'
+                  )}
+                >
+                  {candidate.candidate_name.split(' ').pop()}
+                  <span className="text-[var(--muted-foreground)]">{candidate.news_count}</span>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* News grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          {news.map((item) => (
+            <a
+              key={item.id}
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                'group p-4',
+                'bg-[var(--background)]',
+                'border-2 border-[var(--border)]',
+                'hover:-translate-x-0.5 hover:-translate-y-0.5',
+                'hover:shadow-[var(--shadow-brutal-sm)]',
+                'transition-all duration-100'
+              )}
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <NewsSourceBadge source={item.source} size="sm" />
+                <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">
+                  {item.source}
+                </span>
+                {item.published_at && (
+                  <span className="text-xs text-[var(--muted-foreground)] ml-auto">
+                    {formatTimeAgo(item.published_at)}
+                  </span>
+                )}
+              </div>
+              <p className="text-sm font-medium text-[var(--foreground)] line-clamp-2 group-hover:text-[var(--primary)] transition-colors">
+                {item.title}
+              </p>
+              <div className="flex items-center gap-2 mt-2">
+                {item.sentiment && (
+                  <NewsSentimentBadge sentiment={item.sentiment} size="sm" />
+                )}
+                {item.candidate_name && (
+                  <span className="text-xs font-bold text-[var(--primary)]">
+                    {item.candidate_name.split(' ').pop()}
+                  </span>
+                )}
+              </div>
+            </a>
+          ))}
+        </div>
+
+        {/* View all button */}
+        <div className="mt-4 pt-4 border-t-2 border-[var(--border)] flex justify-center">
+          <Link href="/noticias">
+            <Button variant="secondary" size="sm">
+              Ver todas las noticias
+              <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </Button>
+          </Link>
+        </div>
+      </Card>
+    )
+  }
+
+  // List variant (default) - original vertical list in card
   if (loading) {
     return (
       <Card className={cn('animate-pulse', className)}>
