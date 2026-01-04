@@ -1,11 +1,13 @@
 'use client'
 
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Header } from '@/components/layout/Header'
 import { Card } from '@/components/ui/Card'
+import { CandidateCardSkeleton } from '@/components/ui/Skeleton'
 import { Badge } from '@/components/ui/Badge'
+import { Button } from '@/components/ui/Button'
 import { PresetSelector } from '@/components/ranking/PresetSelector'
 import { RankingFilters } from '@/components/ranking/RankingFilters'
 import { RankingList } from '@/components/ranking/RankingList'
@@ -99,6 +101,25 @@ export function RankingContent() {
   // View mode (list or grid)
   const [viewMode, setViewMode] = useState<'list' | 'grid'>('list')
 
+  // Search query
+  const [searchQuery, setSearchQuery] = useState('')
+
+  // Back to top visibility
+  const [showBackToTop, setShowBackToTop] = useState(false)
+
+  // Track scroll for back-to-top
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 400)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   // Fetch candidates from API
   const { candidates: rawCandidates, loading, error } = useCandidates({
     cargo,
@@ -122,11 +143,23 @@ export function RankingContent() {
     window.history.replaceState(null, '', `/ranking${newURL}`)
   }, [searchParams])
 
-  // Ordenar candidatos por modo
+  // Filtrar por búsqueda y ordenar candidatos por modo
   const candidates = useMemo(() => {
+    let filtered = rawCandidates
+
+    // Apply search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase().trim()
+      filtered = rawCandidates.filter(c =>
+        c.full_name.toLowerCase().includes(query) ||
+        c.party?.name.toLowerCase().includes(query) ||
+        c.party?.short_name?.toLowerCase().includes(query)
+      )
+    }
+
     const sortMode = mode === 'custom' ? 'balanced' : mode
-    return sortCandidatesByScore(rawCandidates, sortMode)
-  }, [rawCandidates, mode])
+    return sortCandidatesByScore(filtered, sortMode)
+  }, [rawCandidates, mode, searchQuery])
 
   // Pesos actuales
   const currentWeights = useMemo(() => {
@@ -211,6 +244,20 @@ export function RankingContent() {
     }
   }, [candidates])
 
+  const handleShareRanking = useCallback(() => {
+    const url = window.location.href
+    if (navigator.share) {
+      navigator.share({
+        title: `Ranking de ${cargoLabels[cargo]} - Elecciones 2026`,
+        text: `${candidates.length} candidatos evaluados`,
+        url,
+      })
+    } else {
+      navigator.clipboard.writeText(url)
+      // Could show a toast here
+    }
+  }, [cargo, candidates.length])
+
   const selectedIds = useMemo(() => selectedForCompare.map((c) => c.id), [selectedForCompare])
 
   return (
@@ -231,8 +278,82 @@ export function RankingContent() {
             </div>
             <div className="flex items-center gap-2">
               <Badge variant="primary" size="md">Elecciones 2026</Badge>
-              <Badge variant="outline" size="md">{cargo.toUpperCase()}</Badge>
+              <button
+                onClick={handleShareRanking}
+                className={cn(
+                  'p-2 min-w-[40px] min-h-[40px]',
+                  'bg-[var(--muted)] border-2 border-[var(--border)]',
+                  'hover:bg-[var(--primary)] hover:text-white',
+                  'transition-all duration-100',
+                  'flex items-center justify-center'
+                )}
+                title="Compartir ranking"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="square" strokeLinejoin="miter" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                </svg>
+              </button>
             </div>
+          </div>
+
+          {/* Quick Cargo Pills - Mobile only */}
+          <div className="lg:hidden overflow-x-auto -mx-4 px-4 mb-4">
+            <div className="flex items-center gap-1.5 min-w-max">
+              {(['presidente', 'senador', 'diputado', 'parlamento_andino'] as CargoType[]).map((c) => (
+                <button
+                  key={c}
+                  onClick={() => handleCargoChange(c)}
+                  className={cn(
+                    'px-3 py-2 text-xs font-bold uppercase tracking-wide whitespace-nowrap',
+                    'border-2 transition-all duration-100',
+                    'min-h-[40px]',
+                    cargo === c
+                      ? 'bg-[var(--primary)] text-white border-[var(--border)] shadow-[var(--shadow-brutal-sm)]'
+                      : 'bg-[var(--background)] text-[var(--foreground)] border-[var(--border)] hover:bg-[var(--muted)]'
+                  )}
+                >
+                  {cargoLabels[c]}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Search Input */}
+          <div className="relative mb-4">
+            <input
+              type="text"
+              placeholder="Buscar candidato por nombre o partido..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className={cn(
+                'w-full px-4 py-3 pl-11',
+                'bg-[var(--background)]',
+                'border-3 border-[var(--border)]',
+                'text-sm font-bold text-[var(--foreground)]',
+                'placeholder:text-[var(--muted-foreground)]',
+                'focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2',
+                'min-h-[48px]'
+              )}
+            />
+            <svg
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted-foreground)]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2.5}
+            >
+              <path strokeLinecap="square" strokeLinejoin="miter" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-[var(--muted)]"
+              >
+                <svg className="w-4 h-4 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="square" strokeLinejoin="miter" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            )}
           </div>
 
           {/* Preset Selector + View Toggle */}
@@ -251,8 +372,8 @@ export function RankingContent() {
               />
             </div>
 
-            {/* View Toggle - Desktop only */}
-            <div className="hidden lg:flex items-center gap-1 p-1 bg-[var(--muted)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)]">
+            {/* View Toggle - All screens */}
+            <div className="flex items-center gap-1 p-1 bg-[var(--muted)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)]">
               <button
                 onClick={() => setViewMode('list')}
                 className={cn(
@@ -283,6 +404,22 @@ export function RankingContent() {
               </button>
             </div>
           </div>
+
+          {/* Active Weights Indicator - Show when not balanced */}
+          {mode !== 'balanced' && (
+            <div className="flex items-center gap-2 mt-3 text-xs font-bold">
+              <span className="text-[var(--muted-foreground)] uppercase">Pesos:</span>
+              <span className="px-2 py-1 bg-[var(--score-competence-bg)] text-[var(--score-competence-text)] border border-[var(--border)]">
+                C: {(currentWeights.wC * 100).toFixed(0)}%
+              </span>
+              <span className="px-2 py-1 bg-[var(--score-integrity-bg)] text-[var(--score-integrity-text)] border border-[var(--border)]">
+                I: {(currentWeights.wI * 100).toFixed(0)}%
+              </span>
+              <span className="px-2 py-1 bg-[var(--score-transparency-bg)] text-[var(--score-transparency-text)] border border-[var(--border)]">
+                T: {(currentWeights.wT * 100).toFixed(0)}%
+              </span>
+            </div>
+          )}
 
           {/* Active Filter Chips */}
           {(distrito || partyId || minConfidence > 0 || onlyClean) && (
@@ -491,17 +628,8 @@ export function RankingContent() {
               </Card>
             ) : loading ? (
               <div className="space-y-4">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <Card key={i} className="p-5">
-                    <div className="flex gap-4 animate-pulse">
-                      <div className="w-14 h-14 bg-[var(--muted)] border-2 border-[var(--border)]" />
-                      <div className="flex-1">
-                        <div className="h-5 w-48 bg-[var(--muted)] border border-[var(--border)] mb-2" />
-                        <div className="h-4 w-32 bg-[var(--muted)] border border-[var(--border)]" />
-                      </div>
-                      <div className="w-16 h-12 bg-[var(--muted)] border-2 border-[var(--border)]" />
-                    </div>
-                  </Card>
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <CandidateCardSkeleton key={i} />
                 ))}
               </div>
             ) : (
@@ -527,6 +655,34 @@ export function RankingContent() {
         onCompare={handleGoToCompare}
         onClear={handleClearCompare}
       />
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className={cn(
+            'fixed z-40',
+            'w-12 h-12',
+            'bg-[var(--foreground)] text-[var(--background)]',
+            'border-3 border-[var(--border)]',
+            'shadow-[var(--shadow-brutal)]',
+            'flex items-center justify-center',
+            'hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-lg)]',
+            'transition-all duration-100',
+            // Position: left on mobile (filter button is right), left on desktop too
+            'left-4 sm:left-6',
+            // Move up when CompareTray is visible
+            selectedForCompare.length > 0
+              ? 'bottom-32 sm:bottom-24'
+              : 'bottom-6'
+          )}
+          aria-label="Volver arriba"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+            <path strokeLinecap="square" strokeLinejoin="miter" d="M5 15l7-7 7 7" />
+          </svg>
+        </button>
+      )}
     </div>
   )
 }

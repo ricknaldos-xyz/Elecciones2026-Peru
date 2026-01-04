@@ -224,13 +224,127 @@ All changes maintain the Neo-Brutal aesthetic:
 
 ---
 
-## Next Steps (Optional Enhancements)
+## Completed Enhancements (January 2026)
 
-1. **Add skeleton states** for loading (already exists in ranking page)
-2. **Optimize images** with next/image for faster loads
-3. **Add swipe gestures** for tabs (optional enhancement)
-4. **Test on real devices** (not just Chrome DevTools)
-5. **Add scroll indicators** for horizontal tabs (subtle arrows)
+All optional enhancements have been implemented:
+
+### 1. Skeleton Loading States ✅
+**New file:** `/src/components/ui/Skeleton.tsx`
+
+Created reusable skeleton components for smooth loading experiences:
+- `Skeleton` - Base skeleton component with variants (default, circle, text, card)
+- `CandidateCardSkeleton` - Full candidate card loading state
+- `CandidateCardCompactSkeleton` - Compact card loading state
+- `ProfileHeroSkeleton` - Candidate profile hero loading state
+- `NewsCardSkeleton` - News card loading state
+- `PartyCardSkeleton` - Party card loading state
+- `TableRowSkeleton` - Table row loading state
+
+**Usage in RankingContent:** Replaced basic loading with `CandidateCardSkeleton` for better UX.
+
+---
+
+### 2. Image Optimization with next/image ✅
+**Updated files:**
+- `/src/components/candidate/CandidateCard.tsx`
+- `/src/app/candidato/[slug]/CandidateProfileContent.tsx`
+- `/next.config.ts`
+
+**Changes:**
+- ✅ Replaced all `<img>` tags with Next.js `<Image>` component
+- ✅ Added responsive `sizes` prop for optimal image loading
+- ✅ Used `priority` for hero images, `loading="lazy"` for cards
+- ✅ Configured next.config.ts with:
+  - Remote patterns for external images
+  - AVIF and WebP format support
+  - Custom device and image sizes for responsive loading
+
+**Performance Impact:**
+- Automatic WebP/AVIF conversion
+- Lazy loading for below-fold images
+- Responsive image sizes reduce bandwidth usage
+
+---
+
+### 3. Swipe Gestures for Tabs ✅
+**Updated file:** `/src/components/ui/Tabs.tsx`
+
+**New components:**
+- `SwipeableTabContent` - Wrapper component that detects touch swipe gestures
+- `useSwipeableTabs` - Hook for managing tab navigation via swipe
+
+**Features:**
+- Detects left/right swipe gestures with configurable threshold (default 50px)
+- Navigates between tabs on swipe
+- Works on touch devices only (doesn't interfere with mouse)
+- Uses `touch-pan-y` to allow vertical scrolling
+
+**Usage:**
+```tsx
+const { goToNext, goToPrev } = useSwipeableTabs(tabs, currentTab, setTab)
+
+<SwipeableTabContent onSwipeLeft={goToNext} onSwipeRight={goToPrev}>
+  {/* Tab content */}
+</SwipeableTabContent>
+```
+
+---
+
+### 4. Scroll Indicators for Horizontal Tabs ✅
+**Updated file:** `/src/components/ui/Tabs.tsx`
+
+**Changes to `TabList`:**
+- ✅ Added scroll position detection
+- ✅ Shows left/right arrow buttons when content is scrollable
+- ✅ Gradient fade effect for subtle visual cue
+- ✅ Click-to-scroll functionality (60% of container width)
+- ✅ Auto-scrolls active tab into view
+- ✅ Configurable via `showScrollIndicators` prop (default: true)
+
+**Visual design:**
+- Arrows appear only when scrollable in that direction
+- Gradient background from muted color to transparent
+- Bold arrow icons matching NEO-BRUTAL style
+- Touch-friendly click targets
+
+---
+
+### 5. Test on Real Devices
+This is a manual testing step that should be performed by the development team.
+
+**Recommended test devices:**
+- iPhone SE (320px) - Smallest common screen
+- iPhone 12/13 mini (375px)
+- iPhone 14 Pro (390px) - Most common
+- iPhone Plus models (414px)
+- Pixel phones (412px typical)
+- iPad Mini (768px portrait)
+
+---
+
+## Summary of All New Components
+
+| Component | File | Purpose |
+|-----------|------|---------|
+| `Skeleton` | `/src/components/ui/Skeleton.tsx` | Base loading skeleton |
+| `CandidateCardSkeleton` | `/src/components/ui/Skeleton.tsx` | Card loading state |
+| `ProfileHeroSkeleton` | `/src/components/ui/Skeleton.tsx` | Profile loading state |
+| `SwipeableTabContent` | `/src/components/ui/Tabs.tsx` | Touch swipe detection |
+| `useSwipeableTabs` | `/src/components/ui/Tabs.tsx` | Swipe navigation hook |
+
+---
+
+## Configuration Changes
+
+### next.config.ts
+```typescript
+images: {
+  remotePatterns: [{ protocol: 'https', hostname: '**' }],
+  formats: ['image/avif', 'image/webp'],
+  deviceSizes: [320, 420, 640, 768, 1024, 1280, 1536],
+  imageSizes: [16, 32, 48, 64, 96, 128, 256],
+}
+```
 
 ---
 

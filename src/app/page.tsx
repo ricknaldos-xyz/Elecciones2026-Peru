@@ -6,6 +6,7 @@ import { Header } from '@/components/layout/Header'
 import { ElectionCountdown } from '@/components/viral/ElectionCountdown'
 import { DailyFact } from '@/components/viral/DailyFact'
 import { TrendingNews } from '@/components/news/TrendingNews'
+import { CandidateCardMini } from '@/components/candidate/CandidateCardMini'
 import { DISTRICTS } from '@/lib/constants'
 import { sql } from '@/lib/db'
 
@@ -25,8 +26,56 @@ async function getStats() {
   }
 }
 
+interface TopCandidate {
+  id: string
+  full_name: string
+  slug: string
+  photo_url: string | null
+  score_balanced: number
+  party_name: string | null
+  party_short_name: string | null
+  party_color: string | null
+}
+
+async function getTopPresidentialCandidates(): Promise<TopCandidate[]> {
+  try {
+    const result = await sql`
+      SELECT
+        c.id,
+        c.full_name,
+        c.slug,
+        c.photo_url,
+        cs.score_balanced,
+        p.name as party_name,
+        p.short_name as party_short_name,
+        p.color as party_color
+      FROM candidates c
+      LEFT JOIN candidate_scores cs ON c.id = cs.candidate_id
+      LEFT JOIN parties p ON c.party_id = p.id
+      WHERE c.cargo = 'presidente' AND c.is_active = true
+      ORDER BY cs.score_balanced DESC
+      LIMIT 5
+    `
+    return result.map(row => ({
+      id: row.id as string,
+      full_name: row.full_name as string,
+      slug: row.slug as string,
+      photo_url: row.photo_url as string | null,
+      score_balanced: Number(row.score_balanced) || 0,
+      party_name: row.party_name as string | null,
+      party_short_name: row.party_short_name as string | null,
+      party_color: row.party_color as string | null,
+    }))
+  } catch {
+    return []
+  }
+}
+
 export default async function Home() {
-  const stats = await getStats()
+  const [stats, topCandidates] = await Promise.all([
+    getStats(),
+    getTopPresidentialCandidates()
+  ])
   return (
     <div className="min-h-screen bg-[var(--background)]">
       <Header currentPath="/" />
@@ -114,6 +163,43 @@ export default async function Home() {
 
         </div>
       </section>
+
+      {/* Top 5 Presidenciables - NEO BRUTAL */}
+      {topCandidates.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mb-4">
+            <div>
+              <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight">
+                Top 5 Presidenciables
+              </h2>
+              <p className="text-xs sm:text-sm text-[var(--muted-foreground)] font-medium mt-0.5">
+                Los candidatos mejor evaluados según nuestro análisis
+              </p>
+            </div>
+            <Link
+              href="/ranking?cargo=presidente"
+              className="text-sm font-bold text-[var(--primary)] hover:underline uppercase flex items-center gap-1 self-start sm:self-auto"
+            >
+              Ver ranking completo
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
+
+          {/* Grid: 5 cols desktop, scroll horizontal móvil */}
+          <div className="flex gap-3 sm:gap-4 overflow-x-auto sm:overflow-visible -mx-4 px-4 sm:mx-0 sm:px-0 pb-2 sm:pb-0 snap-x snap-mandatory sm:snap-none sm:grid sm:grid-cols-5">
+            {topCandidates.map((candidate, index) => (
+              <CandidateCardMini
+                key={candidate.id}
+                rank={index + 1}
+                candidate={candidate}
+                className="snap-start flex-shrink-0 w-[140px] sm:w-auto"
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Countdown + Quiz - Compacto y balanceado */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">

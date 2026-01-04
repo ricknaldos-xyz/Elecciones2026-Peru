@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -139,9 +140,16 @@ export function CandidateCard({
             )}
 
             {/* Photo */}
-            <div className="flex-shrink-0 w-12 h-12 border-3 border-[var(--border)] bg-[var(--muted)] overflow-hidden">
+            <div className="flex-shrink-0 w-12 h-12 border-3 border-[var(--border)] bg-[var(--muted)] overflow-hidden relative">
               {candidate.photo_url ? (
-                <img src={candidate.photo_url} alt={candidate.full_name} className="w-full h-full object-cover" />
+                <Image
+                  src={candidate.photo_url}
+                  alt={candidate.full_name}
+                  fill
+                  sizes="48px"
+                  className="object-cover"
+                  loading="lazy"
+                />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)] text-sm font-bold">
                   {candidate.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
@@ -259,12 +267,15 @@ export function CandidateCard({
               </div>
             )}
             {/* Photo - Smaller on mobile */}
-            <div className="w-14 h-14 sm:w-16 sm:h-16 border-3 border-[var(--border)] bg-[var(--muted)] overflow-hidden">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 border-3 border-[var(--border)] bg-[var(--muted)] overflow-hidden relative">
               {candidate.photo_url ? (
-                <img
+                <Image
                   src={candidate.photo_url}
                   alt={candidate.full_name}
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 640px) 56px, 64px"
+                  className="object-cover"
+                  loading="lazy"
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)] text-lg sm:text-xl font-bold">

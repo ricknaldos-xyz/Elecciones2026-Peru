@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Header } from '@/components/layout/Header'
@@ -155,9 +156,16 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                 </svg>
               </button>
               {/* Photo mini */}
-              <div className="w-8 h-8 border-2 border-[var(--border)] bg-[var(--muted)] overflow-hidden flex-shrink-0">
+              <div className="w-8 h-8 border-2 border-[var(--border)] bg-[var(--muted)] overflow-hidden flex-shrink-0 relative">
                 {candidate.photo_url ? (
-                  <img src={candidate.photo_url} alt="" className="w-full h-full object-cover" />
+                  <Image
+                    src={candidate.photo_url}
+                    alt=""
+                    fill
+                    sizes="32px"
+                    className="object-cover"
+                    loading="eager"
+                  />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)] text-xs font-bold">
                     {candidate.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
@@ -215,12 +223,15 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
               {/* Photo - Smaller on mobile */}
               <div className="flex-shrink-0">
-                <div className="w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 border-3 border-[var(--border)] bg-[var(--muted)] overflow-hidden mx-auto sm:mx-0">
+                <div className="w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 border-3 border-[var(--border)] bg-[var(--muted)] overflow-hidden mx-auto sm:mx-0 relative">
                   {candidate.photo_url ? (
-                    <img
+                    <Image
                       src={candidate.photo_url}
                       alt={candidate.full_name}
-                      className="w-full h-full object-cover"
+                      fill
+                      sizes="(max-width: 640px) 96px, (max-width: 1024px) 112px, 128px"
+                      className="object-cover"
+                      priority
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)] text-2xl sm:text-3xl font-black uppercase">
