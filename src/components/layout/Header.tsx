@@ -80,7 +80,7 @@ export function Header({ currentPath }: HeaderProps) {
     { href: '/quiz', label: 'Quiz' },
     { href: '/comparar', label: 'Comparar' },
     { href: '/transparencia', label: 'Transparencia' },
-    { href: '/metodologia', label: 'Metodologia' },
+    { href: '/metodologia', label: 'Metodología' },
   ]
 
   return (
@@ -113,7 +113,7 @@ export function Header({ currentPath }: HeaderProps) {
                   Ranking Electoral
                 </span>
                 <span className="text-[10px] sm:text-xs text-[var(--primary)] font-bold leading-tight uppercase tracking-widest">
-                  Peru 2026
+                  Perú 2026
                 </span>
               </div>
             </Link>
@@ -149,7 +149,7 @@ export function Header({ currentPath }: HeaderProps) {
                 {link.label}
                 {link.isNew && (
                   <span className="text-[10px] font-black bg-[var(--score-medium)] text-black px-1.5 py-0.5 leading-none">
-                    NEW
+                    NUEVO
                   </span>
                 )}
               </Link>
@@ -322,7 +322,7 @@ export function Header({ currentPath }: HeaderProps) {
                   'border-[var(--border)]',
                 ]
               )}
-              aria-label="Menu"
+              aria-label="Menú"
             >
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 {mobileMenuOpen ? (

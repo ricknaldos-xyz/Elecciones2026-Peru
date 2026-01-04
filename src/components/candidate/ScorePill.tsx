@@ -62,8 +62,8 @@ export function ScorePill({
 
   const tooltipContent = (
     <div className="text-xs font-bold">
-      <div className="font-black mb-2 uppercase tracking-wide">Fórmula:</div>
-      <div>Score = {(displayWeights.wC * 100).toFixed(0)}% Competencia</div>
+      <div className="font-black mb-2 uppercase tracking-wide">Cómo se calcula:</div>
+      <div>Puntaje = {(displayWeights.wC * 100).toFixed(0)}% Competencia</div>
       <div className="ml-4">+ {(displayWeights.wI * 100).toFixed(0)}% Integridad</div>
       <div className="ml-4">+ {(displayWeights.wT * 100).toFixed(0)}% Transparencia</div>
     </div>

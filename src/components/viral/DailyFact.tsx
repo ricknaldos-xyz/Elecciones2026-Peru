@@ -28,11 +28,11 @@ const FACT_TYPE_ICONS: Record<string, string> = {
 }
 
 const FALLBACK_FACTS: DailyFact[] = [
-  { id: '1', fact_text: 'El Peru eligira 196 representantes: 1 Presidente, 60 Senadores, 130 Diputados y 5 al Parlamento Andino.', fact_type: 'statistic' },
-  { id: '2', fact_text: '36 candidatos presidenciales compiten por llegar a Palacio de Gobierno.', fact_type: 'statistic' },
-  { id: '3', fact_text: 'Lima Metropolitana elige mas diputados: 32 de los 130 totales.', fact_type: 'statistic' },
-  { id: '4', fact_text: 'Esta es la primera eleccion con Senado desde 1992, cuando Fujimori lo cerro.', fact_type: 'history' },
-  { id: '5', fact_text: '12 candidatos presidenciales tienen sentencias o procesos judiciales registrados.', fact_type: 'statistic' },
+  { id: '1', fact_text: 'Perú elegirá 196 representantes: 1 Presidente, 60 Senadores, 130 Diputados y 5 del Parlamento Andino.', fact_type: 'statistic' },
+  { id: '2', fact_text: '36 candidatos presidenciales compiten por la presidencia.', fact_type: 'statistic' },
+  { id: '3', fact_text: 'Lima Metropolitana elige más diputados: 32 de los 130 totales.', fact_type: 'statistic' },
+  { id: '4', fact_text: 'Por primera vez en 34 años, volvemos a elegir Senadores. Fujimori los cerró en 1992.', fact_type: 'history' },
+  { id: '5', fact_text: '12 candidatos presidenciales tienen sentencias o están en procesos judiciales.', fact_type: 'statistic' },
 ]
 
 export function DailyFact({ className, variant = 'card' }: DailyFactProps) {
@@ -103,7 +103,7 @@ export function DailyFact({ className, variant = 'card' }: DailyFactProps) {
         </div>
         <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
           <span className="text-xs font-black text-[var(--score-good)] uppercase tracking-wide whitespace-nowrap">
-            Dato del Dia
+            Dato del Día
           </span>
           <p className="text-sm font-medium text-[var(--foreground)] line-clamp-1 sm:line-clamp-none">
             {fact.fact_text}
@@ -152,7 +152,7 @@ export function DailyFact({ className, variant = 'card' }: DailyFactProps) {
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
             <span className="text-xs font-bold text-[var(--primary)] uppercase tracking-wide">
-              Dato del Dia
+              Dato del Día
             </span>
             <span className="text-xs text-[var(--muted-foreground)]">
               {new Date().toLocaleDateString('es-PE', { day: 'numeric', month: 'short' })}

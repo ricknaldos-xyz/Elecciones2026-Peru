@@ -84,10 +84,10 @@ export function QuizContent() {
           </div>
 
           <h1 className="text-3xl sm:text-4xl font-black text-[var(--foreground)] uppercase mb-3">
-            Quien piensa como tu?
+            ¿Quién piensa como tú?
           </h1>
           <p className="text-lg text-[var(--muted-foreground)] font-medium mb-6 max-w-md mx-auto">
-            Responde 10 preguntas sobre temas clave y descubre que candidatos tienen posiciones mas cercanas a las tuyas.
+            Responde 10 preguntas rápidas y descubre qué candidatos comparten tu visión.
           </p>
 
           <div className="grid grid-cols-2 gap-4 max-w-sm mx-auto mb-8">
@@ -111,9 +111,9 @@ export function QuizContent() {
 
         <div className="text-center text-sm text-[var(--muted-foreground)] font-medium">
           <p>
-            Este quiz es informativo y no representa una recomendacion de voto.
+            Este quiz es solo para informarte, no te dice cómo votar.
             <br />
-            Las posiciones de los candidatos se basan en declaraciones publicas.
+            Basamos las respuestas en lo que los candidatos han dicho públicamente.
           </p>
         </div>
       </div>

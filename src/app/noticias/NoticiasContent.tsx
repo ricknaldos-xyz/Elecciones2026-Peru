@@ -146,7 +146,7 @@ export function NoticiasContent() {
               type="text"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              placeholder="Buscar noticia..."
+              placeholder="¿Qué candidato te interesa?"
               className={cn(
                 'flex-1 px-4 py-3 text-base',
                 'bg-[var(--background)]',
@@ -169,7 +169,7 @@ export function NoticiasContent() {
         {/* Source Filters - Horizontal scroll en móvil */}
         <div className="mb-4">
           <h3 className="text-xs font-black text-[var(--muted-foreground)] uppercase tracking-wide mb-3">
-            Fuente
+            De dónde vienen
           </h3>
           <div className="overflow-x-auto -mx-5 px-5 sm:mx-0 sm:px-0">
             <div className="flex gap-2 pb-2 sm:flex-wrap">
@@ -185,7 +185,7 @@ export function NoticiasContent() {
                     : 'bg-[var(--background)] text-[var(--foreground)] hover:bg-[var(--muted)]'
                 )}
               >
-                Todos
+                Todas las fuentes
               </button>
               {sources.slice(0, 8).map((source) => (
                 <button
@@ -211,7 +211,7 @@ export function NoticiasContent() {
         {/* Sentiment Filter - Con labels en móvil */}
         <div className="mb-4">
           <h3 className="text-xs font-black text-[var(--muted-foreground)] uppercase tracking-wide mb-3">
-            Sentimiento
+            Tono de la noticia
           </h3>
           <div className="flex gap-2 flex-wrap">
             {['positive', 'neutral', 'negative'].map((sentiment) => (
@@ -254,7 +254,7 @@ export function NoticiasContent() {
                 'min-h-[44px]'
               )}
             >
-              Limpiar todos los filtros
+              Limpiar filtros
             </button>
           </div>
         )}
@@ -262,7 +262,7 @@ export function NoticiasContent() {
         {/* Active filters summary */}
         {hasActiveFilters && (
           <div className="mt-3 pt-3 border-t-2 border-[var(--border)] flex items-center gap-2 text-sm">
-            <span className="text-[var(--muted-foreground)]">Filtros:</span>
+            <span className="text-[var(--muted-foreground)]">Viendo:</span>
             {currentSource && (
               <span className="px-2 py-0.5 bg-[var(--muted)] border border-[var(--border)] text-xs font-medium">
                 {currentSource}
@@ -314,9 +314,9 @@ export function NoticiasContent() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
             </svg>
           </div>
-          <p className="font-bold text-[var(--foreground)]">No se encontraron noticias</p>
+          <p className="font-bold text-[var(--foreground)]">No hay noticias con esos filtros</p>
           <p className="text-sm text-[var(--muted-foreground)] mt-1">
-            Intenta con otros filtros o busqueda
+            Prueba otro filtro o candidato
           </p>
         </Card>
       ) : (
@@ -408,7 +408,7 @@ export function NoticiasContent() {
 
       {/* Disclaimer */}
       <p className="text-xs text-[var(--muted-foreground)] text-center">
-        Ranking Electoral es un agregador de noticias. Los articulos pertenecen a sus respectivos medios.
+        Aquí encontrarás noticias de todos los medios. No es recomendación de voto, solo información.
       </p>
     </div>
   )

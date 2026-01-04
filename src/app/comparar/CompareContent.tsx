@@ -223,7 +223,7 @@ export function CompareContent() {
                   >
                     {isBest && (
                       <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[var(--score-high)] text-white text-sm font-black uppercase px-3 py-1.5 border-2 border-[var(--border)]">
-                        Mejor Score
+                        Mejor puntaje
                       </div>
                     )}
                     <CardContent className="p-6">
@@ -438,7 +438,7 @@ export function CompareContent() {
             {/* Legend */}
             <div className="mt-6 text-center text-sm text-[var(--muted-foreground)] font-medium">
               <p>
-                Los scores varían según el modo seleccionado.{' '}
+                Los puntajes varían según el modo seleccionado.{' '}
                 <Link href="/metodologia" className="text-[var(--primary)] font-bold hover:underline uppercase">
                   Conoce la metodología
                 </Link>

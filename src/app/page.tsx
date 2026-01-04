@@ -44,11 +44,11 @@ export default async function Home() {
                 </Badge>
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black leading-tight mb-2 sm:mb-3 uppercase tracking-tight">
                   Elige con datos,<br />
-                  no con slogans.
+                  no con promesas vacías.
                 </h1>
                 <p className="text-white/80 text-sm sm:text-base max-w-md font-medium leading-relaxed">
-                  Ranking transparente de candidatos basado en mérito,
-                  integridad y evidencia verificable.
+                  Ranking transparente de candidatos.
+                  Basado en hechos, no en promesas.
                 </p>
               </div>
               <div className="flex flex-col xs:flex-row flex-wrap gap-2 sm:gap-3 mt-4">
@@ -59,7 +59,7 @@ export default async function Home() {
                 </Link>
                 <Link href="/comparar" className="flex-1 xs:flex-initial">
                   <Button size="lg" variant="outline" className="w-full xs:w-auto bg-transparent border-white text-white hover:bg-white/10">
-                    Comparar
+                    Comparar Candidatos
                   </Button>
                 </Link>
               </div>
@@ -121,7 +121,7 @@ export default async function Home() {
                   <span className="text-black font-black text-xs sm:text-sm">A</span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-sm sm:text-base font-bold text-[var(--foreground)] uppercase truncate">Parl. Andino</div>
+                  <div className="text-sm sm:text-base font-bold text-[var(--foreground)] uppercase truncate">Parlamento Andino</div>
                 </div>
               </Link>
             </div>
@@ -136,7 +136,7 @@ export default async function Home() {
           {/* Countdown */}
           <Card className="lg:col-span-2 p-4 sm:p-6 lg:p-8 flex flex-col items-center justify-center min-h-[200px]">
             <h2 className="text-base sm:text-lg font-black text-[var(--muted-foreground)] mb-3 sm:mb-4 uppercase tracking-wide text-center">
-              Faltan
+              Quedan
             </h2>
             <ElectionCountdown />
           </Card>
@@ -148,15 +148,15 @@ export default async function Home() {
                 Nuevo
               </Badge>
               <h3 className="text-lg sm:text-xl lg:text-2xl font-black text-white uppercase leading-tight mb-2">
-                Quien piensa como tu?
+                ¿Quién piensa como tú?
               </h3>
               <p className="text-white/80 text-sm font-medium mb-3 sm:mb-4 leading-relaxed">
-                Responde 10 preguntas y descubre que candidatos tienen posiciones similares a las tuyas.
+                Responde 10 preguntas y descubre qué candidatos comparten tu visión.
               </p>
             </div>
             <Link href="/quiz">
               <Button className="w-full bg-white text-[var(--primary)] hover:bg-[var(--muted)] border-[var(--border)]">
-                Hacer el Quiz
+                Responder el Quiz
                 <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
@@ -176,7 +176,7 @@ export default async function Home() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
           <h2 className="text-xl sm:text-2xl font-black text-[var(--foreground)] uppercase tracking-tight">
-            Sistema de Scoring
+            Cómo evaluamos
           </h2>
           <Link href="/metodologia">
             <Button variant="ghost" size="sm" className="w-full sm:w-auto">
@@ -199,7 +199,7 @@ export default async function Home() {
                   Competencia
                 </h3>
                 <p className="text-xs sm:text-sm text-[var(--muted-foreground)] leading-relaxed font-medium">
-                  Educación, experiencia profesional, experiencia relevante al cargo y liderazgo.
+                  Educación, experiencia profesional, experiencia en el cargo y capacidad de liderazgo.
                 </p>
               </div>
             </div>
@@ -215,7 +215,7 @@ export default async function Home() {
                   Integridad
                 </h3>
                 <p className="text-xs sm:text-sm text-[var(--muted-foreground)] leading-relaxed font-medium">
-                  Historial legal limpio. Penalizaciones por sentencias firmes declaradas.
+                  Historial limpio. Sin sentencias ni investigaciones activas.
                 </p>
               </div>
             </div>
@@ -231,7 +231,7 @@ export default async function Home() {
                   Transparencia
                 </h3>
                 <p className="text-xs sm:text-sm text-[var(--muted-foreground)] leading-relaxed font-medium">
-                  Completitud y consistencia de información declarada en la Hoja de Vida.
+                  Información completa y consistente en su Hoja de Vida.
                 </p>
               </div>
             </div>
@@ -248,7 +248,7 @@ export default async function Home() {
                 Diputados por Distrito
               </h2>
               <p className="text-xs sm:text-sm font-medium text-[var(--background)]/70">
-                Selecciona tu distrito para ver candidatos a diputado
+                Encuentra a quiénes compiten por representar tu zona
               </p>
             </div>
             <Link href="/ranking?cargo=diputado" className="w-full md:w-auto">
@@ -323,7 +323,7 @@ export default async function Home() {
               </svg>
             </div>
             <div className="text-xs sm:text-sm font-black text-[var(--foreground)] uppercase leading-tight">Derecho a réplica</div>
-            <div className="text-[10px] sm:text-xs font-bold text-[var(--muted-foreground)] mt-1">Corrección garantizada</div>
+            <div className="text-[10px] sm:text-xs font-bold text-[var(--muted-foreground)] mt-1">Puedes corregir tu información</div>
           </Card>
         </div>
       </section>

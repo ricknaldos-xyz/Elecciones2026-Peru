@@ -159,7 +159,7 @@ export function RankingFilters({
           htmlFor="onlyClean"
           className="text-sm font-bold text-[var(--foreground)] uppercase tracking-wide cursor-pointer"
         >
-          Solo sin Red Flags
+          Solo sin antecedentes negativos
         </label>
       </div>
 

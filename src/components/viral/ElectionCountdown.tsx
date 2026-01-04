@@ -71,10 +71,10 @@ export function ElectionCountdown({ electionDate = ELECTION_DATE, className }: E
   if (!mounted) {
     return (
       <div className={cn('flex items-center justify-center gap-3 sm:gap-4', className)}>
-        <TimeUnit value={0} label="Dias" />
+        <TimeUnit value={0} label="Días" />
         <TimeUnit value={0} label="Horas" />
-        <TimeUnit value={0} label="Min" />
-        <TimeUnit value={0} label="Seg" />
+        <TimeUnit value={0} label="Minutos" />
+        <TimeUnit value={0} label="Segundos" />
       </div>
     )
   }
@@ -100,14 +100,14 @@ export function ElectionCountdown({ electionDate = ELECTION_DATE, className }: E
   return (
     <div className={cn('space-y-4', className)}>
       <div className="flex items-center justify-center gap-2 sm:gap-3">
-        <TimeUnit value={timeLeft.days} label="Dias" />
+        <TimeUnit value={timeLeft.days} label="Días" />
         <span className="text-2xl font-black text-[var(--muted-foreground)] mt-[-20px]">:</span>
         <TimeUnit value={timeLeft.hours} label="Horas" />
         <span className="text-2xl font-black text-[var(--muted-foreground)] mt-[-20px]">:</span>
-        <TimeUnit value={timeLeft.minutes} label="Min" />
+        <TimeUnit value={timeLeft.minutes} label="Minutos" />
         <span className="text-2xl font-black text-[var(--muted-foreground)] mt-[-20px] hidden sm:block">:</span>
         <div className="hidden sm:block">
-          <TimeUnit value={timeLeft.seconds} label="Seg" />
+          <TimeUnit value={timeLeft.seconds} label="Segundos" />
         </div>
       </div>
       <p className="text-center text-sm font-bold text-[var(--muted-foreground)] uppercase tracking-wide">

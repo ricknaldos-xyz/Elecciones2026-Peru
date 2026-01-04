@@ -118,7 +118,7 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
           {candidateActivity.length > 0 && (
             <div className="flex items-center gap-2 overflow-x-auto">
               <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase whitespace-nowrap">
-                Trending:
+                Ahora hablan de:
               </span>
               {candidateActivity.slice(0, 4).map((candidate) => (
                 <Link
@@ -246,7 +246,7 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
         {candidateActivity.length > 0 && (
           <div className="mb-4 pb-4 border-b-2 border-[var(--border)]">
             <p className="text-xs font-bold text-[var(--muted-foreground)] uppercase mb-2">
-              Mas mencionados esta semana
+              Los más mencionados esta semana
             </p>
             <div className="flex flex-wrap gap-2">
               {candidateActivity.slice(0, 4).map((candidate) => (

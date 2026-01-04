@@ -73,7 +73,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
   }
 
   const shareTitle = `${candidate.full_name} - Ranking Electoral 2026`
-  const shareDescription = `Score: ${getScore().toFixed(1)}/100 | Competencia: ${candidate.scores.competence.toFixed(0)} | Integridad: ${candidate.scores.integrity.toFixed(0)} | Transparencia: ${candidate.scores.transparency.toFixed(0)}`
+  const shareDescription = `Puntaje: ${getScore().toFixed(1)}/100 | Competencia: ${candidate.scores.competence.toFixed(0)} | Integridad: ${candidate.scores.integrity.toFixed(0)} | Transparencia: ${candidate.scores.transparency.toFixed(0)}`
 
   return (
     <div className="min-h-screen bg-[var(--background)]">
@@ -239,7 +239,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                       ? 'text-[var(--flag-red-text)]'
                       : 'text-[var(--flag-amber-text)]'
                   )}>
-                    {candidate.flags.length} Alerta{candidate.flags.length > 1 ? 's' : ''} Registrada{candidate.flags.length > 1 ? 's' : ''}
+                    {candidate.flags.length} Antecedente{candidate.flags.length > 1 ? 's' : ''} Encontrado{candidate.flags.length > 1 ? 's' : ''}
                   </h3>
                   <p className={cn(
                     'text-xs sm:text-sm font-medium mb-2 sm:mb-3',
@@ -630,7 +630,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
               {candidate.flags.length > 0 && (
                 <Card>
                   <CardHeader>
-                    <CardTitle>ALERTAS VERIFICADAS</CardTitle>
+                    <CardTitle>ANTECEDENTES VERIFICADOS</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
@@ -707,10 +707,10 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                         </svg>
                       </div>
                       <h4 className="font-black text-[var(--foreground)] mb-1 uppercase">
-                        Sin alertas registradas
+                        Sin antecedentes negativos
                       </h4>
                       <p className="text-sm text-[var(--muted-foreground)]">
-                        No se encontraron antecedentes negativos verificados para este candidato.
+                        No encontramos sentencias ni procesos judiciales para este candidato.
                       </p>
                     </div>
                   </CardContent>
@@ -820,7 +820,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                     <div>
                       <h4 className="font-black text-[var(--foreground)] mb-3 flex items-center gap-2 uppercase">
                         <div className="w-3 h-3 bg-[var(--muted-foreground)]" />
-                        Confianza de datos: {candidate.scores.confidence.toFixed(1)}/100
+                        Nivel de información: {candidate.scores.confidence.toFixed(1)}/100
                       </h4>
                       <div className="ml-5 space-y-2 text-sm text-[var(--muted-foreground)]">
                         <div className="flex justify-between">
