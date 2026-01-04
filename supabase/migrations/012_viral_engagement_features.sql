@@ -312,7 +312,7 @@ CREATE TRIGGER trigger_update_user_level
 -- ============================================
 
 INSERT INTO daily_facts (date, fact_text, fact_type) VALUES
-  (CURRENT_DATE, 'El Perú elegirá 200 representantes: 1 Presidente, 60 Senadores, 130 Diputados y 7 al Parlamento Andino.', 'statistic'),
+  (CURRENT_DATE, 'El Peru elegira 196 representantes: 1 Presidente, 60 Senadores, 130 Diputados y 5 al Parlamento Andino.', 'statistic'),
   (CURRENT_DATE + 1, '36 candidatos presidenciales compiten por llegar a Palacio de Gobierno.', 'statistic'),
   (CURRENT_DATE + 2, 'El distrito de Lima elige más diputados: 35 de los 130 totales.', 'statistic'),
   (CURRENT_DATE + 3, 'Esta es la primera elección con Senado desde 1992, cuando Fujimori lo cerró.', 'history'),
