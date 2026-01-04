@@ -107,56 +107,122 @@ export function CandidateCard({
     }
   }
 
-  // Compact variant
+  // Compact variant - optimized for desktop grid
   if (variant === 'compact') {
     return (
       <Card
         hover
         onClick={handleView}
+        variant={rank === 1 ? 'gold' : rank === 2 ? 'silver' : rank === 3 ? 'bronze' : 'default'}
         className={cn(
           'relative overflow-hidden',
           isSelected && 'ring-4 ring-[var(--primary)]',
           className
         )}
       >
-        <div className="p-4 flex items-center gap-4">
-          {/* Rank Medal */}
-          {rank && (
-            <div className={cn(
-              'flex-shrink-0 w-10 h-10',
-              'border-3 border-[var(--border)]',
-              'flex items-center justify-center',
-              'font-bold text-lg',
-              getRankStyle(rank).bg,
-              getRankStyle(rank).text,
-            )}>
-              {getRankStyle(rank).label}
+        <div className="p-4">
+          {/* Header row: Rank + Photo + Name + Score */}
+          <div className="flex items-center gap-3 mb-3">
+            {/* Rank Medal */}
+            {rank && (
+              <div className={cn(
+                'flex-shrink-0 w-10 h-10',
+                'border-3 border-[var(--border)]',
+                'shadow-[var(--shadow-brutal-sm)]',
+                'flex items-center justify-center',
+                'font-bold text-lg',
+                getRankStyle(rank).bg,
+                getRankStyle(rank).text,
+              )}>
+                {getRankStyle(rank).label}
+              </div>
+            )}
+
+            {/* Photo */}
+            <div className="flex-shrink-0 w-12 h-12 border-3 border-[var(--border)] bg-[var(--muted)] overflow-hidden">
+              {candidate.photo_url ? (
+                <img src={candidate.photo_url} alt={candidate.full_name} className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)] text-sm font-bold">
+                  {candidate.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+                </div>
+              )}
+            </div>
+
+            {/* Info */}
+            <div className="flex-1 min-w-0">
+              <h3 className="font-bold text-[var(--foreground)] truncate leading-tight">
+                {candidate.full_name}
+              </h3>
+              <div className="flex items-center gap-1.5 mt-1">
+                {candidate.party && (
+                  <Badge variant="primary" size="sm">
+                    {candidate.party.short_name || candidate.party.name}
+                  </Badge>
+                )}
+              </div>
+            </div>
+
+            {/* Score */}
+            <ScorePill score={score} mode={mode} weights={weights} size="md" variant="minimal" />
+          </div>
+
+          {/* Sub-scores row */}
+          <div className="grid grid-cols-3 gap-2 py-2 border-t-2 border-[var(--border)]">
+            <div className="text-center">
+              <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Comp.</div>
+              <div className="text-sm font-black text-[var(--foreground)]">{candidate.scores.competence.toFixed(0)}</div>
+            </div>
+            <div className="text-center">
+              <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Integ.</div>
+              <div className="text-sm font-black text-[var(--foreground)]">{candidate.scores.integrity.toFixed(0)}</div>
+            </div>
+            <div className="text-center">
+              <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Trans.</div>
+              <div className="text-sm font-black text-[var(--foreground)]">{candidate.scores.transparency.toFixed(0)}</div>
+            </div>
+          </div>
+
+          {/* Flags indicator */}
+          {candidate.flags.length > 0 && (
+            <div className="flex items-center gap-1.5 pt-2 border-t-2 border-[var(--border)]">
+              <div className={cn(
+                'w-3 h-3',
+                candidate.flags.some(f => f.severity === 'RED')
+                  ? 'bg-[var(--flag-red)]'
+                  : 'bg-[var(--flag-amber)]'
+              )} />
+              <span className="text-xs font-bold text-[var(--muted-foreground)]">
+                {candidate.flags.length} antecedente{candidate.flags.length > 1 ? 's' : ''}
+              </span>
             </div>
           )}
 
-          {/* Photo */}
-          <div className="flex-shrink-0 w-12 h-12 border-3 border-[var(--border)] bg-[var(--muted)] overflow-hidden">
-            {candidate.photo_url ? (
-              <img src={candidate.photo_url} alt={candidate.full_name} className="w-full h-full object-cover" />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)] text-sm font-bold">
-                {candidate.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
-              </div>
-            )}
+          {/* Quick actions */}
+          <div className="flex items-center gap-2 mt-3 pt-3 border-t-2 border-[var(--border)]">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={(e) => {
+                e.stopPropagation()
+                handleCompare()
+              }}
+              className="flex-1"
+            >
+              {isSelected ? 'Quitar' : 'Comparar'}
+            </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={(e) => {
+                e.stopPropagation()
+                handleView()
+              }}
+              className="flex-1"
+            >
+              Ver más
+            </Button>
           </div>
-
-          {/* Info */}
-          <div className="flex-1 min-w-0">
-            <h3 className="font-bold text-[var(--foreground)] truncate">
-              {candidate.full_name}
-            </h3>
-            <p className="text-sm font-medium text-[var(--muted-foreground)] truncate">
-              {candidate.party?.short_name || candidate.cargo}
-            </p>
-          </div>
-
-          {/* Score */}
-          <ScorePill score={score} mode={mode} weights={weights} size="sm" variant="minimal" />
         </div>
       </Card>
     )

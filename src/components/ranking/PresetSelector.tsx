@@ -157,15 +157,26 @@ export function PresetSelector({
         </div>
       </div>
 
-      {/* Custom Sliders - NEO BRUTAL */}
+      {/* Custom Sliders - NEO BRUTAL - Horizontal on desktop */}
       {showCustom && (
-        <div className="p-4 bg-[var(--muted)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)] space-y-4">
-          <p className="text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wide">
-            Este ranking es personalizado. La información base no cambia; cambian tus
-            prioridades (pesos).
-          </p>
+        <div className="p-4 bg-[var(--muted)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)]">
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-4">
+            <p className="text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wide lg:max-w-xs">
+              Ranking personalizado. La información no cambia, solo tus prioridades.
+            </p>
+            <button
+              onClick={() => {
+                setCustomWeights(PRESETS.balanced)
+                onChange('custom', PRESETS.balanced)
+              }}
+              className="text-xs font-bold text-[var(--primary)] hover:underline uppercase tracking-wide whitespace-nowrap"
+            >
+              Resetear a Equilibrado
+            </button>
+          </div>
 
-          <div className="space-y-4">
+          {/* Sliders - 3 columns on desktop, stack on mobile */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
             <WeightSlider
               label="Competencia"
               value={customWeights.wC}
@@ -188,16 +199,6 @@ export function PresetSelector({
               onChange={(v) => handleWeightChange('wT', v)}
             />
           </div>
-
-          <button
-            onClick={() => {
-              setCustomWeights(PRESETS.balanced)
-              onChange('custom', PRESETS.balanced)
-            }}
-            className="text-xs font-bold text-[var(--primary)] hover:underline uppercase tracking-wide"
-          >
-            Resetear a Equilibrado
-          </button>
         </div>
       )}
     </div>

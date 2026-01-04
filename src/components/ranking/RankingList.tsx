@@ -1,5 +1,6 @@
 'use client'
 
+import { cn } from '@/lib/utils'
 import { CandidateCard } from '@/components/candidate/CandidateCard'
 import type { CandidateWithScores, PresetType, Weights } from '@/types/database'
 
@@ -11,6 +12,7 @@ interface RankingListProps {
   onCompare: (id: string) => void
   onView: (slug: string) => void
   onShare: (id: string) => void
+  viewMode?: 'list' | 'grid'
 }
 
 export function RankingList({
@@ -21,6 +23,7 @@ export function RankingList({
   onCompare,
   onView,
   onShare,
+  viewMode = 'list',
 }: RankingListProps) {
   if (candidates.length === 0) {
     return (
@@ -36,6 +39,29 @@ export function RankingList({
     )
   }
 
+  // Grid view - 2 columns with compact cards
+  if (viewMode === 'grid') {
+    return (
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {candidates.map((candidate, index) => (
+          <CandidateCard
+            key={candidate.id}
+            candidate={candidate}
+            rank={index + 1}
+            mode={mode}
+            weights={weights}
+            isSelected={selectedIds.includes(candidate.id)}
+            onCompare={() => onCompare(candidate.id)}
+            onView={() => onView(candidate.slug)}
+            onShare={() => onShare(candidate.id)}
+            variant="compact"
+          />
+        ))}
+      </div>
+    )
+  }
+
+  // List view - default
   return (
     <div className="space-y-4">
       {candidates.map((candidate, index) => (

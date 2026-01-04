@@ -11,7 +11,8 @@ import { RankingFilters } from '@/components/ranking/RankingFilters'
 import { RankingList } from '@/components/ranking/RankingList'
 import { CompareTray } from '@/components/compare/CompareTray'
 import { useCandidates } from '@/hooks/useCandidates'
-import { PRESETS, WEIGHT_LIMITS } from '@/lib/constants'
+import { PRESETS, WEIGHT_LIMITS, DISTRICTS } from '@/lib/constants'
+import { MOCK_PARTIES } from '@/lib/mock-data'
 import type { PresetType, CargoType, Weights, CandidateWithScores } from '@/types/database'
 
 const cargoLabels: Record<CargoType, string> = {
@@ -94,6 +95,9 @@ export function RankingContent() {
 
   // Panel de filtros móvil
   const [showFilters, setShowFilters] = useState(false)
+
+  // View mode (list or grid)
+  const [viewMode, setViewMode] = useState<'list' | 'grid'>('list')
 
   // Fetch candidates from API
   const { candidates: rawCandidates, loading, error } = useCandidates({
@@ -218,7 +222,7 @@ export function RankingContent() {
         <div className="mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
             <div>
-              <h1 className="text-2xl font-black text-[var(--foreground)] uppercase tracking-tight">
+              <h1 className="text-2xl lg:text-3xl font-black text-[var(--foreground)] uppercase tracking-tight">
                 Ranking de {cargoLabels[cargo]}
               </h1>
               <p className="text-[var(--muted-foreground)] font-bold mt-1">
@@ -231,18 +235,111 @@ export function RankingContent() {
             </div>
           </div>
 
-          {/* Preset Selector */}
-          <PresetSelector
-            value={mode}
-            weights={customWeights}
-            onChange={(newMode, newWeights) => {
-              setMode(newMode)
-              if (newWeights) {
-                setCustomWeights(newWeights)
-              }
-              updateURL({ mode: newMode })
-            }}
-          />
+          {/* Preset Selector + View Toggle */}
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
+            <div className="flex-1">
+              <PresetSelector
+                value={mode}
+                weights={customWeights}
+                onChange={(newMode, newWeights) => {
+                  setMode(newMode)
+                  if (newWeights) {
+                    setCustomWeights(newWeights)
+                  }
+                  updateURL({ mode: newMode })
+                }}
+              />
+            </div>
+
+            {/* View Toggle - Desktop only */}
+            <div className="hidden lg:flex items-center gap-1 p-1 bg-[var(--muted)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)]">
+              <button
+                onClick={() => setViewMode('list')}
+                className={cn(
+                  'p-2 border-2 transition-all duration-100',
+                  viewMode === 'list'
+                    ? 'bg-[var(--primary)] text-white border-[var(--border)] shadow-[var(--shadow-brutal-sm)] -translate-x-0.5 -translate-y-0.5'
+                    : 'bg-[var(--background)] text-[var(--foreground)] border-transparent hover:border-[var(--border)]'
+                )}
+                aria-label="Vista lista"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="square" strokeLinejoin="miter" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+              <button
+                onClick={() => setViewMode('grid')}
+                className={cn(
+                  'p-2 border-2 transition-all duration-100',
+                  viewMode === 'grid'
+                    ? 'bg-[var(--primary)] text-white border-[var(--border)] shadow-[var(--shadow-brutal-sm)] -translate-x-0.5 -translate-y-0.5'
+                    : 'bg-[var(--background)] text-[var(--foreground)] border-transparent hover:border-[var(--border)]'
+                )}
+                aria-label="Vista grid"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="square" strokeLinejoin="miter" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zM14 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Active Filter Chips */}
+          {(distrito || partyId || minConfidence > 0 || onlyClean) && (
+            <div className="flex flex-wrap items-center gap-2 mt-4 pt-4 border-t-2 border-[var(--border)]">
+              <span className="text-sm font-bold text-[var(--muted-foreground)] uppercase">Filtros:</span>
+              {distrito && (
+                <button
+                  onClick={() => handleDistritoChange(undefined)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--primary)] text-white text-sm font-bold border-2 border-[var(--border)] hover:opacity-90 transition-opacity"
+                >
+                  {DISTRICTS.find(d => d.slug === distrito)?.name || distrito}
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="square" strokeLinejoin="miter" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+              {partyId && (
+                <button
+                  onClick={() => handlePartyChange(undefined)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--primary)] text-white text-sm font-bold border-2 border-[var(--border)] hover:opacity-90 transition-opacity"
+                >
+                  {MOCK_PARTIES.find(p => p.id === partyId)?.name || 'Partido'}
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="square" strokeLinejoin="miter" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+              {minConfidence > 0 && (
+                <button
+                  onClick={() => handleMinConfidenceChange(0)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--score-good)] text-white text-sm font-bold border-2 border-[var(--border)] hover:opacity-90 transition-opacity"
+                >
+                  Info. mín. {minConfidence}%
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="square" strokeLinejoin="miter" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+              {onlyClean && (
+                <button
+                  onClick={() => handleOnlyCleanChange(false)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--score-excellent)] text-white text-sm font-bold border-2 border-[var(--border)] hover:opacity-90 transition-opacity"
+                >
+                  Sin antecedentes
+                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="square" strokeLinejoin="miter" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              )}
+              <button
+                onClick={handleResetFilters}
+                className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] underline transition-colors"
+              >
+                Limpiar todos
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="flex gap-6">
@@ -416,6 +513,7 @@ export function RankingContent() {
                 onCompare={handleCompare}
                 onView={handleViewCandidate}
                 onShare={handleShareCandidate}
+                viewMode={viewMode}
               />
             )}
           </div>
