@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Header } from '@/components/layout/Header'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -10,6 +11,7 @@ import { Badge } from '@/components/ui/Badge'
 import { Tabs, TabList, Tab, TabPanel } from '@/components/ui/Tabs'
 import { ScorePill } from '@/components/candidate/ScorePill'
 import { SubScoreBar, SubScoreStat } from '@/components/candidate/SubScoreBar'
+import { Progress } from '@/components/ui/Progress'
 import { FlagChips } from '@/components/candidate/FlagChip'
 import { ConfidenceBadge } from '@/components/candidate/ConfidenceBadge'
 import { ShareButton } from '@/components/share/ShareButton'
@@ -58,8 +60,59 @@ function formatDate(dateStr: string): string {
   }
 }
 
+// Visual breakdown bar component
+function BreakdownBar({
+  label,
+  value,
+  max,
+  color
+}: {
+  label: string
+  value: number
+  max: number
+  color: 'competence' | 'integrity' | 'transparency' | 'default'
+}) {
+  const percentage = Math.min((value / max) * 100, 100)
+  const colorClasses = {
+    competence: 'bg-[var(--score-competence)]',
+    integrity: 'bg-[var(--score-integrity)]',
+    transparency: 'bg-[var(--score-transparency)]',
+    default: 'bg-[var(--muted-foreground)]',
+  }
+
+  return (
+    <div className="space-y-1">
+      <div className="flex items-center justify-between text-xs">
+        <span className="font-bold text-[var(--muted-foreground)] uppercase">{label}</span>
+        <span className="font-black text-[var(--foreground)]">{value.toFixed(1)}/{max}</span>
+      </div>
+      <div className="h-2 bg-[var(--muted)] border-2 border-[var(--border)] overflow-hidden">
+        <div
+          className={cn('h-full transition-all duration-300', colorClasses[color])}
+          style={{ width: `${percentage}%` }}
+        />
+      </div>
+    </div>
+  )
+}
+
 export function CandidateProfileContent({ candidate, breakdown, details }: CandidateProfileContentProps) {
+  const router = useRouter()
   const [mode, setMode] = useState<PresetType>('balanced')
+  const [showStickyBar, setShowStickyBar] = useState(false)
+  const heroRef = useRef<HTMLDivElement>(null)
+
+  // Detect scroll to show/hide sticky bar
+  useEffect(() => {
+    const handleScroll = () => {
+      if (heroRef.current) {
+        const heroBottom = heroRef.current.getBoundingClientRect().bottom
+        setShowStickyBar(heroBottom < 60)
+      }
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const getScore = () => {
     switch (mode) {
@@ -79,9 +132,85 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
     <div className="min-h-screen bg-[var(--background)]">
       <Header />
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* Hero Section - Mobile Optimized */}
-        <Card className="mb-6 overflow-hidden">
+      {/* Sticky Summary Bar - appears on scroll */}
+      <div
+        className={cn(
+          'fixed top-0 left-0 right-0 z-40',
+          'bg-[var(--card)] border-b-3 border-[var(--border)]',
+          'shadow-[var(--shadow-brutal)]',
+          'transition-transform duration-200',
+          showStickyBar ? 'translate-y-0' : '-translate-y-full'
+        )}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 min-w-0">
+              {/* Back button */}
+              <button
+                onClick={() => router.back()}
+                className="p-2 text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="square" strokeLinejoin="miter" d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              {/* Photo mini */}
+              <div className="w-8 h-8 border-2 border-[var(--border)] bg-[var(--muted)] overflow-hidden flex-shrink-0">
+                {candidate.photo_url ? (
+                  <img src={candidate.photo_url} alt="" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)] text-xs font-bold">
+                    {candidate.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+                  </div>
+                )}
+              </div>
+              {/* Name truncated */}
+              <span className="font-bold text-[var(--foreground)] truncate text-sm uppercase">
+                {candidate.full_name}
+              </span>
+            </div>
+            {/* Score pill mini */}
+            <div className={cn(
+              'flex-shrink-0 px-3 py-1 border-2 border-[var(--border)]',
+              'font-black text-sm',
+              getScore() >= 70 ? 'bg-[var(--score-excellent-bg)] text-[var(--score-excellent-text)]' :
+              getScore() >= 50 ? 'bg-[var(--score-good-bg)] text-[var(--score-good-text)]' :
+              getScore() >= 30 ? 'bg-[var(--score-medium-bg)] text-[var(--score-medium-text)]' :
+              'bg-[var(--score-low-bg)] text-[var(--score-low-text)]'
+            )}>
+              {getScore().toFixed(0)}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* Breadcrumb Navigation */}
+        <nav className="mb-4 flex items-center gap-2 text-sm">
+          <Link href="/ranking" className="text-[var(--muted-foreground)] hover:text-[var(--primary)] font-bold uppercase transition-colors">
+            Ranking
+          </Link>
+          <svg className="w-4 h-4 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="square" d="M9 5l7 7-7 7" />
+          </svg>
+          <Link href={`/ranking?cargo=${candidate.cargo}`} className="text-[var(--muted-foreground)] hover:text-[var(--primary)] font-bold uppercase transition-colors">
+            {cargoLabels[candidate.cargo] || candidate.cargo}
+          </Link>
+          <svg className="w-4 h-4 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="square" d="M9 5l7 7-7 7" />
+          </svg>
+          <span className="text-[var(--foreground)] font-bold uppercase truncate">
+            {candidate.full_name.split(' ').slice(0, 2).join(' ')}
+          </span>
+        </nav>
+
+        {/* Main Layout - Sidebar on desktop */}
+        <div className="lg:grid lg:grid-cols-[1fr_320px] lg:gap-6">
+          {/* Main Content Column */}
+          <div className="space-y-6">
+            {/* Hero Section - Mobile Optimized */}
+            <div ref={heroRef}>
+              <Card className="overflow-hidden">
           <div className="p-4 sm:p-6 lg:p-8">
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
               {/* Photo - Smaller on mobile */}
@@ -205,6 +334,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
             </div>
           </div>
         </Card>
+            </div>
 
         {/* Flags Alert */}
         {candidate.flags.length > 0 && (
@@ -256,14 +386,16 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
           </Card>
         )}
 
-        {/* Tabs */}
+        {/* Tabs - Edge-to-edge scroll on mobile */}
         <Tabs defaultTab="resumen">
-          <TabList className="mb-4">
-            <Tab value="resumen">RESUMEN</Tab>
-            <Tab value="noticias">NOTICIAS</Tab>
-            <Tab value="evidencia">EVIDENCIA</Tab>
-            <Tab value="breakdown">DESGLOSE</Tab>
-          </TabList>
+          <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible mb-4">
+            <TabList className="min-w-max sm:min-w-0">
+              <Tab value="resumen">RESUMEN</Tab>
+              <Tab value="noticias">NOTICIAS</Tab>
+              <Tab value="evidencia">EVIDENCIA</Tab>
+              <Tab value="breakdown">DESGLOSE</Tab>
+            </TabList>
+          </div>
 
           {/* ==================== RESUMEN TAB ==================== */}
           <TabPanel value="resumen">
@@ -727,110 +859,94 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
               </CardHeader>
               <CardContent>
                 {breakdown ? (
-                  <div className="space-y-6">
-                    {/* Competence Breakdown */}
+                  <div className="space-y-8">
+                    {/* Competence Breakdown with Visual Bars */}
                     <div>
-                      <h4 className="font-black text-[var(--foreground)] mb-3 flex items-center gap-2 uppercase">
-                        <div className="w-3 h-3 bg-[var(--score-competence)]" />
-                        Competencia: {candidate.scores.competence.toFixed(1)}/100
-                      </h4>
-                      <div className="ml-5 space-y-2 text-sm text-[var(--muted-foreground)]">
-                        <div className="flex justify-between">
-                          <span>Nivel educativo (máx. 22)</span>
-                          <span className="font-bold text-[var(--foreground)]">{breakdown.education.level.toFixed(1)}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Profundidad educativa (máx. 8)</span>
-                          <span className="font-bold text-[var(--foreground)]">{breakdown.education.depth.toFixed(1)}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Experiencia total (máx. 25)</span>
-                          <span className="font-bold text-[var(--foreground)]">{breakdown.experience.total.toFixed(1)}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Experiencia relevante (máx. 25)</span>
-                          <span className="font-bold text-[var(--foreground)]">{breakdown.experience.relevant.toFixed(1)}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Liderazgo - Seniority (máx. 14)</span>
-                          <span className="font-bold text-[var(--foreground)]">{breakdown.leadership.seniority.toFixed(1)}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Liderazgo - Estabilidad (máx. 6)</span>
-                          <span className="font-bold text-[var(--foreground)]">{breakdown.leadership.stability.toFixed(1)}</span>
-                        </div>
+                      <div className="flex items-center justify-between mb-4">
+                        <h4 className="font-black text-[var(--foreground)] flex items-center gap-2 uppercase">
+                          <div className="w-4 h-4 bg-[var(--score-competence)] border-2 border-[var(--border)]" />
+                          Competencia
+                        </h4>
+                        <span className="text-2xl font-black text-[var(--score-competence-text)]">
+                          {candidate.scores.competence.toFixed(0)}
+                        </span>
+                      </div>
+                      <div className="space-y-3">
+                        <BreakdownBar label="Nivel educativo" value={breakdown.education.level} max={22} color="competence" />
+                        <BreakdownBar label="Profundidad educativa" value={breakdown.education.depth} max={8} color="competence" />
+                        <BreakdownBar label="Experiencia total" value={breakdown.experience.total} max={25} color="competence" />
+                        <BreakdownBar label="Experiencia relevante" value={breakdown.experience.relevant} max={25} color="competence" />
+                        <BreakdownBar label="Liderazgo - Seniority" value={breakdown.leadership.seniority} max={14} color="competence" />
+                        <BreakdownBar label="Liderazgo - Estabilidad" value={breakdown.leadership.stability} max={6} color="competence" />
                       </div>
                     </div>
 
-                    {/* Integrity Breakdown */}
+                    {/* Integrity Breakdown with Visual Bars */}
                     <div>
-                      <h4 className="font-black text-[var(--foreground)] mb-3 flex items-center gap-2 uppercase">
-                        <div className="w-3 h-3 bg-[var(--score-integrity)]" />
-                        Integridad: {candidate.scores.integrity.toFixed(1)}/100
-                      </h4>
-                      <div className="ml-5 space-y-2 text-sm text-[var(--muted-foreground)]">
-                        <div className="flex justify-between">
-                          <span>Base</span>
-                          <span className="font-bold text-[var(--foreground)]">{breakdown.integrity.base.toFixed(0)}</span>
-                        </div>
+                      <div className="flex items-center justify-between mb-4">
+                        <h4 className="font-black text-[var(--foreground)] flex items-center gap-2 uppercase">
+                          <div className="w-4 h-4 bg-[var(--score-integrity)] border-2 border-[var(--border)]" />
+                          Integridad
+                        </h4>
+                        <span className="text-2xl font-black text-[var(--score-integrity-text)]">
+                          {candidate.scores.integrity.toFixed(0)}
+                        </span>
+                      </div>
+                      <div className="space-y-3">
+                        <BreakdownBar label="Puntaje base" value={breakdown.integrity.base} max={100} color="integrity" />
                         {breakdown.integrity.penal_penalty > 0 && (
-                          <div className="flex justify-between text-[var(--flag-red-text)]">
-                            <span>Sentencias penales</span>
-                            <span className="font-bold">-{breakdown.integrity.penal_penalty.toFixed(0)}</span>
+                          <div className="flex items-center gap-3 p-2 bg-[var(--flag-red)]/10 border-2 border-[var(--flag-red)]">
+                            <span className="text-xs font-bold text-[var(--flag-red-text)] flex-1 uppercase">Sentencias penales</span>
+                            <span className="font-black text-[var(--flag-red-text)]">-{breakdown.integrity.penal_penalty.toFixed(0)}</span>
                           </div>
                         )}
                         {breakdown.integrity.civil_penalties.map((penalty, idx) => (
-                          <div key={idx} className="flex justify-between text-[var(--flag-amber-text)]">
-                            <span>Sentencia civil ({penalty.type})</span>
-                            <span className="font-bold">-{penalty.penalty.toFixed(0)}</span>
+                          <div key={idx} className="flex items-center gap-3 p-2 bg-[var(--flag-amber)]/10 border-2 border-[var(--flag-amber)]">
+                            <span className="text-xs font-bold text-[var(--flag-amber-text)] flex-1 uppercase">Sentencia civil ({penalty.type})</span>
+                            <span className="font-black text-[var(--flag-amber-text)]">-{penalty.penalty.toFixed(0)}</span>
                           </div>
                         ))}
                         {breakdown.integrity.resignation_penalty > 0 && (
-                          <div className="flex justify-between text-[var(--flag-amber-text)]">
-                            <span>Renuncias a partidos</span>
-                            <span className="font-bold">-{breakdown.integrity.resignation_penalty.toFixed(0)}</span>
+                          <div className="flex items-center gap-3 p-2 bg-[var(--flag-amber)]/10 border-2 border-[var(--flag-amber)]">
+                            <span className="text-xs font-bold text-[var(--flag-amber-text)] flex-1 uppercase">Renuncias a partidos</span>
+                            <span className="font-black text-[var(--flag-amber-text)]">-{breakdown.integrity.resignation_penalty.toFixed(0)}</span>
                           </div>
                         )}
                       </div>
                     </div>
 
-                    {/* Transparency Breakdown */}
+                    {/* Transparency Breakdown with Visual Bars */}
                     <div>
-                      <h4 className="font-black text-[var(--foreground)] mb-3 flex items-center gap-2 uppercase">
-                        <div className="w-3 h-3 bg-[var(--score-transparency)]" />
-                        Transparencia: {candidate.scores.transparency.toFixed(1)}/100
-                      </h4>
-                      <div className="ml-5 space-y-2 text-sm text-[var(--muted-foreground)]">
-                        <div className="flex justify-between">
-                          <span>Completitud (máx. 35)</span>
-                          <span className="font-bold text-[var(--foreground)]">{breakdown.transparency.completeness.toFixed(1)}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Consistencia (máx. 35)</span>
-                          <span className="font-bold text-[var(--foreground)]">{breakdown.transparency.consistency.toFixed(1)}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Calidad Patrimonial (máx. 30)</span>
-                          <span className="font-bold text-[var(--foreground)]">{breakdown.transparency.assets_quality.toFixed(1)}</span>
-                        </div>
+                      <div className="flex items-center justify-between mb-4">
+                        <h4 className="font-black text-[var(--foreground)] flex items-center gap-2 uppercase">
+                          <div className="w-4 h-4 bg-[var(--score-transparency)] border-2 border-[var(--border)]" />
+                          Transparencia
+                        </h4>
+                        <span className="text-2xl font-black text-[var(--score-transparency-text)]">
+                          {candidate.scores.transparency.toFixed(0)}
+                        </span>
+                      </div>
+                      <div className="space-y-3">
+                        <BreakdownBar label="Completitud" value={breakdown.transparency.completeness} max={35} color="transparency" />
+                        <BreakdownBar label="Consistencia" value={breakdown.transparency.consistency} max={35} color="transparency" />
+                        <BreakdownBar label="Calidad patrimonial" value={breakdown.transparency.assets_quality} max={30} color="transparency" />
                       </div>
                     </div>
 
-                    {/* Confidence Breakdown */}
+                    {/* Confidence Breakdown with Visual Bars */}
                     <div>
-                      <h4 className="font-black text-[var(--foreground)] mb-3 flex items-center gap-2 uppercase">
-                        <div className="w-3 h-3 bg-[var(--muted-foreground)]" />
-                        Nivel de información: {candidate.scores.confidence.toFixed(1)}/100
-                      </h4>
-                      <div className="ml-5 space-y-2 text-sm text-[var(--muted-foreground)]">
-                        <div className="flex justify-between">
-                          <span>Verificación (máx. 50)</span>
-                          <span className="font-bold text-[var(--foreground)]">{breakdown.confidence.verification.toFixed(1)}</span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span>Cobertura (máx. 50)</span>
-                          <span className="font-bold text-[var(--foreground)]">{breakdown.confidence.coverage.toFixed(1)}</span>
-                        </div>
+                      <div className="flex items-center justify-between mb-4">
+                        <h4 className="font-black text-[var(--foreground)] flex items-center gap-2 uppercase">
+                          <div className="w-4 h-4 bg-[var(--muted-foreground)] border-2 border-[var(--border)]" />
+                          Nivel de Confianza
+                        </h4>
+                        <span className="text-2xl font-black text-[var(--muted-foreground)]">
+                          {candidate.scores.confidence.toFixed(0)}
+                        </span>
+                      </div>
+                      <div className="space-y-3">
+                        <BreakdownBar label="Verificación" value={breakdown.confidence.verification} max={50} color="default" />
+                        <BreakdownBar label="Cobertura" value={breakdown.confidence.coverage} max={50} color="default" />
                       </div>
                     </div>
                   </div>
@@ -843,19 +959,139 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
             </Card>
           </TabPanel>
         </Tabs>
+          </div>
 
-        {/* Action Bar */}
-        <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="/ranking">
-            <Button variant="outline" size="lg">
+          {/* ========== SIDEBAR - Desktop Only ========== */}
+          <aside className="hidden lg:block space-y-6">
+            {/* Quick Stats Card */}
+            <Card className="sticky top-20">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-sm">RESUMEN RÁPIDO</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {/* Overall Score */}
+                <div className="text-center p-4 bg-[var(--muted)] border-2 border-[var(--border)]">
+                  <div className="text-3xl font-black text-[var(--foreground)] mb-1">
+                    {getScore().toFixed(0)}
+                  </div>
+                  <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase">
+                    Puntaje {mode === 'balanced' ? 'Equilibrado' : mode === 'merit' ? 'Mérito' : 'Integridad'}
+                  </div>
+                </div>
+
+                {/* Sub-scores mini */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Competencia</span>
+                    <span className="font-black text-[var(--score-competence-text)]">{candidate.scores.competence.toFixed(0)}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Integridad</span>
+                    <span className="font-black text-[var(--score-integrity-text)]">{candidate.scores.integrity.toFixed(0)}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Transparencia</span>
+                    <span className="font-black text-[var(--score-transparency-text)]">{candidate.scores.transparency.toFixed(0)}</span>
+                  </div>
+                </div>
+
+                {/* Flags summary */}
+                {candidate.flags.length > 0 && (
+                  <div className={cn(
+                    'p-3 border-2',
+                    candidate.flags.some(f => f.severity === 'RED')
+                      ? 'bg-[var(--flag-red)]/10 border-[var(--flag-red)]'
+                      : 'bg-[var(--flag-amber)]/10 border-[var(--flag-amber)]'
+                  )}>
+                    <div className="flex items-center gap-2">
+                      <svg className="w-4 h-4 text-[var(--flag-red-text)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="square" strokeLinejoin="miter" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                      </svg>
+                      <span className="text-xs font-bold uppercase">
+                        {candidate.flags.length} antecedente{candidate.flags.length > 1 ? 's' : ''}
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Confidence */}
+                <div className="pt-3 border-t-2 border-[var(--border)]">
+                  <ConfidenceBadge value={candidate.scores.confidence} size="md" />
+                </div>
+
+                {/* Quick Actions */}
+                <div className="pt-3 border-t-2 border-[var(--border)] space-y-2">
+                  <Link href={`/comparar?ids=${candidate.id}`} className="block">
+                    <Button variant="primary" size="sm" className="w-full">
+                      <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="square" strokeLinejoin="miter" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                      </svg>
+                      COMPARAR
+                    </Button>
+                  </Link>
+                  <ShareButton
+                    title={shareTitle}
+                    description={shareDescription}
+                    variant="button"
+                    className="w-full"
+                  />
+                </div>
+
+                {/* Party link */}
+                {candidate.party && (
+                  <Link
+                    href={`/partido/${candidate.party.id}`}
+                    className="flex items-center gap-2 p-3 bg-[var(--muted)] border-2 border-[var(--border)] hover:shadow-[var(--shadow-brutal-sm)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100"
+                  >
+                    <div
+                      className="w-8 h-8 border-2 border-[var(--border)] flex items-center justify-center text-white font-bold text-xs"
+                      style={{ backgroundColor: candidate.party.color || '#6B7280' }}
+                    >
+                      {candidate.party.short_name?.substring(0, 2) || candidate.party.name.substring(0, 2)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs font-bold text-[var(--foreground)] truncate uppercase">
+                        {candidate.party.short_name || candidate.party.name}
+                      </div>
+                      <div className="text-xs text-[var(--muted-foreground)]">Ver partido</div>
+                    </div>
+                    <svg className="w-4 h-4 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
+                )}
+
+                {/* DJHV link */}
+                {details?.djhv_url && (
+                  <a
+                    href={details.djhv_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-xs font-bold text-[var(--primary)] hover:underline uppercase"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="square" strokeLinejoin="miter" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                    Hoja de Vida JNE
+                  </a>
+                )}
+              </CardContent>
+            </Card>
+          </aside>
+        </div>
+
+        {/* Mobile Action Bar */}
+        <div className="mt-8 flex flex-col sm:flex-row gap-3 lg:hidden">
+          <Link href="/ranking" className="flex-1">
+            <Button variant="outline" size="lg" className="w-full">
               <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="square" strokeLinejoin="miter" d="M15 19l-7-7 7-7" />
               </svg>
               VOLVER AL RANKING
             </Button>
           </Link>
-          <Link href={`/comparar?ids=${candidate.id}`}>
-            <Button variant="primary" size="lg">
+          <Link href={`/comparar?ids=${candidate.id}`} className="flex-1">
+            <Button variant="primary" size="lg" className="w-full">
               <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="square" strokeLinejoin="miter" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
@@ -863,6 +1099,46 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
             </Button>
           </Link>
         </div>
+
+        {/* Similar Candidates Section */}
+        <section className="mt-12 pt-8 border-t-3 border-[var(--border)]">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight">
+              Candidatos similares
+            </h2>
+            <Link
+              href={`/ranking?cargo=${candidate.cargo}`}
+              className="text-sm font-bold text-[var(--primary)] hover:underline uppercase flex items-center gap-1"
+            >
+              Ver todos
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="square" d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
+          <p className="text-sm text-[var(--muted-foreground)] mb-4">
+            Otros candidatos a {cargoLabels[candidate.cargo] || candidate.cargo} para comparar.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            {/* Placeholder cards - will be filled with real data */}
+            {[1, 2, 3, 4].map((i) => (
+              <Link
+                key={i}
+                href={`/ranking?cargo=${candidate.cargo}`}
+                className="p-4 bg-[var(--muted)] border-2 border-[var(--border)] hover:shadow-[var(--shadow-brutal-sm)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 text-center"
+              >
+                <div className="w-12 h-12 mx-auto mb-2 bg-[var(--background)] border-2 border-[var(--border)] flex items-center justify-center">
+                  <svg className="w-6 h-6 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="square" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+                <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">
+                  Ver más candidatos
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
       </main>
     </div>
   )
