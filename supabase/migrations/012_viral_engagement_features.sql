@@ -314,9 +314,9 @@ CREATE TRIGGER trigger_update_user_level
 INSERT INTO daily_facts (date, fact_text, fact_type) VALUES
   (CURRENT_DATE, 'El Peru elegira 196 representantes: 1 Presidente, 60 Senadores, 130 Diputados y 5 al Parlamento Andino.', 'statistic'),
   (CURRENT_DATE + 1, '36 candidatos presidenciales compiten por llegar a Palacio de Gobierno.', 'statistic'),
-  (CURRENT_DATE + 2, 'El distrito de Lima elige más diputados: 35 de los 130 totales.', 'statistic'),
-  (CURRENT_DATE + 3, 'Esta es la primera elección con Senado desde 1992, cuando Fujimori lo cerró.', 'history'),
-  (CURRENT_DATE + 4, 'El candidato con mayor experiencia política tiene más de 40 años en cargos públicos.', 'candidate'),
-  (CURRENT_DATE + 5, '8 candidatos presidenciales tienen sentencias o procesos judiciales pendientes.', 'statistic'),
+  (CURRENT_DATE + 2, 'Lima Metropolitana elige mas diputados: 32 de los 130 totales.', 'statistic'),
+  (CURRENT_DATE + 3, 'Esta es la primera eleccion con Senado desde 1992, cuando Fujimori lo cerro.', 'history'),
+  (CURRENT_DATE + 4, 'El candidato con mayor experiencia politica tiene mas de 40 años en cargos publicos.', 'candidate'),
+  (CURRENT_DATE + 5, '12 candidatos presidenciales tienen sentencias o procesos judiciales registrados.', 'statistic'),
   (CURRENT_DATE + 6, 'Los peruanos en el extranjero también eligen: 2 diputados los representan.', 'statistic')
 ON CONFLICT (date) DO NOTHING;

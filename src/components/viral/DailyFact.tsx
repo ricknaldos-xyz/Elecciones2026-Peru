@@ -29,9 +29,9 @@ const FACT_TYPE_ICONS: Record<string, string> = {
 const FALLBACK_FACTS: DailyFact[] = [
   { id: '1', fact_text: 'El Peru eligira 196 representantes: 1 Presidente, 60 Senadores, 130 Diputados y 5 al Parlamento Andino.', fact_type: 'statistic' },
   { id: '2', fact_text: '36 candidatos presidenciales compiten por llegar a Palacio de Gobierno.', fact_type: 'statistic' },
-  { id: '3', fact_text: 'El distrito de Lima elige mas diputados: 35 de los 130 totales.', fact_type: 'statistic' },
+  { id: '3', fact_text: 'Lima Metropolitana elige mas diputados: 32 de los 130 totales.', fact_type: 'statistic' },
   { id: '4', fact_text: 'Esta es la primera eleccion con Senado desde 1992, cuando Fujimori lo cerro.', fact_type: 'history' },
-  { id: '5', fact_text: '8 candidatos presidenciales tienen sentencias o procesos judiciales pendientes.', fact_type: 'statistic' },
+  { id: '5', fact_text: '12 candidatos presidenciales tienen sentencias o procesos judiciales registrados.', fact_type: 'statistic' },
 ]
 
 export function DailyFact({ className }: DailyFactProps) {
