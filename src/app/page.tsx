@@ -45,15 +45,15 @@ async function getTopPresidentialCandidates(): Promise<TopCandidate[]> {
         c.full_name,
         c.slug,
         c.photo_url,
-        cs.score_balanced,
+        s.score_balanced,
         p.name as party_name,
         p.short_name as party_short_name,
         p.color as party_color
       FROM candidates c
-      LEFT JOIN candidate_scores cs ON c.id = cs.candidate_id
+      LEFT JOIN scores s ON c.id = s.candidate_id
       LEFT JOIN parties p ON c.party_id = p.id
       WHERE c.cargo = 'presidente' AND c.is_active = true
-      ORDER BY cs.score_balanced DESC
+      ORDER BY s.score_balanced DESC NULLS LAST
       LIMIT 5
     `
     return result.map(row => ({
@@ -66,7 +66,8 @@ async function getTopPresidentialCandidates(): Promise<TopCandidate[]> {
       party_short_name: row.party_short_name as string | null,
       party_color: row.party_color as string | null,
     }))
-  } catch {
+  } catch (error) {
+    console.error('Error fetching top candidates:', error)
     return []
   }
 }
