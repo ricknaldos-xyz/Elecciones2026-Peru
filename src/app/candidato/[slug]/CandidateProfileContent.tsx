@@ -13,6 +13,7 @@ import { SubScoreBar, SubScoreStat } from '@/components/candidate/SubScoreBar'
 import { FlagChips } from '@/components/candidate/FlagChip'
 import { ConfidenceBadge } from '@/components/candidate/ConfidenceBadge'
 import { ShareButton } from '@/components/share/ShareButton'
+import { CandidateNewsSection } from '@/components/news/CandidateNewsSection'
 import { PRESETS } from '@/lib/constants'
 import type { CandidateWithScores, PresetType, ScoreBreakdown } from '@/types/database'
 import type { CandidateDetails } from '@/lib/db/queries'
@@ -242,6 +243,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
         <Tabs defaultTab="resumen">
           <TabList className="mb-4">
             <Tab value="resumen">RESUMEN</Tab>
+            <Tab value="noticias">NOTICIAS</Tab>
             <Tab value="evidencia">EVIDENCIA</Tab>
             <Tab value="breakdown">DESGLOSE</Tab>
           </TabList>
@@ -524,6 +526,14 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                 </Card>
               )}
             </div>
+          </TabPanel>
+
+          {/* ==================== NOTICIAS TAB ==================== */}
+          <TabPanel value="noticias">
+            <CandidateNewsSection
+              candidateSlug={candidate.slug}
+              candidateName={candidate.full_name}
+            />
           </TabPanel>
 
           {/* ==================== EVIDENCIA TAB ==================== */}

@@ -1,0 +1,197 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { cn } from '@/lib/utils'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
+import { Button } from '@/components/ui/Button'
+import { NewsSentimentBadge } from './NewsSentimentBadge'
+import { NewsSourceBadge } from './NewsSourceBadge'
+
+interface NewsItem {
+  id: string
+  title: string
+  url: string
+  source: string
+  published_at: string | null
+  sentiment: string | null
+  candidate_name: string | null
+  candidate_slug: string | null
+}
+
+interface CandidateActivity {
+  candidate_name: string
+  candidate_slug: string
+  news_count: number
+  positive: number
+  negative: number
+}
+
+interface TrendingNewsProps {
+  className?: string
+  limit?: number
+}
+
+function formatTimeAgo(dateString: string | null | undefined): string {
+  if (!dateString) return ''
+
+  const date = new Date(dateString)
+  const now = new Date()
+  const diffMs = now.getTime() - date.getTime()
+  const diffMins = Math.floor(diffMs / (1000 * 60))
+  const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+
+  if (diffMins < 60) return `hace ${diffMins}m`
+  if (diffHours < 24) return `hace ${diffHours}h`
+  if (diffDays < 7) return `hace ${diffDays}d`
+
+  return date.toLocaleDateString('es-PE', { day: 'numeric', month: 'short' })
+}
+
+export function TrendingNews({ className, limit = 5 }: TrendingNewsProps) {
+  const [news, setNews] = useState<NewsItem[]>([])
+  const [candidateActivity, setCandidateActivity] = useState<CandidateActivity[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchTrending() {
+      try {
+        const response = await fetch(`/api/news/trending?limit=${limit}`)
+        if (response.ok) {
+          const data = await response.json()
+          setNews(data.trending || [])
+          setCandidateActivity(data.stats?.candidateActivity || [])
+        }
+      } catch (error) {
+        console.error('Error fetching trending news:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchTrending()
+  }, [limit])
+
+  if (loading) {
+    return (
+      <Card className={cn('animate-pulse', className)}>
+        <CardHeader>
+          <div className="h-6 bg-[var(--muted)] w-1/3" />
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="flex gap-3">
+                <div className="w-8 h-8 bg-[var(--muted)]" />
+                <div className="flex-1 space-y-2">
+                  <div className="h-4 bg-[var(--muted)] w-full" />
+                  <div className="h-4 bg-[var(--muted)] w-3/4" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  if (news.length === 0) {
+    return null
+  }
+
+  return (
+    <Card className={className}>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <div className="w-8 h-8 bg-[var(--primary)] border-2 border-[var(--border)] flex items-center justify-center">
+            <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+            </svg>
+          </div>
+          Noticias del Momento
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        {/* Most active candidates this week */}
+        {candidateActivity.length > 0 && (
+          <div className="mb-4 pb-4 border-b-2 border-[var(--border)]">
+            <p className="text-xs font-bold text-[var(--muted-foreground)] uppercase mb-2">
+              Mas mencionados esta semana
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {candidateActivity.slice(0, 4).map((candidate) => (
+                <Link
+                  key={candidate.candidate_slug}
+                  href={`/candidato/${candidate.candidate_slug}`}
+                  className={cn(
+                    'inline-flex items-center gap-1.5 px-2 py-1',
+                    'text-xs font-bold',
+                    'bg-[var(--muted)]',
+                    'border-2 border-[var(--border)]',
+                    'hover:bg-[var(--primary)] hover:text-white',
+                    'transition-colors'
+                  )}
+                >
+                  <span>{candidate.candidate_name.split(' ').pop()}</span>
+                  <span className="text-[var(--muted-foreground)]">{candidate.news_count}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* News list */}
+        <div className="space-y-3">
+          {news.map((item) => (
+            <div key={item.id} className="flex gap-3 group">
+              <NewsSourceBadge source={item.source} size="sm" />
+              <div className="flex-1 min-w-0">
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block"
+                >
+                  <p className="text-sm font-medium text-[var(--foreground)] line-clamp-2 group-hover:text-[var(--primary)] transition-colors">
+                    {item.title}
+                  </p>
+                </a>
+                <div className="flex items-center gap-2 mt-1">
+                  {item.published_at && (
+                    <span className="text-xs text-[var(--muted-foreground)]">
+                      {formatTimeAgo(item.published_at)}
+                    </span>
+                  )}
+                  {item.sentiment && (
+                    <NewsSentimentBadge sentiment={item.sentiment} size="sm" />
+                  )}
+                  {item.candidate_name && item.candidate_slug && (
+                    <Link
+                      href={`/candidato/${item.candidate_slug}`}
+                      className="text-xs font-bold text-[var(--primary)] hover:underline"
+                    >
+                      {item.candidate_name.split(' ').pop()}
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* View all link */}
+        <div className="mt-4 pt-4 border-t-2 border-[var(--border)]">
+          <Link href="/noticias">
+            <Button variant="secondary" size="sm" className="w-full">
+              Ver todas las noticias
+              <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </Button>
+          </Link>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}

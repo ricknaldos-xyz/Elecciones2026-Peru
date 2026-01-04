@@ -3,5 +3,15 @@
     "src/app/api/sync/**/*.ts": {
       "maxDuration": 300
     }
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/sync/news",
+      "schedule": "0 */4 * * *"
+    },
+    {
+      "path": "/api/sync/google-news",
+      "schedule": "30 */2 * * *"
+    }
+  ]
 }

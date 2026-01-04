@@ -76,7 +76,8 @@ export function Header({ currentPath }: HeaderProps) {
 
   const navLinks = [
     { href: '/ranking', label: 'Ranking' },
-    { href: '/quiz', label: 'Quiz', isNew: true },
+    { href: '/noticias', label: 'Noticias', isNew: true },
+    { href: '/quiz', label: 'Quiz' },
     { href: '/comparar', label: 'Comparar' },
     { href: '/transparencia', label: 'Transparencia' },
     { href: '/metodologia', label: 'Metodologia' },

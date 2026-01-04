@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/Badge'
 import { Header } from '@/components/layout/Header'
 import { ElectionCountdown } from '@/components/viral/ElectionCountdown'
 import { DailyFact } from '@/components/viral/DailyFact'
+import { TrendingNews } from '@/components/news/TrendingNews'
 import { DISTRICTS } from '@/lib/constants'
 import { sql } from '@/lib/db'
 
@@ -164,9 +165,10 @@ export default async function Home() {
           </div>
         </div>
 
-        {/* Daily Fact */}
-        <div className="mt-4">
+        {/* Daily Fact + Trending News */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
           <DailyFact />
+          <TrendingNews limit={4} />
         </div>
       </section>
 
