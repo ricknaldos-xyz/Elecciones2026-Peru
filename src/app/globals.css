@@ -487,6 +487,7 @@ body {
 
 /* === COLORBLIND-FRIENDLY PATTERNS === */
 /* Visual patterns to distinguish categories without relying solely on color */
+/* Increased opacity (20-25%) for better visibility */
 
 /* Competence - diagonal stripes */
 .pattern-competence {
@@ -494,8 +495,8 @@ body {
     45deg,
     transparent,
     transparent 2px,
-    rgba(0, 0, 0, 0.08) 2px,
-    rgba(0, 0, 0, 0.08) 4px
+    rgba(0, 0, 0, 0.22) 2px,
+    rgba(0, 0, 0, 0.22) 4px
   );
 }
 
@@ -505,8 +506,8 @@ body {
     90deg,
     transparent,
     transparent 2px,
-    rgba(0, 0, 0, 0.08) 2px,
-    rgba(0, 0, 0, 0.08) 4px
+    rgba(0, 0, 0, 0.22) 2px,
+    rgba(0, 0, 0, 0.22) 4px
   );
 }
 
@@ -514,20 +515,50 @@ body {
 .pattern-transparency {
   background-image: radial-gradient(
     circle,
-    rgba(0, 0, 0, 0.1) 1px,
+    rgba(0, 0, 0, 0.25) 1px,
     transparent 1px
   );
   background-size: 4px 4px;
 }
 
-/* Severity patterns for flags */
+/* Dark mode patterns - use white/light colors */
+.dark .pattern-competence {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 255, 0.18) 2px,
+    rgba(255, 255, 255, 0.18) 4px
+  );
+}
+
+.dark .pattern-integrity {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 255, 0.18) 2px,
+    rgba(255, 255, 255, 0.18) 4px
+  );
+}
+
+.dark .pattern-transparency {
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.20) 1px,
+    transparent 1px
+  );
+  background-size: 4px 4px;
+}
+
+/* Severity patterns for flags - increased visibility */
 .pattern-severity-high {
   background-image: repeating-linear-gradient(
     -45deg,
     transparent,
     transparent 2px,
-    rgba(0, 0, 0, 0.15) 2px,
-    rgba(0, 0, 0, 0.15) 4px
+    rgba(0, 0, 0, 0.25) 2px,
+    rgba(0, 0, 0, 0.25) 4px
   );
 }
 
@@ -536,15 +567,45 @@ body {
     0deg,
     transparent,
     transparent 3px,
-    rgba(0, 0, 0, 0.1) 3px,
-    rgba(0, 0, 0, 0.1) 5px
+    rgba(0, 0, 0, 0.18) 3px,
+    rgba(0, 0, 0, 0.18) 5px
   );
 }
 
 .pattern-severity-low {
   background-image: radial-gradient(
     circle,
-    rgba(0, 0, 0, 0.06) 1px,
+    rgba(0, 0, 0, 0.12) 1px,
+    transparent 1px
+  );
+  background-size: 6px 6px;
+}
+
+/* Dark mode severity patterns */
+.dark .pattern-severity-high {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 255, 0.20) 2px,
+    rgba(255, 255, 255, 0.20) 4px
+  );
+}
+
+.dark .pattern-severity-medium {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(255, 255, 255, 0.15) 3px,
+    rgba(255, 255, 255, 0.15) 5px
+  );
+}
+
+.dark .pattern-severity-low {
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.10) 1px,
     transparent 1px
   );
   background-size: 6px 6px;

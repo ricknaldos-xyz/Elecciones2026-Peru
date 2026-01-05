@@ -65,6 +65,12 @@ function BreakdownBar({
     transparency: 'bg-[var(--score-transparency)]',
     default: 'bg-[var(--muted-foreground)]',
   }
+  const patternClasses = {
+    competence: 'pattern-competence',
+    integrity: 'pattern-integrity',
+    transparency: 'pattern-transparency',
+    default: '',
+  }
 
   return (
     <div className="space-y-1">
@@ -74,7 +80,7 @@ function BreakdownBar({
       </div>
       <div className="h-2 bg-[var(--muted)] border-2 border-[var(--border)] overflow-hidden">
         <div
-          className={cn('h-full transition-all duration-300', colorClasses[color])}
+          className={cn('h-full transition-all duration-300', colorClasses[color], patternClasses[color])}
           style={{ width: `${percentage}%` }}
         />
       </div>

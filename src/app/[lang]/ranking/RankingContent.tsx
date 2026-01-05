@@ -263,9 +263,9 @@ export function RankingContent() {
       })
     } else {
       navigator.clipboard.writeText(url)
-      // Could show a toast here
+      showSuccess('Link copiado', 'El enlace del ranking está en tu portapapeles')
     }
-  }, [cargo, candidates.length, t, cargoLabels])
+  }, [cargo, candidates.length, t, cargoLabels, showSuccess])
 
   const selectedIds = useMemo(() => selectedForCompare.map((c) => c.id), [selectedForCompare])
 

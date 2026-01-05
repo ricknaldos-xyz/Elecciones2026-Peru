@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/Badge'
 import { ScorePill } from './ScorePill'
 import { SubScoreStat } from './SubScoreBar'
 import { FlagChips } from './FlagChip'
+import { useSuccessToast } from '@/components/ui/Toast'
 import type { CandidateWithScores, PresetType, Weights } from '@/types/database'
 
 interface CandidateCardProps {
@@ -73,6 +74,7 @@ export function CandidateCard({
   className,
 }: CandidateCardProps) {
   const router = useRouter()
+  const showSuccess = useSuccessToast()
   const score = getScoreByMode(candidate.scores, mode, weights)
 
   const handleView = () => {
@@ -96,6 +98,7 @@ export function CandidateCard({
         })
       } else {
         navigator.clipboard.writeText(url)
+        showSuccess('Link copiado', candidate.full_name)
       }
     }
   }

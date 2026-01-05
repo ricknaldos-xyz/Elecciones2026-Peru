@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { PresetSelector } from '@/components/ranking/PresetSelector'
 import { useCandidatesByIds } from '@/hooks/useCandidates'
+import { useSuccessToast } from '@/components/ui/Toast'
 import { PRESETS } from '@/lib/constants'
 import { Link, useRouter } from '@/i18n/routing'
 import type { CandidateWithScores, PresetType, Weights } from '@/types/database'
@@ -78,6 +79,7 @@ export function CompareContent() {
   const router = useRouter()
   const t = useTranslations('compare')
   const tCommon = useTranslations('common')
+  const showSuccess = useSuccessToast()
 
   const [mode, setMode] = useState<PresetType>(() => {
     const param = searchParams.get('mode')
@@ -139,6 +141,7 @@ export function CompareContent() {
       })
     } else {
       navigator.clipboard.writeText(url)
+      showSuccess('Link copiado', 'El enlace está en tu portapapeles')
     }
   }
 

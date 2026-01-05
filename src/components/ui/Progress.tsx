@@ -16,12 +16,12 @@ interface ProgressProps {
   className?: string
 }
 
-const variantStyles: Record<ProgressVariant, string> = {
-  default: 'bg-[var(--score-good)]',
-  success: 'bg-[var(--score-excellent)]',
-  warning: 'bg-[var(--score-medium)]',
-  danger: 'bg-[var(--flag-red)]',
-  primary: 'bg-[var(--primary)]',
+const variantStyles: Record<ProgressVariant, { color: string; pattern: string }> = {
+  default: { color: 'bg-[var(--score-good)]', pattern: 'pattern-score-good' },
+  success: { color: 'bg-[var(--score-excellent)]', pattern: 'pattern-score-excellent' },
+  warning: { color: 'bg-[var(--score-medium)]', pattern: 'pattern-score-medium' },
+  danger: { color: 'bg-[var(--flag-red)]', pattern: 'pattern-severity-high' },
+  primary: { color: 'bg-[var(--primary)]', pattern: 'pattern-competence' },
 }
 
 const sizeStyles = {
@@ -75,7 +75,8 @@ export function Progress({
         <div
           className={cn(
             'h-full transition-all duration-300',
-            variantStyles[variant]
+            variantStyles[variant].color,
+            variantStyles[variant].pattern
           )}
           style={{ width: `${percentage}%` }}
         />
