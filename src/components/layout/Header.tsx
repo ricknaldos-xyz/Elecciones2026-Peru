@@ -21,10 +21,12 @@ export function Header({ currentPath }: HeaderProps) {
   const t = useTranslations('nav')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [moreMenuOpen, setMoreMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<CandidateWithScores[]>([])
   const [isSearching, setIsSearching] = useState(false)
   const searchRef = useRef<HTMLDivElement>(null)
+  const moreMenuRef = useRef<HTMLDivElement>(null)
   const mobileMenuRef = useRef<HTMLDivElement>(null)
   const mobileMenuButtonRef = useRef<HTMLButtonElement>(null)
   const searchInputRef = useRef<HTMLInputElement>(null)
@@ -78,6 +80,9 @@ export function Header({ currentPath }: HeaderProps) {
       if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
         setSearchOpen(false)
       }
+      if (moreMenuRef.current && !moreMenuRef.current.contains(event.target as Node)) {
+        setMoreMenuOpen(false)
+      }
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
@@ -89,11 +94,12 @@ export function Header({ currentPath }: HeaderProps) {
       if (event.key === 'Escape') {
         if (searchOpen) setSearchOpen(false)
         if (mobileMenuOpen) setMobileMenuOpen(false)
+        if (moreMenuOpen) setMoreMenuOpen(false)
       }
     }
     document.addEventListener('keydown', handleEscape)
     return () => document.removeEventListener('keydown', handleEscape)
-  }, [searchOpen, mobileMenuOpen])
+  }, [searchOpen, mobileMenuOpen, moreMenuOpen])
 
   useEffect(() => {
     const search = async () => {
@@ -121,15 +127,23 @@ export function Header({ currentPath }: HeaderProps) {
     return () => clearTimeout(debounce)
   }, [searchQuery])
 
-  const navLinks = [
+  // Primary nav items - always visible on desktop
+  const primaryNavItems = [
     { href: '/ranking' as const, labelKey: 'ranking' as const },
-    { href: '/noticias' as const, labelKey: 'news' as const, isNew: true },
-    { href: '/quiz' as const, labelKey: 'quiz' as const },
     { href: '/comparar' as const, labelKey: 'compare' as const },
+    { href: '/quiz' as const, labelKey: 'quiz' as const, isNew: true },
+    { href: '/noticias' as const, labelKey: 'news' as const },
+  ]
+
+  // Secondary nav items - in "More" dropdown on desktop
+  const secondaryNavItems = [
     { href: '/transparencia' as const, labelKey: 'transparency' as const },
     { href: '/metodologia' as const, labelKey: 'methodology' as const },
     { href: '/docs' as const, labelKey: 'docs' as const },
   ]
+
+  // All nav items for mobile menu
+  const allNavItems = [...primaryNavItems, ...secondaryNavItems]
 
   return (
     <>
@@ -185,7 +199,7 @@ export function Header({ currentPath }: HeaderProps) {
 
           {/* Desktop Nav - NEO BRUTAL */}
           <nav className="hidden md:flex items-center gap-1" aria-label={t('mainNavigation')}>
-            {navLinks.map((link) => (
+            {primaryNavItems.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -219,6 +233,75 @@ export function Header({ currentPath }: HeaderProps) {
                 )}
               </Link>
             ))}
+
+            {/* More Menu Dropdown */}
+            <div ref={moreMenuRef} className="relative">
+              <button
+                onClick={() => setMoreMenuOpen(!moreMenuOpen)}
+                aria-expanded={moreMenuOpen}
+                aria-haspopup="true"
+                aria-label={t('moreMenu')}
+                className={cn(
+                  'px-3 py-2',
+                  'min-w-[44px] min-h-[44px]',
+                  'flex items-center justify-center',
+                  'text-[var(--foreground)]',
+                  'border-2 border-transparent',
+                  'transition-all duration-100',
+                  'hover:bg-[var(--muted)]',
+                  'hover:border-[var(--border)]',
+                  'hover:-translate-x-0.5 hover:-translate-y-0.5',
+                  'hover:shadow-[var(--shadow-brutal-sm)]',
+                  moreMenuOpen && [
+                    'bg-[var(--muted)]',
+                    'border-[var(--border)]',
+                    'shadow-[var(--shadow-brutal-sm)]',
+                  ]
+                )}
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
+                  <path strokeLinecap="square" strokeLinejoin="miter" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+
+              {/* Dropdown Menu */}
+              {moreMenuOpen && (
+                <div className={cn(
+                  'absolute right-0 top-full mt-2',
+                  'min-w-[200px]',
+                  'bg-[var(--card)]',
+                  'border-3 border-[var(--border)]',
+                  'shadow-[var(--shadow-brutal-lg)]',
+                  'z-50'
+                )}>
+                  {secondaryNavItems.map((link, index) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMoreMenuOpen(false)}
+                      aria-current={currentPath === link.href ? 'page' : undefined}
+                      className={cn(
+                        'block w-full px-4 py-3',
+                        'text-sm font-bold uppercase tracking-wide',
+                        'transition-all duration-100',
+                        index < secondaryNavItems.length - 1 && 'border-b-2 border-[var(--border)]',
+                        currentPath === link.href
+                          ? [
+                              'bg-[var(--primary)]',
+                              'text-white',
+                            ]
+                          : [
+                              'text-[var(--foreground)]',
+                              'hover:bg-[var(--muted)]',
+                            ]
+                      )}
+                    >
+                      {t(link.labelKey)}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           </nav>
 
           {/* Actions */}
@@ -400,7 +483,7 @@ export function Header({ currentPath }: HeaderProps) {
         {mobileMenuOpen && (
           <div ref={mobileMenuRef} id="mobile-menu" className="md:hidden border-t-3 border-[var(--border)] py-4">
             <nav className="flex flex-col gap-2" aria-label={t('mobileNavigation')}>
-              {navLinks.map((link) => (
+              {allNavItems.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -428,7 +511,7 @@ export function Header({ currentPath }: HeaderProps) {
                   )}
                 >
                   {t(link.labelKey)}
-                  {link.isNew && (
+                  {'isNew' in link && link.isNew && (
                     <span className="text-xs font-black bg-[var(--score-medium)] text-black px-1.5 py-0.5 leading-none">
                       {t('new')}
                     </span>
