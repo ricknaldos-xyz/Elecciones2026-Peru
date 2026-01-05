@@ -207,13 +207,15 @@ export function CompareContent() {
         </div>
 
         {error ? (
-          <Card>
-            <CardContent className="py-12 text-center">
-              <div className="text-[var(--flag-red-text)] font-bold">
-                {tCommon('error')}: {error}
-              </div>
-            </CardContent>
-          </Card>
+          <div role="alert" aria-live="assertive">
+            <Card>
+              <CardContent className="py-12 text-center">
+                <div className="text-[var(--flag-red-text)] font-bold">
+                  {tCommon('error')}: {error}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         ) : loading ? (
           <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3].map((i) => (

@@ -98,17 +98,24 @@ export function SubScoreBar({
   if (variant === 'vertical') {
     return (
       <div className={cn('flex flex-col items-center gap-1', className)}>
-        <span className={cn('text-xl font-black score-display', textColor)}>
+        <span className={cn('text-xl font-black score-display', textColor)} aria-hidden="true">
           {value.toFixed(0)}
         </span>
         {/* NEO BRUTAL bar - no rounded corners */}
-        <div className="w-full h-2 bg-[var(--muted)] border-2 border-[var(--border)] overflow-hidden">
+        <div
+          role="progressbar"
+          aria-valuenow={value}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label={`${config.label}: ${value.toFixed(0)} de 100`}
+          className="w-full h-2 bg-[var(--muted)] border-2 border-[var(--border)] overflow-hidden"
+        >
           <div
             className={cn('h-full transition-all duration-300', barColor)}
             style={{ width: `${percentage}%` }}
           />
         </div>
-        <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wide">
+        <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wide" aria-hidden="true">
           {config.shortLabel}
         </span>
       </div>
@@ -118,18 +125,25 @@ export function SubScoreBar({
   return (
     <div className={cn('flex items-center gap-3', className)}>
       {showLabel && (
-        <span className="text-sm font-bold text-[var(--foreground)] min-w-[100px] uppercase tracking-wide">
+        <span className="text-sm font-bold text-[var(--foreground)] min-w-[100px] uppercase tracking-wide" id={`label-${type}`}>
           {config.label}
         </span>
       )}
       <div className="flex-1">
         {/* NEO BRUTAL bar - thick border, no rounded corners */}
-        <div className={cn(
-          'w-full bg-[var(--muted)]',
-          'border-2 border-[var(--border)]',
-          'overflow-hidden',
-          heightStyles[size]
-        )}>
+        <div
+          role="progressbar"
+          aria-valuenow={value}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label={`${config.label}: ${value.toFixed(0)} de 100`}
+          className={cn(
+            'w-full bg-[var(--muted)]',
+            'border-2 border-[var(--border)]',
+            'overflow-hidden',
+            heightStyles[size]
+          )}
+        >
           <div
             className={cn('h-full transition-all duration-300', barColor)}
             style={{ width: `${percentage}%` }}
@@ -139,7 +153,7 @@ export function SubScoreBar({
       <span className={cn(
         'text-sm font-black min-w-[36px] text-right tabular-nums',
         textColor
-      )}>
+      )} aria-hidden="true">
         {value.toFixed(0)}
       </span>
     </div>
@@ -163,17 +177,24 @@ export function SubScoreBarMini({
 
   return (
     <div className={cn('flex items-center gap-2', className)}>
-      <span className="text-xs font-black text-[var(--foreground)] w-4 uppercase">
+      <span className="text-xs font-black text-[var(--foreground)] w-4 uppercase" aria-hidden="true">
         {config.icon}
       </span>
       {/* NEO BRUTAL mini bar */}
-      <div className="flex-1 h-1.5 bg-[var(--muted)] border border-[var(--border)] overflow-hidden">
+      <div
+        role="progressbar"
+        aria-valuenow={value}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label={`${config.label}: ${value.toFixed(0)} de 100`}
+        className="flex-1 h-1.5 bg-[var(--muted)] border border-[var(--border)] overflow-hidden"
+      >
         <div
           className={cn('h-full transition-all duration-300', barColor)}
           style={{ width: `${percentage}%` }}
         />
       </div>
-      <span className={cn('text-xs font-black w-6 text-right tabular-nums', textColor)}>
+      <span className={cn('text-xs font-black w-6 text-right tabular-nums', textColor)} aria-hidden="true">
         {value.toFixed(0)}
       </span>
     </div>
@@ -208,17 +229,24 @@ export function SubScoreStat({
   return (
     <div className={cn('flex flex-col', className)}>
       <div className="flex items-baseline gap-1">
-        <span className={cn('font-black score-display', styles.text, textColor)}>
+        <span className={cn('font-black score-display', styles.text, textColor)} aria-hidden="true">
           {value.toFixed(0)}
         </span>
       </div>
       {/* NEO BRUTAL progress bar */}
-      <div className={cn(
-        'w-full bg-[var(--muted)]',
-        'border-2 border-[var(--border)]',
-        'overflow-hidden mt-1',
-        styles.height
-      )}>
+      <div
+        role="progressbar"
+        aria-valuenow={value}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        aria-label={`${config.label}: ${value.toFixed(0)} de 100`}
+        className={cn(
+          'w-full bg-[var(--muted)]',
+          'border-2 border-[var(--border)]',
+          'overflow-hidden mt-1',
+          styles.height
+        )}
+      >
         <div
           className={cn('h-full transition-all duration-300', barColor)}
           style={{ width: `${percentage}%` }}
@@ -227,7 +255,7 @@ export function SubScoreStat({
       <span className={cn(
         'text-[var(--muted-foreground)] mt-1 font-bold uppercase tracking-wide',
         styles.label
-      )}>
+      )} aria-hidden="true">
         {config.shortLabel}
       </span>
     </div>

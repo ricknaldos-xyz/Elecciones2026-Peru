@@ -23,6 +23,13 @@ const modeLabels: Record<PresetType, string> = {
   custom: 'Personalizado',
 }
 
+function getScoreLevel(score: number): string {
+  if (score >= 80) return 'Excelente'
+  if (score >= 60) return 'Bueno'
+  if (score >= 40) return 'Regular'
+  return 'Bajo'
+}
+
 function getScoreColor(score: number): { text: string; bg: string; border: string } {
   // Usar colores de texto de alto contraste para mejor legibilidad
   if (score >= 80) return {
@@ -78,11 +85,17 @@ export function ScorePill({
   }
 
   const config = sizeConfig[size]
+  const scoreLevel = getScoreLevel(score)
+  const ariaLabel = `Puntuación ${score.toFixed(0)} de 100, nivel ${scoreLevel}, modo ${modeLabels[mode]}`
 
   if (variant === 'minimal') {
     return (
       <Tooltip content={tooltipContent}>
-        <div className={cn('inline-flex items-baseline', config.gap, className)}>
+        <div
+          className={cn('inline-flex items-baseline', config.gap, className)}
+          role="img"
+          aria-label={ariaLabel}
+        >
           <span className={cn(
             'font-black score-display tracking-tighter',
             config.score,
@@ -106,7 +119,11 @@ export function ScorePill({
   if (variant === 'card') {
     return (
       <Tooltip content={tooltipContent}>
-        <div className={cn('flex flex-col items-end', className)}>
+        <div
+          className={cn('flex flex-col items-end', className)}
+          role="img"
+          aria-label={ariaLabel}
+        >
           <div className={cn('inline-flex items-baseline', config.gap)}>
             <span className={cn(
               'font-black score-display tracking-tighter',
@@ -138,6 +155,8 @@ export function ScorePill({
   return (
     <Tooltip content={tooltipContent}>
       <div
+        role="img"
+        aria-label={ariaLabel}
         className={cn(
           'inline-flex flex-col items-center',
           'border-3 border-[var(--border)]',

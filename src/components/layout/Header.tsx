@@ -284,10 +284,25 @@ export function Header({ currentPath }: HeaderProps) {
                         'focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2'
                       )}
                       autoFocus
+                      aria-describedby="search-status"
                     />
                   </div>
+                  {/* Screen reader announcements */}
+                  <div
+                    id="search-status"
+                    role="status"
+                    aria-live="polite"
+                    aria-atomic="true"
+                    className="sr-only"
+                  >
+                    {isSearching && t('searching')}
+                    {!isSearching && searchQuery.length >= 2 && searchResults.length > 0 &&
+                      `${searchResults.length} ${t('resultsFound')}`}
+                    {!isSearching && searchQuery.length >= 2 && searchResults.length === 0 &&
+                      t('noResults')}
+                  </div>
                   {isSearching && (
-                    <div className="px-4 py-3 text-sm font-bold text-[var(--muted-foreground)] uppercase tracking-wide">
+                    <div className="px-4 py-3 text-sm font-bold text-[var(--muted-foreground)] uppercase tracking-wide" aria-hidden="true">
                       {t('searching')}
                     </div>
                   )}

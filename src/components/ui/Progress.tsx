@@ -11,6 +11,8 @@ interface ProgressProps {
   size?: 'sm' | 'md' | 'lg'
   showLabel?: boolean
   label?: string
+  /** Accessible label for screen readers (required for accessibility) */
+  ariaLabel?: string
   className?: string
 }
 
@@ -35,6 +37,7 @@ export function Progress({
   size = 'md',
   showLabel = false,
   label,
+  ariaLabel,
   className,
 }: ProgressProps) {
   const percentage = Math.min(Math.max((value / max) * 100, 0), 100)
@@ -56,6 +59,11 @@ export function Progress({
         </div>
       )}
       <div
+        role="progressbar"
+        aria-valuenow={value}
+        aria-valuemin={0}
+        aria-valuemax={max}
+        aria-label={ariaLabel || label || `${Math.round(percentage)}%`}
         className={cn(
           // Container - NEO BRUTAL
           'w-full bg-[var(--muted)]',

@@ -236,8 +236,10 @@ export function Tab({ value, children, className }: TabProps) {
   return (
     <button
       ref={tabRef}
+      id={`tab-${value}`}
       role="tab"
       aria-selected={isActive}
+      aria-controls={`tabpanel-${value}`}
       tabIndex={isActive ? 0 : -1}
       onClick={() => setActiveTab(value)}
       onKeyDown={handleKeyDown}
@@ -290,8 +292,10 @@ export function TabPanel({ value, children, className }: TabPanelProps) {
 
   return (
     <div
+      id={`tabpanel-${value}`}
       role="tabpanel"
       aria-labelledby={`tab-${value}`}
+      tabIndex={0}
       className={cn('py-4', className)}
     >
       {children}
