@@ -81,6 +81,7 @@ export function Header({ currentPath }: HeaderProps) {
     { href: '/comparar', label: 'Comparar' },
     { href: '/transparencia', label: 'Transparencia' },
     { href: '/metodologia', label: 'Metodología' },
+    { href: '/docs', label: 'Docs' },
   ]
 
   return (
