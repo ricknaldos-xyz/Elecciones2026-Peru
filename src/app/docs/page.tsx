@@ -18,7 +18,7 @@ export default function DocsPage() {
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero */}
         <div className="text-center mb-12">
-          <Badge variant="default" size="lg" className="mb-4">DOCUMENTACIÓN TÉCNICA</Badge>
+          <Badge variant="default" size="md" className="mb-4">DOCUMENTACIÓN TÉCNICA</Badge>
           <h1 className="text-3xl sm:text-4xl font-black text-[var(--foreground)] mb-4 uppercase tracking-tight">
             Ranking Electoral Perú 2026
           </h1>
