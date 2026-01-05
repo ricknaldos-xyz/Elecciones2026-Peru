@@ -18,7 +18,7 @@
     "searchPlaceholder": "Akllasqa runata maskay...",
     "searching": "Maskachkan...",
     "noResults": "Mana tarikurkuchu",
-    "menu": "Menú",
+    "menu": "Rikuchina",
     "changeTheme": "Rikch'ay tikray",
     "new": "MUSUQ",
     "skipToContent": "Qallariy qillqaman pasay",
@@ -157,8 +157,8 @@
       "merit": "Yachay",
       "integrity": "Allin kay"
     },
-    "record": "antecedente",
-    "records": "antecedentes",
+    "record": "ñawpa ruray",
+    "records": "ñawpa ruraykuna",
     "compareButton": "TUPACHIY",
     "viewParty": "Partido qhaway",
     "cvJNE": "Kawsay Qillqa JNE",
@@ -288,9 +288,9 @@
     "next": "Qatiq",
     "disclaimer": "Kaypi tukuy willakuykunata tarinki. Mana akllana kamachiy kanchu, willaylla.",
     "timeAgo": {
-      "minutes": "hace {count}m",
-      "hours": "hace {count}h",
-      "days": "hace {count}p"
+      "minutes": "{count}m ñawpaq",
+      "hours": "{count}h ñawpaq",
+      "days": "{count}p ñawpaq"
     },
     "readInSource": "{source}-pi ñawiriy",
     "readArticle": "Qillqata ñawiriy"
