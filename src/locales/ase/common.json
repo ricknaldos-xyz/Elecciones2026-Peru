@@ -25,7 +25,11 @@
     "skipToContent": "Pasëro antëromani osankënarintsi",
     "mainNavigation": "Antëromani irantëro",
     "mobileNavigation": "Celularpaq irantëro",
-    "moreMenu": "Ojevori aike"
+    "moreMenu": "Ojevori aike",
+    "more": "Ojevori",
+    "transparencyDesc": "Partidotsikë ovisaririntsi kori",
+    "methodologyDesc": "Tsika amatabeentsiro jakirontsikë",
+    "docsDesc": "Osankënarintsi técnico API-ro"
   },
   "hero": {
     "title": "Ranking Apatotantsi Perú 2026",

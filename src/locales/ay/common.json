@@ -25,7 +25,11 @@
     "skipToContent": "Qalltawir qillqar pasaña",
     "mainNavigation": "Jach'a sartawi",
     "mobileNavigation": "Celularpaq sartawi",
-    "moreMenu": "Juk'amp ajllinaka"
+    "moreMenu": "Juk'amp ajllinaka",
+    "more": "Juk'amp",
+    "transparencyDesc": "Partidonakan qullqi katuqäwipa",
+    "methodologyDesc": "Kunjamas jakhunak lurañani",
+    "docsDesc": "Técnico qillqanaka API-mpi"
   },
   "hero": {
     "title": "Ajilanaka Ranking Perú 2026",

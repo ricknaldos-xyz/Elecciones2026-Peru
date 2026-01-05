@@ -25,7 +25,11 @@
     "skipToContent": "Qallariy qillqaman pasay",
     "mainNavigation": "Hatun purichiy",
     "mobileNavigation": "Celularpaq purichiy",
-    "moreMenu": "Aswan akllanakuna"
+    "moreMenu": "Aswan akllanakuna",
+    "more": "Aswan",
+    "transparencyDesc": "Partidokunapa qullqi japiqiynin",
+    "methodologyDesc": "Imaynatas yupaykunata ruraniku",
+    "docsDesc": "Técnico qillqakuna API-wan"
   },
   "hero": {
     "title": "Akllana Ranking Perú 2026",

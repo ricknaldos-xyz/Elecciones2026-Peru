@@ -25,7 +25,11 @@
     "skipToContent": "Saltar al contenido principal",
     "mainNavigation": "Navegación principal",
     "mobileNavigation": "Navegación móvil",
-    "moreMenu": "Más opciones"
+    "moreMenu": "Más opciones",
+    "more": "Más",
+    "transparencyDesc": "Financiamiento de partidos y campañas",
+    "methodologyDesc": "Cómo calculamos las puntuaciones",
+    "docsDesc": "Documentación técnica y API"
   },
   "hero": {
     "title": "Ranking Electoral Perú 2026",

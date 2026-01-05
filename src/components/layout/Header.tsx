@@ -137,9 +137,9 @@ export function Header({ currentPath }: HeaderProps) {
 
   // Secondary nav items - in "More" dropdown on desktop
   const secondaryNavItems = [
-    { href: '/transparencia' as const, labelKey: 'transparency' as const },
-    { href: '/metodologia' as const, labelKey: 'methodology' as const },
-    { href: '/docs' as const, labelKey: 'docs' as const },
+    { href: '/transparencia' as const, labelKey: 'transparency' as const, descKey: 'transparencyDesc' as const, icon: '💰' },
+    { href: '/metodologia' as const, labelKey: 'methodology' as const, descKey: 'methodologyDesc' as const, icon: '📊' },
+    { href: '/docs' as const, labelKey: 'docs' as const, descKey: 'docsDesc' as const, icon: '📖' },
   ]
 
   // All nav items for mobile menu
@@ -233,75 +233,6 @@ export function Header({ currentPath }: HeaderProps) {
                 )}
               </Link>
             ))}
-
-            {/* More Menu Dropdown */}
-            <div ref={moreMenuRef} className="relative">
-              <button
-                onClick={() => setMoreMenuOpen(!moreMenuOpen)}
-                aria-expanded={moreMenuOpen}
-                aria-haspopup="true"
-                aria-label={t('moreMenu')}
-                className={cn(
-                  'px-3 py-2',
-                  'min-w-[44px] min-h-[44px]',
-                  'flex items-center justify-center',
-                  'text-[var(--foreground)]',
-                  'border-2 border-transparent',
-                  'transition-all duration-100',
-                  'hover:bg-[var(--muted)]',
-                  'hover:border-[var(--border)]',
-                  'hover:-translate-x-0.5 hover:-translate-y-0.5',
-                  'hover:shadow-[var(--shadow-brutal-sm)]',
-                  moreMenuOpen && [
-                    'bg-[var(--muted)]',
-                    'border-[var(--border)]',
-                    'shadow-[var(--shadow-brutal-sm)]',
-                  ]
-                )}
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
-                  <path strokeLinecap="square" strokeLinejoin="miter" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-              </button>
-
-              {/* Dropdown Menu */}
-              {moreMenuOpen && (
-                <div className={cn(
-                  'absolute right-0 top-full mt-2',
-                  'min-w-[200px]',
-                  'bg-[var(--card)]',
-                  'border-3 border-[var(--border)]',
-                  'shadow-[var(--shadow-brutal-lg)]',
-                  'z-50'
-                )}>
-                  {secondaryNavItems.map((link, index) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      onClick={() => setMoreMenuOpen(false)}
-                      aria-current={currentPath === link.href ? 'page' : undefined}
-                      className={cn(
-                        'block w-full px-4 py-3',
-                        'text-sm font-bold uppercase tracking-wide',
-                        'transition-all duration-100',
-                        index < secondaryNavItems.length - 1 && 'border-b-2 border-[var(--border)]',
-                        currentPath === link.href
-                          ? [
-                              'bg-[var(--primary)]',
-                              'text-white',
-                            ]
-                          : [
-                              'text-[var(--foreground)]',
-                              'hover:bg-[var(--muted)]',
-                            ]
-                      )}
-                    >
-                      {t(link.labelKey)}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
           </nav>
 
           {/* Actions */}
@@ -439,6 +370,96 @@ export function Header({ currentPath }: HeaderProps) {
 
             {/* Accessibility Button */}
             <AccessibilityButton />
+
+            {/* More Menu - Desktop Only */}
+            <div ref={moreMenuRef} className="relative hidden md:block">
+              <button
+                onClick={() => setMoreMenuOpen(!moreMenuOpen)}
+                aria-expanded={moreMenuOpen}
+                aria-haspopup="true"
+                className={cn(
+                  'px-3 py-2',
+                  'min-w-[44px] min-h-[44px]',
+                  'flex items-center gap-1.5',
+                  'text-sm font-bold uppercase tracking-wide',
+                  'text-[var(--foreground)]',
+                  'border-2 border-transparent',
+                  'transition-all duration-100',
+                  'hover:bg-[var(--muted)]',
+                  'hover:border-[var(--border)]',
+                  'hover:-translate-x-0.5 hover:-translate-y-0.5',
+                  'hover:shadow-[var(--shadow-brutal-sm)]',
+                  moreMenuOpen && [
+                    'bg-[var(--muted)]',
+                    'border-[var(--border)]',
+                    'shadow-[var(--shadow-brutal-sm)]',
+                  ]
+                )}
+              >
+                <span>{t('more')}</span>
+                <svg
+                  className={cn('w-4 h-4 transition-transform duration-100', moreMenuOpen && 'rotate-180')}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2.5}
+                  aria-hidden="true"
+                >
+                  <path strokeLinecap="square" strokeLinejoin="miter" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {/* Megamenu Dropdown */}
+              {moreMenuOpen && (
+                <div className={cn(
+                  'absolute right-0 top-full mt-2',
+                  'w-72',
+                  'bg-[var(--card)]',
+                  'border-3 border-[var(--border)]',
+                  'shadow-[var(--shadow-brutal-lg)]',
+                  'z-50'
+                )}>
+                  {secondaryNavItems.map((link, index) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMoreMenuOpen(false)}
+                      aria-current={currentPath === link.href ? 'page' : undefined}
+                      className={cn(
+                        'flex items-start gap-3 w-full px-4 py-4',
+                        'transition-all duration-100',
+                        index < secondaryNavItems.length - 1 && 'border-b-2 border-[var(--border)]',
+                        currentPath === link.href
+                          ? [
+                              'bg-[var(--primary)]',
+                              'text-white',
+                            ]
+                          : [
+                              'text-[var(--foreground)]',
+                              'hover:bg-[var(--muted)]',
+                              'hover:-translate-x-0.5 hover:-translate-y-0.5',
+                            ]
+                      )}
+                    >
+                      <span className="text-xl" aria-hidden="true">{link.icon}</span>
+                      <div className="flex-1">
+                        <span className="block text-sm font-bold uppercase tracking-wide">
+                          {t(link.labelKey)}
+                        </span>
+                        <span className={cn(
+                          'block text-xs mt-0.5',
+                          currentPath === link.href
+                            ? 'text-white/80'
+                            : 'text-[var(--muted-foreground)]'
+                        )}>
+                          {t(link.descKey)}
+                        </span>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
 
             {/* CTA Button - Desktop */}
             <Link href="/ranking" className="hidden md:block">
