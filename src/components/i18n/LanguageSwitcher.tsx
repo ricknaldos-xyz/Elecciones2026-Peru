@@ -1,9 +1,43 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import { usePathname, useRouter } from '@/i18n/routing';
-import { locales, type Locale, localeNames, localeFlags } from '@/i18n/config';
+import { locales, type Locale, localeNames, localeFlags, localeFlagImages } from '@/i18n/config';
 import { cn } from '@/lib/utils';
+
+// Flag component that renders image or emoji
+function LocaleFlag({ locale, size = 'md' }: { locale: Locale; size?: 'sm' | 'md' | 'lg' }) {
+  const imageSrc = localeFlagImages[locale];
+  const sizeClasses = {
+    sm: 'w-5 h-5',
+    md: 'w-6 h-6',
+    lg: 'w-7 h-7',
+  };
+
+  if (imageSrc) {
+    return (
+      <Image
+        src={imageSrc}
+        alt=""
+        width={size === 'lg' ? 28 : size === 'md' ? 24 : 20}
+        height={size === 'lg' ? 28 : size === 'md' ? 24 : 20}
+        className={cn(sizeClasses[size], 'object-cover border border-[var(--border)]')}
+      />
+    );
+  }
+
+  // Fallback to emoji for Spanish
+  return (
+    <span className={cn(
+      size === 'sm' && 'text-base',
+      size === 'md' && 'text-lg',
+      size === 'lg' && 'text-xl',
+    )}>
+      {localeFlags[locale]}
+    </span>
+  );
+}
 
 interface LanguageSwitcherProps {
   currentLocale: Locale;
@@ -67,7 +101,7 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
         aria-haspopup="listbox"
         aria-controls="language-menu"
       >
-        <span className="text-lg" aria-hidden="true">{localeFlags[currentLocale]}</span>
+        <span aria-hidden="true"><LocaleFlag locale={currentLocale} size="md" /></span>
         <span className="hidden sm:inline text-sm font-bold uppercase">
           {currentLocale}
         </span>
@@ -122,7 +156,7 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
                     ]
               )}
             >
-              <span className="text-xl" aria-hidden="true">{localeFlags[locale]}</span>
+              <span aria-hidden="true"><LocaleFlag locale={locale} size="lg" /></span>
               <div className="flex-1">
                 <div className={cn(
                   'text-sm font-bold uppercase',

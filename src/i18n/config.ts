@@ -17,6 +17,14 @@ export const localeFlags: Record<Locale, string> = {
   ase: '🌿',
 };
 
+// Flag images for native languages
+export const localeFlagImages: Record<Locale, string | null> = {
+  es: null, // Use emoji for Spanish
+  qu: '/images/flags/quechua.jpg',
+  ay: '/images/flags/aymara.png',
+  ase: '/images/flags/ashaninka.jpg',
+};
+
 // Languages that use AI translation (show disclaimer)
 export const aiTranslatedLocales: Locale[] = ['qu', 'ay', 'ase'];
 
