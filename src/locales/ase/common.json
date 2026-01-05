@@ -1021,5 +1021,27 @@
       "nov": "aya",
       "dec": "qap"
     }
+  },
+  "accessibility": {
+    "title": "Tukuywan allin uñjaña",
+    "colorVision": "Llimp'i qhaway",
+    "normal": "Normal",
+    "protanopia": "Protanopia (puka sasachakuy)",
+    "deuteranopia": "Deuteranopia (q'omer sasachakuy)",
+    "tritanopia": "Tritanopia (anqas sasachakuy)",
+    "achromatopsia": "Acromatopsia (yana yurajlla)",
+    "highContrast": "Hatun t'aqay",
+    "reducedMotion": "Kuyuyta pisiyachiy",
+    "showPatterns": "Siq'ikuna rikuchiy",
+    "showPatternsDesc": "Llimp'ikunata t'aqanapaq siq'ikuna",
+    "darkMode": "Tutayaq",
+    "fontSize": "Qillqa hatun",
+    "fontNormal": "Normal",
+    "fontLarge": "Hatun",
+    "fontExtraLarge": "Aswan hatun",
+    "useSystemDefaults": "Sistema akllasqan",
+    "resetAll": "Tukuyta kutichiy",
+    "preview": "Llimp'ikuna qhaway",
+    "close": "Wichq'ay"
   }
 }

@@ -1021,5 +1021,27 @@
       "nov": "qha",
       "dec": "jal"
     }
+  },
+  "accessibility": {
+    "title": "Taqitaq suma uñjaña",
+    "colorVision": "Sami uñjaña",
+    "normal": "Normal",
+    "protanopia": "Protanopia (wila jan wali uñjaña)",
+    "deuteranopia": "Deuteranopia (ch'uxña jan wali uñjaña)",
+    "tritanopia": "Tritanopia (larama jan wali uñjaña)",
+    "achromatopsia": "Acromatopsia (ch'iyarankilla)",
+    "highContrast": "Jach'a t'aqawi",
+    "reducedMotion": "Sarnaqa jisk'achaña",
+    "showPatterns": "Siq'inaka uñacht'ayaña",
+    "showPatternsDesc": "Saminaka t'aqañataki siq'inaka",
+    "darkMode": "Ch'amaka",
+    "fontSize": "Qillqa jach'apa",
+    "fontNormal": "Normal",
+    "fontLarge": "Jach'a",
+    "fontExtraLarge": "Juk'amp jach'a",
+    "useSystemDefaults": "Sistemana ajllatapa",
+    "resetAll": "Taqpach kutiyaña",
+    "preview": "Saminaka uñjaña",
+    "close": "Jark'aña"
   }
 }

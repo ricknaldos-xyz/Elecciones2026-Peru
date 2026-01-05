@@ -646,6 +646,245 @@ body {
   );
 }
 
+/* ========================================
+   COLOR VISION MODES (Daltonismo)
+   ======================================== */
+
+/* === REDUCED MOTION (clase manual) === */
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* === HIGH CONTRAST (clase manual) === */
+.high-contrast {
+  --border: #000000;
+  --muted-foreground: #000000;
+  --border-subtle: #000000;
+}
+
+.dark.high-contrast {
+  --border: #FFFFFF;
+  --muted-foreground: #FFFFFF;
+  --border-subtle: #FFFFFF;
+}
+
+/* === PROTANOPIA (dificultad con rojos) === */
+.protanopia {
+  --score-excellent: #0077B6;
+  --score-excellent-bg: #E0F4FF;
+  --score-excellent-text: #023047;
+  --score-good: #00B4D8;
+  --score-good-bg: #CAF0F8;
+  --score-good-text: #0077B6;
+  --score-medium: #FFB703;
+  --score-medium-bg: #FFF8E1;
+  --score-medium-text: #7B5800;
+  --score-low: #023047;
+  --score-low-bg: #ADE8F4;
+  --score-low-text: #FFFFFF;
+
+  --primary: #0077B6;
+  --primary-hover: #00B4D8;
+  --primary-active: #023047;
+
+  --flag-red: #023047;
+  --flag-red-bg: #E0F4FF;
+  --flag-red-text: #023047;
+  --flag-amber: #FFB703;
+  --flag-amber-bg: #FFF8E1;
+  --flag-amber-text: #7B5800;
+}
+
+.dark.protanopia {
+  --score-excellent: #48CAE4;
+  --score-excellent-bg: #023047;
+  --score-excellent-text: #CAF0F8;
+  --score-good: #90E0EF;
+  --score-good-bg: #0077B6;
+  --score-good-text: #E0F4FF;
+  --score-medium: #FFD60A;
+  --score-medium-bg: #7B5800;
+  --score-medium-text: #FFF8E1;
+  --score-low: #ADE8F4;
+  --score-low-bg: #001219;
+  --score-low-text: #CAF0F8;
+
+  --primary: #48CAE4;
+  --primary-hover: #90E0EF;
+  --primary-active: #0077B6;
+
+  --flag-red: #ADE8F4;
+  --flag-red-bg: #023047;
+  --flag-red-text: #CAF0F8;
+}
+
+/* === DEUTERANOPIA (dificultad con verdes) === */
+.deuteranopia {
+  --score-excellent: #005F73;
+  --score-excellent-bg: #E0F4F4;
+  --score-excellent-text: #001219;
+  --score-good: #0A9396;
+  --score-good-bg: #C8E6E7;
+  --score-good-text: #005F73;
+  --score-medium: #E9D8A6;
+  --score-medium-bg: #FFF8E1;
+  --score-medium-text: #6B5900;
+  --score-low: #9B2226;
+  --score-low-bg: #FCEAE9;
+  --score-low-text: #5F0F11;
+
+  --primary: #005F73;
+  --primary-hover: #0A9396;
+  --primary-active: #001219;
+
+  --flag-red: #9B2226;
+  --flag-red-bg: #FCEAE9;
+  --flag-red-text: #5F0F11;
+  --flag-amber: #BB3E03;
+  --flag-amber-bg: #FFF1E6;
+  --flag-amber-text: #6B2400;
+}
+
+.dark.deuteranopia {
+  --score-excellent: #94D2BD;
+  --score-excellent-bg: #005F73;
+  --score-excellent-text: #E0F4F4;
+  --score-good: #E9D8A6;
+  --score-good-bg: #0A9396;
+  --score-good-text: #FFF8E1;
+  --score-medium: #EE9B00;
+  --score-medium-bg: #6B5900;
+  --score-medium-text: #FFF8E1;
+  --score-low: #CA6702;
+  --score-low-bg: #3D0F00;
+  --score-low-text: #FCEAE9;
+
+  --primary: #94D2BD;
+  --primary-hover: #E9D8A6;
+  --primary-active: #005F73;
+
+  --flag-red: #CA6702;
+  --flag-red-bg: #3D0F00;
+  --flag-red-text: #FCEAE9;
+}
+
+/* === TRITANOPIA (dificultad con azules) === */
+.tritanopia {
+  --score-excellent: #2D6A4F;
+  --score-excellent-bg: #D8F3DC;
+  --score-excellent-text: #1B4332;
+  --score-good: #40916C;
+  --score-good-bg: #B7E4C7;
+  --score-good-text: #2D6A4F;
+  --score-medium: #E76F51;
+  --score-medium-bg: #FFEAE4;
+  --score-medium-text: #8B3E2F;
+  --score-low: #D62828;
+  --score-low-bg: #FFE5E5;
+  --score-low-text: #7F1818;
+
+  --primary: #D62828;
+  --primary-hover: #E76F51;
+  --primary-active: #9D0208;
+
+  --flag-red: #9D0208;
+  --flag-red-bg: #FFE5E5;
+  --flag-red-text: #5F0105;
+  --flag-amber: #E76F51;
+  --flag-amber-bg: #FFF0EB;
+  --flag-amber-text: #8B3E2F;
+}
+
+.dark.tritanopia {
+  --score-excellent: #74C69D;
+  --score-excellent-bg: #2D6A4F;
+  --score-excellent-text: #D8F3DC;
+  --score-good: #95D5B2;
+  --score-good-bg: #40916C;
+  --score-good-text: #D8F3DC;
+  --score-medium: #F4A261;
+  --score-medium-bg: #8B3E2F;
+  --score-medium-text: #FFEAE4;
+  --score-low: #E63946;
+  --score-low-bg: #7F1818;
+  --score-low-text: #FFE5E5;
+
+  --primary: #E63946;
+  --primary-hover: #F4A261;
+  --primary-active: #9D0208;
+
+  --flag-red: #E63946;
+  --flag-red-bg: #7F1818;
+  --flag-red-text: #FFE5E5;
+}
+
+/* === ACHROMATOPSIA (monocromatico) === */
+.achromatopsia {
+  --score-excellent: #1A1A1A;
+  --score-excellent-bg: #E0E0E0;
+  --score-excellent-text: #000000;
+  --score-good: #4D4D4D;
+  --score-good-bg: #D0D0D0;
+  --score-good-text: #000000;
+  --score-medium: #808080;
+  --score-medium-bg: #C0C0C0;
+  --score-medium-text: #000000;
+  --score-low: #B3B3B3;
+  --score-low-bg: #F0F0F0;
+  --score-low-text: #000000;
+
+  --primary: #1A1A1A;
+  --primary-hover: #333333;
+  --primary-active: #000000;
+
+  --flag-red: #1A1A1A;
+  --flag-red-bg: #E0E0E0;
+  --flag-red-text: #000000;
+  --flag-amber: #666666;
+  --flag-amber-bg: #F0F0F0;
+  --flag-amber-text: #000000;
+}
+
+.dark.achromatopsia {
+  --score-excellent: #FFFFFF;
+  --score-excellent-bg: #333333;
+  --score-excellent-text: #FFFFFF;
+  --score-good: #CCCCCC;
+  --score-good-bg: #404040;
+  --score-good-text: #FFFFFF;
+  --score-medium: #999999;
+  --score-medium-bg: #4D4D4D;
+  --score-medium-text: #FFFFFF;
+  --score-low: #666666;
+  --score-low-bg: #5A5A5A;
+  --score-low-text: #FFFFFF;
+
+  --primary: #FFFFFF;
+  --primary-hover: #E0E0E0;
+  --primary-active: #CCCCCC;
+
+  --flag-red: #FFFFFF;
+  --flag-red-bg: #333333;
+  --flag-red-text: #FFFFFF;
+}
+
+/* Acromatopsia siempre muestra patrones */
+.achromatopsia .show-patterns,
+.achromatopsia [class*="bg-[var(--score-"]  {
+  position: relative;
+}
+
+/* === SHOW PATTERNS (forzar patrones visibles) === */
+.show-patterns [role="progressbar"] > div,
+.achromatopsia [role="progressbar"] > div {
+  position: relative;
+}
+
 /* === TOAST ANIMATIONS === */
 @keyframes toast-progress {
   from {

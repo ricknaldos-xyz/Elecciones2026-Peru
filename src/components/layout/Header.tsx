@@ -6,6 +6,7 @@ import { Link, useRouter } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher'
+import { AccessibilityButton } from '@/components/accessibility/AccessibilityButton'
 import { useSearchShortcut } from '@/hooks/useKeyboardShortcuts'
 import type { CandidateWithScores } from '@/types/database'
 import type { Locale } from '@/i18n/config'
@@ -23,7 +24,6 @@ export function Header({ currentPath }: HeaderProps) {
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<CandidateWithScores[]>([])
   const [isSearching, setIsSearching] = useState(false)
-  const [darkMode, setDarkMode] = useState(false)
   const searchRef = useRef<HTMLDivElement>(null)
   const mobileMenuRef = useRef<HTMLDivElement>(null)
   const mobileMenuButtonRef = useRef<HTMLButtonElement>(null)
@@ -36,11 +36,6 @@ export function Header({ currentPath }: HeaderProps) {
     setTimeout(() => searchInputRef.current?.focus(), 50)
   }, [])
   useSearchShortcut(openSearch)
-
-  useEffect(() => {
-    const isDark = document.documentElement.classList.contains('dark')
-    setDarkMode(isDark)
-  }, [])
 
   // Focus trap for mobile menu (accessibility)
   useEffect(() => {
@@ -125,18 +120,6 @@ export function Header({ currentPath }: HeaderProps) {
     const debounce = setTimeout(search, 300)
     return () => clearTimeout(debounce)
   }, [searchQuery])
-
-  const toggleDarkMode = () => {
-    const newDark = !darkMode
-    setDarkMode(newDark)
-    if (newDark) {
-      document.documentElement.classList.add('dark')
-      localStorage.setItem('theme', 'dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-      localStorage.setItem('theme', 'light')
-    }
-  }
 
   const navLinks = [
     { href: '/ranking' as const, labelKey: 'ranking' as const },
@@ -371,33 +354,8 @@ export function Header({ currentPath }: HeaderProps) {
             {/* Language Switcher */}
             <LanguageSwitcher currentLocale={locale} />
 
-            {/* Dark Mode Toggle - NEO BRUTAL - 44px Touch Target */}
-            <button
-              onClick={toggleDarkMode}
-              className={cn(
-                'p-2.5 sm:p-2',
-                'min-w-[44px] min-h-[44px]',
-                'flex items-center justify-center',
-                'text-[var(--foreground)]',
-                'border-2 border-transparent',
-                'transition-all duration-100',
-                'hover:bg-[var(--muted)]',
-                'hover:border-[var(--border)]',
-                'hover:-translate-x-0.5 hover:-translate-y-0.5',
-                'hover:shadow-[var(--shadow-brutal-sm)]'
-              )}
-              aria-label={t('changeTheme')}
-            >
-              {darkMode ? (
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
-                  <path strokeLinecap="square" strokeLinejoin="miter" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-              ) : (
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
-                  <path strokeLinecap="square" strokeLinejoin="miter" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-              )}
-            </button>
+            {/* Accessibility Button */}
+            <AccessibilityButton />
 
             {/* CTA Button - Desktop */}
             <Link href="/ranking" className="hidden md:block">

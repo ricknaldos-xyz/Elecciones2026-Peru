@@ -1021,5 +1021,27 @@
       "nov": "nov",
       "dec": "dic"
     }
+  },
+  "accessibility": {
+    "title": "Accesibilidad",
+    "colorVision": "Visión de Color",
+    "normal": "Normal",
+    "protanopia": "Protanopia (dificultad con rojos)",
+    "deuteranopia": "Deuteranopia (dificultad con verdes)",
+    "tritanopia": "Tritanopia (dificultad con azules)",
+    "achromatopsia": "Acromatopsia (monocromático)",
+    "highContrast": "Alto Contraste",
+    "reducedMotion": "Reducir Animaciones",
+    "showPatterns": "Patrones Visuales",
+    "showPatternsDesc": "Añade texturas para diferenciar colores",
+    "darkMode": "Modo Oscuro",
+    "fontSize": "Tamaño de Fuente",
+    "fontNormal": "Normal",
+    "fontLarge": "Grande",
+    "fontExtraLarge": "Muy Grande",
+    "useSystemDefaults": "Usar del Sistema",
+    "resetAll": "Restaurar Todo",
+    "preview": "Vista previa de colores",
+    "close": "Cerrar"
   }
 }

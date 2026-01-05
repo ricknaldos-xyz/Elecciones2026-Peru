@@ -1,6 +1,7 @@
 'use client'
 
 import { ToastProvider } from '@/components/ui/Toast'
+import { AccessibilityProvider } from '@/context/AccessibilityContext'
 
 interface ClientProvidersProps {
   children: React.ReactNode
@@ -8,8 +9,10 @@ interface ClientProvidersProps {
 
 export function ClientProviders({ children }: ClientProvidersProps) {
   return (
-    <ToastProvider>
-      {children}
-    </ToastProvider>
+    <AccessibilityProvider>
+      <ToastProvider>
+        {children}
+      </ToastProvider>
+    </AccessibilityProvider>
   )
 }

@@ -23,14 +23,56 @@ export const metadata: Metadata = {
 const InitScript = () => {
   const script = `
     (function() {
-      // Dark mode
-      const theme = localStorage.getItem('theme');
-      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
+      try {
+        // Cargar preferencias de accesibilidad
+        var prefs = JSON.parse(localStorage.getItem('accessibility-preferences') || '{}');
+        var html = document.documentElement;
+
+        // Dark mode (preferencia guardada o del sistema)
+        var darkMode = prefs.darkMode !== undefined
+          ? prefs.darkMode
+          : (localStorage.getItem('theme') === 'dark' ||
+             (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches));
+        if (darkMode) {
+          html.classList.add('dark');
+        }
+
+        // Color vision mode (daltonismo)
+        if (prefs.colorVisionMode && prefs.colorVisionMode !== 'normal') {
+          html.classList.add(prefs.colorVisionMode);
+        }
+
+        // High contrast
+        if (prefs.highContrast) {
+          html.classList.add('high-contrast');
+        }
+
+        // Reduced motion
+        if (prefs.reducedMotion) {
+          html.classList.add('reduce-motion');
+        }
+
+        // Show patterns
+        if (prefs.showPatterns) {
+          html.classList.add('show-patterns');
+        }
+
+        // Font size
+        if (prefs.fontSize && prefs.fontSize !== 'normal') {
+          var sizes = { 'large': '112.5%', 'extra-large': '125%' };
+          document.body.style.fontSize = sizes[prefs.fontSize] || '100%';
+        }
+      } catch(e) {
+        // Fallback: usar solo tema guardado
+        var theme = localStorage.getItem('theme');
+        if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
       }
+
       // Dynamic lang attribute based on URL
-      const path = window.location.pathname;
-      const langMatch = path.match(/^\\/(es|qu|ay|ase)(\\/|$)/);
+      var path = window.location.pathname;
+      var langMatch = path.match(/^\\/(es|qu|ay|ase)(\\/|$)/);
       if (langMatch) {
         document.documentElement.lang = langMatch[1];
       }
