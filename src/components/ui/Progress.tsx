@@ -16,12 +16,12 @@ interface ProgressProps {
   className?: string
 }
 
-const variantStyles: Record<ProgressVariant, { color: string; pattern: string }> = {
-  default: { color: 'bg-[var(--score-good)]', pattern: 'pattern-score-good' },
-  success: { color: 'bg-[var(--score-excellent)]', pattern: 'pattern-score-excellent' },
-  warning: { color: 'bg-[var(--score-medium)]', pattern: 'pattern-score-medium' },
-  danger: { color: 'bg-[var(--flag-red)]', pattern: 'pattern-severity-high' },
-  primary: { color: 'bg-[var(--primary)]', pattern: 'pattern-competence' },
+const variantStyles: Record<ProgressVariant, { color: string; pattern: string; scoreLevel: 'excellent' | 'good' | 'medium' | 'low' }> = {
+  default: { color: 'bg-[var(--score-good)]', pattern: 'pattern-score-good', scoreLevel: 'good' },
+  success: { color: 'bg-[var(--score-excellent)]', pattern: 'pattern-score-excellent', scoreLevel: 'excellent' },
+  warning: { color: 'bg-[var(--score-medium)]', pattern: 'pattern-score-medium', scoreLevel: 'medium' },
+  danger: { color: 'bg-[var(--flag-red)]', pattern: 'pattern-severity-high', scoreLevel: 'low' },
+  primary: { color: 'bg-[var(--primary)]', pattern: 'pattern-competence', scoreLevel: 'good' },
 }
 
 const sizeStyles = {
@@ -64,6 +64,7 @@ export function Progress({
         aria-valuemin={0}
         aria-valuemax={max}
         aria-label={ariaLabel || label || `${Math.round(percentage)}%`}
+        data-score={variantStyles[variant].scoreLevel}
         className={cn(
           // Container - NEO BRUTAL
           'w-full bg-[var(--muted)]',

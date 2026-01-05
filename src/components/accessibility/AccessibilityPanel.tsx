@@ -332,8 +332,25 @@ interface ToggleOptionProps {
 }
 
 function ToggleOption({ label, description, checked, onChange, disabled }: ToggleOptionProps) {
+  const handleClick = () => {
+    if (!disabled) {
+      onChange(!checked)
+    }
+  }
+
   return (
-    <label
+    <div
+      onClick={handleClick}
+      role="switch"
+      aria-checked={checked}
+      aria-label={label}
+      tabIndex={disabled ? -1 : 0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          handleClick()
+        }
+      }}
       className={cn(
         'flex items-center justify-between gap-3 px-3 py-2.5',
         'min-h-[44px]',
@@ -351,12 +368,7 @@ function ToggleOption({ label, description, checked, onChange, disabled }: Toggl
           <span className="block text-xs text-[var(--muted-foreground)]">{description}</span>
         )}
       </div>
-      <button
-        type="button"
-        role="switch"
-        aria-checked={checked}
-        disabled={disabled}
-        onClick={() => !disabled && onChange(!checked)}
+      <div
         className={cn(
           'relative w-12 h-7',
           'border-2 border-[var(--border)]',
@@ -364,6 +376,7 @@ function ToggleOption({ label, description, checked, onChange, disabled }: Toggl
           checked ? 'bg-[var(--primary)]' : 'bg-[var(--muted)]',
           !disabled && 'hover:shadow-[var(--shadow-brutal-sm)]'
         )}
+        aria-hidden="true"
       >
         <span
           className={cn(
@@ -373,7 +386,7 @@ function ToggleOption({ label, description, checked, onChange, disabled }: Toggl
             checked ? 'left-[calc(100%-22px)]' : 'left-0.5'
           )}
         />
-      </button>
-    </label>
+      </div>
+    </div>
   )
 }

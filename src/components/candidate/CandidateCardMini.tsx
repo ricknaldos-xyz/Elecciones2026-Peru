@@ -41,6 +41,13 @@ function getScoreColor(score: number): string {
   return 'bg-[var(--score-low)] text-white'
 }
 
+function getScoreLevelKey(score: number): 'excellent' | 'good' | 'medium' | 'low' {
+  if (score >= 70) return 'excellent'
+  if (score >= 50) return 'good'
+  if (score >= 30) return 'medium'
+  return 'low'
+}
+
 export function CandidateCardMini({ rank, candidate, className }: CandidateCardMiniProps) {
   const rankStyle = getRankStyle(rank)
   const scoreColor = getScoreColor(candidate.score_balanced)
@@ -115,12 +122,15 @@ export function CandidateCardMini({ rank, candidate, className }: CandidateCardM
 
         {/* Score - At bottom */}
         <div className="mt-auto">
-          <div className={cn(
-            'inline-flex items-center gap-1 px-2 py-1',
-            'border-2 border-[var(--border)]',
-            'font-black text-sm',
-            scoreColor
-          )}>
+          <div
+            data-score={getScoreLevelKey(candidate.score_balanced)}
+            className={cn(
+              'inline-flex items-center gap-1 px-2 py-1',
+              'border-2 border-[var(--border)]',
+              'font-black text-sm',
+              scoreColor
+            )}
+          >
             <span>{candidate.score_balanced.toFixed(0)}</span>
             <span className="text-xs font-bold opacity-70">/100</span>
           </div>

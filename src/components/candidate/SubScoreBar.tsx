@@ -75,6 +75,22 @@ function getTextColor(type: ScoreType, value: number): string {
   return 'text-[var(--score-medium-text)]'
 }
 
+function getScoreLevelKey(type: ScoreType, value: number): 'excellent' | 'good' | 'medium' | 'low' {
+  if (type === 'integrity') {
+    if (value >= 90) return 'excellent'
+    if (value >= 70) return 'medium'
+    return 'low'
+  }
+  if (type === 'confidence') {
+    if (value >= 70) return 'excellent'
+    if (value >= 40) return 'medium'
+    return 'low'
+  }
+  if (value >= 70) return 'excellent'
+  if (value >= 40) return 'good'
+  return 'medium'
+}
+
 export function SubScoreBar({
   type,
   value,
@@ -108,6 +124,7 @@ export function SubScoreBar({
           aria-valuemin={0}
           aria-valuemax={100}
           aria-label={`${config.label}: ${value.toFixed(0)} de 100`}
+          data-score={getScoreLevelKey(type, value)}
           className="w-full h-2 bg-[var(--muted)] border-2 border-[var(--border)] overflow-hidden"
         >
           <div
@@ -143,6 +160,7 @@ export function SubScoreBar({
           aria-valuemin={0}
           aria-valuemax={100}
           aria-label={`${config.label}: ${value.toFixed(0)} de 100`}
+          data-score={getScoreLevelKey(type, value)}
           className={cn(
             'w-full bg-[var(--muted)]',
             'border-2 border-[var(--border)]',
@@ -199,6 +217,7 @@ export function SubScoreBarMini({
         aria-valuemin={0}
         aria-valuemax={100}
         aria-label={`${config.label}: ${value.toFixed(0)} de 100`}
+        data-score={getScoreLevelKey(type, value)}
         className="flex-1 h-1.5 bg-[var(--muted)] border border-[var(--border)] overflow-hidden"
       >
         <div
@@ -258,6 +277,7 @@ export function SubScoreStat({
         aria-valuemin={0}
         aria-valuemax={100}
         aria-label={`${config.label}: ${value.toFixed(0)} de 100`}
+        data-score={getScoreLevelKey(type, value)}
         className={cn(
           'w-full bg-[var(--muted)]',
           'border-2 border-[var(--border)]',

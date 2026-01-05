@@ -30,6 +30,13 @@ function getScoreLevel(score: number): string {
   return 'Bajo'
 }
 
+function getScoreLevelKey(score: number): 'excellent' | 'good' | 'medium' | 'low' {
+  if (score >= 80) return 'excellent'
+  if (score >= 60) return 'good'
+  if (score >= 40) return 'medium'
+  return 'low'
+}
+
 function getScoreColor(score: number): { text: string; bg: string; border: string } {
   // Usar colores de texto de alto contraste para mejor legibilidad
   if (score >= 80) return {
@@ -92,6 +99,7 @@ export function ScorePill({
     return (
       <Tooltip content={tooltipContent}>
         <div
+          data-score={getScoreLevelKey(score)}
           className={cn('inline-flex items-baseline', config.gap, className)}
           role="img"
           aria-label={ariaLabel}
@@ -120,6 +128,7 @@ export function ScorePill({
     return (
       <Tooltip content={tooltipContent}>
         <div
+          data-score={getScoreLevelKey(score)}
           className={cn('flex flex-col items-end', className)}
           role="img"
           aria-label={ariaLabel}
@@ -155,6 +164,7 @@ export function ScorePill({
   return (
     <Tooltip content={tooltipContent}>
       <div
+        data-score={getScoreLevelKey(score)}
         role="img"
         aria-label={ariaLabel}
         className={cn(

@@ -662,15 +662,80 @@ body {
 
 /* === HIGH CONTRAST (clase manual) === */
 .high-contrast {
-  --border: #000000;
-  --muted-foreground: #000000;
-  --border-subtle: #000000;
+  --border: #000000 !important;
+  --muted-foreground: #1a1a1a !important;
+  --border-subtle: #000000 !important;
+}
+
+.high-contrast [data-score] {
+  outline: 3px solid #000000 !important;
+  outline-offset: -1px;
+}
+
+.high-contrast .border,
+.high-contrast .border-2,
+.high-contrast .border-3,
+.high-contrast [class*="border-"] {
+  border-color: #000000 !important;
 }
 
 .dark.high-contrast {
-  --border: #FFFFFF;
-  --muted-foreground: #FFFFFF;
-  --border-subtle: #FFFFFF;
+  --border: #FFFFFF !important;
+  --muted-foreground: #e0e0e0 !important;
+  --border-subtle: #FFFFFF !important;
+}
+
+.dark.high-contrast [data-score] {
+  outline: 3px solid #FFFFFF !important;
+  outline-offset: -1px;
+}
+
+.dark.high-contrast .border,
+.dark.high-contrast .border-2,
+.dark.high-contrast .border-3,
+.dark.high-contrast [class*="border-"] {
+  border-color: #FFFFFF !important;
+}
+
+/* === SHOW PATTERNS - Visual patterns for colorblind users === */
+.show-patterns [data-score="excellent"] {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 4px,
+    rgba(0, 0, 0, 0.12) 4px,
+    rgba(0, 0, 0, 0.12) 8px
+  ) !important;
+}
+
+.show-patterns [data-score="good"] {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 4px,
+    rgba(0, 0, 0, 0.12) 4px,
+    rgba(0, 0, 0, 0.12) 8px
+  ) !important;
+}
+
+.show-patterns [data-score="medium"] {
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 4px,
+    rgba(0, 0, 0, 0.15) 4px,
+    rgba(0, 0, 0, 0.15) 8px
+  ) !important;
+}
+
+.show-patterns [data-score="low"] {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.2) 3px,
+    rgba(0, 0, 0, 0.2) 6px
+  ) !important;
 }
 
 /* === PROTANOPIA (dificultad con rojos) === */
