@@ -25,6 +25,17 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Escape key handler (accessibility)
+  useEffect(() => {
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isOpen]);
+
   const handleLocaleChange = (newLocale: Locale) => {
     router.replace(pathname, { locale: newLocale });
     setIsOpen(false);
@@ -53,8 +64,10 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
         )}
         aria-label="Cambiar idioma"
         aria-expanded={isOpen}
+        aria-haspopup="listbox"
+        aria-controls="language-menu"
       >
-        <span className="text-lg">{localeFlags[currentLocale]}</span>
+        <span className="text-lg" aria-hidden="true">{localeFlags[currentLocale]}</span>
         <span className="hidden sm:inline text-sm font-bold uppercase">
           {currentLocale}
         </span>
@@ -67,6 +80,7 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
           viewBox="0 0 24 24"
           stroke="currentColor"
           strokeWidth={2.5}
+          aria-hidden="true"
         >
           <path strokeLinecap="square" strokeLinejoin="miter" d="M19 9l-7 7-7-7" />
         </svg>
@@ -74,6 +88,9 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
 
       {isOpen && (
         <div
+          id="language-menu"
+          role="listbox"
+          aria-label="Seleccionar idioma"
           className={cn(
             'absolute right-0 top-full mt-2',
             'w-56',
@@ -87,6 +104,8 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
           {locales.map((locale) => (
             <button
               key={locale}
+              role="option"
+              aria-selected={locale === currentLocale}
               onClick={() => handleLocaleChange(locale)}
               className={cn(
                 'w-full px-4 py-3 text-left',
@@ -103,7 +122,7 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
                     ]
               )}
             >
-              <span className="text-xl">{localeFlags[locale]}</span>
+              <span className="text-xl" aria-hidden="true">{localeFlags[locale]}</span>
               <div className="flex-1">
                 <div className={cn(
                   'text-sm font-bold uppercase',
@@ -128,6 +147,7 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                   strokeWidth={2.5}
+                  aria-hidden="true"
                 >
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M5 13l4 4L19 7" />
                 </svg>

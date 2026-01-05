@@ -20,7 +20,10 @@
     "noResults": "Tëjonka",
     "menu": "Menú",
     "changeTheme": "Ampatëro oimabeentsi",
-    "new": "OBAEKI"
+    "new": "OBAEKI",
+    "skipToContent": "Pasëro antëromani osankënarintsi",
+    "mainNavigation": "Antëromani irantëro",
+    "mobileNavigation": "Celularpaq irantëro"
   },
   "hero": {
     "title": "Ranking Apatotantsi Perú 2026",
@@ -851,6 +854,116 @@
       "social": "LLIKA",
       "public": "OINABIINTI",
       "protected": "WAQAYCHASQA"
+    }
+  },
+  "candidateNews": {
+    "title": "Amëtakotërinipë",
+    "noRecentNews": "Tëjonka amëtakotërinipë owakirantsari {name}",
+    "mentions": "{count} arientsipë",
+    "sentiment": "Amëñë:",
+    "viewAll": "Tasorintsi amëtakotërinipë ñëtsitanaki ({count})"
+  },
+  "partyFinance": {
+    "funding": "Kënkitsa churantsiki {year}",
+    "totalIncome": "Tasorintsi Omabiinta Kënkitsa",
+    "publicFunding": "Kamachiq Kënkitsa",
+    "privateFunding": "Kikin Kënkitsa",
+    "expenses": "Gastonkapë",
+    "donors": "Kënkitsa choriripë",
+    "balance": "Chawpi",
+    "donorCount": "{count} kënkitsa choriripë",
+    "publicPercentage": "Kamachiq: {percentage}%",
+    "privatePercentage": "Kikin: {percentage}%",
+    "noData": "Tëjonka kënkitsa amëtakotërini owakirantsari"
+  },
+  "syncDashboard": {
+    "title": "Tupachiy Amatabiintsi",
+    "sources": {
+      "jne": "JNE",
+      "jneDesc": "Apatotantsipë kawsayninkapëwan",
+      "onpe": "ONPE",
+      "onpeDesc": "Partido kënkitsakapë",
+      "judicial": "Kamachikuy",
+      "judicialDesc": "Irotiro amëtakotërini",
+      "rss": "RSS Amëtakotërini",
+      "rssDesc": "15+ Perú amëtakotërinipë",
+      "youtube": "YouTube",
+      "youtubeDesc": "Videopë arientsipëwan",
+      "googleNews": "Google Amëtakotërini",
+      "googleNewsDesc": "Amëtakotërini amabiintsi",
+      "ai": "AI Amatabiintsi",
+      "aiDesc": "Claude nisqawan amatabiintsi",
+      "tiktok": "TikTok",
+      "tiktokDesc": "Videopë (yachapakuy)",
+      "twitter": "Twitter",
+      "twitterDesc": "Tweetpë Nitter nisqawan",
+      "news": "Amëtakotërini",
+      "newsDesc": "RSS llañu"
+    },
+    "frequency": {
+      "daily3am": "Sapa kitiijiri 3:00 AM",
+      "daily4am": "Sapa kitiijiri 4:00 AM",
+      "daily6am": "Sapa kitiijiri 6:00 AM",
+      "every4hours": "Sapa 4 hora",
+      "every6hours": "Sapa 6 hora",
+      "manual": "Abakowanpi",
+      "disabled": "Tëjonka"
+    },
+    "status": {
+      "never": "Tëjonka hayk'aq",
+      "justNow": "Jichharuwa",
+      "minutesAgo": "{count} minuto ñawpaq",
+      "hoursAgo": "{count} hora ñawpaq",
+      "daysAgo": "{count} kitiijiri ñawpaq"
+    },
+    "labels": {
+      "processed": "Rurasqa:",
+      "updated": "Machaqachasqa:",
+      "created": "Kamasqa:",
+      "duration": "Pacha:",
+      "lastSync": "Qhipa tupachiy:",
+      "noSyncData": "Tëjonka tupachiy amëtakotërini owakirantsari"
+    },
+    "actions": {
+      "syncing": "Tupachispa...",
+      "syncNow": "Jichha tupachiy",
+      "refresh": "Machaqachay"
+    },
+    "history": {
+      "title": "Tupachiy Ñawpaq Kawsay",
+      "allSources": "Tasorintsi pukhuripë",
+      "noLogs": "Tëjonka tupachiy qillqapë owakirantsari"
+    },
+    "table": {
+      "source": "Pukhurinapa",
+      "status": "Kayninpa",
+      "processed": "Rurasqa",
+      "updated": "Machaqachasqa",
+      "duration": "Pacha",
+      "date": "Kitiijiri"
+    },
+    "schedule": {
+      "title": "Kikin Tupachiy Kamachiy"
+    },
+    "errors": {
+      "loadError": "Irotiro cargaspa",
+      "syncError": "Irotiro tupachispa {source}"
+    }
+  },
+  "common": {
+    "months": {
+      "jan": "qul",
+      "feb": "hat",
+      "mar": "paw",
+      "apr": "ayr",
+      "may": "aym",
+      "jun": "int",
+      "jul": "ant",
+      "aug": "qha",
+      "sep": "uma",
+      "oct": "kan",
+      "nov": "aya",
+      "dec": "qap"
     }
   }
 }

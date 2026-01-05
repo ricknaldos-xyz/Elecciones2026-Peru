@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { cn } from '@/lib/utils'
@@ -36,6 +37,7 @@ export function PartyFinanceCard({
   donorCount,
   className,
 }: PartyFinanceCardProps) {
+  const t = useTranslations('partyFinance')
   const totalIncome = publicFunding + privateFunding
   const balance = totalIncome - totalExpenses
   const publicPercentage = totalIncome > 0 ? (publicFunding / totalIncome) * 100 : 0
@@ -47,7 +49,7 @@ export function PartyFinanceCard({
           <div>
             <CardTitle className="text-white uppercase">{partyName}</CardTitle>
             <CardDescription className="text-white/80">
-              Financiamiento {year}
+              {t('funding', { year })}
             </CardDescription>
           </div>
           <Badge variant="outline" className="bg-white/20 text-white border-white/30 font-black">
@@ -63,7 +65,7 @@ export function PartyFinanceCard({
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="square" strokeLinejoin="miter" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            Ingresos Totales
+            {t('totalIncome')}
           </h4>
           <div className="text-2xl font-black text-[var(--foreground)] mb-4">
             {formatCurrency(totalIncome)}
@@ -73,7 +75,7 @@ export function PartyFinanceCard({
           <div className="space-y-3">
             <div>
               <div className="flex items-center justify-between text-sm mb-1">
-                <span className="font-bold text-[var(--muted-foreground)]">Financiamiento Público</span>
+                <span className="font-bold text-[var(--muted-foreground)]">{t('publicFunding')}</span>
                 <span className="font-black text-[var(--score-excellent-text)]">{formatCurrency(publicFunding)}</span>
               </div>
               <div className="h-2 bg-[var(--muted)] border border-[var(--border)] overflow-hidden">
@@ -86,7 +88,7 @@ export function PartyFinanceCard({
 
             <div>
               <div className="flex items-center justify-between text-sm mb-1">
-                <span className="font-bold text-[var(--muted-foreground)]">Aportes Privados</span>
+                <span className="font-bold text-[var(--muted-foreground)]">{t('privateFunding')}</span>
                 <span className="font-black text-[var(--score-competence-text)]">{formatCurrency(privateFunding)}</span>
               </div>
               <div className="h-2 bg-[var(--muted)] border border-[var(--border)] overflow-hidden">
@@ -102,11 +104,11 @@ export function PartyFinanceCard({
         {/* Stats Grid */}
         <div className="grid grid-cols-2 divide-x-2 divide-[var(--border)]">
           <div className="p-4 text-center">
-            <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase mb-1">Gastos</div>
+            <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase mb-1">{t('expenses')}</div>
             <div className="text-lg font-black text-[var(--flag-red-text)]">{formatCurrency(totalExpenses)}</div>
           </div>
           <div className="p-4 text-center">
-            <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase mb-1">Donantes</div>
+            <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase mb-1">{t('donors')}</div>
             <div className="text-lg font-black text-[var(--foreground)]">{formatNumber(donorCount)}</div>
           </div>
         </div>
@@ -116,7 +118,7 @@ export function PartyFinanceCard({
           'p-4 text-center border-t-2 border-[var(--border)]',
           balance >= 0 ? 'bg-[var(--score-excellent-bg)]' : 'bg-[var(--flag-red-bg)]'
         )}>
-          <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase mb-1">Balance</div>
+          <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase mb-1">{t('balance')}</div>
           <div className={cn(
             'text-xl font-black',
             balance >= 0 ? 'text-[var(--score-excellent-text)]' : 'text-[var(--flag-red-text)]'
@@ -140,6 +142,7 @@ export function PartyFinanceCardCompact({
   className,
   onClick,
 }: PartyFinanceCardProps & { onClick?: () => void }) {
+  const t = useTranslations('partyFinance')
   const totalIncome = publicFunding + privateFunding
   const publicPercentage = totalIncome > 0 ? (publicFunding / totalIncome) * 100 : 0
 
@@ -159,7 +162,7 @@ export function PartyFinanceCardCompact({
             {formatCurrency(totalIncome)}
           </div>
           <div className="text-xs text-[var(--muted-foreground)] font-bold">
-            {donorCount} donantes
+            {t('donorCount', { count: donorCount })}
           </div>
         </div>
       </div>
@@ -169,23 +172,23 @@ export function PartyFinanceCardCompact({
         <div
           className="h-full bg-[var(--score-high)] transition-all duration-500"
           style={{ width: `${publicPercentage}%` }}
-          title={`Público: ${formatCurrency(publicFunding)}`}
+          title={`${t('publicPercentage', { percentage: publicPercentage.toFixed(0) })}`}
         />
         <div
           className="h-full bg-[var(--score-competence)] transition-all duration-500"
           style={{ width: `${100 - publicPercentage}%` }}
-          title={`Privado: ${formatCurrency(privateFunding)}`}
+          title={`${t('privatePercentage', { percentage: (100 - publicPercentage).toFixed(0) })}`}
         />
       </div>
 
       <div className="flex items-center justify-between mt-2 text-xs text-[var(--muted-foreground)] font-bold">
         <span className="flex items-center gap-1">
           <span className="w-2 h-2 bg-[var(--score-high)] border border-[var(--border)]" />
-          Público: {publicPercentage.toFixed(0)}%
+          {t('publicPercentage', { percentage: publicPercentage.toFixed(0) })}
         </span>
         <span className="flex items-center gap-1">
           <span className="w-2 h-2 bg-[var(--score-competence)] border border-[var(--border)]" />
-          Privado: {(100 - publicPercentage).toFixed(0)}%
+          {t('privatePercentage', { percentage: (100 - publicPercentage).toFixed(0) })}
         </span>
       </div>
     </Card>

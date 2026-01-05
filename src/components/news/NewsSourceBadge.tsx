@@ -59,7 +59,7 @@ export function NewsSourceBadge({ source, size = 'sm', className }: NewsSourceBa
         'border-2 border-[var(--border)]',
         'text-white font-black',
         config.color,
-        size === 'sm' && 'w-7 h-7 text-[9px]',
+        size === 'sm' && 'w-7 h-7 text-xs',
         size === 'md' && 'w-9 h-9 text-xs',
         className
       )}

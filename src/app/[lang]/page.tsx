@@ -83,8 +83,9 @@ export default async function Home() {
     <div className="min-h-screen bg-[var(--background)]">
       <Header currentPath="/" />
 
-      {/* Countdown Banner - Full Width Urgency */}
-      <CountdownBanner />
+      <main id="main-content">
+        {/* Countdown Banner - Full Width Urgency */}
+        <CountdownBanner />
 
       {/* Hero Section: CTA + Top 5 Side by Side */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
@@ -110,12 +111,12 @@ export default async function Home() {
               <div className="flex items-center gap-4 my-4 py-3 border-t border-b border-white/20">
                 <div className="text-center">
                   <span className="text-2xl sm:text-3xl font-black">{stats.totalCandidates}</span>
-                  <span className="text-[10px] sm:text-xs font-bold text-white/70 ml-1 uppercase">{t('candidates')}</span>
+                  <span className="text-xs font-bold text-white/70 ml-1 uppercase">{t('candidates')}</span>
                 </div>
                 <div className="w-px h-8 bg-white/30" />
                 <div className="text-center">
                   <span className="text-2xl sm:text-3xl font-black">{stats.totalParties}</span>
-                  <span className="text-[10px] sm:text-xs font-bold text-white/70 ml-1 uppercase">{t('parties')}</span>
+                  <span className="text-xs font-bold text-white/70 ml-1 uppercase">{t('parties')}</span>
                 </div>
               </div>
 
@@ -179,18 +180,18 @@ export default async function Home() {
 
             {/* Otros cargos - Mini links */}
             <div className="px-4 pb-4 pt-2 border-t-2 border-[var(--border)]">
-              <p className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase mb-2">{t('alsoView')}</p>
+              <p className="text-xs font-bold text-[var(--muted-foreground)] uppercase mb-2">{t('alsoView')}</p>
               <div className="flex flex-wrap gap-2">
-                <Link href="/ranking?cargo=senador" className="inline-flex items-center gap-1.5 px-2 py-1 text-[10px] font-bold bg-[var(--background)] border-2 border-[var(--border)] hover:bg-[var(--score-good)] hover:text-white transition-colors uppercase">
-                  <span className="w-4 h-4 bg-[var(--score-good)] border border-[var(--border)] flex items-center justify-center text-white text-[8px] font-black">S</span>
+                <Link href="/ranking?cargo=senador" className="inline-flex items-center gap-1.5 px-2 py-1 text-xs font-bold bg-[var(--background)] border-2 border-[var(--border)] hover:bg-[var(--score-good)] hover:text-white transition-colors uppercase">
+                  <span className="w-4 h-4 bg-[var(--score-good)] border border-[var(--border)] flex items-center justify-center text-white text-xs font-black">S</span>
                   {t('senators')}
                 </Link>
-                <Link href="/ranking?cargo=diputado" className="inline-flex items-center gap-1.5 px-2 py-1 text-[10px] font-bold bg-[var(--background)] border-2 border-[var(--border)] hover:bg-[var(--score-excellent)] hover:text-white transition-colors uppercase">
-                  <span className="w-4 h-4 bg-[var(--score-excellent)] border border-[var(--border)] flex items-center justify-center text-white text-[8px] font-black">D</span>
+                <Link href="/ranking?cargo=diputado" className="inline-flex items-center gap-1.5 px-2 py-1 text-xs font-bold bg-[var(--background)] border-2 border-[var(--border)] hover:bg-[var(--score-excellent)] hover:text-white transition-colors uppercase">
+                  <span className="w-4 h-4 bg-[var(--score-excellent)] border border-[var(--border)] flex items-center justify-center text-white text-xs font-black">D</span>
                   {t('deputies')}
                 </Link>
-                <Link href="/ranking?cargo=parlamento_andino" className="inline-flex items-center gap-1.5 px-2 py-1 text-[10px] font-bold bg-[var(--background)] border-2 border-[var(--border)] hover:bg-[var(--score-medium)] hover:text-black transition-colors uppercase">
-                  <span className="w-4 h-4 bg-[var(--score-medium)] border border-[var(--border)] flex items-center justify-center text-black text-[8px] font-black">A</span>
+                <Link href="/ranking?cargo=parlamento_andino" className="inline-flex items-center gap-1.5 px-2 py-1 text-xs font-bold bg-[var(--background)] border-2 border-[var(--border)] hover:bg-[var(--score-medium)] hover:text-black transition-colors uppercase">
+                  <span className="w-4 h-4 bg-[var(--score-medium)] border border-[var(--border)] flex items-center justify-center text-black text-xs font-black">A</span>
                   {t('andeanParliament')}
                 </Link>
               </div>
@@ -362,6 +363,7 @@ export default async function Home() {
           </div>
         </Card>
       </section>
+      </main>
 
       {/* Footer - NEO BRUTAL - Mobile Optimized */}
       <footer className="border-t-4 border-[var(--border)] bg-[var(--card)]">

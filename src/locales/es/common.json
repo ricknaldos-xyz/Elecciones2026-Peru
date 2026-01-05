@@ -20,7 +20,10 @@
     "noResults": "No se encontraron resultados",
     "menu": "Menú",
     "changeTheme": "Cambiar tema",
-    "new": "NUEVO"
+    "new": "NUEVO",
+    "skipToContent": "Saltar al contenido principal",
+    "mainNavigation": "Navegación principal",
+    "mobileNavigation": "Navegación móvil"
   },
   "hero": {
     "title": "Ranking Electoral Perú 2026",
@@ -851,6 +854,116 @@
       "social": "SOCIAL",
       "public": "PUBLICO",
       "protected": "PROTEGIDO"
+    }
+  },
+  "candidateNews": {
+    "title": "Noticias",
+    "noRecentNews": "No hay noticias recientes para {name}",
+    "mentions": "{count} menciones",
+    "sentiment": "Sentimiento:",
+    "viewAll": "Ver todas las noticias ({count})"
+  },
+  "partyFinance": {
+    "funding": "Financiamiento {year}",
+    "totalIncome": "Ingresos Totales",
+    "publicFunding": "Financiamiento Público",
+    "privateFunding": "Aportes Privados",
+    "expenses": "Gastos",
+    "donors": "Donantes",
+    "balance": "Balance",
+    "donorCount": "{count} donantes",
+    "publicPercentage": "Público: {percentage}%",
+    "privatePercentage": "Privado: {percentage}%",
+    "noData": "Sin datos de financiamiento"
+  },
+  "syncDashboard": {
+    "title": "Panel de Sincronización",
+    "sources": {
+      "jne": "JNE",
+      "jneDesc": "Candidatos y hojas de vida",
+      "onpe": "ONPE",
+      "onpeDesc": "Financiamiento de partidos",
+      "judicial": "Judicial",
+      "judicialDesc": "Antecedentes judiciales",
+      "rss": "RSS News",
+      "rssDesc": "15+ medios peruanos",
+      "youtube": "YouTube",
+      "youtubeDesc": "Videos y comentarios",
+      "googleNews": "Google News",
+      "googleNewsDesc": "Búsqueda de noticias",
+      "ai": "AI Analysis",
+      "aiDesc": "Análisis con Claude",
+      "tiktok": "TikTok",
+      "tiktokDesc": "Videos (experimental)",
+      "twitter": "Twitter",
+      "twitterDesc": "Tweets via Nitter",
+      "news": "News",
+      "newsDesc": "RSS básico"
+    },
+    "frequency": {
+      "daily3am": "Diario 3:00 AM",
+      "daily4am": "Diario 4:00 AM",
+      "daily6am": "Diario 6:00 AM",
+      "every4hours": "Cada 4 horas",
+      "every6hours": "Cada 6 horas",
+      "manual": "Manual",
+      "disabled": "Deshabilitado"
+    },
+    "status": {
+      "never": "Nunca",
+      "justNow": "Hace un momento",
+      "minutesAgo": "Hace {count} minutos",
+      "hoursAgo": "Hace {count} horas",
+      "daysAgo": "Hace {count} días"
+    },
+    "labels": {
+      "processed": "Procesados:",
+      "updated": "Actualizados:",
+      "created": "Creados:",
+      "duration": "Duración:",
+      "lastSync": "Última sync:",
+      "noSyncData": "Sin datos de sincronización"
+    },
+    "actions": {
+      "syncing": "Sincronizando...",
+      "syncNow": "Sincronizar ahora",
+      "refresh": "Actualizar"
+    },
+    "history": {
+      "title": "Historial de Sincronización",
+      "allSources": "Todas las fuentes",
+      "noLogs": "No hay registros de sincronización"
+    },
+    "table": {
+      "source": "Fuente",
+      "status": "Estado",
+      "processed": "Procesados",
+      "updated": "Actualizados",
+      "duration": "Duración",
+      "date": "Fecha"
+    },
+    "schedule": {
+      "title": "Programación de Sincronización Automática"
+    },
+    "errors": {
+      "loadError": "Error al cargar estado",
+      "syncError": "Error sincronizando {source}"
+    }
+  },
+  "common": {
+    "months": {
+      "jan": "ene",
+      "feb": "feb",
+      "mar": "mar",
+      "apr": "abr",
+      "may": "may",
+      "jun": "jun",
+      "jul": "jul",
+      "aug": "ago",
+      "sep": "sep",
+      "oct": "oct",
+      "nov": "nov",
+      "dec": "dic"
     }
   }
 }

@@ -24,11 +24,49 @@ export function Header({ currentPath }: HeaderProps) {
   const [isSearching, setIsSearching] = useState(false)
   const [darkMode, setDarkMode] = useState(false)
   const searchRef = useRef<HTMLDivElement>(null)
+  const mobileMenuRef = useRef<HTMLDivElement>(null)
+  const mobileMenuButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const isDark = document.documentElement.classList.contains('dark')
     setDarkMode(isDark)
   }, [])
+
+  // Focus trap for mobile menu (accessibility)
+  useEffect(() => {
+    if (!mobileMenuOpen || !mobileMenuRef.current) return
+
+    const menuElement = mobileMenuRef.current
+    const focusableElements = menuElement.querySelectorAll<HTMLElement>(
+      'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    )
+    const firstElement = focusableElements[0]
+    const lastElement = focusableElements[focusableElements.length - 1]
+
+    function handleTabKey(e: KeyboardEvent) {
+      if (e.key !== 'Tab') return
+
+      if (e.shiftKey) {
+        // Shift + Tab: if on first element, go to last
+        if (document.activeElement === firstElement) {
+          e.preventDefault()
+          lastElement?.focus()
+        }
+      } else {
+        // Tab: if on last element, go to first
+        if (document.activeElement === lastElement) {
+          e.preventDefault()
+          firstElement?.focus()
+        }
+      }
+    }
+
+    document.addEventListener('keydown', handleTabKey)
+    // Focus first element when menu opens
+    firstElement?.focus()
+
+    return () => document.removeEventListener('keydown', handleTabKey)
+  }, [mobileMenuOpen])
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -39,6 +77,18 @@ export function Header({ currentPath }: HeaderProps) {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  // Escape key handler for dropdowns (accessibility)
+  useEffect(() => {
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        if (searchOpen) setSearchOpen(false)
+        if (mobileMenuOpen) setMobileMenuOpen(false)
+      }
+    }
+    document.addEventListener('keydown', handleEscape)
+    return () => document.removeEventListener('keydown', handleEscape)
+  }, [searchOpen, mobileMenuOpen])
 
   useEffect(() => {
     const search = async () => {
@@ -89,12 +139,28 @@ export function Header({ currentPath }: HeaderProps) {
   ]
 
   return (
-    <header className={cn(
-      'sticky top-0 z-50',
-      'bg-[var(--background)]',
-      'border-b-4 border-[var(--border)]',
-      'shadow-[var(--shadow-brutal-sm)]'
-    )}>
+    <>
+      {/* Skip Link - Accessibility */}
+      <a
+        href="#main-content"
+        className={cn(
+          'sr-only focus:not-sr-only',
+          'focus:fixed focus:top-4 focus:left-4 focus:z-[9999]',
+          'focus:px-4 focus:py-2',
+          'focus:bg-[var(--primary)] focus:text-white',
+          'focus:border-3 focus:border-[var(--border)]',
+          'focus:shadow-[var(--shadow-brutal)]',
+          'focus:font-bold focus:uppercase focus:text-sm'
+        )}
+      >
+        {t('skipToContent')}
+      </a>
+      <header className={cn(
+        'sticky top-0 z-50',
+        'bg-[var(--background)]',
+        'border-b-4 border-[var(--border)]',
+        'shadow-[var(--shadow-brutal-sm)]'
+      )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo - NEO BRUTAL - Mobile Optimized */}
@@ -117,7 +183,7 @@ export function Header({ currentPath }: HeaderProps) {
                 <span className="text-sm sm:text-base lg:text-lg font-black text-[var(--foreground)] leading-tight tracking-tight uppercase">
                   Ranking Electoral
                 </span>
-                <span className="text-[10px] sm:text-xs text-[var(--primary)] font-bold leading-tight uppercase tracking-widest">
+                <span className="text-xs text-[var(--primary)] font-bold leading-tight uppercase tracking-widest">
                   Perú 2026
                 </span>
               </div>
@@ -125,11 +191,12 @@ export function Header({ currentPath }: HeaderProps) {
           </div>
 
           {/* Desktop Nav - NEO BRUTAL */}
-          <nav className="hidden md:flex items-center gap-1">
+          <nav className="hidden md:flex items-center gap-1" aria-label={t('mainNavigation')}>
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
+                aria-current={currentPath === link.href ? 'page' : undefined}
                 className={cn(
                   'px-4 py-2 text-sm font-bold uppercase tracking-wide',
                   'border-2 border-transparent',
@@ -153,7 +220,7 @@ export function Header({ currentPath }: HeaderProps) {
               >
                 {t(link.labelKey)}
                 {link.isNew && (
-                  <span className="text-[10px] font-black bg-[var(--score-medium)] text-black px-1.5 py-0.5 leading-none">
+                  <span className="text-xs font-black bg-[var(--score-medium)] text-black px-1.5 py-0.5 leading-none">
                     {t('new')}
                   </span>
                 )}
@@ -186,7 +253,7 @@ export function Header({ currentPath }: HeaderProps) {
                 )}
                 aria-label={t('search')}
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </button>
@@ -296,11 +363,11 @@ export function Header({ currentPath }: HeaderProps) {
               aria-label={t('changeTheme')}
             >
               {darkMode ? (
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
               ) : (
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
               )}
@@ -331,8 +398,10 @@ export function Header({ currentPath }: HeaderProps) {
                 ]
               )}
               aria-label={t('menu')}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu"
             >
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
                 {mobileMenuOpen ? (
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M6 18L18 6M6 6l12 12" />
                 ) : (
@@ -345,13 +414,14 @@ export function Header({ currentPath }: HeaderProps) {
 
         {/* Mobile Menu - NEO BRUTAL - Improved Touch Targets */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t-3 border-[var(--border)] py-4">
-            <nav className="flex flex-col gap-2">
+          <div ref={mobileMenuRef} id="mobile-menu" className="md:hidden border-t-3 border-[var(--border)] py-4">
+            <nav className="flex flex-col gap-2" aria-label={t('mobileNavigation')}>
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
+                  aria-current={currentPath === link.href ? 'page' : undefined}
                   className={cn(
                     'px-4 py-3.5',
                     'min-h-[48px]',
@@ -375,7 +445,7 @@ export function Header({ currentPath }: HeaderProps) {
                 >
                   {t(link.labelKey)}
                   {link.isNew && (
-                    <span className="text-[10px] font-black bg-[var(--score-medium)] text-black px-1.5 py-0.5 leading-none">
+                    <span className="text-xs font-black bg-[var(--score-medium)] text-black px-1.5 py-0.5 leading-none">
                       {t('new')}
                     </span>
                   )}
@@ -395,5 +465,6 @@ export function Header({ currentPath }: HeaderProps) {
         )}
       </div>
     </header>
+    </>
   )
 }

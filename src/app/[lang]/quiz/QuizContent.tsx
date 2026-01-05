@@ -80,7 +80,7 @@ export function QuizContent() {
       <div className="max-w-2xl mx-auto space-y-6">
         <Card className="p-6 sm:p-10 text-center">
           <div className="w-20 h-20 mx-auto bg-[var(--primary)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal)] flex items-center justify-center mb-6">
-            <svg className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <svg aria-hidden="true" className="w-10 h-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="square" strokeLinejoin="miter" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
@@ -105,7 +105,7 @@ export function QuizContent() {
 
           <Button size="lg" onClick={handleStart} className="min-w-[200px]">
             {t('start')}
-            <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <svg aria-hidden="true" className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="square" strokeLinejoin="miter" d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
           </Button>
@@ -124,7 +124,7 @@ export function QuizContent() {
 
   if (state === 'results') {
     return (
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-2xl mx-auto" aria-live="polite">
         <QuizResults
           matches={matches}
           profile={profile}
@@ -136,7 +136,7 @@ export function QuizContent() {
 
   // Questions state
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="max-w-3xl mx-auto space-y-6" aria-live="polite" aria-atomic="false">
       <QuizProgress
         currentQuestion={currentQuestionIndex + 1}
         totalQuestions={QUIZ_QUESTIONS.length}
@@ -161,7 +161,7 @@ export function QuizContent() {
             disabled={isTransitioning}
             className="min-h-[48px] px-5"
           >
-            <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <svg aria-hidden="true" className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="square" strokeLinejoin="miter" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
             </svg>
             <span className="font-bold">{t('previous')}</span>

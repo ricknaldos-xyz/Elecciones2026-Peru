@@ -20,7 +20,10 @@
     "noResults": "Jan jikxatati",
     "menu": "Menú",
     "changeTheme": "Uñtayiri jaqukipaña",
-    "new": "MACHAQ"
+    "new": "MACHAQ",
+    "skipToContent": "Qalltawir qillqar pasaña",
+    "mainNavigation": "Jach'a sartawi",
+    "mobileNavigation": "Celularpaq sartawi"
   },
   "hero": {
     "title": "Ajilanaka Ranking Perú 2026",
@@ -851,6 +854,116 @@
       "social": "LLIKA",
       "public": "Q'UMA",
       "protected": "IMATA"
+    }
+  },
+  "candidateNews": {
+    "title": "Yatiyawinaka",
+    "noRecentNews": "Jan yatiyawinaka utjiti {name} ukataki",
+    "mentions": "{count} arsutanaka",
+    "sentiment": "Amuyu:",
+    "viewAll": "Taqpach yatiyawinaka uñjaña ({count})"
+  },
+  "partyFinance": {
+    "funding": "Qullqi churaña {year}",
+    "totalIncome": "Taqpach Mantani Qullqi",
+    "publicFunding": "Kamachi Qullqi",
+    "privateFunding": "Kikin Qullqi",
+    "expenses": "Gastonaka",
+    "donors": "Qullqi churirinaka",
+    "balance": "Chika",
+    "donorCount": "{count} qullqi churirinaka",
+    "publicPercentage": "Kamachi: {percentage}%",
+    "privatePercentage": "Kikin: {percentage}%",
+    "noData": "Jan qullqi yatiqawi utjiti"
+  },
+  "syncDashboard": {
+    "title": "Tupthapi Uñakipawi",
+    "sources": {
+      "jne": "JNE",
+      "jneDesc": "Ajilanaka jakañapampi",
+      "onpe": "ONPE",
+      "onpeDesc": "Partido qullqinaka",
+      "judicial": "Kamachiwi",
+      "judicialDesc": "Juchañchaña yatiqawinaka",
+      "rss": "RSS Yatiyawi",
+      "rssDesc": "15+ Perú yatiyawinaka",
+      "youtube": "YouTube",
+      "youtubeDesc": "Videonaka arsutanakanpi",
+      "googleNews": "Google Yatiyawi",
+      "googleNewsDesc": "Yatiyawi thaqaña",
+      "ai": "AI Uñakipawi",
+      "aiDesc": "Claude ukampi uñakipawi",
+      "tiktok": "TikTok",
+      "tiktokDesc": "Videonaka (yatxataña)",
+      "twitter": "Twitter",
+      "twitterDesc": "Tweetnaka Nitter ukampi",
+      "news": "Yatiyawi",
+      "newsDesc": "RSS llusk'a"
+    },
+    "frequency": {
+      "daily3am": "Sapa uru 3:00 AM",
+      "daily4am": "Sapa uru 4:00 AM",
+      "daily6am": "Sapa uru 6:00 AM",
+      "every4hours": "Sapa 4 hora",
+      "every6hours": "Sapa 6 hora",
+      "manual": "Amparampi",
+      "disabled": "Janiwa"
+    },
+    "status": {
+      "never": "Jan kawkhasa",
+      "justNow": "Jicharuwa",
+      "minutesAgo": "{count} minuto nayra",
+      "hoursAgo": "{count} hora nayra",
+      "daysAgo": "{count} uru nayra"
+    },
+    "labels": {
+      "processed": "Lurata:",
+      "updated": "Machaqachata:",
+      "created": "Lurata:",
+      "duration": "Pacha:",
+      "lastSync": "Qhipa tupthapi:",
+      "noSyncData": "Jan tupthapi yatiqawi utjiti"
+    },
+    "actions": {
+      "syncing": "Tupthapisipkiwa...",
+      "syncNow": "Jichharu tupthapi",
+      "refresh": "Machaqachaña"
+    },
+    "history": {
+      "title": "Tupthapi Nayra Sarnaqawi",
+      "allSources": "Taqpach phukhurinaka",
+      "noLogs": "Jan tupthapi qillqatanaka utjiti"
+    },
+    "table": {
+      "source": "Phukhuri",
+      "status": "Imaña",
+      "processed": "Lurata",
+      "updated": "Machaqachata",
+      "duration": "Pacha",
+      "date": "Uru"
+    },
+    "schedule": {
+      "title": "Kikin Tupthapi Kamachiwi"
+    },
+    "errors": {
+      "loadError": "Pantjawi apkatasipana",
+      "syncError": "Pantjawi tupthapisipana {source}"
+    }
+  },
+  "common": {
+    "months": {
+      "jan": "chi",
+      "feb": "anä",
+      "mar": "ach",
+      "apr": "llü",
+      "may": "aym",
+      "jun": "maq",
+      "jul": "wil",
+      "aug": "sat",
+      "sep": "ala",
+      "oct": "lap",
+      "nov": "qha",
+      "dec": "jal"
     }
   }
 }

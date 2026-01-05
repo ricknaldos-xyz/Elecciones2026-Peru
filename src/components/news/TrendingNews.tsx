@@ -37,6 +37,7 @@ interface TrendingNewsProps {
 export function TrendingNews({ className, limit = 5, variant = 'list' }: TrendingNewsProps) {
   const t = useTranslations('trendingNews')
   const tNews = useTranslations('news')
+  const tCommon = useTranslations('common')
 
   function formatTimeAgo(dateString: string | null | undefined): string {
     if (!dateString) return ''
@@ -52,7 +53,9 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
     if (diffHours < 24) return tNews('timeAgo.hours', { count: diffHours })
     if (diffDays < 7) return tNews('timeAgo.days', { count: diffDays })
 
-    return date.toLocaleDateString('es-PE', { day: 'numeric', month: 'short' })
+    const monthKeys = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+    const monthKey = monthKeys[date.getMonth()]
+    return `${date.getDate()} ${tCommon(`months.${monthKey}`)}`
   }
   const [news, setNews] = useState<NewsItem[]>([])
   const [candidateActivity, setCandidateActivity] = useState<CandidateActivity[]>([])
@@ -108,7 +111,7 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-[var(--primary)] border-2 border-[var(--border)] flex items-center justify-center">
-              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <svg aria-hidden="true" className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
               </svg>
             </div>
@@ -166,11 +169,11 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
               {/* Source header */}
               <div className="flex items-center gap-2 mb-3 pb-2 border-b-2 border-[var(--border)]">
                 <NewsSourceBadge source={item.source} size="sm" />
-                <span className="text-[10px] font-black text-[var(--muted-foreground)] uppercase truncate">
+                <span className="text-xs font-black text-[var(--muted-foreground)] uppercase truncate">
                   {item.source.replace('news.google.com', 'Google News').replace('.com', '').replace('.pe', '')}
                 </span>
                 {item.published_at && (
-                  <span className="text-[10px] font-bold text-[var(--muted-foreground)] ml-auto whitespace-nowrap">
+                  <span className="text-xs font-bold text-[var(--muted-foreground)] ml-auto whitespace-nowrap">
                     {formatTimeAgo(item.published_at)}
                   </span>
                 )}
@@ -186,7 +189,7 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
                 <div className="flex items-center gap-2 mt-3 pt-2 border-t border-[var(--border)]">
                   <span className={cn(
                     'inline-flex items-center px-2 py-1',
-                    'text-[10px] font-black uppercase',
+                    'text-xs font-black uppercase',
                     'bg-[var(--primary)] text-white',
                     'border-2 border-[var(--border)]'
                   )}>
@@ -206,7 +209,7 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
           <Link href="/noticias">
             <Button variant="secondary" size="sm">
               {t('viewAll')}
-              <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg aria-hidden="true" className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </Button>
@@ -329,7 +332,7 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
           <Link href="/noticias">
             <Button variant="secondary" size="sm" className="w-full">
               {t('viewAll')}
-              <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg aria-hidden="true" className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </Button>

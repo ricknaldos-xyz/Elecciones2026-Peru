@@ -113,7 +113,7 @@ export function TabList({ children, className, showScrollIndicators = true }: Ta
           )}
           aria-label="Scroll left"
         >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3} aria-hidden="true">
             <path strokeLinecap="square" strokeLinejoin="miter" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
@@ -134,7 +134,7 @@ export function TabList({ children, className, showScrollIndicators = true }: Ta
           )}
           aria-label="Scroll right"
         >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3} aria-hidden="true">
             <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
           </svg>
         </button>
@@ -142,6 +142,8 @@ export function TabList({ children, className, showScrollIndicators = true }: Ta
 
       <div
         ref={scrollRef}
+        role="tablist"
+        aria-label="Tabs"
         className={cn(
           // NEO BRUTAL tab list with horizontal scroll for mobile
           'flex',
@@ -176,7 +178,7 @@ interface TabProps {
 }
 
 export function Tab({ value, children, className }: TabProps) {
-  const { activeTab, setActiveTab, registerTab } = useTabs()
+  const { activeTab, setActiveTab, registerTab, tabs } = useTabs()
   const isActive = activeTab === value
   const tabRef = useRef<HTMLButtonElement>(null)
 
@@ -196,10 +198,49 @@ export function Tab({ value, children, className }: TabProps) {
     }
   }, [isActive])
 
+  // Arrow key navigation (accessibility - WAI-ARIA pattern)
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    const currentIndex = tabs.indexOf(value)
+    let newIndex: number | null = null
+
+    switch (e.key) {
+      case 'ArrowRight':
+        e.preventDefault()
+        newIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0
+        break
+      case 'ArrowLeft':
+        e.preventDefault()
+        newIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1
+        break
+      case 'Home':
+        e.preventDefault()
+        newIndex = 0
+        break
+      case 'End':
+        e.preventDefault()
+        newIndex = tabs.length - 1
+        break
+    }
+
+    if (newIndex !== null && tabs[newIndex]) {
+      setActiveTab(tabs[newIndex])
+      // Focus the new tab button
+      const tabList = tabRef.current?.parentElement
+      const buttons = tabList?.querySelectorAll('button[role="tab"]')
+      if (buttons?.[newIndex]) {
+        (buttons[newIndex] as HTMLButtonElement).focus()
+      }
+    }
+  }
+
   return (
     <button
       ref={tabRef}
+      role="tab"
+      aria-selected={isActive}
+      tabIndex={isActive ? 0 : -1}
       onClick={() => setActiveTab(value)}
+      onKeyDown={handleKeyDown}
       className={cn(
         // NEO BRUTAL tab with mobile-friendly touch targets
         'px-3 py-3 sm:px-5 sm:py-2.5',
@@ -247,7 +288,15 @@ export function TabPanel({ value, children, className }: TabPanelProps) {
 
   if (activeTab !== value) return null
 
-  return <div className={cn('py-4', className)}>{children}</div>
+  return (
+    <div
+      role="tabpanel"
+      aria-labelledby={`tab-${value}`}
+      className={cn('py-4', className)}
+    >
+      {children}
+    </div>
+  )
 }
 
 // Swipeable Tab Content wrapper for touch gestures

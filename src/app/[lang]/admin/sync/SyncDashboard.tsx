@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { useTranslations } from 'next-intl'
 
 interface SyncStatus {
   status: 'started' | 'running' | 'completed' | 'failed'
@@ -147,12 +148,43 @@ function timeAgo(dateStr: string | null): string {
 }
 
 export function SyncDashboard() {
+  const t = useTranslations('syncDashboard')
   const [status, setStatus] = useState<Record<string, SyncStatus>>({})
   const [logs, setLogs] = useState<SyncLog[]>([])
   const [loading, setLoading] = useState(true)
   const [syncing, setSyncing] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [selectedSource, setSelectedSource] = useState<string | null>(null)
+
+  // Translated source labels
+  const getSourceLabel = (key: string) => {
+    const info = SOURCE_LABELS[key]
+    if (!info) return { name: key, description: '', icon: '📄', frequency: '' }
+
+    const sourceKey = key.replace('_', '') as string
+    return {
+      name: info.name,
+      description: t(`sources.${sourceKey}Desc`, { defaultValue: info.description }),
+      icon: info.icon,
+      frequency: info.frequency,
+    }
+  }
+
+  // Translated time ago
+  const timeAgoTranslated = (dateStr: string | null): string => {
+    if (!dateStr) return t('status.never')
+    const date = new Date(dateStr)
+    const now = new Date()
+    const diffMs = now.getTime() - date.getTime()
+    const diffMins = Math.floor(diffMs / 60000)
+    const diffHours = Math.floor(diffMins / 60)
+    const diffDays = Math.floor(diffHours / 24)
+
+    if (diffMins < 1) return t('status.justNow')
+    if (diffMins < 60) return t('status.minutesAgo', { count: diffMins })
+    if (diffHours < 24) return t('status.hoursAgo', { count: diffHours })
+    return t('status.daysAgo', { count: diffDays })
+  }
 
   const fetchStatus = useCallback(async () => {
     try {
@@ -161,7 +193,7 @@ export function SyncDashboard() {
       setStatus(data.sources || {})
       setError(null)
     } catch (err) {
-      setError('Error al cargar estado')
+      setError(t('errors.loadError'))
       console.error(err)
     }
   }, [])
@@ -225,7 +257,7 @@ export function SyncDashboard() {
       // Refresh data
       await Promise.all([fetchStatus(), fetchLogs()])
     } catch (err) {
-      setError(`Error sincronizando ${source}`)
+      setError(t('errors.syncError', { source }))
       console.error(err)
     } finally {
       setSyncing(null)
@@ -284,38 +316,38 @@ export function SyncDashboard() {
               {sourceStatus ? (
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between text-gray-600 dark:text-gray-300">
-                    <span>Procesados:</span>
+                    <span>{t('labels.processed')}</span>
                     <span className="font-medium">
                       {sourceStatus.records_processed}
                     </span>
                   </div>
                   <div className="flex justify-between text-gray-600 dark:text-gray-300">
-                    <span>Actualizados:</span>
+                    <span>{t('labels.updated')}</span>
                     <span className="font-medium text-green-600 dark:text-green-400">
                       {sourceStatus.records_updated}
                     </span>
                   </div>
                   <div className="flex justify-between text-gray-600 dark:text-gray-300">
-                    <span>Creados:</span>
+                    <span>{t('labels.created')}</span>
                     <span className="font-medium text-blue-600 dark:text-blue-400">
                       {sourceStatus.records_created}
                     </span>
                   </div>
                   <div className="flex justify-between text-gray-600 dark:text-gray-300">
-                    <span>Duración:</span>
+                    <span>{t('labels.duration')}</span>
                     <span className="font-medium">
                       {formatDuration(sourceStatus.duration_ms)}
                     </span>
                   </div>
                   <div className="pt-2 border-t border-gray-100 dark:border-gray-700">
                     <p className="text-xs text-gray-500 dark:text-gray-400">
-                      Última sync: {timeAgo(sourceStatus.completed_at || sourceStatus.started_at)}
+                      {t('labels.lastSync')} {timeAgoTranslated(sourceStatus.completed_at || sourceStatus.started_at)}
                     </p>
                   </div>
                 </div>
               ) : (
                 <p className="text-sm text-gray-500 dark:text-gray-400">
-                  Sin datos de sincronización
+                  {t('labels.noSyncData')}
                 </p>
               )}
 
@@ -333,10 +365,10 @@ export function SyncDashboard() {
                 {syncing === key ? (
                   <span className="flex items-center justify-center gap-2">
                     <span className="animate-spin h-4 w-4 border-2 border-blue-600 border-t-transparent rounded-full"></span>
-                    Sincronizando...
+                    {t('actions.syncing')}
                   </span>
                 ) : (
-                  'Sincronizar ahora'
+                  t('actions.syncNow')
                 )}
               </button>
             </div>
@@ -349,7 +381,7 @@ export function SyncDashboard() {
         <div className="p-4 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Historial de Sincronización
+              {t('history.title')}
             </h2>
             <div className="flex gap-2">
               <select
@@ -357,7 +389,7 @@ export function SyncDashboard() {
                 onChange={(e) => setSelectedSource(e.target.value || null)}
                 className="text-sm border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
               >
-                <option value="">Todas las fuentes</option>
+                <option value="">{t('history.allSources')}</option>
                 {Object.entries(SOURCE_LABELS).map(([key, info]) => (
                   <option key={key} value={key}>
                     {info.name}
@@ -371,7 +403,7 @@ export function SyncDashboard() {
                 }}
                 className="text-sm px-3 py-1.5 text-blue-600 hover:text-blue-800 dark:text-blue-400"
               >
-                Actualizar
+                {t('actions.refresh')}
               </button>
             </div>
           </div>
@@ -382,22 +414,22 @@ export function SyncDashboard() {
             <thead className="bg-gray-50 dark:bg-gray-900">
               <tr>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                  Fuente
+                  {t('table.source')}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                  Estado
+                  {t('table.status')}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                  Procesados
+                  {t('table.processed')}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                  Actualizados
+                  {t('table.updated')}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                  Duración
+                  {t('table.duration')}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
-                  Fecha
+                  {t('table.date')}
                 </th>
               </tr>
             </thead>
@@ -408,7 +440,7 @@ export function SyncDashboard() {
                     colSpan={6}
                     className="px-4 py-8 text-center text-gray-500 dark:text-gray-400"
                   >
-                    No hay registros de sincronización
+                    {t('history.noLogs')}
                   </td>
                 </tr>
               ) : (

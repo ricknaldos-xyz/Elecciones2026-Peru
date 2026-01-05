@@ -46,12 +46,12 @@ export function RankingFilters({
   const showDistrito = cargo === 'diputado' || cargo === 'senador'
 
   return (
-    <div className={cn('space-y-5', className)}>
+    <form className={cn('space-y-5', className)} role="search" aria-label="Filtros de ranking">
       {/* Cargo - NEO BRUTAL */}
-      <div>
-        <label className="block text-sm font-bold text-[var(--foreground)] mb-2 uppercase tracking-wide">
+      <fieldset>
+        <legend className="block text-sm font-bold text-[var(--foreground)] mb-2 uppercase tracking-wide">
           ¿A qué cargo postulan?
-        </label>
+        </legend>
         <select
           value={cargo}
           onChange={(e) => onCargoChange(e.target.value as CargoType)}
@@ -71,14 +71,14 @@ export function RankingFilters({
             </option>
           ))}
         </select>
-      </div>
+      </fieldset>
 
       {/* Distrito - NEO BRUTAL */}
       {showDistrito && (
-        <div>
-          <label className="block text-sm font-bold text-[var(--foreground)] mb-2 uppercase tracking-wide">
+        <fieldset>
+          <legend className="block text-sm font-bold text-[var(--foreground)] mb-2 uppercase tracking-wide">
             ¿De qué región?
-          </label>
+          </legend>
           <select
             value={distrito || ''}
             onChange={(e) => onDistritoChange(e.target.value || undefined)}
@@ -99,14 +99,14 @@ export function RankingFilters({
               </option>
             ))}
           </select>
-        </div>
+        </fieldset>
       )}
 
       {/* Partido - NEO BRUTAL */}
-      <div>
-        <label className="block text-sm font-bold text-[var(--foreground)] mb-2 uppercase tracking-wide">
+      <fieldset>
+        <legend className="block text-sm font-bold text-[var(--foreground)] mb-2 uppercase tracking-wide">
           ¿De qué partido?
-        </label>
+        </legend>
         <select
           value={partyId || ''}
           onChange={(e) => onPartyChange(e.target.value || undefined)}
@@ -127,13 +127,13 @@ export function RankingFilters({
             </option>
           ))}
         </select>
-      </div>
+      </fieldset>
 
       {/* Min Confidence - NEO BRUTAL */}
-      <div>
-        <label className="block text-sm font-bold text-[var(--foreground)] mb-2 uppercase tracking-wide">
+      <fieldset>
+        <legend className="block text-sm font-bold text-[var(--foreground)] mb-2 uppercase tracking-wide">
           Nivel de información mínimo: <span className="text-[var(--primary)]">{minConfidence}%</span>
-        </label>
+        </legend>
         <input
           type="range"
           min={0}
@@ -142,12 +142,16 @@ export function RankingFilters({
           value={minConfidence}
           onChange={(e) => onMinConfidenceChange(Number(e.target.value))}
           className="w-full h-4 bg-[var(--muted)] border-2 border-[var(--border)] appearance-none cursor-pointer accent-[var(--primary)]"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={minConfidence}
+          aria-valuetext={`${minConfidence}% mínimo de información`}
         />
-        <div className="flex justify-between text-xs font-bold text-[var(--muted-foreground)] mt-1">
+        <div className="flex justify-between text-xs font-bold text-[var(--muted-foreground)] mt-1" aria-hidden="true">
           <span>0%</span>
           <span>100%</span>
         </div>
-      </div>
+      </fieldset>
 
       {/* Only Clean - NEO BRUTAL - Better touch target */}
       <label
@@ -175,9 +179,9 @@ export function RankingFilters({
       </label>
 
       {/* Reset - NEO BRUTAL */}
-      <Button variant="outline" size="sm" onClick={onReset} className="w-full min-h-[48px]">
+      <Button variant="outline" size="sm" onClick={onReset} className="w-full min-h-[48px]" type="button">
         Limpiar filtros
       </Button>
-    </div>
+    </form>
   )
 }

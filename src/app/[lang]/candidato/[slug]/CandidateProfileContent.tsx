@@ -205,7 +205,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
         </div>
       </div>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <main id="main-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Breadcrumb Navigation */}
         <nav className="mb-4 flex items-center gap-2 text-sm">
           <Link href="/ranking" className="text-[var(--muted-foreground)] hover:text-[var(--primary)] font-bold uppercase transition-colors">

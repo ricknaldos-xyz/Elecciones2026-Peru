@@ -1,6 +1,7 @@
 'use client'
 
 import { cn } from '@/lib/utils'
+import { KeyboardEvent } from 'react'
 
 interface CardProps {
   children: React.ReactNode
@@ -9,6 +10,7 @@ interface CardProps {
   onClick?: () => void
   padding?: 'none' | 'sm' | 'md' | 'lg'
   variant?: 'default' | 'accent' | 'gold' | 'silver' | 'bronze'
+  'aria-label'?: string
 }
 
 export function Card({
@@ -17,7 +19,8 @@ export function Card({
   hover = false,
   onClick,
   padding = 'none',
-  variant = 'default'
+  variant = 'default',
+  'aria-label': ariaLabel,
 }: CardProps) {
   const paddingStyles = {
     none: '',
@@ -33,6 +36,16 @@ export function Card({
     silver: 'bg-[var(--rank-silver-bg)]',
     bronze: 'bg-[var(--rank-bronze-bg)]',
   }
+
+  // Keyboard handler for interactive cards (accessibility)
+  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (onClick && (e.key === 'Enter' || e.key === ' ')) {
+      e.preventDefault()
+      onClick()
+    }
+  }
+
+  const isInteractive = !!onClick
 
   return (
     <div
@@ -54,6 +67,10 @@ export function Card({
         className
       )}
       onClick={onClick}
+      onKeyDown={isInteractive ? handleKeyDown : undefined}
+      role={isInteractive ? 'button' : undefined}
+      tabIndex={isInteractive ? 0 : undefined}
+      aria-label={ariaLabel}
     >
       {children}
     </div>

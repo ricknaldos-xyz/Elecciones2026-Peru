@@ -20,7 +20,10 @@
     "noResults": "Mana tarikurkuchu",
     "menu": "Menú",
     "changeTheme": "Rikch'ay tikray",
-    "new": "MUSUQ"
+    "new": "MUSUQ",
+    "skipToContent": "Qallariy qillqaman pasay",
+    "mainNavigation": "Hatun purichiy",
+    "mobileNavigation": "Celularpaq purichiy"
   },
   "hero": {
     "title": "Akllana Ranking Perú 2026",
@@ -851,6 +854,116 @@
       "social": "LLIKA",
       "public": "SUT'I",
       "protected": "WAQAYCHASQA"
+    }
+  },
+  "candidateNews": {
+    "title": "Willakuykuna",
+    "noRecentNews": "Mana willakuykuna kanchu {name} nisqapaq",
+    "mentions": "{count} rimariykuna",
+    "sentiment": "Yuyay:",
+    "viewAll": "Tukuy willakuykunata qhaway ({count})"
+  },
+  "partyFinance": {
+    "funding": "Qullqi churay {year}",
+    "totalIncome": "Tukuy Yaykuq Qullqi",
+    "publicFunding": "Kamachiq Qullqi",
+    "privateFunding": "Kikin Qullqi",
+    "expenses": "Gastukuna",
+    "donors": "Qullqi quqkuna",
+    "balance": "Chawpi",
+    "donorCount": "{count} qullqi quqkuna",
+    "publicPercentage": "Kamachiq: {percentage}%",
+    "privatePercentage": "Kikin: {percentage}%",
+    "noData": "Mana qullqi yachay kanchu"
+  },
+  "syncDashboard": {
+    "title": "Tupachiy Qhawana",
+    "sources": {
+      "jne": "JNE",
+      "jneDesc": "Akllasqa runakuna kawsayninkuwan",
+      "onpe": "ONPE",
+      "onpeDesc": "Partido qullqinkuna",
+      "judicial": "Kamachikuy",
+      "judicialDesc": "Huchakuy yachaykuna",
+      "rss": "RSS Willakuy",
+      "rssDesc": "15+ Perú willakuykuna",
+      "youtube": "YouTube",
+      "youtubeDesc": "Videokuna rimaykukunawan",
+      "googleNews": "Google Willakuy",
+      "googleNewsDesc": "Willakuy maskay",
+      "ai": "AI Qhaway",
+      "aiDesc": "Claude nisqawan qhaway",
+      "tiktok": "TikTok",
+      "tiktokDesc": "Videokuna (yachapakuy)",
+      "twitter": "Twitter",
+      "twitterDesc": "Tweetkuna Nitter nisqawan",
+      "news": "Willakuy",
+      "newsDesc": "RSS llañu"
+    },
+    "frequency": {
+      "daily3am": "Sapa p'unchaw 3:00 AM",
+      "daily4am": "Sapa p'unchaw 4:00 AM",
+      "daily6am": "Sapa p'unchaw 6:00 AM",
+      "every4hours": "Sapa 4 hora",
+      "every6hours": "Sapa 6 hora",
+      "manual": "Makiwan",
+      "disabled": "Ama"
+    },
+    "status": {
+      "never": "Mana hayk'aq",
+      "justNow": "Kunanlla",
+      "minutesAgo": "{count} minuto ñawpaq",
+      "hoursAgo": "{count} hora ñawpaq",
+      "daysAgo": "{count} p'unchaw ñawpaq"
+    },
+    "labels": {
+      "processed": "Rurasqa:",
+      "updated": "Musuqchasqa:",
+      "created": "Kamasqa:",
+      "duration": "Pacha:",
+      "lastSync": "Qhipa tupachiy:",
+      "noSyncData": "Mana tupachiy yachay kanchu"
+    },
+    "actions": {
+      "syncing": "Tupachispa...",
+      "syncNow": "Kunan tupachiy",
+      "refresh": "Musuqchay"
+    },
+    "history": {
+      "title": "Tupachiy Ñawpaq Kawsay",
+      "allSources": "Tukuy pukyukuna",
+      "noLogs": "Mana tupachiy qillqakuna kanchu"
+    },
+    "table": {
+      "source": "Pukyu",
+      "status": "Kayninpa",
+      "processed": "Rurasqa",
+      "updated": "Musuqchasqa",
+      "duration": "Pacha",
+      "date": "P'unchaw"
+    },
+    "schedule": {
+      "title": "Kikin Tupachiy Kamachiy"
+    },
+    "errors": {
+      "loadError": "Pantay cargaspa",
+      "syncError": "Pantay tupachispa {source}"
+    }
+  },
+  "common": {
+    "months": {
+      "jan": "qul",
+      "feb": "hat",
+      "mar": "paw",
+      "apr": "ayr",
+      "may": "aym",
+      "jun": "int",
+      "jul": "ant",
+      "aug": "qha",
+      "sep": "uma",
+      "oct": "kan",
+      "nov": "aya",
+      "dec": "qap"
     }
   }
 }

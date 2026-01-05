@@ -15,7 +15,7 @@ export default function MetodologiaPage() {
     <div className="min-h-screen bg-[var(--background)]">
       <Header currentPath="/metodologia" />
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main id="main-content" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero */}
         <div className="text-center mb-12">
           <h1 className="text-3xl font-black text-[var(--foreground)] mb-4 uppercase tracking-tight">

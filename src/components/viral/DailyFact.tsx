@@ -30,8 +30,16 @@ const FACT_TYPE_ICONS: Record<string, string> = {
 
 export function DailyFact({ className, variant = 'card' }: DailyFactProps) {
   const t = useTranslations('dailyFact')
+  const tCommon = useTranslations('common')
   const [fact, setFact] = useState<DailyFact | null>(null)
   const [loading, setLoading] = useState(true)
+
+  // Format date with translated month names
+  const formatDate = (date: Date): string => {
+    const monthKeys = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+    const monthKey = monthKeys[date.getMonth()]
+    return `${date.getDate()} ${tCommon(`months.${monthKey}`)}`
+  }
 
   // Fallback facts using translations
   const getFallbackFacts = (): DailyFact[] => [
@@ -114,7 +122,7 @@ export function DailyFact({ className, variant = 'card' }: DailyFactProps) {
           </p>
         </div>
         <span className="text-xs text-[var(--muted-foreground)] whitespace-nowrap hidden sm:block">
-          {new Date().toLocaleDateString('es-PE', { day: 'numeric', month: 'short' })}
+          {formatDate(new Date())}
         </span>
       </div>
     )
@@ -159,7 +167,7 @@ export function DailyFact({ className, variant = 'card' }: DailyFactProps) {
               {t('didYouKnow')}
             </span>
             <span className="text-xs text-[var(--muted-foreground)]">
-              {new Date().toLocaleDateString('es-PE', { day: 'numeric', month: 'short' })}
+              {formatDate(new Date())}
             </span>
           </div>
           <p className="text-sm sm:text-base font-medium text-[var(--foreground)] leading-relaxed">

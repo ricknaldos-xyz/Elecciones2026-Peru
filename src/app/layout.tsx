@@ -20,12 +20,19 @@ export const metadata: Metadata = {
   keywords: ["elecciones", "perú", "2026", "candidatos", "ranking", "votación"],
 };
 
-const DarkModeScript = () => {
+const InitScript = () => {
   const script = `
     (function() {
+      // Dark mode
       const theme = localStorage.getItem('theme');
       if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
+      }
+      // Dynamic lang attribute based on URL
+      const path = window.location.pathname;
+      const langMatch = path.match(/^\\/(es|qu|ay|ase)(\\/|$)/);
+      if (langMatch) {
+        document.documentElement.lang = langMatch[1];
       }
     })();
   `;
@@ -38,9 +45,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning>
       <head>
-        <DarkModeScript />
+        <InitScript />
       </head>
       <body
         className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}

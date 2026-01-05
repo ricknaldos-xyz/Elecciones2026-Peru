@@ -15,7 +15,7 @@ export default function DocsPage() {
     <div className="min-h-screen bg-[var(--background)]">
       <Header currentPath="/docs" />
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main id="main-content" className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero */}
         <div className="text-center mb-12">
           <Badge variant="default" size="md" className="mb-4">DOCUMENTACIÓN TÉCNICA</Badge>

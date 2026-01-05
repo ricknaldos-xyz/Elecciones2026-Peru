@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@/lib/utils'
-import { useState } from 'react'
+import { useState, useId } from 'react'
 
 interface TooltipProps {
   content: React.ReactNode
@@ -19,16 +19,23 @@ const positionStyles = {
 
 export function Tooltip({ content, children, position = 'top', className }: TooltipProps) {
   const [isVisible, setIsVisible] = useState(false)
+  const tooltipId = useId()
 
   return (
     <div
       className="relative inline-flex"
       onMouseEnter={() => setIsVisible(true)}
       onMouseLeave={() => setIsVisible(false)}
+      onFocus={() => setIsVisible(true)}
+      onBlur={() => setIsVisible(false)}
     >
-      {children}
+      <div aria-describedby={isVisible ? tooltipId : undefined}>
+        {children}
+      </div>
       {isVisible && (
         <div
+          id={tooltipId}
+          role="tooltip"
           className={cn(
             // NEO BRUTAL tooltip
             'absolute z-50',

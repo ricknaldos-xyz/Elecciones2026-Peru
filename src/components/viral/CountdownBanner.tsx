@@ -74,7 +74,7 @@ export function CountdownBanner({ className }: CountdownBannerProps) {
     )}>
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4">
         {/* Label */}
-        <span className="text-[10px] sm:text-xs font-black text-[var(--background)] uppercase tracking-widest">
+        <span className="text-xs font-black text-[var(--background)] uppercase tracking-widest">
           {t('title')}
         </span>
 
@@ -85,7 +85,7 @@ export function CountdownBanner({ className }: CountdownBannerProps) {
             <span className="bg-[var(--primary)] text-white font-black text-lg sm:text-2xl px-2 sm:px-3 py-1 border-2 border-[var(--background)] tabular-nums">
               {mounted ? String(timeLeft.days).padStart(2, '0') : '00'}
             </span>
-            <span className="text-[10px] sm:text-xs font-bold text-[var(--background)] uppercase">{t('days').charAt(0)}</span>
+            <span className="text-xs font-bold text-[var(--background)] uppercase">{t('days').charAt(0)}</span>
           </div>
 
           <span className="text-[var(--background)] font-black text-lg sm:text-xl">:</span>
@@ -95,7 +95,7 @@ export function CountdownBanner({ className }: CountdownBannerProps) {
             <span className="bg-[var(--background)] text-[var(--foreground)] font-black text-lg sm:text-2xl px-2 sm:px-3 py-1 border-2 border-[var(--background)] tabular-nums">
               {mounted ? String(timeLeft.hours).padStart(2, '0') : '00'}
             </span>
-            <span className="text-[10px] sm:text-xs font-bold text-[var(--background)] uppercase">{t('hours').charAt(0)}</span>
+            <span className="text-xs font-bold text-[var(--background)] uppercase">{t('hours').charAt(0)}</span>
           </div>
 
           <span className="text-[var(--background)] font-black text-lg sm:text-xl">:</span>
@@ -105,7 +105,7 @@ export function CountdownBanner({ className }: CountdownBannerProps) {
             <span className="bg-[var(--background)] text-[var(--foreground)] font-black text-lg sm:text-2xl px-2 sm:px-3 py-1 border-2 border-[var(--background)] tabular-nums">
               {mounted ? String(timeLeft.minutes).padStart(2, '0') : '00'}
             </span>
-            <span className="text-[10px] sm:text-xs font-bold text-[var(--background)] uppercase">{t('minutes').charAt(0)}</span>
+            <span className="text-xs font-bold text-[var(--background)] uppercase">{t('minutes').charAt(0)}</span>
           </div>
 
           {/* Seconds - hidden on mobile */}
@@ -114,12 +114,12 @@ export function CountdownBanner({ className }: CountdownBannerProps) {
             <span className="bg-[var(--background)] text-[var(--foreground)] font-black text-lg sm:text-2xl px-2 sm:px-3 py-1 border-2 border-[var(--background)] tabular-nums">
               {mounted ? String(timeLeft.seconds).padStart(2, '0') : '00'}
             </span>
-            <span className="text-[10px] sm:text-xs font-bold text-[var(--background)] uppercase">{t('seconds').charAt(0)}</span>
+            <span className="text-xs font-bold text-[var(--background)] uppercase">{t('seconds').charAt(0)}</span>
           </div>
         </div>
 
         {/* Election label */}
-        <span className="text-[10px] sm:text-xs font-black text-[var(--background)] uppercase tracking-widest">
+        <span className="text-xs font-black text-[var(--background)] uppercase tracking-widest">
           {t('yourVoteMatters')}
         </span>
       </div>

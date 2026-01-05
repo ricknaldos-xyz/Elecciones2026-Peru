@@ -107,7 +107,7 @@ export function CandidateCardMini({ rank, candidate, className }: CandidateCardM
               className="w-3 h-3 border border-[var(--border)] flex-shrink-0"
               style={{ backgroundColor: candidate.party_color || '#6B7280' }}
             />
-            <span className="text-[10px] sm:text-xs font-bold text-[var(--muted-foreground)] truncate uppercase">
+            <span className="text-xs font-bold text-[var(--muted-foreground)] truncate uppercase">
               {candidate.party_short_name || candidate.party_name}
             </span>
           </div>
@@ -122,7 +122,7 @@ export function CandidateCardMini({ rank, candidate, className }: CandidateCardM
             scoreColor
           )}>
             <span>{candidate.score_balanced.toFixed(0)}</span>
-            <span className="text-[10px] font-bold opacity-70">/100</span>
+            <span className="text-xs font-bold opacity-70">/100</span>
           </div>
         </div>
       </div>

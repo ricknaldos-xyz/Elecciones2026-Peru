@@ -15,7 +15,9 @@ export default function TransparenciaPage() {
   return (
     <div className="min-h-screen bg-[var(--background)]">
       <Header currentPath="/transparencia" />
-      <TransparencyContent />
+      <main id="main-content">
+        <TransparencyContent />
+      </main>
     </div>
   )
 }
