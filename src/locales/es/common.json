@@ -1042,6 +1042,7 @@
     "useSystemDefaults": "Usar del Sistema",
     "resetAll": "Restaurar Todo",
     "preview": "Vista previa de colores",
+    "previewDescription": "Vista previa de colores: excelente, bueno, medio, bajo, alerta",
     "close": "Cerrar"
   }
 }

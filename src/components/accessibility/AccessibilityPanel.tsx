@@ -25,7 +25,6 @@ export function AccessibilityPanel({ isOpen, onClose }: AccessibilityPanelProps)
     setDarkMode,
     resetToDefaults,
     resetToSystemDefaults,
-    isHydrated,
   } = useAccessibility()
 
   // Focus trap
@@ -210,7 +209,11 @@ export function AccessibilityPanel({ isOpen, onClose }: AccessibilityPanelProps)
           <span className="text-xs font-bold uppercase tracking-wide text-[var(--muted-foreground)]">
             {t('preview')}
           </span>
-          <div className="flex gap-1 h-6">
+          <div
+            className="flex gap-1 h-6"
+            role="img"
+            aria-label={t('previewDescription')}
+          >
             <div className="flex-1 bg-[var(--score-excellent)] border-2 border-[var(--border)] pattern-score-excellent" />
             <div className="flex-1 bg-[var(--score-good)] border-2 border-[var(--border)] pattern-score-good" />
             <div className="flex-1 bg-[var(--score-medium)] border-2 border-[var(--border)] pattern-score-medium" />
@@ -257,11 +260,12 @@ export function AccessibilityPanel({ isOpen, onClose }: AccessibilityPanelProps)
           <legend className="text-xs font-bold uppercase tracking-wide text-[var(--muted-foreground)] mb-2">
             {t('fontSize')}
           </legend>
-          <div className="flex gap-2">
+          <div className="flex gap-2" role="group" aria-label={t('fontSize')}>
             {fontSizeOptions.map((option) => (
               <button
                 key={option.value}
                 onClick={() => setFontSize(option.value)}
+                aria-pressed={preferences.fontSize === option.value}
                 className={cn(
                   'flex-1 px-3 py-2.5',
                   'min-h-[44px]',
