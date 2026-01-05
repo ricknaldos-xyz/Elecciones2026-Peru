@@ -13,6 +13,7 @@ import { PresetSelector } from '@/components/ranking/PresetSelector'
 import { RankingFilters } from '@/components/ranking/RankingFilters'
 import { RankingList } from '@/components/ranking/RankingList'
 import { CompareTray } from '@/components/compare/CompareTray'
+import { useSuccessToast } from '@/components/ui/Toast'
 import { useCandidates } from '@/hooks/useCandidates'
 import { PRESETS, WEIGHT_LIMITS, DISTRICTS } from '@/lib/constants'
 import { MOCK_PARTIES } from '@/lib/mock-data'
@@ -36,6 +37,7 @@ export function RankingContent() {
   const searchParams = useSearchParams()
   const t = useTranslations('ranking')
   const tCommon = useTranslations('common')
+  const showSuccess = useSuccessToast()
 
   // Get cargo labels from translations
   const cargoLabels: Record<CargoType, string> = {
@@ -210,6 +212,7 @@ export function RankingContent() {
     setSelectedForCompare((prev) => {
       const existing = prev.find((c) => c.id === id)
       if (existing) {
+        showSuccess('Eliminado de comparación')
         return prev.filter((c) => c.id !== id)
       }
       if (prev.length >= 4) {
@@ -217,15 +220,17 @@ export function RankingContent() {
       }
       const candidate = candidates.find((c) => c.id === id)
       if (candidate) {
+        showSuccess('Agregado a comparación', candidate.full_name)
         return [...prev, candidate]
       }
       return prev
     })
-  }, [candidates])
+  }, [candidates, showSuccess])
 
   const handleRemoveFromCompare = useCallback((id: string) => {
     setSelectedForCompare((prev) => prev.filter((c) => c.id !== id))
-  }, [])
+    showSuccess('Eliminado de comparación')
+  }, [showSuccess])
 
   const handleClearCompare = useCallback(() => {
     setSelectedForCompare([])

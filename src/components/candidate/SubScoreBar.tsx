@@ -111,7 +111,13 @@ export function SubScoreBar({
           className="w-full h-2 bg-[var(--muted)] border-2 border-[var(--border)] overflow-hidden"
         >
           <div
-            className={cn('h-full transition-all duration-300', barColor)}
+            className={cn(
+              'h-full transition-all duration-300',
+              barColor,
+              type === 'competence' && 'pattern-competence',
+              type === 'integrity' && 'pattern-integrity',
+              type === 'transparency' && 'pattern-transparency',
+            )}
             style={{ width: `${percentage}%` }}
           />
         </div>
@@ -145,7 +151,13 @@ export function SubScoreBar({
           )}
         >
           <div
-            className={cn('h-full transition-all duration-300', barColor)}
+            className={cn(
+              'h-full transition-all duration-300',
+              barColor,
+              type === 'competence' && 'pattern-competence',
+              type === 'integrity' && 'pattern-integrity',
+              type === 'transparency' && 'pattern-transparency',
+            )}
             style={{ width: `${percentage}%` }}
           />
         </div>
@@ -190,7 +202,13 @@ export function SubScoreBarMini({
         className="flex-1 h-1.5 bg-[var(--muted)] border border-[var(--border)] overflow-hidden"
       >
         <div
-          className={cn('h-full transition-all duration-300', barColor)}
+          className={cn(
+            'h-full transition-all duration-300',
+            barColor,
+            type === 'competence' && 'pattern-competence',
+            type === 'integrity' && 'pattern-integrity',
+            type === 'transparency' && 'pattern-transparency',
+          )}
           style={{ width: `${percentage}%` }}
         />
       </div>
@@ -248,7 +266,13 @@ export function SubScoreStat({
         )}
       >
         <div
-          className={cn('h-full transition-all duration-300', barColor)}
+          className={cn(
+            'h-full transition-all duration-300',
+            barColor,
+            type === 'competence' && 'pattern-competence',
+            type === 'integrity' && 'pattern-integrity',
+            type === 'transparency' && 'pattern-transparency',
+          )}
           style={{ width: `${percentage}%` }}
         />
       </div>

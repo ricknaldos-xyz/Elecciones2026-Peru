@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
+import { useSuccessToast } from '@/components/ui/Toast'
 
 interface ShareButtonProps {
   url?: string
@@ -46,6 +47,7 @@ export function ShareButton({
 }: ShareButtonProps) {
   const [copied, setCopied] = useState(false)
   const [showMenu, setShowMenu] = useState(false)
+  const showSuccess = useSuccessToast()
 
   const shareUrl = url || (typeof window !== 'undefined' ? window.location.href : '')
   const shareText = description ? `${title}\n\n${description}` : title
@@ -78,6 +80,7 @@ export function ShareButton({
       case 'copy':
         await navigator.clipboard.writeText(`${shareText}\n\n${shareUrl}`)
         setCopied(true)
+        showSuccess('Link copiado', 'El enlace está en tu portapapeles')
         setTimeout(() => setCopied(false), 2000)
         break
     }
