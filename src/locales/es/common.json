@@ -91,7 +91,9 @@
     "view": "Ver",
     "candidates": "candidatos",
     "backToTop": "Volver arriba",
-    "error": "Error"
+    "error": "Error",
+    "shareTitle": "Ranking de {cargo} - Elecciones 2026",
+    "shareText": "{count} candidatos evaluados"
   },
   "candidate": {
     "profile": "Perfil del Candidato",
@@ -145,7 +147,24 @@
     },
     "viewDJHV": "Ver Hoja de Vida (JNE)",
     "reportError": "Reportar Error",
-    "share": "Compartir"
+    "share": "Compartir",
+    "quickSummary": "RESUMEN RÁPIDO",
+    "scoreMode": {
+      "balanced": "Equilibrado",
+      "merit": "Mérito",
+      "integrity": "Integridad"
+    },
+    "record": "antecedente",
+    "records": "antecedentes",
+    "compareButton": "COMPARAR",
+    "viewParty": "Ver partido",
+    "cvJNE": "Hoja de Vida JNE",
+    "backToRanking": "VOLVER AL RANKING",
+    "compareWithOthers": "COMPARAR CON OTROS",
+    "similarCandidates": "Candidatos similares",
+    "viewAll": "Ver todos",
+    "otherCandidatesTo": "Otros candidatos a {cargo} para comparar.",
+    "viewMoreCandidates": "Ver más candidatos"
   },
   "quiz": {
     "title": "Quiz Electoral",
@@ -475,7 +494,15 @@
     "didYouKnow": "¿Sabías que...?",
     "loading": "Cargando dato...",
     "error": "Error al cargar",
-    "noFact": "No hay datos disponibles"
+    "noFact": "No hay datos disponibles",
+    "viewSource": "Ver fuente",
+    "fallbackFacts": {
+      "fact1": "Perú elegirá 196 representantes: 1 Presidente, 60 Senadores, 130 Diputados y 5 del Parlamento Andino.",
+      "fact2": "36 candidatos presidenciales compiten por la presidencia.",
+      "fact3": "Lima Metropolitana elige más diputados: 32 de los 130 totales.",
+      "fact4": "Por primera vez en 34 años, volvemos a elegir Senadores. Fujimori los cerró en 1992.",
+      "fact5": "12 candidatos presidenciales tienen sentencias o están en procesos judiciales."
+    }
   },
   "trendingNews": {
     "title": "Noticias del Momento",

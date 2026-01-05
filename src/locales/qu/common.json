@@ -91,7 +91,9 @@
     "view": "Qhaway",
     "candidates": "akllasqa runakuna",
     "backToTop": "Wichaman kutiy",
-    "error": "Pantay"
+    "error": "Pantay",
+    "shareTitle": "{cargo} Ranking - Akllana 2026",
+    "shareText": "{count} akllasqa runakuna chaninchasqa"
   },
   "candidate": {
     "profile": "Akllasqa Runapa Perfilnin",
@@ -145,7 +147,24 @@
     },
     "viewDJHV": "Kawsay Qillqa Qhaway (JNE)",
     "reportError": "Pantayta Willay",
-    "share": "Rakinakuy"
+    "share": "Rakinakuy",
+    "quickSummary": "USQHAY QHAWARINA",
+    "scoreMode": {
+      "balanced": "Chawpi",
+      "merit": "Yachay",
+      "integrity": "Allin kay"
+    },
+    "record": "antecedente",
+    "records": "antecedentes",
+    "compareButton": "TUPACHIY",
+    "viewParty": "Partido qhaway",
+    "cvJNE": "Kawsay Qillqa JNE",
+    "backToRanking": "RANKING MAN KUTIY",
+    "compareWithOthers": "WAKKUNAWAN TUPACHIY",
+    "similarCandidates": "Kikiq akllasqa runakuna",
+    "viewAll": "Tukuyta qhaway",
+    "otherCandidatesTo": "Wak {cargo} akllasqa runakuna tupachipaq.",
+    "viewMoreCandidates": "Aswan akllasqa runakunata qhaway"
   },
   "quiz": {
     "title": "Akllana Tapukuy",
@@ -475,7 +494,15 @@
     "didYouKnow": "¿Yacharqankichu...?",
     "loading": "Apamuchkan...",
     "error": "Pantay chaqamuchkanku",
-    "noFact": "Mana willaykuna kanchu"
+    "noFact": "Mana willaykuna kanchu",
+    "viewSource": "Pukyuta qhaway",
+    "fallbackFacts": {
+      "fact1": "Perú 196 akllasqa runakunata akllanqa: 1 Hatun Kamachiq, 60 Senador, 130 Diputado, 5 Antikuna Parlamento.",
+      "fact2": "36 hatun kamachiq akllasqa runakuna hatun kamachiqpaq maqanakuchkanku.",
+      "fact3": "Lima Metropolitana aswan diputadokunata akllan: 130 ukumanta 32.",
+      "fact4": "34 wataña qhipaman, musuqmanta Senadorkunata akllanchik. Fujimori 1992 watapi wichqarqa.",
+      "fact5": "12 hatun kamachiq akllasqa runakuna sentenciayuq utaq juicio ruwaypi kanku."
+    }
   },
   "trendingNews": {
     "title": "Aswan Qhawasqa Willakuykuna",

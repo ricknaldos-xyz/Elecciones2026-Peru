@@ -990,7 +990,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
             {/* Quick Stats Card */}
             <Card className="sticky top-20">
               <CardHeader className="pb-3">
-                <CardTitle className="text-sm">RESUMEN RÁPIDO</CardTitle>
+                <CardTitle className="text-sm">{t('quickSummary')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {/* Overall Score */}
@@ -999,22 +999,22 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                     {getScore().toFixed(0)}
                   </div>
                   <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase">
-                    Puntaje {mode === 'balanced' ? 'Equilibrado' : mode === 'merit' ? 'Mérito' : 'Integridad'}
+                    {t('scores.title')} {t(`scoreMode.${mode}`)}
                   </div>
                 </div>
 
                 {/* Sub-scores mini */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Competencia</span>
+                    <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('scores.competence')}</span>
                     <span className="font-black text-[var(--score-competence-text)]">{candidate.scores.competence.toFixed(0)}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Integridad</span>
+                    <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('scores.integrity')}</span>
                     <span className="font-black text-[var(--score-integrity-text)]">{candidate.scores.integrity.toFixed(0)}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Transparencia</span>
+                    <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('scores.transparency')}</span>
                     <span className="font-black text-[var(--score-transparency-text)]">{candidate.scores.transparency.toFixed(0)}</span>
                   </div>
                 </div>
@@ -1032,7 +1032,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                         <path strokeLinecap="square" strokeLinejoin="miter" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                       </svg>
                       <span className="text-xs font-bold uppercase">
-                        {candidate.flags.length} antecedente{candidate.flags.length > 1 ? 's' : ''}
+                        {candidate.flags.length} {candidate.flags.length > 1 ? t('records') : t('record')}
                       </span>
                     </div>
                   </div>
@@ -1050,7 +1050,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                       <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="square" strokeLinejoin="miter" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                       </svg>
-                      COMPARAR
+                      {t('compareButton')}
                     </Button>
                   </Link>
                   <ShareButton
@@ -1077,7 +1077,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                       <div className="text-xs font-bold text-[var(--foreground)] truncate uppercase">
                         {candidate.party.short_name || candidate.party.name}
                       </div>
-                      <div className="text-xs text-[var(--muted-foreground)]">Ver partido</div>
+                      <div className="text-xs text-[var(--muted-foreground)]">{t('viewParty')}</div>
                     </div>
                     <svg className="w-4 h-4 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
@@ -1096,7 +1096,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="square" strokeLinejoin="miter" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
-                    Hoja de Vida JNE
+                    {t('cvJNE')}
                   </a>
                 )}
               </CardContent>
@@ -1111,7 +1111,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
               <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="square" strokeLinejoin="miter" d="M15 19l-7-7 7-7" />
               </svg>
-              VOLVER AL RANKING
+              {t('backToRanking')}
             </Button>
           </Link>
           <Link href={`/comparar?ids=${candidate.id}`} className="flex-1">
@@ -1119,7 +1119,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
               <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="square" strokeLinejoin="miter" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
-              COMPARAR CON OTROS
+              {t('compareWithOthers')}
             </Button>
           </Link>
         </div>
@@ -1128,20 +1128,20 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
         <section className="mt-12 pt-8 border-t-3 border-[var(--border)]">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight">
-              Candidatos similares
+              {t('similarCandidates')}
             </h2>
             <Link
               href={`/ranking?cargo=${candidate.cargo}`}
               className="text-sm font-bold text-[var(--primary)] hover:underline uppercase flex items-center gap-1"
             >
-              Ver todos
+              {t('viewAll')}
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="square" d="M9 5l7 7-7 7" />
               </svg>
             </Link>
           </div>
           <p className="text-sm text-[var(--muted-foreground)] mb-4">
-            Otros candidatos a {getCargoLabel(candidate.cargo)} para comparar.
+            {t('otherCandidatesTo', { cargo: getCargoLabel(candidate.cargo) })}
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {/* Placeholder cards - will be filled with real data */}
@@ -1157,7 +1157,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                   </svg>
                 </div>
                 <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">
-                  Ver más candidatos
+                  {t('viewMoreCandidates')}
                 </span>
               </Link>
             ))}

@@ -91,7 +91,9 @@
     "view": "Uñjaña",
     "candidates": "ajilanaka",
     "backToTop": "Patxaru kutiña",
-    "error": "Pantjawi"
+    "error": "Pantjawi",
+    "shareTitle": "{cargo} Ranking - Ajilana 2026",
+    "shareText": "{count} ajilanaka jakhuta"
   },
   "candidate": {
     "profile": "Ajilata Perfilpa",
@@ -145,7 +147,24 @@
     },
     "viewDJHV": "Jakaña Qillqa Uñjaña (JNE)",
     "reportError": "Pantjawi Yatiyaña",
-    "share": "Chikanchaña"
+    "share": "Chikanchaña",
+    "quickSummary": "JANK'AKI UÑAKIPAWI",
+    "scoreMode": {
+      "balanced": "Taypiku",
+      "merit": "Yatiqawi",
+      "integrity": "Wali jakaña"
+    },
+    "record": "antecedente",
+    "records": "antecedentes",
+    "compareButton": "UÑACHT'AYAÑA",
+    "viewParty": "Partido uñjaña",
+    "cvJNE": "Jakaña Qillqa JNE",
+    "backToRanking": "RANKING ARU KUTIÑA",
+    "compareWithOthers": "YAQHANAKANPI UÑACHT'AYAÑA",
+    "similarCandidates": "Ukat ajilanaka",
+    "viewAll": "Taqpach uñjaña",
+    "otherCandidatesTo": "Yaqha {cargo} ajilanaka uñacht'ayañataki.",
+    "viewMoreCandidates": "Juk'amp ajilanaka uñjaña"
   },
   "quiz": {
     "title": "Ajilana Jiskhtanaka",
@@ -475,7 +494,15 @@
     "didYouKnow": "¿Yatiytati...?",
     "loading": "Apanipxi...",
     "error": "Pantjawi apanipxi",
-    "noFact": "Jan yatiyawinaka utjiti"
+    "noFact": "Jan yatiyawinaka utjiti",
+    "viewSource": "Phuqtu uñjaña",
+    "fallbackFacts": {
+      "fact1": "Perú 196 ajilanaka ajilañani: 1 Jach'a Irpiri, 60 Senador, 130 Diputado, 5 Qullanaka Parlamento.",
+      "fact2": "36 jach'a irpiri ajilanaka jach'a irpiritaki ch'axwapxi.",
+      "fact3": "Lima Metropolitana jilïri diputadonaka ajilañ: 130 ukat 32.",
+      "fact4": "34 mara qhipatxa, wasitat Senadornaka ajilañani. Fujimori 1992 maran jist'aratayna.",
+      "fact5": "12 jach'a irpiri ajilanaka sentenciayuqpxi jan ukax juiciona utjapxi."
+    }
   },
   "trendingNews": {
     "title": "Askin Uñjata Yatiyawinaka",

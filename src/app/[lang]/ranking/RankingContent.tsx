@@ -252,15 +252,15 @@ export function RankingContent() {
     const url = window.location.href
     if (navigator.share) {
       navigator.share({
-        title: `Ranking de ${cargoLabels[cargo]} - Elecciones 2026`,
-        text: `${candidates.length} candidatos evaluados`,
+        title: t('shareTitle', { cargo: cargoLabels[cargo] }),
+        text: t('shareText', { count: candidates.length }),
         url,
       })
     } else {
       navigator.clipboard.writeText(url)
       // Could show a toast here
     }
-  }, [cargo, candidates.length])
+  }, [cargo, candidates.length, t, cargoLabels])
 
   const selectedIds = useMemo(() => selectedForCompare.map((c) => c.id), [selectedForCompare])
 

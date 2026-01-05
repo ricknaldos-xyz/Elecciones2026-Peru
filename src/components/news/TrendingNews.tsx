@@ -34,25 +34,26 @@ interface TrendingNewsProps {
   variant?: 'list' | 'grid'
 }
 
-function formatTimeAgo(dateString: string | null | undefined): string {
-  if (!dateString) return ''
-
-  const date = new Date(dateString)
-  const now = new Date()
-  const diffMs = now.getTime() - date.getTime()
-  const diffMins = Math.floor(diffMs / (1000 * 60))
-  const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
-
-  if (diffMins < 60) return `hace ${diffMins}m`
-  if (diffHours < 24) return `hace ${diffHours}h`
-  if (diffDays < 7) return `hace ${diffDays}d`
-
-  return date.toLocaleDateString('es-PE', { day: 'numeric', month: 'short' })
-}
-
 export function TrendingNews({ className, limit = 5, variant = 'list' }: TrendingNewsProps) {
   const t = useTranslations('trendingNews')
+  const tNews = useTranslations('news')
+
+  function formatTimeAgo(dateString: string | null | undefined): string {
+    if (!dateString) return ''
+
+    const date = new Date(dateString)
+    const now = new Date()
+    const diffMs = now.getTime() - date.getTime()
+    const diffMins = Math.floor(diffMs / (1000 * 60))
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+
+    if (diffMins < 60) return tNews('timeAgo.minutes', { count: diffMins })
+    if (diffHours < 24) return tNews('timeAgo.hours', { count: diffHours })
+    if (diffDays < 7) return tNews('timeAgo.days', { count: diffDays })
+
+    return date.toLocaleDateString('es-PE', { day: 'numeric', month: 'short' })
+  }
   const [news, setNews] = useState<NewsItem[]>([])
   const [candidateActivity, setCandidateActivity] = useState<CandidateActivity[]>([])
   const [loading, setLoading] = useState(true)

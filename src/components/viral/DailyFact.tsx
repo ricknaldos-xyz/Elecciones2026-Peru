@@ -28,21 +28,23 @@ const FACT_TYPE_ICONS: Record<string, string> = {
   comparison: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z',
 }
 
-const FALLBACK_FACTS: DailyFact[] = [
-  { id: '1', fact_text: 'Perú elegirá 196 representantes: 1 Presidente, 60 Senadores, 130 Diputados y 5 del Parlamento Andino.', fact_type: 'statistic' },
-  { id: '2', fact_text: '36 candidatos presidenciales compiten por la presidencia.', fact_type: 'statistic' },
-  { id: '3', fact_text: 'Lima Metropolitana elige más diputados: 32 de los 130 totales.', fact_type: 'statistic' },
-  { id: '4', fact_text: 'Por primera vez en 34 años, volvemos a elegir Senadores. Fujimori los cerró en 1992.', fact_type: 'history' },
-  { id: '5', fact_text: '12 candidatos presidenciales tienen sentencias o están en procesos judiciales.', fact_type: 'statistic' },
-]
-
 export function DailyFact({ className, variant = 'card' }: DailyFactProps) {
   const t = useTranslations('dailyFact')
   const [fact, setFact] = useState<DailyFact | null>(null)
   const [loading, setLoading] = useState(true)
 
+  // Fallback facts using translations
+  const getFallbackFacts = (): DailyFact[] => [
+    { id: '1', fact_text: t('fallbackFacts.fact1'), fact_type: 'statistic' },
+    { id: '2', fact_text: t('fallbackFacts.fact2'), fact_type: 'statistic' },
+    { id: '3', fact_text: t('fallbackFacts.fact3'), fact_type: 'statistic' },
+    { id: '4', fact_text: t('fallbackFacts.fact4'), fact_type: 'history' },
+    { id: '5', fact_text: t('fallbackFacts.fact5'), fact_type: 'statistic' },
+  ]
+
   useEffect(() => {
     async function fetchFact() {
+      const fallbackFacts = getFallbackFacts()
       try {
         const response = await fetch('/api/facts/today')
         if (response.ok) {
@@ -51,19 +53,19 @@ export function DailyFact({ className, variant = 'card' }: DailyFactProps) {
         } else {
           // Use fallback based on day of year
           const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24))
-          setFact(FALLBACK_FACTS[dayOfYear % FALLBACK_FACTS.length])
+          setFact(fallbackFacts[dayOfYear % fallbackFacts.length])
         }
       } catch {
         // Use fallback
         const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24))
-        setFact(FALLBACK_FACTS[dayOfYear % FALLBACK_FACTS.length])
+        setFact(fallbackFacts[dayOfYear % fallbackFacts.length])
       } finally {
         setLoading(false)
       }
     }
 
     fetchFact()
-  }, [])
+  }, [t])
 
   const iconPath = fact ? (FACT_TYPE_ICONS[fact.fact_type] || FACT_TYPE_ICONS.statistic) : FACT_TYPE_ICONS.statistic
 
@@ -170,7 +172,7 @@ export function DailyFact({ className, variant = 'card' }: DailyFactProps) {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-xs font-bold text-[var(--muted-foreground)] hover:text-[var(--primary)] mt-2 transition-colors"
             >
-              Ver fuente
+              {t('viewSource')}
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
               </svg>

@@ -91,7 +91,9 @@
     "view": "Oimabëntantsi",
     "candidates": "apatotantsipë",
     "backToTop": "Patxaru kutiña",
-    "error": "Irotiro"
+    "error": "Irotiro",
+    "shareTitle": "{cargo} Ranking - Apatotantsi 2026",
+    "shareText": "{count} apatotantsipë katsinkabota"
   },
   "candidate": {
     "profile": "Apatotantsi Perfil",
@@ -145,7 +147,24 @@
     },
     "viewDJHV": "Oimabëntantsi Osankënarintsi (JNE)",
     "reportError": "Amëtakotërini irotiro",
-    "share": "Ampatyakirori"
+    "share": "Ampatyakirori",
+    "quickSummary": "OWAKIRAA OIMABËNTANTSI",
+    "scoreMode": {
+      "balanced": "Tampatyaki",
+      "merit": "Kenkitsarentsikë",
+      "integrity": "Wametantsikë"
+    },
+    "record": "antecedente",
+    "records": "antecedentes",
+    "compareButton": "AMËÑËRO",
+    "viewParty": "Partido oimabëntantsi",
+    "cvJNE": "Osankënarintsi JNE",
+    "backToRanking": "RANKING ARU KUTIÑA",
+    "compareWithOthers": "YAPITAWAN AMËÑËRO",
+    "similarCandidates": "Yapita apatotantsipë",
+    "viewAll": "Tasorintsi oimabëntantsi",
+    "otherCandidatesTo": "Yapita {cargo} apatotantsipë amëñëroki.",
+    "viewMoreCandidates": "Ashirëa apatotantsiri ñëtsitanaki"
   },
   "quiz": {
     "title": "Amatabeentsi Apatotantsi",
@@ -475,7 +494,15 @@
     "didYouKnow": "¿Amatabeentsi...?",
     "loading": "Apitsatantsi...",
     "error": "Irotiro apitsatantsi",
-    "noFact": "Tëjonka amëtakotërini"
+    "noFact": "Tëjonka amëtakotërini",
+    "viewSource": "Pukyuta oimabëntantsi",
+    "fallbackFacts": {
+      "fact1": "Perú 196 apatotantsipëta apatotanqa: 1 Antëromani Pinkatsari, 60 Senador, 130 Diputado, 5 Andiskë Parlamento.",
+      "fact2": "36 antëromani pinkatsari apatotantsipë antëromani pinkatsiripaq maqanakuchkanku.",
+      "fact3": "Lima Metropolitana aswan diputadokëta apatota: 130 ukumanta 32.",
+      "fact4": "34 obaëkiña qhipaman, musuqmanta Senadorkëta apatotanchik. Fujimori 1992 obaëkipi wichqarqa.",
+      "fact5": "12 antëromani pinkatsari apatotantsipë sentenciayuq utaq juicio ruwaypi kanku."
+    }
   },
   "trendingNews": {
     "title": "Antëromani Oimabëntata Amëtakotërini",
