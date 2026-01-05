@@ -1,9 +1,10 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import Link from 'next/link'
+import { Link } from '@/i18n/routing'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { Header } from '@/components/layout/Header'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -25,22 +26,6 @@ interface CandidateProfileContentProps {
   candidate: CandidateWithScores
   breakdown: ScoreBreakdown | null
   details: CandidateDetails | null
-}
-
-const cargoLabels: Record<string, string> = {
-  presidente: 'Presidente',
-  vicepresidente: 'Vicepresidente',
-  senador: 'Senador',
-  diputado: 'Diputado',
-  parlamento_andino: 'Parlamento Andino',
-}
-
-const flagTypeLabels: Record<string, string> = {
-  PENAL_SENTENCE: 'Sentencia Penal',
-  CIVIL_SENTENCE: 'Sentencia Civil',
-  VIOLENCE: 'Violencia Familiar',
-  ALIMENTOS: 'Omisión Alimentaria',
-  MULTIPLE_RESIGNATIONS: 'Múltiples Renuncias',
 }
 
 const severityColors: Record<string, { bg: string; text: string; border: string }> = {
@@ -99,6 +84,10 @@ function BreakdownBar({
 
 export function CandidateProfileContent({ candidate, breakdown, details }: CandidateProfileContentProps) {
   const router = useRouter()
+  const t = useTranslations('candidate')
+  const tRanking = useTranslations('ranking')
+  const tMeta = useTranslations('meta')
+  const tCommon = useTranslations('common')
   const [mode, setMode] = useState<PresetType>('balanced')
   const [showStickyBar, setShowStickyBar] = useState(false)
   const heroRef = useRef<HTMLDivElement>(null)
@@ -126,8 +115,32 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
     }
   }
 
-  const shareTitle = `${candidate.full_name} - Ranking Electoral 2026`
-  const shareDescription = `Puntaje: ${getScore().toFixed(1)}/100 | Competencia: ${candidate.scores.competence.toFixed(0)} | Integridad: ${candidate.scores.integrity.toFixed(0)} | Transparencia: ${candidate.scores.transparency.toFixed(0)}`
+  const getCargoLabel = (cargo: string) => {
+    try {
+      return tRanking(`cargo.${cargo}`)
+    } catch {
+      return cargo
+    }
+  }
+
+  const getFlagTypeLabel = (type: string) => {
+    try {
+      return t(`flagTypes.${type}`)
+    } catch {
+      return type
+    }
+  }
+
+  const getFlagSeverityLabel = (severity: string) => {
+    try {
+      return t(`flagSeverity.${severity}`)
+    } catch {
+      return severity
+    }
+  }
+
+  const shareTitle = `${candidate.full_name} - ${tMeta('title')}`
+  const shareDescription = `${t('scores.title')}: ${getScore().toFixed(1)}/100 | ${t('scores.competence')}: ${candidate.scores.competence.toFixed(0)} | ${t('scores.integrity')}: ${candidate.scores.integrity.toFixed(0)} | ${t('scores.transparency')}: ${candidate.scores.transparency.toFixed(0)}`
 
   return (
     <div className="min-h-screen bg-[var(--background)]">
@@ -196,13 +209,13 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
         {/* Breadcrumb Navigation */}
         <nav className="mb-4 flex items-center gap-2 text-sm">
           <Link href="/ranking" className="text-[var(--muted-foreground)] hover:text-[var(--primary)] font-bold uppercase transition-colors">
-            Ranking
+            {tRanking('title')}
           </Link>
           <svg className="w-4 h-4 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="square" d="M9 5l7 7-7 7" />
           </svg>
           <Link href={`/ranking?cargo=${candidate.cargo}`} className="text-[var(--muted-foreground)] hover:text-[var(--primary)] font-bold uppercase transition-colors">
-            {cargoLabels[candidate.cargo] || candidate.cargo}
+            {getCargoLabel(candidate.cargo)}
           </Link>
           <svg className="w-4 h-4 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="square" d="M9 5l7 7-7 7" />
@@ -248,7 +261,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                 </h1>
                 <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 sm:gap-2 mb-3 sm:mb-4">
                   <Badge variant="primary" size="sm" className="sm:size-md">
-                    {cargoLabels[candidate.cargo] || candidate.cargo}
+                    {getCargoLabel(candidate.cargo)}
                   </Badge>
                   {candidate.party && (
                     <Badge
@@ -272,14 +285,14 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                       <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="square" strokeLinejoin="miter" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      VERIFICADO JNE
+                      {t('verified')}
                     </Badge>
                   ) : (
                     <Badge variant="warning" size="sm" className="gap-1">
                       <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="square" strokeLinejoin="miter" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                       </svg>
-                      SIN VERIFICAR
+                      {t('notVerified')}
                     </Badge>
                   )}
                   <ConfidenceBadge value={candidate.scores.confidence} size="md" />
@@ -328,7 +341,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                           : 'bg-[var(--background)] text-[var(--foreground)] border-transparent hover:border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5'
                       )}
                     >
-                      {m === 'balanced' ? 'Balance' : m === 'merit' ? 'Mérito' : 'Integridad'}
+                      {tRanking(`presets.${m}`)}
                     </button>
                   ))}
                 </div>
@@ -380,7 +393,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                       ? 'text-[var(--flag-red-text)]'
                       : 'text-[var(--flag-amber-text)]'
                   )}>
-                    {candidate.flags.length} Antecedente{candidate.flags.length > 1 ? 's' : ''} Encontrado{candidate.flags.length > 1 ? 's' : ''}
+                    {t('flagsFound', { count: candidate.flags.length })}
                   </h3>
                   <p className={cn(
                     'text-xs sm:text-sm font-medium mb-2 sm:mb-3',
@@ -388,7 +401,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                       ? 'text-[var(--flag-red-text)]'
                       : 'text-[var(--flag-amber-text)]'
                   )}>
-                    Este candidato tiene antecedentes verificados que afectan su puntaje de integridad.
+                    {t('flagsDescription')}
                   </p>
                   <FlagChips flags={candidate.flags} maxVisible={5} size="sm" className="sm:size-md" />
                 </div>
@@ -401,10 +414,10 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
         <Tabs defaultTab="resumen">
           <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible mb-4">
             <TabList className="min-w-max sm:min-w-0">
-              <Tab value="resumen">RESUMEN</Tab>
-              <Tab value="noticias">NOTICIAS</Tab>
-              <Tab value="evidencia">EVIDENCIA</Tab>
-              <Tab value="breakdown">DESGLOSE</Tab>
+              <Tab value="resumen">{t('tabs.summary')}</Tab>
+              <Tab value="noticias">{t('tabs.news')}</Tab>
+              <Tab value="evidencia">{t('tabs.evidence')}</Tab>
+              <Tab value="breakdown">{t('tabs.breakdown')}</Tab>
             </TabList>
           </div>
 
@@ -415,20 +428,20 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
               {details && (
                 <Card>
                   <CardHeader>
-                    <CardTitle>DATOS PERSONALES</CardTitle>
+                    <CardTitle>{t('personalData')}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     {/* Grid-1 on mobile, grid-2 on tablet+ */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {details.birth_date && (
                         <div>
-                          <span className="text-sm font-bold uppercase text-[var(--muted-foreground)]">Fecha de nacimiento</span>
+                          <span className="text-sm font-bold uppercase text-[var(--muted-foreground)]">{t('birthDate')}</span>
                           <p className="font-bold text-[var(--foreground)]">{formatDate(details.birth_date)}</p>
                         </div>
                       )}
                       {details.dni && (
                         <div>
-                          <span className="text-sm font-bold uppercase text-[var(--muted-foreground)]">DNI</span>
+                          <span className="text-sm font-bold uppercase text-[var(--muted-foreground)]">{t('dni')}</span>
                           <p className="font-bold text-[var(--foreground)]">{details.dni}</p>
                         </div>
                       )}
@@ -444,7 +457,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                             <path strokeLinecap="square" strokeLinejoin="miter" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                           </svg>
-                          Ver Hoja de Vida JNE
+                          {t('viewDJHV')}
                         </a>
                       </div>
                     )}
@@ -456,7 +469,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
               {details && details.education_details.length > 0 && (
                 <Card>
                   <CardHeader>
-                    <CardTitle>FORMACIÓN ACADÉMICA</CardTitle>
+                    <CardTitle>{t('academicBackground')}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
@@ -488,7 +501,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                                 )}
                               </div>
                               <Badge variant="outline" size="sm">
-                                {edu.year_end || 'En curso'}
+                                {edu.year_end || t('inProgress')}
                               </Badge>
                             </div>
                             {edu.country && edu.country !== 'Perú' && (
@@ -508,7 +521,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
               {details && details.experience_details.length > 0 && (
                 <Card>
                   <CardHeader>
-                    <CardTitle>EXPERIENCIA PROFESIONAL</CardTitle>
+                    <CardTitle>{t('professionalExperience')}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
@@ -548,7 +561,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
               {details && details.political_trajectory.length > 0 && (
                 <Card>
                   <CardHeader>
-                    <CardTitle>TRAYECTORIA POLÍTICA</CardTitle>
+                    <CardTitle>{t('trajectory')}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
@@ -570,7 +583,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                             <div className="flex items-start justify-between">
                               <div>
                                 <h4 className="font-bold text-[var(--foreground)]">
-                                  {pol.position || (pol.type === 'afiliacion' ? 'Afiliación partidaria' : pol.type === 'candidatura' ? 'Candidatura' : 'Cargo político')}
+                                  {pol.position || (pol.type === 'afiliacion' ? t('partyAffiliation') : pol.type === 'candidatura' ? t('candidacy') : t('politicalPosition'))}
                                 </h4>
                                 <p className="text-sm font-medium text-[var(--muted-foreground)]">
                                   {pol.party || pol.institution}
@@ -579,7 +592,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                               <div className="text-right">
                                 {pol.year_start && (
                                   <Badge variant="outline" size="sm">
-                                    {pol.year_start}{pol.year_end === null ? ' - Actualidad' : pol.year_end ? ` - ${pol.year_end}` : ''}
+                                    {pol.year_start}{pol.year_end === null ? ` - ${t('present')}` : pol.year_end ? ` - ${pol.year_end}` : ''}
                                   </Badge>
                                 )}
                                 {pol.year && (
@@ -608,20 +621,20 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
               {details && details.assets_declaration && (
                 <Card>
                   <CardHeader>
-                    <CardTitle>DECLARACIÓN PATRIMONIAL {details.assets_declaration.declaration_year}</CardTitle>
+                    <CardTitle>{t('assetsDeclaration')} {details.assets_declaration.declaration_year}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
                       {/* Resumen - Grid-1 on mobile, grid-2 on tablet+ */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-[var(--muted)] border-2 border-[var(--border)]">
                         <div>
-                          <span className="text-sm font-bold uppercase text-[var(--muted-foreground)]">Patrimonio Total</span>
+                          <span className="text-sm font-bold uppercase text-[var(--muted-foreground)]">{t('totalAssets')}</span>
                           <p className="text-lg sm:text-xl font-black text-[var(--foreground)]">
                             {formatCurrency(details.assets_declaration.total_value)}
                           </p>
                         </div>
                         <div>
-                          <span className="text-sm font-bold uppercase text-[var(--muted-foreground)]">Ingreso Mensual</span>
+                          <span className="text-sm font-bold uppercase text-[var(--muted-foreground)]">{t('monthlyIncome')}</span>
                           <p className="text-lg sm:text-xl font-black text-[var(--foreground)]">
                             {formatCurrency(details.assets_declaration.income.monthly_salary)}
                           </p>
@@ -630,7 +643,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
 
                       {/* Lista de bienes */}
                       <div>
-                        <h4 className="text-sm font-black uppercase text-[var(--foreground)] mb-2">Bienes Declarados</h4>
+                        <h4 className="text-sm font-black uppercase text-[var(--foreground)] mb-2">{t('declaredAssets')}</h4>
                         <div className="space-y-2">
                           {details.assets_declaration.assets.map((asset, idx) => (
                             <div key={idx} className="flex justify-between items-center py-2 border-b-2 border-[var(--border)] last:border-0">
@@ -649,7 +662,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                       {/* Fuente de ingresos */}
                       {details.assets_declaration.income.source && (
                         <div className="pt-2">
-                          <span className="text-sm text-[var(--muted-foreground)]">Fuente de ingresos: </span>
+                          <span className="text-sm text-[var(--muted-foreground)]">{t('incomeSource')}: </span>
                           <span className="text-sm font-bold text-[var(--foreground)]">{details.assets_declaration.income.source}</span>
                         </div>
                       )}
@@ -662,7 +675,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
               {candidate.party && (
                 <Card>
                   <CardHeader>
-                    <CardTitle>PARTIDO POLÍTICO</CardTitle>
+                    <CardTitle>{t('politicalParty')}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <Link href={`/partido/${candidate.party.id}`} className="flex items-center gap-3 p-3 bg-[var(--muted)] border-2 border-[var(--border)] hover:shadow-[var(--shadow-brutal-sm)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100">
@@ -711,7 +724,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="square" strokeLinejoin="miter" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                       </svg>
-                      SENTENCIAS PENALES
+                      {t('penalSentences')}
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="pt-4">
@@ -723,10 +736,10 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                         </div>
                         <p className="text-sm text-[var(--foreground)] mb-2 font-medium">{sentence.sentence}</p>
                         <div className="grid grid-cols-2 gap-2 text-xs text-[var(--muted-foreground)]">
-                          <div><strong>Juzgado:</strong> {sentence.court}</div>
-                          <div><strong>Fecha:</strong> {formatDate(sentence.date)}</div>
-                          <div><strong>Estado:</strong> {sentence.status}</div>
-                          <div><strong>Fuente:</strong> {sentence.source}</div>
+                          <div><strong>{t('court')}:</strong> {sentence.court}</div>
+                          <div><strong>{t('date')}:</strong> {formatDate(sentence.date)}</div>
+                          <div><strong>{t('status')}:</strong> {sentence.status}</div>
+                          <div><strong>{t('source')}:</strong> {sentence.source}</div>
                         </div>
                       </div>
                     ))}
@@ -742,7 +755,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="square" strokeLinejoin="miter" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3" />
                       </svg>
-                      SENTENCIAS CIVILES
+                      {t('civilSentences')}
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="pt-4">
@@ -754,14 +767,14 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                         </div>
                         {sentence.amount && (
                           <p className="text-lg font-black text-[var(--flag-amber-text)] mb-2">
-                            Monto: {formatCurrency(sentence.amount)}
+                            {t('amount')}: {formatCurrency(sentence.amount)}
                           </p>
                         )}
                         <div className="grid grid-cols-2 gap-2 text-xs text-[var(--muted-foreground)]">
-                          <div><strong>Juzgado:</strong> {sentence.court}</div>
-                          <div><strong>Fecha:</strong> {formatDate(sentence.date)}</div>
-                          <div><strong>Estado:</strong> {sentence.status}</div>
-                          <div><strong>Fuente:</strong> {sentence.source}</div>
+                          <div><strong>{t('court')}:</strong> {sentence.court}</div>
+                          <div><strong>{t('date')}:</strong> {formatDate(sentence.date)}</div>
+                          <div><strong>{t('status')}:</strong> {sentence.status}</div>
+                          <div><strong>{t('source')}:</strong> {sentence.source}</div>
                         </div>
                       </div>
                     ))}
@@ -773,7 +786,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
               {candidate.flags.length > 0 && (
                 <Card>
                   <CardHeader>
-                    <CardTitle>ANTECEDENTES VERIFICADOS</CardTitle>
+                    <CardTitle>{t('verifiedRecords')}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
@@ -795,10 +808,10 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                                     variant={flag.severity === 'RED' ? 'destructive' : flag.severity === 'AMBER' ? 'warning' : 'default'}
                                     size="sm"
                                   >
-                                    {flag.severity}
+                                    {getFlagSeverityLabel(flag.severity)}
                                   </Badge>
                                   <span className={cn('text-sm font-bold uppercase', colors.text)}>
-                                    {flagTypeLabels[flag.type] || flag.type}
+                                    {getFlagTypeLabel(flag.type)}
                                   </span>
                                 </div>
                                 <h4 className={cn('font-black mb-1', colors.text)}>
@@ -810,10 +823,10 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                                   </p>
                                 )}
                                 <div className="flex items-center gap-4 text-xs text-[var(--muted-foreground)]">
-                                  <span>Fuente: {flag.source}</span>
+                                  <span>{t('source')}: {flag.source}</span>
                                   {flag.date_captured && (
                                     <span>
-                                      Capturado: {new Date(flag.date_captured).toLocaleDateString('es-PE')}
+                                      {t('captured')}: {new Date(flag.date_captured).toLocaleDateString('es-PE')}
                                     </span>
                                   )}
                                 </div>
@@ -850,10 +863,10 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                         </svg>
                       </div>
                       <h4 className="font-black text-[var(--foreground)] mb-1 uppercase">
-                        Sin antecedentes negativos
+                        {t('noNegativeRecords')}
                       </h4>
                       <p className="text-sm text-[var(--muted-foreground)]">
-                        No encontramos sentencias ni procesos judiciales para este candidato.
+                        {t('noNegativeRecordsDesc')}
                       </p>
                     </div>
                   </CardContent>
@@ -866,7 +879,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
           <TabPanel value="breakdown">
             <Card>
               <CardHeader>
-                <CardTitle>DESGLOSE DEL PUNTAJE</CardTitle>
+                <CardTitle>{t('scoreBreakdown')}</CardTitle>
               </CardHeader>
               <CardContent>
                 {breakdown ? (
@@ -876,19 +889,19 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                       <div className="flex items-center justify-between mb-4">
                         <h4 className="font-black text-[var(--foreground)] flex items-center gap-2 uppercase">
                           <div className="w-4 h-4 bg-[var(--score-competence)] border-2 border-[var(--border)]" />
-                          Competencia
+                          {t('scores.competence')}
                         </h4>
                         <span className="text-2xl font-black text-[var(--score-competence-text)]">
                           {candidate.scores.competence.toFixed(0)}
                         </span>
                       </div>
                       <div className="space-y-3">
-                        <BreakdownBar label="Nivel educativo" value={breakdown.education.level} max={22} color="competence" />
-                        <BreakdownBar label="Profundidad educativa" value={breakdown.education.depth} max={8} color="competence" />
-                        <BreakdownBar label="Experiencia total" value={breakdown.experience.total} max={25} color="competence" />
-                        <BreakdownBar label="Experiencia relevante" value={breakdown.experience.relevant} max={25} color="competence" />
-                        <BreakdownBar label="Liderazgo - Seniority" value={breakdown.leadership.seniority} max={14} color="competence" />
-                        <BreakdownBar label="Liderazgo - Estabilidad" value={breakdown.leadership.stability} max={6} color="competence" />
+                        <BreakdownBar label={t('breakdown.educationLevel')} value={breakdown.education.level} max={22} color="competence" />
+                        <BreakdownBar label={t('breakdown.educationDepth')} value={breakdown.education.depth} max={8} color="competence" />
+                        <BreakdownBar label={t('breakdown.totalExperience')} value={breakdown.experience.total} max={25} color="competence" />
+                        <BreakdownBar label={t('breakdown.relevantExperience')} value={breakdown.experience.relevant} max={25} color="competence" />
+                        <BreakdownBar label={t('breakdown.leadershipSeniority')} value={breakdown.leadership.seniority} max={14} color="competence" />
+                        <BreakdownBar label={t('breakdown.leadershipStability')} value={breakdown.leadership.stability} max={6} color="competence" />
                       </div>
                     </div>
 
@@ -897,29 +910,29 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                       <div className="flex items-center justify-between mb-4">
                         <h4 className="font-black text-[var(--foreground)] flex items-center gap-2 uppercase">
                           <div className="w-4 h-4 bg-[var(--score-integrity)] border-2 border-[var(--border)]" />
-                          Integridad
+                          {t('scores.integrity')}
                         </h4>
                         <span className="text-2xl font-black text-[var(--score-integrity-text)]">
                           {candidate.scores.integrity.toFixed(0)}
                         </span>
                       </div>
                       <div className="space-y-3">
-                        <BreakdownBar label="Puntaje base" value={breakdown.integrity.base} max={100} color="integrity" />
+                        <BreakdownBar label={t('breakdown.baseScore')} value={breakdown.integrity.base} max={100} color="integrity" />
                         {breakdown.integrity.penal_penalty > 0 && (
                           <div className="flex items-center gap-3 p-2 bg-[var(--flag-red)]/10 border-2 border-[var(--flag-red)]">
-                            <span className="text-xs font-bold text-[var(--flag-red-text)] flex-1 uppercase">Sentencias penales</span>
+                            <span className="text-xs font-bold text-[var(--flag-red-text)] flex-1 uppercase">{t('penalSentences')}</span>
                             <span className="font-black text-[var(--flag-red-text)]">-{breakdown.integrity.penal_penalty.toFixed(0)}</span>
                           </div>
                         )}
                         {breakdown.integrity.civil_penalties.map((penalty, idx) => (
                           <div key={idx} className="flex items-center gap-3 p-2 bg-[var(--flag-amber)]/10 border-2 border-[var(--flag-amber)]">
-                            <span className="text-xs font-bold text-[var(--flag-amber-text)] flex-1 uppercase">Sentencia civil ({penalty.type})</span>
+                            <span className="text-xs font-bold text-[var(--flag-amber-text)] flex-1 uppercase">{t('civilSentence')} ({penalty.type})</span>
                             <span className="font-black text-[var(--flag-amber-text)]">-{penalty.penalty.toFixed(0)}</span>
                           </div>
                         ))}
                         {breakdown.integrity.resignation_penalty > 0 && (
                           <div className="flex items-center gap-3 p-2 bg-[var(--flag-amber)]/10 border-2 border-[var(--flag-amber)]">
-                            <span className="text-xs font-bold text-[var(--flag-amber-text)] flex-1 uppercase">Renuncias a partidos</span>
+                            <span className="text-xs font-bold text-[var(--flag-amber-text)] flex-1 uppercase">{t('partyResignations')}</span>
                             <span className="font-black text-[var(--flag-amber-text)]">-{breakdown.integrity.resignation_penalty.toFixed(0)}</span>
                           </div>
                         )}
@@ -931,16 +944,16 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                       <div className="flex items-center justify-between mb-4">
                         <h4 className="font-black text-[var(--foreground)] flex items-center gap-2 uppercase">
                           <div className="w-4 h-4 bg-[var(--score-transparency)] border-2 border-[var(--border)]" />
-                          Transparencia
+                          {t('scores.transparency')}
                         </h4>
                         <span className="text-2xl font-black text-[var(--score-transparency-text)]">
                           {candidate.scores.transparency.toFixed(0)}
                         </span>
                       </div>
                       <div className="space-y-3">
-                        <BreakdownBar label="Completitud" value={breakdown.transparency.completeness} max={35} color="transparency" />
-                        <BreakdownBar label="Consistencia" value={breakdown.transparency.consistency} max={35} color="transparency" />
-                        <BreakdownBar label="Calidad patrimonial" value={breakdown.transparency.assets_quality} max={30} color="transparency" />
+                        <BreakdownBar label={t('breakdown.completeness')} value={breakdown.transparency.completeness} max={35} color="transparency" />
+                        <BreakdownBar label={t('breakdown.consistency')} value={breakdown.transparency.consistency} max={35} color="transparency" />
+                        <BreakdownBar label={t('breakdown.assetsQuality')} value={breakdown.transparency.assets_quality} max={30} color="transparency" />
                       </div>
                     </div>
 
@@ -949,21 +962,21 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                       <div className="flex items-center justify-between mb-4">
                         <h4 className="font-black text-[var(--foreground)] flex items-center gap-2 uppercase">
                           <div className="w-4 h-4 bg-[var(--muted-foreground)] border-2 border-[var(--border)]" />
-                          Nivel de Confianza
+                          {t('scores.confidence')}
                         </h4>
                         <span className="text-2xl font-black text-[var(--muted-foreground)]">
                           {candidate.scores.confidence.toFixed(0)}
                         </span>
                       </div>
                       <div className="space-y-3">
-                        <BreakdownBar label="Verificación" value={breakdown.confidence.verification} max={50} color="default" />
-                        <BreakdownBar label="Cobertura" value={breakdown.confidence.coverage} max={50} color="default" />
+                        <BreakdownBar label={t('breakdown.verification')} value={breakdown.confidence.verification} max={50} color="default" />
+                        <BreakdownBar label={t('breakdown.coverage')} value={breakdown.confidence.coverage} max={50} color="default" />
                       </div>
                     </div>
                   </div>
                 ) : (
                   <div className="text-center py-8 text-[var(--muted-foreground)]">
-                    <p>Datos de desglose no disponibles para este candidato.</p>
+                    <p>{t('breakdownNotAvailable')}</p>
                   </div>
                 )}
               </CardContent>
@@ -1128,7 +1141,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
             </Link>
           </div>
           <p className="text-sm text-[var(--muted-foreground)] mb-4">
-            Otros candidatos a {cargoLabels[candidate.cargo] || candidate.cargo} para comparar.
+            Otros candidatos a {getCargoLabel(candidate.cargo)} para comparar.
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {/* Placeholder cards - will be filled with real data */}

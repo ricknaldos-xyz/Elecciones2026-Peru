@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
 import { Card } from '@/components/ui/Card'
 
@@ -36,6 +37,7 @@ const FALLBACK_FACTS: DailyFact[] = [
 ]
 
 export function DailyFact({ className, variant = 'card' }: DailyFactProps) {
+  const t = useTranslations('dailyFact')
   const [fact, setFact] = useState<DailyFact | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -103,7 +105,7 @@ export function DailyFact({ className, variant = 'card' }: DailyFactProps) {
         </div>
         <div className="flex-1 min-w-0 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
           <span className="text-xs font-black text-[var(--score-good)] uppercase tracking-wide whitespace-nowrap">
-            Dato del Día
+            {t('didYouKnow')}
           </span>
           <p className="text-sm font-medium text-[var(--foreground)] line-clamp-1 sm:line-clamp-none">
             {fact.fact_text}
@@ -152,7 +154,7 @@ export function DailyFact({ className, variant = 'card' }: DailyFactProps) {
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1">
             <span className="text-xs font-bold text-[var(--primary)] uppercase tracking-wide">
-              Dato del Día
+              {t('didYouKnow')}
             </span>
             <span className="text-xs text-[var(--muted-foreground)]">
               {new Date().toLocaleDateString('es-PE', { day: 'numeric', month: 'short' })}

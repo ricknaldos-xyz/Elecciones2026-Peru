@@ -1,6 +1,7 @@
 'use client'
 
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
 import { Card } from '@/components/ui/Card'
 import { NewsSentimentBadge } from './NewsSentimentBadge'
@@ -23,23 +24,6 @@ interface NewsCardProps {
   className?: string
 }
 
-function formatTimeAgo(dateString: string | null | undefined): string {
-  if (!dateString) return ''
-
-  const date = new Date(dateString)
-  const now = new Date()
-  const diffMs = now.getTime() - date.getTime()
-  const diffMins = Math.floor(diffMs / (1000 * 60))
-  const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
-
-  if (diffMins < 60) return `hace ${diffMins}m`
-  if (diffHours < 24) return `hace ${diffHours}h`
-  if (diffDays < 7) return `hace ${diffDays}d`
-
-  return date.toLocaleDateString('es-PE', { day: 'numeric', month: 'short' })
-}
-
 export function NewsCard({
   title,
   url,
@@ -53,9 +37,28 @@ export function NewsCard({
   compact = false,
   className,
 }: NewsCardProps) {
+  const t = useTranslations('news')
+
+  function formatTimeAgo(dateString: string | null | undefined): string {
+    if (!dateString) return ''
+
+    const date = new Date(dateString)
+    const now = new Date()
+    const diffMs = now.getTime() - date.getTime()
+    const diffMins = Math.floor(diffMs / (1000 * 60))
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+
+    if (diffMins < 60) return t('timeAgo.minutes', { count: diffMins })
+    if (diffHours < 24) return t('timeAgo.hours', { count: diffHours })
+    if (diffDays < 7) return t('timeAgo.days', { count: diffDays })
+
+    return date.toLocaleDateString('es-PE', { day: 'numeric', month: 'short' })
+  }
+
   return (
     <Card className={cn('overflow-hidden flex flex-col', className)}>
-      {/* Header - Stack en móvil si hay mucha info */}
+      {/* Header - Stack en movil si hay mucha info */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-2 p-4 border-b-2 border-[var(--border)] bg-[var(--muted)]">
         <div className="flex items-center gap-2 flex-1 min-w-0">
           <NewsSourceBadge source={source} size="sm" />
@@ -132,7 +135,7 @@ export function NewsCard({
         </div>
       )}
 
-      {/* Read more link - Botón más grande */}
+      {/* Read more link - Boton mas grande */}
       <a
         href={url}
         target="_blank"
@@ -145,8 +148,8 @@ export function NewsCard({
           'min-h-[48px]'
         )}
       >
-        <span className="hidden sm:inline">Leer en {source}</span>
-        <span className="sm:hidden">Leer artículo</span>
+        <span className="hidden sm:inline">{t('readInSource', { source })}</span>
+        <span className="sm:hidden">{t('readArticle')}</span>
         <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
         </svg>

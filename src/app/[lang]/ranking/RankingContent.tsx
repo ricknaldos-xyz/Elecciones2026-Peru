@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useCallback, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { Header } from '@/components/layout/Header'
 import { Card } from '@/components/ui/Card'
@@ -16,14 +17,6 @@ import { useCandidates } from '@/hooks/useCandidates'
 import { PRESETS, WEIGHT_LIMITS, DISTRICTS } from '@/lib/constants'
 import { MOCK_PARTIES } from '@/lib/mock-data'
 import type { PresetType, CargoType, Weights, CandidateWithScores } from '@/types/database'
-
-const cargoLabels: Record<CargoType, string> = {
-  presidente: 'Presidente',
-  vicepresidente: 'Vicepresidente',
-  senador: 'Senador',
-  diputado: 'Diputado',
-  parlamento_andino: 'Parlamento Andino',
-}
 
 function sortCandidatesByScore(
   candidates: CandidateWithScores[],
@@ -41,6 +34,17 @@ function sortCandidatesByScore(
 export function RankingContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const t = useTranslations('ranking')
+  const tCommon = useTranslations('common')
+
+  // Get cargo labels from translations
+  const cargoLabels: Record<CargoType, string> = {
+    presidente: t('cargo.presidente'),
+    vicepresidente: t('cargo.vicepresidente'),
+    senador: t('cargo.senador'),
+    diputado: t('cargo.diputado'),
+    parlamento_andino: t('cargo.parlamento_andino'),
+  }
 
   // Estado del modo/preset
   const [mode, setMode] = useState<PresetType>(() => {
@@ -270,14 +274,14 @@ export function RankingContent() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
             <div>
               <h1 className="text-2xl lg:text-3xl font-black text-[var(--foreground)] uppercase tracking-tight">
-                Ranking de {cargoLabels[cargo]}
+                {t('title')} - {cargoLabels[cargo]}
               </h1>
               <p className="text-[var(--muted-foreground)] font-bold mt-1">
-                {loading ? 'Cargando candidatos...' : `${candidates.length} candidatos encontrados`}
+                {loading ? t('loading') : `${candidates.length} ${t('filters.all').toLowerCase()}`}
               </p>
             </div>
             <div className="flex items-center gap-2">
-              <Badge variant="primary" size="md">Elecciones 2026</Badge>
+              <Badge variant="primary" size="md">{t('elections2026')}</Badge>
               <button
                 onClick={handleShareRanking}
                 className={cn(
@@ -287,7 +291,7 @@ export function RankingContent() {
                   'transition-all duration-100',
                   'flex items-center justify-center'
                 )}
-                title="Compartir ranking"
+                title={t('shareRanking')}
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
@@ -322,7 +326,7 @@ export function RankingContent() {
           <div className="relative mb-4">
             <input
               type="text"
-              placeholder="Buscar candidato por nombre o partido..."
+              placeholder={t('filters.searchPlaceholder')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className={cn(
@@ -382,7 +386,7 @@ export function RankingContent() {
                     ? 'bg-[var(--primary)] text-white border-[var(--border)] shadow-[var(--shadow-brutal-sm)] -translate-x-0.5 -translate-y-0.5'
                     : 'bg-[var(--background)] text-[var(--foreground)] border-transparent hover:border-[var(--border)]'
                 )}
-                aria-label="Vista lista"
+                aria-label={t('listView')}
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M4 6h16M4 12h16M4 18h16" />
@@ -396,7 +400,7 @@ export function RankingContent() {
                     ? 'bg-[var(--primary)] text-white border-[var(--border)] shadow-[var(--shadow-brutal-sm)] -translate-x-0.5 -translate-y-0.5'
                     : 'bg-[var(--background)] text-[var(--foreground)] border-transparent hover:border-[var(--border)]'
                 )}
-                aria-label="Vista grid"
+                aria-label={t('gridView')}
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zM14 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" />
@@ -408,7 +412,7 @@ export function RankingContent() {
           {/* Active Weights Indicator - Show when not balanced */}
           {mode !== 'balanced' && (
             <div className="flex items-center gap-2 mt-3 text-xs font-bold">
-              <span className="text-[var(--muted-foreground)] uppercase">Pesos:</span>
+              <span className="text-[var(--muted-foreground)] uppercase">{t('weights')}:</span>
               <span className="px-2 py-1 bg-[var(--score-competence-bg)] text-[var(--score-competence-text)] border border-[var(--border)]">
                 C: {(currentWeights.wC * 100).toFixed(0)}%
               </span>
@@ -424,7 +428,7 @@ export function RankingContent() {
           {/* Active Filter Chips */}
           {(distrito || partyId || minConfidence > 0 || onlyClean) && (
             <div className="flex flex-wrap items-center gap-2 mt-4 pt-4 border-t-2 border-[var(--border)]">
-              <span className="text-sm font-bold text-[var(--muted-foreground)] uppercase">Filtros:</span>
+              <span className="text-sm font-bold text-[var(--muted-foreground)] uppercase">{t('activeFilters')}:</span>
               {distrito && (
                 <button
                   onClick={() => handleDistritoChange(undefined)}
@@ -452,7 +456,7 @@ export function RankingContent() {
                   onClick={() => handleMinConfidenceChange(0)}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--score-good)] text-white text-sm font-bold border-2 border-[var(--border)] hover:opacity-90 transition-opacity"
                 >
-                  Info. mín. {minConfidence}%
+                  {t('filters.minInfo')} {minConfidence}%
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                     <path strokeLinecap="square" strokeLinejoin="miter" d="M6 18L18 6M6 6l12 12" />
                   </svg>
@@ -463,7 +467,7 @@ export function RankingContent() {
                   onClick={() => handleOnlyCleanChange(false)}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--score-excellent)] text-white text-sm font-bold border-2 border-[var(--border)] hover:opacity-90 transition-opacity"
                 >
-                  Sin antecedentes
+                  {t('filters.noRecords')}
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                     <path strokeLinecap="square" strokeLinejoin="miter" d="M6 18L18 6M6 6l12 12" />
                   </svg>
@@ -473,7 +477,7 @@ export function RankingContent() {
                 onClick={handleResetFilters}
                 className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] underline transition-colors"
               >
-                Limpiar todos
+                {t('filters.clearAll')}
               </button>
             </div>
           )}
@@ -487,7 +491,7 @@ export function RankingContent() {
                 <svg className="w-4 h-4 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                 </svg>
-                Filtros
+                {t('filters.filters')}
               </h2>
               <RankingFilters
                 cargo={cargo}
@@ -527,7 +531,7 @@ export function RankingContent() {
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="square" strokeLinejoin="miter" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
             </svg>
-            Filtros
+            {t('filters.filters')}
           </button>
 
           {/* Mobile Filter Panel - NEO BRUTAL with safe-area support */}
@@ -553,7 +557,7 @@ export function RankingContent() {
                     <svg className="w-4 h-4 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="square" strokeLinejoin="miter" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
                     </svg>
-                    Filtros
+                    {t('filters.filters')}
                   </h2>
                   <button
                     onClick={() => setShowFilters(false)}
@@ -566,7 +570,7 @@ export function RankingContent() {
                       'hover:bg-[var(--flag-red)] hover:text-white hover:border-[var(--flag-red)]',
                       'transition-all duration-100'
                     )}
-                    aria-label="Cerrar filtros"
+                    aria-label={tCommon('close')}
                   >
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="square" strokeLinejoin="miter" d="M6 18L18 6M6 6l12 12" />
@@ -608,7 +612,7 @@ export function RankingContent() {
                       'transition-all duration-100'
                     )}
                   >
-                    Ver {candidates.length} candidatos
+                    {t('view')} {candidates.length} {t('candidates')}
                   </button>
                 </div>
               </div>
@@ -623,7 +627,7 @@ export function RankingContent() {
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="square" strokeLinejoin="miter" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                   </svg>
-                  <span className="uppercase">Error: {error}</span>
+                  <span className="uppercase">{t('error')}: {error}</span>
                 </div>
               </Card>
             ) : loading ? (
@@ -676,7 +680,7 @@ export function RankingContent() {
               ? 'bottom-32 sm:bottom-24'
               : 'bottom-6'
           )}
-          aria-label="Volver arriba"
+          aria-label={t('backToTop')}
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
             <path strokeLinecap="square" strokeLinejoin="miter" d="M5 15l7-7 7 7" />

@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import Link from 'next/link'
-import { useSearchParams, useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { Header } from '@/components/layout/Header'
 import { Card, CardContent } from '@/components/ui/Card'
@@ -11,14 +11,15 @@ import { Badge } from '@/components/ui/Badge'
 import { PresetSelector } from '@/components/ranking/PresetSelector'
 import { useCandidatesByIds } from '@/hooks/useCandidates'
 import { PRESETS } from '@/lib/constants'
+import { Link, useRouter } from '@/i18n/routing'
 import type { CandidateWithScores, PresetType, Weights } from '@/types/database'
 
 // Popular candidates to suggest when empty or can add more
 const SUGGESTED_CANDIDATES = [
   { id: 'keiko-fujimori', name: 'Keiko Fujimori', party: 'Fuerza Popular' },
   { id: 'antauro-humala', name: 'Antauro Humala', party: 'A.N.T.A.U.R.O.' },
-  { id: 'cesar-acuna', name: 'César Acuña', party: 'APP' },
-  { id: 'jose-luna', name: 'José Luna', party: 'Podemos Perú' },
+  { id: 'cesar-acuna', name: 'Cesar Acuna', party: 'APP' },
+  { id: 'jose-luna', name: 'Jose Luna', party: 'Podemos Peru' },
 ]
 
 function getScoreByMode(
@@ -59,22 +60,24 @@ function getBarColor(score: number): string {
 }
 
 interface CompareMetric {
-  label: string
+  labelKey: 'total' | 'competence' | 'integrity' | 'transparency' | 'confidence'
   key: 'competence' | 'integrity' | 'transparency' | 'confidence' | 'total'
   max: number
 }
 
 const metrics: CompareMetric[] = [
-  { label: 'PUNTAJE TOTAL', key: 'total', max: 100 },
-  { label: 'COMPETENCIA', key: 'competence', max: 100 },
-  { label: 'INTEGRIDAD', key: 'integrity', max: 100 },
-  { label: 'TRANSPARENCIA', key: 'transparency', max: 100 },
-  { label: 'CONFIANZA', key: 'confidence', max: 100 },
+  { labelKey: 'total', key: 'total', max: 100 },
+  { labelKey: 'competence', key: 'competence', max: 100 },
+  { labelKey: 'integrity', key: 'integrity', max: 100 },
+  { labelKey: 'transparency', key: 'transparency', max: 100 },
+  { labelKey: 'confidence', key: 'confidence', max: 100 },
 ]
 
 export function CompareContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
+  const t = useTranslations('compare')
+  const tCommon = useTranslations('common')
 
   const [mode, setMode] = useState<PresetType>(() => {
     const param = searchParams.get('mode')
@@ -130,8 +133,8 @@ export function CompareContent() {
     const url = window.location.href
     if (navigator.share) {
       navigator.share({
-        title: 'Comparación de Candidatos - Ranking Electoral 2026',
-        text: `Comparando ${candidates.map(c => c.full_name).join(' vs ')}`,
+        title: t('shareTitle'),
+        text: t('shareText', { names: candidates.map(c => c.full_name).join(' vs ') }),
         url,
       })
     } else {
@@ -147,13 +150,13 @@ export function CompareContent() {
         {/* Breadcrumb */}
         <nav className="mb-4 flex items-center gap-2 text-sm">
           <Link href="/" className="text-[var(--muted-foreground)] hover:text-[var(--primary)] font-bold uppercase transition-colors">
-            Inicio
+            {t('breadcrumb.home')}
           </Link>
           <svg className="w-4 h-4 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="square" d="M9 5l7 7-7 7" />
           </svg>
           <span className="text-[var(--foreground)] font-bold uppercase">
-            Comparar
+            {t('breadcrumb.compare')}
           </span>
         </nav>
 
@@ -161,10 +164,10 @@ export function CompareContent() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
           <div>
             <h1 className="text-xl sm:text-2xl font-black text-[var(--foreground)] uppercase tracking-tight">
-              Comparar Candidatos
+              {t('title')}
             </h1>
             <p className="text-sm text-[var(--muted-foreground)] font-medium mt-1">
-              {loading ? 'Cargando...' : candidates.length === 0 ? 'Selecciona candidatos para comparar' : `${candidates.length} de 4 candidatos`}
+              {loading ? t('loading') : candidates.length === 0 ? t('selectToCompare') : t('candidateCount', { count: candidates.length })}
             </p>
           </div>
           {candidates.length > 0 && (
@@ -173,7 +176,7 @@ export function CompareContent() {
                 <svg className="w-4 h-4 sm:mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
                 </svg>
-                <span className="hidden sm:inline font-bold">COMPARTIR</span>
+                <span className="hidden sm:inline font-bold">{t('share').toUpperCase()}</span>
               </Button>
               {candidates.length < 4 && (
                 <Link href="/ranking">
@@ -181,7 +184,7 @@ export function CompareContent() {
                     <svg className="w-4 h-4 sm:mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="square" d="M12 4v16m8-8H4" />
                     </svg>
-                    <span className="hidden sm:inline font-bold">AGREGAR</span>
+                    <span className="hidden sm:inline font-bold">{t('addMore').toUpperCase()}</span>
                   </Button>
                 </Link>
               )}
@@ -207,7 +210,7 @@ export function CompareContent() {
           <Card>
             <CardContent className="py-12 text-center">
               <div className="text-[var(--flag-red-text)] font-bold">
-                Error: {error}
+                {tCommon('error')}: {error}
               </div>
             </CardContent>
           </Card>
@@ -235,17 +238,17 @@ export function CompareContent() {
                   </svg>
                 </div>
                 <h3 className="text-lg font-black text-[var(--foreground)] mb-2 uppercase">
-                  Compara candidatos lado a lado
+                  {t('emptyState.title')}
                 </h3>
                 <p className="text-sm text-[var(--muted-foreground)] font-medium max-w-md mx-auto">
-                  Selecciona hasta 4 candidatos para ver sus puntajes y métricas comparadas.
+                  {t('emptyState.description')}
                 </p>
               </div>
 
               {/* Suggested candidates */}
               <div className="border-t-2 border-[var(--border)] pt-6">
                 <p className="text-xs font-bold text-[var(--muted-foreground)] uppercase mb-4 text-center">
-                  Candidatos populares para empezar
+                  {t('emptyState.suggestedTitle')}
                 </p>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 max-w-2xl mx-auto">
                   {SUGGESTED_CANDIDATES.map((c) => (
@@ -267,7 +270,7 @@ export function CompareContent() {
                 <div className="text-center mt-4">
                   <Link href="/ranking">
                     <Button variant="primary" size="sm">
-                      Ver todos en el Ranking
+                      {t('emptyState.viewAllRanking')}
                     </Button>
                   </Link>
                 </div>
@@ -307,7 +310,7 @@ export function CompareContent() {
                         'hover:bg-[var(--flag-red)] hover:text-white hover:border-[var(--flag-red)]',
                         'transition-colors'
                       )}
-                      title="Quitar de comparación"
+                      title={t('removeFromComparison')}
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                         <path strokeLinecap="square" d="M6 18L18 6M6 6l12 12" />
@@ -316,7 +319,7 @@ export function CompareContent() {
 
                     {isBest && (
                       <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[var(--score-excellent)] text-white text-[10px] sm:text-xs font-black uppercase px-2 py-1 border-2 border-[var(--border)]">
-                        Mejor
+                        {t('best')}
                       </div>
                     )}
                     <CardContent className="p-4 sm:p-5">
@@ -363,7 +366,7 @@ export function CompareContent() {
                           {score.toFixed(0)}
                         </div>
                         <div className="text-[10px] sm:text-xs font-bold text-[var(--muted-foreground)] uppercase">
-                          de 100
+                          {t('outOf100')}
                         </div>
 
                         {/* Flags with descriptions */}
@@ -385,7 +388,7 @@ export function CompareContent() {
                               ))}
                               {candidate.flags.length > 2 && (
                                 <div className="text-[10px] font-bold text-[var(--muted-foreground)]">
-                                  +{candidate.flags.length - 2} más
+                                  {t('moreFlags', { count: candidate.flags.length - 2 })}
                                 </div>
                               )}
                             </div>
@@ -397,7 +400,7 @@ export function CompareContent() {
                           href={`/candidato/${candidate.slug}`}
                           className="mt-3 inline-flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-[var(--primary)] border-2 border-[var(--primary)] hover:bg-[var(--primary)] hover:text-white transition-colors uppercase"
                         >
-                          Ver perfil
+                          {t('viewProfile')}
                         </Link>
                       </div>
                     </CardContent>
@@ -420,7 +423,7 @@ export function CompareContent() {
                   <svg className="w-10 h-10 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="square" d="M12 4v16m8-8H4" />
                   </svg>
-                  <span className="text-xs font-bold uppercase">Agregar candidato</span>
+                  <span className="text-xs font-bold uppercase">{t('addCandidate')}</span>
                 </Link>
               )}
             </div>
@@ -430,11 +433,11 @@ export function CompareContent() {
               <Card className="mb-6 bg-[var(--muted)]">
                 <CardContent className="py-4 px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
                   <p className="text-sm font-medium text-[var(--foreground)]">
-                    Agrega al menos un candidato más para ver la comparación.
+                    {t('addAtLeastOne')}
                   </p>
                   <Link href="/ranking">
                     <Button variant="primary" size="sm">
-                      Agregar otro
+                      {t('addAnother')}
                     </Button>
                   </Link>
                 </CardContent>
@@ -445,10 +448,10 @@ export function CompareContent() {
             {candidates.length >= 2 && (
             <div>
               <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight mb-4">
-                Comparación de Métricas
+                {t('metricsComparison')}
               </h2>
 
-              {/* Vista móvil: Cards por métrica */}
+              {/* Vista movil: Cards por metrica */}
               <div className="space-y-4 md:hidden">
                 {metrics.map((metric) => {
                   const best = getBestScore(metric.key)
@@ -457,7 +460,7 @@ export function CompareContent() {
                     <Card key={metric.key}>
                       <CardContent className="p-5">
                         <h3 className="text-base font-black text-[var(--foreground)] uppercase mb-4">
-                          {metric.label}
+                          {t(`metrics.${metric.labelKey}`)}
                         </h3>
                         <div className="space-y-4">
                           {candidates.map((candidate) => {
@@ -509,7 +512,7 @@ export function CompareContent() {
                       <thead>
                         <tr className="border-b-3 border-[var(--border)]">
                           <th className="text-left p-5 font-black text-[var(--muted-foreground)] uppercase tracking-wide text-sm">
-                            Métrica
+                            {t('metrics.total').split(' ')[0]}
                           </th>
                           {candidates.map((candidate) => (
                             <th
@@ -531,7 +534,7 @@ export function CompareContent() {
                               className="border-b-2 border-[var(--border)] last:border-0 hover:bg-[var(--muted)]/50 transition-colors"
                             >
                               <td className="p-5 font-bold text-[var(--foreground)]">
-                                {metric.label}
+                                {t(`metrics.${metric.labelKey}`)}
                               </td>
                               {candidates.map((candidate) => {
                                 const value = getMetricValue(candidate, metric.key)
@@ -576,9 +579,9 @@ export function CompareContent() {
               {/* Legend */}
               <div className="mt-4 text-center text-xs sm:text-sm text-[var(--muted-foreground)] font-medium">
                 <p>
-                  Los puntajes varían según el modo seleccionado.{' '}
+                  {t('scoresVaryByMode')}{' '}
                   <Link href="/metodologia" className="text-[var(--primary)] font-bold hover:underline uppercase">
-                    Ver metodología
+                    {t('viewMethodology')}
                   </Link>
                 </p>
               </div>

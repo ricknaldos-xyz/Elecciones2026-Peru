@@ -1,4 +1,5 @@
-import Link from 'next/link'
+import { getTranslations } from 'next-intl/server'
+import { Link } from '@/i18n/routing'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
@@ -73,9 +74,10 @@ async function getTopPresidentialCandidates(): Promise<TopCandidate[]> {
 }
 
 export default async function Home() {
-  const [stats, topCandidates] = await Promise.all([
+  const [stats, topCandidates, t] = await Promise.all([
     getStats(),
-    getTopPresidentialCandidates()
+    getTopPresidentialCandidates(),
+    getTranslations('home')
   ])
   return (
     <div className="min-h-screen bg-[var(--background)]">
@@ -93,14 +95,14 @@ export default async function Home() {
             <div className="h-full p-5 sm:p-6 lg:p-8 flex flex-col justify-between text-white min-h-[300px] sm:min-h-[380px]">
               <div>
                 <Badge variant="warning" size="md" className="mb-3">
-                  12 de Abril 2026
+                  {t('electionDate')}
                 </Badge>
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black leading-tight mb-3 uppercase tracking-tight">
-                  Elige con datos,<br />
-                  no con promesas.
+                  {t('heroTitle')}<br />
+                  {t('heroTitleLine2')}
                 </h1>
                 <p className="text-white/80 text-sm sm:text-base max-w-md font-medium">
-                  Ranking transparente de candidatos basado en hechos verificables.
+                  {t('heroDescription')}
                 </p>
               </div>
 
@@ -108,24 +110,24 @@ export default async function Home() {
               <div className="flex items-center gap-4 my-4 py-3 border-t border-b border-white/20">
                 <div className="text-center">
                   <span className="text-2xl sm:text-3xl font-black">{stats.totalCandidates}</span>
-                  <span className="text-[10px] sm:text-xs font-bold text-white/70 ml-1 uppercase">candidatos</span>
+                  <span className="text-[10px] sm:text-xs font-bold text-white/70 ml-1 uppercase">{t('candidates')}</span>
                 </div>
                 <div className="w-px h-8 bg-white/30" />
                 <div className="text-center">
                   <span className="text-2xl sm:text-3xl font-black">{stats.totalParties}</span>
-                  <span className="text-[10px] sm:text-xs font-bold text-white/70 ml-1 uppercase">partidos</span>
+                  <span className="text-[10px] sm:text-xs font-bold text-white/70 ml-1 uppercase">{t('parties')}</span>
                 </div>
               </div>
 
               <div className="flex flex-wrap gap-2 sm:gap-3">
                 <Link href="/ranking">
                   <Button size="lg" className="bg-white text-[var(--primary)] hover:bg-[var(--muted)] border-[var(--border)]">
-                    Ver Ranking
+                    {t('viewRanking')}
                   </Button>
                 </Link>
                 <Link href="/comparar">
                   <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white/10">
-                    Comparar
+                    {t('compare')}
                   </Button>
                 </Link>
               </div>
@@ -141,14 +143,14 @@ export default async function Home() {
                     <span className="text-white font-black text-xs">P</span>
                   </div>
                   <h2 className="text-base sm:text-lg font-black text-[var(--foreground)] uppercase">
-                    Top 3 Presidenciables
+                    {t('top3Presidential')}
                   </h2>
                 </div>
                 <Link
                   href="/ranking?cargo=presidente"
                   className="text-xs font-bold text-[var(--primary)] hover:underline uppercase flex items-center gap-1"
                 >
-                  Ver más
+                  {t('viewMore')}
                   <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                     <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
                   </svg>
@@ -171,25 +173,25 @@ export default async function Home() {
               </div>
             ) : (
               <div className="p-8 text-center">
-                <p className="text-sm text-[var(--muted-foreground)]">Cargando candidatos...</p>
+                <p className="text-sm text-[var(--muted-foreground)]">{t('loadingCandidates')}</p>
               </div>
             )}
 
             {/* Otros cargos - Mini links */}
             <div className="px-4 pb-4 pt-2 border-t-2 border-[var(--border)]">
-              <p className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase mb-2">También ver:</p>
+              <p className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase mb-2">{t('alsoView')}</p>
               <div className="flex flex-wrap gap-2">
                 <Link href="/ranking?cargo=senador" className="inline-flex items-center gap-1.5 px-2 py-1 text-[10px] font-bold bg-[var(--background)] border-2 border-[var(--border)] hover:bg-[var(--score-good)] hover:text-white transition-colors uppercase">
                   <span className="w-4 h-4 bg-[var(--score-good)] border border-[var(--border)] flex items-center justify-center text-white text-[8px] font-black">S</span>
-                  Senadores
+                  {t('senators')}
                 </Link>
                 <Link href="/ranking?cargo=diputado" className="inline-flex items-center gap-1.5 px-2 py-1 text-[10px] font-bold bg-[var(--background)] border-2 border-[var(--border)] hover:bg-[var(--score-excellent)] hover:text-white transition-colors uppercase">
                   <span className="w-4 h-4 bg-[var(--score-excellent)] border border-[var(--border)] flex items-center justify-center text-white text-[8px] font-black">D</span>
-                  Diputados
+                  {t('deputies')}
                 </Link>
                 <Link href="/ranking?cargo=parlamento_andino" className="inline-flex items-center gap-1.5 px-2 py-1 text-[10px] font-bold bg-[var(--background)] border-2 border-[var(--border)] hover:bg-[var(--score-medium)] hover:text-black transition-colors uppercase">
                   <span className="w-4 h-4 bg-[var(--score-medium)] border border-[var(--border)] flex items-center justify-center text-black text-[8px] font-black">A</span>
-                  P. Andino
+                  {t('andeanParliament')}
                 </Link>
               </div>
             </div>
@@ -203,16 +205,16 @@ export default async function Home() {
         <Link href="/quiz" className="block">
           <div className="bg-gradient-to-r from-[var(--primary)] via-[#8B0000] to-[var(--primary)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal)] p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-3 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal-xl)] transition-all duration-100">
             <div className="flex items-center gap-3">
-              <Badge variant="warning" size="sm">Nuevo</Badge>
+              <Badge variant="warning" size="sm">{t('new')}</Badge>
               <span className="text-base sm:text-lg font-black text-white uppercase">
-                ¿Quién piensa como tú?
+                {t('quizQuestion')}
               </span>
               <span className="text-white/70 text-sm hidden sm:inline">
-                10 preguntas para encontrar tu candidato ideal
+                {t('quizDescription')}
               </span>
             </div>
             <Button size="sm" className="bg-white text-[var(--primary)] hover:bg-[var(--muted)] border-[var(--border)] whitespace-nowrap">
-              Hacer el Quiz
+              {t('takeQuiz')}
               <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="square" strokeLinejoin="miter" d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
@@ -235,10 +237,10 @@ export default async function Home() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mb-4">
           <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight">
-            Cómo evaluamos
+            {t('howWeEvaluate')}
           </h2>
           <Link href="/metodologia" className="text-sm font-bold text-[var(--primary)] hover:underline uppercase flex items-center gap-1">
-            Ver metodología completa
+            {t('viewFullMethodology')}
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
             </svg>
@@ -254,10 +256,10 @@ export default async function Home() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="text-sm font-black text-[var(--foreground)] mb-1 uppercase group-hover:text-[var(--primary)] transition-colors">
-                    Competencia
+                    {t('competence')}
                   </h3>
                   <p className="text-xs text-[var(--muted-foreground)] leading-relaxed font-medium">
-                    Educación, experiencia y liderazgo.
+                    {t('competenceDesc')}
                   </p>
                 </div>
               </div>
@@ -272,10 +274,10 @@ export default async function Home() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="text-sm font-black text-[var(--foreground)] mb-1 uppercase group-hover:text-[var(--primary)] transition-colors">
-                    Integridad
+                    {t('integrity')}
                   </h3>
                   <p className="text-xs text-[var(--muted-foreground)] leading-relaxed font-medium">
-                    Historial limpio, sin sentencias.
+                    {t('integrityDesc')}
                   </p>
                 </div>
               </div>
@@ -290,10 +292,10 @@ export default async function Home() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="text-sm font-black text-[var(--foreground)] mb-1 uppercase group-hover:text-[var(--primary)] transition-colors">
-                    Transparencia
+                    {t('transparency')}
                   </h3>
                   <p className="text-xs text-[var(--muted-foreground)] leading-relaxed font-medium">
-                    Info completa en Hoja de Vida.
+                    {t('transparencyDesc')}
                   </p>
                 </div>
               </div>
@@ -307,19 +309,19 @@ export default async function Home() {
             <svg className="w-4 h-4 text-[var(--score-excellent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="square" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
             </svg>
-            Fuentes oficiales
+            {t('officialSources')}
           </div>
           <div className="flex items-center gap-2 text-xs font-bold text-[var(--muted-foreground)] uppercase">
             <svg className="w-4 h-4 text-[var(--score-good)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="square" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
-            100% verificable
+            {t('verifiable')}
           </div>
           <div className="flex items-center gap-2 text-xs font-bold text-[var(--muted-foreground)] uppercase">
             <svg className="w-4 h-4 text-[var(--primary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="square" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
             </svg>
-            Sin afiliación política
+            {t('noPoliticalAffiliation')}
           </div>
         </div>
       </section>
@@ -329,10 +331,10 @@ export default async function Home() {
         <Card className="p-4 sm:p-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
             <h2 className="text-sm sm:text-base font-black text-[var(--foreground)] uppercase tracking-tight">
-              Diputados por Distrito
+              {t('deputiesByDistrict')}
             </h2>
             <Link href="/ranking?cargo=diputado" className="text-xs font-bold text-[var(--primary)] hover:underline uppercase">
-              Ver todos →
+              {t('viewAll')} →
             </Link>
           </div>
           <div className="flex flex-wrap gap-1.5 sm:gap-2">
@@ -353,7 +355,7 @@ export default async function Home() {
             {DISTRICTS.length > 12 && (
               <Link href="/ranking?cargo=diputado">
                 <Badge variant="primary" size="sm" className="cursor-pointer">
-                  +{DISTRICTS.length - 12} más
+                  +{DISTRICTS.length - 12} {t('more')}
                 </Badge>
               </Link>
             )}
@@ -370,23 +372,23 @@ export default async function Home() {
                 <span className="text-white font-black text-sm">PE</span>
               </div>
               <div className="flex flex-col">
-                <span className="text-sm sm:text-base font-black text-[var(--foreground)] uppercase">Ranking Electoral</span>
-                <span className="text-xs text-[var(--primary)] font-bold uppercase tracking-widest">Perú 2026</span>
+                <span className="text-sm sm:text-base font-black text-[var(--foreground)] uppercase">{t('rankingElectoral')}</span>
+                <span className="text-xs text-[var(--primary)] font-bold uppercase tracking-widest">{t('peru2026')}</span>
               </div>
             </div>
             <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
               <Link href="/metodologia" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
-                Metodología
+                {t('methodology')}
               </Link>
               <Link href="/ranking" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
-                Rankings
+                {t('rankings')}
               </Link>
               <Link href="/comparar" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
-                Comparar
+                {t('compare')}
               </Link>
             </div>
             <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wide text-center">
-              Datos actualizados: Enero 2026
+              {t('dataUpdated')}
             </div>
           </div>
         </div>

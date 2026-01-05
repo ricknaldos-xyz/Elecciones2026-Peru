@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -51,6 +52,7 @@ function formatTimeAgo(dateString: string | null | undefined): string {
 }
 
 export function TrendingNews({ className, limit = 5, variant = 'list' }: TrendingNewsProps) {
+  const t = useTranslations('trendingNews')
   const [news, setNews] = useState<NewsItem[]>([])
   const [candidateActivity, setCandidateActivity] = useState<CandidateActivity[]>([])
   const [loading, setLoading] = useState(true)
@@ -110,7 +112,7 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
               </svg>
             </div>
             <h2 className="text-lg font-black text-[var(--foreground)] uppercase">
-              Noticias del Momento
+              {t('title')}
             </h2>
           </div>
 
@@ -118,7 +120,7 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
           {candidateActivity.length > 0 && (
             <div className="flex items-center gap-2 overflow-x-auto">
               <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase whitespace-nowrap">
-                Ahora hablan de:
+                {t('trending')}:
               </span>
               {candidateActivity.slice(0, 4).map((candidate) => (
                 <Link
@@ -202,7 +204,7 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
         <div className="mt-4 pt-4 border-t-2 border-[var(--border)] flex justify-center">
           <Link href="/noticias">
             <Button variant="secondary" size="sm">
-              Ver todas las noticias
+              {t('viewAll')}
               <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
@@ -250,7 +252,7 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
             </svg>
           </div>
-          Noticias del Momento
+          {t('title')}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -258,7 +260,7 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
         {candidateActivity.length > 0 && (
           <div className="mb-4 pb-4 border-b-2 border-[var(--border)]">
             <p className="text-xs font-bold text-[var(--muted-foreground)] uppercase mb-2">
-              Los más mencionados esta semana
+              {t('trending')}
             </p>
             <div className="flex flex-wrap gap-2">
               {candidateActivity.slice(0, 4).map((candidate) => (
@@ -325,7 +327,7 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
         <div className="mt-4 pt-4 border-t-2 border-[var(--border)]">
           <Link href="/noticias">
             <Button variant="secondary" size="sm" className="w-full">
-              Ver todas las noticias
+              {t('viewAll')}
               <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>

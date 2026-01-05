@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
@@ -20,6 +21,7 @@ interface Answers {
 }
 
 export function QuizContent() {
+  const t = useTranslations('quiz')
   const [state, setState] = useState<QuizState>('intro')
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState<Answers>({})
@@ -84,25 +86,25 @@ export function QuizContent() {
           </div>
 
           <h1 className="text-3xl sm:text-4xl font-black text-[var(--foreground)] uppercase mb-3">
-            ¿Quién piensa como tú?
+            {t('intro.title')}
           </h1>
           <p className="text-lg text-[var(--muted-foreground)] font-medium mb-6 max-w-md mx-auto">
-            Responde 10 preguntas rápidas y descubre qué candidatos comparten tu visión.
+            {t('intro.description')}
           </p>
 
           <div className="grid grid-cols-2 gap-4 max-w-sm mx-auto mb-8">
             <div className="bg-[var(--muted)] border-2 border-[var(--border)] p-4 text-center">
               <span className="text-3xl font-black text-[var(--foreground)]">10</span>
-              <p className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Preguntas</p>
+              <p className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('intro.questions')}</p>
             </div>
             <div className="bg-[var(--muted)] border-2 border-[var(--border)] p-4 text-center">
               <span className="text-3xl font-black text-[var(--foreground)]">2</span>
-              <p className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Minutos</p>
+              <p className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('intro.minutes')}</p>
             </div>
           </div>
 
           <Button size="lg" onClick={handleStart} className="min-w-[200px]">
-            Comenzar
+            {t('start')}
             <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="square" strokeLinejoin="miter" d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
@@ -111,9 +113,9 @@ export function QuizContent() {
 
         <div className="text-center text-sm text-[var(--muted-foreground)] font-medium">
           <p>
-            Este quiz es solo para informarte, no te dice cómo votar.
+            {t('intro.disclaimer')}
             <br />
-            Basamos las respuestas en lo que los candidatos han dicho públicamente.
+            {t('intro.disclaimerLine2')}
           </p>
         </div>
       </div>
@@ -162,7 +164,7 @@ export function QuizContent() {
             <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="square" strokeLinejoin="miter" d="M11 17l-5-5m0 0l5-5m-5 5h12" />
             </svg>
-            <span className="font-bold">Anterior</span>
+            <span className="font-bold">{t('previous')}</span>
           </Button>
         </div>
       )}

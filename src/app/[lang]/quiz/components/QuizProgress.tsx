@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 
 interface QuizProgressProps {
@@ -13,13 +14,14 @@ export function QuizProgress({
   totalQuestions,
   className,
 }: QuizProgressProps) {
+  const t = useTranslations('quiz')
   const progress = ((currentQuestion) / totalQuestions) * 100
 
   return (
     <div className={cn('space-y-3', className)}>
       <div className="flex items-center justify-between">
         <span className="text-sm sm:text-base font-bold text-[var(--muted-foreground)] uppercase tracking-wide">
-          Pregunta {currentQuestion} de {totalQuestions}
+          {t('question')} {currentQuestion} {t('of')} {totalQuestions}
         </span>
         <span className="text-base sm:text-lg font-black text-[var(--foreground)]">
           {Math.round(progress)}%

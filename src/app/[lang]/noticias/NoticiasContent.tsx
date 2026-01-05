@@ -1,7 +1,9 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { useSearchParams, useRouter } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
+import { useRouter } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -44,12 +46,6 @@ interface NewsResponse {
   }
 }
 
-const SENTIMENT_LABELS: Record<string, string> = {
-  positive: 'Positivo',
-  neutral: 'Neutral',
-  negative: 'Negativo',
-}
-
 const SENTIMENT_COLORS: Record<string, string> = {
   positive: 'bg-[var(--score-good)] text-white',
   neutral: 'bg-[var(--score-medium)] text-black',
@@ -59,6 +55,7 @@ const SENTIMENT_COLORS: Record<string, string> = {
 export function NoticiasContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const t = useTranslations('news')
 
   const [news, setNews] = useState<NewsItem[]>([])
   const [loading, setLoading] = useState(true)
@@ -78,6 +75,20 @@ export function NoticiasContent() {
   const currentPage = parseInt(searchParams.get('page') || '1', 10)
 
   const [searchInput, setSearchInput] = useState(currentSearch)
+
+  // Sentiment labels from translations
+  const SENTIMENT_LABELS: Record<string, string> = {
+    positive: t('sentiment.positive'),
+    neutral: t('sentiment.neutral'),
+    negative: t('sentiment.negative'),
+  }
+
+  // Tone labels for mobile
+  const TONE_LABELS: Record<string, string> = {
+    positive: t('tonePositive'),
+    neutral: t('toneNeutral'),
+    negative: t('toneNegative'),
+  }
 
   const fetchNews = useCallback(async () => {
     setLoading(true)
@@ -146,7 +157,7 @@ export function NoticiasContent() {
               type="text"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              placeholder="¿Qué candidato te interesa?"
+              placeholder={t('searchPlaceholder')}
               className={cn(
                 'flex-1 px-4 py-3 text-base',
                 'bg-[var(--background)]',
@@ -161,15 +172,15 @@ export function NoticiasContent() {
               <svg className="w-5 h-5 sm:mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
-              <span className="hidden sm:inline font-bold">Buscar</span>
+              <span className="hidden sm:inline font-bold">{t('search')}</span>
             </Button>
           </div>
         </form>
 
-        {/* Source Filters - Horizontal scroll en móvil */}
+        {/* Source Filters - Horizontal scroll en movil */}
         <div className="mb-4">
           <h3 className="text-xs font-black text-[var(--muted-foreground)] uppercase tracking-wide mb-3">
-            De dónde vienen
+            {t('filterBySource')}
           </h3>
           <div className="overflow-x-auto -mx-5 px-5 sm:mx-0 sm:px-0">
             <div className="flex gap-2 pb-2 sm:flex-wrap">
@@ -185,7 +196,7 @@ export function NoticiasContent() {
                     : 'bg-[var(--background)] text-[var(--foreground)] hover:bg-[var(--muted)]'
                 )}
               >
-                Todas las fuentes
+                {t('allSources')}
               </button>
               {sources.slice(0, 8).map((source) => (
                 <button
@@ -208,10 +219,10 @@ export function NoticiasContent() {
           </div>
         </div>
 
-        {/* Sentiment Filter - Con labels en móvil */}
+        {/* Sentiment Filter - Con labels en movil */}
         <div className="mb-4">
           <h3 className="text-xs font-black text-[var(--muted-foreground)] uppercase tracking-wide mb-3">
-            Tono de la noticia
+            {t('filterByTone')}
           </h3>
           <div className="flex gap-2 flex-wrap">
             {['positive', 'neutral', 'negative'].map((sentiment) => (
@@ -229,9 +240,7 @@ export function NoticiasContent() {
                 )}
               >
                 <span className="sm:hidden">
-                  {sentiment === 'positive' && '+ Positivo'}
-                  {sentiment === 'neutral' && '~ Neutral'}
-                  {sentiment === 'negative' && '- Negativo'}
+                  {TONE_LABELS[sentiment]}
                 </span>
                 <span className="hidden sm:inline">
                   {SENTIMENT_LABELS[sentiment]}
@@ -254,7 +263,7 @@ export function NoticiasContent() {
                 'min-h-[44px]'
               )}
             >
-              Limpiar filtros
+              {t('clearFilters')}
             </button>
           </div>
         )}
@@ -262,7 +271,7 @@ export function NoticiasContent() {
         {/* Active filters summary */}
         {hasActiveFilters && (
           <div className="mt-3 pt-3 border-t-2 border-[var(--border)] flex items-center gap-2 text-sm">
-            <span className="text-[var(--muted-foreground)]">Viendo:</span>
+            <span className="text-[var(--muted-foreground)]">{t('viewing')}</span>
             {currentSource && (
               <span className="px-2 py-0.5 bg-[var(--muted)] border border-[var(--border)] text-xs font-medium">
                 {currentSource}
@@ -288,7 +297,7 @@ export function NoticiasContent() {
       {/* Results count */}
       <div className="flex items-center justify-between">
         <p className="text-sm text-[var(--muted-foreground)]">
-          {loading ? 'Cargando...' : `${pagination.total} noticias encontradas`}
+          {loading ? t('loading') : t('newsFound', { count: pagination.total })}
         </p>
       </div>
 
@@ -314,9 +323,9 @@ export function NoticiasContent() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
             </svg>
           </div>
-          <p className="font-bold text-[var(--foreground)]">No hay noticias con esos filtros</p>
+          <p className="font-bold text-[var(--foreground)]">{t('noResults')}</p>
           <p className="text-sm text-[var(--muted-foreground)] mt-1">
-            Prueba otro filtro o candidato
+            {t('tryOtherFilter')}
           </p>
         </Card>
       ) : (
@@ -350,7 +359,7 @@ export function NoticiasContent() {
             disabled={pagination.page <= 1}
             className="min-h-[44px] px-4"
           >
-            <span className="hidden sm:inline">Anterior</span>
+            <span className="hidden sm:inline">{t('previous')}</span>
             <span className="sm:hidden">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -396,7 +405,7 @@ export function NoticiasContent() {
             disabled={!pagination.hasMore}
             className="min-h-[44px] px-4"
           >
-            <span className="hidden sm:inline">Siguiente</span>
+            <span className="hidden sm:inline">{t('next')}</span>
             <span className="sm:hidden">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -408,7 +417,7 @@ export function NoticiasContent() {
 
       {/* Disclaimer */}
       <p className="text-xs text-[var(--muted-foreground)] text-center">
-        Aquí encontrarás noticias de todos los medios. No es recomendación de voto, solo información.
+        {t('disclaimer')}
       </p>
     </div>
   )

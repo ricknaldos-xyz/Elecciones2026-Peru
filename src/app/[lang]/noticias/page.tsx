@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 import { Header } from '@/components/layout/Header'
 import { Badge } from '@/components/ui/Badge'
 import { Card } from '@/components/ui/Card'
@@ -42,7 +43,9 @@ function LoadingFallback() {
   )
 }
 
-export default function NoticiasPage() {
+export default async function NoticiasPage() {
+  const t = await getTranslations('news')
+
   return (
     <div className="min-h-screen bg-[var(--background)]">
       <Header currentPath="/noticias" />
@@ -51,21 +54,21 @@ export default function NoticiasPage() {
         {/* Hero */}
         <div className="text-center mb-8">
           <Badge variant="primary" size="md" className="mb-4">
-            En Vivo
+            {t('live')}
           </Badge>
           <h1 className="text-3xl sm:text-4xl font-black text-[var(--foreground)] uppercase mb-3">
-            Noticias Electorales
+            {t('title')}
           </h1>
           <p className="text-lg text-[var(--muted-foreground)] max-w-2xl mx-auto">
-            Las ultimas noticias de las elecciones Peru 2026 de los principales medios del pais
+            {t('heroSubtitle')}
           </p>
         </div>
 
         {/* News sources banner */}
         <div className="mb-8 p-3 bg-[var(--muted)] border-2 border-[var(--border)]">
           <p className="text-xs text-center text-[var(--muted-foreground)]">
-            <span className="font-bold text-[var(--foreground)]">Fuentes:</span>{' '}
-            El Comercio, La Republica, RPP, Gestion, Peru21, Andina, Infobae, Correo, IDL Reporteros y mas
+            <span className="font-bold text-[var(--foreground)]">{t('sources')}:</span>{' '}
+            {t('sourcesList')}
           </p>
         </div>
 

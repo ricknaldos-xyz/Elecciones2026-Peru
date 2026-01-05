@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/routing'
+import { useTranslations } from 'next-intl'
 import { Card, CardHeader, CardContent, CardTitle, CardDescription } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 
@@ -34,6 +35,8 @@ function formatCurrency(amount: number): string {
 
 export function TransparencyContent() {
   const router = useRouter()
+  const t = useTranslations('transparency')
+  const tCommon = useTranslations('common')
   const [parties, setParties] = useState<PartyWithFinance[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -46,7 +49,7 @@ export function TransparencyContent() {
         const data = await response.json()
         setParties(data)
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error desconocido')
+        setError(err instanceof Error ? err.message : 'unknown')
       } finally {
         setLoading(false)
       }
@@ -78,10 +81,10 @@ export function TransparencyContent() {
           </div>
           <div className="min-w-0">
             <h1 className="text-xl sm:text-3xl font-black text-[var(--foreground)] uppercase tracking-tight">
-              Transparencia Financiera
+              {t('title')}
             </h1>
             <p className="text-sm sm:text-base text-[var(--muted-foreground)] font-medium">
-              Financiamiento de partidos - Elecciones 2026
+              {t('pageSubtitle')}
             </p>
           </div>
         </div>
@@ -91,8 +94,8 @@ export function TransparencyContent() {
             <path strokeLinecap="square" strokeLinejoin="miter" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           <div className="text-xs sm:text-sm text-[var(--score-competence-text)] font-medium">
-            <strong>Fuente oficial:</strong> Portal CLARIDAD de la ONPE. Los datos son declaraciones públicas de los partidos.
-            <span className="hidden sm:inline"> El financiamiento público directo para 2026 asciende a S/ 8,881,057.39 a distribuir entre 10 partidos.</span>
+            <strong>{t('sourceNote')}</strong> {t('sourceDescription')}
+            <span className="hidden sm:inline"> {t('sourceDescriptionExtended')}</span>
           </div>
         </div>
       </div>
@@ -108,7 +111,7 @@ export function TransparencyContent() {
             </div>
             <div className="min-w-0">
               <div className="text-lg sm:text-2xl font-black text-white truncate">{formatCurrency(totals.publicFunding)}</div>
-              <div className="text-white/80 text-xs sm:text-sm font-bold uppercase">Público</div>
+              <div className="text-white/80 text-xs sm:text-sm font-bold uppercase">{t('public')}</div>
             </div>
           </div>
         </Card>
@@ -122,7 +125,7 @@ export function TransparencyContent() {
             </div>
             <div className="min-w-0">
               <div className="text-lg sm:text-2xl font-black text-white truncate">{formatCurrency(totals.privateFunding)}</div>
-              <div className="text-white/80 text-xs sm:text-sm font-bold uppercase">Privado</div>
+              <div className="text-white/80 text-xs sm:text-sm font-bold uppercase">{t('private')}</div>
             </div>
           </div>
         </Card>
@@ -136,7 +139,7 @@ export function TransparencyContent() {
             </div>
             <div className="min-w-0">
               <div className="text-lg sm:text-2xl font-black text-white">{totals.totalDonors.toLocaleString()}</div>
-              <div className="text-white/80 text-xs sm:text-sm font-bold uppercase">Donantes</div>
+              <div className="text-white/80 text-xs sm:text-sm font-bold uppercase">{t('donors')}</div>
             </div>
           </div>
         </Card>
@@ -150,7 +153,7 @@ export function TransparencyContent() {
             </div>
             <div className="min-w-0">
               <div className="text-lg sm:text-2xl font-black text-white">{partiesWithFinance.length}</div>
-              <div className="text-white/80 text-xs sm:text-sm font-bold uppercase">Partidos</div>
+              <div className="text-white/80 text-xs sm:text-sm font-bold uppercase">{t('parties')}</div>
             </div>
           </div>
         </Card>
@@ -161,12 +164,12 @@ export function TransparencyContent() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle>FINANCIAMIENTO POR PARTIDO</CardTitle>
+              <CardTitle>{t('partyFinancing')}</CardTitle>
               <CardDescription>
-                Ordenado por ingresos totales declarados
+                {t('sortedByIncome')}
               </CardDescription>
             </div>
-            <Badge variant="outline">{partiesWithFinance.length} partidos</Badge>
+            <Badge variant="outline">{t('partiesCount', { count: partiesWithFinance.length })}</Badge>
           </div>
         </CardHeader>
 
@@ -184,14 +187,14 @@ export function TransparencyContent() {
               <svg className="w-12 h-12 mx-auto mb-3 text-[var(--flag-red-text)]/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="square" strokeLinejoin="miter" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
-              <p className="font-bold">Error: {error}</p>
+              <p className="font-bold">{tCommon('error')}: {error}</p>
             </div>
           ) : partiesWithFinance.length === 0 ? (
             <div className="p-8 text-center text-[var(--muted-foreground)]">
               <svg className="w-12 h-12 mx-auto mb-3 text-[var(--muted-foreground)]/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="square" strokeLinejoin="miter" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <p className="font-bold">No hay datos de financiamiento disponibles</p>
+              <p className="font-bold">{t('noFinanceData')}</p>
             </div>
           ) : (
             <div className="divide-y-2 divide-[var(--border)]">
@@ -222,20 +225,20 @@ export function TransparencyContent() {
                         )}
                       </div>
                       <div className="text-sm text-[var(--muted-foreground)] font-medium mt-1">
-                        {item.latestFinance!.donor_count} donantes - Año {item.latestFinance!.year}
+                        {t('donorsYear', { count: item.latestFinance!.donor_count, year: item.latestFinance!.year })}
                       </div>
                     </div>
 
                     {/* Financial breakdown - hidden on mobile, shown on sm+ */}
                     <div className="hidden md:flex items-center gap-6">
                       <div className="text-right">
-                        <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase">Público</div>
+                        <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase">{t('public')}</div>
                         <div className="font-black text-[var(--score-excellent-text)]">
                           {formatCurrency(item.latestFinance!.public_funding)}
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase">Privado</div>
+                        <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase">{t('private')}</div>
                         <div className="font-black text-[var(--score-competence-text)]">
                           {formatCurrency(item.latestFinance!.private_funding_total)}
                         </div>
@@ -244,7 +247,7 @@ export function TransparencyContent() {
 
                     {/* Total */}
                     <div className="text-right">
-                      <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase">Total</div>
+                      <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase">{t('total')}</div>
                       <div className="text-lg font-black text-[var(--foreground)]">
                         {formatCurrency(item.latestFinance!.total_income)}
                       </div>
@@ -265,27 +268,27 @@ export function TransparencyContent() {
       {/* Source Footer */}
       <div className="mt-8 p-4 bg-[var(--muted)] border-2 border-[var(--border)] text-center text-sm text-[var(--muted-foreground)]">
         <p className="font-medium">
-          Datos obtenidos del{' '}
+          {t('dataSource')}{' '}
           <a
             href="https://claridad.onpe.gob.pe"
             target="_blank"
             rel="noopener noreferrer"
             className="text-[var(--primary)] font-bold hover:underline"
           >
-            Portal CLARIDAD - ONPE
+            {t('portalClaridad')}
           </a>
-          {' '}y{' '}
+          {' '}{t('and')}{' '}
           <a
             href="https://datosabiertos.gob.pe"
             target="_blank"
             rel="noopener noreferrer"
             className="text-[var(--primary)] font-bold hover:underline"
           >
-            Datos Abiertos
+            {t('openData')}
           </a>
         </p>
         <p className="mt-1 text-xs font-medium">
-          Última actualización: Enero 2026 - Los datos pueden variar según declaraciones actualizadas de los partidos
+          {t('lastUpdate')}
         </p>
       </div>
     </main>

@@ -1,6 +1,7 @@
 'use client'
 
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
@@ -20,6 +21,7 @@ interface QuizResultsProps {
 }
 
 export function QuizResults({ matches, profile, onRestart }: QuizResultsProps) {
+  const t = useTranslations('quiz')
   const top3 = matches.slice(0, 3)
   const rest = matches.slice(3, 8)
 
@@ -35,7 +37,7 @@ export function QuizResults({ matches, profile, onRestart }: QuizResultsProps) {
       {/* Profile Card */}
       <Card className="p-8 sm:p-10 text-center">
         <span className="text-sm sm:text-base font-bold text-[var(--muted-foreground)] uppercase tracking-wide">
-          Tu perfil político
+          {t('results.politicalProfile')}
         </span>
         <h2
           className="text-3xl sm:text-4xl lg:text-5xl font-black uppercase mt-3 mb-4"
@@ -51,7 +53,7 @@ export function QuizResults({ matches, profile, onRestart }: QuizResultsProps) {
       {/* Top 3 Matches */}
       <div className="space-y-5">
         <h3 className="text-xl sm:text-2xl font-black text-[var(--foreground)] uppercase tracking-tight">
-          Candidatos con quien sintonizas
+          {t('results.topMatches')}
         </h3>
 
         {top3.map((match, index) => (
@@ -91,7 +93,7 @@ export function QuizResults({ matches, profile, onRestart }: QuizResultsProps) {
                 <div className="space-y-2 mb-4">
                   <div className="flex items-center justify-between">
                     <span className="text-sm sm:text-base font-bold text-[var(--muted-foreground)]">
-                      Compatibilidad
+                      {t('results.compatibility')}
                     </span>
                     <span
                       className="text-xl sm:text-2xl font-black"
@@ -111,7 +113,7 @@ export function QuizResults({ matches, profile, onRestart }: QuizResultsProps) {
                   </div>
                 </div>
 
-                {/* Topic Agreements - Limitar en móvil */}
+                {/* Topic Agreements - Limitar en movil */}
                 <div className="flex flex-wrap gap-2">
                   {Object.entries(match.agreementsByTopic).slice(0, 8).map(([topic, agreement]) => (
                     <span
@@ -142,7 +144,7 @@ export function QuizResults({ matches, profile, onRestart }: QuizResultsProps) {
       {rest.length > 0 && (
         <div className="space-y-4">
           <h4 className="text-base sm:text-lg font-black text-[var(--muted-foreground)] uppercase tracking-wide">
-            El resto del ranking
+            {t('results.restOfRanking')}
           </h4>
           <div className="grid grid-cols-1 gap-3">
             {rest.map((match) => (
@@ -174,8 +176,8 @@ export function QuizResults({ matches, profile, onRestart }: QuizResultsProps) {
       {/* Actions */}
       <div className="flex flex-col gap-4 pt-4">
         <ShareButton
-          title={`Mi perfil político es ${profile.label}`}
-          description={`Mis candidatos con quien sintonizo: ${top3.map(m => m.candidateName).join(', ')}`}
+          title={t('results.shareTitle', { profile: profile.label })}
+          description={t('results.shareDescription', { candidates: top3.map(m => m.candidateName).join(', ') })}
           className="w-full min-h-[56px]"
           variant="full"
           platforms={['whatsapp', 'twitter', 'facebook', 'copy']}
@@ -188,11 +190,11 @@ export function QuizResults({ matches, profile, onRestart }: QuizResultsProps) {
           onClick={onRestart}
           className="flex-1 min-h-[48px] text-base font-bold"
         >
-          Responder de nuevo
+          {t('results.retake')}
         </Button>
         <Link href="/comparar" className="flex-1">
           <Button variant="outline" className="w-full min-h-[48px] text-base font-bold">
-            Compara los candidatos
+            {t('results.compareCandidates')}
           </Button>
         </Link>
       </div>
