@@ -1,0 +1,234 @@
+{
+  "meta": {
+    "title": "Ranking Electoral Perú 2026",
+    "description": "Ranking transparente de candidatos basado en mérito, integridad y evidencia. Elecciones Generales 12 de abril 2026.",
+    "ogTitle": "Ranking Electoral Perú 2026",
+    "ogDescription": "Elige con datos, no con slogans. Ranking transparente de candidatos."
+  },
+  "nav": {
+    "ranking": "Ranking",
+    "news": "Noticias",
+    "quiz": "Quiz",
+    "compare": "Comparar",
+    "transparency": "Transparencia",
+    "methodology": "Metodología",
+    "docs": "Docs",
+    "viewRanking": "Ver Ranking",
+    "search": "Buscar",
+    "searchPlaceholder": "Buscar candidato...",
+    "searching": "Buscando...",
+    "noResults": "No se encontraron resultados",
+    "menu": "Menú",
+    "changeTheme": "Cambiar tema",
+    "new": "NUEVO"
+  },
+  "hero": {
+    "title": "Ranking Electoral Perú 2026",
+    "subtitle": "Elige con datos, no con promesas",
+    "description": "Plataforma de inteligencia electoral que proporciona rankings transparentes y basados en evidencia para las Elecciones Generales del 12 de abril de 2026.",
+    "cta": "Ver Ranking Completo",
+    "countdown": {
+      "title": "Elecciones 2026",
+      "days": "días",
+      "hours": "horas",
+      "minutes": "minutos",
+      "seconds": "segundos"
+    }
+  },
+  "ranking": {
+    "title": "Ranking de Candidatos",
+    "subtitle": "Explora y compara candidatos según su competencia, integridad y transparencia",
+    "filters": {
+      "cargo": "Cargo",
+      "district": "Distrito",
+      "party": "Partido",
+      "confidence": "Confianza mínima",
+      "all": "Todos",
+      "search": "Buscar por nombre"
+    },
+    "presets": {
+      "balanced": "Equilibrado",
+      "balancedDesc": "Balance entre capacidad y ética",
+      "merit": "Mérito",
+      "meritDesc": "Prioriza preparación profesional",
+      "integrity": "Integridad",
+      "integrityDesc": "Prioriza historial ético",
+      "custom": "Personalizado"
+    },
+    "cargo": {
+      "presidente": "Presidente",
+      "vicepresidente": "Vicepresidente",
+      "senador": "Senador",
+      "diputado": "Diputado",
+      "parlamento_andino": "Parlamento Andino"
+    },
+    "table": {
+      "rank": "#",
+      "candidate": "Candidato",
+      "party": "Partido",
+      "score": "Puntaje",
+      "competence": "Competencia",
+      "integrity": "Integridad",
+      "transparency": "Transparencia",
+      "confidence": "Confianza",
+      "actions": "Acciones"
+    },
+    "noResults": "No se encontraron candidatos con los filtros seleccionados",
+    "loading": "Cargando candidatos...",
+    "viewProfile": "Ver perfil",
+    "compare": "Comparar"
+  },
+  "candidate": {
+    "profile": "Perfil del Candidato",
+    "overview": "Resumen",
+    "education": "Educación",
+    "experience": "Experiencia",
+    "trajectory": "Trayectoria Política",
+    "assets": "Declaración de Bienes",
+    "flags": "Alertas",
+    "news": "Noticias",
+    "similar": "Candidatos Similares",
+    "scores": {
+      "title": "Puntajes",
+      "competence": "Competencia",
+      "competenceDesc": "Educación, experiencia y liderazgo",
+      "integrity": "Integridad",
+      "integrityDesc": "Ausencia de sentencias y ética verificable",
+      "transparency": "Transparencia",
+      "transparencyDesc": "Calidad de información declarada",
+      "confidence": "Confianza de Datos",
+      "confidenceDesc": "Qué tan verificados están los datos"
+    },
+    "educationLevels": {
+      "doctorado": "Doctorado",
+      "maestria": "Maestría",
+      "titulo_profesional": "Título Profesional",
+      "universitario_comp": "Universitario Completo",
+      "universitario_inc": "Universitario Incompleto",
+      "tecnico_comp": "Técnico Completo",
+      "tecnico_inc": "Técnico Incompleto",
+      "secundaria_comp": "Secundaria Completa",
+      "secundaria_inc": "Secundaria Incompleta",
+      "primaria": "Primaria",
+      "sin_informacion": "Sin Información"
+    },
+    "flagTypes": {
+      "PENAL_SENTENCE": "Sentencia Penal",
+      "CIVIL_SENTENCE": "Sentencia Civil",
+      "VIOLENCE": "Violencia",
+      "ALIMENTOS": "Omisión Alimentaria",
+      "LABORAL": "Sentencia Laboral",
+      "CONTRACTUAL": "Sentencia Contractual",
+      "MULTIPLE_RESIGNATIONS": "Múltiples Renuncias",
+      "INCONSISTENCY": "Inconsistencia",
+      "OTHER": "Otro"
+    },
+    "flagSeverity": {
+      "RED": "Crítico",
+      "AMBER": "Moderado",
+      "GRAY": "Menor"
+    },
+    "viewDJHV": "Ver Hoja de Vida (JNE)",
+    "reportError": "Reportar Error",
+    "share": "Compartir"
+  },
+  "quiz": {
+    "title": "Quiz Electoral",
+    "subtitle": "Descubre qué candidatos tienen posiciones más afines a las tuyas",
+    "start": "Comenzar Quiz",
+    "question": "Pregunta",
+    "of": "de",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "finish": "Ver Resultados",
+    "results": {
+      "title": "Tus Resultados",
+      "subtitle": "Basado en tus respuestas, estos candidatos tienen las posiciones más afines a ti",
+      "match": "coincidencia",
+      "topMatches": "Top Coincidencias",
+      "retake": "Volver a Hacer el Quiz",
+      "share": "Compartir Resultados"
+    },
+    "answers": {
+      "stronglyDisagree": "Muy en desacuerdo",
+      "disagree": "En desacuerdo",
+      "neutral": "Neutral",
+      "agree": "De acuerdo",
+      "stronglyAgree": "Muy de acuerdo"
+    }
+  },
+  "compare": {
+    "title": "Comparar Candidatos",
+    "subtitle": "Selecciona candidatos para comparar lado a lado",
+    "select": "Seleccionar candidato",
+    "add": "Agregar candidato",
+    "remove": "Quitar",
+    "noSelection": "Selecciona al menos 2 candidatos para comparar",
+    "maxReached": "Máximo 4 candidatos para comparar"
+  },
+  "news": {
+    "title": "Noticias Electorales",
+    "subtitle": "Las últimas noticias sobre candidatos y partidos políticos",
+    "trending": "Tendencias",
+    "latest": "Más Recientes",
+    "byCandidate": "Por Candidato",
+    "sentiment": {
+      "positive": "Positivo",
+      "negative": "Negativo",
+      "neutral": "Neutral",
+      "mixed": "Mixto"
+    },
+    "readMore": "Leer más",
+    "noNews": "No hay noticias disponibles"
+  },
+  "transparency": {
+    "title": "Transparencia Financiera",
+    "subtitle": "Información sobre el financiamiento de partidos políticos",
+    "publicFunding": "Financiamiento Público",
+    "privateFunding": "Financiamiento Privado",
+    "expenses": "Gastos",
+    "donors": "Donantes",
+    "viewDetails": "Ver Detalles"
+  },
+  "methodology": {
+    "title": "Metodología de Scoring",
+    "subtitle": "Conoce cómo calculamos los puntajes de los candidatos",
+    "overview": "Resumen del Modelo",
+    "formula": "Fórmula General",
+    "competence": "Competencia",
+    "integrity": "Integridad",
+    "transparency": "Transparencia",
+    "confidence": "Confianza de Datos",
+    "dataSources": "Fuentes de Datos",
+    "disclaimer": "Disclaimer Importante"
+  },
+  "footer": {
+    "about": "Acerca de",
+    "contact": "Contacto",
+    "privacy": "Privacidad",
+    "terms": "Términos",
+    "disclaimer": "Este ranking es una herramienta informativa. No representa una recomendación de voto."
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "retry": "Reintentar",
+    "close": "Cerrar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "yes": "Sí",
+    "no": "No",
+    "points": "puntos",
+    "viewMore": "Ver más",
+    "viewLess": "Ver menos",
+    "share": "Compartir",
+    "copy": "Copiar",
+    "copied": "Copiado"
+  },
+  "disclaimer": {
+    "aiTranslation": "Traducción generada con inteligencia artificial",
+    "reportError": "Reportar error",
+    "helpImprove": "Ayúdanos a mejorar"
+  }
+}

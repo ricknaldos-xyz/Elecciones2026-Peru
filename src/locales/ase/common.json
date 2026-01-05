@@ -1,0 +1,234 @@
+{
+  "meta": {
+    "title": "Ranking Apatotantsi Perú 2026",
+    "description": "Ranking kenkitsarentsikë apatotantsipë. Antëromani Apatotantsi 12 abril 2026.",
+    "ogTitle": "Ranking Apatotantsi Perú 2026",
+    "ogDescription": "Amatabeentsi katsinkabo, tëjantsibë arininatsi. Oinabiinti ranking apatotantsipë."
+  },
+  "nav": {
+    "ranking": "Ranking",
+    "news": "Amëtakotërini",
+    "quiz": "Amatabeentsi",
+    "compare": "Amëñëro",
+    "transparency": "Oinabiinti",
+    "methodology": "Irapiibë",
+    "docs": "Osankënarintsi",
+    "viewRanking": "Oimabëntantsi Ranking",
+    "search": "Amatabeentsi",
+    "searchPlaceholder": "Amatabeentsi apatotantsipë...",
+    "searching": "Amatantsi...",
+    "noResults": "Tëjonka",
+    "menu": "Menú",
+    "changeTheme": "Ampatëro oimabeentsi",
+    "new": "OBAEKI"
+  },
+  "hero": {
+    "title": "Ranking Apatotantsi Perú 2026",
+    "subtitle": "Amatabeentsi katsinkabo, tëjantsibë arininatsi",
+    "description": "Plataforma oimabëntantsi apatotantsipë kenkitsarentsikë. Antëromani Apatotantsi 12 abril 2026.",
+    "cta": "Oimabëntantsi Ranking tasorintsi",
+    "countdown": {
+      "title": "Apatotantsi 2026",
+      "days": "kiteëri",
+      "hours": "orakë",
+      "minutes": "minutokë",
+      "seconds": "segundokë"
+    }
+  },
+  "ranking": {
+    "title": "Ranking Apatotantsipë",
+    "subtitle": "Oimabëntantsi apatotantsipë kenkitsarentsikë, wametantsikë",
+    "filters": {
+      "cargo": "Antabëëtantsi",
+      "district": "Nampitsi",
+      "party": "Partido",
+      "confidence": "Amëtakotsi",
+      "all": "Tasorintsi",
+      "search": "Amatabeentsi iriëri"
+    },
+    "presets": {
+      "balanced": "Tampatyaki",
+      "balancedDesc": "Kenkitsarentsikë wametantsikëro",
+      "merit": "Kenkitsarentsikë",
+      "meritDesc": "Oimabëntantsi kenkitsarentsikë",
+      "integrity": "Wametantsikë",
+      "integrityDesc": "Oimabëntantsi wametantsikë",
+      "custom": "Pishintaka"
+    },
+    "cargo": {
+      "presidente": "Antëromani Pinkatsari",
+      "vicepresidente": "Apitëni Pinkatsari",
+      "senador": "Senador",
+      "diputado": "Diputado",
+      "parlamento_andino": "Andiskë Parlamento"
+    },
+    "table": {
+      "rank": "#",
+      "candidate": "Apatotantsi",
+      "party": "Partido",
+      "score": "Katsinkabo",
+      "competence": "Kenkitsarentsikë",
+      "integrity": "Wametantsikë",
+      "transparency": "Oinabiinti",
+      "confidence": "Amëtakotsi",
+      "actions": "Antabëëtantsi"
+    },
+    "noResults": "Tëjonka apatotantsipë",
+    "loading": "Apitsatantsi...",
+    "viewProfile": "Oimabëntantsi perfil",
+    "compare": "Amëñëro"
+  },
+  "candidate": {
+    "profile": "Apatotantsi Perfil",
+    "overview": "Oimabëntantsi",
+    "education": "Kenkitsarentsikë",
+    "experience": "Antabëëtantsi",
+    "trajectory": "Política thakhi",
+    "assets": "Osankënarintsi",
+    "flags": "Amëtakotërini",
+    "news": "Amëtakotërini",
+    "similar": "Yapita apatotantsipë",
+    "scores": {
+      "title": "Katsinkabokë",
+      "competence": "Kenkitsarentsikë",
+      "competenceDesc": "Kenkitsarentsikë, antabëëtantsi, pinkatsari",
+      "integrity": "Wametantsikë",
+      "integrityDesc": "Tëjonka sentencia, wamëtankë",
+      "transparency": "Oinabiinti",
+      "transparencyDesc": "Osankënarintsi wamëtankë",
+      "confidence": "Amëtakotsi",
+      "confidenceDesc": "Irapiibë katsinkabo"
+    },
+    "educationLevels": {
+      "doctorado": "Doctorado",
+      "maestria": "Maestría",
+      "titulo_profesional": "Profesional Título",
+      "universitario_comp": "Universidad tukusqa",
+      "universitario_inc": "Universidad jan tukusqa",
+      "tecnico_comp": "Técnico tukusqa",
+      "tecnico_inc": "Técnico jan tukusqa",
+      "secundaria_comp": "Secundaria tukusqa",
+      "secundaria_inc": "Secundaria jan tukusqa",
+      "primaria": "Primaria",
+      "sin_informacion": "Tëjonka"
+    },
+    "flagTypes": {
+      "PENAL_SENTENCE": "Penal Sentencia",
+      "CIVIL_SENTENCE": "Civil Sentencia",
+      "VIOLENCE": "Amënkëro",
+      "ALIMENTOS": "Janiki jan churantsi",
+      "LABORAL": "Antabëëtantsi Sentencia",
+      "CONTRACTUAL": "Trato Sentencia",
+      "MULTIPLE_RESIGNATIONS": "Ampiki aninkatantsi",
+      "INCONSISTENCY": "Tëkatsitonka",
+      "OTHER": "Yapita"
+    },
+    "flagSeverity": {
+      "RED": "Kitëkiyaki",
+      "AMBER": "Tampatyaki",
+      "GRAY": "Tsonkari"
+    },
+    "viewDJHV": "Oimabëntantsi Osankënarintsi (JNE)",
+    "reportError": "Amëtakotërini irotiro",
+    "share": "Ampatyakirori"
+  },
+  "quiz": {
+    "title": "Amatabeentsi Apatotantsi",
+    "subtitle": "Amatabeentsi kawkir apatotantsipë aniro",
+    "start": "Qalltaña",
+    "question": "Amatabeentsi",
+    "of": "-",
+    "next": "Owakiraa",
+    "previous": "Oshëki",
+    "finish": "Oimabëntantsi amëtakotërini",
+    "results": {
+      "title": "Amëtakotërini",
+      "subtitle": "Apatotantsipë aniro amatabeentsi",
+      "match": "tupuqi",
+      "topMatches": "Antëromani tupuqinaka",
+      "retake": "Yapita luraña",
+      "share": "Ampatyakirori amëtakotërini"
+    },
+    "answers": {
+      "stronglyDisagree": "Kitëkiyaki jan tupuqi",
+      "disagree": "Jan tupuqi",
+      "neutral": "Tampatyaki",
+      "agree": "Tupuqi",
+      "stronglyAgree": "Kitëkiyaki tupuqi"
+    }
+  },
+  "compare": {
+    "title": "Amëñëro Apatotantsipë",
+    "subtitle": "Apatotantsipë ajilañ amëñëroki",
+    "select": "Apatotantsi ajilañ",
+    "add": "Añantsi",
+    "remove": "Apitëni",
+    "noSelection": "Apitëni apatotantsipë amëñëroki",
+    "maxReached": "Maba apatotantsipë amëñëroki"
+  },
+  "news": {
+    "title": "Amëtakotërini Apatotantsi",
+    "subtitle": "Obaeki amëtakotërini apatotantsipëmanta partidokëmanta",
+    "trending": "Antëromani oimabëntata",
+    "latest": "Obaeki",
+    "byCandidate": "Apatotantsi uksat",
+    "sentiment": {
+      "positive": "Wamëtankë",
+      "negative": "Tëkatsitonka",
+      "neutral": "Tampatyaki",
+      "mixed": "Yampiyaki"
+    },
+    "readMore": "Oimabëntantsi ampiki",
+    "noNews": "Tëjonka amëtakotërini"
+  },
+  "transparency": {
+    "title": "Qullqi Oinabiinti",
+    "subtitle": "Partidokëna qullqi amëtakotërini",
+    "publicFunding": "Nampitsi Qullqi",
+    "privateFunding": "Kimsir Qullqi",
+    "expenses": "Antabëëtantsi",
+    "donors": "Qullqi Apatantsipë",
+    "viewDetails": "Oimabëntantsi tasorintsi"
+  },
+  "methodology": {
+    "title": "Katsinkabo Irapiibë",
+    "subtitle": "Irapiibë apatotantsipëna katsinkabokë",
+    "overview": "Modelo oimabëntantsi",
+    "formula": "Antëromani Fórmula",
+    "competence": "Kenkitsarentsikë",
+    "integrity": "Wametantsikë",
+    "transparency": "Oinabiinti",
+    "confidence": "Amëtakotsi",
+    "dataSources": "Amëtakotërini pukyu",
+    "disclaimer": "Kitëkiyaki Amëtakotërini"
+  },
+  "footer": {
+    "about": "Irapiibë",
+    "contact": "Arinabëëtantsi",
+    "privacy": "Imantata",
+    "terms": "Kamachikuykuna",
+    "disclaimer": "Ranking amëtakotërini herramienta. Tëjantsibë apatotantsi kamachiwiti."
+  },
+  "common": {
+    "loading": "Apitsatantsi...",
+    "error": "Irotiro",
+    "retry": "Yapita luraña",
+    "close": "Inkaantsi",
+    "save": "Waqaychay",
+    "cancel": "Tëjantsibë",
+    "confirm": "Jëë",
+    "yes": "Jëë",
+    "no": "Tëja",
+    "points": "katsinkabokë",
+    "viewMore": "Oimabëntantsi ampiki",
+    "viewLess": "Oimabëntantsi tsonkari",
+    "share": "Ampatyakirori",
+    "copy": "Kikinchasqa",
+    "copied": "Kikinchasqa"
+  },
+  "disclaimer": {
+    "aiTranslation": "IA osankënarintsi jaqukipata",
+    "reportError": "Irotiro amëtakotërini",
+    "helpImprove": "Yanapt'am sumart'ayañataki"
+  }
+}

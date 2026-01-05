@@ -1,0 +1,234 @@
+{
+  "meta": {
+    "title": "Akllana Ranking Perú 2026",
+    "description": "Akllasqa runakunapa ranking, yachayninwan, allin kayninwan. Hatun Akllana 12 abril 2026.",
+    "ogTitle": "Akllana Ranking Perú 2026",
+    "ogDescription": "Yupaykunawan akllay, ama rimaykunawanchu. Sut'i ranking akllasqa runakunapaq."
+  },
+  "nav": {
+    "ranking": "Ranking",
+    "news": "Willakuykuna",
+    "quiz": "Tapukuykuna",
+    "compare": "Tupachiy",
+    "transparency": "Sut'i kay",
+    "methodology": "Imayna ruwaykuna",
+    "docs": "Qillqakuna",
+    "viewRanking": "Ranking qhaway",
+    "search": "Maskay",
+    "searchPlaceholder": "Akllasqa runata maskay...",
+    "searching": "Maskachkan...",
+    "noResults": "Mana tarikurkuchu",
+    "menu": "Menú",
+    "changeTheme": "Rikch'ay tikray",
+    "new": "MUSUQ"
+  },
+  "hero": {
+    "title": "Akllana Ranking Perú 2026",
+    "subtitle": "Yupaykunawan akllay, ama rimaykunawanchu",
+    "description": "Akllasqa runakunapa yachayninta, allin kayninta qhawaspa ranking ruwaq plataforma. Hatun Akllana 12 abril 2026.",
+    "cta": "Tukuy Ranking qhaway",
+    "countdown": {
+      "title": "Akllana 2026",
+      "days": "p'unchawkuna",
+      "hours": "horakuna",
+      "minutes": "minutokuna",
+      "seconds": "segundokuna"
+    }
+  },
+  "ranking": {
+    "title": "Akllasqa Runakunapa Ranking",
+    "subtitle": "Akllasqa runakunata qhaway yachayninwan, allin kayninwan",
+    "filters": {
+      "cargo": "Llamk'ay",
+      "district": "Suyu",
+      "party": "Partido",
+      "confidence": "Aswan iñiy",
+      "all": "Llapan",
+      "search": "Sutinwan maskay"
+    },
+    "presets": {
+      "balanced": "Chawpi",
+      "balancedDesc": "Yachay allin kaywan tupachisqa",
+      "merit": "Yachay",
+      "meritDesc": "Yachayninta aswan qhaway",
+      "integrity": "Allin kay",
+      "integrityDesc": "Allin kayninta aswan qhaway",
+      "custom": "Munayniyuq"
+    },
+    "cargo": {
+      "presidente": "Hatun Kamachiq",
+      "vicepresidente": "Iskay Ñiqin Kamachiq",
+      "senador": "Senador",
+      "diputado": "Diputado",
+      "parlamento_andino": "Antikuna Parlamento"
+    },
+    "table": {
+      "rank": "#",
+      "candidate": "Akllasqa runa",
+      "party": "Partido",
+      "score": "Chanin",
+      "competence": "Yachay",
+      "integrity": "Allin kay",
+      "transparency": "Sut'i kay",
+      "confidence": "Iñiy",
+      "actions": "Ruwaykuna"
+    },
+    "noResults": "Mana akllasqa runakuna tarikurkuchu chay t'aqawan",
+    "loading": "Akllasqa runakunata apamuchkan...",
+    "viewProfile": "Perfil qhaway",
+    "compare": "Tupachiy"
+  },
+  "candidate": {
+    "profile": "Akllasqa Runapa Perfilnin",
+    "overview": "Qhawarina",
+    "education": "Yachay",
+    "experience": "Ruwaykuna",
+    "trajectory": "Política Ñan",
+    "assets": "Imakuna willay",
+    "flags": "Willaykuna",
+    "news": "Willakuykuna",
+    "similar": "Kikiq Akllasqa Runakuna",
+    "scores": {
+      "title": "Chaninkuna",
+      "competence": "Yachay",
+      "competenceDesc": "Yachay, ruwaykuna, umalliq kay",
+      "integrity": "Allin kay",
+      "integrityDesc": "Mana sentenciakuna, allin kawsay",
+      "transparency": "Sut'i kay",
+      "transparencyDesc": "Willasqa yachaypa allin kaynin",
+      "confidence": "Yachay Iñiy",
+      "confidenceDesc": "Imayna chiqap kanku yachaykuna"
+    },
+    "educationLevels": {
+      "doctorado": "Doctorado",
+      "maestria": "Maestría",
+      "titulo_profesional": "Profesional Título",
+      "universitario_comp": "Universidad Tukusqa",
+      "universitario_inc": "Universidad Mana Tukusqa",
+      "tecnico_comp": "Técnico Tukusqa",
+      "tecnico_inc": "Técnico Mana Tukusqa",
+      "secundaria_comp": "Secundaria Tukusqa",
+      "secundaria_inc": "Secundaria Mana Tukusqa",
+      "primaria": "Primaria",
+      "sin_informacion": "Mana Yachay"
+    },
+    "flagTypes": {
+      "PENAL_SENTENCE": "Penal Sentencia",
+      "CIVIL_SENTENCE": "Civil Sentencia",
+      "VIOLENCE": "Maqanakuy",
+      "ALIMENTOS": "Wawaman Mana Quy",
+      "LABORAL": "Llamk'ay Sentencia",
+      "CONTRACTUAL": "Trato Sentencia",
+      "MULTIPLE_RESIGNATIONS": "Achka Saqiy",
+      "INCONSISTENCY": "Mana Tupaq",
+      "OTHER": "Huknin"
+    },
+    "flagSeverity": {
+      "RED": "Ancha Sasachakuy",
+      "AMBER": "Chawpi",
+      "GRAY": "Huch'uy"
+    },
+    "viewDJHV": "Kawsay Qillqa Qhaway (JNE)",
+    "reportError": "Pantayta Willay",
+    "share": "Rakinakuy"
+  },
+  "quiz": {
+    "title": "Akllana Tapukuy",
+    "subtitle": "Tarikuy mayqin akllasqa runakuna qanwan tupaq",
+    "start": "Qallariy",
+    "question": "Tapukuy",
+    "of": "-",
+    "next": "Qatiq",
+    "previous": "Ñawpaq",
+    "finish": "Taripakuykuna Qhaway",
+    "results": {
+      "title": "Taripakuykuna",
+      "subtitle": "Kutichiyniykikunawan, kay akllasqa runakuna qanwan aswan tupaq",
+      "match": "tupay",
+      "topMatches": "Aswan Tupaqkuna",
+      "retake": "Musuqmanta Ruway",
+      "share": "Taripakuykuna Rakinakuy"
+    },
+    "answers": {
+      "stronglyDisagree": "Ancha mana tupaq",
+      "disagree": "Mana tupaq",
+      "neutral": "Chawpi",
+      "agree": "Tupaq",
+      "stronglyAgree": "Ancha tupaq"
+    }
+  },
+  "compare": {
+    "title": "Akllasqa Runakuna Tupachiy",
+    "subtitle": "Akllasqa runakunata akllay tupachipaq",
+    "select": "Akllasqa runata akllay",
+    "add": "Yapay",
+    "remove": "Qichuy",
+    "noSelection": "Iskay akllasqa runakunata akllay tupachipaq",
+    "maxReached": "Tawa akllasqa runakuna tupachipaq"
+  },
+  "news": {
+    "title": "Akllana Willakuykuna",
+    "subtitle": "Qhipa willakuykuna akllasqa runakunamanta partido político kunamanta",
+    "trending": "Aswan Qhawasqa",
+    "latest": "Qhipa",
+    "byCandidate": "Akllasqa Runamanta",
+    "sentiment": {
+      "positive": "Allin",
+      "negative": "Mana allin",
+      "neutral": "Chawpi",
+      "mixed": "Chaqrusqa"
+    },
+    "readMore": "Aswanta ñawiriy",
+    "noNews": "Mana willakuykuna kanchu"
+  },
+  "transparency": {
+    "title": "Qullqi Sut'i Kay",
+    "subtitle": "Partidokunapaq qullqi willaykuna",
+    "publicFunding": "Llaqta Qullqi",
+    "privateFunding": "Kikin Qullqi",
+    "expenses": "Gastokuna",
+    "donors": "Qullqi Quqkuna",
+    "viewDetails": "Tukuyninta Qhaway"
+  },
+  "methodology": {
+    "title": "Chanin Ruwakuy",
+    "subtitle": "Imayna akllasqa runakunapa chaninkunata yupanchik",
+    "overview": "Modelo Qhawarina",
+    "formula": "Hatun Fórmula",
+    "competence": "Yachay",
+    "integrity": "Allin kay",
+    "transparency": "Sut'i kay",
+    "confidence": "Yachay Iñiy",
+    "dataSources": "Yachay Pukyu",
+    "disclaimer": "Ancha Importante Willay"
+  },
+  "footer": {
+    "about": "Imamanta",
+    "contact": "Rimanakuy",
+    "privacy": "Pakasqa kay",
+    "terms": "Kamachikuykuna",
+    "disclaimer": "Kay ranking willay herramienta. Mana akllana kamachiy kanchu."
+  },
+  "common": {
+    "loading": "Apamuchkan...",
+    "error": "Pantay",
+    "retry": "Musuqmanta ruway",
+    "close": "Wichqay",
+    "save": "Waqaychay",
+    "cancel": "Ama ruway",
+    "confirm": "Arí",
+    "yes": "Arí",
+    "no": "Mana",
+    "points": "chaninkuna",
+    "viewMore": "Aswanta qhaway",
+    "viewLess": "Pisita qhaway",
+    "share": "Rakinakuy",
+    "copy": "Kikinchasqa",
+    "copied": "Kikinchasqa"
+  },
+  "disclaimer": {
+    "aiTranslation": "IA nisqawan tikrasqa",
+    "reportError": "Pantayta willay",
+    "helpImprove": "Yanapawayku allinchanaypaq"
+  }
+}

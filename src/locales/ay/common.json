@@ -1,0 +1,234 @@
+{
+  "meta": {
+    "title": "Ajilanaka Ranking Perú 2026",
+    "description": "Ajilanakana ranking, yatiqawinakampi, wali jakañampi. Jach'a Ajilana 12 abril 2026.",
+    "ogTitle": "Ajilanaka Ranking Perú 2026",
+    "ogDescription": "Jakhunakanpi ajila, jan arumpi. Suma ranking ajilanakaru."
+  },
+  "nav": {
+    "ranking": "Ranking",
+    "news": "Yatiyawinaka",
+    "quiz": "Jiskhtanaka",
+    "compare": "Uñacht'ayaña",
+    "transparency": "Q'umara",
+    "methodology": "Kunjams lurawi",
+    "docs": "Qillqanaka",
+    "viewRanking": "Ranking uñjaña",
+    "search": "Thaqaña",
+    "searchPlaceholder": "Ajilanaka thaqaña...",
+    "searching": "Thaqasaki...",
+    "noResults": "Jan jikxatati",
+    "menu": "Menú",
+    "changeTheme": "Uñtayiri jaqukipaña",
+    "new": "MACHAQ"
+  },
+  "hero": {
+    "title": "Ajilanaka Ranking Perú 2026",
+    "subtitle": "Jakhunakanpi ajila, jan arumpi",
+    "description": "Ajilanakana yatiqawipa, wali jakañapa uñjaña ranking plataforma. Jach'a Ajilana 12 abril 2026.",
+    "cta": "Taqi Ranking uñjaña",
+    "countdown": {
+      "title": "Ajilana 2026",
+      "days": "urunaka",
+      "hours": "horanaka",
+      "minutes": "minutonaka",
+      "seconds": "segundonaka"
+    }
+  },
+  "ranking": {
+    "title": "Ajilanakana Ranking",
+    "subtitle": "Ajilanaka uñjaña yatiqawimpi, wali jakañampi",
+    "filters": {
+      "cargo": "Irnaqa",
+      "district": "Suyu",
+      "party": "Partido",
+      "confidence": "Askin iyawsaña",
+      "all": "Taqi",
+      "search": "Sutimp thaqaña"
+    },
+    "presets": {
+      "balanced": "Taypiku",
+      "balancedDesc": "Yatiqawi wali jakañampi chikanchataw",
+      "merit": "Yatiqawi",
+      "meritDesc": "Yatiqawir askin uñjaña",
+      "integrity": "Wali jakaña",
+      "integrityDesc": "Wali jakañar askin uñjaña",
+      "custom": "Munañ ukham"
+    },
+    "cargo": {
+      "presidente": "Jach'a Irpiri",
+      "vicepresidente": "Payïri Irpiri",
+      "senador": "Senador",
+      "diputado": "Diputado",
+      "parlamento_andino": "Qullanaka Parlamento"
+    },
+    "table": {
+      "rank": "#",
+      "candidate": "Ajilata",
+      "party": "Partido",
+      "score": "Jakhunaka",
+      "competence": "Yatiqawi",
+      "integrity": "Wali jakaña",
+      "transparency": "Q'umara",
+      "confidence": "Iyawsaña",
+      "actions": "Lurawinaka"
+    },
+    "noResults": "Jan ajilanaka jikxatati uka t'aqampi",
+    "loading": "Ajilanaka apanipxi...",
+    "viewProfile": "Perfil uñjaña",
+    "compare": "Uñacht'ayaña"
+  },
+  "candidate": {
+    "profile": "Ajilata Perfilpa",
+    "overview": "Uñakipaña",
+    "education": "Yatiqawi",
+    "experience": "Lurawinaka",
+    "trajectory": "Política Thakhi",
+    "assets": "Imanaka yatiyawi",
+    "flags": "Yatiyawinaka",
+    "news": "Willakuynaka",
+    "similar": "Ukat ajilanaka",
+    "scores": {
+      "title": "Jakhunakanaka",
+      "competence": "Yatiqawi",
+      "competenceDesc": "Yatiqawi, lurawinaka, irpiri jakaña",
+      "integrity": "Wali jakaña",
+      "integrityDesc": "Jan sentencianaka, suma jakaña",
+      "transparency": "Q'umara",
+      "transparencyDesc": "Yatiyatana suma jakaña",
+      "confidence": "Yatiqawi Iyawsaña",
+      "confidenceDesc": "Kunjams chiqa yatiqawinaka"
+    },
+    "educationLevels": {
+      "doctorado": "Doctorado",
+      "maestria": "Maestría",
+      "titulo_profesional": "Profesional Título",
+      "universitario_comp": "Universidad Tukuyata",
+      "universitario_inc": "Universidad Jan Tukuyata",
+      "tecnico_comp": "Técnico Tukuyata",
+      "tecnico_inc": "Técnico Jan Tukuyata",
+      "secundaria_comp": "Secundaria Tukuyata",
+      "secundaria_inc": "Secundaria Jan Tukuyata",
+      "primaria": "Primaria",
+      "sin_informacion": "Jan Yatiqawi"
+    },
+    "flagTypes": {
+      "PENAL_SENTENCE": "Penal Sentencia",
+      "CIVIL_SENTENCE": "Civil Sentencia",
+      "VIOLENCE": "Nuwasiña",
+      "ALIMENTOS": "Wawaru Jan Churaña",
+      "LABORAL": "Irnaqa Sentencia",
+      "CONTRACTUAL": "Trato Sentencia",
+      "MULTIPLE_RESIGNATIONS": "Walja Saraña",
+      "INCONSISTENCY": "Jan Tupuqi",
+      "OTHER": "Yaqha"
+    },
+    "flagSeverity": {
+      "RED": "Sinti Ch'ama",
+      "AMBER": "Taypiku",
+      "GRAY": "Jisk'a"
+    },
+    "viewDJHV": "Jakaña Qillqa Uñjaña (JNE)",
+    "reportError": "Pantjawi Yatiyaña",
+    "share": "Chikanchaña"
+  },
+  "quiz": {
+    "title": "Ajilana Jiskhtanaka",
+    "subtitle": "Jikxataña kawkir ajilanaka jumanpi tupuqi",
+    "start": "Qalltaña",
+    "question": "Jiskhtawi",
+    "of": "-",
+    "next": "Jutiri",
+    "previous": "Nayräxa",
+    "finish": "Jikxatawinaka Uñjaña",
+    "results": {
+      "title": "Jikxatawinaka",
+      "subtitle": "Jaysawinakamampi, aka ajilanaka jumanpi askin tupuqi",
+      "match": "tupuqi",
+      "topMatches": "Askin Tupuqinaka",
+      "retake": "Wasitat Luraña",
+      "share": "Jikxatawinaka Chikanchaña"
+    },
+    "answers": {
+      "stronglyDisagree": "Sinti jan tupuqi",
+      "disagree": "Jan tupuqi",
+      "neutral": "Taypiku",
+      "agree": "Tupuqi",
+      "stronglyAgree": "Sinti tupuqi"
+    }
+  },
+  "compare": {
+    "title": "Ajilanaka Uñacht'ayaña",
+    "subtitle": "Ajilanaka ajilañ uñacht'ayañataki",
+    "select": "Ajilata ajilañ",
+    "add": "Yapxataña",
+    "remove": "Apsuña",
+    "noSelection": "Paya ajilanakar ajilañ uñacht'ayañataki",
+    "maxReached": "Pusi ajilanaka uñacht'ayañataki"
+  },
+  "news": {
+    "title": "Ajilana Yatiyawinaka",
+    "subtitle": "Qhipa yatiyawinaka ajilanakamanta partido político nakamanta",
+    "trending": "Askin Uñjata",
+    "latest": "Qhipa",
+    "byCandidate": "Ajilata uksat",
+    "sentiment": {
+      "positive": "Suma",
+      "negative": "Jan wali",
+      "neutral": "Taypiku",
+      "mixed": "Ch'axrusita"
+    },
+    "readMore": "Jilpach ullaña",
+    "noNews": "Jan yatiyawinaka utjiti"
+  },
+  "transparency": {
+    "title": "Qullqi Q'umara",
+    "subtitle": "Partidonakana qullqi yatiyawinaka",
+    "publicFunding": "Marka Qullqi",
+    "privateFunding": "Kimsir Qullqi",
+    "expenses": "Qhatinaka",
+    "donors": "Qullqi Churirinaka",
+    "viewDetails": "Taqpach Uñjaña"
+  },
+  "methodology": {
+    "title": "Jakhunaka Lurawi",
+    "subtitle": "Kunjams ajilanakana jakhunakanaka jakhuñ",
+    "overview": "Modelo Uñakipawi",
+    "formula": "Jach'a Fórmula",
+    "competence": "Yatiqawi",
+    "integrity": "Wali jakaña",
+    "transparency": "Q'umara",
+    "confidence": "Yatiqawi Iyawsaña",
+    "dataSources": "Yatiqawi Phuqtu",
+    "disclaimer": "Sinti Maysata Yatiyawi"
+  },
+  "footer": {
+    "about": "Kunats",
+    "contact": "Aruskipaña",
+    "privacy": "Imantata",
+    "terms": "Kamachiwinaka",
+    "disclaimer": "Aka ranking yatiyaña herramienta. Jan ajilana kamachiwiti."
+  },
+  "common": {
+    "loading": "Apanipxi...",
+    "error": "Pantjawi",
+    "retry": "Wasitat luraña",
+    "close": "Jist'araña",
+    "save": "Imaña",
+    "cancel": "Jan luraña",
+    "confirm": "Jisa",
+    "yes": "Jisa",
+    "no": "Janiw",
+    "points": "jakhunakanaka",
+    "viewMore": "Jilpach uñjaña",
+    "viewLess": "Pist uñjaña",
+    "share": "Chikanchaña",
+    "copy": "Uñtata",
+    "copied": "Uñtatawa"
+  },
+  "disclaimer": {
+    "aiTranslation": "IA ukatjam jaqukipata",
+    "reportError": "Pantjawi yatiyaña",
+    "helpImprove": "Yanapt'am sumart'ayañataki"
+  }
+}

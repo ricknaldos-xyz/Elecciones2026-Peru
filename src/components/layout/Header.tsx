@@ -1,18 +1,22 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useTranslations, useLocale } from 'next-intl'
+import { Link, useRouter } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
+import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher'
 import type { CandidateWithScores } from '@/types/database'
+import type { Locale } from '@/i18n/config'
 
 interface HeaderProps {
   currentPath?: string
 }
 
 export function Header({ currentPath }: HeaderProps) {
+  const locale = useLocale() as Locale
   const router = useRouter()
+  const t = useTranslations('nav')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
@@ -75,13 +79,13 @@ export function Header({ currentPath }: HeaderProps) {
   }
 
   const navLinks = [
-    { href: '/ranking', label: 'Ranking' },
-    { href: '/noticias', label: 'Noticias', isNew: true },
-    { href: '/quiz', label: 'Quiz' },
-    { href: '/comparar', label: 'Comparar' },
-    { href: '/transparencia', label: 'Transparencia' },
-    { href: '/metodologia', label: 'Metodología' },
-    { href: '/docs', label: 'Docs' },
+    { href: '/ranking' as const, labelKey: 'ranking' as const },
+    { href: '/noticias' as const, labelKey: 'news' as const, isNew: true },
+    { href: '/quiz' as const, labelKey: 'quiz' as const },
+    { href: '/comparar' as const, labelKey: 'compare' as const },
+    { href: '/transparencia' as const, labelKey: 'transparency' as const },
+    { href: '/metodologia' as const, labelKey: 'methodology' as const },
+    { href: '/docs' as const, labelKey: 'docs' as const },
   ]
 
   return (
@@ -147,10 +151,10 @@ export function Header({ currentPath }: HeaderProps) {
                       ]
                 )}
               >
-                {link.label}
+                {t(link.labelKey)}
                 {link.isNew && (
                   <span className="text-[10px] font-black bg-[var(--score-medium)] text-black px-1.5 py-0.5 leading-none">
-                    NUEVO
+                    {t('new')}
                   </span>
                 )}
               </Link>
@@ -180,7 +184,7 @@ export function Header({ currentPath }: HeaderProps) {
                     'shadow-[var(--shadow-brutal-sm)]',
                   ]
                 )}
-                aria-label="Buscar"
+                aria-label={t('search')}
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -200,7 +204,7 @@ export function Header({ currentPath }: HeaderProps) {
                   <div className="p-3">
                     <input
                       type="text"
-                      placeholder="Buscar candidato..."
+                      placeholder={t('searchPlaceholder')}
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className={cn(
@@ -217,7 +221,7 @@ export function Header({ currentPath }: HeaderProps) {
                   </div>
                   {isSearching && (
                     <div className="px-4 py-3 text-sm font-bold text-[var(--muted-foreground)] uppercase tracking-wide">
-                      Buscando...
+                      {t('searching')}
                     </div>
                   )}
                   {searchResults.length > 0 && (
@@ -264,12 +268,15 @@ export function Header({ currentPath }: HeaderProps) {
                   )}
                   {searchQuery.length >= 2 && !isSearching && searchResults.length === 0 && (
                     <div className="px-4 py-3 text-sm font-bold text-[var(--muted-foreground)] border-t-3 border-[var(--border)] uppercase tracking-wide">
-                      No se encontraron resultados
+                      {t('noResults')}
                     </div>
                   )}
                 </div>
               )}
             </div>
+
+            {/* Language Switcher */}
+            <LanguageSwitcher currentLocale={locale} />
 
             {/* Dark Mode Toggle - NEO BRUTAL - 44px Touch Target */}
             <button
@@ -286,7 +293,7 @@ export function Header({ currentPath }: HeaderProps) {
                 'hover:-translate-x-0.5 hover:-translate-y-0.5',
                 'hover:shadow-[var(--shadow-brutal-sm)]'
               )}
-              aria-label="Cambiar tema"
+              aria-label={t('changeTheme')}
             >
               {darkMode ? (
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -302,7 +309,7 @@ export function Header({ currentPath }: HeaderProps) {
             {/* CTA Button - Desktop */}
             <Link href="/ranking" className="hidden md:block">
               <Button variant="primary" size="sm">
-                Ver Ranking
+                {t('viewRanking')}
               </Button>
             </Link>
 
@@ -323,7 +330,7 @@ export function Header({ currentPath }: HeaderProps) {
                   'border-[var(--border)]',
                 ]
               )}
-              aria-label="Menú"
+              aria-label={t('menu')}
             >
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 {mobileMenuOpen ? (
@@ -366,10 +373,10 @@ export function Header({ currentPath }: HeaderProps) {
                         ]
                   )}
                 >
-                  {link.label}
+                  {t(link.labelKey)}
                   {link.isNew && (
                     <span className="text-[10px] font-black bg-[var(--score-medium)] text-black px-1.5 py-0.5 leading-none">
-                      NEW
+                      {t('new')}
                     </span>
                   )}
                 </Link>
@@ -380,7 +387,7 @@ export function Header({ currentPath }: HeaderProps) {
                 className="mt-2"
               >
                 <Button variant="primary" size="lg" className="w-full">
-                  Ver Ranking
+                  {t('viewRanking')}
                 </Button>
               </Link>
             </nav>

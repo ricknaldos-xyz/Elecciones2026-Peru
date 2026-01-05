@@ -18,17 +18,6 @@ export const metadata: Metadata = {
   title: "Ranking Electoral Perú 2026",
   description: "Ranking transparente de candidatos basado en mérito, integridad y evidencia. Elecciones Generales 12 de abril 2026.",
   keywords: ["elecciones", "perú", "2026", "candidatos", "ranking", "votación"],
-  openGraph: {
-    title: "Ranking Electoral Perú 2026",
-    description: "Elige con datos, no con slogans. Ranking transparente de candidatos.",
-    type: "website",
-    locale: "es_PE",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Ranking Electoral Perú 2026",
-    description: "Elige con datos, no con slogans.",
-  },
 };
 
 const DarkModeScript = () => {
@@ -49,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html suppressHydrationWarning>
       <head>
         <DarkModeScript />
       </head>
