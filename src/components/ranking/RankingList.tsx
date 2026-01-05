@@ -1,8 +1,10 @@
 'use client'
 
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
 import { CandidateCard } from '@/components/candidate/CandidateCard'
+import { useListNavigationShortcuts } from '@/hooks/useKeyboardShortcuts'
 import type { CandidateWithScores, PresetType, Weights, CargoType } from '@/types/database'
 
 interface RankingListProps {
@@ -50,6 +52,48 @@ export function RankingList({
   onClearSearch,
   onCargoChange,
 }: RankingListProps) {
+  // Keyboard navigation state
+  const [focusedIndex, setFocusedIndex] = useState(-1)
+  const listRef = useRef<HTMLDivElement>(null)
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([])
+
+  // Reset focus when candidates change
+  useEffect(() => {
+    setFocusedIndex(-1)
+    cardRefs.current = []
+  }, [candidates])
+
+  // Scroll focused card into view
+  useEffect(() => {
+    if (focusedIndex >= 0 && cardRefs.current[focusedIndex]) {
+      cardRefs.current[focusedIndex]?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      })
+      cardRefs.current[focusedIndex]?.focus()
+    }
+  }, [focusedIndex])
+
+  // Keyboard navigation handlers
+  const handleNext = useCallback(() => {
+    setFocusedIndex(prev =>
+      prev < candidates.length - 1 ? prev + 1 : prev
+    )
+  }, [candidates.length])
+
+  const handlePrevious = useCallback(() => {
+    setFocusedIndex(prev => (prev > 0 ? prev - 1 : 0))
+  }, [])
+
+  const handleSelect = useCallback(() => {
+    if (focusedIndex >= 0 && candidates[focusedIndex]) {
+      onView(candidates[focusedIndex].slug)
+    }
+  }, [focusedIndex, candidates, onView])
+
+  // j/k keyboard navigation
+  useListNavigationShortcuts(handleNext, handlePrevious, handleSelect)
+
   if (candidates.length === 0) {
     const hasSearch = searchQuery && searchQuery.trim().length > 0
     const hasFilters = activeFilters && (
@@ -146,10 +190,52 @@ export function RankingList({
   // Grid view - 2 columns with compact cards
   if (viewMode === 'grid') {
     return (
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div ref={listRef} className="grid grid-cols-1 lg:grid-cols-2 gap-4" role="list" aria-label="Lista de candidatos (usa j/k para navegar)">
         {candidates.map((candidate, index) => (
-          <CandidateCard
+          <div
             key={candidate.id}
+            ref={(el) => { cardRefs.current[index] = el }}
+            tabIndex={focusedIndex === index ? 0 : -1}
+            className={cn(
+              'outline-none transition-all duration-100',
+              focusedIndex === index && 'ring-4 ring-[var(--primary)] ring-offset-2'
+            )}
+            role="listitem"
+            aria-label={`Candidato ${index + 1}: ${candidate.full_name}`}
+          >
+            <CandidateCard
+              candidate={candidate}
+              rank={index + 1}
+              mode={mode}
+              weights={weights}
+              isSelected={selectedIds.includes(candidate.id)}
+              onCompare={() => onCompare(candidate.id)}
+              onView={() => onView(candidate.slug)}
+              onShare={() => onShare(candidate.id)}
+              variant="compact"
+            />
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  // List view - default
+  return (
+    <div ref={listRef} className="space-y-4" role="list" aria-label="Lista de candidatos (usa j/k para navegar)">
+      {candidates.map((candidate, index) => (
+        <div
+          key={candidate.id}
+          ref={(el) => { cardRefs.current[index] = el }}
+          tabIndex={focusedIndex === index ? 0 : -1}
+          className={cn(
+            'outline-none transition-all duration-100',
+            focusedIndex === index && 'ring-4 ring-[var(--primary)] ring-offset-2'
+          )}
+          role="listitem"
+          aria-label={`Candidato ${index + 1}: ${candidate.full_name}`}
+        >
+          <CandidateCard
             candidate={candidate}
             rank={index + 1}
             mode={mode}
@@ -158,28 +244,8 @@ export function RankingList({
             onCompare={() => onCompare(candidate.id)}
             onView={() => onView(candidate.slug)}
             onShare={() => onShare(candidate.id)}
-            variant="compact"
           />
-        ))}
-      </div>
-    )
-  }
-
-  // List view - default
-  return (
-    <div className="space-y-4">
-      {candidates.map((candidate, index) => (
-        <CandidateCard
-          key={candidate.id}
-          candidate={candidate}
-          rank={index + 1}
-          mode={mode}
-          weights={weights}
-          isSelected={selectedIds.includes(candidate.id)}
-          onCompare={() => onCompare(candidate.id)}
-          onView={() => onView(candidate.slug)}
-          onShare={() => onShare(candidate.id)}
-        />
+        </div>
       ))}
     </div>
   )

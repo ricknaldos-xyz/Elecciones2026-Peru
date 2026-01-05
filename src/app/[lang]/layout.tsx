@@ -3,6 +3,7 @@ import { getMessages, setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { locales, type Locale, localeNames } from '@/i18n/config';
 import { TranslationDisclaimer } from '@/components/i18n/TranslationDisclaimer';
+import { ClientProviders } from '@/components/providers/ClientProviders';
 
 type Props = {
   children: React.ReactNode;
@@ -71,8 +72,10 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <NextIntlClientProvider messages={messages} locale={locale}>
-      <TranslationDisclaimer locale={locale} />
-      {children}
+      <ClientProviders>
+        <TranslationDisclaimer locale={locale} />
+        {children}
+      </ClientProviders>
     </NextIntlClientProvider>
   );
 }

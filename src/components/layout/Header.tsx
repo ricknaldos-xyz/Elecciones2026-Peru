@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useTranslations, useLocale } from 'next-intl'
 import { Link, useRouter } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher'
+import { useSearchShortcut } from '@/hooks/useKeyboardShortcuts'
 import type { CandidateWithScores } from '@/types/database'
 import type { Locale } from '@/i18n/config'
 
@@ -26,6 +27,15 @@ export function Header({ currentPath }: HeaderProps) {
   const searchRef = useRef<HTMLDivElement>(null)
   const mobileMenuRef = useRef<HTMLDivElement>(null)
   const mobileMenuButtonRef = useRef<HTMLButtonElement>(null)
+  const searchInputRef = useRef<HTMLInputElement>(null)
+
+  // Keyboard shortcut: "/" to open search
+  const openSearch = useCallback(() => {
+    setSearchOpen(true)
+    // Focus input after state update
+    setTimeout(() => searchInputRef.current?.focus(), 50)
+  }, [])
+  useSearchShortcut(openSearch)
 
   useEffect(() => {
     const isDark = document.documentElement.classList.contains('dark')
@@ -270,8 +280,9 @@ export function Header({ currentPath }: HeaderProps) {
                 )}>
                   <div className="p-3">
                     <input
+                      ref={searchInputRef}
                       type="text"
-                      placeholder={t('searchPlaceholder')}
+                      placeholder={`${t('searchPlaceholder')} (presiona /)`}
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className={cn(
