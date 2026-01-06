@@ -230,6 +230,7 @@ export function SyncDashboard() {
       // Use admin proxy API (no need to expose CRON_SECRET)
       const response = await fetch(`/api/admin/sync/${source}`, {
         method: 'POST',
+        credentials: 'include',
       })
 
       if (response.status === 401) {

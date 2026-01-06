@@ -40,9 +40,10 @@ export async function POST(request: NextRequest) {
     // Generate session token
     const sessionToken = generateSessionToken()
 
-    // Set cookie
-    const cookieStore = await cookies()
-    cookieStore.set(SESSION_COOKIE_NAME, sessionToken, {
+    // Create response with cookie
+    const response = NextResponse.json({ success: true })
+
+    response.cookies.set(SESSION_COOKIE_NAME, sessionToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
@@ -50,7 +51,7 @@ export async function POST(request: NextRequest) {
       path: '/',
     })
 
-    return NextResponse.json({ success: true })
+    return response
   } catch (error) {
     console.error('Auth error:', error)
     return NextResponse.json(
@@ -80,10 +81,17 @@ export async function GET() {
 // DELETE /api/admin/auth - Logout
 export async function DELETE() {
   try {
-    const cookieStore = await cookies()
-    cookieStore.delete(SESSION_COOKIE_NAME)
+    const response = NextResponse.json({ success: true })
 
-    return NextResponse.json({ success: true })
+    response.cookies.set(SESSION_COOKIE_NAME, '', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 0,
+      path: '/',
+    })
+
+    return response
   } catch (error) {
     console.error('Logout error:', error)
     return NextResponse.json(
