@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
 
 const SESSION_COOKIE_NAME = 'admin_session'
 const CRON_SECRET = process.env.CRON_SECRET
@@ -18,15 +17,9 @@ const API_PATHS: Record<string, string> = {
   news: 'news',
 }
 
-// Validate session
-async function isAuthenticated(): Promise<boolean> {
-  try {
-    const cookieStore = await cookies()
-    const sessionToken = cookieStore.get(SESSION_COOKIE_NAME)?.value
-    return !!sessionToken && /^[a-z0-9]+_[a-z0-9]+$/.test(sessionToken)
-  } catch {
-    return false
-  }
+// Validate session token format
+function isValidSessionFormat(token: string): boolean {
+  return /^[a-z0-9]+_[a-z0-9]+$/.test(token)
 }
 
 // POST /api/admin/sync/[source] - Trigger sync via proxy
@@ -35,8 +28,12 @@ export async function POST(
   { params }: { params: Promise<{ source: string }> }
 ) {
   try {
-    // Check authentication
-    if (!(await isAuthenticated())) {
+    // Check authentication using request.cookies directly
+    const sessionToken = request.cookies.get(SESSION_COOKIE_NAME)?.value
+    console.log('Admin sync: checking auth, token exists?', !!sessionToken)
+
+    if (!sessionToken || !isValidSessionFormat(sessionToken)) {
+      console.log('Admin sync: unauthorized')
       return NextResponse.json(
         { success: false, error: 'Unauthorized' },
         { status: 401 }

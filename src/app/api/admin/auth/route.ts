@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123'
 const SESSION_COOKIE_NAME = 'admin_session'
@@ -23,6 +22,8 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { password } = body
 
+    console.log('Admin auth: login attempt')
+
     if (!password) {
       return NextResponse.json(
         { success: false, error: 'Password required' },
@@ -31,6 +32,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (password !== ADMIN_PASSWORD) {
+      console.log('Admin auth: invalid password')
       return NextResponse.json(
         { success: false, error: 'Invalid password' },
         { status: 401 }
@@ -39,6 +41,7 @@ export async function POST(request: NextRequest) {
 
     // Generate session token
     const sessionToken = generateSessionToken()
+    console.log('Admin auth: generated token', sessionToken.substring(0, 10) + '...')
 
     // Create response with cookie
     const response = NextResponse.json({ success: true })
@@ -51,6 +54,7 @@ export async function POST(request: NextRequest) {
       path: '/',
     })
 
+    console.log('Admin auth: cookie set successfully')
     return response
   } catch (error) {
     console.error('Auth error:', error)
@@ -62,19 +66,27 @@ export async function POST(request: NextRequest) {
 }
 
 // GET /api/admin/auth - Check session
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const cookieStore = await cookies()
-    const sessionToken = cookieStore.get(SESSION_COOKIE_NAME)?.value
+    // Use request.cookies instead of cookies() from next/headers
+    const sessionToken = request.cookies.get(SESSION_COOKIE_NAME)?.value
 
-    if (!sessionToken || !isValidSessionFormat(sessionToken)) {
-      return NextResponse.json({ authenticated: false })
+    console.log('Admin auth check: token exists?', !!sessionToken)
+
+    if (!sessionToken) {
+      return NextResponse.json({ authenticated: false, reason: 'no_token' })
     }
 
+    if (!isValidSessionFormat(sessionToken)) {
+      console.log('Admin auth check: invalid format', sessionToken.substring(0, 10))
+      return NextResponse.json({ authenticated: false, reason: 'invalid_format' })
+    }
+
+    console.log('Admin auth check: valid session')
     return NextResponse.json({ authenticated: true })
   } catch (error) {
     console.error('Auth check error:', error)
-    return NextResponse.json({ authenticated: false })
+    return NextResponse.json({ authenticated: false, reason: 'error' })
   }
 }
 
