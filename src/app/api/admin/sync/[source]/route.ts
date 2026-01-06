@@ -48,11 +48,22 @@ export async function POST(
 
     // Get the base URL
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL ||
-                    process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` :
-                    'http://localhost:3000'
+                    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+
+    // Validate CRON_SECRET is set
+    if (!CRON_SECRET) {
+      console.error('CRON_SECRET not configured')
+      return NextResponse.json(
+        { success: false, error: 'Server misconfiguration: CRON_SECRET not set' },
+        { status: 500 }
+      )
+    }
+
+    const syncUrl = `${baseUrl}/api/sync/${apiPath}`
+    console.log(`Admin sync: calling ${syncUrl}`)
 
     // Call the actual sync API with the secret
-    const response = await fetch(`${baseUrl}/api/sync/${apiPath}`, {
+    const response = await fetch(syncUrl, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${CRON_SECRET}`,
@@ -60,11 +71,18 @@ export async function POST(
       },
     })
 
-    const data = await response.json()
+    let data
+    try {
+      data = await response.json()
+    } catch {
+      data = { error: 'Invalid JSON response' }
+    }
+
+    console.log(`Admin sync ${source} response:`, response.status, data)
 
     if (!response.ok) {
       return NextResponse.json(
-        { success: false, error: data.error || 'Sync failed' },
+        { success: false, error: data.error || data.message || `Sync failed with status ${response.status}` },
         { status: response.status }
       )
     }
