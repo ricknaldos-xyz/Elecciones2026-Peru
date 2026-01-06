@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 
 interface SyncStatus {
@@ -99,20 +100,6 @@ const STATUS_STYLES: Record<string, string> = {
   failed: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
 }
 
-// Map source keys to API paths
-const API_PATHS: Record<string, string> = {
-  jne: 'jne',
-  onpe: 'onpe',
-  poder_judicial: 'judicial',
-  expanded_rss: 'news-expanded',
-  google_news: 'google-news',
-  youtube: 'youtube',
-  ai_analysis: 'ai-analysis',
-  tiktok: 'tiktok',
-  twitter: 'twitter',
-  news: 'news',
-}
-
 function formatDuration(ms: number | null): string {
   if (!ms) return '-'
   if (ms < 1000) return `${ms}ms`
@@ -149,6 +136,7 @@ function timeAgo(dateStr: string | null): string {
 
 export function SyncDashboard() {
   const t = useTranslations('syncDashboard')
+  const router = useRouter()
   const [status, setStatus] = useState<Record<string, SyncStatus>>({})
   const [logs, setLogs] = useState<SyncLog[]>([])
   const [loading, setLoading] = useState(true)
@@ -239,13 +227,16 @@ export function SyncDashboard() {
     setError(null)
 
     try {
-      const apiPath = API_PATHS[source] || source
-      const response = await fetch(`/api/sync/${apiPath}`, {
+      // Use admin proxy API (no need to expose CRON_SECRET)
+      const response = await fetch(`/api/admin/sync/${source}`, {
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_CRON_SECRET || 'test'}`,
-        },
       })
+
+      if (response.status === 401) {
+        // Session expired, redirect to login
+        router.push('/es/admin/login')
+        return
+      }
 
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}`)
@@ -274,6 +265,16 @@ export function SyncDashboard() {
 
   return (
     <div className="space-y-6">
+      {/* Page Title */}
+      <div>
+        <h1 className="text-2xl font-black uppercase tracking-tight">
+          Panel de Sincronización
+        </h1>
+        <p className="text-sm text-[var(--muted-foreground)] mt-1">
+          Gestiona la sincronización de datos desde fuentes externas.
+        </p>
+      </div>
+
       {error && (
         <div className="bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800 rounded-lg p-4 text-red-700 dark:text-red-200">
           {error}
