@@ -1,10 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 
 export function AdminLoginForm() {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -18,6 +17,7 @@ export function AdminLoginForm() {
     setLoading(true)
 
     try {
+      // 1. Login request
       const response = await fetch('/api/admin/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -29,16 +29,30 @@ export function AdminLoginForm() {
 
       if (!response.ok || !data.success) {
         setError(data.error || 'Error de autenticación')
+        setLoading(false)
         return
       }
 
-      // Redirect to admin page
-      router.push(redirectTo)
-      router.refresh()
+      // 2. Wait for browser to process the cookie
+      await new Promise(resolve => setTimeout(resolve, 150))
+
+      // 3. Verify session was created
+      const checkAuth = await fetch('/api/admin/auth', {
+        credentials: 'include',
+      })
+      const authData = await checkAuth.json()
+
+      if (!authData.authenticated) {
+        setError('Error al crear sesión. Intenta de nuevo.')
+        setLoading(false)
+        return
+      }
+
+      // 4. Full page navigation (avoids Next.js middleware race condition)
+      window.location.href = redirectTo
     } catch (err) {
       setError('Error de conexión')
       console.error(err)
-    } finally {
       setLoading(false)
     }
   }
