@@ -1576,6 +1576,558 @@ CREATE TABLE scores (
           </Card>
         </section>
 
+        {/* Section 13: Business Model */}
+        <section id="modelo-negocio" className="mb-12 scroll-mt-20">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3">
+                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">13</span>
+                MODELO DE NEGOCIO
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Value Proposition */}
+              <div className="p-4 border-2 border-[var(--primary)] bg-[var(--primary)]/5">
+                <h4 className="font-black text-[var(--primary)] mb-2 uppercase">Propuesta de Valor</h4>
+                <p className="text-sm text-[var(--foreground)] font-medium">
+                  Plataforma de <strong>bien público</strong> que democratiza el acceso a información electoral
+                  verificada y objetiva, permitiendo a los ciudadanos tomar decisiones informadas basadas en
+                  datos, no en promesas vacías o propaganda.
+                </p>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                {/* User Segments */}
+                <div className="p-4 border-2 border-[var(--border)]">
+                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Segmentos de Usuario</h4>
+                  <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
+                    <li className="flex items-start gap-2">
+                      <span className="text-[var(--primary)]">👤</span>
+                      <div><strong>Votantes informados:</strong> Ciudadanos que buscan datos objetivos</div>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[var(--primary)]">📰</span>
+                      <div><strong>Periodistas:</strong> Medios que necesitan fuentes verificadas</div>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[var(--primary)]">🎓</span>
+                      <div><strong>Academia:</strong> Investigadores y estudiantes de ciencias políticas</div>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[var(--primary)]">🏛️</span>
+                      <div><strong>ONGs:</strong> Organizaciones de transparencia y anticorrupción</div>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Revenue Sources */}
+                <div className="p-4 border-2 border-[var(--border)]">
+                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Fuentes de Financiamiento</h4>
+                  <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-600">💚</span>
+                      <div><strong>Grants:</strong> Fondos de organizaciones pro-transparencia (NED, USAID, Open Society)</div>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-blue-600">💙</span>
+                      <div><strong>Donaciones:</strong> Ciudadanos comprometidos con la democracia</div>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-purple-600">💜</span>
+                      <div><strong>Partnerships:</strong> Medios de comunicación (licencia de datos)</div>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-orange-600">🧡</span>
+                      <div><strong>API Premium:</strong> Acceso comercial para aplicaciones de terceros</div>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Cost Structure */}
+                <div className="p-4 border-2 border-[var(--border)]">
+                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Estructura de Costos</h4>
+                  <ul className="text-sm text-[var(--muted-foreground)] space-y-1 font-medium">
+                    <li>• <strong>Hosting:</strong> Vercel Pro (~$20/mes)</li>
+                    <li>• <strong>Base de datos:</strong> Neon/Supabase (~$25/mes)</li>
+                    <li>• <strong>APIs:</strong> Claude AI, scraping (~$50/mes)</li>
+                    <li>• <strong>Dominio + SSL:</strong> (~$15/año)</li>
+                    <li>• <strong>Total estimado:</strong> ~$100-150/mes</li>
+                  </ul>
+                </div>
+
+                {/* Key Partners */}
+                <div className="p-4 border-2 border-[var(--border)]">
+                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Socios Clave</h4>
+                  <ul className="text-sm text-[var(--muted-foreground)] space-y-1 font-medium">
+                    <li>• <strong>JNE / ONPE:</strong> Fuentes de datos oficiales</li>
+                    <li>• <strong>Medios independientes:</strong> Distribución y credibilidad</li>
+                    <li>• <strong>Universidades:</strong> Validación metodológica</li>
+                    <li>• <strong>Fact-checkers:</strong> Verificación de información</li>
+                    <li>• <strong>Observatorios electorales:</strong> Alcance internacional</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Sustainability */}
+              <div className="p-4 bg-green-50 dark:bg-green-900/20 border-2 border-green-500">
+                <h4 className="font-black text-green-700 dark:text-green-400 mb-2 uppercase text-sm">Sostenibilidad</h4>
+                <p className="text-sm text-[var(--foreground)] font-medium">
+                  El modelo prioriza la <strong>independencia editorial</strong> sobre la monetización.
+                  No aceptamos publicidad política ni patrocinios de partidos/candidatos.
+                  La transparencia en el financiamiento está disponible públicamente.
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Section 14: Go-to-Market */}
+        <section id="go-to-market" className="mb-12 scroll-mt-20">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3">
+                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">14</span>
+                GO-TO-MARKET STRATEGY
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Target Audience */}
+              <div className="p-4 border-2 border-[var(--primary)] bg-[var(--primary)]/5">
+                <h4 className="font-black text-[var(--primary)] mb-3 uppercase">Target Audience</h4>
+                <div className="grid sm:grid-cols-3 gap-4 text-sm">
+                  <div className="text-center p-3 bg-white dark:bg-gray-800 border border-[var(--border)]">
+                    <div className="text-3xl mb-2">🎯</div>
+                    <div className="font-black text-[var(--foreground)]">Primario</div>
+                    <div className="text-[var(--muted-foreground)] font-medium">Votantes 25-45 años, urbanos, con acceso a internet</div>
+                  </div>
+                  <div className="text-center p-3 bg-white dark:bg-gray-800 border border-[var(--border)]">
+                    <div className="text-3xl mb-2">📱</div>
+                    <div className="font-black text-[var(--foreground)]">Secundario</div>
+                    <div className="text-[var(--muted-foreground)] font-medium">Jóvenes 18-24, nativos digitales, primer voto</div>
+                  </div>
+                  <div className="text-center p-3 bg-white dark:bg-gray-800 border border-[var(--border)]">
+                    <div className="text-3xl mb-2">📊</div>
+                    <div className="font-black text-[var(--foreground)]">Terciario</div>
+                    <div className="text-[var(--muted-foreground)] font-medium">Periodistas, analistas, decision makers</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                {/* Distribution Channels */}
+                <div className="p-4 border-2 border-[var(--border)]">
+                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Canales de Distribución</h4>
+                  <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
+                    <li className="flex items-center gap-2">
+                      <span>🐦</span> <strong>Twitter/X:</strong> Threads informativos, datos virales
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span>📸</span> <strong>Instagram:</strong> Infografías, stories interactivas
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span>🎵</span> <strong>TikTok:</strong> Clips cortos educativos, #SabíasQue
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span>💬</span> <strong>WhatsApp:</strong> Grupos de fact-checking, cadenas informativas
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span>📰</span> <strong>Medios:</strong> Notas de prensa, datos exclusivos
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Launch Strategy */}
+                <div className="p-4 border-2 border-[var(--border)]">
+                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Estrategia de Lanzamiento</h4>
+                  <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
+                    <li><strong>Fase 1 - Seed:</strong> Beta con periodistas y ONGs</li>
+                    <li><strong>Fase 2 - Growth:</strong> Campaña en redes pre-inscripción JNE</li>
+                    <li><strong>Fase 3 - Viral:</strong> Quiz electoral + comparador durante campaña</li>
+                    <li><strong>Fase 4 - Peak:</strong> Cobertura intensiva última semana</li>
+                    <li><strong>Fase 5 - Legacy:</strong> Archivo histórico post-elección</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* KPIs */}
+              <div className="p-4 border-2 border-[var(--border)]">
+                <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Métricas de Éxito (KPIs)</h4>
+                <div className="grid sm:grid-cols-4 gap-4 text-center">
+                  <div className="p-3 bg-[var(--primary)]/10">
+                    <div className="text-2xl font-black text-[var(--primary)]">500K</div>
+                    <div className="text-xs text-[var(--muted-foreground)] font-medium">Usuarios únicos meta</div>
+                  </div>
+                  <div className="p-3 bg-[var(--primary)]/10">
+                    <div className="text-2xl font-black text-[var(--primary)]">3:00</div>
+                    <div className="text-xs text-[var(--muted-foreground)] font-medium">Tiempo promedio en sitio</div>
+                  </div>
+                  <div className="p-3 bg-[var(--primary)]/10">
+                    <div className="text-2xl font-black text-[var(--primary)]">100K</div>
+                    <div className="text-xs text-[var(--muted-foreground)] font-medium">Quiz completados</div>
+                  </div>
+                  <div className="p-3 bg-[var(--primary)]/10">
+                    <div className="text-2xl font-black text-[var(--primary)]">50K</div>
+                    <div className="text-xs text-[var(--muted-foreground)] font-medium">Comparaciones</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Timeline */}
+              <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-500">
+                <h4 className="font-black text-blue-700 dark:text-blue-400 mb-2 uppercase text-sm">Timeline Elecciones 2026</h4>
+                <div className="flex flex-wrap gap-2 text-xs font-medium">
+                  <span className="px-2 py-1 bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200">Ene 2025: MVP</span>
+                  <span className="px-2 py-1 bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200">Jun 2025: Inscripción JNE</span>
+                  <span className="px-2 py-1 bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200">Oct 2025: Campaña inicia</span>
+                  <span className="px-2 py-1 bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200">Mar 2026: Debates</span>
+                  <span className="px-2 py-1 bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 font-black">Abr 2026: ELECCIÓN</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Section 15: Product Roadmap */}
+        <section id="roadmap" className="mb-12 scroll-mt-20">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3">
+                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">15</span>
+                PRODUCT ROADMAP
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Timeline */}
+              <div className="space-y-4">
+                {/* Q1 2025 */}
+                <div className="p-4 border-2 border-green-500 bg-green-50 dark:bg-green-900/20">
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="px-2 py-1 bg-green-500 text-white text-xs font-black">Q1 2025</span>
+                    <span className="text-green-700 dark:text-green-400 font-black">MVP LANZADO ✓</span>
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-2 text-sm text-[var(--muted-foreground)] font-medium">
+                    <div>✅ Ranking dinámico de candidatos</div>
+                    <div>✅ Perfiles detallados con datos JNE</div>
+                    <div>✅ Sistema de scoring objetivo</div>
+                    <div>✅ Comparador de candidatos</div>
+                    <div>✅ Quiz electoral interactivo</div>
+                    <div>✅ Feed de noticias en tiempo real</div>
+                    <div>✅ Transparencia financiera de partidos</div>
+                    <div>✅ Multi-idioma (ES, QU, AY, ASE)</div>
+                  </div>
+                </div>
+
+                {/* Q2 2025 */}
+                <div className="p-4 border-2 border-blue-500 bg-blue-50 dark:bg-blue-900/20">
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="px-2 py-1 bg-blue-500 text-white text-xs font-black">Q2 2025</span>
+                    <span className="text-blue-700 dark:text-blue-400 font-black">ENGAGEMENT</span>
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-2 text-sm text-[var(--muted-foreground)] font-medium">
+                    <div>🔄 Comparador de propuestas por tema</div>
+                    <div>🔄 Quiz mejorado con más preguntas</div>
+                    <div>🔄 Alertas personalizadas de noticias</div>
+                    <div>🔄 Historial de cambios en candidatos</div>
+                    <div>🔄 Verificación de datos con AI</div>
+                    <div>🔄 Integración con redes sociales</div>
+                  </div>
+                </div>
+
+                {/* Q3 2025 */}
+                <div className="p-4 border-2 border-purple-500 bg-purple-50 dark:bg-purple-900/20">
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="px-2 py-1 bg-purple-500 text-white text-xs font-black">Q3 2025</span>
+                    <span className="text-purple-700 dark:text-purple-400 font-black">EXPANSIÓN</span>
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-2 text-sm text-[var(--muted-foreground)] font-medium">
+                    <div>📱 App móvil (PWA optimizada)</div>
+                    <div>🔌 Widgets embebibles para medios</div>
+                    <div>🗳️ Simulador de resultados</div>
+                    <div>📊 Dashboard para periodistas</div>
+                    <div>🔔 Push notifications</div>
+                    <div>🌐 Cobertura de elecciones regionales</div>
+                  </div>
+                </div>
+
+                {/* Q4 2025 */}
+                <div className="p-4 border-2 border-orange-500 bg-orange-50 dark:bg-orange-900/20">
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="px-2 py-1 bg-orange-500 text-white text-xs font-black">Q4 2025</span>
+                    <span className="text-orange-700 dark:text-orange-400 font-black">MADUREZ</span>
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-2 text-sm text-[var(--muted-foreground)] font-medium">
+                    <div>🔓 API pública documentada</div>
+                    <div>📺 Tracking de debates en vivo</div>
+                    <div>🤖 Chatbot electoral con AI</div>
+                    <div>📈 Predicciones basadas en datos</div>
+                    <div>🔍 Fact-checking automatizado</div>
+                    <div>🏆 Gamificación del engagement cívico</div>
+                  </div>
+                </div>
+
+                {/* Q1 2026 - Election */}
+                <div className="p-4 border-2 border-red-500 bg-red-50 dark:bg-red-900/20">
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="px-2 py-1 bg-red-500 text-white text-xs font-black">Q1-Q2 2026</span>
+                    <span className="text-red-700 dark:text-red-400 font-black">🗳️ ELECCIONES</span>
+                  </div>
+                  <div className="grid sm:grid-cols-2 gap-2 text-sm text-[var(--muted-foreground)] font-medium">
+                    <div>🔴 Cobertura en tiempo real</div>
+                    <div>📊 Resultados por distrito</div>
+                    <div>📱 Peak de tráfico - infraestructura escalada</div>
+                    <div>🗄️ Archivo histórico post-elección</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Competitive Analysis */}
+              <div className="p-4 border-2 border-[var(--border)]">
+                <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Diferenciadores vs Competencia</h4>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b-2 border-[var(--border)]">
+                        <th className="text-left py-2 font-black">Feature</th>
+                        <th className="text-center py-2 font-black">Nosotros</th>
+                        <th className="text-center py-2 font-black">JNE</th>
+                        <th className="text-center py-2 font-black">Medios</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-[var(--muted-foreground)] font-medium">
+                      <tr className="border-b border-[var(--border)]">
+                        <td className="py-2">Scoring objetivo</td>
+                        <td className="text-center text-green-600">✓</td>
+                        <td className="text-center text-red-600">✗</td>
+                        <td className="text-center text-red-600">✗</td>
+                      </tr>
+                      <tr className="border-b border-[var(--border)]">
+                        <td className="py-2">Comparador interactivo</td>
+                        <td className="text-center text-green-600">✓</td>
+                        <td className="text-center text-red-600">✗</td>
+                        <td className="text-center text-yellow-600">~</td>
+                      </tr>
+                      <tr className="border-b border-[var(--border)]">
+                        <td className="py-2">Quiz personalizado</td>
+                        <td className="text-center text-green-600">✓</td>
+                        <td className="text-center text-red-600">✗</td>
+                        <td className="text-center text-red-600">✗</td>
+                      </tr>
+                      <tr className="border-b border-[var(--border)]">
+                        <td className="py-2">Multi-idioma nativo</td>
+                        <td className="text-center text-green-600">✓</td>
+                        <td className="text-center text-red-600">✗</td>
+                        <td className="text-center text-red-600">✗</td>
+                      </tr>
+                      <tr>
+                        <td className="py-2">Open source / Auditable</td>
+                        <td className="text-center text-green-600">✓</td>
+                        <td className="text-center text-red-600">✗</td>
+                        <td className="text-center text-red-600">✗</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Section 16: Legal & Compliance */}
+        <section id="legal" className="mb-12 scroll-mt-20">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3">
+                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">16</span>
+                LEGAL Y COMPLIANCE
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid sm:grid-cols-2 gap-4">
+                {/* Terms of Service */}
+                <div className="p-4 border-2 border-[var(--border)]">
+                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Términos de Uso</h4>
+                  <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
+                    <li>• La información es <strong>de carácter informativo</strong>, no constituye recomendación de voto</li>
+                    <li>• Los datos provienen de <strong>fuentes públicas oficiales</strong> (JNE, ONPE, medios)</li>
+                    <li>• La metodología de scoring es <strong>transparente y auditable</strong></li>
+                    <li>• El uso comercial requiere <strong>autorización expresa</strong></li>
+                    <li>• Nos reservamos el derecho de <strong>modificar contenido</strong> para corregir errores</li>
+                  </ul>
+                </div>
+
+                {/* Privacy Policy */}
+                <div className="p-4 border-2 border-[var(--border)]">
+                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Política de Privacidad</h4>
+                  <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
+                    <li>• <strong>No recopilamos datos personales</strong> de visitantes</li>
+                    <li>• Quiz responses son <strong>anónimas</strong> (solo session ID temporal)</li>
+                    <li>• No usamos cookies de tracking ni publicidad</li>
+                    <li>• Analytics básicos via Vercel (agregados, no individuales)</li>
+                    <li>• DNIs de donantes se muestran <strong>parcialmente ocultos</strong></li>
+                  </ul>
+                </div>
+
+                {/* Electoral Compliance */}
+                <div className="p-4 border-2 border-[var(--border)]">
+                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Compliance Electoral</h4>
+                  <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
+                    <li>• Cumplimos con la <strong>Ley de Organizaciones Políticas</strong> (Ley 28094)</li>
+                    <li>• Respetamos la <strong>veda electoral</strong> (no publicamos encuestas en período prohibido)</li>
+                    <li>• No somos un <strong>organismo electoral oficial</strong></li>
+                    <li>• No recibimos financiamiento de <strong>partidos ni candidatos</strong></li>
+                  </ul>
+                </div>
+
+                {/* Political Neutrality */}
+                <div className="p-4 border-2 border-[var(--border)]">
+                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Neutralidad Política</h4>
+                  <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
+                    <li>• <strong>Sin afiliación</strong> a ningún partido político</li>
+                    <li>• Metodología aplicada <strong>igualmente a todos</strong> los candidatos</li>
+                    <li>• Equipo <strong>diverso políticamente</strong> para evitar sesgos</li>
+                    <li>• <strong>Canal abierto</strong> para reportar sesgos percibidos</li>
+                    <li>• Auditorías externas de la metodología</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Data Sources Disclaimer */}
+              <div className="p-4 bg-[var(--flag-amber)]/10 border-2 border-[var(--flag-amber)]">
+                <h4 className="font-black text-[var(--flag-amber-text)] mb-2 uppercase text-sm">Sobre los Datos</h4>
+                <p className="text-sm text-[var(--foreground)] font-medium">
+                  Toda la información mostrada proviene de fuentes públicas verificables: JNE (hojas de vida),
+                  ONPE (financiamiento), Poder Judicial (antecedentes), medios de comunicación (noticias).
+                  Nos esforzamos por mantener los datos actualizados, pero pueden existir discrepancias
+                  temporales. Si encuentra un error, por favor repórtelo a través de nuestros canales.
+                </p>
+              </div>
+
+              {/* Contact */}
+              <div className="p-4 border-2 border-[var(--primary)] bg-[var(--primary)]/5">
+                <h4 className="font-black text-[var(--primary)] mb-2 uppercase text-sm">Contacto Legal</h4>
+                <p className="text-sm text-[var(--foreground)] font-medium">
+                  Para consultas legales, solicitudes de datos, o reportes de contenido:
+                  <br />
+                  <strong>Email:</strong> legal@rankingelectoral.pe
+                  <br />
+                  <strong>Tiempo de respuesta:</strong> 48-72 horas hábiles
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Section 17: Operations */}
+        <section id="operaciones" className="mb-12 scroll-mt-20">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-3">
+                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">17</span>
+                OPERACIONES Y DESARROLLO
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              {/* Local Setup */}
+              <div className="p-4 border-2 border-[var(--border)]">
+                <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Setup de Desarrollo Local</h4>
+                <div className="bg-[var(--code-bg)] p-4 text-sm font-mono overflow-x-auto">
+                  <pre className="text-[var(--code-text)]">{`# 1. Clonar repositorio
+git clone https://github.com/rowhq/test26.git
+cd test26
+
+# 2. Instalar dependencias
+npm install
+
+# 3. Configurar variables de entorno
+cp .env.local.example .env.local
+# Editar .env.local con tus credenciales
+
+# 4. Iniciar base de datos (opcional - usar Neon/Supabase)
+# Las migraciones están en /supabase/migrations
+
+# 5. Iniciar servidor de desarrollo
+npm run dev
+
+# Abrir http://localhost:3000`}</pre>
+                </div>
+              </div>
+
+              <div className="grid sm:grid-cols-2 gap-4">
+                {/* Contributing */}
+                <div className="p-4 border-2 border-[var(--border)]">
+                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Guía de Contribución</h4>
+                  <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
+                    <li><strong>1.</strong> Fork del repositorio</li>
+                    <li><strong>2.</strong> Crear branch: <code className="bg-[var(--code-bg)] px-1">git checkout -b feat/mi-feature</code></li>
+                    <li><strong>3.</strong> Commits semánticos: <code className="bg-[var(--code-bg)] px-1">feat:</code>, <code className="bg-[var(--code-bg)] px-1">fix:</code>, <code className="bg-[var(--code-bg)] px-1">docs:</code></li>
+                    <li><strong>4.</strong> Tests: <code className="bg-[var(--code-bg)] px-1">npm run test</code></li>
+                    <li><strong>5.</strong> Lint: <code className="bg-[var(--code-bg)] px-1">npm run lint</code></li>
+                    <li><strong>6.</strong> Pull Request con descripción clara</li>
+                  </ul>
+                </div>
+
+                {/* Deployment */}
+                <div className="p-4 border-2 border-[var(--border)]">
+                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Proceso de Deploy</h4>
+                  <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
+                    <li><strong>Preview:</strong> Cada PR genera deploy automático</li>
+                    <li><strong>Production:</strong> Merge a <code className="bg-[var(--code-bg)] px-1">main</code> despliega automáticamente</li>
+                    <li><strong>Rollback:</strong> Via Vercel dashboard o CLI</li>
+                    <li><strong>Env vars:</strong> Configuradas en Vercel dashboard</li>
+                    <li><strong>Dominio:</strong> rankingelectoral.pe (próximamente)</li>
+                  </ul>
+                </div>
+
+                {/* Monitoring */}
+                <div className="p-4 border-2 border-[var(--border)]">
+                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Monitoreo</h4>
+                  <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
+                    <li>• <strong>Vercel Analytics:</strong> Tráfico, Web Vitals</li>
+                    <li>• <strong>Vercel Logs:</strong> Errores en tiempo real</li>
+                    <li>• <strong>Supabase Dashboard:</strong> Queries, storage</li>
+                    <li>• <strong>Sync Logs:</strong> /admin/sync (interno)</li>
+                    <li>• <strong>Uptime:</strong> Vercel Status + Better Uptime</li>
+                  </ul>
+                </div>
+
+                {/* Cron Jobs */}
+                <div className="p-4 border-2 border-[var(--border)]">
+                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Cron Jobs</h4>
+                  <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
+                    <li>• <strong>JNE Sync:</strong> Diario 3:00 AM PET</li>
+                    <li>• <strong>News Sync:</strong> Cada 4 horas</li>
+                    <li>• <strong>AI Analysis:</strong> Manual / Bajo demanda</li>
+                    <li>• <strong>Cache Refresh:</strong> Cada 1 hora</li>
+                    <li>• Configurado en <code className="bg-[var(--code-bg)] px-1">vercel.json</code></li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* Tech Requirements */}
+              <div className="p-4 bg-[var(--primary)]/5 border-2 border-[var(--primary)]">
+                <h4 className="font-black text-[var(--primary)] mb-3 uppercase text-sm">Requisitos Técnicos</h4>
+                <div className="grid sm:grid-cols-3 gap-4 text-sm text-[var(--muted-foreground)] font-medium">
+                  <div>
+                    <strong>Node.js:</strong> 18.x o superior
+                    <br />
+                    <strong>npm:</strong> 9.x o superior
+                  </div>
+                  <div>
+                    <strong>PostgreSQL:</strong> 15.x (Neon/Supabase)
+                    <br />
+                    <strong>Redis:</strong> Opcional (caching)
+                  </div>
+                  <div>
+                    <strong>Vercel CLI:</strong> Último
+                    <br />
+                    <strong>Git:</strong> 2.x o superior
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
+
         {/* Disclaimer */}
         <Card className="mb-8 border-[var(--flag-amber)] bg-[var(--flag-amber)]/10">
           <CardContent className="p-6">
