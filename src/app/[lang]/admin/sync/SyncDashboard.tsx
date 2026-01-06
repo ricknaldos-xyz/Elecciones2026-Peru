@@ -234,9 +234,11 @@ export function SyncDashboard() {
       const authData = await authResponse.json()
 
       if (!authData.authenticated || !authData.token) {
-        setError('Error: No autenticado. Por favor inicia sesión nuevamente.')
+        setError(`Error: No autenticado. authenticated=${authData.authenticated}, hasToken=${!!authData.token}`)
         return
       }
+
+      console.log('Got auth token:', authData.token.substring(0, 15) + '...')
 
       // Use admin proxy API with token in header
       const response = await fetch(`/api/admin/sync/${source}`, {
@@ -250,7 +252,7 @@ export function SyncDashboard() {
       console.log(`Sync ${source} response:`, response.status, result)
 
       if (response.status === 401) {
-        setError(`Error 401: No autorizado.`)
+        setError(`Error 401: ${result.error || 'No autorizado'}. Debug: ${JSON.stringify(result.debug || {})}`)
         return
       }
 

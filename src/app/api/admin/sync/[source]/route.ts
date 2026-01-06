@@ -51,10 +51,18 @@ export async function POST(
 
     console.log('Admin sync: checking auth, header token?', !!headerToken, 'cookie token?', !!cookieToken)
 
-    if (!sessionToken || !isValidSessionFormat(sessionToken)) {
-      console.log('Admin sync: unauthorized')
+    if (!sessionToken) {
+      console.log('Admin sync: no token provided')
       return NextResponse.json(
-        { success: false, error: 'Unauthorized' },
+        { success: false, error: 'No token provided', debug: { headerToken: !!headerToken, cookieToken: !!cookieToken } },
+        { status: 401 }
+      )
+    }
+
+    if (!isValidSessionFormat(sessionToken)) {
+      console.log('Admin sync: invalid token format', sessionToken.substring(0, 10))
+      return NextResponse.json(
+        { success: false, error: 'Invalid token format', debug: { tokenPreview: sessionToken.substring(0, 15) } },
         { status: 401 }
       )
     }
