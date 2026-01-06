@@ -229,7 +229,10 @@
     "similarCandidates": "Yapita apatotantsipë",
     "viewAll": "Tasorintsi oimabëntantsi",
     "otherCandidatesTo": "Yapita {cargo} apatotantsipë amëñëroki.",
-    "viewMoreCandidates": "Ashirëa apatotantsiri ñëtsitanaki"
+    "viewMoreCandidates": "Ashirëa apatotantsiri ñëtsitanaki",
+    "notFound": "Aniri apatotantsiri marëquëpanëquë",
+    "metaDescription": "{name} yëtëñëtsa - Puntuaciónpë: {score}/100 yatsiñënëtsa, yopëñënëtsa, chiñëñënëtsa.",
+    "metaOgDescription": "Apatotantsiri {score}/100 Perú 2026 ëjëcciónpë."
   },
   "quiz": {
     "title": "Amatabeentsi Apatotantsi",

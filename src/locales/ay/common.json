@@ -229,7 +229,10 @@
     "similarCandidates": "Ukat ajilanaka",
     "viewAll": "Taqpach uñjaña",
     "otherCandidatesTo": "Yaqha {cargo} ajilanaka uñacht'ayañataki.",
-    "viewMoreCandidates": "Juk'amp ajilanaka uñjaña"
+    "viewMoreCandidates": "Juk'amp ajilanaka uñjaña",
+    "notFound": "Ajiliri janiw jikxatatäkiti",
+    "metaDescription": "{name} yatiyawi - Chanchi: {score}/100 yatiñat, suma sarnaqañat, uñanchäwinakat.",
+    "metaOgDescription": "Ajiliri {score}/100 chanchi Perú 2026 ajilañana."
   },
   "quiz": {
     "title": "Ajilana Jiskhtanaka",

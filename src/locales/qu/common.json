@@ -229,7 +229,10 @@
     "similarCandidates": "Kikiq akllasqa runakuna",
     "viewAll": "Tukuyta qhaway",
     "otherCandidatesTo": "Wak {cargo} akllasqa runakuna tupachipaq.",
-    "viewMoreCandidates": "Aswan akllasqa runakunata qhaway"
+    "viewMoreCandidates": "Aswan akllasqa runakunata qhaway",
+    "notFound": "Manam akllasqa runa tarikuranchu",
+    "metaDescription": "{name} willaynin - Chanin: {score}/100 yachay, allin kay, sut'i kaymanta.",
+    "metaOgDescription": "Akllasqa runa {score}/100 chaniyuq Perú 2026 akllaypi."
   },
   "quiz": {
     "title": "Akllana Tapukuy",

@@ -229,7 +229,10 @@
     "similarCandidates": "Candidatos similares",
     "viewAll": "Ver todos",
     "otherCandidatesTo": "Otros candidatos a {cargo} para comparar.",
-    "viewMoreCandidates": "Ver más candidatos"
+    "viewMoreCandidates": "Ver más candidatos",
+    "notFound": "Candidato no encontrado",
+    "metaDescription": "Perfil de {name} - Puntaje: {score}/100 basado en competencia, integridad y transparencia.",
+    "metaOgDescription": "Candidato con puntaje de {score}/100 en el Ranking Electoral Perú 2026."
   },
   "quiz": {
     "title": "Quiz Electoral",
