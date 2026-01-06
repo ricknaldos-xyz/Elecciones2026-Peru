@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
 
@@ -19,12 +19,54 @@ export default function AdminLayout({
   const router = useRouter()
   const pathname = usePathname()
   const [loggingOut, setLoggingOut] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null)
 
   // Extract locale from pathname
   const locale = pathname.split('/')[1] || 'es'
 
-  // Don't show layout on login page
+  // Don't check auth on login page
   const isLoginPage = pathname.includes('/admin/login')
+
+  // Check authentication on mount
+  useEffect(() => {
+    if (isLoginPage) {
+      setIsAuthenticated(true) // Skip check on login page
+      return
+    }
+
+    const checkAuth = async () => {
+      try {
+        const response = await fetch('/api/admin/auth', {
+          credentials: 'include',
+        })
+        const data = await response.json()
+
+        if (!data.authenticated) {
+          // Redirect to login
+          window.location.href = `/${locale}/admin/login?redirect=${encodeURIComponent(pathname)}`
+          return
+        }
+
+        setIsAuthenticated(true)
+      } catch (error) {
+        console.error('Auth check failed:', error)
+        window.location.href = `/${locale}/admin/login`
+      }
+    }
+
+    checkAuth()
+  }, [pathname, locale, isLoginPage])
+
+  // Show nothing while checking auth
+  if (isAuthenticated === null && !isLoginPage) {
+    return (
+      <div className="min-h-screen bg-[var(--background)] flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[var(--primary)]"></div>
+      </div>
+    )
+  }
+
+  // Don't show layout on login page
   if (isLoginPage) {
     return <>{children}</>
   }
@@ -32,9 +74,11 @@ export default function AdminLayout({
   const handleLogout = async () => {
     setLoggingOut(true)
     try {
-      await fetch('/api/admin/auth', { method: 'DELETE' })
-      router.push(`/${locale}/admin/login`)
-      router.refresh()
+      await fetch('/api/admin/auth', {
+        method: 'DELETE',
+        credentials: 'include',
+      })
+      window.location.href = `/${locale}/admin/login`
     } catch (err) {
       console.error('Logout error:', err)
     } finally {
