@@ -88,31 +88,62 @@ export async function POST(
 
     // Get the base URL for internal API calls
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL ||
-                    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+                    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null)
 
-    const syncUrl = `${baseUrl}/api/sync/${apiPath}`
-    console.log(`Admin sync: calling ${syncUrl}`)
-
-    // Call the actual sync API with the secret
-    const response = await fetch(syncUrl, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${CRON_SECRET}`,
-        'Content-Type': 'application/json',
-      },
-    })
-
-    // Handle response - may not be JSON
-    const responseText = await response.text()
-    let data: { error?: string; message?: string; [key: string]: unknown }
-    try {
-      data = JSON.parse(responseText)
-    } catch {
-      console.error('Admin sync: non-JSON response:', responseText.substring(0, 200))
-      data = { error: `Respuesta inválida del servidor sync: ${responseText.substring(0, 100)}` }
+    if (!baseUrl) {
+      console.error('Admin sync: No base URL configured (NEXT_PUBLIC_APP_URL or VERCEL_URL)')
+      return NextResponse.json(
+        { success: false, error: 'Error de configuración: URL base no configurada' },
+        { status: 500 }
+      )
     }
 
-    console.log(`Admin sync ${source} response:`, response.status, data)
+    const syncUrl = `${baseUrl}/api/sync/${apiPath}`
+    console.log(`Admin sync: calling ${syncUrl} (baseUrl=${baseUrl})`)
+
+    // Call the actual sync API with timeout
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 120000) // 2 min timeout
+
+    let response: Response
+    try {
+      response = await fetch(syncUrl, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${CRON_SECRET}`,
+          'Content-Type': 'application/json',
+        },
+        signal: controller.signal,
+      })
+    } catch (fetchError) {
+      clearTimeout(timeoutId)
+      const errorMsg = fetchError instanceof Error ? fetchError.message : 'Error de conexión'
+      console.error(`Admin sync: fetch failed to ${syncUrl}:`, errorMsg)
+      return NextResponse.json(
+        { success: false, error: `No se pudo conectar al servidor sync: ${errorMsg}` },
+        { status: 502 }
+      )
+    }
+    clearTimeout(timeoutId)
+
+    // Handle response - validate Content-Type
+    const contentType = response.headers.get('content-type') || ''
+    const responseText = await response.text()
+    let data: { error?: string; message?: string; [key: string]: unknown }
+
+    if (contentType.includes('application/json')) {
+      try {
+        data = JSON.parse(responseText)
+      } catch {
+        console.error('Admin sync: invalid JSON:', responseText.substring(0, 300))
+        data = { error: 'Respuesta JSON inválida del servidor' }
+      }
+    } else {
+      console.error(`Admin sync: unexpected content-type "${contentType}":`, responseText.substring(0, 300))
+      data = { error: `Respuesta inesperada (${contentType}): ${responseText.substring(0, 150)}` }
+    }
+
+    console.log(`Admin sync ${source} response:`, response.status, JSON.stringify(data).substring(0, 200))
 
     if (!response.ok) {
       return NextResponse.json(

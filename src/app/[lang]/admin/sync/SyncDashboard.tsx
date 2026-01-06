@@ -148,6 +148,7 @@ export function SyncDashboard() {
   const [loading, setLoading] = useState(true)
   const [syncing, setSyncing] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [logsError, setLogsError] = useState<string | null>(null)
   const [selectedSource, setSelectedSource] = useState<string | null>(null)
 
   // Translated source labels
@@ -194,6 +195,7 @@ export function SyncDashboard() {
 
   const fetchLogs = useCallback(async () => {
     try {
+      setLogsError(null)
       const url = new URL('/api/sync/status', window.location.origin)
       url.searchParams.set('detailed', 'true')
       url.searchParams.set('limit', '50')
@@ -202,10 +204,20 @@ export function SyncDashboard() {
       }
 
       const response = await fetch(url.toString())
+
+      if (!response.ok) {
+        const text = await response.text()
+        console.error('Error fetching logs:', response.status, text.substring(0, 200))
+        setLogsError(`Error ${response.status}: No se pudieron cargar los logs`)
+        return
+      }
+
       const data = await response.json()
       setLogs(data.logs || [])
     } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Error de conexión'
       console.error('Error fetching logs:', err)
+      setLogsError(`Error al cargar logs: ${errorMsg}`)
     }
   }, [selectedSource])
 
@@ -430,6 +442,12 @@ export function SyncDashboard() {
             </div>
           </div>
         </div>
+
+        {logsError && (
+          <div className="mx-4 mb-4 p-3 bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-800 rounded-lg text-yellow-700 dark:text-yellow-300 text-sm">
+            {logsError}
+          </div>
+        )}
 
         <div className="overflow-x-auto">
           <table className="w-full">
