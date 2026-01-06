@@ -48,6 +48,11 @@ export default function DocsPage() {
                 { href: '#api', label: '10. API Reference' },
                 { href: '#design-system', label: '11. Sistema de Diseño' },
                 { href: '#seguridad', label: '12. Seguridad' },
+                { href: '#modelo-negocio', label: '13. Modelo de Negocio' },
+                { href: '#go-to-market', label: '14. Go-to-Market' },
+                { href: '#roadmap', label: '15. Product Roadmap' },
+                { href: '#legal', label: '16. Legal & Compliance' },
+                { href: '#operaciones', label: '17. Operaciones' },
               ].map((item) => (
                 <a
                   key={item.href}
