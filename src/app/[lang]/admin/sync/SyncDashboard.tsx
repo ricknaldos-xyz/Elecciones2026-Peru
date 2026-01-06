@@ -240,12 +240,13 @@ export function SyncDashboard() {
 
       console.log('Got auth token:', authData.token.substring(0, 15) + '...')
 
-      // Use admin proxy API with token in header
+      // Use admin proxy API with token in body (headers can be stripped by Vercel)
       const response = await fetch(`/api/admin/sync/${source}`, {
         method: 'POST',
         headers: {
-          'X-Admin-Token': authData.token,
+          'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ token: authData.token }),
       })
 
       const result = await response.json()

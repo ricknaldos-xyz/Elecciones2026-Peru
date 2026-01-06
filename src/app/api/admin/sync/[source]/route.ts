@@ -43,18 +43,20 @@ export async function POST(
   { params }: { params: Promise<{ source: string }> }
 ) {
   try {
-    // Check authentication using both header and cookies
-    // Header is needed because POST requests in Next.js App Router sometimes don't receive cookies
+    // Check authentication using body, header, or cookies
+    // Body is most reliable as headers can be stripped by Vercel/Next.js
+    const body = await request.json().catch(() => ({}))
+    const bodyToken = body.token
     const headerToken = request.headers.get('X-Admin-Token')
     const cookieToken = request.cookies.get(SESSION_COOKIE_NAME)?.value
-    const sessionToken = headerToken || cookieToken
+    const sessionToken = bodyToken || headerToken || cookieToken
 
-    console.log('Admin sync: checking auth, header token?', !!headerToken, 'cookie token?', !!cookieToken)
+    console.log('Admin sync: checking auth, body token?', !!bodyToken, 'header token?', !!headerToken, 'cookie token?', !!cookieToken)
 
     if (!sessionToken) {
       console.log('Admin sync: no token provided')
       return NextResponse.json(
-        { success: false, error: 'No token provided', debug: { headerToken: !!headerToken, cookieToken: !!cookieToken } },
+        { success: false, error: 'No token provided', debug: { bodyToken: !!bodyToken, headerToken: !!headerToken, cookieToken: !!cookieToken } },
         { status: 401 }
       )
     }
