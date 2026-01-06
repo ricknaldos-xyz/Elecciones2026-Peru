@@ -23,14 +23,15 @@ export async function POST(request: NextRequest) {
     const totalToFix = parseInt(countResult[0]?.count || '0')
 
     // Update records: extract source from title (after last " - ")
-    // PostgreSQL regex: use (pattern) for capturing group
+    // Use SUBSTRING with regex pattern for PostgreSQL
     const updateResult = await sql`
       UPDATE news_mentions
       SET
-        source = TRIM((REGEXP_MATCHES(title, ' - ([^-]+)$'))[1]),
+        source = TRIM(SUBSTRING(title FROM ' - ([^-]+)$')),
         title = TRIM(REGEXP_REPLACE(title, ' - [^-]+$', ''))
       WHERE (source LIKE '%google%' OR source = 'news.google.com')
       AND title ~ ' - [^-]+$'
+      AND SUBSTRING(title FROM ' - ([^-]+)$') IS NOT NULL
     `
 
     // Count remaining (couldn't extract source from title)
