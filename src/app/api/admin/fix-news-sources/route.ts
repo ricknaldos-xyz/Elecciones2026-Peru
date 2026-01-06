@@ -14,31 +14,32 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    // Count records to fix
+    // Count records to fix (news.google.com or Google News)
     const countResult = await sql`
       SELECT COUNT(*) as count
       FROM news_mentions
-      WHERE source LIKE '%Google%' OR source LIKE '%google%'
+      WHERE source LIKE '%google%' OR source = 'news.google.com'
     `
-    const totalToFix = countResult[0]?.count || 0
+    const totalToFix = parseInt(countResult[0]?.count || '0')
 
     // Update records: extract source from title (after last " - ")
+    // PostgreSQL regex: use (pattern) for capturing group
     const updateResult = await sql`
       UPDATE news_mentions
       SET
-        source = TRIM(SUBSTRING(title FROM '\s-\s([^-]+)$')),
-        title = TRIM(REGEXP_REPLACE(title, '\s-\s[^-]+$', ''))
-      WHERE (source LIKE '%Google%' OR source LIKE '%google%')
-      AND title ~ '\s-\s[^-]+$'
+        source = TRIM((REGEXP_MATCHES(title, ' - ([^-]+)$'))[1]),
+        title = TRIM(REGEXP_REPLACE(title, ' - [^-]+$', ''))
+      WHERE (source LIKE '%google%' OR source = 'news.google.com')
+      AND title ~ ' - [^-]+$'
     `
 
     // Count remaining (couldn't extract source from title)
     const remainingResult = await sql`
       SELECT COUNT(*) as count
       FROM news_mentions
-      WHERE source LIKE '%Google%' OR source LIKE '%google%'
+      WHERE source LIKE '%google%' OR source = 'news.google.com'
     `
-    const remaining = remainingResult[0]?.count || 0
+    const remaining = parseInt(remainingResult[0]?.count || '0')
 
     return NextResponse.json({
       success: true,
