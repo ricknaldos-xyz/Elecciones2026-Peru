@@ -227,18 +227,30 @@ export function SyncDashboard() {
     setError(null)
 
     try {
-      // Use admin proxy API (no need to expose CRON_SECRET)
+      // First, get the auth token (workaround for POST not receiving cookies)
+      const authResponse = await fetch('/api/admin/auth', {
+        credentials: 'include',
+      })
+      const authData = await authResponse.json()
+
+      if (!authData.authenticated || !authData.token) {
+        setError('Error: No autenticado. Por favor inicia sesión nuevamente.')
+        return
+      }
+
+      // Use admin proxy API with token in header
       const response = await fetch(`/api/admin/sync/${source}`, {
         method: 'POST',
-        credentials: 'include',
+        headers: {
+          'X-Admin-Token': authData.token,
+        },
       })
 
       const result = await response.json()
       console.log(`Sync ${source} response:`, response.status, result)
 
       if (response.status === 401) {
-        // Show error instead of redirecting for debugging
-        setError(`Error 401: No autorizado. Cookie no detectada por el servidor.`)
+        setError(`Error 401: No autorizado.`)
         return
       }
 

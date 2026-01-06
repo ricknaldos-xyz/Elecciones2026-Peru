@@ -83,7 +83,8 @@ export async function GET(request: NextRequest) {
     }
 
     console.log('Admin auth check: valid session')
-    return NextResponse.json({ authenticated: true })
+    // Return token for use in API headers (for POST requests that don't receive cookies)
+    return NextResponse.json({ authenticated: true, token: sessionToken })
   } catch (error) {
     console.error('Auth check error:', error)
     return NextResponse.json({ authenticated: false, reason: 'error' })

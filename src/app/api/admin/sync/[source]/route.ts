@@ -43,9 +43,13 @@ export async function POST(
   { params }: { params: Promise<{ source: string }> }
 ) {
   try {
-    // Check authentication using request.cookies directly
-    const sessionToken = request.cookies.get(SESSION_COOKIE_NAME)?.value
-    console.log('Admin sync: checking auth, token exists?', !!sessionToken)
+    // Check authentication using both header and cookies
+    // Header is needed because POST requests in Next.js App Router sometimes don't receive cookies
+    const headerToken = request.headers.get('X-Admin-Token')
+    const cookieToken = request.cookies.get(SESSION_COOKIE_NAME)?.value
+    const sessionToken = headerToken || cookieToken
+
+    console.log('Admin sync: checking auth, header token?', !!headerToken, 'cookie token?', !!cookieToken)
 
     if (!sessionToken || !isValidSessionFormat(sessionToken)) {
       console.log('Admin sync: unauthorized')
