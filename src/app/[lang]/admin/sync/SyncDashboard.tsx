@@ -85,6 +85,12 @@ const SOURCE_LABELS: Record<string, { name: string; description: string; icon: s
     icon: '🐦',
     frequency: 'Manual',
   },
+  government_plans: {
+    name: 'Planes de Gobierno',
+    description: 'Extracción AI de propuestas',
+    icon: '📜',
+    frequency: 'Manual',
+  },
   news: {
     name: 'Noticias (legacy)',
     description: 'RSS básico',
@@ -227,33 +233,28 @@ export function SyncDashboard() {
     setError(null)
 
     try {
-      // First, get the auth token (workaround for POST not receiving cookies)
-      const authResponse = await fetch('/api/admin/auth', {
-        credentials: 'include',
-      })
-      const authData = await authResponse.json()
-
-      if (!authData.authenticated || !authData.token) {
-        setError(`Error: No autenticado. authenticated=${authData.authenticated}, hasToken=${!!authData.token}`)
-        return
-      }
-
-      console.log('Got auth token:', authData.token.substring(0, 15) + '...')
-
-      // Use admin proxy API with token in body (headers can be stripped by Vercel)
+      // Call sync API directly with credentials: include to send cookies
       const response = await fetch(`/api/admin/sync/${source}`, {
         method: 'POST',
+        credentials: 'include', // CRÍTICO: Enviar cookies automáticamente
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ token: authData.token }),
       })
 
-      const result = await response.json()
+      // Manejar respuestas no-JSON (puede ser HTML de error)
+      const text = await response.text()
+      let result: { error?: string; success?: boolean; data?: unknown; debug?: unknown }
+      try {
+        result = JSON.parse(text)
+      } catch {
+        result = { error: text.substring(0, 200) || 'Respuesta no válida del servidor' }
+      }
+
       console.log(`Sync ${source} response:`, response.status, result)
 
       if (response.status === 401) {
-        setError(`Error 401: ${result.error || 'No autorizado'}. Debug: ${JSON.stringify(result.debug || {})}`)
+        setError(`Error 401: ${result.error || 'No autorizado'}`)
         return
       }
 
@@ -267,8 +268,9 @@ export function SyncDashboard() {
       // Refresh data
       await Promise.all([fetchStatus(), fetchLogs()])
     } catch (err) {
-      setError(t('errors.syncError', { source }))
-      console.error(err)
+      const errorMsg = err instanceof Error ? err.message : 'Error de conexión'
+      setError(`${t('errors.syncError', { source })}: ${errorMsg}`)
+      console.error('Sync error:', err)
     } finally {
       setSyncing(null)
     }

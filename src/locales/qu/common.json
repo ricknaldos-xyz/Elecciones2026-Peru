@@ -116,6 +116,7 @@
     "similar": "Kikiq Akllasqa Runakuna",
     "tabs": {
       "summary": "Qhawarina",
+      "proposals": "Munasqakuna",
       "news": "Willakuykuna",
       "evidence": "Rikuchiy",
       "breakdown": "T'aqasqa chanin"
@@ -311,7 +312,9 @@
     "viewMethodology": "Ruwayta qhaway",
     "removeFromComparison": "Tupachimanta qichuy",
     "shareTitle": "Akllasqa Runakuna Tupachiy - Ranking 2026",
-    "shareText": "Tupachispa {names}"
+    "shareText": "Tupachispa {names}",
+    "proposalsComparison": "Kamachiy Tupachiy",
+    "proposalsDescription": "Sapa akllasqa runapa kamachiykunata tupachiy, paykunap kamachiy qillqasqankumanta hurqusqa."
   },
   "news": {
     "title": "Akllana Willakuykuna",

@@ -116,6 +116,7 @@
     "similar": "Candidatos Similares",
     "tabs": {
       "summary": "Resumen",
+      "proposals": "Propuestas",
       "news": "Noticias",
       "evidence": "Evidencia",
       "breakdown": "Desglose"
@@ -311,7 +312,9 @@
     "viewMethodology": "Ver metodología",
     "removeFromComparison": "Quitar de comparación",
     "shareTitle": "Comparación de Candidatos - Ranking Electoral 2026",
-    "shareText": "Comparando {names}"
+    "shareText": "Comparando {names}",
+    "proposalsComparison": "Comparación de Propuestas",
+    "proposalsDescription": "Compara las propuestas de cada candidato extraídas de sus planes de gobierno."
   },
   "news": {
     "title": "Noticias Electorales",

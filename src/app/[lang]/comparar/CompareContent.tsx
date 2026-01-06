@@ -14,6 +14,8 @@ import { useSuccessToast } from '@/components/ui/Toast'
 import { PRESETS } from '@/lib/constants'
 import { Link, useRouter } from '@/i18n/routing'
 import type { CandidateWithScores, PresetType, Weights } from '@/types/database'
+import { ProposalsCompare } from '@/components/proposals/ProposalsCompare'
+import { useLocale } from 'next-intl'
 
 // Popular candidates to suggest when empty or can add more
 const SUGGESTED_CANDIDATES = [
@@ -80,6 +82,7 @@ export function CompareContent() {
   const t = useTranslations('compare')
   const tCommon = useTranslations('common')
   const showSuccess = useSuccessToast()
+  const locale = useLocale()
 
   const [mode, setMode] = useState<PresetType>(() => {
     const param = searchParams.get('mode')
@@ -591,6 +594,26 @@ export function CompareContent() {
                 </p>
               </div>
             </div>
+            )}
+
+            {/* Proposals Comparison Section - Only show with 2+ candidates */}
+            {candidates.length >= 2 && (
+              <div className="mt-8">
+                <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight mb-4">
+                  {t('proposalsComparison')}
+                </h2>
+                <p className="text-sm text-[var(--muted-foreground)] font-medium mb-4">
+                  {t('proposalsDescription')}
+                </p>
+                <Card>
+                  <CardContent className="p-4 sm:p-6">
+                    <ProposalsCompare
+                      candidateIds={candidates.map(c => c.id)}
+                      lang={locale}
+                    />
+                  </CardContent>
+                </Card>
+              </div>
             )}
           </>
         )}

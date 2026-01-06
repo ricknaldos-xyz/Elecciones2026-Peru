@@ -14,6 +14,7 @@ const API_PATHS: Record<string, string> = {
   ai_analysis: 'ai-analysis',
   tiktok: 'tiktok',
   twitter: 'twitter',
+  government_plans: 'plans',
   news: 'news',
 }
 
@@ -43,47 +44,51 @@ export async function POST(
   { params }: { params: Promise<{ source: string }> }
 ) {
   try {
-    // Check authentication using body, header, or cookies
-    // Body is most reliable as headers can be stripped by Vercel/Next.js
-    const body = await request.json().catch(() => ({}))
-    const bodyToken = body.token
-    const headerToken = request.headers.get('X-Admin-Token')
-    const cookieToken = request.cookies.get(SESSION_COOKIE_NAME)?.value
-    const sessionToken = bodyToken || headerToken || cookieToken
+    // Authentication: Read session token from cookie (most secure)
+    const sessionToken = request.cookies.get(SESSION_COOKIE_NAME)?.value
+    const allCookies = request.cookies.getAll()
 
-    console.log('Admin sync: checking auth, body token?', !!bodyToken, 'header token?', !!headerToken, 'cookie token?', !!cookieToken)
+    console.log('Admin sync: cookies received:', allCookies.map(c => c.name).join(', '))
+    console.log('Admin sync: session token exists?', !!sessionToken)
 
     if (!sessionToken) {
-      console.log('Admin sync: no token provided')
+      console.log('Admin sync: no session cookie found')
       return NextResponse.json(
-        { success: false, error: 'No token provided', debug: { bodyToken: !!bodyToken, headerToken: !!headerToken, cookieToken: !!cookieToken } },
+        {
+          success: false,
+          error: 'No autenticado - sesión no encontrada',
+          debug: {
+            cookieCount: allCookies.length,
+            cookieNames: allCookies.map(c => c.name)
+          }
+        },
         { status: 401 }
       )
     }
 
     if (!isValidSessionFormat(sessionToken)) {
-      console.log('Admin sync: invalid token format', sessionToken.substring(0, 10))
+      console.log('Admin sync: invalid token format')
       return NextResponse.json(
-        { success: false, error: 'Invalid token format', debug: { tokenPreview: sessionToken.substring(0, 15) } },
+        { success: false, error: 'Sesión inválida - formato incorrecto' },
         { status: 401 }
+      )
+    }
+
+    // Validate CRON_SECRET before proceeding
+    if (!CRON_SECRET) {
+      console.error('CRON_SECRET not configured in environment')
+      return NextResponse.json(
+        { success: false, error: 'Error de configuración: CRON_SECRET no está definido' },
+        { status: 500 }
       )
     }
 
     const { source } = await params
     const apiPath = API_PATHS[source] || source
 
-    // Get the base URL
+    // Get the base URL for internal API calls
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL ||
                     (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
-
-    // Validate CRON_SECRET is set
-    if (!CRON_SECRET) {
-      console.error('CRON_SECRET not configured')
-      return NextResponse.json(
-        { success: false, error: 'Server misconfiguration: CRON_SECRET not set' },
-        { status: 500 }
-      )
-    }
 
     const syncUrl = `${baseUrl}/api/sync/${apiPath}`
     console.log(`Admin sync: calling ${syncUrl}`)
@@ -97,18 +102,21 @@ export async function POST(
       },
     })
 
-    let data
+    // Handle response - may not be JSON
+    const responseText = await response.text()
+    let data: { error?: string; message?: string; [key: string]: unknown }
     try {
-      data = await response.json()
+      data = JSON.parse(responseText)
     } catch {
-      data = { error: 'Invalid JSON response' }
+      console.error('Admin sync: non-JSON response:', responseText.substring(0, 200))
+      data = { error: `Respuesta inválida del servidor sync: ${responseText.substring(0, 100)}` }
     }
 
     console.log(`Admin sync ${source} response:`, response.status, data)
 
     if (!response.ok) {
       return NextResponse.json(
-        { success: false, error: data.error || data.message || `Sync failed with status ${response.status}` },
+        { success: false, error: data.error || data.message || `Sync falló con status ${response.status}` },
         { status: response.status }
       )
     }
@@ -116,8 +124,9 @@ export async function POST(
     return NextResponse.json({ success: true, data })
   } catch (error) {
     console.error('Admin sync proxy error:', error)
+    const errorMsg = error instanceof Error ? error.message : 'Error interno'
     return NextResponse.json(
-      { success: false, error: 'Internal error' },
+      { success: false, error: `Error interno: ${errorMsg}` },
       { status: 500 }
     )
   }

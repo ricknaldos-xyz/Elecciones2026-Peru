@@ -18,6 +18,7 @@ import { FlagChips } from '@/components/candidate/FlagChip'
 import { ConfidenceBadge } from '@/components/candidate/ConfidenceBadge'
 import { ShareButton } from '@/components/share/ShareButton'
 import { CandidateNewsSection } from '@/components/news/CandidateNewsSection'
+import { CandidateProposals } from '@/components/proposals/CandidateProposals'
 import { PRESETS } from '@/lib/constants'
 import type { CandidateWithScores, PresetType, ScoreBreakdown } from '@/types/database'
 import type { CandidateDetails } from '@/lib/db/queries'
@@ -421,6 +422,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
           <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible mb-4">
             <TabList className="min-w-max sm:min-w-0">
               <Tab value="resumen">{t('tabs.summary')}</Tab>
+              <Tab value="propuestas">{t('tabs.proposals') || 'Propuestas'}</Tab>
               <Tab value="noticias">{t('tabs.news')}</Tab>
               <Tab value="evidencia">{t('tabs.evidence')}</Tab>
               <Tab value="breakdown">{t('tabs.breakdown')}</Tab>
@@ -709,6 +711,14 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                 </Card>
               )}
             </div>
+          </TabPanel>
+
+          {/* ==================== PROPUESTAS TAB ==================== */}
+          <TabPanel value="propuestas">
+            <CandidateProposals
+              candidateId={candidate.id}
+              planUrl={details?.plan_gobierno_url}
+            />
           </TabPanel>
 
           {/* ==================== NOTICIAS TAB ==================== */}

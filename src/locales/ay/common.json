@@ -116,6 +116,7 @@
     "similar": "Ukat ajilanaka",
     "tabs": {
       "summary": "Uñakipaña",
+      "proposals": "Luräwinaka",
       "news": "Yatiyawinaka",
       "evidence": "Uñacht'awi",
       "breakdown": "T'aqawi"
@@ -311,7 +312,9 @@
     "viewMethodology": "Lurawi uñjaña",
     "removeFromComparison": "Uñacht'ayañat apsuña",
     "shareTitle": "Ajilanaka Uñacht'ayaña - Ranking 2026",
-    "shareText": "Uñacht'ayasa {names}"
+    "shareText": "Uñacht'ayasa {names}",
+    "proposalsComparison": "Kamachi Uñacht'ayaña",
+    "proposalsDescription": "Sapa ajilatap kamachinakaparu uñacht'ayaña, kamachi qillqatapatxa apsuña."
   },
   "news": {
     "title": "Ajilana Yatiyawinaka",

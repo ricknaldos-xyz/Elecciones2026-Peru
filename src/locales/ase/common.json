@@ -116,6 +116,7 @@
     "similar": "Yapita apatotantsipë",
     "tabs": {
       "summary": "Oimabëntantsi",
+      "proposals": "Okaratantsi",
       "news": "Amëtakotërinipë",
       "evidence": "Oñaantsiki",
       "breakdown": "Owakiraantsi"
@@ -311,7 +312,9 @@
     "viewMethodology": "Irapiibë oimabëntantsi",
     "removeFromComparison": "Amëñëromanta apsuña",
     "shareTitle": "Apatotantsipë Amëñëro - Ranking 2026",
-    "shareText": "Amëñërosa {names}"
+    "shareText": "Amëñërosa {names}",
+    "proposalsComparison": "Kamachi Amëñëro",
+    "proposalsDescription": "Sapa apatotantsip kamachinakaparu amëñëro, kamachi qillqatapatxa apsuña."
   },
   "news": {
     "title": "Amëtakotërini Apatotantsi",
