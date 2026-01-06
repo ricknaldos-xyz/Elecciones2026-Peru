@@ -1650,14 +1650,36 @@ CREATE TABLE scores (
 
                 {/* Cost Structure */}
                 <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Estructura de Costos</h4>
-                  <ul className="text-sm text-[var(--muted-foreground)] space-y-1 font-medium">
-                    <li>• <strong>Hosting:</strong> Vercel Pro (~$20/mes)</li>
-                    <li>• <strong>Base de datos:</strong> Neon/Supabase (~$25/mes)</li>
-                    <li>• <strong>APIs:</strong> Claude AI, scraping (~$50/mes)</li>
-                    <li>• <strong>Dominio + SSL:</strong> (~$15/año)</li>
-                    <li>• <strong>Total estimado:</strong> ~$100-150/mes</li>
-                  </ul>
+                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Estructura de Costos (Mensual)</h4>
+                  <div className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
+                    <div className="font-black text-[var(--foreground)] text-xs uppercase mb-2">Infraestructura</div>
+                    <ul className="space-y-1 mb-3">
+                      <li>• <strong>Vercel Pro:</strong> $20 (base) + ~$50-200 (picos electorales)</li>
+                      <li>• <strong>Neon Database:</strong> $19-69 (según tráfico)</li>
+                      <li>• <strong>Dominio .pe:</strong> S/150/año (~$40/año)</li>
+                    </ul>
+                    <div className="font-black text-[var(--foreground)] text-xs uppercase mb-2">APIs y Servicios</div>
+                    <ul className="space-y-1 mb-3">
+                      <li>• <strong>Claude API (Anthropic):</strong> $100-300 (análisis de planes)</li>
+                      <li>• <strong>Scraping/Proxies:</strong> $30-50</li>
+                      <li>• <strong>Email (Resend):</strong> $0-20</li>
+                    </ul>
+                    <div className="font-black text-[var(--foreground)] text-xs uppercase mb-2">Desarrollo</div>
+                    <ul className="space-y-1 mb-3">
+                      <li>• <strong>Desarrollo inicial:</strong> ~$5,000-10,000 (one-time)</li>
+                      <li>• <strong>Mantenimiento:</strong> ~$500-1,000/mes</li>
+                    </ul>
+                    <div className="mt-3 pt-3 border-t border-[var(--border)]">
+                      <div className="flex justify-between">
+                        <span className="font-black">TOTAL OPERATIVO:</span>
+                        <span className="font-black text-[var(--primary)]">$250-700/mes</span>
+                      </div>
+                      <div className="flex justify-between text-xs mt-1">
+                        <span>Pico electoral (Mar-Abr 2026):</span>
+                        <span className="text-orange-600">~$1,500-2,500/mes</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Key Partners */}
@@ -1696,24 +1718,47 @@ CREATE TABLE scores (
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
+              {/* Market Context */}
+              <div className="p-4 border-2 border-[var(--border)] bg-[var(--muted)]/30 mb-4">
+                <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Contexto del Mercado Peruano</h4>
+                <div className="grid sm:grid-cols-4 gap-3 text-center text-sm">
+                  <div className="p-2 bg-white dark:bg-gray-800 border border-[var(--border)]">
+                    <div className="text-xl font-black text-[var(--primary)]">25M</div>
+                    <div className="text-xs text-[var(--muted-foreground)]">Electores habilitados</div>
+                  </div>
+                  <div className="p-2 bg-white dark:bg-gray-800 border border-[var(--border)]">
+                    <div className="text-xl font-black text-[var(--primary)]">78%</div>
+                    <div className="text-xs text-[var(--muted-foreground)]">Penetración internet</div>
+                  </div>
+                  <div className="p-2 bg-white dark:bg-gray-800 border border-[var(--border)]">
+                    <div className="text-xl font-black text-[var(--primary)]">85%</div>
+                    <div className="text-xs text-[var(--muted-foreground)]">Uso smartphone</div>
+                  </div>
+                  <div className="p-2 bg-white dark:bg-gray-800 border border-[var(--border)]">
+                    <div className="text-xl font-black text-[var(--primary)]">94%</div>
+                    <div className="text-xs text-[var(--muted-foreground)]">Participación electoral</div>
+                  </div>
+                </div>
+              </div>
+
               {/* Target Audience */}
               <div className="p-4 border-2 border-[var(--primary)] bg-[var(--primary)]/5">
-                <h4 className="font-black text-[var(--primary)] mb-3 uppercase">Target Audience</h4>
+                <h4 className="font-black text-[var(--primary)] mb-3 uppercase">Target Audience (TAM → SAM → SOM)</h4>
                 <div className="grid sm:grid-cols-3 gap-4 text-sm">
                   <div className="text-center p-3 bg-white dark:bg-gray-800 border border-[var(--border)]">
                     <div className="text-3xl mb-2">🎯</div>
-                    <div className="font-black text-[var(--foreground)]">Primario</div>
-                    <div className="text-[var(--muted-foreground)] font-medium">Votantes 25-45 años, urbanos, con acceso a internet</div>
+                    <div className="font-black text-[var(--foreground)]">TAM: 19.5M</div>
+                    <div className="text-[var(--muted-foreground)] font-medium">Electores con acceso a internet (78% de 25M)</div>
                   </div>
                   <div className="text-center p-3 bg-white dark:bg-gray-800 border border-[var(--border)]">
                     <div className="text-3xl mb-2">📱</div>
-                    <div className="font-black text-[var(--foreground)]">Secundario</div>
-                    <div className="text-[var(--muted-foreground)] font-medium">Jóvenes 18-24, nativos digitales, primer voto</div>
+                    <div className="font-black text-[var(--foreground)]">SAM: 8M</div>
+                    <div className="text-[var(--muted-foreground)] font-medium">18-45 años, urbanos, buscan info electoral online</div>
                   </div>
                   <div className="text-center p-3 bg-white dark:bg-gray-800 border border-[var(--border)]">
                     <div className="text-3xl mb-2">📊</div>
-                    <div className="font-black text-[var(--foreground)]">Terciario</div>
-                    <div className="text-[var(--muted-foreground)] font-medium">Periodistas, analistas, decision makers</div>
+                    <div className="font-black text-[var(--foreground)]">SOM: 500K-1M</div>
+                    <div className="text-[var(--muted-foreground)] font-medium">Usuarios activos objetivo (2-4% del SAM)</div>
                   </div>
                 </div>
               </div>
@@ -1721,22 +1766,27 @@ CREATE TABLE scores (
               <div className="grid sm:grid-cols-2 gap-4">
                 {/* Distribution Channels */}
                 <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Canales de Distribución</h4>
+                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Canales de Distribución (Perú)</h4>
                   <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
-                    <li className="flex items-center gap-2">
-                      <span>🐦</span> <strong>Twitter/X:</strong> Threads informativos, datos virales
+                    <li className="flex items-start gap-2">
+                      <span>📱</span>
+                      <div><strong>Facebook (92% penetración):</strong> Grupos locales, memes informativos, lives con análisis</div>
                     </li>
-                    <li className="flex items-center gap-2">
-                      <span>📸</span> <strong>Instagram:</strong> Infografías, stories interactivas
+                    <li className="flex items-start gap-2">
+                      <span>💬</span>
+                      <div><strong>WhatsApp (89%):</strong> Cadenas virales, stickers, links directos al ranking</div>
                     </li>
-                    <li className="flex items-center gap-2">
-                      <span>🎵</span> <strong>TikTok:</strong> Clips cortos educativos, #SabíasQue
+                    <li className="flex items-start gap-2">
+                      <span>🎵</span>
+                      <div><strong>TikTok (45% Gen Z):</strong> Duets, #VotaInformado, datos en 60 segundos</div>
                     </li>
-                    <li className="flex items-center gap-2">
-                      <span>💬</span> <strong>WhatsApp:</strong> Grupos de fact-checking, cadenas informativas
+                    <li className="flex items-start gap-2">
+                      <span>📺</span>
+                      <div><strong>YouTube:</strong> Análisis largos, podcasts, entrevistas</div>
                     </li>
-                    <li className="flex items-center gap-2">
-                      <span>📰</span> <strong>Medios:</strong> Notas de prensa, datos exclusivos
+                    <li className="flex items-start gap-2">
+                      <span>🐦</span>
+                      <div><strong>Twitter/X:</strong> Opinion leaders, periodistas, debates en tiempo real</div>
                     </li>
                   </ul>
                 </div>
@@ -1745,47 +1795,88 @@ CREATE TABLE scores (
                 <div className="p-4 border-2 border-[var(--border)]">
                   <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Estrategia de Lanzamiento</h4>
                   <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
-                    <li><strong>Fase 1 - Seed:</strong> Beta con periodistas y ONGs</li>
-                    <li><strong>Fase 2 - Growth:</strong> Campaña en redes pre-inscripción JNE</li>
-                    <li><strong>Fase 3 - Viral:</strong> Quiz electoral + comparador durante campaña</li>
-                    <li><strong>Fase 4 - Peak:</strong> Cobertura intensiva última semana</li>
-                    <li><strong>Fase 5 - Legacy:</strong> Archivo histórico post-elección</li>
+                    <li><strong>Fase 1 - Seed (Ene-Mar 2025):</strong> Beta privada con 50 periodistas, ONGs (Transparencia, Ojo Público)</li>
+                    <li><strong>Fase 2 - Early Adopters (Abr-Jun):</strong> Launch público, PR en medios digitales (Útero, Sudaca)</li>
+                    <li><strong>Fase 3 - Growth (Jul-Oct):</strong> Campaña orgánica, influencers de nicho, universidades</li>
+                    <li><strong>Fase 4 - Viral (Nov-Feb 2026):</strong> Quiz electoral como gancho viral, comparador de candidatos</li>
+                    <li><strong>Fase 5 - Peak (Mar-Abr 2026):</strong> Cobertura debates, alianzas con medios, WhatsApp Business</li>
                   </ul>
                 </div>
               </div>
 
               {/* KPIs */}
               <div className="p-4 border-2 border-[var(--border)]">
-                <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Métricas de Éxito (KPIs)</h4>
-                <div className="grid sm:grid-cols-4 gap-4 text-center">
-                  <div className="p-3 bg-[var(--primary)]/10">
-                    <div className="text-2xl font-black text-[var(--primary)]">500K</div>
-                    <div className="text-xs text-[var(--muted-foreground)] font-medium">Usuarios únicos meta</div>
+                <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Métricas de Éxito (KPIs) - Proyección Realista</h4>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center mb-4">
+                  <div className="p-3 bg-[var(--primary)]/10 border border-[var(--border)]">
+                    <div className="text-xl font-black text-[var(--primary)]">500K</div>
+                    <div className="text-xs text-[var(--muted-foreground)] font-medium">Usuarios únicos (meta)</div>
+                    <div className="text-[10px] text-[var(--muted-foreground)]">2% del SAM</div>
                   </div>
-                  <div className="p-3 bg-[var(--primary)]/10">
-                    <div className="text-2xl font-black text-[var(--primary)]">3:00</div>
-                    <div className="text-xs text-[var(--muted-foreground)] font-medium">Tiempo promedio en sitio</div>
+                  <div className="p-3 bg-[var(--primary)]/10 border border-[var(--border)]">
+                    <div className="text-xl font-black text-[var(--primary)]">2:30</div>
+                    <div className="text-xs text-[var(--muted-foreground)] font-medium">Tiempo promedio</div>
+                    <div className="text-[10px] text-[var(--muted-foreground)]">Benchmark: 1:45</div>
                   </div>
-                  <div className="p-3 bg-[var(--primary)]/10">
-                    <div className="text-2xl font-black text-[var(--primary)]">100K</div>
+                  <div className="p-3 bg-[var(--primary)]/10 border border-[var(--border)]">
+                    <div className="text-xl font-black text-[var(--primary)]">75K</div>
                     <div className="text-xs text-[var(--muted-foreground)] font-medium">Quiz completados</div>
+                    <div className="text-[10px] text-[var(--muted-foreground)]">15% conversion</div>
                   </div>
-                  <div className="p-3 bg-[var(--primary)]/10">
-                    <div className="text-2xl font-black text-[var(--primary)]">50K</div>
+                  <div className="p-3 bg-[var(--primary)]/10 border border-[var(--border)]">
+                    <div className="text-xl font-black text-[var(--primary)]">25K</div>
                     <div className="text-xs text-[var(--muted-foreground)] font-medium">Comparaciones</div>
+                    <div className="text-[10px] text-[var(--muted-foreground)]">5% conversion</div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-3 gap-3 text-center text-xs">
+                  <div className="p-2 bg-green-50 dark:bg-green-900/20 border border-green-500">
+                    <div className="font-black text-green-700 dark:text-green-400">$0.10-0.30</div>
+                    <div className="text-[var(--muted-foreground)]">CAC objetivo (orgánico)</div>
+                  </div>
+                  <div className="p-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-500">
+                    <div className="font-black text-blue-700 dark:text-blue-400">15%</div>
+                    <div className="text-[var(--muted-foreground)]">Share rate target</div>
+                  </div>
+                  <div className="p-2 bg-purple-50 dark:bg-purple-900/20 border border-purple-500">
+                    <div className="font-black text-purple-700 dark:text-purple-400">40%</div>
+                    <div className="text-[var(--muted-foreground)]">Return visitors</div>
                   </div>
                 </div>
               </div>
 
               {/* Timeline */}
               <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-500">
-                <h4 className="font-black text-blue-700 dark:text-blue-400 mb-2 uppercase text-sm">Timeline Elecciones 2026</h4>
-                <div className="flex flex-wrap gap-2 text-xs font-medium">
-                  <span className="px-2 py-1 bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200">Ene 2025: MVP</span>
-                  <span className="px-2 py-1 bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200">Jun 2025: Inscripción JNE</span>
-                  <span className="px-2 py-1 bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200">Oct 2025: Campaña inicia</span>
-                  <span className="px-2 py-1 bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200">Mar 2026: Debates</span>
-                  <span className="px-2 py-1 bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 font-black">Abr 2026: ELECCIÓN</span>
+                <h4 className="font-black text-blue-700 dark:text-blue-400 mb-3 uppercase text-sm">Timeline Electoral Perú 2026</h4>
+                <div className="space-y-2 text-xs font-medium">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-1 bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 min-w-[90px] text-center">Ene 2025</span>
+                    <span className="text-[var(--muted-foreground)]">✓ MVP lanzado - Ranking básico operativo</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-1 bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200 min-w-[90px] text-center">Jun 2025</span>
+                    <span className="text-[var(--muted-foreground)]">Convocatoria oficial elecciones por JNE</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-1 bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200 min-w-[90px] text-center">Ago-Oct 2025</span>
+                    <span className="text-[var(--muted-foreground)]">Inscripción de candidatos en JNE</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-1 bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200 min-w-[90px] text-center">Nov 2025</span>
+                    <span className="text-[var(--muted-foreground)]">Inicio campaña electoral oficial</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-1 bg-orange-200 dark:bg-orange-800 text-orange-800 dark:text-orange-200 min-w-[90px] text-center">Ene-Mar 2026</span>
+                    <span className="text-[var(--muted-foreground)]">Campaña intensa - Debates presidenciales</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-1 bg-red-300 dark:bg-red-800 text-red-800 dark:text-red-200 font-black min-w-[90px] text-center">12 Abr 2026</span>
+                    <span className="text-[var(--foreground)] font-black">🗳️ PRIMERA VUELTA - Día D</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-1 bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 min-w-[90px] text-center">Jun 2026</span>
+                    <span className="text-[var(--muted-foreground)]">Segunda vuelta (si aplica)</span>
+                  </div>
                 </div>
               </div>
             </CardContent>
