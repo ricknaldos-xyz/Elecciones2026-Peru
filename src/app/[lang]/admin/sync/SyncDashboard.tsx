@@ -233,17 +233,20 @@ export function SyncDashboard() {
         credentials: 'include',
       })
 
+      const result = await response.json()
+      console.log(`Sync ${source} response:`, response.status, result)
+
       if (response.status === 401) {
-        // Session expired, redirect to login
-        router.push('/es/admin/login')
+        // Show error instead of redirecting for debugging
+        setError(`Error 401: No autorizado. Cookie no detectada por el servidor.`)
         return
       }
 
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`)
+        setError(result.error || `Error HTTP ${response.status}`)
+        return
       }
 
-      const result = await response.json()
       console.log(`Sync ${source} result:`, result)
 
       // Refresh data

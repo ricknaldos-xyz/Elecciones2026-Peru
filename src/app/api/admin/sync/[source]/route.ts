@@ -22,6 +22,21 @@ function isValidSessionFormat(token: string): boolean {
   return /^[a-z0-9]+_[a-z0-9]+$/.test(token)
 }
 
+// GET /api/admin/sync/[source] - Debug auth status
+export async function GET(request: NextRequest) {
+  const sessionToken = request.cookies.get(SESSION_COOKIE_NAME)?.value
+  const allCookies = request.cookies.getAll()
+
+  return NextResponse.json({
+    debug: true,
+    tokenExists: !!sessionToken,
+    tokenValid: sessionToken ? isValidSessionFormat(sessionToken) : false,
+    tokenPreview: sessionToken ? sessionToken.substring(0, 15) + '...' : null,
+    allCookieNames: allCookies.map(c => c.name),
+    cookieCount: allCookies.length,
+  })
+}
+
 // POST /api/admin/sync/[source] - Trigger sync via proxy
 export async function POST(
   request: NextRequest,
