@@ -1,17 +1,11 @@
-import { NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
+import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 
 const SESSION_COOKIE_NAME = 'admin_session'
 
-async function isAuthenticated(): Promise<boolean> {
-  try {
-    const cookieStore = await cookies()
-    const sessionToken = cookieStore.get(SESSION_COOKIE_NAME)?.value
-    return !!sessionToken && /^[a-z0-9]+_[a-z0-9]+$/.test(sessionToken)
-  } catch {
-    return false
-  }
+function isAuthenticated(request: NextRequest): boolean {
+  const sessionToken = request.cookies.get(SESSION_COOKIE_NAME)?.value
+  return !!sessionToken && /^[a-z0-9]+_[a-z0-9]+$/.test(sessionToken)
 }
 
 // Type definitions for query results
@@ -22,8 +16,8 @@ interface QuizRow { id: string; created_at: string }
 interface SyncLogRow { id: string; source: string; status: string; started_at: string }
 
 // GET /api/admin/stats - Get dashboard statistics
-export async function GET() {
-  if (!(await isAuthenticated())) {
+export async function GET(request: NextRequest) {
+  if (!isAuthenticated(request)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 

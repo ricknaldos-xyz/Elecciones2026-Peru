@@ -1,22 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
 import { createClient } from '@/lib/supabase/server'
 
 const SESSION_COOKIE_NAME = 'admin_session'
 
-async function isAuthenticated(): Promise<boolean> {
-  try {
-    const cookieStore = await cookies()
-    const sessionToken = cookieStore.get(SESSION_COOKIE_NAME)?.value
-    return !!sessionToken && /^[a-z0-9]+_[a-z0-9]+$/.test(sessionToken)
-  } catch {
-    return false
-  }
+function isAuthenticated(request: NextRequest): boolean {
+  const sessionToken = request.cookies.get(SESSION_COOKIE_NAME)?.value
+  return !!sessionToken && /^[a-z0-9]+_[a-z0-9]+$/.test(sessionToken)
 }
 
 // GET /api/admin/candidates - List candidates with filters
 export async function GET(request: NextRequest) {
-  if (!(await isAuthenticated())) {
+  if (!isAuthenticated(request)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
