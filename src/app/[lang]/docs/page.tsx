@@ -4,6 +4,7 @@ import { Header } from '@/components/layout/Header'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
+import { DocsContent } from './DocsContent'
 
 export const metadata: Metadata = {
   title: 'Documentación Completa - Ranking Electoral 2026',
@@ -15,56 +16,31 @@ export default function DocsPage() {
     <div className="min-h-screen bg-[var(--background)]">
       <Header currentPath="/docs" />
 
-      <main id="main-content" className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Hero */}
-        <div className="text-center mb-12">
+      <DocsContent>
+        {/* Hero - Compact for sidebar layout */}
+        <div className="mb-10">
           <Badge variant="default" size="md" className="mb-4">DOCUMENTACIÓN TÉCNICA</Badge>
-          <h1 className="text-3xl sm:text-4xl font-black text-[var(--foreground)] mb-4 uppercase tracking-tight">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[var(--foreground)] mb-4 uppercase tracking-tight">
             Ranking Electoral Perú 2026
           </h1>
-          <p className="text-lg text-[var(--muted-foreground)] font-medium max-w-3xl mx-auto">
+          <p className="text-base text-[var(--muted-foreground)] font-medium max-w-2xl">
             Plataforma de inteligencia electoral que proporciona rankings transparentes y basados en evidencia
             para las Elecciones Generales del 12 de abril de 2026.
           </p>
-        </div>
 
-        {/* Table of Contents */}
-        <Card className="mb-12">
-          <CardHeader>
-            <CardTitle>ÍNDICE DE CONTENIDOS</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {[
-                { href: '#vision', label: '1. Visión y Misión' },
-                { href: '#problema', label: '2. El Problema' },
-                { href: '#solucion', label: '3. Nuestra Solución' },
-                { href: '#arquitectura', label: '4. Arquitectura' },
-                { href: '#tech-stack', label: '5. Stack Tecnológico' },
-                { href: '#metodologia', label: '6. Metodología de Scoring' },
-                { href: '#fuentes', label: '7. Fuentes de Datos' },
-                { href: '#features', label: '8. Funcionalidades' },
-                { href: '#database', label: '9. Base de Datos' },
-                { href: '#api', label: '10. API Reference' },
-                { href: '#design-system', label: '11. Sistema de Diseño' },
-                { href: '#seguridad', label: '12. Seguridad' },
-                { href: '#modelo-negocio', label: '13. Modelo de Negocio' },
-                { href: '#go-to-market', label: '14. Go-to-Market' },
-                { href: '#roadmap', label: '15. Product Roadmap' },
-                { href: '#legal', label: '16. Legal & Compliance' },
-                { href: '#operaciones', label: '17. Operaciones' },
-              ].map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="px-4 py-3 bg-[var(--muted)] border-2 border-[var(--border)] font-bold text-sm text-[var(--foreground)] hover:bg-[var(--primary)] hover:text-white transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)]"
-                >
-                  {item.label}
-                </a>
-              ))}
+          {/* Quick stats */}
+          <div className="flex flex-wrap gap-3 mt-6">
+            <div className="px-3 py-2 bg-[var(--primary)]/10 border-2 border-[var(--primary)]">
+              <span className="text-xs font-bold text-[var(--primary)]">17 SECCIONES</span>
             </div>
-          </CardContent>
-        </Card>
+            <div className="px-3 py-2 bg-[var(--muted)] border-2 border-[var(--border)]">
+              <span className="text-xs font-bold text-[var(--muted-foreground)]">OPEN SOURCE</span>
+            </div>
+            <div className="px-3 py-2 bg-[var(--muted)] border-2 border-[var(--border)]">
+              <span className="text-xs font-bold text-[var(--muted-foreground)]">MIT LICENSE</span>
+            </div>
+          </div>
+        </div>
 
         {/* Section 1: Vision */}
         <section id="vision" className="mb-12 scroll-mt-20">
@@ -2240,7 +2216,7 @@ npm run dev
         </Card>
 
         {/* CTA */}
-        <div className="text-center space-x-4">
+        <div className="flex flex-wrap justify-center gap-4 pt-8 border-t-2 border-[var(--border)]">
           <Link href="/ranking">
             <Button variant="primary" size="lg">
               VER EL RANKING
@@ -2252,7 +2228,7 @@ npm run dev
             </Button>
           </Link>
         </div>
-      </main>
+      </DocsContent>
     </div>
   )
 }
