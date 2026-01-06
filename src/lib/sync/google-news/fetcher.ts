@@ -126,6 +126,24 @@ async function newsExists(url: string): Promise<boolean> {
 }
 
 /**
+ * Extract source name from Google News title
+ * Google News titles end with " - SourceName"
+ * Example: "César Acuña lanzó advertencia... - Willax" → "Willax"
+ */
+function extractSourceFromTitle(title: string): string | null {
+  const match = title.match(/\s-\s([^-]+)$/)
+  return match ? match[1].trim() : null
+}
+
+/**
+ * Clean title by removing the source suffix
+ * Example: "César Acuña... - Willax" → "César Acuña..."
+ */
+function cleanTitle(title: string): string {
+  return title.replace(/\s-\s[^-]+$/, '').trim()
+}
+
+/**
  * Extract source name from Google News link
  */
 function extractSourceFromUrl(link: string): string {
@@ -160,9 +178,13 @@ async function saveNewsItem(
   candidateId: string | null,
   partyId: string | null
 ): Promise<void> {
-  // Use the source from Google News RSS (already has the real portal name)
-  // Fall back to extracting from URL only if not available
-  const source = item.source || extractSourceFromUrl(item.link)
+  // Extract source from title first (most reliable for Google News)
+  // Title format: "News headline... - SourceName"
+  // Fall back to RSS source field, then URL extraction
+  const source = extractSourceFromTitle(item.title) || item.source || extractSourceFromUrl(item.link)
+
+  // Clean the title by removing the source suffix
+  const title = cleanTitle(item.title)
 
   await sql`
     INSERT INTO news_mentions (
@@ -178,7 +200,7 @@ async function saveNewsItem(
       ${candidateId},
       ${partyId},
       ${source},
-      ${item.title},
+      ${title},
       ${item.link},
       ${item.contentSnippet || ''},
       ${item.pubDate},
