@@ -160,7 +160,9 @@ async function saveNewsItem(
   candidateId: string | null,
   partyId: string | null
 ): Promise<void> {
-  const source = extractSourceFromUrl(item.link)
+  // Use the source from Google News RSS (already has the real portal name)
+  // Fall back to extracting from URL only if not available
+  const source = item.source || extractSourceFromUrl(item.link)
 
   await sql`
     INSERT INTO news_mentions (
