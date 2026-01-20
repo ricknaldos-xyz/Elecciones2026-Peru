@@ -112,6 +112,16 @@ export const EXPANDED_SOURCES: RSSSource[] = [
     language: 'es',
     priority: 7,
   },
+
+  // Congrezoo - Periodismo y Transparencia parlamentaria
+  {
+    id: 'congrezoo',
+    name: 'Congrezoo',
+    url: 'https://congrezoo.pe/feed/',
+    category: 'digital',
+    language: 'es',
+    priority: 8,
+  },
 ]
 
 /**
@@ -227,6 +237,7 @@ export const RATE_LIMITS: Record<string, { requestsPerMinute: number; delayMs: n
   andina: { requestsPerMinute: 20, delayMs: 3000 }, // Official source, more lenient
   infobae: { requestsPerMinute: 5, delayMs: 12000 }, // More restrictive
   idl: { requestsPerMinute: 5, delayMs: 12000 }, // Small site, be gentle
+  congrezoo: { requestsPerMinute: 5, delayMs: 12000 }, // Small site, be gentle
 }
 
 /**

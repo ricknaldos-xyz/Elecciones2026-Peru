@@ -54,6 +54,12 @@ const NEWS_SOURCES: RSSSource[] = [
     url: 'https://diariocorreo.pe/feed/politica/',
     type: 'rss',
   },
+  {
+    name: 'Congrezoo',
+    id: 'congrezoo',
+    url: 'https://congrezoo.pe/feed/',
+    type: 'rss',
+  },
 ]
 
 async function delay(ms: number): Promise<void> {
