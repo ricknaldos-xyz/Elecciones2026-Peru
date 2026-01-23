@@ -1,7 +1,13 @@
 import * as cheerio from 'cheerio'
 import pLimit from 'p-limit'
 import { createSyncLogger } from '../logger'
-import { parseJNECandidate, JNECandidateData } from './parser'
+import {
+  parseJNECandidate,
+  JNECandidateData,
+  parsePenalSentencesFromHTML,
+  parseCivilSentencesFromHTML,
+  parsePartyResignationsFromHTML
+} from './parser'
 import { reconcileJNECandidates } from './reconciler'
 
 const JNE_BASE_URL = 'https://plataformaelectoral.jne.gob.pe'
@@ -207,7 +213,7 @@ async function fetchCandidateDetail(
         }
         candidate.assets = assets
 
-        // Declared sentences (from JNE form)
+        // Declared sentences (from JNE form) - Legacy simple format
         const sentences: JNECandidateData['declared_sentences'] = []
         $('#sentencias .sentence-item, .sentencias tr').each((_, el) => {
           const $el = $(el)
@@ -221,6 +227,38 @@ async function fetchCandidateDetail(
           })
         })
         candidate.declared_sentences = sentences
+
+        // Enhanced sentence parsing - detailed penal sentences (Section V)
+        const penalSentencesDetail = parsePenalSentencesFromHTML($)
+        if (penalSentencesDetail.length > 0) {
+          candidate.penal_sentences_detail = penalSentencesDetail
+          candidate.has_declared_sentences = true
+        }
+
+        // Enhanced sentence parsing - detailed civil sentences (Section VI)
+        const civilSentencesDetail = parseCivilSentencesFromHTML($)
+        if (civilSentencesDetail.length > 0) {
+          candidate.civil_sentences_detail = civilSentencesDetail
+          candidate.has_declared_sentences = true
+        }
+
+        // Party resignations (Section VII)
+        const partyResignations = parsePartyResignationsFromHTML($)
+        if (partyResignations.length > 0) {
+          candidate.party_resignations_detail = partyResignations
+        }
+
+        // Check if candidate has declared any sentences (even if empty declaration)
+        const sentencesSection = $('#sentencias, .sentencias-penales, .sentencias-civiles, [data-section="penal"], [data-section="civil"]')
+        if (sentencesSection.length > 0) {
+          candidate.has_declared_sentences = candidate.has_declared_sentences || false
+        }
+
+        // Check if assets were declared
+        const assetsSection = $('#patrimonio, .bienes-rentas, .declaracion-bienes')
+        if (assetsSection.length > 0 && assetsSection.text().trim().length > 10) {
+          candidate.has_declared_assets = true
+        }
       }
 
       return candidate

@@ -1,6 +1,13 @@
 import { sql } from '@/lib/db'
 import { createHash } from 'crypto'
-import { JNECandidateData, normalizeName, isSameCandidate } from './parser'
+import {
+  JNECandidateData,
+  JNEPenalSentence,
+  JNECivilSentence,
+  normalizeName,
+  isSameCandidate
+} from './parser'
+import type { Sentence } from '@/types/database'
 
 interface ReconcileResult {
   updated: number
@@ -31,8 +38,47 @@ function createDataHash(data: JNECandidateData): string {
     political_trajectory: data.political_trajectory,
     assets: data.assets,
     declared_sentences: data.declared_sentences,
+    // Include enhanced sentence data in hash
+    penal_sentences_detail: data.penal_sentences_detail,
+    civil_sentences_detail: data.civil_sentences_detail,
+    party_resignations_detail: data.party_resignations_detail,
   })
   return createHash('md5').update(hashContent).digest('hex')
+}
+
+/**
+ * Converts enhanced penal sentences to database format
+ */
+function convertPenalSentences(sentences: JNEPenalSentence[]): Sentence[] {
+  return sentences.map(s => ({
+    type: 'penal_dolosa' as const,
+    description: s.delito + (s.pena_impuesta ? ` - ${s.pena_impuesta}` : ''),
+    date: s.fecha_sentencia,
+    status: s.estado === 'proceso' ? 'otro' as const : s.estado,
+    source: 'jne_declaracion',
+    expediente: s.expediente,
+    juzgado: s.juzgado,
+    delito: s.delito,
+    pena_impuesta: s.pena_impuesta,
+    tipo_pena: s.tipo_pena,
+    rehabilitado: s.rehabilitado
+  }))
+}
+
+/**
+ * Converts enhanced civil sentences to database format
+ */
+function convertCivilSentences(sentences: JNECivilSentence[]): Sentence[] {
+  return sentences.map(s => ({
+    type: s.tipo,
+    description: s.descripcion,
+    date: s.fecha_sentencia,
+    status: s.estado === 'proceso' ? 'otro' as const : s.estado,
+    source: 'jne_declaracion',
+    expediente: s.expediente,
+    juzgado: s.juzgado,
+    monto: s.monto
+  }))
 }
 
 /**
@@ -158,16 +204,51 @@ async function updateCandidate(
     WHERE id = ${candidateId}::uuid
   `
 
-  // Update sentences if provided
-  if (data.declared_sentences && data.declared_sentences.length > 0) {
-    const penalSentences = data.declared_sentences.filter((s) => s.type === 'penal')
-    const civilSentences = data.declared_sentences.filter((s) => s.type === 'civil')
+  // Update sentences - prefer enhanced data if available
+  let penalSentences: Sentence[] = []
+  let civilSentences: Sentence[] = []
+
+  // Use enhanced detailed sentences if available
+  if (data.penal_sentences_detail && data.penal_sentences_detail.length > 0) {
+    penalSentences = convertPenalSentences(data.penal_sentences_detail)
+  } else if (data.declared_sentences) {
+    // Fallback to legacy simple format
+    penalSentences = data.declared_sentences
+      .filter((s) => s.type === 'penal')
+      .map(s => ({
+        type: 'penal_dolosa' as const,
+        description: s.description,
+        date: s.date,
+        status: 'firme' as const,
+        source: 'jne_declaracion'
+      }))
+  }
+
+  if (data.civil_sentences_detail && data.civil_sentences_detail.length > 0) {
+    civilSentences = convertCivilSentences(data.civil_sentences_detail)
+  } else if (data.declared_sentences) {
+    // Fallback to legacy simple format
+    civilSentences = data.declared_sentences
+      .filter((s) => s.type === 'civil')
+      .map(s => ({
+        type: 'contractual' as const,
+        description: s.description,
+        date: s.date,
+        status: 'firme' as const,
+        source: 'jne_declaracion'
+      }))
+  }
+
+  // Update sentences and party resignations
+  if (penalSentences.length > 0 || civilSentences.length > 0 || data.party_resignations_detail) {
+    const resignationCount = data.party_resignations_detail?.length || 0
 
     await sql`
       UPDATE candidates
       SET
         penal_sentences = ${JSON.stringify(penalSentences)}::jsonb,
-        civil_sentences = ${JSON.stringify(civilSentences)}::jsonb
+        civil_sentences = ${JSON.stringify(civilSentences)}::jsonb,
+        party_resignations = GREATEST(party_resignations, ${resignationCount})
       WHERE id = ${candidateId}::uuid
     `
   }
@@ -183,12 +264,39 @@ async function createCandidate(
   const slug = createSlug(data.full_name)
   const cargo = mapCargo(data.cargo)
 
-  const penalSentences = (data.declared_sentences || []).filter(
-    (s) => s.type === 'penal'
-  )
-  const civilSentences = (data.declared_sentences || []).filter(
-    (s) => s.type === 'civil'
-  )
+  // Use enhanced detailed sentences if available, otherwise fallback to legacy
+  let penalSentences: Sentence[] = []
+  let civilSentences: Sentence[] = []
+
+  if (data.penal_sentences_detail && data.penal_sentences_detail.length > 0) {
+    penalSentences = convertPenalSentences(data.penal_sentences_detail)
+  } else if (data.declared_sentences) {
+    penalSentences = data.declared_sentences
+      .filter((s) => s.type === 'penal')
+      .map(s => ({
+        type: 'penal_dolosa' as const,
+        description: s.description,
+        date: s.date,
+        status: 'firme' as const,
+        source: 'jne_declaracion'
+      }))
+  }
+
+  if (data.civil_sentences_detail && data.civil_sentences_detail.length > 0) {
+    civilSentences = convertCivilSentences(data.civil_sentences_detail)
+  } else if (data.declared_sentences) {
+    civilSentences = data.declared_sentences
+      .filter((s) => s.type === 'civil')
+      .map(s => ({
+        type: 'contractual' as const,
+        description: s.description,
+        date: s.date,
+        status: 'firme' as const,
+        source: 'jne_declaracion'
+      }))
+  }
+
+  const resignationCount = data.party_resignations_detail?.length || 0
 
   const result = await sql`
     INSERT INTO candidates (
@@ -206,7 +314,9 @@ async function createCandidate(
       assets_declaration,
       penal_sentences,
       civil_sentences,
+      party_resignations,
       djhv_url,
+      data_source,
       last_updated
     ) VALUES (
       ${data.full_name},
@@ -223,11 +333,17 @@ async function createCandidate(
       ${JSON.stringify(data.assets || null)}::jsonb,
       ${JSON.stringify(penalSentences)}::jsonb,
       ${JSON.stringify(civilSentences)}::jsonb,
+      ${resignationCount},
       ${data.djhv_url || null},
+      'jne_scraped',
       NOW()
     )
     ON CONFLICT (slug) DO UPDATE SET
       full_name = EXCLUDED.full_name,
+      penal_sentences = EXCLUDED.penal_sentences,
+      civil_sentences = EXCLUDED.civil_sentences,
+      party_resignations = EXCLUDED.party_resignations,
+      data_source = EXCLUDED.data_source,
       last_updated = NOW()
     RETURNING id
   `

@@ -399,6 +399,14 @@ export interface Sentence {
   status: 'firme' | 'apelacion' | 'otro'
   source: string
   evidence_url?: string
+  // Enhanced fields for detailed judicial information
+  expediente?: string        // Case number
+  juzgado?: string           // Court name
+  delito?: string            // Specific crime (for penal)
+  pena_impuesta?: string     // Imposed penalty
+  tipo_pena?: 'efectiva' | 'suspendida' | 'reserva_fallo'
+  monto?: number             // Amount owed (for alimentos/laboral)
+  rehabilitado?: boolean     // Rehabilitated (for penal)
 }
 
 export interface CivilPenalty {

@@ -19,6 +19,12 @@ import { ConfidenceBadge } from '@/components/candidate/ConfidenceBadge'
 import { ShareButton } from '@/components/share/ShareButton'
 import { CandidateNewsSection } from '@/components/news/CandidateNewsSection'
 import { CandidateProposals } from '@/components/proposals/CandidateProposals'
+import { VotingRecordCard } from '@/components/candidate/VotingRecordCard'
+import { TaxStatusCard } from '@/components/candidate/TaxStatusCard'
+import { ProposalQualityCard } from '@/components/candidate/ProposalQualityCard'
+import { JudicialDiscrepancyCard } from '@/components/candidate/JudicialDiscrepancyCard'
+import { IncumbentPerformanceCard } from '@/components/candidate/IncumbentPerformanceCard'
+import { CompanyIssuesCard } from '@/components/candidate/CompanyIssuesCard'
 import { PRESETS } from '@/lib/constants'
 import type { CandidateWithScores, PresetType, ScoreBreakdown } from '@/types/database'
 import type { CandidateDetails } from '@/lib/db/queries'
@@ -715,10 +721,16 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
 
           {/* ==================== PROPUESTAS TAB ==================== */}
           <TabPanel value="propuestas">
-            <CandidateProposals
-              candidateId={candidate.id}
-              planUrl={details?.plan_gobierno_url}
-            />
+            <div className="space-y-6">
+              {/* Evaluación de Calidad por IA */}
+              <ProposalQualityCard candidateId={candidate.id} />
+
+              {/* Lista de Propuestas */}
+              <CandidateProposals
+                candidateId={candidate.id}
+                planUrl={details?.plan_gobierno_url}
+              />
+            </div>
           </TabPanel>
 
           {/* ==================== NOTICIAS TAB ==================== */}
@@ -732,6 +744,21 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
           {/* ==================== EVIDENCIA TAB ==================== */}
           <TabPanel value="evidencia">
             <div className="space-y-6">
+              {/* Desempeño en Cargo Actual (solo incumbentes) */}
+              <IncumbentPerformanceCard candidateId={candidate.id} />
+
+              {/* Empresas Vinculadas y Problemas Legales */}
+              <CompanyIssuesCard candidateId={candidate.id} />
+
+              {/* Verificación Judicial Cruzada */}
+              <JudicialDiscrepancyCard candidateId={candidate.id} />
+
+              {/* Historial de Votaciones Congresales */}
+              <VotingRecordCard candidateId={candidate.id} />
+
+              {/* Estado Tributario SUNAT */}
+              <TaxStatusCard candidateId={candidate.id} />
+
               {/* Sentencias Penales */}
               {details && details.penal_sentences.length > 0 && (
                 <Card className="border-[var(--flag-red)]">

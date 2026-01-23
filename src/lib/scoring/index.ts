@@ -493,3 +493,278 @@ export function calculateAllScores(
     },
   }
 }
+
+// ============================================
+// ENHANCED SCORING WITH NEW DATA SOURCES
+// ============================================
+
+/**
+ * Extended integrity data that includes new penalty sources
+ */
+export interface EnhancedIntegrityData extends CandidateData {
+  // Congressional voting record
+  proCrimeVotesInFavor?: number
+  proCrimeVotesAgainst?: number
+  antiDemocraticVotes?: number
+  votingIntegrityPenalty?: number
+  votingIntegrityBonus?: number
+
+  // SUNAT tax status
+  taxCondition?: 'habido' | 'no_habido' | 'no_hallado' | 'pendiente'
+  taxStatus?: 'activo' | 'suspendido' | 'baja_definitiva' | 'baja_provisional'
+  hasCoactiveDebts?: boolean
+  coactiveDebtCount?: number
+
+  // Judicial verification
+  hasJudicialDiscrepancy?: boolean
+  undeclaredCasesCount?: number
+  discrepancySeverity?: 'none' | 'minor' | 'major' | 'critical'
+
+  // Company issues
+  companyPenalCases?: number
+  companyLaborIssues?: number
+  companyEnvironmentalIssues?: number
+  companyConsumerComplaints?: number
+
+  // Incumbent performance
+  isIncumbent?: boolean
+  budgetExecutionPct?: number
+  contraloríaReports?: number
+  performanceScore?: number
+}
+
+/**
+ * Calculate penalty from congressional voting record
+ */
+export function calculateVotingPenalty(data: EnhancedIntegrityData): {
+  penalty: number
+  bonus: number
+  net: number
+} {
+  const penalty = data.votingIntegrityPenalty || 0
+  const bonus = data.votingIntegrityBonus || 0
+
+  return {
+    penalty: Math.min(penalty, 85), // Cap at 85
+    bonus: Math.min(bonus, 15), // Cap bonus at 15
+    net: Math.max(-85, bonus - penalty), // Net impact
+  }
+}
+
+/**
+ * Calculate penalty from SUNAT tax status
+ */
+export function calculateTaxPenalty(data: EnhancedIntegrityData): number {
+  let penalty = 0
+
+  // NO HABIDO is a major red flag
+  if (data.taxCondition === 'no_habido') {
+    penalty += 50
+  } else if (data.taxCondition === 'no_hallado') {
+    penalty += 20
+  }
+
+  // Suspended or closed RUC
+  if (data.taxStatus === 'suspendido') {
+    penalty += 15
+  } else if (data.taxStatus === 'baja_definitiva' || data.taxStatus === 'baja_provisional') {
+    penalty += 10
+  }
+
+  // Coactive debts
+  if (data.hasCoactiveDebts) {
+    penalty += 20 * Math.min(data.coactiveDebtCount || 1, 3)
+  }
+
+  return Math.min(penalty, 85)
+}
+
+/**
+ * Calculate penalty from judicial discrepancies (omissions)
+ */
+export function calculateOmissionPenalty(data: EnhancedIntegrityData): number {
+  if (!data.hasJudicialDiscrepancy) return 0
+
+  const severityPenalties: Record<string, number> = {
+    critical: 60,
+    major: 40,
+    minor: 20,
+    none: 0,
+  }
+
+  const basePenalty = severityPenalties[data.discrepancySeverity || 'none'] || 0
+  const additionalPenalty = (data.undeclaredCasesCount || 0) * 10
+
+  return Math.min(basePenalty + additionalPenalty, 85)
+}
+
+/**
+ * Calculate penalty from company legal issues
+ */
+export function calculateCompanyPenalty(data: EnhancedIntegrityData): number {
+  let penalty = 0
+
+  // Penal cases in companies are serious
+  if (data.companyPenalCases) {
+    penalty += data.companyPenalCases * 40
+  }
+
+  // Labor violations
+  if (data.companyLaborIssues) {
+    penalty += data.companyLaborIssues * 20
+  }
+
+  // Environmental violations
+  if (data.companyEnvironmentalIssues) {
+    penalty += data.companyEnvironmentalIssues * 25
+  }
+
+  // Consumer complaints (less severe but still relevant)
+  if (data.companyConsumerComplaints && data.companyConsumerComplaints > 5) {
+    penalty += 15
+  }
+
+  return Math.min(penalty, 60) // Cap company penalties lower than personal
+}
+
+/**
+ * Calculate enhanced integrity score with all new data sources
+ */
+export function calculateEnhancedIntegrity(data: EnhancedIntegrityData): {
+  base: number
+  penalPenalty: number
+  civilPenalties: { type: string; penalty: number }[]
+  resignationPenalty: number
+  votingPenalty: number
+  votingBonus: number
+  taxPenalty: number
+  omissionPenalty: number
+  companyPenalty: number
+  total: number
+  breakdown: {
+    traditional: number
+    votingRecord: number
+    taxCompliance: number
+    judicialVerification: number
+    corporateRecord: number
+  }
+} {
+  // Start with base integrity calculation
+  const baseIntegrity = calculateIntegrity(data)
+
+  // Calculate new penalties
+  const voting = calculateVotingPenalty(data)
+  const taxPenalty = calculateTaxPenalty(data)
+  const omissionPenalty = calculateOmissionPenalty(data)
+  const companyPenalty = calculateCompanyPenalty(data)
+
+  // Calculate total
+  let total = baseIntegrity.total
+  total -= voting.penalty
+  total += voting.bonus
+  total -= taxPenalty
+  total -= omissionPenalty
+  total -= companyPenalty
+
+  return {
+    base: 100,
+    penalPenalty: baseIntegrity.penalPenalty,
+    civilPenalties: baseIntegrity.civilPenalties,
+    resignationPenalty: baseIntegrity.resignationPenalty,
+    votingPenalty: voting.penalty,
+    votingBonus: voting.bonus,
+    taxPenalty,
+    omissionPenalty,
+    companyPenalty,
+    total: Math.max(0, Math.min(100, total)),
+    breakdown: {
+      traditional: baseIntegrity.total,
+      votingRecord: -voting.penalty + voting.bonus,
+      taxCompliance: -taxPenalty,
+      judicialVerification: -omissionPenalty,
+      corporateRecord: -companyPenalty,
+    },
+  }
+}
+
+/**
+ * Calculate performance score for incumbents
+ */
+export function calculatePerformanceScore(data: EnhancedIntegrityData): number | null {
+  if (!data.isIncumbent) return null
+
+  let score = 50 // Base score
+
+  // Budget execution (higher is better)
+  if (data.budgetExecutionPct !== undefined) {
+    // 80%+ execution: bonus
+    // 50%- execution: penalty
+    score += (data.budgetExecutionPct - 50) * 0.5
+  }
+
+  // Contraloría reports (audits/findings are bad)
+  if (data.contraloríaReports) {
+    score -= data.contraloríaReports * 10
+  }
+
+  // Override with direct performance score if available
+  if (data.performanceScore !== undefined) {
+    score = data.performanceScore
+  }
+
+  return Math.max(0, Math.min(100, score))
+}
+
+/**
+ * Calculate all scores with enhanced integrity
+ */
+export function calculateEnhancedScores(
+  data: EnhancedIntegrityData,
+  cargo: CargoType
+) {
+  const competence = calculateCompetence(data, cargo)
+  const integrity = calculateEnhancedIntegrity(data)
+  const transparency = calculateTransparency(data)
+  const confidence = calculateConfidence(data)
+  const performance = calculatePerformanceScore(data)
+
+  const balanced = calculateWeightedScore(
+    competence.total,
+    integrity.total,
+    transparency.total,
+    { wC: 0.45, wI: 0.45, wT: 0.10 }
+  )
+
+  const merit = calculateWeightedScore(
+    competence.total,
+    integrity.total,
+    transparency.total,
+    { wC: 0.60, wI: 0.30, wT: 0.10 }
+  )
+
+  const integrityFirst = calculateWeightedScore(
+    competence.total,
+    integrity.total,
+    transparency.total,
+    { wC: 0.30, wI: 0.60, wT: 0.10 }
+  )
+
+  return {
+    competence,
+    integrity,
+    transparency,
+    confidence,
+    performance,
+    scores: {
+      competence: competence.total,
+      integrity: integrity.total,
+      transparency: transparency.total,
+      confidence: confidence.total,
+      performance,
+      balanced,
+      merit,
+      integrityFirst,
+    },
+    integrityBreakdown: integrity.breakdown,
+  }
+}

@@ -17,6 +17,7 @@ interface JudicialRecord {
   description?: string
   date?: string
   resolution?: string
+  source: 'pj_search' | 'jne_declaration'
 }
 
 interface CandidateJudicialData {
@@ -26,6 +27,15 @@ interface CandidateJudicialData {
   penal_cases: JudicialRecord[]
   civil_cases: JudicialRecord[]
   labor_cases: JudicialRecord[]
+}
+
+interface JudicialDiscrepancy {
+  candidateId: string
+  foundRecords: JudicialRecord[]
+  declaredRecords: JudicialRecord[]
+  undeclaredCount: number
+  severity: 'none' | 'minor' | 'major' | 'critical'
+  details: string[]
 }
 
 async function delay(ms: number): Promise<void> {
@@ -108,6 +118,7 @@ async function searchByDNI(dni: string): Promise<JudicialRecord[]> {
                 status: String(item.estado || ''),
                 description: String(item.sumilla || item.descripcion || ''),
                 date: String(item.fecha || ''),
+                source: 'pj_search',
               })
             }
           }
@@ -134,6 +145,7 @@ async function searchByDNI(dni: string): Promise<JudicialRecord[]> {
                 matter,
                 status,
                 description,
+                source: 'pj_search',
               })
             }
           })
@@ -145,6 +157,298 @@ async function searchByDNI(dni: string): Promise<JudicialRecord[]> {
 
     return records
   })
+}
+
+/**
+ * Searches for judicial cases by name (apellidos)
+ * Useful for cross-verification when DNI search fails
+ */
+async function searchByName(fullName: string): Promise<JudicialRecord[]> {
+  return limit(async () => {
+    await delay(DELAY_MS)
+
+    const records: JudicialRecord[] = []
+
+    try {
+      // Normalize name for search (usually first 2 words are surnames)
+      const nameParts = fullName.trim().split(' ')
+      const searchName = nameParts.slice(0, 2).join(' ').toUpperCase()
+
+      const apiUrl = new URL(`${PJ_BASE_URL}/cej/busqueda/expedientes`)
+      apiUrl.searchParams.set('nombres', searchName)
+
+      const apiResponse = await fetchWithRetry(apiUrl.toString(), {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        },
+      })
+
+      if (apiResponse.ok) {
+        const contentType = apiResponse.headers.get('content-type')
+
+        if (contentType?.includes('application/json')) {
+          const data = await apiResponse.json()
+
+          if (Array.isArray(data)) {
+            for (const item of data) {
+              records.push({
+                case_number: String(item.numeroExpediente || item.expediente || ''),
+                court: String(item.juzgado || item.organo || ''),
+                matter: String(item.materia || ''),
+                status: String(item.estado || ''),
+                description: String(item.sumilla || item.descripcion || ''),
+                date: String(item.fecha || ''),
+                source: 'pj_search',
+              })
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error(`[Judicial] Error searching name ${fullName}:`, error)
+    }
+
+    return records
+  })
+}
+
+/**
+ * Gets what the candidate declared in JNE
+ */
+async function getDeclaredSentences(candidateId: string): Promise<{
+  penal: JudicialRecord[]
+  civil: JudicialRecord[]
+}> {
+  const result = await sql`
+    SELECT
+      penal_sentences,
+      civil_sentences,
+      sentencias_declaracion_jurada
+    FROM candidates
+    WHERE id = ${candidateId}::uuid
+  `
+
+  if (result.length === 0) {
+    return { penal: [], civil: [] }
+  }
+
+  const candidate = result[0]
+  const penal: JudicialRecord[] = []
+  const civil: JudicialRecord[] = []
+
+  // Parse penal sentences from JNE declaration
+  if (candidate.penal_sentences) {
+    const sentences = Array.isArray(candidate.penal_sentences)
+      ? candidate.penal_sentences
+      : []
+    for (const s of sentences) {
+      penal.push({
+        case_number: s.expediente || s.case_number || '',
+        court: s.juzgado || s.court || '',
+        matter: 'Penal',
+        status: s.estado || s.status || '',
+        description: s.delito || s.description || '',
+        date: s.fecha || s.date || '',
+        source: 'jne_declaration',
+      })
+    }
+  }
+
+  // Parse from sentencias_declaracion_jurada (JNE field)
+  if (candidate.sentencias_declaracion_jurada) {
+    const declarados = Array.isArray(candidate.sentencias_declaracion_jurada)
+      ? candidate.sentencias_declaracion_jurada
+      : []
+    for (const s of declarados) {
+      const tipo = String(s.tipo || s.materia || '').toLowerCase()
+      const record: JudicialRecord = {
+        case_number: s.expediente || '',
+        court: s.juzgado || s.organo || '',
+        matter: tipo,
+        status: s.situacion_legal || s.estado || '',
+        description: s.delito || s.falta || s.descripcion || '',
+        date: s.fecha_sentencia || '',
+        source: 'jne_declaration',
+      }
+
+      if (tipo.includes('penal')) {
+        penal.push(record)
+      } else {
+        civil.push(record)
+      }
+    }
+  }
+
+  // Parse civil sentences
+  if (candidate.civil_sentences) {
+    const sentences = Array.isArray(candidate.civil_sentences)
+      ? candidate.civil_sentences
+      : []
+    for (const s of sentences) {
+      civil.push({
+        case_number: s.expediente || s.case_number || '',
+        court: s.juzgado || s.court || '',
+        matter: 'Civil',
+        status: s.estado || s.status || '',
+        description: s.descripcion || s.description || '',
+        date: s.fecha || s.date || '',
+        source: 'jne_declaration',
+      })
+    }
+  }
+
+  return { penal, civil }
+}
+
+/**
+ * Compares found records with declared records to find discrepancies
+ */
+function findDiscrepancies(
+  candidateId: string,
+  foundRecords: JudicialRecord[],
+  declaredPenal: JudicialRecord[],
+  declaredCivil: JudicialRecord[]
+): JudicialDiscrepancy {
+  const declaredCaseNumbers = new Set([
+    ...declaredPenal.map((r) => normalizeCase(r.case_number)),
+    ...declaredCivil.map((r) => normalizeCase(r.case_number)),
+  ])
+
+  const undeclaredRecords: JudicialRecord[] = []
+  const details: string[] = []
+
+  // Check each found record against declarations
+  for (const record of foundRecords) {
+    const normalizedCase = normalizeCase(record.case_number)
+
+    // Skip if it matches a declared case
+    if (declaredCaseNumbers.has(normalizedCase)) {
+      continue
+    }
+
+    // Check if it's potentially the same case with different formatting
+    let isMatched = false
+    for (const declared of [...declaredPenal, ...declaredCivil]) {
+      if (casesMatch(record, declared)) {
+        isMatched = true
+        break
+      }
+    }
+
+    if (!isMatched) {
+      undeclaredRecords.push(record)
+
+      // Check if it's a serious case
+      const matter = record.matter.toLowerCase()
+      if (matter.includes('penal') || matter.includes('delito')) {
+        details.push(`Caso penal no declarado: ${record.case_number} - ${record.description || record.matter}`)
+      } else {
+        details.push(`Caso civil/laboral no declarado: ${record.case_number}`)
+      }
+    }
+  }
+
+  // Determine severity
+  let severity: JudicialDiscrepancy['severity'] = 'none'
+  const undeclaredPenal = undeclaredRecords.filter((r) =>
+    r.matter.toLowerCase().includes('penal') || r.matter.toLowerCase().includes('delito')
+  )
+
+  if (undeclaredPenal.length >= 2) {
+    severity = 'critical'
+  } else if (undeclaredPenal.length === 1) {
+    severity = 'major'
+  } else if (undeclaredRecords.length > 0) {
+    severity = 'minor'
+  }
+
+  return {
+    candidateId,
+    foundRecords,
+    declaredRecords: [...declaredPenal, ...declaredCivil],
+    undeclaredCount: undeclaredRecords.length,
+    severity,
+    details,
+  }
+}
+
+/**
+ * Normalizes case number for comparison
+ */
+function normalizeCase(caseNumber: string): string {
+  return (caseNumber || '')
+    .toLowerCase()
+    .replace(/[-\s]/g, '')
+    .trim()
+}
+
+/**
+ * Checks if two cases might be the same (fuzzy match)
+ */
+function casesMatch(a: JudicialRecord, b: JudicialRecord): boolean {
+  // Exact case number match
+  if (normalizeCase(a.case_number) === normalizeCase(b.case_number) && a.case_number) {
+    return true
+  }
+
+  // Same court and similar description
+  const aDesc = (a.description || '').toLowerCase()
+  const bDesc = (b.description || '').toLowerCase()
+  const aCourt = (a.court || '').toLowerCase()
+  const bCourt = (b.court || '').toLowerCase()
+
+  if (aCourt && bCourt && aCourt.includes(bCourt)) {
+    if (aDesc && bDesc && (aDesc.includes(bDesc) || bDesc.includes(aDesc))) {
+      return true
+    }
+  }
+
+  return false
+}
+
+/**
+ * Saves discrepancy data to database
+ */
+async function saveDiscrepancy(discrepancy: JudicialDiscrepancy): Promise<void> {
+  if (discrepancy.severity === 'none') return
+
+  await sql`
+    INSERT INTO judicial_discrepancies (
+      candidate_id,
+      found_records,
+      declared_records,
+      undeclared_count,
+      severity,
+      details,
+      checked_at
+    ) VALUES (
+      ${discrepancy.candidateId}::uuid,
+      ${JSON.stringify(discrepancy.foundRecords)}::jsonb,
+      ${JSON.stringify(discrepancy.declaredRecords)}::jsonb,
+      ${discrepancy.undeclaredCount},
+      ${discrepancy.severity},
+      ${JSON.stringify(discrepancy.details)}::jsonb,
+      NOW()
+    )
+    ON CONFLICT (candidate_id) DO UPDATE SET
+      found_records = EXCLUDED.found_records,
+      declared_records = EXCLUDED.declared_records,
+      undeclared_count = EXCLUDED.undeclared_count,
+      severity = EXCLUDED.severity,
+      details = EXCLUDED.details,
+      checked_at = NOW()
+  `
+
+  // Also update the candidate's discrepancy flags
+  await sql`
+    UPDATE candidates
+    SET
+      has_judicial_discrepancy = true,
+      judicial_discrepancy_severity = ${discrepancy.severity},
+      undeclared_cases_count = ${discrepancy.undeclaredCount}
+    WHERE id = ${discrepancy.candidateId}::uuid
+  `
 }
 
 /**
@@ -260,7 +564,7 @@ async function updateCandidateJudicialRecords(
 }
 
 /**
- * Main sync function for judicial records
+ * Main sync function for judicial records with cross-verification
  */
 export async function syncJudicialRecords(): Promise<{
   records_processed: number
@@ -270,6 +574,9 @@ export async function syncJudicialRecords(): Promise<{
 }> {
   const logger = createSyncLogger('poder_judicial')
   await logger.start()
+
+  let discrepanciesFound = 0
+  let criticalDiscrepancies = 0
 
   try {
     await logger.markRunning()
@@ -291,8 +598,16 @@ export async function syncJudicialRecords(): Promise<{
 
       console.log(`[Judicial] Checking: ${candidate.full_name} (${candidate.dni})`)
 
-      // Search for judicial records
-      const records = await searchByDNI(candidate.dni)
+      // Search for judicial records by DNI
+      let records = await searchByDNI(candidate.dni)
+
+      // If no results by DNI, try by name
+      if (records.length === 0) {
+        records = await searchByName(candidate.full_name)
+      }
+
+      // Get what the candidate declared in JNE
+      const declared = await getDeclaredSentences(candidate.id)
 
       if (records.length > 0) {
         const categorized = categorizeRecords(records)
@@ -303,11 +618,54 @@ export async function syncJudicialRecords(): Promise<{
           categorized.civil
         )
 
+        // Cross-verify: compare found vs declared
+        const discrepancy = findDiscrepancies(
+          candidate.id,
+          records,
+          declared.penal,
+          declared.civil
+        )
+
+        if (discrepancy.severity !== 'none') {
+          await saveDiscrepancy(discrepancy)
+          discrepanciesFound++
+
+          if (discrepancy.severity === 'critical') {
+            criticalDiscrepancies++
+            console.log(
+              `[Judicial] ⚠️ CRITICAL DISCREPANCY: ${candidate.full_name} - ${discrepancy.undeclaredCount} undeclared cases`
+            )
+          } else if (discrepancy.severity === 'major') {
+            console.log(
+              `[Judicial] ⚠️ MAJOR DISCREPANCY: ${candidate.full_name} - undeclared penal case`
+            )
+          }
+        } else {
+          // Clear any previous discrepancy flags if now clean
+          await sql`
+            UPDATE candidates
+            SET
+              has_judicial_discrepancy = false,
+              judicial_discrepancy_severity = 'none',
+              undeclared_cases_count = 0
+            WHERE id = ${candidate.id}::uuid
+              AND has_judicial_discrepancy = true
+          `
+        }
+
         logger.incrementUpdated()
         console.log(
           `[Judicial] Updated ${candidate.full_name}: ${categorized.penal.length} penal, ${categorized.civil.length} civil`
         )
       } else {
+        // No records found - still need to check if candidate declared something
+        // that we couldn't verify (potential false declaration)
+        if (declared.penal.length > 0 || declared.civil.length > 0) {
+          console.log(
+            `[Judicial] ${candidate.full_name} declared ${declared.penal.length + declared.civil.length} cases but none found in PJ (could be older cases)`
+          )
+        }
+
         // Mark as checked even if no records found
         await sql`
           INSERT INTO data_hashes (entity_type, entity_id, source, data_hash, last_checked_at)
@@ -319,6 +677,9 @@ export async function syncJudicialRecords(): Promise<{
       }
     }
 
+    logger.setMetadata('discrepancies_found', discrepanciesFound)
+    logger.setMetadata('critical_discrepancies', criticalDiscrepancies)
+
     return await logger.complete()
   } catch (error) {
     await logger.fail(error as Error)
@@ -326,4 +687,58 @@ export async function syncJudicialRecords(): Promise<{
   }
 }
 
-export { searchByDNI, categorizeRecords }
+/**
+ * Gets judicial discrepancy summary for a candidate
+ */
+export async function getCandidateJudicialDiscrepancy(candidateId: string): Promise<{
+  hasDiscrepancy: boolean
+  severity: 'none' | 'minor' | 'major' | 'critical'
+  undeclaredCount: number
+  details: string[]
+  integrityPenalty: number
+} | null> {
+  const result = await sql`
+    SELECT
+      undeclared_count,
+      severity,
+      details
+    FROM judicial_discrepancies
+    WHERE candidate_id = ${candidateId}::uuid
+    ORDER BY checked_at DESC
+    LIMIT 1
+  `
+
+  if (result.length === 0) {
+    return null
+  }
+
+  const row = result[0]
+  const severity = row.severity as 'none' | 'minor' | 'major' | 'critical'
+
+  // Calculate penalty based on severity
+  let penalty = 0
+  switch (severity) {
+    case 'critical':
+      penalty = 60
+      break
+    case 'major':
+      penalty = 40
+      break
+    case 'minor':
+      penalty = 20
+      break
+  }
+
+  // Additional penalty per undeclared case
+  penalty += Math.min((row.undeclared_count as number) * 10, 25)
+
+  return {
+    hasDiscrepancy: severity !== 'none',
+    severity,
+    undeclaredCount: row.undeclared_count as number,
+    details: (row.details as string[]) || [],
+    integrityPenalty: Math.min(penalty, 85),
+  }
+}
+
+export { searchByDNI, searchByName, categorizeRecords }

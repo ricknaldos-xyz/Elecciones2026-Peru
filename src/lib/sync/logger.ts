@@ -1,6 +1,25 @@
 import { sql } from '@/lib/db'
 
-export type SyncSource = 'jne' | 'onpe' | 'poder_judicial' | 'news' | 'youtube' | 'google_news' | 'tiktok' | 'twitter' | 'expanded_rss' | 'ai_analysis' | 'government_plans'
+export type SyncSource =
+  | 'jne'
+  | 'onpe'
+  | 'poder_judicial'
+  | 'news'
+  | 'youtube'
+  | 'google_news'
+  | 'tiktok'
+  | 'twitter'
+  | 'expanded_rss'
+  | 'ai_analysis'
+  | 'government_plans'
+  | 'congreso_votaciones'
+  | 'sunat'
+  | 'proposal_evaluation'
+  | 'contraloria'
+  | 'mef'
+  | 'indecopi'
+  | 'sunafil'
+  | 'oefa'
 export type SyncStatus = 'started' | 'running' | 'completed' | 'failed'
 
 export interface SyncResult {
