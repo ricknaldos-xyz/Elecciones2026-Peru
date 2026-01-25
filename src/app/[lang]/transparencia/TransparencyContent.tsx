@@ -24,6 +24,13 @@ interface PartyWithFinance {
   } | null
 }
 
+function generatePartySlug(party: { name: string; short_name: string | null }): string {
+  return (party.short_name || party.name)
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+}
+
 function formatCurrency(amount: number): string {
   return new Intl.NumberFormat('es-PE', {
     style: 'currency',
@@ -202,7 +209,7 @@ export function TransparencyContent() {
                 <div
                   key={item.party.id}
                   className="p-4 hover:bg-[var(--muted)] transition-colors cursor-pointer"
-                  onClick={() => router.push(`/partido/${item.party.id}/financiamiento`)}
+                  onClick={() => router.push(`/partido/${generatePartySlug(item.party)}/financiamiento`)}
                 >
                   <div className="flex items-center gap-4">
                     {/* Rank */}

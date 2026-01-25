@@ -105,7 +105,7 @@ CREATE OR REPLACE VIEW party_finance_summary AS
 SELECT
   p.id as party_id,
   p.name as party_name,
-  p.abbreviation,
+  p.short_name,
   p.logo_url,
   pf.year,
   pf.public_funding,
@@ -180,16 +180,16 @@ DECLARE
   v_an_id UUID;
 BEGIN
   -- Obtener IDs de partidos
-  SELECT id INTO v_fp_id FROM parties WHERE abbreviation = 'FP' LIMIT 1;
-  SELECT id INTO v_app_id FROM parties WHERE abbreviation = 'APP' LIMIT 1;
-  SELECT id INTO v_ap_id FROM parties WHERE abbreviation = 'AP' LIMIT 1;
-  SELECT id INTO v_rp_id FROM parties WHERE abbreviation = 'RP' LIMIT 1;
-  SELECT id INTO v_pp_id FROM parties WHERE abbreviation = 'PP' LIMIT 1;
-  SELECT id INTO v_sp_id FROM parties WHERE abbreviation = 'SP' LIMIT 1;
-  SELECT id INTO v_pl_id FROM parties WHERE abbreviation = 'PL' LIMIT 1;
-  SELECT id INTO v_pd_id FROM parties WHERE abbreviation = 'PD' LIMIT 1;
-  SELECT id INTO v_jp_id FROM parties WHERE abbreviation = 'JP' LIMIT 1;
-  SELECT id INTO v_an_id FROM parties WHERE abbreviation = 'AN' LIMIT 1;
+  SELECT id INTO v_fp_id FROM parties WHERE short_name = 'FP' LIMIT 1;
+  SELECT id INTO v_app_id FROM parties WHERE short_name = 'APP' LIMIT 1;
+  SELECT id INTO v_ap_id FROM parties WHERE short_name = 'AP' LIMIT 1;
+  SELECT id INTO v_rp_id FROM parties WHERE short_name = 'RP' LIMIT 1;
+  SELECT id INTO v_pp_id FROM parties WHERE short_name = 'PP' LIMIT 1;
+  SELECT id INTO v_sp_id FROM parties WHERE short_name = 'SP' LIMIT 1;
+  SELECT id INTO v_pl_id FROM parties WHERE short_name = 'PL' LIMIT 1;
+  SELECT id INTO v_pd_id FROM parties WHERE short_name = 'PD' LIMIT 1;
+  SELECT id INTO v_jp_id FROM parties WHERE short_name = 'JP' LIMIT 1;
+  SELECT id INTO v_an_id FROM parties WHERE short_name = 'AN' LIMIT 1;
 
   -- FUERZA POPULAR (Mayor representación parlamentaria)
   IF v_fp_id IS NOT NULL THEN
@@ -402,9 +402,9 @@ DECLARE
   v_app_id UUID;
   v_rp_id UUID;
 BEGIN
-  SELECT id INTO v_fp_id FROM parties WHERE abbreviation = 'FP' LIMIT 1;
-  SELECT id INTO v_app_id FROM parties WHERE abbreviation = 'APP' LIMIT 1;
-  SELECT id INTO v_rp_id FROM parties WHERE abbreviation = 'RP' LIMIT 1;
+  SELECT id INTO v_fp_id FROM parties WHERE short_name = 'FP' LIMIT 1;
+  SELECT id INTO v_app_id FROM parties WHERE short_name = 'APP' LIMIT 1;
+  SELECT id INTO v_rp_id FROM parties WHERE short_name = 'RP' LIMIT 1;
 
   -- Gastos de Fuerza Popular 2024
   IF v_fp_id IS NOT NULL THEN

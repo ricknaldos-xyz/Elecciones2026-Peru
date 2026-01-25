@@ -582,11 +582,40 @@ export async function getPartyExpensesByCategory(partyId: string, year?: number)
 }
 
 /**
- * Get full party finance summary
+ * Get party by slug (name or short_name converted to slug format)
  */
-export async function getPartyFinanceSummary(partyId: string): Promise<PartyFinanceSummary | null> {
-  const party = await getPartyById(partyId)
+export async function getPartyBySlug(slug: string) {
+  const parties = await getParties()
+  const party = parties.find((p) =>
+    p.short_name?.toLowerCase().replace(/\s+/g, '-') === slug ||
+    p.name?.toLowerCase().replace(/\s+/g, '-') === slug ||
+    p.id === slug // Also allow lookup by ID for backwards compatibility
+  )
+  return party || null
+}
+
+/**
+ * Generate slug from party name
+ */
+export function generatePartySlug(party: { name?: string; short_name?: string | null }): string {
+  return (party.short_name || party.name || '')
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '')
+}
+
+/**
+ * Get full party finance summary (accepts slug or ID)
+ */
+export async function getPartyFinanceSummary(slugOrId: string): Promise<PartyFinanceSummary | null> {
+  // Try to find party by slug first, then by ID
+  let party = await getPartyBySlug(slugOrId)
+  if (!party) {
+    party = await getPartyById(slugOrId)
+  }
   if (!party) return null
+
+  const partyId = party.id
 
   const finances = await getPartyFinances(partyId)
   const topDonors = await getPartyDonors(partyId, { limit: 10 })
@@ -811,9 +840,16 @@ export async function getScoreBreakdown(candidateId: string): Promise<ScoreBreak
     integrity: {
       base: Number(row.integrity_base),
       penal_penalty: Number(row.penal_penalty),
-      civil_penalties: (typeof row.civil_penalties === 'string'
-        ? JSON.parse(row.civil_penalties)
-        : row.civil_penalties) as CivilPenalty[] || [],
+      civil_penalties: (() => {
+        try {
+          if (typeof row.civil_penalties === 'string') {
+            return JSON.parse(row.civil_penalties) as CivilPenalty[]
+          }
+          return (row.civil_penalties as CivilPenalty[]) || []
+        } catch {
+          return []
+        }
+      })(),
       resignation_penalty: Number(row.resignation_penalty),
       final: Number(row.integrity_base) - Number(row.penal_penalty) - Number(row.resignation_penalty),
     },

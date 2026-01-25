@@ -270,7 +270,7 @@ SELECT
   c.slug as candidate_slug,
   c.photo_url as candidate_photo,
   p.name as party_name,
-  p.abbreviation as party_abbreviation
+  p.short_name as party_abbreviation
 FROM social_mentions sm
 LEFT JOIN candidates c ON sm.candidate_id = c.id
 LEFT JOIN parties p ON sm.party_id = p.id
