@@ -11,11 +11,71 @@ export const PRESETS = {
 export type PresetType = keyof typeof PRESETS
 
 // Guardrails para modo custom
+// Límites ajustados para que la suma máxima no exceda 1.0 significativamente
+// max(wC) + max(wI) + min(wT) = 0.55 + 0.55 + 0.05 = 1.15 (se normaliza)
+// max(wC) + min(wI) + max(wT) = 0.55 + 0.20 + 0.20 = 0.95 (válido)
 export const WEIGHT_LIMITS = {
-  wC: { min: 0.20, max: 0.75 },
-  wI: { min: 0.20, max: 0.75 },
+  wC: { min: 0.20, max: 0.55 },
+  wI: { min: 0.20, max: 0.55 },
   wT: { min: 0.05, max: 0.20 },
 } as const
+
+export type Weights = { wC: number; wI: number; wT: number }
+
+/**
+ * Validates and normalizes weights to ensure they sum to exactly 1.0
+ * Also clamps each weight to its valid range
+ */
+export function validateAndNormalizeWeights(weights: Weights): Weights {
+  // First, clamp to limits
+  let wC = Math.max(WEIGHT_LIMITS.wC.min, Math.min(WEIGHT_LIMITS.wC.max, weights.wC))
+  let wI = Math.max(WEIGHT_LIMITS.wI.min, Math.min(WEIGHT_LIMITS.wI.max, weights.wI))
+  let wT = Math.max(WEIGHT_LIMITS.wT.min, Math.min(WEIGHT_LIMITS.wT.max, weights.wT))
+
+  const total = wC + wI + wT
+
+  // If already normalized (within tolerance), return clamped values
+  if (Math.abs(total - 1.0) < 0.001) {
+    return { wC, wI, wT }
+  }
+
+  // Normalize proportionally
+  const factor = 1.0 / total
+  wC = Math.round(wC * factor * 1000) / 1000
+  wI = Math.round(wI * factor * 1000) / 1000
+  wT = Math.round(wT * factor * 1000) / 1000
+
+  // Adjust for rounding errors (ensure exact sum of 1.0)
+  const newTotal = wC + wI + wT
+  if (newTotal !== 1.0) {
+    // Adjust the largest weight to compensate
+    const diff = 1.0 - newTotal
+    if (wC >= wI && wC >= wT) {
+      wC = Math.round((wC + diff) * 1000) / 1000
+    } else if (wI >= wC && wI >= wT) {
+      wI = Math.round((wI + diff) * 1000) / 1000
+    } else {
+      wT = Math.round((wT + diff) * 1000) / 1000
+    }
+  }
+
+  return { wC, wI, wT }
+}
+
+/**
+ * Checks if weights are valid (sum to 1.0 and within limits)
+ */
+export function areWeightsValid(weights: Weights): boolean {
+  const { wC, wI, wT } = weights
+  const total = wC + wI + wT
+
+  const withinLimits =
+    wC >= WEIGHT_LIMITS.wC.min && wC <= WEIGHT_LIMITS.wC.max &&
+    wI >= WEIGHT_LIMITS.wI.min && wI <= WEIGHT_LIMITS.wI.max &&
+    wT >= WEIGHT_LIMITS.wT.min && wT <= WEIGHT_LIMITS.wT.max
+
+  return withinLimits && Math.abs(total - 1.0) < 0.001
+}
 
 // ============================================
 // THRESHOLDS

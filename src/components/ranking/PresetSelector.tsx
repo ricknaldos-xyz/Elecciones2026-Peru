@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { Tooltip } from '@/components/ui/Tooltip'
-import { PRESETS, WEIGHT_LIMITS } from '@/lib/constants'
+import { PRESETS, WEIGHT_LIMITS, validateAndNormalizeWeights } from '@/lib/constants'
 import type { PresetType, Weights } from '@/types/database'
 
 interface PresetSelectorProps {
@@ -55,15 +55,14 @@ export function PresetSelector({
     const limits = WEIGHT_LIMITS[key]
     const clampedValue = Math.max(limits.min, Math.min(limits.max, newValue))
 
-    // Redistribute remaining weight
+    // Redistribute remaining weight proportionally
     const remaining = 1 - clampedValue
     const otherKeys = (Object.keys(customWeights) as Array<keyof Weights>).filter(
       (k) => k !== key
     )
 
-    // Simple proportional redistribution
     const otherTotal = otherKeys.reduce((sum, k) => sum + customWeights[k], 0)
-    const newWeights: Weights = { ...customWeights, [key]: clampedValue }
+    const prelimWeights: Weights = { ...customWeights, [key]: clampedValue }
 
     if (otherTotal > 0) {
       otherKeys.forEach((k) => {
@@ -71,18 +70,12 @@ export function PresetSelector({
         let newVal = remaining * proportion
         const kLimits = WEIGHT_LIMITS[k]
         newVal = Math.max(kLimits.min, Math.min(kLimits.max, newVal))
-        newWeights[k] = newVal
+        prelimWeights[k] = newVal
       })
     }
 
-    // Normalize to sum to 1
-    const total = Object.values(newWeights).reduce((sum, v) => sum + v, 0)
-    if (total !== 1) {
-      const factor = 1 / total
-      Object.keys(newWeights).forEach((k) => {
-        newWeights[k as keyof Weights] *= factor
-      })
-    }
+    // Use centralized validation and normalization
+    const newWeights = validateAndNormalizeWeights(prelimWeights)
 
     setCustomWeights(newWeights)
     onChange('custom', newWeights)
