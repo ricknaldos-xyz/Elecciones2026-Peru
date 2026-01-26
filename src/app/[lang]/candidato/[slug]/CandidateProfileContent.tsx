@@ -25,6 +25,7 @@ import { ProposalQualityCard } from '@/components/candidate/ProposalQualityCard'
 import { JudicialDiscrepancyCard } from '@/components/candidate/JudicialDiscrepancyCard'
 import { IncumbentPerformanceCard } from '@/components/candidate/IncumbentPerformanceCard'
 import { CompanyIssuesCard } from '@/components/candidate/CompanyIssuesCard'
+import { ExperienceOverlapBadge } from '@/components/candidate/ExperienceOverlapBadge'
 import { PRESETS } from '@/lib/constants'
 import type { CandidateWithScores, PresetType, ScoreBreakdown } from '@/types/database'
 import type { CandidateDetails } from '@/lib/db/queries'
@@ -535,7 +536,16 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
               {details && details.experience_details.length > 0 && (
                 <Card>
                   <CardHeader>
-                    <CardTitle>{t('professionalExperience')}</CardTitle>
+                    <div className="flex items-center justify-between gap-3">
+                      <CardTitle>{t('professionalExperience')}</CardTitle>
+                      {breakdown?.experience.hasOverlap && (
+                        <ExperienceOverlapBadge
+                          rawYears={breakdown.experience.rawYears}
+                          uniqueYears={breakdown.experience.uniqueYears}
+                          hasOverlap={breakdown.experience.hasOverlap}
+                        />
+                      )}
+                    </div>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
@@ -943,6 +953,18 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                         <BreakdownBar label={t('breakdown.educationDepth')} value={breakdown.education.depth} max={8} color="competence" />
                         <BreakdownBar label={t('breakdown.totalExperience')} value={breakdown.experience.total} max={25} color="competence" />
                         <BreakdownBar label={t('breakdown.relevantExperience')} value={breakdown.experience.relevant} max={25} color="competence" />
+                        {breakdown.experience.hasOverlap && (
+                          <div className="flex items-center gap-2 p-2 bg-[var(--muted)] border-2 border-[var(--border)]">
+                            <ExperienceOverlapBadge
+                              rawYears={breakdown.experience.rawYears}
+                              uniqueYears={breakdown.experience.uniqueYears}
+                              hasOverlap={true}
+                            />
+                            <span className="text-xs text-[var(--muted-foreground)] font-medium">
+                              Periodos solapados deduplicados
+                            </span>
+                          </div>
+                        )}
                         <BreakdownBar label={t('breakdown.leadershipSeniority')} value={breakdown.leadership.seniority} max={14} color="competence" />
                         <BreakdownBar label={t('breakdown.leadershipStability')} value={breakdown.leadership.stability} max={6} color="competence" />
                       </div>

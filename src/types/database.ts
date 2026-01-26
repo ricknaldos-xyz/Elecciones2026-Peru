@@ -201,6 +201,9 @@ export interface Database {
           education_depth_points: number
           experience_total_points: number
           experience_relevant_points: number
+          experience_raw_years: number
+          experience_unique_years: number
+          experience_has_overlap: boolean
           leadership_points: number
           leadership_seniority: number
           leadership_stability: number
@@ -222,6 +225,9 @@ export interface Database {
           education_depth_points?: number
           experience_total_points?: number
           experience_relevant_points?: number
+          experience_raw_years?: number
+          experience_unique_years?: number
+          experience_has_overlap?: boolean
           leadership_points?: number
           leadership_seniority?: number
           leadership_stability?: number
@@ -243,6 +249,9 @@ export interface Database {
           education_depth_points?: number
           experience_total_points?: number
           experience_relevant_points?: number
+          experience_raw_years?: number
+          experience_unique_years?: number
+          experience_has_overlap?: boolean
           leadership_points?: number
           leadership_seniority?: number
           leadership_stability?: number
@@ -486,6 +495,9 @@ export interface ScoreBreakdown {
   experience: {
     total: number
     relevant: number
+    rawYears: number      // Total years before deduplication
+    uniqueYears: number   // Years after merging overlapping periods
+    hasOverlap: boolean   // True if overlapping periods were detected
   }
   leadership: {
     total: number

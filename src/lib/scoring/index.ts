@@ -207,6 +207,17 @@ const CIVIL_PENALTIES: Record<CivilSentence['type'], number> = {
   contractual: 15,
 }
 
+// Caps per type to prevent extreme accumulation
+const CIVIL_PENALTY_CAPS: Record<CivilSentence['type'], number> = {
+  violence: 70,    // Max 70 pts even with multiple violence sentences
+  alimentos: 50,   // Max 50 pts for multiple alimentos cases
+  laboral: 40,     // Max 40 pts for multiple labor cases
+  contractual: 25, // Max 25 pts for multiple contractual cases
+}
+
+// Maximum total civil penalty (prevents score going too negative)
+const MAX_TOTAL_CIVIL_PENALTY = 85
+
 const RESIGNATION_PENALTIES: { minCount: number; penalty: number }[] = [
   { minCount: 4, penalty: 15 },
   { minCount: 2, penalty: 10 },
@@ -246,23 +257,77 @@ export function calculateEducationScore(education: EducationDetail[]): {
   }
 }
 
-function calculateTotalExperienceYears(experience: Experience[]): number {
-  const currentYear = new Date().getFullYear()
-  let totalYears = 0
+interface TimeRange {
+  start: number
+  end: number
+}
 
-  for (const exp of experience) {
-    const endYear = exp.endYear || currentYear
-    totalYears += endYear - exp.startYear
+/**
+ * Merge overlapping time ranges to get unique coverage
+ */
+function mergeTimeRanges(ranges: TimeRange[]): TimeRange[] {
+  if (ranges.length === 0) return []
+
+  // Sort by start year
+  const sorted = [...ranges].sort((a, b) => a.start - b.start)
+  const merged: TimeRange[] = [{ ...sorted[0] }]
+
+  for (let i = 1; i < sorted.length; i++) {
+    const current = sorted[i]
+    const lastMerged = merged[merged.length - 1]
+
+    if (current.start <= lastMerged.end) {
+      // Overlap detected, extend the range
+      lastMerged.end = Math.max(lastMerged.end, current.end)
+    } else {
+      // No overlap, add new range
+      merged.push({ ...current })
+    }
   }
 
-  return totalYears
+  return merged
+}
+
+/**
+ * Calculate total experience years, properly handling overlapping periods
+ */
+export function calculateTotalExperienceYears(experience: Experience[]): {
+  rawYears: number
+  uniqueYears: number
+  hasOverlap: boolean
+} {
+  const currentYear = new Date().getFullYear()
+
+  if (experience.length === 0) {
+    return { rawYears: 0, uniqueYears: 0, hasOverlap: false }
+  }
+
+  // Create time ranges
+  const ranges: TimeRange[] = experience.map((exp) => ({
+    start: exp.startYear,
+    end: exp.endYear || currentYear,
+  }))
+
+  // Calculate raw total (with potential overlap)
+  const rawYears = ranges.reduce((sum, r) => sum + (r.end - r.start), 0)
+
+  // Calculate unique years (without overlap)
+  const mergedRanges = mergeTimeRanges(ranges)
+  const uniqueYears = mergedRanges.reduce((sum, r) => sum + (r.end - r.start), 0)
+
+  return {
+    rawYears,
+    uniqueYears,
+    hasOverlap: rawYears !== uniqueYears,
+  }
 }
 
 export function calculateExperienceTotal(experience: Experience[]): number {
-  const years = calculateTotalExperienceYears(experience)
+  // Use uniqueYears to avoid double-counting overlapping experience
+  const { uniqueYears } = calculateTotalExperienceYears(experience)
 
   for (const tier of EXPERIENCE_TOTAL_POINTS) {
-    if (years >= tier.minYears) {
+    if (uniqueYears >= tier.minYears) {
       return tier.points
     }
   }
@@ -352,12 +417,14 @@ export function calculateCompetence(
 export function calculateIntegrity(data: CandidateData): {
   base: number
   penalPenalty: number
-  civilPenalties: { type: string; penalty: number }[]
+  civilPenalties: { type: string; penalty: number; count: number; capped: boolean }[]
+  totalCivilPenalty: number
+  civilPenaltiesCapped: boolean
   resignationPenalty: number
   total: number
 } {
   let score = 100
-  const civilPenalties: { type: string; penalty: number }[] = []
+  const civilPenalties: { type: string; penalty: number; count: number; capped: boolean }[] = []
 
   // Sentencias penales firmes (mayor penalidad)
   const firmPenalCount = data.penalSentences.filter((s) => s.isFirm).length
@@ -377,11 +444,51 @@ export function calculateIntegrity(data: CandidateData): {
   }
   score -= penalPenalty
 
+  // Group civil sentences by type for capped calculation
+  const civilByType: Record<string, CivilSentence[]> = {}
   for (const sentence of data.civilSentences) {
-    const penalty = CIVIL_PENALTIES[sentence.type] || 10
-    civilPenalties.push({ type: sentence.type, penalty })
-    score -= penalty
+    if (!civilByType[sentence.type]) {
+      civilByType[sentence.type] = []
+    }
+    civilByType[sentence.type].push(sentence)
   }
+
+  let totalCivilPenalty = 0
+  let anyCapped = false
+
+  for (const [type, sentences] of Object.entries(civilByType)) {
+    const sentenceType = type as CivilSentence['type']
+    const basePenalty = CIVIL_PENALTIES[sentenceType] || 10
+    const cap = CIVIL_PENALTY_CAPS[sentenceType] || 30
+
+    // Decreasing returns: 1st = 100%, 2nd = 50%, 3rd+ = 25%
+    let typePenalty = 0
+    sentences.forEach((_, index) => {
+      const multiplier = index === 0 ? 1.0 : index === 1 ? 0.5 : 0.25
+      typePenalty += basePenalty * multiplier
+    })
+
+    // Apply per-type cap
+    const cappedTypePenalty = Math.min(typePenalty, cap)
+    const wasCapped = typePenalty > cap
+
+    if (wasCapped) anyCapped = true
+
+    civilPenalties.push({
+      type,
+      penalty: cappedTypePenalty,
+      count: sentences.length,
+      capped: wasCapped,
+    })
+
+    totalCivilPenalty += cappedTypePenalty
+  }
+
+  // Apply total civil penalty cap
+  const finalCivilPenalty = Math.min(totalCivilPenalty, MAX_TOTAL_CIVIL_PENALTY)
+  if (totalCivilPenalty > MAX_TOTAL_CIVIL_PENALTY) anyCapped = true
+
+  score -= finalCivilPenalty
 
   let resignationPenalty = 0
   for (const tier of RESIGNATION_PENALTIES) {
@@ -396,6 +503,8 @@ export function calculateIntegrity(data: CandidateData): {
     base: 100,
     penalPenalty,
     civilPenalties,
+    totalCivilPenalty: finalCivilPenalty,
+    civilPenaltiesCapped: anyCapped,
     resignationPenalty,
     total: Math.max(score, 0),
   }
@@ -633,7 +742,9 @@ export function calculateCompanyPenalty(data: EnhancedIntegrityData): number {
 export function calculateEnhancedIntegrity(data: EnhancedIntegrityData): {
   base: number
   penalPenalty: number
-  civilPenalties: { type: string; penalty: number }[]
+  civilPenalties: { type: string; penalty: number; count: number; capped: boolean }[]
+  totalCivilPenalty: number
+  civilPenaltiesCapped: boolean
   resignationPenalty: number
   votingPenalty: number
   votingBonus: number
@@ -642,11 +753,19 @@ export function calculateEnhancedIntegrity(data: EnhancedIntegrityData): {
   companyPenalty: number
   total: number
   breakdown: {
-    traditional: number
+    base: number
+    traditionalPenalties: number  // Sum of penal + civil + resignation (negative)
     votingRecord: number
     taxCompliance: number
     judicialVerification: number
     corporateRecord: number
+    subtotals: {
+      afterTraditional: number
+      afterVoting: number
+      afterTax: number
+      afterJudicial: number
+      final: number
+    }
   }
 } {
   // Start with base integrity calculation
@@ -658,31 +777,47 @@ export function calculateEnhancedIntegrity(data: EnhancedIntegrityData): {
   const omissionPenalty = calculateOmissionPenalty(data)
   const companyPenalty = calculateCompanyPenalty(data)
 
-  // Calculate total
-  let total = baseIntegrity.total
-  total -= voting.penalty
-  total += voting.bonus
-  total -= taxPenalty
-  total -= omissionPenalty
-  total -= companyPenalty
+  // Calculate traditional penalties as negative value for clear breakdown
+  const traditionalPenalties = -(
+    baseIntegrity.penalPenalty +
+    baseIntegrity.totalCivilPenalty +
+    baseIntegrity.resignationPenalty
+  )
+
+  // Calculate subtotals incrementally for auditability
+  const afterTraditional = 100 + traditionalPenalties
+  const afterVoting = afterTraditional - voting.penalty + voting.bonus
+  const afterTax = afterVoting - taxPenalty
+  const afterJudicial = afterTax - omissionPenalty
+  const final = Math.max(0, Math.min(100, afterJudicial - companyPenalty))
 
   return {
     base: 100,
     penalPenalty: baseIntegrity.penalPenalty,
     civilPenalties: baseIntegrity.civilPenalties,
+    totalCivilPenalty: baseIntegrity.totalCivilPenalty,
+    civilPenaltiesCapped: baseIntegrity.civilPenaltiesCapped,
     resignationPenalty: baseIntegrity.resignationPenalty,
     votingPenalty: voting.penalty,
     votingBonus: voting.bonus,
     taxPenalty,
     omissionPenalty,
     companyPenalty,
-    total: Math.max(0, Math.min(100, total)),
+    total: final,
     breakdown: {
-      traditional: baseIntegrity.total,
+      base: 100,
+      traditionalPenalties,
       votingRecord: -voting.penalty + voting.bonus,
       taxCompliance: -taxPenalty,
       judicialVerification: -omissionPenalty,
       corporateRecord: -companyPenalty,
+      subtotals: {
+        afterTraditional,
+        afterVoting,
+        afterTax,
+        afterJudicial,
+        final,
+      },
     },
   }
 }

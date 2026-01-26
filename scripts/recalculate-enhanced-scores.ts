@@ -12,6 +12,7 @@
 import { neon } from '@neondatabase/serverless'
 import {
   calculateEnhancedScores,
+  calculateTotalExperienceYears,
   type EnhancedIntegrityData,
   type EducationDetail,
   type Experience,
@@ -473,6 +474,13 @@ async function recalculateEnhancedScores() {
         `
       }
 
+      // Calculate experience overlap data
+      const experienceOverlap = calculateTotalExperienceYears(scoringData.experience)
+
+      if (experienceOverlap.hasOverlap) {
+        console.log(`   📅 Solapamiento detectado: ${experienceOverlap.rawYears.toFixed(1)} → ${experienceOverlap.uniqueYears.toFixed(1)} años`)
+      }
+
       // Update breakdown with new penalty fields
       const existingBreakdown = await sql`
         SELECT id FROM score_breakdowns WHERE candidate_id = ${candidate.id}::uuid
@@ -484,6 +492,9 @@ async function recalculateEnhancedScores() {
         education_depth_points: result.competence.education.depth,
         experience_total_points: result.competence.experienceTotal,
         experience_relevant_points: result.competence.experienceRelevant,
+        experience_raw_years: experienceOverlap.rawYears,
+        experience_unique_years: experienceOverlap.uniqueYears,
+        experience_has_overlap: experienceOverlap.hasOverlap,
         leadership_points: result.competence.leadership.total,
         leadership_seniority: result.competence.leadership.seniority,
         leadership_stability: result.competence.leadership.stability,
@@ -511,6 +522,9 @@ async function recalculateEnhancedScores() {
             education_depth_points = ${breakdownData.education_depth_points},
             experience_total_points = ${breakdownData.experience_total_points},
             experience_relevant_points = ${breakdownData.experience_relevant_points},
+            experience_raw_years = ${breakdownData.experience_raw_years},
+            experience_unique_years = ${breakdownData.experience_unique_years},
+            experience_has_overlap = ${breakdownData.experience_has_overlap},
             leadership_points = ${breakdownData.leadership_points},
             leadership_seniority = ${breakdownData.leadership_seniority},
             leadership_stability = ${breakdownData.leadership_stability},
@@ -536,6 +550,7 @@ async function recalculateEnhancedScores() {
             candidate_id,
             education_points, education_level_points, education_depth_points,
             experience_total_points, experience_relevant_points,
+            experience_raw_years, experience_unique_years, experience_has_overlap,
             leadership_points, leadership_seniority, leadership_stability,
             integrity_base, penal_penalty, civil_penalties, resignation_penalty,
             company_penalty, voting_penalty, voting_bonus, tax_penalty, omission_penalty,
@@ -548,6 +563,9 @@ async function recalculateEnhancedScores() {
             ${breakdownData.education_depth_points},
             ${breakdownData.experience_total_points},
             ${breakdownData.experience_relevant_points},
+            ${breakdownData.experience_raw_years},
+            ${breakdownData.experience_unique_years},
+            ${breakdownData.experience_has_overlap},
             ${breakdownData.leadership_points},
             ${breakdownData.leadership_seniority},
             ${breakdownData.leadership_stability},

@@ -498,6 +498,9 @@ export default function DocsPage() {
                 <div className="text-lg font-bold text-[var(--foreground)]">
                   Score = (wC × Competencia) + (wI × Integridad) + (wT × Transparencia)
                 </div>
+                <div className="text-xs text-[var(--muted-foreground)] mt-2">
+                  Los pesos siempre suman 1.0 (wC + wI + wT = 1.0). El sistema valida y normaliza automáticamente.
+                </div>
               </div>
 
               {/* Presets */}
@@ -572,6 +575,7 @@ export default function DocsPage() {
                       <li>• Experiencia total: 0-25 pts</li>
                       <li>• Experiencia relevante: 0-25 pts</li>
                       <li>• Ponderado por tipo de rol y sector</li>
+                      <li>• Detección de períodos solapados (se deduplican)</li>
                     </ul>
                   </div>
                   <div className="sm:col-span-2">
@@ -592,6 +596,7 @@ export default function DocsPage() {
                 </h4>
                 <p className="text-sm text-[var(--foreground)] font-medium mb-4">
                   Comienza en 100 puntos y se restan penalidades por antecedentes verificados.
+                  Las penalidades civiles tienen caps por tipo para evitar acumulación extrema.
                 </p>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
@@ -599,6 +604,7 @@ export default function DocsPage() {
                       <tr className="border-b-2 border-[var(--score-integrity)]">
                         <th className="text-left py-2 font-bold text-[var(--foreground)]">Tipo de Antecedente</th>
                         <th className="text-center py-2 font-bold text-[var(--foreground)]">Penalidad</th>
+                        <th className="text-center py-2 font-bold text-[var(--foreground)]">Cap por Tipo</th>
                         <th className="text-center py-2 font-bold text-[var(--foreground)]">Severidad</th>
                       </tr>
                     </thead>
@@ -606,40 +612,77 @@ export default function DocsPage() {
                       <tr className="border-b border-[var(--border)]">
                         <td className="py-2 font-medium">Sentencia penal firme (1)</td>
                         <td className="text-center font-bold text-[var(--flag-red-text)]">-70</td>
+                        <td className="text-center font-bold">-85</td>
                         <td className="text-center"><Badge variant="destructive" size="sm">ROJO</Badge></td>
                       </tr>
                       <tr className="border-b border-[var(--border)]">
                         <td className="py-2 font-medium">Sentencias penales (2+)</td>
                         <td className="text-center font-bold text-[var(--flag-red-text)]">-85 (cap)</td>
+                        <td className="text-center font-bold">-85</td>
                         <td className="text-center"><Badge variant="destructive" size="sm">ROJO</Badge></td>
                       </tr>
                       <tr className="border-b border-[var(--border)]">
                         <td className="py-2 font-medium">Violencia familiar</td>
                         <td className="text-center font-bold text-[var(--flag-amber-text)]">-50</td>
+                        <td className="text-center font-bold">-70</td>
                         <td className="text-center"><Badge variant="warning" size="sm">ÁMBAR</Badge></td>
                       </tr>
                       <tr className="border-b border-[var(--border)]">
                         <td className="py-2 font-medium">Omisión alimentaria</td>
                         <td className="text-center font-bold text-[var(--flag-amber-text)]">-35</td>
+                        <td className="text-center font-bold">-50</td>
                         <td className="text-center"><Badge variant="warning" size="sm">ÁMBAR</Badge></td>
                       </tr>
                       <tr className="border-b border-[var(--border)]">
                         <td className="py-2 font-medium">Sentencia laboral</td>
                         <td className="text-center font-bold text-[var(--flag-amber-text)]">-25</td>
+                        <td className="text-center font-bold">-40</td>
                         <td className="text-center"><Badge variant="warning" size="sm">ÁMBAR</Badge></td>
                       </tr>
                       <tr className="border-b border-[var(--border)]">
                         <td className="py-2 font-medium">Sentencia contractual</td>
                         <td className="text-center font-bold">-15</td>
+                        <td className="text-center font-bold">-25</td>
                         <td className="text-center"><Badge size="sm">GRIS</Badge></td>
                       </tr>
                       <tr>
                         <td className="py-2 font-medium">Renuncias a partidos (1 / 2-3 / 4+)</td>
                         <td className="text-center font-bold">-5 / -10 / -15</td>
+                        <td className="text-center font-bold">-15</td>
                         <td className="text-center"><Badge size="sm">GRIS</Badge></td>
                       </tr>
                     </tbody>
                   </table>
+                </div>
+                <p className="text-xs text-[var(--muted-foreground)] font-medium mt-3">
+                  <strong>Nota:</strong> El cap total de penalidades civiles es -85 pts.
+                  Múltiples sentencias del mismo tipo aplican retornos decrecientes (100%, 50%, 25% para 1ra, 2da, 3ra+).
+                </p>
+
+                {/* Enhanced Integrity Sources */}
+                <div className="mt-4 p-3 bg-[var(--muted)] border-2 border-[var(--border)]">
+                  <h5 className="font-bold text-[var(--foreground)] mb-2 text-sm uppercase">Fuentes Adicionales de Evaluación</h5>
+                  <p className="text-xs text-[var(--muted-foreground)] font-medium mb-2">
+                    Para candidatos con historial legislativo o empresarial, evaluamos fuentes adicionales:
+                  </p>
+                  <div className="grid sm:grid-cols-2 gap-2 text-xs">
+                    <div className="flex items-start gap-2">
+                      <div className="w-1.5 h-1.5 bg-[var(--primary)] mt-1.5 flex-shrink-0" />
+                      <span><strong>Votaciones congresales:</strong> Votos pro-impunidad o anti-democráticos</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <div className="w-1.5 h-1.5 bg-[var(--primary)] mt-1.5 flex-shrink-0" />
+                      <span><strong>SUNAT:</strong> Condición tributaria y deudas coactivas</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <div className="w-1.5 h-1.5 bg-[var(--primary)] mt-1.5 flex-shrink-0" />
+                      <span><strong>Verificación judicial:</strong> Casos no declarados en DJHV</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <div className="w-1.5 h-1.5 bg-[var(--primary)] mt-1.5 flex-shrink-0" />
+                      <span><strong>Empresas vinculadas:</strong> Casos penales, laborales o ambientales</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
