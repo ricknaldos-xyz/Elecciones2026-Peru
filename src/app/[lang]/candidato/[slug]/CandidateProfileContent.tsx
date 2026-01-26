@@ -538,7 +538,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                   <CardHeader>
                     <div className="flex items-center justify-between gap-3">
                       <CardTitle>{t('professionalExperience')}</CardTitle>
-                      {breakdown?.experience.hasOverlap && (
+                      {breakdown && breakdown.experience.hasOverlap && (
                         <ExperienceOverlapBadge
                           rawYears={breakdown.experience.rawYears}
                           uniqueYears={breakdown.experience.uniqueYears}

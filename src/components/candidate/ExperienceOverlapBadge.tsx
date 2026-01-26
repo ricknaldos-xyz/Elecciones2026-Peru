@@ -17,6 +17,7 @@ export function ExperienceOverlapBadge({
   className
 }: ExperienceOverlapBadgeProps) {
   if (!hasOverlap) return null
+  if (isNaN(rawYears) || isNaN(uniqueYears)) return null
 
   const deduplicatedYears = rawYears - uniqueYears
 
