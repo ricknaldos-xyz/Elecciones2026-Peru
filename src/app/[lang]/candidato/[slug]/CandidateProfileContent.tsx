@@ -657,34 +657,38 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                             {formatCurrency(details.assets_declaration.total_value)}
                           </p>
                         </div>
-                        <div>
-                          <span className="text-sm font-bold uppercase text-[var(--muted-foreground)]">{t('monthlyIncome')}</span>
-                          <p className="text-lg sm:text-xl font-black text-[var(--foreground)]">
-                            {formatCurrency(details.assets_declaration.income.monthly_salary)}
-                          </p>
-                        </div>
+                        {details.assets_declaration.income && (
+                          <div>
+                            <span className="text-sm font-bold uppercase text-[var(--muted-foreground)]">{t('monthlyIncome')}</span>
+                            <p className="text-lg sm:text-xl font-black text-[var(--foreground)]">
+                              {formatCurrency(details.assets_declaration.income.monthly_salary)}
+                            </p>
+                          </div>
+                        )}
                       </div>
 
                       {/* Lista de bienes */}
-                      <div>
-                        <h4 className="text-sm font-black uppercase text-[var(--foreground)] mb-2">{t('declaredAssets')}</h4>
-                        <div className="space-y-2">
-                          {details.assets_declaration.assets.map((asset, idx) => (
-                            <div key={idx} className="flex justify-between items-center py-2 border-b-2 border-[var(--border)] last:border-0">
-                              <div>
-                                <span className="text-sm font-bold text-[var(--foreground)]">{asset.type}</span>
-                                <p className="text-xs text-[var(--muted-foreground)]">{asset.description}</p>
+                      {details.assets_declaration.assets && details.assets_declaration.assets.length > 0 && (
+                        <div>
+                          <h4 className="text-sm font-black uppercase text-[var(--foreground)] mb-2">{t('declaredAssets')}</h4>
+                          <div className="space-y-2">
+                            {details.assets_declaration.assets.map((asset, idx) => (
+                              <div key={idx} className="flex justify-between items-center py-2 border-b-2 border-[var(--border)] last:border-0">
+                                <div>
+                                  <span className="text-sm font-bold text-[var(--foreground)]">{asset.type}</span>
+                                  <p className="text-xs text-[var(--muted-foreground)]">{asset.description}</p>
+                                </div>
+                                <span className="text-sm font-bold text-[var(--foreground)]">
+                                  {formatCurrency(asset.value)}
+                                </span>
                               </div>
-                              <span className="text-sm font-bold text-[var(--foreground)]">
-                                {formatCurrency(asset.value)}
-                              </span>
-                            </div>
-                          ))}
+                            ))}
+                          </div>
                         </div>
-                      </div>
+                      )}
 
                       {/* Fuente de ingresos */}
-                      {details.assets_declaration.income.source && (
+                      {details.assets_declaration.income?.source && (
                         <div className="pt-2">
                           <span className="text-sm text-[var(--muted-foreground)]">{t('incomeSource')}: </span>
                           <span className="text-sm font-bold text-[var(--foreground)]">{details.assets_declaration.income.source}</span>
