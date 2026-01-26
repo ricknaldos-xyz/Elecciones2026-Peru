@@ -15,21 +15,42 @@ import { RankingList } from '@/components/ranking/RankingList'
 import { CompareTray } from '@/components/compare/CompareTray'
 import { useSuccessToast } from '@/components/ui/Toast'
 import { useCandidates } from '@/hooks/useCandidates'
-import { PRESETS, WEIGHT_LIMITS, DISTRICTS } from '@/lib/constants'
+import { PRESETS, WEIGHT_LIMITS, DISTRICTS, validateAndNormalizeWeights } from '@/lib/constants'
 import { MOCK_PARTIES } from '@/lib/mock-data'
 import type { PresetType, CargoType, Weights, CandidateWithScores } from '@/types/database'
 
+function getScoreByMode(
+  scores: CandidateWithScores['scores'],
+  mode: PresetType,
+  weights?: Weights
+): number {
+  if (mode === 'custom' && weights) {
+    return (
+      weights.wC * scores.competence +
+      weights.wI * scores.integrity +
+      weights.wT * scores.transparency
+    )
+  }
+  switch (mode) {
+    case 'merit':
+      return scores.score_merit
+    case 'integrity':
+      return scores.score_integrity
+    default:
+      return scores.score_balanced
+  }
+}
+
 function sortCandidatesByScore(
   candidates: CandidateWithScores[],
-  mode: 'balanced' | 'merit' | 'integrity'
+  mode: PresetType,
+  weights?: Weights
 ): CandidateWithScores[] {
-  const scoreKey = mode === 'balanced'
-    ? 'score_balanced'
-    : mode === 'merit'
-    ? 'score_merit'
-    : 'score_integrity'
-
-  return [...candidates].sort((a, b) => b.scores[scoreKey] - a.scores[scoreKey])
+  return [...candidates].sort((a, b) => {
+    const scoreA = getScoreByMode(a.scores, mode, weights)
+    const scoreB = getScoreByMode(b.scores, mode, weights)
+    return scoreB - scoreA
+  })
 }
 
 export function RankingContent() {
@@ -63,11 +84,12 @@ export function RankingContent() {
     const wI = searchParams.get('wI')
     const wT = searchParams.get('wT')
     if (wC && wI && wT) {
-      return {
-        wC: Math.max(WEIGHT_LIMITS.wC.min, Math.min(WEIGHT_LIMITS.wC.max, parseFloat(wC))),
-        wI: Math.max(WEIGHT_LIMITS.wI.min, Math.min(WEIGHT_LIMITS.wI.max, parseFloat(wI))),
-        wT: Math.max(WEIGHT_LIMITS.wT.min, Math.min(WEIGHT_LIMITS.wT.max, parseFloat(wT))),
-      }
+      // Use centralized validation to ensure weights sum to 1.0
+      return validateAndNormalizeWeights({
+        wC: parseFloat(wC),
+        wI: parseFloat(wI),
+        wT: parseFloat(wT),
+      })
     }
     return PRESETS.balanced
   })
@@ -163,9 +185,8 @@ export function RankingContent() {
       )
     }
 
-    const sortMode = mode === 'custom' ? 'balanced' : mode
-    return sortCandidatesByScore(filtered, sortMode)
-  }, [rawCandidates, mode, searchQuery])
+    return sortCandidatesByScore(filtered, mode, customWeights)
+  }, [rawCandidates, mode, searchQuery, customWeights])
 
   // Pesos actuales
   const currentWeights = useMemo(() => {

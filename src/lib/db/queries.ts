@@ -836,9 +836,9 @@ export async function getScoreBreakdown(candidateId: string): Promise<ScoreBreak
       hasOverlap: Boolean(row.experience_has_overlap),
     },
     leadership: {
-      total: Number(row.leadership_seniority_points) + Number(row.leadership_stability_points),
-      seniority: Number(row.leadership_seniority_points),
-      stability: Number(row.leadership_stability_points),
+      total: Number(row.leadership_seniority) + Number(row.leadership_stability),
+      seniority: Number(row.leadership_seniority),
+      stability: Number(row.leadership_stability),
     },
     integrity: {
       base: Number(row.integrity_base),
