@@ -23,6 +23,8 @@ export function CandidateProposals({ candidateId, planUrl }: CandidateProposalsP
   const [proposals, setProposals] = useState<Proposal[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [localPdfUrl, setLocalPdfUrl] = useState<string | null>(null)
+  const [remotePlanUrl, setRemotePlanUrl] = useState<string | null>(planUrl || null)
 
   useEffect(() => {
     async function fetchProposals() {
@@ -33,6 +35,8 @@ export function CandidateProposals({ candidateId, planUrl }: CandidateProposalsP
 
         if (response.ok) {
           setProposals(data.proposals || [])
+          setLocalPdfUrl(data.planPdfLocal || null)
+          setRemotePlanUrl(data.planUrl || planUrl || null)
         } else {
           setError(data.error || 'Error al cargar propuestas')
         }
@@ -45,7 +49,7 @@ export function CandidateProposals({ candidateId, planUrl }: CandidateProposalsP
     }
 
     fetchProposals()
-  }, [candidateId])
+  }, [candidateId, planUrl])
 
   if (loading) {
     return (
@@ -105,7 +109,8 @@ export function CandidateProposals({ candidateId, planUrl }: CandidateProposalsP
       <CardContent>
         <ProposalsList
           proposals={proposals}
-          planUrl={planUrl}
+          planUrl={remotePlanUrl}
+          localPdfUrl={localPdfUrl}
           showSource={true}
           compact={false}
         />

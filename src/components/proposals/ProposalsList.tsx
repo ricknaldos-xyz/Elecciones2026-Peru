@@ -16,6 +16,7 @@ interface Proposal {
 interface ProposalsListProps {
   proposals: Proposal[]
   planUrl?: string | null
+  localPdfUrl?: string | null
   showSource?: boolean
   compact?: boolean
 }
@@ -23,9 +24,12 @@ interface ProposalsListProps {
 export function ProposalsList({
   proposals,
   planUrl,
+  localPdfUrl,
   showSource = false,
   compact = false,
 }: ProposalsListProps) {
+  // Use local PDF if available, otherwise use remote URL
+  const pdfUrl = localPdfUrl || planUrl
   const [selectedCategory, setSelectedCategory] = useState<ProposalCategory | 'all'>('all')
   const [expandedProposal, setExpandedProposal] = useState<string | null>(null)
 
@@ -51,15 +55,29 @@ export function ProposalsList({
     return (
       <div className="text-center py-8 text-[var(--muted-foreground)]">
         <p>No hay propuestas extraidas para este candidato.</p>
-        {planUrl && (
-          <a
-            href={planUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[var(--primary)] hover:underline mt-2 inline-block"
-          >
-            Ver Plan de Gobierno (PDF)
-          </a>
+        {pdfUrl && (
+          <div className="flex items-center justify-center gap-4 mt-4">
+            <a
+              href={pdfUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[var(--primary)] hover:underline"
+            >
+              Ver Plan de Gobierno (PDF)
+            </a>
+            {localPdfUrl && (
+              <a
+                href={localPdfUrl}
+                download
+                className="inline-flex items-center gap-1 px-3 py-1.5 bg-[var(--primary)] text-[var(--primary-foreground)] rounded-md hover:opacity-90 text-sm"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Descargar
+              </a>
+            )}
+          </div>
         )}
       </div>
     )
@@ -67,33 +85,63 @@ export function ProposalsList({
 
   return (
     <div className="space-y-4">
-      {/* Header with PDF link */}
-      {planUrl && (
-        <div className="flex items-center justify-between">
+      {/* Header with PDF links */}
+      {pdfUrl && (
+        <div className="flex items-center justify-between flex-wrap gap-2">
           <p className="text-sm text-[var(--muted-foreground)]">
             {proposals.length} propuestas extraidas con IA
           </p>
-          <a
-            href={planUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm text-[var(--primary)] hover:underline"
-          >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          <div className="flex items-center gap-3">
+            <a
+              href={pdfUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm text-[var(--primary)] hover:underline"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-              />
-            </svg>
-            Ver PDF completo
-          </a>
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                />
+              </svg>
+              Ver PDF
+            </a>
+            {localPdfUrl && (
+              <a
+                href={localPdfUrl}
+                download
+                className="inline-flex items-center gap-2 text-sm px-3 py-1 bg-[var(--primary)] text-[var(--primary-foreground)] rounded-md hover:opacity-90"
+              >
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                  />
+                </svg>
+                Descargar PDF
+              </a>
+            )}
+          </div>
         </div>
       )}
 

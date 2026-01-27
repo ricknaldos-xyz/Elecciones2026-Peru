@@ -1,0 +1,290 @@
+[
+  {
+    "candidato": "FERNANDEZ BAZAN ROSARIO DEL PILAR",
+    "partido": "UN CAMINO DIFERENTE",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2998.pdf",
+    "localPath": "/planes/un-camino-diferente.pdf",
+    "status": "downloaded",
+    "size": 356687
+  },
+  {
+    "candidato": "FORSYTH SOMMER GEORGE PATRICK",
+    "partido": "PARTIDO DEMOCRATICO SOMOS PERU",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/14.pdf",
+    "localPath": "/planes/partido-democratico-somos-peru.pdf",
+    "status": "downloaded",
+    "size": 640594
+  },
+  {
+    "candidato": "SANCHEZ PALOMINO ROBERTO HELBERT",
+    "partido": "JUNTOS POR EL PERU",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/1264.pdf",
+    "localPath": "/planes/juntos-por-el-peru.pdf",
+    "status": "downloaded",
+    "size": 302225
+  },
+  {
+    "candidato": "VALDERRAMA PEÑA PITTER ENRIQUE",
+    "partido": "PARTIDO APRISTA PERUANO",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2930.pdf",
+    "localPath": "/planes/partido-aprista-peruano.pdf",
+    "status": "downloaded",
+    "size": 455685
+  },
+  {
+    "candidato": "PAZ DE LA BARRA FREIGEIRO ALVARO GONZALO",
+    "partido": "FE EN EL PERU",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2898.pdf",
+    "localPath": "/planes/fe-en-el-peru.pdf",
+    "status": "downloaded",
+    "size": 1086752
+  },
+  {
+    "candidato": "BELMONT CASSINELLI RICARDO PABLO",
+    "partido": "PARTIDO CIVICO OBRAS",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2941.pdf",
+    "localPath": "/planes/partido-civico-obras.pdf",
+    "status": "failed",
+    "error": "Invalid content-type: text/html"
+  },
+  {
+    "candidato": "ATENCIO SOTOMAYOR RONALD DARWIN",
+    "partido": "ALIANZA ELECTORAL VENCEREMOS",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/3025.pdf",
+    "localPath": "/planes/alianza-electoral-venceremos.pdf",
+    "status": "downloaded",
+    "size": 1099175
+  },
+  {
+    "candidato": "LOPEZ ALIAGA CAZORLA RAFAEL BERNARDO",
+    "partido": "RENOVACION POPULAR",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/22.pdf",
+    "localPath": "/planes/renovacion-popular.pdf",
+    "status": "downloaded",
+    "size": 274696
+  },
+  {
+    "candidato": "ACUÑA PERALTA CESAR",
+    "partido": "ALIANZA PARA EL PROGRESO",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/1257.pdf",
+    "localPath": "/planes/alianza-para-el-progreso.pdf",
+    "status": "downloaded",
+    "size": 1184635
+  },
+  {
+    "candidato": "FUJIMORI HIGUCHI KEIKO SOFIA",
+    "partido": "FUERZA POPULAR",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/1366.pdf",
+    "localPath": "/planes/fuerza-popular.pdf",
+    "status": "downloaded",
+    "size": 1170047
+  },
+  {
+    "candidato": "BECERRA GARCIA NAPOLEON",
+    "partido": "PARTIDO DE LOS TRABAJADORES Y EMPRENDEDORES PTE - PERU",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2939.pdf",
+    "localPath": "/planes/partido-de-los-trabajadores-y-emprendedores-pte-peru.pdf",
+    "status": "downloaded",
+    "size": 711904
+  },
+  {
+    "candidato": "ESPA Y GARCES-ALVEAR ALFONSO CARLOS",
+    "partido": "PARTIDO SICREO",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2935.pdf",
+    "localPath": "/planes/partido-sicreo.pdf",
+    "status": "downloaded",
+    "size": 751552
+  },
+  {
+    "candidato": "DIEZ-CANSECO TÁVARA FRANCISCO ERNESTO",
+    "partido": "PARTIDO POLITICO PERU ACCION",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2932.pdf",
+    "localPath": "/planes/partido-politico-peru-accion.pdf",
+    "status": "downloaded",
+    "size": 514843
+  },
+  {
+    "candidato": "VIZCARRA CORNEJO MARIO ENRIQUE",
+    "partido": "PARTIDO POLITICO PERU PRIMERO",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2925.pdf",
+    "localPath": "/planes/partido-politico-peru-primero.pdf",
+    "status": "downloaded",
+    "size": 921063
+  },
+  {
+    "candidato": "JAICO CARRANZA CARLOS ERNESTO",
+    "partido": "PERU MODERNO",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2924.pdf",
+    "localPath": "/planes/peru-moderno.pdf",
+    "status": "downloaded",
+    "size": 518413
+  },
+  {
+    "candidato": "LUNA GALVEZ JOSE LEON",
+    "partido": "PODEMOS PERU",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2731.pdf",
+    "localPath": "/planes/podemos-peru.pdf",
+    "status": "downloaded",
+    "size": 706578
+  },
+  {
+    "candidato": "CARRASCO SALAZAR CHARLIE",
+    "partido": "PARTIDO DEMOCRATA UNIDO PERU",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2867.pdf",
+    "localPath": "/planes/partido-democrata-unido-peru.pdf",
+    "status": "downloaded",
+    "size": 842099
+  },
+  {
+    "candidato": "GONZALES CASTILLO ALEX",
+    "partido": "PARTIDO DEMOCRATA VERDE",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2895.pdf",
+    "localPath": "/planes/partido-democrata-verde.pdf",
+    "status": "downloaded",
+    "size": 3548605
+  },
+  {
+    "candidato": "CALLER GUTIERREZ HERBERT",
+    "partido": "PARTIDO PATRIOTICO DEL PERU",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2869.pdf",
+    "localPath": "/planes/partido-patriotico-del-peru.pdf",
+    "status": "downloaded",
+    "size": 365394
+  },
+  {
+    "candidato": "GROZO COSTA WOLFGANG MARIO",
+    "partido": "PARTIDO POLITICO INTEGRIDAD DEMOCRATICA",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2985.pdf",
+    "localPath": "/planes/partido-politico-integridad-democratica.pdf",
+    "status": "downloaded",
+    "size": 143851
+  },
+  {
+    "candidato": "LOPEZ CHAU NAVA PABLO ALFONSO",
+    "partido": "AHORA NACION - AN",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2980.pdf",
+    "localPath": "/planes/ahora-nacion-an.pdf",
+    "status": "downloaded",
+    "size": 641690
+  },
+  {
+    "candidato": "MASSE FERNANDEZ ARMANDO JOAQUIN",
+    "partido": "PARTIDO DEMOCRATICO FEDERAL",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2986.pdf",
+    "localPath": "/planes/partido-democratico-federal.pdf",
+    "status": "downloaded",
+    "size": 362630
+  },
+  {
+    "candidato": "LESCANO ANCIETA YONHY",
+    "partido": "PARTIDO POLITICO COOPERACION POPULAR",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2995.pdf",
+    "localPath": "/planes/partido-politico-cooperacion-popular.pdf",
+    "status": "downloaded",
+    "size": 427147
+  },
+  {
+    "candidato": "MOLINELLI ARISTONDO FIORELLA GIANNINA",
+    "partido": "FUERZA Y LIBERTAD",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/3024.pdf",
+    "localPath": "/planes/fuerza-y-libertad.pdf",
+    "status": "downloaded",
+    "size": 221642
+  },
+  {
+    "candidato": "CHIABRA LEON ROBERTO ENRIQUE",
+    "partido": "UNIDAD NACIONAL",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/3023.pdf",
+    "localPath": "/planes/unidad-nacional.pdf",
+    "status": "downloaded",
+    "size": 765480
+  },
+  {
+    "candidato": "GUEVARA AMASIFUEN MESIAS ANTONIO",
+    "partido": "PARTIDO MORADO",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2840.pdf",
+    "localPath": "/planes/partido-morado.pdf",
+    "status": "downloaded",
+    "size": 493952
+  },
+  {
+    "candidato": "OLIVERA VEGA LUIS FERNANDO",
+    "partido": "PARTIDO FRENTE DE LA ESPERANZA 2021",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2857.pdf",
+    "localPath": "/planes/partido-frente-de-la-esperanza-2021.pdf",
+    "status": "downloaded",
+    "size": 426167
+  },
+  {
+    "candidato": "WILLIAMS ZAPATA JOSE DANIEL",
+    "partido": "AVANZA PAIS - PARTIDO DE INTEGRACION SOCIAL",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2173.pdf",
+    "localPath": "/planes/avanza-pais-partido-de-integracion-social.pdf",
+    "status": "downloaded",
+    "size": 915779
+  },
+  {
+    "candidato": "CERRON ROJAS VLADIMIR ROY",
+    "partido": "PARTIDO POLITICO NACIONAL PERU LIBRE",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2218.pdf",
+    "localPath": "/planes/partido-politico-nacional-peru-libre.pdf",
+    "status": "downloaded",
+    "size": 236563
+  },
+  {
+    "candidato": "BELAUNDE LLOSA RAFAEL JORGE",
+    "partido": "LIBERTAD POPULAR",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2933.pdf",
+    "localPath": "/planes/libertad-popular.pdf",
+    "status": "downloaded",
+    "size": 972919
+  },
+  {
+    "candidato": "PEREZ TELLO DE RODRIGUEZ MARIA SOLEDAD",
+    "partido": "PRIMERO LA GENTE - COMUNIDAD, ECOLOGIA, LIBERTAD Y PROGRESO",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2931.pdf",
+    "localPath": "/planes/primero-la-gente-comunidad-ecologia-libertad-y-progreso.pdf",
+    "status": "downloaded",
+    "size": 460053
+  },
+  {
+    "candidato": "ORTIZ VILLANO ANTONIO",
+    "partido": "SALVEMOS AL PERU",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2927.pdf",
+    "localPath": "/planes/salvemos-al-peru.pdf",
+    "status": "downloaded",
+    "size": 291982
+  },
+  {
+    "candidato": "NIETO MONTESINOS JORGE",
+    "partido": "PARTIDO DEL BUEN GOBIERNO",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2961.pdf",
+    "localPath": "/planes/partido-del-buen-gobierno.pdf",
+    "status": "downloaded",
+    "size": 115139
+  },
+  {
+    "candidato": "ALVAREZ LOAYZA CARLOS GONSALO",
+    "partido": "PARTIDO PAIS PARA TODOS",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2956.pdf",
+    "localPath": "/planes/partido-pais-para-todos.pdf",
+    "status": "downloaded",
+    "size": 419137
+  },
+  {
+    "candidato": "JAIMES BLANCO PAUL DAVIS",
+    "partido": "PROGRESEMOS",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2967.pdf",
+    "localPath": "/planes/progresemos.pdf",
+    "status": "downloaded",
+    "size": 445454
+  },
+  {
+    "candidato": "CHIRINOS PURIZAGA WALTER GILMER",
+    "partido": "PARTIDO POLITICO PRIN",
+    "url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2921.pdf",
+    "localPath": "/planes/partido-politico-prin.pdf",
+    "status": "downloaded",
+    "size": 573552
+  }
+]

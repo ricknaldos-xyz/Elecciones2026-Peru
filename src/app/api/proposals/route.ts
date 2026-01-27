@@ -19,6 +19,13 @@ export async function GET(request: NextRequest) {
 
     // Single candidate
     if (candidateId) {
+      // Get candidate info including local PDF path
+      const candidateInfo = await sql`
+        SELECT plan_pdf_local, plan_gobierno_url
+        FROM candidates
+        WHERE id = ${candidateId}
+      `
+
       let result
       if (category) {
         result = await sql`
@@ -65,6 +72,8 @@ export async function GET(request: NextRequest) {
         categories: Object.keys(grouped),
         proposalsByCategory: grouped,
         proposals: result,
+        planPdfLocal: candidateInfo[0]?.plan_pdf_local || null,
+        planUrl: candidateInfo[0]?.plan_gobierno_url || null,
       })
     }
 

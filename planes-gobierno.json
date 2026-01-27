@@ -1,0 +1,758 @@
+[
+  {
+    "candidato": "ARTEAGA NARVAEZ YESSIKA ROXSANA",
+    "partido": "FE EN EL PERU",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/954924da-df44-4c51-84ee-1fe30cb93445.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2898.pdf"
+  },
+  {
+    "candidato": "VEGA YBAÑEZ JULIO ALBERTO",
+    "partido": "PARTIDO POLITICO PRIN",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/ae41c597-bcc5-4875-8a01-4fa8d5cdfb27.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2921.pdf"
+  },
+  {
+    "candidato": "CHAMBIZEA REYES MARIA CRISTINA",
+    "partido": "PARTIDO PAIS PARA TODOS",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/485bf361-0c32-473d-ae7f-2b628a6a1116.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2956.pdf"
+  },
+  {
+    "candidato": "OLAVE UGARTE HERBE",
+    "partido": "PARTIDO DEMOCRATICO SOMOS PERU",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/b07366d9-0959-4c9e-9bb3-7a20abe3b97b.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/14.pdf"
+  },
+  {
+    "candidato": "SOTO REYES ALEJANDRO",
+    "partido": "ALIANZA PARA EL PROGRESO",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/d5a27dce-413b-4512-9085-e85b7aca5de2.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/1257.pdf"
+  },
+  {
+    "candidato": "MARQUEZ HUANCA ANALI",
+    "partido": "JUNTOS POR EL PERU",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/cd236409-a6a7-4b75-8b06-25db73f256bd.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/1264.pdf"
+  },
+  {
+    "candidato": "SEGOVIA QUIN WILBERT GABINO",
+    "partido": "PARTIDO DEMOCRATA UNIDO PERU",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/31fff580-04db-42ff-9835-e0e849bd6358.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2867.pdf"
+  },
+  {
+    "candidato": "PRADA CHIPAYO WELLINGTON",
+    "partido": "PARTIDO POLITICO INTEGRIDAD DEMOCRATICA",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/90b24c38-c96e-4cd0-91ce-8034404fb061.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2985.pdf"
+  },
+  {
+    "candidato": "CUEVA ESCOBEDO HEBER DIOMEDES",
+    "partido": "PARTIDO MORADO",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/617a4299-44e0-4a39-b538-a04833f4b066.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2840.pdf"
+  },
+  {
+    "candidato": "LAZO VALLES VANESSA RUBITH",
+    "partido": "PARTIDO POLITICO COOPERACION POPULAR",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/97ea549d-873a-4a4f-86ac-fde9830a5bb1.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2995.pdf"
+  },
+  {
+    "candidato": "LOZADA BALDWIN JOHANNA GABRIELA",
+    "partido": "PARTIDO DEMOCRATICO SOMOS PERU",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/f33511ec-a8a9-4e47-993d-423c35ad0764.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/14.pdf"
+  },
+  {
+    "candidato": "SANTA MARIA SILVA ALEJANDRO AGUSTIN",
+    "partido": "PARTIDO SICREO",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/6d0f420a-7ccb-4c9f-8002-91aca63c7342.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2935.pdf"
+  },
+  {
+    "candidato": "FERNANDEZ BAZAN ROSARIO DEL PILAR",
+    "partido": "UN CAMINO DIFERENTE",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/ac0b0a59-ead5-4ef1-8ef8-8967e322d6ca.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2998.pdf"
+  },
+  {
+    "candidato": "CURO BUSTINCIO BRIGIDA",
+    "partido": "JUNTOS POR EL PERU",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/ab29007e-b5ae-4ea4-a6c6-9aeeaa0ca50d.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/1264.pdf"
+  },
+  {
+    "candidato": "HANCCO HANCCO DINA IRENE",
+    "partido": "PARTIDO CIVICO OBRAS",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/fa703877-427f-4312-be04-95b2959bf6d3.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2941.pdf"
+  },
+  {
+    "candidato": "QUINTANILLA CHACON ALBERTO EUGENIO",
+    "partido": "ALIANZA ELECTORAL VENCEREMOS",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/d0728126-14db-4141-806f-750a0cb2c9a6.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/3025.pdf"
+  },
+  {
+    "candidato": "MENDOZA DIAZ JUDITH CARLA",
+    "partido": "PARTIDO POLITICO PERU PRIMERO",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/a212143a-f760-4429-8ed9-dae007d52be6.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2925.pdf"
+  },
+  {
+    "candidato": "BUENDIA MESTOQUIARI RUTH ZENAIDA",
+    "partido": "AHORA NACION - AN",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/bb54fed8-ee8d-4557-93cf-c3da557f4766.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2980.pdf"
+  },
+  {
+    "candidato": "RIVERA HUAMAN ELENA CARMEN",
+    "partido": "ALIANZA ELECTORAL VENCEREMOS",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/fc0ec9cc-2b62-426c-8492-737d8ac1f1be.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/3025.pdf"
+  },
+  {
+    "candidato": "SALAZAR JAUREGUI CARMELA SILENE",
+    "partido": "PARTIDO POLITICO COOPERACION POPULAR",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/c7a8ded6-df89-4780-9364-d85922852d95.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2995.pdf"
+  },
+  {
+    "candidato": "PALACIOS RODRIGUEZ SHELLAH BELEN",
+    "partido": "FE EN EL PERU",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/2f7ead81-768f-40b0-b6af-848935719b30.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2898.pdf"
+  },
+  {
+    "candidato": "FORSYTH SOMMER GEORGE PATRICK",
+    "partido": "PARTIDO DEMOCRATICO SOMOS PERU",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/b1d60238-c797-4cba-936e-f13de6a34cc7.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/14.pdf"
+  },
+  {
+    "candidato": "YARROW LUMBRERAS NORMA MARTINA",
+    "partido": "RENOVACION POPULAR",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/90b8a957-0b76-41a0-b2a0-62ad6e328327.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/22.pdf"
+  },
+  {
+    "candidato": "TUMI RIVAS JESSICA MILAGROS",
+    "partido": "ALIANZA PARA EL PROGRESO",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/d951c8cb-15b3-4421-b700-6384aef3e365.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/1257.pdf"
+  },
+  {
+    "candidato": "SANCHEZ PALOMINO ROBERTO HELBERT",
+    "partido": "JUNTOS POR EL PERU",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/bb7c7465-9c6e-44eb-ac7d-e6cc7f872a1a.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/1264.pdf"
+  },
+  {
+    "candidato": "LIÑAN SOLIS MARISOL YOLANDA",
+    "partido": "PARTIDO MORADO",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/48f8c302-cea2-48af-86d8-9e61837ee63f.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2840.pdf"
+  },
+  {
+    "candidato": "VALDERRAMA PEÑA PITTER ENRIQUE",
+    "partido": "PARTIDO APRISTA PERUANO",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/d72c4b29-e173-42b8-b40d-bdb6d01a526a.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2930.pdf"
+  },
+  {
+    "candidato": "ILLANES CALDERON CARLOS HERNAN",
+    "partido": "PARTIDO POLITICO PERU PRIMERO",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/8d8d219e-8a5c-4a9f-a820-1224e5bc2e5a.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2925.pdf"
+  },
+  {
+    "candidato": "QUISPE SANTOS LIZ VERONICA",
+    "partido": "PERU MODERNO",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/bfbc1964-0ba0-4420-ac5a-9c79b1374525.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2924.pdf"
+  },
+  {
+    "candidato": "PAZ DE LA BARRA FREIGEIRO ALVARO GONZALO",
+    "partido": "FE EN EL PERU",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/5032fa7f-eff1-4181-bf51-e32f2dfde304.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2898.pdf"
+  },
+  {
+    "candidato": "MONTES TELLO ROSSANA ELENA",
+    "partido": "PARTIDO PATRIOTICO DEL PERU",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/3a944297-5758-420f-a724-3dd08dc2d6ca.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2869.pdf"
+  },
+  {
+    "candidato": "AZABACHE MIRANDA BERTHA CECILIA",
+    "partido": "PARTIDO POLITICO INTEGRIDAD DEMOCRATICA",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/dca47fb5-b6f9-4a52-b9a7-929a06ac4095.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2985.pdf"
+  },
+  {
+    "candidato": "BELMONT CASSINELLI RICARDO PABLO",
+    "partido": "PARTIDO CIVICO OBRAS",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/78647f15-d5d1-4ed6-8ac6-d599e83eeea3.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2941.pdf"
+  },
+  {
+    "candidato": "GUEVARA VIVANCO DIEGO EDGAR",
+    "partido": "PARTIDO PAIS PARA TODOS",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/208e60e5-a32b-4227-b278-6983b1f8daee.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2956.pdf"
+  },
+  {
+    "candidato": "CALOGGERO ENCINA JORGE LUIS",
+    "partido": "PROGRESEMOS",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/e32d6205-ae51-44e8-b2fd-85df91589b7f.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2967.pdf"
+  },
+  {
+    "candidato": "VARGAS GIL MAYRA LIZETH",
+    "partido": "PARTIDO POLITICO PRIN",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/7489c4f1-244a-4c6b-930a-9830bf024cb0.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2921.pdf"
+  },
+  {
+    "candidato": "ATENCIO SOTOMAYOR RONALD DARWIN",
+    "partido": "ALIANZA ELECTORAL VENCEREMOS",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/bac0288d-3b21-45ac-8849-39f9177fb020.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/3025.pdf"
+  },
+  {
+    "candidato": "VIOLETA LOPEZ GILBERT FELIX",
+    "partido": "FUERZA Y LIBERTAD",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/34f1d1e0-bb6c-473c-aeb0-680c1be39258.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/3024.pdf"
+  },
+  {
+    "candidato": "BEDOYA DENEGRI JAVIER IGNACIO",
+    "partido": "UNIDAD NACIONAL",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/6318e942-2a13-472c-930e-b2414592bdec.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/3023.pdf"
+  },
+  {
+    "candidato": "DEMURTAS MOYA GIOVANNA ANGELA",
+    "partido": "SALVEMOS AL PERU",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/37786b21-b6e6-474a-95ad-9ff37f97706e.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2927.pdf"
+  },
+  {
+    "candidato": "LOPEZ ALIAGA CAZORLA RAFAEL BERNARDO",
+    "partido": "RENOVACION POPULAR",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/b2e00ae2-1e50-4ad3-a103-71fc7e4e8255.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/22.pdf"
+  },
+  {
+    "candidato": "ACUÑA PERALTA CESAR",
+    "partido": "ALIANZA PARA EL PROGRESO",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/d6fe3cac-7061-474b-8551-0aa686a54bad.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/1257.pdf"
+  },
+  {
+    "candidato": "GALARRETA VELARDE LUIS FERNANDO",
+    "partido": "FUERZA POPULAR",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/28a58063-8e4b-4dc5-b418-b84defcc0946.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/1366.pdf"
+  },
+  {
+    "candidato": "TORRES MORALES MIGUEL ANGEL",
+    "partido": "FUERZA POPULAR",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/789b7714-8633-4a59-a89b-7fab4646fef1.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/1366.pdf"
+  },
+  {
+    "candidato": "FUJIMORI HIGUCHI KEIKO SOFIA",
+    "partido": "FUERZA POPULAR",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/251cd1c0-acc7-4338-bd8a-439ccb9238d0.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/1366.pdf"
+  },
+  {
+    "candidato": "CUARESMA SANCHEZ CARLOS RICARDO",
+    "partido": "PARTIDO FRENTE DE LA ESPERANZA 2021",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/f32e2132-fb90-43aa-9532-9229eb507285.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2857.pdf"
+  },
+  {
+    "candidato": "LEON CHINCHAY ELIZABETH MARIA DEL ROSARIO",
+    "partido": "PARTIDO FRENTE DE LA ESPERANZA 2021",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/46b7acd1-7b84-46d3-a810-f7b46b881bf2.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2857.pdf"
+  },
+  {
+    "candidato": "ALTUVE-FEBRES LORES FERNAN ROMANO",
+    "partido": "AVANZA PAIS - PARTIDO DE INTEGRACION SOCIAL",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/204e6baf-f78a-4904-8fb3-a85880e30d89.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2173.pdf"
+  },
+  {
+    "candidato": "ROJAS LOPEZ BERTHA",
+    "partido": "PARTIDO POLITICO NACIONAL PERU LIBRE",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/216103bc-cf69-4adb-88d5-ae8654af7fd2.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2218.pdf"
+  },
+  {
+    "candidato": "CRUZ MAMANI FLAVIO",
+    "partido": "PARTIDO POLITICO NACIONAL PERU LIBRE",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/13c28c6d-bc50-4d72-9741-21a1cbc21c25.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2218.pdf"
+  },
+  {
+    "candidato": "CUAYLA CUAYLA NELIDA JULIANA",
+    "partido": "PARTIDO DE LOS TRABAJADORES Y EMPRENDEDORES PTE - PERU",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/e389ea77-e7de-4598-bf48-c441c3fdecba.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2939.pdf"
+  },
+  {
+    "candidato": "BECERRA GARCIA NAPOLEON",
+    "partido": "PARTIDO DE LOS TRABAJADORES Y EMPRENDEDORES PTE - PERU",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/bab206cb-b2d5-41ec-bde8-ef8cf3e0a2df.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2939.pdf"
+  },
+  {
+    "candidato": "HUAMAN HENRIQUEZ WINSTON CLEMENTE",
+    "partido": "PARTIDO DE LOS TRABAJADORES Y EMPRENDEDORES PTE - PERU",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/cdbb82b3-f42d-4c4d-84bf-0bf882fdb0ca.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2939.pdf"
+  },
+  {
+    "candidato": "ESPA Y GARCES-ALVEAR ALFONSO CARLOS",
+    "partido": "PARTIDO SICREO",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/85935f77-6c46-4eab-8c7e-2494ffbcece0.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2935.pdf"
+  },
+  {
+    "candidato": "YANZICH VILLAGARCIA MELITZA MELANIA",
+    "partido": "PARTIDO SICREO",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/f387254c-0fe3-415f-b4bc-904723cd4719.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2935.pdf"
+  },
+  {
+    "candidato": "PORLES BAZALAR TANIA ULRIKA",
+    "partido": "LIBERTAD POPULAR",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/0e26188d-ad29-40db-8472-b744e6868485.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2933.pdf"
+  },
+  {
+    "candidato": "CATERIANO BELLIDO PEDRO ALVARO",
+    "partido": "LIBERTAD POPULAR",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/8c2fed85-3a83-4227-80b8-6df2ae5627c9.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2933.pdf"
+  },
+  {
+    "candidato": "VASQUEZ SANCHEZ LUCIO ANTONIO",
+    "partido": "PARTIDO APRISTA PERUANO",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/8c85c773-d873-4f6f-9775-ab4adf0a68b5.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2930.pdf"
+  },
+  {
+    "candidato": "KOSTER JAUREGUI ROBERTO DIEGO",
+    "partido": "PARTIDO POLITICO PERU ACCION",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/3666ebd1-3f9f-4571-b724-c198b5336ecb.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2932.pdf"
+  },
+  {
+    "candidato": "DIEZ-CANSECO TÁVARA FRANCISCO ERNESTO",
+    "partido": "PARTIDO POLITICO PERU ACCION",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/2d1bf7f2-6e88-4ea9-8ed2-975c1ae5fb92.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2932.pdf"
+  },
+  {
+    "candidato": "QUISPE TORRES CLARA AMELIA",
+    "partido": "PARTIDO POLITICO PERU ACCION",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/f3673cd7-c1c6-43d6-9f12-f46e3e8a311b.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2932.pdf"
+  },
+  {
+    "candidato": "VIZCARRA CORNEJO MARIO ENRIQUE",
+    "partido": "PARTIDO POLITICO PERU PRIMERO",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/ee7a080e-bc81-4c81-9e5e-9fd95ff459ab.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2925.pdf"
+  },
+  {
+    "candidato": "ALMENARA HUAYTA MIGUEL ELIAS",
+    "partido": "PERU MODERNO",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/d29ca55d-5371-4580-8818-dbc8d7b533ff.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2924.pdf"
+  },
+  {
+    "candidato": "JAICO CARRANZA CARLOS ERNESTO",
+    "partido": "PERU MODERNO",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/7d91e14f-4417-4d61-89ba-3e686dafaa95.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2924.pdf"
+  },
+  {
+    "candidato": "MOLINA MARTINEZ RAUL ALBERTO",
+    "partido": "PRIMERO LA GENTE - COMUNIDAD, ECOLOGIA, LIBERTAD Y PROGRESO",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/2b0eda60-ff36-4a4c-93db-53d6517638fe.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2931.pdf"
+  },
+  {
+    "candidato": "LUNA GALVEZ JOSE LEON",
+    "partido": "PODEMOS PERU",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/a669a883-bf8a-417c-9296-c14b943c3943.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2731.pdf"
+  },
+  {
+    "candidato": "GARCIA RODRÍGUEZ JAQUELINE CECILIA",
+    "partido": "PODEMOS PERU",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/686ce842-0028-46f6-8309-fe3abfafdb56.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2731.pdf"
+  },
+  {
+    "candidato": "NOBLECILLA OLAECHEA RAUL MARTIN",
+    "partido": "PODEMOS PERU",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/71fdb03b-6e2e-4274-b12f-9ed3418cb0fd.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2731.pdf"
+  },
+  {
+    "candidato": "FREUNDT LOPEZ JAIME JOSE EDUARDO",
+    "partido": "SALVEMOS AL PERU",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/b33fab85-a83e-4bec-81a9-3baa0df19a3a.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2927.pdf"
+  },
+  {
+    "candidato": "CARRASCO SALAZAR CHARLIE",
+    "partido": "PARTIDO DEMOCRATA UNIDO PERU",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/12fa17db-f28f-4330-9123-88549539b538.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2867.pdf"
+  },
+  {
+    "candidato": "PAREDES VERDY MARIA EDITH",
+    "partido": "PARTIDO DEMOCRATA UNIDO PERU",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/7cfdfa81-d715-4d12-b1a1-0cd5e13a115e.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2867.pdf"
+  },
+  {
+    "candidato": "GONZALES CASTILLO ALEX",
+    "partido": "PARTIDO DEMOCRATA VERDE",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/c0ae56bf-21c1-4810-890a-b25c8465bdd9.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2895.pdf"
+  },
+  {
+    "candidato": "MURAZZO CARRILLO FELIX MEDARDO",
+    "partido": "PARTIDO DEMOCRATA VERDE",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/e3c30c51-1e5f-49ef-8bc5-3f5d2c0ad0c0.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2895.pdf"
+  },
+  {
+    "candidato": "SANCHEZ PERALES MARITZA DEL CARMEN ROSARIO MILAGROS",
+    "partido": "PARTIDO DEMOCRATA VERDE",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/8ddb50bf-2ec4-46d4-82f2-57bfb657d332.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2895.pdf"
+  },
+  {
+    "candidato": "CALLER GUTIERREZ HERBERT",
+    "partido": "PARTIDO PATRIOTICO DEL PERU",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/6ad6c5ff-0411-4ddd-9cf7-b0623f373fcf.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2869.pdf"
+  },
+  {
+    "candidato": "CARCOVICH CORTELEZZI JORGE AQUILES",
+    "partido": "PARTIDO PATRIOTICO DEL PERU",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/ffc5f1fc-b69c-4d63-9a10-ce18f911ad54.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2869.pdf"
+  },
+  {
+    "candidato": "GROZO COSTA WOLFGANG MARIO",
+    "partido": "PARTIDO POLITICO INTEGRIDAD DEMOCRATICA",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/064360d1-ce49-4abe-939c-f4de8b0130a2.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2985.pdf"
+  },
+  {
+    "candidato": "VILLANUEVA CARBAJAL LUIS ALBERTO",
+    "partido": "AHORA NACION - AN",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/41377696-3376-4806-b0eb-87145ffa0bac.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2980.pdf"
+  },
+  {
+    "candidato": "LOPEZ CHAU NAVA PABLO ALFONSO",
+    "partido": "AHORA NACION - AN",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/ddfa74eb-cae3-401c-a34c-35543ae83c57.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2980.pdf"
+  },
+  {
+    "candidato": "BARRAGAN COLOMA DANIEL HUGO",
+    "partido": "PARTIDO CIVICO OBRAS",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/15595890-de24-4f14-b4f6-bd9b5e10372a.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2941.pdf"
+  },
+  {
+    "candidato": "CABALLERO LEON CARLOS DAVID",
+    "partido": "PARTIDO DEL BUEN GOBIERNO",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/22e7b027-0df4-461c-8fd9-1bc297a95caf.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2961.pdf"
+  },
+  {
+    "candidato": "MATUTE CHARUN SUSANA FLOR DE MARIA",
+    "partido": "PARTIDO DEL BUEN GOBIERNO",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/63c487f6-0e92-45ec-8d58-5fed3a35e368.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2961.pdf"
+  },
+  {
+    "candidato": "MASSE FERNANDEZ ARMANDO JOAQUIN",
+    "partido": "PARTIDO DEMOCRATICO FEDERAL",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/cb1adeb7-7d2f-430c-ae87-519137d8edfa.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2986.pdf"
+  },
+  {
+    "candidato": "DIAZ PABLO LYDIA LOURDES",
+    "partido": "PARTIDO DEMOCRATICO FEDERAL",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/a8d03557-7c89-4eb1-bc12-9c23942de599.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2986.pdf"
+  },
+  {
+    "candidato": "ACUÑA PERALTA VIRGILIO",
+    "partido": "PARTIDO DEMOCRATICO FEDERAL",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/4cbbc9ee-2f79-4475-bfb1-5d3603fb0a60.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2986.pdf"
+  },
+  {
+    "candidato": "LESCANO ANCIETA YONHY",
+    "partido": "PARTIDO POLITICO COOPERACION POPULAR",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/b9db2b5c-02ff-4265-ae51-db9b1001ad70.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2995.pdf"
+  },
+  {
+    "candidato": "GUILLEN TUANAMA MONICA MARGOT",
+    "partido": "PROGRESEMOS",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/77d5c3f6-f480-4240-b1ff-e1bffda7f461.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2967.pdf"
+  },
+  {
+    "candidato": "PARIONA ORE MARIA LUZ",
+    "partido": "FUERZA Y LIBERTAD",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/323df864-304c-4b25-b6bb-69b57037bfa2.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/3024.pdf"
+  },
+  {
+    "candidato": "MOLINELLI ARISTONDO FIORELLA GIANNINA",
+    "partido": "FUERZA Y LIBERTAD",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/1de656b5-7593-4c60-ab7a-83d618a3d80d.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/3024.pdf"
+  },
+  {
+    "candidato": "MENDOZA FLORES NELDY ROXANA",
+    "partido": "UNIDAD NACIONAL",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/e014ce3f-dee4-4114-8413-2b40cfa21e18.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/3023.pdf"
+  },
+  {
+    "candidato": "CHIABRA LEON ROBERTO ENRIQUE",
+    "partido": "UNIDAD NACIONAL",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/5c703ce9-ba1e-4490-90bf-61006740166f.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/3023.pdf"
+  },
+  {
+    "candidato": "RAMOS MALPICA JHON IVAN",
+    "partido": "RENOVACION POPULAR",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/a5e14bf4-b4f9-470b-8dd1-754e6d8519d3.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/22.pdf"
+  },
+  {
+    "candidato": "GUEVARA AMASIFUEN MESIAS ANTONIO",
+    "partido": "PARTIDO MORADO",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/1b861ca7-3a5e-48b4-9024-08a92371e33b.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2840.pdf"
+  },
+  {
+    "candidato": "OLIVERA VEGA LUIS FERNANDO",
+    "partido": "PARTIDO FRENTE DE LA ESPERANZA 2021",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/3e2312e1-af79-4954-abfa-a36669c1a9e9.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2857.pdf"
+  },
+  {
+    "candidato": "TUDELA GUTIERREZ ADRIANA JOSEFINA",
+    "partido": "AVANZA PAIS - PARTIDO DE INTEGRACION SOCIAL",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/fec6933f-6903-49e2-b770-70256db5108b.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2173.pdf"
+  },
+  {
+    "candidato": "WILLIAMS ZAPATA JOSE DANIEL",
+    "partido": "AVANZA PAIS - PARTIDO DE INTEGRACION SOCIAL",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/b60c471f-a6bb-4b42-a4b2-02ea38acbb0d.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2173.pdf"
+  },
+  {
+    "candidato": "CERRON ROJAS VLADIMIR ROY",
+    "partido": "PARTIDO POLITICO NACIONAL PERU LIBRE",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/82ee0ff2-2336-4aba-9590-e576f7564315.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2218.pdf"
+  },
+  {
+    "candidato": "BELAUNDE LLOSA RAFAEL JORGE",
+    "partido": "LIBERTAD POPULAR",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/3302e45b-55c8-4979-a60b-2b11097abf1d.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2933.pdf"
+  },
+  {
+    "candidato": "VALDIVIA ACUÑA MARIA INES",
+    "partido": "PARTIDO APRISTA PERUANO",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/79bd9ce1-dcaa-4a2e-a716-03e6b62de4c4.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2930.pdf"
+  },
+  {
+    "candidato": "PEREZ TELLO DE RODRIGUEZ MARIA SOLEDAD",
+    "partido": "PRIMERO LA GENTE - COMUNIDAD, ECOLOGIA, LIBERTAD Y PROGRESO",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/073703ca-c427-44f0-94b1-a782223a5e10.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2931.pdf"
+  },
+  {
+    "candidato": "ATO DEL AVELLANAL CARRERA MANUEL ANTONIO",
+    "partido": "PRIMERO LA GENTE - COMUNIDAD, ECOLOGIA, LIBERTAD Y PROGRESO",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/f488b171-cccb-495b-9400-52c83147e20b.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2931.pdf"
+  },
+  {
+    "candidato": "ORTIZ VILLANO ANTONIO",
+    "partido": "SALVEMOS AL PERU",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/8e6b9124-2883-4143-8768-105f2ce780eb.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2927.pdf"
+  },
+  {
+    "candidato": "PINILLOS VINCES CARLOS DANILO",
+    "partido": "UN CAMINO DIFERENTE",
+    "cargo": "SEGUNDO VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/e24c5fe3-2b50-40f6-ad1c-e0b24d9805cf.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2998.pdf"
+  },
+  {
+    "candidato": "FERNANDEZ BAZAN CESAR ARTURO",
+    "partido": "UN CAMINO DIFERENTE",
+    "cargo": "PRIMER VICEPRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/d4b8d060-149a-4c91-996c-ecafe4bc0a0f.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2998.pdf"
+  },
+  {
+    "candidato": "NIETO MONTESINOS JORGE",
+    "partido": "PARTIDO DEL BUEN GOBIERNO",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/9ae56ed5-3d0f-49ff-8bb9-0390bad71816.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2961.pdf"
+  },
+  {
+    "candidato": "ALVAREZ LOAYZA CARLOS GONSALO",
+    "partido": "PARTIDO PAIS PARA TODOS",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/2bd18177-d665-413d-9694-747d729d3e39.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2956.pdf"
+  },
+  {
+    "candidato": "JAIMES BLANCO PAUL DAVIS",
+    "partido": "PROGRESEMOS",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/929e1a63-335d-4f3a-ba26-f3c7ff136213.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2967.pdf"
+  },
+  {
+    "candidato": "CHIRINOS PURIZAGA WALTER GILMER",
+    "partido": "PARTIDO POLITICO PRIN",
+    "cargo": "PRESIDENTE DE LA REPÚBLICA",
+    "foto_url": "https://mpesije.jne.gob.pe/apidocs/a2d0f631-fe47-4c41-92ba-7ed9f4095520.jpg",
+    "plan_url": "https://declara.jne.gob.pe/ASSETS/PLANGOBIERNO/FILEPLANGOBIERNO/2921.pdf"
+  }
+]
