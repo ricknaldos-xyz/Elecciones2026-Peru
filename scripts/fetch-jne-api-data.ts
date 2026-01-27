@@ -10,8 +10,16 @@
 
 import { neon } from '@neondatabase/serverless'
 import * as fs from 'fs'
+import * as path from 'path'
 
-const sql = neon(process.env.DATABASE_URL || '')
+function loadEnv(): string {
+  const envPath = path.join(process.cwd(), '.env.local')
+  const content = fs.readFileSync(envPath, 'utf-8')
+  const match = content.match(/DATABASE_URL=["']?([^"'\n]+)["']?/)
+  return match ? match[1] : ''
+}
+
+const sql = neon(loadEnv())
 
 // API del JNE descubierta
 const JNE_API_BASE = 'https://sije.jne.gob.pe/ServiciosWeb/WSCandidato'
