@@ -14,9 +14,42 @@ import {
 const DATABASE_URL = 'postgresql://neondb_owner:npg_QsCV8j4rFmiW@ep-polished-mouse-ahxxvvbh-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require'
 const sql = neon(DATABASE_URL)
 
-// Map database education level to scoring system
-function mapEducationLevel(level: string): EducationLevel {
-  const mapping: Record<string, EducationLevel> = {
+// Map database/JNE education level to scoring system
+function mapEducationLevel(level: string, ed?: any): EducationLevel {
+  const l = (level || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+
+  // Direct matches
+  if (l.includes('doctorado')) return 'doctorado'
+  if (l.includes('maestria') || l.includes('magister')) return 'maestria'
+  if (l.includes('posgrado')) return 'maestria' // Posgrado = at least maestría level
+
+  // Universitario: check degree text for titulo/bachiller indicators
+  if (l.includes('universitario') || l.includes('bachiller') || l.includes('licenciado') || l.includes('abogado') || l.includes('ingenier')) {
+    const degree = ((ed?.degree || '') as string).toLowerCase()
+    // If degree contains title indicators, it's titulo_profesional
+    if (degree.includes('abogado') || degree.includes('licenciad') || degree.includes('ingenier') ||
+        degree.includes('contador') || degree.includes('medico') || degree.includes('arquitecto') ||
+        degree.includes('psicologo') || degree.includes('economista') || degree.includes('notari')) {
+      return 'titulo_profesional'
+    }
+    if (degree.includes('bachiller')) {
+      return 'universitario_completo'
+    }
+    // Check is_completed flag
+    if (ed?.is_completed) return 'universitario_completo'
+    return 'universitario_incompleto'
+  }
+
+  if (l.includes('tecnico') || l.includes('tecnica')) {
+    return (ed?.is_completed !== false) ? 'tecnico_completo' : 'tecnico_incompleto'
+  }
+  if (l.includes('secundaria')) {
+    return (ed?.is_completed !== false) ? 'secundaria_completa' : 'secundaria_incompleta'
+  }
+  if (l.includes('primaria')) return 'primaria'
+
+  // Legacy exact matches for older data
+  const exactMapping: Record<string, EducationLevel> = {
     'sin_informacion': 'sin_informacion',
     'primaria_completa': 'primaria',
     'secundaria_incompleta': 'secundaria_incompleta',
@@ -29,11 +62,78 @@ function mapEducationLevel(level: string): EducationLevel {
     'maestria': 'maestria',
     'doctorado': 'doctorado',
   }
-  return mapping[level] || 'sin_informacion'
+  return exactMapping[level] || 'sin_informacion'
 }
 
-// Map database role type to scoring system
-function mapRoleType(roleType: string): RoleType {
+// Infer role type from position name and organization
+function inferRoleType(position: string, organization: string, sector?: string): RoleType {
+  const pos = (position || '').toLowerCase()
+  const org = (organization || '').toLowerCase()
+
+  // Elected positions
+  if (pos.includes('congresista') || pos.includes('parlamentari') || pos.includes('senador') || pos.includes('diputado')) return 'electivo_alto'
+  if (pos.includes('alcalde') || pos.includes('gobernador') || pos.includes('regidor')) return 'electivo_medio'
+
+  // High-level public executives
+  if (pos.includes('ministr') || pos.includes('presidente ejecutiv') || pos.includes('viceministr') ||
+      pos.includes('jefe de gabinete') || pos.includes('secretario general') || pos.includes('superintendente') ||
+      pos.includes('contralor') || pos.includes('fiscal de la nacion') || pos.includes('defensor del pueblo')) return 'ejecutivo_publico_alto'
+
+  // Mid-level public executives
+  if ((pos.includes('director') || pos.includes('gerente') || pos.includes('jefe')) &&
+      (org.includes('ministerio') || org.includes('municipalid') || org.includes('gobierno') ||
+       org.includes('seguro social') || org.includes('congreso') || sector === 'publico')) return 'ejecutivo_publico_medio'
+
+  // Academia
+  if (pos.includes('docente') || pos.includes('profesor') || pos.includes('catedratic') || pos.includes('investigador') ||
+      pos.includes('decano') || pos.includes('rector') ||
+      org.includes('universidad') || org.includes('univ.') || org.includes('pucp') || org.includes('caen')) return 'academia'
+
+  // High-level private executives
+  if (pos.includes('gerente general') || pos.includes('director general') || pos.includes('ceo') ||
+      pos.includes('presidente') || pos.includes('socio fundador') || pos.includes('fundador')) return 'ejecutivo_privado_alto'
+
+  // Mid-level private executives
+  if (pos.includes('gerente') || pos.includes('director') || pos.includes('jefe') || pos.includes('subgerente')) return 'ejecutivo_privado_medio'
+
+  // International
+  if (org.includes('naciones unidas') || org.includes('onu') || org.includes('bid') || org.includes('banco mundial') ||
+      org.includes('oea') || org.includes('embajad') || pos.includes('embajador') || pos.includes('consul')) return 'internacional'
+
+  // Notaria is a professional title
+  if (pos.includes('notari')) return 'tecnico_profesional'
+
+  // Default based on sector
+  if (sector === 'publico' || org.includes('ministerio') || org.includes('municipalid')) return 'ejecutivo_publico_medio'
+
+  return 'tecnico_profesional'
+}
+
+// Infer seniority level from position name
+function inferSeniorityLevel(position: string): SeniorityLevel {
+  const pos = (position || '').toLowerCase()
+
+  if (pos.includes('ministr') || pos.includes('presidente') || pos.includes('congresista') ||
+      pos.includes('gobernador') || pos.includes('alcalde') || pos.includes('rector') ||
+      pos.includes('superintendente') || pos.includes('contralor') || pos.includes('fiscal') ||
+      pos.includes('viceministr') || pos.includes('fundador') || pos.includes('embajador') ||
+      pos.includes('decano') || pos.includes('notari')) return 'direccion'
+
+  if (pos.includes('gerente general') || pos.includes('director general') || pos.includes('director ejecutiv') ||
+      pos.includes('secretario general') || pos.includes('ceo')) return 'direccion'
+
+  if (pos.includes('gerente') || pos.includes('subgerente') || pos.includes('director')) return 'gerencia'
+
+  if (pos.includes('jefe') || pos.includes('coordinador') || pos.includes('supervisor')) return 'jefatura'
+
+  if (pos.includes('asesor') || pos.includes('analista') || pos.includes('especialista') ||
+      pos.includes('profesor') || pos.includes('docente')) return 'coordinador'
+
+  return 'individual_contributor'
+}
+
+// Map database role type to scoring system (with fallback to inference)
+function mapRoleType(roleType: string, position?: string, organization?: string, sector?: string): RoleType {
   const mapping: Record<string, RoleType> = {
     'electivo_alto': 'electivo_alto',
     'electivo_medio': 'electivo_medio',
@@ -46,19 +146,24 @@ function mapRoleType(roleType: string): RoleType {
     'internacional': 'internacional',
     'partidario': 'partidario',
   }
-  return mapping[roleType] || 'tecnico_profesional'
+  if (mapping[roleType]) return mapping[roleType]
+  // Infer from position/organization when role_type not explicitly set
+  return inferRoleType(position || '', organization || '', sector)
 }
 
-// Map seniority level
-function mapSeniorityLevel(level: string): SeniorityLevel {
+// Map seniority level (with fallback to inference)
+function mapSeniorityLevel(level: string, position?: string): SeniorityLevel {
   const mapping: Record<string, SeniorityLevel> = {
     'individual': 'individual_contributor',
+    'individual_contributor': 'individual_contributor',
     'coordinador': 'coordinador',
     'jefatura': 'jefatura',
     'gerencia': 'gerencia',
     'direccion': 'direccion',
   }
-  return mapping[level] || 'individual_contributor'
+  if (mapping[level]) return mapping[level]
+  // Infer from position name when not explicitly set
+  return inferSeniorityLevel(position || '')
 }
 
 // Parse year from date string
@@ -70,74 +175,109 @@ function parseYear(dateStr?: string): number {
 
 // Transform database data to CandidateData for scoring
 function transformToScoringData(candidate: any): CandidateData {
-  // Education
+  // Education - handle both JNE format (level/degree/is_completed) and legacy format
   const education: EducationDetail[] = (candidate.education_details || []).map((ed: any) => ({
-    level: mapEducationLevel(ed.level),
-    field: ed.field_of_study,
+    level: mapEducationLevel(ed.level, ed),
+    field: ed.field_of_study || ed.degree || ed.field,
     institution: ed.institution,
-    year: ed.end_date ? parseYear(ed.end_date) : undefined,
-    isVerified: ed.is_verified
+    year: ed.year ? parseInt(ed.year) : (ed.bachelor_year ? parseInt(ed.bachelor_year) : (ed.end_date ? parseYear(ed.end_date) : undefined)),
+    isVerified: ed.is_verified ?? (ed.source === 'jne')
   }))
 
-  // Experience
+  // Experience - handle JNE format (start_year/end_year strings) and legacy format (start_date)
   const experience: Experience[] = (candidate.experience_details || []).map((exp: any) => {
-    const startYear = parseYear(exp.start_date)
-    const endYear = exp.is_current ? undefined : parseYear(exp.end_date)
+    // JNE uses start_year/end_year as strings, legacy uses start_date
+    const startYear = exp.start_year ? parseInt(exp.start_year) : parseYear(exp.start_date)
+    const endYear = exp.is_current ? undefined : (exp.end_year ? parseInt(exp.end_year) : parseYear(exp.end_date))
+    const position = exp.position || exp.cargo || ''
+    const organization = exp.organization || exp.entidad || ''
 
-    // Determine if leadership role
-    const isLeadership = ['direccion', 'gerencia', 'jefatura'].includes(exp.seniority_level)
+    // Infer role type and seniority from position/org when not explicitly set
+    const roleType = mapRoleType(exp.role_type, position, organization, exp.sector || exp.department)
+    const seniorityLevel = mapSeniorityLevel(exp.seniority_level, position)
+
+    // Determine if leadership role based on inferred seniority
+    const isLeadership = ['direccion', 'gerencia', 'jefatura'].includes(seniorityLevel)
 
     return {
-      role: exp.position,
-      roleType: mapRoleType(exp.role_type),
-      organization: exp.organization,
+      role: position,
+      roleType,
+      organization,
       startYear,
       endYear,
       isLeadership,
-      seniorityLevel: mapSeniorityLevel(exp.seniority_level)
+      seniorityLevel
     }
   })
 
   // Add political trajectory as experience
   const politicalExp: Experience[] = (candidate.political_trajectory || []).map((pt: any) => {
-    const startYear = parseYear(pt.start_date)
-    const endYear = pt.end_date ? parseYear(pt.end_date) : undefined
+    // JNE uses start_year/end_year strings
+    const startYear = pt.start_year ? parseInt(pt.start_year) : parseYear(pt.start_date)
+    const rawEnd = pt.end_year ? parseInt(pt.end_year) : (pt.end_date ? parseYear(pt.end_date) : undefined)
+    // "0000" means ongoing
+    const endYear = (rawEnd && rawEnd > 1900) ? rawEnd : undefined
 
-    // Elected positions are high relevance
-    const roleType: RoleType = pt.is_elected ? 'electivo_alto' : 'partidario'
+    // Infer role type from position and election status
+    const position = pt.position || ''
+    let roleType: RoleType
+    if (pt.is_elected) {
+      roleType = 'electivo_alto'
+    } else if (pt.type === 'eleccion') {
+      roleType = 'electivo_alto'
+    } else {
+      // Party positions - infer from position name
+      const pos = position.toLowerCase()
+      if (pos.includes('presidente') || pos.includes('secretario general') || pos.includes('fundador')) {
+        roleType = 'ejecutivo_privado_alto'
+      } else {
+        roleType = 'partidario'
+      }
+    }
 
     return {
-      role: pt.position,
+      role: position,
       roleType,
       organization: pt.party || 'Gobierno',
       startYear,
       endYear,
-      isLeadership: pt.is_elected,
+      isLeadership: true,
       seniorityLevel: 'direccion' as SeniorityLevel
     }
   })
 
   const allExperience = [...experience, ...politicalExp]
 
-  // Penal sentences
-  const penalSentences: PenalSentence[] = (candidate.penal_sentences || []).map((s: any) => ({
-    type: 'penal' as const,
-    description: s.description,
-    isFirm: s.status === 'firme',
-    year: s.date ? parseYear(s.date) : undefined
-  }))
+  // Penal sentences - handle both JNE format and manual format
+  const penalSentences: PenalSentence[] = (candidate.penal_sentences || []).map((s: any) => {
+    // JNE format uses: delito, estado, modalidad, expediente
+    // Manual format uses: description, status, type
+    const description = s.description || s.delito || ''
+    const status = s.status || s.estado || ''
+    const modalidad = (s.modalidad || '').toLowerCase()
+    // Consider "firme" status or "EFECTIVA"/"SUSPENDIDA" modalidad as firm
+    const isFirm = status === 'firme' || modalidad === 'efectiva' || modalidad === 'suspendida'
 
-  // Civil sentences
+    return {
+      type: 'penal' as const,
+      description,
+      isFirm,
+      year: s.date ? parseYear(s.date) : (s.fecha_sentencia ? parseYear(s.fecha_sentencia) : undefined)
+    }
+  })
+
+  // Civil sentences - handle both JNE format and manual format
   const civilSentences: CivilSentence[] = (candidate.civil_sentences || []).map((s: any) => {
+    const desc = (s.description || s.delito || s.tipo || '').toLowerCase()
     let type: CivilSentence['type'] = 'contractual'
-    if (s.type?.includes('violencia')) type = 'violence'
-    else if (s.type?.includes('alimento')) type = 'alimentos'
-    else if (s.type?.includes('laboral')) type = 'laboral'
+    if (desc.includes('violencia') || desc.includes('familiar')) type = 'violence'
+    else if (desc.includes('alimento')) type = 'alimentos'
+    else if (desc.includes('laboral') || desc.includes('trabajo')) type = 'laboral'
 
     return {
       type,
-      description: s.description,
-      year: s.date ? parseYear(s.date) : undefined
+      description: s.description || s.delito || '',
+      year: s.date ? parseYear(s.date) : (s.fecha_sentencia ? parseYear(s.fecha_sentencia) : undefined)
     }
   })
 
