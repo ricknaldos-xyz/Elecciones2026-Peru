@@ -742,7 +742,7 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
               {/* Lista de Propuestas */}
               <CandidateProposals
                 candidateId={candidate.id}
-                planUrl={details?.plan_gobierno_url}
+                planUrl={details?.plan_pdf_local || details?.plan_gobierno_url}
               />
             </div>
           </TabPanel>

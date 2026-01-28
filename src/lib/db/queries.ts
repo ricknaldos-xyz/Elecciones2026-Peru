@@ -709,6 +709,7 @@ export interface CandidateDetails {
   party_resignations: number
   djhv_url: string | null
   plan_gobierno_url: string | null
+  plan_pdf_local: string | null
 }
 
 export interface EducationRecord {
@@ -786,7 +787,9 @@ export async function getCandidateDetails(candidateId: string): Promise<Candidat
       penal_sentences,
       civil_sentences,
       party_resignations,
-      djhv_url
+      djhv_url,
+      plan_gobierno_url,
+      plan_pdf_local
     FROM candidates
     WHERE id = ${candidateId}
     LIMIT 1
@@ -806,7 +809,8 @@ export async function getCandidateDetails(candidateId: string): Promise<Candidat
     civil_sentences: (row.civil_sentences as SentenceRecord[]) || [],
     party_resignations: Number(row.party_resignations) || 0,
     djhv_url: row.djhv_url as string | null,
-    plan_gobierno_url: null,
+    plan_gobierno_url: row.plan_gobierno_url as string | null,
+    plan_pdf_local: row.plan_pdf_local as string | null,
   }
 }
 
