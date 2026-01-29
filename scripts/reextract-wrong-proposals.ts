@@ -1,5 +1,6 @@
 /**
- * Extrae propuestas SOLO para candidatos que tienen URL pero no propuestas
+ * Re-extract proposals for candidates that got the wrong PDF
+ * Deletes existing wrong proposals and re-extracts from the correct PDF
  */
 
 import * as fs from 'fs'
@@ -81,23 +82,6 @@ REGLAS:
 - Prioriza propuestas con impacto medible
 - Sé objetivo y basado en el texto, no inventes información`
 
-interface PlanGobierno {
-  candidato: string
-  partido: string
-  cargo: string
-  foto_url: string
-  plan_url: string
-}
-
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-}
-
 async function extractTextFromPdf(pdfPath: string): Promise<string | null> {
   try {
     const { PDFParse } = await import('pdf-parse')
@@ -168,92 +152,90 @@ async function delay(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
+// Candidates that got the wrong PDF during extraction
+const CANDIDATES_TO_FIX = [
+  'MASSE FERNANDEZ',
+  'JAICO CARRANZA',
+  'CARRASCO',       // Charlie Carrasco
+  'CALLER',         // Herbert Caller
+  'GUEVARA AMASIFUEN',
+  'BECERRA',        // Napoleón Becerra
+  'BELMONT CASSINELLI',
+  'MOLINELLI',      // Fiorella Molinelli
+]
+
 async function main() {
-  console.log('╔' + '═'.repeat(68) + '╗')
-  console.log('║' + ' EXTRACCIÓN DE PROPUESTAS FALTANTES '.padStart(49).padEnd(68) + '║')
-  console.log('╚' + '═'.repeat(68) + '╝')
-
-  if (!env.ANTHROPIC_API_KEY) {
-    console.error('❌ ANTHROPIC_API_KEY no configurada')
-    process.exit(1)
-  }
-
-  // Load planes-gobierno.json for URL to partido mapping
-  const planesPath = path.join(process.cwd(), 'planes-gobierno.json')
-  const allPlanes: PlanGobierno[] = JSON.parse(fs.readFileSync(planesPath, 'utf-8'))
-  const presidentes = allPlanes.filter(p => p.cargo === 'PRESIDENTE DE LA REPÚBLICA')
-
-  const planUrlToPartido = new Map<string, string>()
-  for (const plan of presidentes) {
-    if (plan.plan_url) planUrlToPartido.set(plan.plan_url, plan.partido)
-  }
-
-  // Find candidates with URL but no proposals
-  const missingProposals = await sql`
-    SELECT c.id, c.full_name, c.plan_gobierno_url, c.plan_pdf_local, p.name as party_name
-    FROM candidates c
-    LEFT JOIN parties p ON c.party_id = p.id
-    LEFT JOIN candidate_proposals cp ON c.id = cp.candidate_id
-    WHERE c.cargo = 'presidente'
-    AND c.plan_gobierno_url IS NOT NULL
-    AND cp.id IS NULL
-    ORDER BY c.full_name
-  `
-
-  console.log(`\n📋 Candidatos con URL pero sin propuestas: ${missingProposals.length}`)
-
-  if (missingProposals.length === 0) {
-    console.log('\n✓ Todos los candidatos ya tienen propuestas extraídas')
-    return
-  }
+  console.log('='.repeat(70))
+  console.log(' RE-EXTRACTING PROPOSALS FROM CORRECT PDFs')
+  console.log('='.repeat(70))
 
   const stats = { processed: 0, succeeded: 0, failed: 0, totalProposals: 0 }
 
-  for (const candidate of missingProposals) {
+  for (const searchName of CANDIDATES_TO_FIX) {
+    const parts = searchName.split(' ')
+    const candidates = await sql`
+      SELECT c.id, c.full_name, c.plan_gobierno_url, c.plan_pdf_local, p.name as party_name
+      FROM candidates c
+      LEFT JOIN parties p ON c.party_id = p.id
+      WHERE c.cargo = 'presidente'
+      AND c.is_active = true
+      AND c.full_name ILIKE ${`%${parts[0]}%`}
+      AND (${parts.length < 2} OR c.full_name ILIKE ${`%${parts[1] || ''}%`})
+      LIMIT 1
+    `
+
+    if (candidates.length === 0) {
+      console.log(`\n  No encontrado: ${searchName}`)
+      continue
+    }
+
+    const candidate = candidates[0]
     stats.processed++
-    console.log(`\n[${stats.processed}/${missingProposals.length}] ${candidate.full_name}`)
+    console.log(`\n[${stats.processed}/${CANDIDATES_TO_FIX.length}] ${candidate.full_name}`)
     console.log(`  Partido: ${candidate.party_name}`)
 
-    // Find local PDF - use plan_pdf_local or plan_gobierno_url directly
+    // Use plan_pdf_local or plan_gobierno_url directly (these are the correct paths)
     const planUrl = (candidate.plan_pdf_local || candidate.plan_gobierno_url) as string
-    let pdfPath: string
-    if (planUrl && planUrl.startsWith('/planes/')) {
-      pdfPath = path.join(process.cwd(), 'public', planUrl)
-    } else {
-      const jnePartido = planUrlToPartido.get(candidate.plan_gobierno_url as string)
-      const partySlug = jnePartido ? slugify(jnePartido) : slugify(candidate.party_name || '')
-      pdfPath = path.join(process.cwd(), 'public', 'planes', `${partySlug}.pdf`)
-    }
-
-    if (!fs.existsSync(pdfPath)) {
-      console.log(`  ⚠ PDF no encontrado: ${pdfPath}`)
+    if (!planUrl || !planUrl.startsWith('/planes/')) {
+      console.log(`  No plan URL: ${planUrl}`)
       stats.failed++
       continue
     }
 
-    console.log(`  📄 PDF: ${path.basename(pdfPath)}`)
+    const pdfPath = path.join(process.cwd(), 'public', planUrl)
+    if (!fs.existsSync(pdfPath)) {
+      console.log(`  PDF no existe: ${pdfPath}`)
+      stats.failed++
+      continue
+    }
 
-    // Extract text
+    console.log(`  PDF correcto: ${path.basename(pdfPath)}`)
+
+    // Delete existing wrong proposals
+    const deleted = await sql`
+      DELETE FROM candidate_proposals WHERE candidate_id = ${candidate.id}
+      RETURNING id
+    `
+    console.log(`  Eliminadas ${deleted.length} propuestas incorrectas`)
+
+    // Extract text from correct PDF
     const text = await extractTextFromPdf(pdfPath)
     if (!text || text.length < 100) {
-      console.log(`  ✗ No se pudo extraer texto`)
+      console.log(`  No se pudo extraer texto del PDF`)
       stats.failed++
       continue
     }
 
-    console.log(`  📝 ${text.length} caracteres extraídos`)
+    console.log(`  ${text.length} caracteres extraidos`)
+    console.log(`  Analizando con Claude AI...`)
 
-    // Extract with AI
-    console.log(`  🤖 Analizando con Claude AI...`)
     const proposals = await extractProposalsWithAI(text)
 
     if (proposals.length === 0) {
-      console.log(`  ✗ No se extrajeron propuestas`)
+      console.log(`  No se extrajeron propuestas`)
       stats.failed++
       continue
     }
-
-    console.log(`  ✓ ${proposals.length} propuestas extraídas`)
 
     // Save proposals
     let saved = 0
@@ -274,32 +256,30 @@ async function main() {
       }
     }
 
-    console.log(`  💾 ${saved} propuestas guardadas`)
+    console.log(`  ${saved} propuestas correctas guardadas`)
     stats.succeeded++
     stats.totalProposals += saved
 
     await delay(DELAY_MS)
   }
 
-  // Final stats
-  console.log('\n' + '═'.repeat(70))
-  console.log('RESUMEN FINAL')
-  console.log('═'.repeat(70))
+  console.log('\n' + '='.repeat(70))
+  console.log('RESUMEN')
+  console.log('='.repeat(70))
   console.log(`Procesados: ${stats.processed}`)
   console.log(`Exitosos: ${stats.succeeded}`)
   console.log(`Fallidos: ${stats.failed}`)
   console.log(`Propuestas nuevas: ${stats.totalProposals}`)
 
-  // Total proposals
-  const totalProposals = await sql`SELECT COUNT(*) as count FROM candidate_proposals`
+  // Final count
+  const total = await sql`SELECT COUNT(*) as count FROM candidate_proposals`
   const withProposals = await sql`
     SELECT COUNT(DISTINCT candidate_id) as count
     FROM candidate_proposals cp
     JOIN candidates c ON cp.candidate_id = c.id
-    WHERE c.cargo = 'presidente'
+    WHERE c.cargo = 'presidente' AND c.is_active = true
   `
-
-  console.log(`\nTotal propuestas en BD: ${totalProposals[0].count}`)
+  console.log(`\nTotal propuestas en BD: ${total[0].count}`)
   console.log(`Candidatos con propuestas: ${withProposals[0].count}/36`)
 }
 
