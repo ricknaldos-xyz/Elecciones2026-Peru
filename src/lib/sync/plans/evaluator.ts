@@ -13,7 +13,7 @@ import { sql } from '@/lib/db'
 import { createSyncLogger } from '../logger'
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY || '')
-const MODEL = 'gemini-2.0-flash'
+const MODEL = 'gemini-2.5-flash'
 
 interface ProposalToEvaluate {
   id: string

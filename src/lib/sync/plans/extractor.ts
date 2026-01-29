@@ -12,8 +12,8 @@ import { createSyncLogger } from '../logger'
 // Initialize Google AI client
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY || '')
 
-// Configuration - Use Gemini 2.0 Flash for fast, native PDF processing
-const MODEL = 'gemini-2.0-flash'
+// Configuration - Use Gemini 2.5 Pro for best quality PDF analysis
+const MODEL = 'gemini-2.5-pro'
 const MAX_PDF_SIZE = 10 * 1024 * 1024 // 10MB max
 
 // Proposal categories
