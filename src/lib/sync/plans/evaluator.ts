@@ -1,18 +1,19 @@
 /**
  * AI Proposal Evaluator
  *
- * Uses Claude to evaluate the quality of each candidate proposal:
+ * Uses Google Gemini to evaluate the quality of each candidate proposal:
  * - Specificity: How concrete and detailed is the proposal?
  * - Viability: Is it realistically achievable in the term?
  * - Impact: What's the potential positive impact?
  * - Evidence: Is it based on data or studies?
  */
 
-import Anthropic from '@anthropic-ai/sdk'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 import { sql } from '@/lib/db'
 import { createSyncLogger } from '../logger'
 
-const anthropic = new Anthropic()
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY || '')
+const MODEL = 'gemini-2.0-flash'
 
 interface ProposalToEvaluate {
   id: string
@@ -111,7 +112,7 @@ async function getUnevaluatedProposals(): Promise<ProposalToEvaluate[]> {
 }
 
 /**
- * Evaluates a single proposal using Claude
+ * Evaluates a single proposal using Gemini
  */
 async function evaluateProposal(proposal: ProposalToEvaluate): Promise<ProposalEvaluation | null> {
   try {
@@ -120,25 +121,12 @@ async function evaluateProposal(proposal: ProposalToEvaluate): Promise<ProposalE
       .replace('{description}', proposal.description || 'No hay descripción')
       .replace('{sourceQuote}', proposal.sourceQuote || 'No hay cita textual')
 
-    const response = await anthropic.messages.create({
-      model: 'claude-3-5-haiku-20241022', // Use Haiku for cost efficiency
-      max_tokens: 1024,
-      messages: [
-        {
-          role: 'user',
-          content: prompt,
-        },
-      ],
-    })
-
-    const content = response.content[0]
-    if (content.type !== 'text') {
-      console.error('[ProposalEval] Unexpected response type')
-      return null
-    }
+    const model = genAI.getGenerativeModel({ model: MODEL })
+    const result = await model.generateContent(prompt)
+    const content = result.response.text()
 
     // Parse JSON response
-    const jsonMatch = content.text.match(/\{[\s\S]*\}/)
+    const jsonMatch = content.match(/\{[\s\S]*\}/)
     if (!jsonMatch) {
       console.error('[ProposalEval] No JSON found in response')
       return null
@@ -186,7 +174,7 @@ async function saveEvaluation(proposalId: string, evaluation: ProposalEvaluation
       ${evaluation.aiEvaluation},
       ${JSON.stringify(evaluation.concerns)}::jsonb,
       ${JSON.stringify(evaluation.strengths)}::jsonb,
-      'claude-3-5-haiku-20241022',
+      ${MODEL},
       NOW()
     )
     ON CONFLICT (proposal_id) DO UPDATE SET

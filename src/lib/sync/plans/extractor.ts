@@ -1,22 +1,19 @@
 /**
- * Government Plan Extractor using Claude API
+ * Government Plan Extractor using Google Gemini API
  *
- * Downloads PDFs from JNE platform, extracts text, and uses AI to
- * identify and categorize key proposals from government plans.
+ * Downloads PDFs from JNE platform and uses Gemini's native PDF understanding
+ * to identify and categorize key proposals from government plans.
  */
 
-import Anthropic from '@anthropic-ai/sdk'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 import { sql } from '@/lib/db'
 import { createSyncLogger } from '../logger'
 
-// Initialize Anthropic client
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-})
+// Initialize Google AI client
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY || '')
 
-// Configuration - Use Sonnet for better quality analysis of complex documents
-const MODEL = 'claude-3-5-sonnet-20241022'
-const MAX_TOKENS = 4096
+// Configuration - Use Gemini 2.0 Flash for fast, native PDF processing
+const MODEL = 'gemini-2.0-flash'
 const MAX_PDF_SIZE = 10 * 1024 * 1024 // 10MB max
 
 // Proposal categories
@@ -51,12 +48,9 @@ export interface ExtractionResult {
 }
 
 /**
- * Extraction prompt for Claude
+ * Extraction prompt for Gemini (PDF is sent as inline data, not text)
  */
-const EXTRACTION_PROMPT = `Eres un analista político experto. Analiza el siguiente plan de gobierno y extrae las propuestas principales.
-
-TEXTO DEL PLAN DE GOBIERNO:
-{text}
+const EXTRACTION_PROMPT = `Eres un analista político experto. Analiza el plan de gobierno adjunto (PDF) y extrae las propuestas principales.
 
 Extrae entre 10 y 20 propuestas principales, clasificándolas en estas categorías:
 - economia: Política económica, empleo, impuestos, comercio
@@ -90,7 +84,7 @@ REGLAS:
 - Sé objetivo y basado en el texto, no inventes información`
 
 /**
- * Fetch PDF from URL and convert to base64
+ * Fetch PDF from URL
  */
 async function fetchPdf(url: string): Promise<{ data: Buffer; size: number } | null> {
   try {
@@ -122,24 +116,6 @@ async function fetchPdf(url: string): Promise<{ data: Buffer; size: number } | n
     return { data: buffer, size: buffer.length }
   } catch (error) {
     console.error('Error fetching PDF:', error)
-    return null
-  }
-}
-
-/**
- * Extract text from PDF using pdf-parse (lazy loaded)
- */
-async function extractTextFromPdf(pdfBuffer: Buffer): Promise<string | null> {
-  try {
-    // Dynamic import to avoid issues if pdf-parse is not installed
-    const { PDFParse } = await import('pdf-parse')
-    // Convert Buffer to Uint8Array and pass as data parameter
-    const data = new Uint8Array(pdfBuffer)
-    const parser = new PDFParse({ data })
-    const textResult = await parser.getText()
-    return textResult.text
-  } catch (error) {
-    console.error('Error parsing PDF:', error)
     return null
   }
 }
@@ -192,32 +168,28 @@ function parseAIResponse(response: string): ExtractedProposal[] {
 }
 
 /**
- * Extract proposals from government plan text using Claude
+ * Extract proposals from government plan PDF using Gemini's native PDF understanding
  */
-async function extractProposalsWithAI(text: string): Promise<ExtractedProposal[]> {
-  if (!process.env.ANTHROPIC_API_KEY) {
-    console.error('ANTHROPIC_API_KEY not configured')
+async function extractProposalsWithAI(pdfBuffer: Buffer): Promise<ExtractedProposal[]> {
+  if (!process.env.GOOGLE_AI_API_KEY) {
+    console.error('GOOGLE_AI_API_KEY not configured')
     return []
   }
 
   try {
-    // Limit text to ~50k chars to stay within context limits
-    const truncatedText = text.slice(0, 50000)
+    const model = genAI.getGenerativeModel({ model: MODEL })
 
-    const prompt = EXTRACTION_PROMPT.replace('{text}', truncatedText)
-
-    const message = await anthropic.messages.create({
-      model: MODEL,
-      max_tokens: MAX_TOKENS,
-      messages: [
-        {
-          role: 'user',
-          content: prompt,
+    const result = await model.generateContent([
+      {
+        inlineData: {
+          mimeType: 'application/pdf',
+          data: pdfBuffer.toString('base64'),
         },
-      ],
-    })
+      },
+      { text: EXTRACTION_PROMPT },
+    ])
 
-    const responseText = message.content[0].type === 'text' ? message.content[0].text : ''
+    const responseText = result.response.text()
     return parseAIResponse(responseText)
   } catch (error) {
     console.error('AI extraction failed:', error)
@@ -302,16 +274,10 @@ export async function extractCandidatePlan(candidateId: string): Promise<Extract
     return { success: false, proposals: [], error: 'Failed to fetch PDF' }
   }
 
-  // Extract text
-  const text = await extractTextFromPdf(pdf.data)
-  if (!text || text.length < 100) {
-    return { success: false, proposals: [], error: 'Failed to extract text from PDF' }
-  }
+  console.log(`Fetched PDF: ${Math.round(pdf.size / 1024)}KB`)
 
-  console.log(`Extracted ${text.length} characters from PDF`)
-
-  // Extract proposals with AI
-  const proposals = await extractProposalsWithAI(text)
+  // Extract proposals with Gemini (native PDF processing, no text extraction needed)
+  const proposals = await extractProposalsWithAI(pdf.data)
   if (proposals.length === 0) {
     return { success: false, proposals: [], error: 'No proposals extracted by AI' }
   }
@@ -324,7 +290,7 @@ export async function extractCandidatePlan(candidateId: string): Promise<Extract
   return {
     success: true,
     proposals,
-    pagesProcessed: Math.ceil(text.length / 3000), // Rough estimate
+    pagesProcessed: Math.ceil(pdf.size / 3000), // Rough estimate
   }
 }
 
@@ -340,8 +306,8 @@ export async function processAllPlans(): Promise<{
   const logger = createSyncLogger('government_plans')
   const stats = { processed: 0, succeeded: 0, failed: 0, totalProposals: 0 }
 
-  if (!process.env.ANTHROPIC_API_KEY) {
-    console.error('ANTHROPIC_API_KEY not configured, skipping plan extraction')
+  if (!process.env.GOOGLE_AI_API_KEY) {
+    console.error('GOOGLE_AI_API_KEY not configured, skipping plan extraction')
     return stats
   }
 
