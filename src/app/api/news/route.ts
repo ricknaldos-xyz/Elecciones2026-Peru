@@ -1,23 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/db'
+import { newsQuerySchema } from '@/lib/validation/schemas'
+import { parseSearchParams } from '@/lib/validation/helpers'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 300 // 5 minutes cache
 
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url)
+    const parsed = parseSearchParams(request, newsQuerySchema)
+    if (!parsed.success) return parsed.response
 
-    // Pagination
-    const page = parseInt(searchParams.get('page') || '1', 10)
-    const limit = Math.min(parseInt(searchParams.get('limit') || '20', 10), 50)
+    const { page, limit, candidato: candidateSlugVal, fuente: sourceVal, sentimiento: sentimentVal, q: search } = parsed.data
     const offset = (page - 1) * limit
 
-    // Filters
-    const candidateSlug = searchParams.get('candidato') || null
-    const source = searchParams.get('fuente') || null
-    const sentiment = searchParams.get('sentimiento') || null
-    const search = searchParams.get('q') || null
+    const candidateSlug = candidateSlugVal || null
+    const source = sourceVal || null
+    const sentiment = sentimentVal || null
     const searchPattern = search ? `%${search}%` : null
 
     // Only show news linked to candidates or parties

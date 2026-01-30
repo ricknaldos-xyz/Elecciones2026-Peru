@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/db'
 import { cookies } from 'next/headers'
+import { quizSubmitSchema } from '@/lib/validation/schemas'
+import { parseBody } from '@/lib/validation/helpers'
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json()
-    const { answers, matches } = body
+    const parsed = await parseBody(request, quizSubmitSchema)
+    if (!parsed.success) return parsed.response
+
+    const { answers, matches } = parsed.data
 
     // Get or create session ID
     const cookieStore = await cookies()

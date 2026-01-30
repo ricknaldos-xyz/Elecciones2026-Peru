@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/db'
+import { newsByCandidateSchema } from '@/lib/validation/schemas'
+import { parseSearchParams } from '@/lib/validation/helpers'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 300
@@ -11,8 +13,10 @@ interface PageProps {
 export async function GET(request: NextRequest, { params }: PageProps) {
   try {
     const { slug } = await params
-    const { searchParams } = new URL(request.url)
-    const limit = Math.min(parseInt(searchParams.get('limit') || '10', 10), 30)
+    const parsed = parseSearchParams(request, newsByCandidateSchema)
+    if (!parsed.success) return parsed.response
+
+    const { limit } = parsed.data
 
     const news = await sql`
       SELECT

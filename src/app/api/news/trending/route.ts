@@ -1,13 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/db'
+import { newsTrendingSchema } from '@/lib/validation/schemas'
+import { parseSearchParams } from '@/lib/validation/helpers'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 300
 
 export async function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url)
-    const limit = Math.min(parseInt(searchParams.get('limit') || '5', 10), 10)
+    const parsed = parseSearchParams(request, newsTrendingSchema)
+    if (!parsed.success) return parsed.response
+
+    const { limit } = parsed.data
 
     // Get most recent news with high relevance, prioritizing those with candidates
     const trending = await sql`

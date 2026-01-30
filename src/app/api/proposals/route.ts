@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/db'
 import { PROPOSAL_CATEGORIES } from '@/lib/sync/plans/extractor'
+import { proposalsQuerySchema } from '@/lib/validation/schemas'
+import { parseSearchParams } from '@/lib/validation/helpers'
+
+export const dynamic = 'force-dynamic'
+export const revalidate = 600
 
 /**
  * GET /api/proposals - Get proposals with filters
@@ -12,10 +17,10 @@ import { PROPOSAL_CATEGORIES } from '@/lib/sync/plans/extractor'
  */
 export async function GET(request: NextRequest) {
   try {
-    const searchParams = request.nextUrl.searchParams
-    const candidateId = searchParams.get('candidateId')
-    const category = searchParams.get('category')
-    const candidateIds = searchParams.get('candidateIds')?.split(',').filter(Boolean)
+    const parsed = parseSearchParams(request, proposalsQuerySchema)
+    if (!parsed.success) return parsed.response
+
+    const { candidateId, category, candidateIds } = parsed.data
 
     // Single candidate
     if (candidateId) {

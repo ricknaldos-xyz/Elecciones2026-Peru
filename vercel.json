@@ -16,6 +16,42 @@
     {
       "path": "/api/sync/news-expanded",
       "schedule": "0 */4 * * *"
+    },
+    {
+      "path": "/api/sync/jne",
+      "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/sync/jne-enrich",
+      "schedule": "0 4 * * *"
+    },
+    {
+      "path": "/api/sync/judicial",
+      "schedule": "0 5 * * *"
+    },
+    {
+      "path": "/api/sync/contraloria",
+      "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/sync/onpe",
+      "schedule": "0 7 * * *"
+    },
+    {
+      "path": "/api/sync/empresas",
+      "schedule": "0 2 * * 0"
+    },
+    {
+      "path": "/api/sync/mef",
+      "schedule": "0 2 * * 1"
+    },
+    {
+      "path": "/api/sync/congress",
+      "schedule": "0 2 * * 2"
+    },
+    {
+      "path": "/api/sync/ai-analysis",
+      "schedule": "0 8 * * 3"
     }
   ]
 }

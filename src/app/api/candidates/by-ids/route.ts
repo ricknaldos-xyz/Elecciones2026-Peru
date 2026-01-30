@@ -1,21 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getCandidatesByIds } from '@/lib/db/queries'
+import { candidateByIdsSchema } from '@/lib/validation/schemas'
+import { parseSearchParams } from '@/lib/validation/helpers'
+
+export const dynamic = 'force-dynamic'
+export const revalidate = 600
 
 export async function GET(request: NextRequest) {
   try {
-    const searchParams = request.nextUrl.searchParams
-    const idsParam = searchParams.get('ids')
-
-    if (!idsParam) {
+    const parsed = parseSearchParams(request, candidateByIdsSchema)
+    if (!parsed.success) {
       return NextResponse.json([])
     }
 
-    const ids = idsParam.split(',').filter(Boolean)
-
-    if (ids.length === 0) {
-      return NextResponse.json([])
-    }
-
+    const { ids } = parsed.data
     const candidates = await getCandidatesByIds(ids)
     return NextResponse.json(candidates)
   } catch (error) {

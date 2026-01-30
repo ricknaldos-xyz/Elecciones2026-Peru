@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { getDistricts } from '@/lib/db/queries'
 
+export const revalidate = 3600
+
 export async function GET() {
   try {
     const districts = await getDistricts()

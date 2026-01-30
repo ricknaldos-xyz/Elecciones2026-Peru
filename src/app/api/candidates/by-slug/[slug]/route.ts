@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getCandidateBySlug } from '@/lib/db/queries'
 
+export const revalidate = 600
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ slug: string }> }

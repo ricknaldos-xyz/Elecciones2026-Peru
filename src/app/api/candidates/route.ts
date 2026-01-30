@@ -1,23 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getCandidates } from '@/lib/db/queries'
-import type { CargoType } from '@/types/database'
+import { candidatesQuerySchema } from '@/lib/validation/schemas'
+import { parseSearchParams } from '@/lib/validation/helpers'
+
+export const dynamic = 'force-dynamic'
+export const revalidate = 600
 
 export async function GET(request: NextRequest) {
   try {
-    const searchParams = request.nextUrl.searchParams
-    const cargo = searchParams.get('cargo') as CargoType | undefined
-    const districtSlug = searchParams.get('distrito') || undefined
-    const partyId = searchParams.get('partido') || undefined
-    const minConfidence = searchParams.get('minConfidence')
-      ? parseInt(searchParams.get('minConfidence')!, 10)
-      : undefined
-    const onlyClean = searchParams.get('onlyClean') === 'true'
-    const limit = searchParams.get('limit')
-      ? parseInt(searchParams.get('limit')!, 10)
-      : undefined
-    const offset = searchParams.get('offset')
-      ? parseInt(searchParams.get('offset')!, 10)
-      : undefined
+    const parsed = parseSearchParams(request, candidatesQuerySchema)
+    if (!parsed.success) return parsed.response
+
+    const { cargo, distrito: districtSlug, partido: partyId, minConfidence, onlyClean, limit, offset } = parsed.data
 
     const candidates = await getCandidates({
       cargo,
