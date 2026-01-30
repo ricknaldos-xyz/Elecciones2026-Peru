@@ -752,7 +752,7 @@ export interface AssetsDeclaration {
   }[]
   total_value: number
   income: {
-    monthly_salary: number
+    annual_income: number
     other_income: number
     source: string
   } | null
@@ -809,7 +809,7 @@ function normalizeAssetsDeclaration(raw: any): AssetsDeclaration | null {
     assets,
     total_value: totalValue,
     income: totalIncome > 0 ? {
-      monthly_salary: totalIncome,
+      annual_income: totalIncome,
       other_income: 0,
       source: incomeSource,
     } : null,

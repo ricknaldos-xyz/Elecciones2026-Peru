@@ -741,9 +741,9 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                         </div>
                         {details.assets_declaration.income && (
                           <div>
-                            <span className="text-sm font-bold uppercase text-[var(--muted-foreground)]">{t('monthlyIncome')}</span>
+                            <span className="text-sm font-bold uppercase text-[var(--muted-foreground)]">{t('annualIncome')}</span>
                             <p className="text-lg sm:text-xl font-black text-[var(--foreground)]">
-                              {formatCurrency(details.assets_declaration.income.monthly_salary)}
+                              {formatCurrency(details.assets_declaration.income.annual_income)}
                             </p>
                           </div>
                         )}
