@@ -65,9 +65,9 @@ export async function GET(request: NextRequest) {
         hasMore: offset + news.length < total,
       },
       filters: {
-        sources: sourcesResult.map((s: any) => ({
-          name: s.source,
-          count: parseInt(s.count, 10),
+        sources: sourcesResult.map((s) => ({
+          name: s.source as string,
+          count: parseInt(s.count as string, 10),
         })),
         sentiments: ['positive', 'neutral', 'negative'],
       },

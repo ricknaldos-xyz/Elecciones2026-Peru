@@ -1,29 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { syncNews } from '@/lib/sync/news/rss-fetcher'
-
-const CRON_SECRET = process.env.CRON_SECRET
+import { verifySyncAuth } from '@/lib/sync/auth'
 
 export const maxDuration = 300 // 5 minutes timeout
 export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   try {
-    // Verify authorization
-    const authHeader = request.headers.get('authorization')
-    const cronHeader = request.headers.get('x-vercel-cron')
-
-    const isVercelCron = cronHeader === '1'
-    const isValidToken =
-      CRON_SECRET && authHeader === `Bearer ${CRON_SECRET}`
-
-    if (!isVercelCron && !isValidToken) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      )
-    }
-
-    console.log('[API] Starting News sync...')
+    const authError = verifySyncAuth(request)
+    if (authError) return authError
     const result = await syncNews()
 
     return NextResponse.json({

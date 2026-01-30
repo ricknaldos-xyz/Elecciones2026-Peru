@@ -18,29 +18,8 @@ import { AdBanner } from '@/components/ads/AdBanner'
 import { useCandidates } from '@/hooks/useCandidates'
 import { PRESETS, WEIGHT_LIMITS, DISTRICTS, validateAndNormalizeWeights } from '@/lib/constants'
 import { MOCK_PARTIES } from '@/lib/mock-data'
+import { getScoreByMode } from '@/lib/scoring/utils'
 import type { PresetType, CargoType, Weights, CandidateWithScores } from '@/types/database'
-
-function getScoreByMode(
-  scores: CandidateWithScores['scores'],
-  mode: PresetType,
-  weights?: Weights
-): number {
-  if (mode === 'custom' && weights) {
-    return (
-      weights.wC * scores.competence +
-      weights.wI * scores.integrity +
-      weights.wT * scores.transparency
-    )
-  }
-  switch (mode) {
-    case 'merit':
-      return scores.score_merit
-    case 'integrity':
-      return scores.score_integrity
-    default:
-      return scores.score_balanced
-  }
-}
 
 function sortCandidatesByScore(
   candidates: CandidateWithScores[],

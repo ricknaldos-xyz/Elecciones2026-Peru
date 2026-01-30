@@ -1,9 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
-if (!ADMIN_PASSWORD) {
-  console.error('CRITICAL: ADMIN_PASSWORD environment variable is not set')
-}
 const SESSION_COOKIE_NAME = 'admin_session'
 const SESSION_MAX_AGE = 60 * 60 * 24 // 24 hours
 
@@ -17,16 +13,31 @@ function isValidSessionFormat(token: string): boolean {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(token)
 }
 
+// Constant-time string comparison to prevent timing attacks
+function safeCompare(a: string, b: string): boolean {
+  if (a.length !== b.length) {
+    // Still do a full comparison to avoid leaking length info via timing
+    let result = 1
+    for (let i = 0; i < a.length; i++) {
+      result |= a.charCodeAt(i) ^ a.charCodeAt(i)
+    }
+    return false
+  }
+  let result = 0
+  for (let i = 0; i < a.length; i++) {
+    result |= a.charCodeAt(i) ^ b.charCodeAt(i)
+  }
+  return result === 0
+}
+
 // POST /api/admin/auth - Login
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { password } = body
 
-    console.log('Admin auth: login attempt')
-
-    if (!ADMIN_PASSWORD) {
-      console.error('Admin login rejected: ADMIN_PASSWORD not configured')
+    const adminPassword = process.env.ADMIN_PASSWORD
+    if (!adminPassword) {
       return NextResponse.json(
         { success: false, error: 'Admin login is not configured' },
         { status: 503 }
@@ -40,19 +51,15 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (password !== ADMIN_PASSWORD) {
-      console.log('Admin auth: invalid password')
+    if (!safeCompare(password, adminPassword)) {
       return NextResponse.json(
         { success: false, error: 'Invalid password' },
         { status: 401 }
       )
     }
 
-    // Generate session token
     const sessionToken = generateSessionToken()
-    console.log('Admin auth: generated token', sessionToken.substring(0, 10) + '...')
 
-    // Create response with cookie
     const response = NextResponse.json({ success: true })
 
     response.cookies.set(SESSION_COOKIE_NAME, sessionToken, {
@@ -63,7 +70,6 @@ export async function POST(request: NextRequest) {
       path: '/',
     })
 
-    console.log('Admin auth: cookie set successfully')
     return response
   } catch (error) {
     console.error('Auth error:', error)
@@ -77,26 +83,19 @@ export async function POST(request: NextRequest) {
 // GET /api/admin/auth - Check session
 export async function GET(request: NextRequest) {
   try {
-    // Use request.cookies instead of cookies() from next/headers
     const sessionToken = request.cookies.get(SESSION_COOKIE_NAME)?.value
 
-    console.log('Admin auth check: token exists?', !!sessionToken)
-
     if (!sessionToken) {
-      return NextResponse.json({ authenticated: false, reason: 'no_token' })
+      return NextResponse.json({ authenticated: false })
     }
 
     if (!isValidSessionFormat(sessionToken)) {
-      console.log('Admin auth check: invalid format', sessionToken.substring(0, 10))
-      return NextResponse.json({ authenticated: false, reason: 'invalid_format' })
+      return NextResponse.json({ authenticated: false })
     }
 
-    console.log('Admin auth check: valid session')
-    // Return token for use in API headers (for POST requests that don't receive cookies)
-    return NextResponse.json({ authenticated: true, token: sessionToken })
-  } catch (error) {
-    console.error('Auth check error:', error)
-    return NextResponse.json({ authenticated: false, reason: 'error' })
+    return NextResponse.json({ authenticated: true })
+  } catch {
+    return NextResponse.json({ authenticated: false })
   }
 }
 

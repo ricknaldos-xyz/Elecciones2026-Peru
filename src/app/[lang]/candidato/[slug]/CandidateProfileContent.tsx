@@ -727,7 +727,7 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
               {details && details.assets_declaration && (
                 <Card>
                   <CardHeader>
-                    <CardTitle>{t('assetsDeclaration')} {details.assets_declaration.declaration_year}</CardTitle>
+                    <CardTitle>{t('assetsDeclaration')}{details.assets_declaration.declaration_year ? ` ${details.assets_declaration.declaration_year}` : ''}</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">

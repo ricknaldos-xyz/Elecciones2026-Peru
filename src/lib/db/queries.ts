@@ -749,16 +749,73 @@ export interface AssetsDeclaration {
     description: string
     value: number
     currency: string
-    acquisition_year?: number
   }[]
   total_value: number
   income: {
     monthly_salary: number
     other_income: number
     source: string
-  }
-  declaration_year: number
+  } | null
+  declaration_year: number | null
   djhv_compliant: boolean
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function normalizeAssetsDeclaration(raw: any): AssetsDeclaration | null {
+  if (!raw || typeof raw !== 'object') return null
+
+  // Already in the expected format
+  if (Array.isArray(raw.assets)) return raw as AssetsDeclaration
+
+  // Transform flat scraper format to structured UI format
+  const assets: AssetsDeclaration['assets'] = []
+
+  if (raw.real_estate_count > 0 || raw.real_estate_total > 0) {
+    assets.push({
+      type: 'Inmuebles',
+      description: `${raw.real_estate_count || 0} propiedad(es)`,
+      value: raw.real_estate_total || 0,
+      currency: 'PEN',
+    })
+  }
+
+  if (raw.vehicle_count > 0 || raw.vehicle_total > 0) {
+    assets.push({
+      type: 'Vehículos',
+      description: `${raw.vehicle_count || 0} vehículo(s)`,
+      value: raw.vehicle_total || 0,
+      currency: 'PEN',
+    })
+  }
+
+  const totalIncome = raw.total_income || 0
+  const publicSalary = (raw.public_salary || 0) + (raw.public_rent || 0) + (raw.other_public || 0)
+  const privateSalary = (raw.private_salary || 0) + (raw.private_rent || 0) + (raw.other_private || 0)
+
+  const totalValue = (raw.real_estate_total || 0) + (raw.vehicle_total || 0)
+
+  // If there's no meaningful data at all, return null
+  if (totalValue === 0 && totalIncome === 0 && assets.length === 0) return null
+
+  const incomeSource = publicSalary > 0 && privateSalary > 0
+    ? 'Sector público y privado'
+    : publicSalary > 0
+      ? 'Sector público'
+      : privateSalary > 0
+        ? 'Sector privado'
+        : ''
+
+  return {
+    assets,
+    total_value: totalValue,
+    income: totalIncome > 0 ? {
+      monthly_salary: totalIncome,
+      other_income: 0,
+      source: incomeSource,
+    } : null,
+    declaration_year: raw.income_year ? parseInt(raw.income_year, 10) : null,
+    djhv_compliant: true,
+  }
 }
 
 export interface SentenceRecord {
@@ -804,7 +861,7 @@ export async function getCandidateDetails(candidateId: string): Promise<Candidat
     education_details: (row.education_details as EducationRecord[]) || [],
     experience_details: (row.experience_details as ExperienceRecord[]) || [],
     political_trajectory: (row.political_trajectory as PoliticalRecord[]) || [],
-    assets_declaration: row.assets_declaration as AssetsDeclaration | null,
+    assets_declaration: normalizeAssetsDeclaration(row.assets_declaration),
     penal_sentences: (row.penal_sentences as SentenceRecord[]) || [],
     civil_sentences: (row.civil_sentences as SentenceRecord[]) || [],
     party_resignations: Number(row.party_resignations) || 0,

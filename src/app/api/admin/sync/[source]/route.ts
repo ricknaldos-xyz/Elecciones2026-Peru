@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 const SESSION_COOKIE_NAME = 'admin_session'
-const CRON_SECRET = process.env.CRON_SECRET
 
 // Map source keys to API paths
 const API_PATHS: Record<string, string> = {
@@ -18,24 +17,9 @@ const API_PATHS: Record<string, string> = {
   news: 'news',
 }
 
-// Validate session token format
+// Validate session token format (UUID v4)
 function isValidSessionFormat(token: string): boolean {
-  return /^[a-z0-9]+_[a-z0-9]+$/.test(token)
-}
-
-// GET /api/admin/sync/[source] - Debug auth status
-export async function GET(request: NextRequest) {
-  const sessionToken = request.cookies.get(SESSION_COOKIE_NAME)?.value
-  const allCookies = request.cookies.getAll()
-
-  return NextResponse.json({
-    debug: true,
-    tokenExists: !!sessionToken,
-    tokenValid: sessionToken ? isValidSessionFormat(sessionToken) : false,
-    tokenPreview: sessionToken ? sessionToken.substring(0, 15) + '...' : null,
-    allCookieNames: allCookies.map(c => c.name),
-    cookieCount: allCookies.length,
-  })
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(token)
 }
 
 // POST /api/admin/sync/[source] - Trigger sync via proxy
@@ -44,41 +28,19 @@ export async function POST(
   { params }: { params: Promise<{ source: string }> }
 ) {
   try {
-    // Authentication: Read session token from cookie (most secure)
     const sessionToken = request.cookies.get(SESSION_COOKIE_NAME)?.value
-    const allCookies = request.cookies.getAll()
 
-    console.log('Admin sync: cookies received:', allCookies.map(c => c.name).join(', '))
-    console.log('Admin sync: session token exists?', !!sessionToken)
-
-    if (!sessionToken) {
-      console.log('Admin sync: no session cookie found')
+    if (!sessionToken || !isValidSessionFormat(sessionToken)) {
       return NextResponse.json(
-        {
-          success: false,
-          error: 'No autenticado - sesión no encontrada',
-          debug: {
-            cookieCount: allCookies.length,
-            cookieNames: allCookies.map(c => c.name)
-          }
-        },
+        { success: false, error: 'No autenticado' },
         { status: 401 }
       )
     }
 
-    if (!isValidSessionFormat(sessionToken)) {
-      console.log('Admin sync: invalid token format')
+    const cronSecret = process.env.CRON_SECRET
+    if (!cronSecret) {
       return NextResponse.json(
-        { success: false, error: 'Sesión inválida - formato incorrecto' },
-        { status: 401 }
-      )
-    }
-
-    // Validate CRON_SECRET before proceeding
-    if (!CRON_SECRET) {
-      console.error('CRON_SECRET not configured in environment')
-      return NextResponse.json(
-        { success: false, error: 'Error de configuración: CRON_SECRET no está definido' },
+        { success: false, error: 'Error de configuración del servidor' },
         { status: 500 }
       )
     }
@@ -91,7 +53,7 @@ export async function POST(
                     (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null)
 
     if (!baseUrl) {
-      console.error('Admin sync: No base URL configured (NEXT_PUBLIC_APP_URL or VERCEL_URL)')
+      console.error('Admin sync: no base URL configured')
       return NextResponse.json(
         { success: false, error: 'Error de configuración: URL base no configurada' },
         { status: 500 }
@@ -99,7 +61,6 @@ export async function POST(
     }
 
     const syncUrl = `${baseUrl}/api/sync/${apiPath}`
-    console.log(`Admin sync: calling ${syncUrl} (baseUrl=${baseUrl})`)
 
     // Call the actual sync API with timeout
     const controller = new AbortController()
@@ -110,7 +71,7 @@ export async function POST(
       response = await fetch(syncUrl, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${CRON_SECRET}`,
+          'Authorization': `Bearer ${cronSecret}`,
           'Content-Type': 'application/json',
         },
         signal: controller.signal,
@@ -118,7 +79,7 @@ export async function POST(
     } catch (fetchError) {
       clearTimeout(timeoutId)
       const errorMsg = fetchError instanceof Error ? fetchError.message : 'Error de conexión'
-      console.error(`Admin sync: fetch failed to ${syncUrl}:`, errorMsg)
+      console.error(`Admin sync: fetch failed for ${source}:`, errorMsg)
       return NextResponse.json(
         { success: false, error: `No se pudo conectar al servidor sync: ${errorMsg}` },
         { status: 502 }
@@ -135,15 +96,14 @@ export async function POST(
       try {
         data = JSON.parse(responseText)
       } catch {
-        console.error('Admin sync: invalid JSON:', responseText.substring(0, 300))
+        console.error('Admin sync: invalid JSON response')
         data = { error: 'Respuesta JSON inválida del servidor' }
       }
     } else {
-      console.error(`Admin sync: unexpected content-type "${contentType}":`, responseText.substring(0, 300))
-      data = { error: `Respuesta inesperada (${contentType}): ${responseText.substring(0, 150)}` }
+      console.error(`Admin sync: unexpected content-type for ${source}`)
+      data = { error: 'Respuesta inesperada del servidor' }
     }
 
-    console.log(`Admin sync ${source} response:`, response.status, JSON.stringify(data).substring(0, 200))
 
     if (!response.ok) {
       return NextResponse.json(

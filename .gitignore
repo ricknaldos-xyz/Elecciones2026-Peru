@@ -40,3 +40,14 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env*.local
+
+# scraping artifacts
+*.json
+!package.json
+!tsconfig.json
+!vercel.json
+debug-*.html
+debug-*.png
+page-content.html
+planes-*.png
+scraping-summary.json
