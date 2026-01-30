@@ -117,7 +117,7 @@ async function loadCache(): Promise<void> {
       c.party_id
     FROM candidates c
     LEFT JOIN parties p ON c.party_id = p.id
-    WHERE c.cargo IN ('Presidente', 'Vicepresidente', 'Congresista', 'Parlamento Andino')
+    WHERE c.cargo IN ('presidente', 'vicepresidente', 'senador', 'diputado', 'parlamento_andino')
   `
   candidatesCache = candidates as CandidateInfo[]
 

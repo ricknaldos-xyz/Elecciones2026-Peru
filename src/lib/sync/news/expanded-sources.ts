@@ -22,15 +22,7 @@ export const ORIGINAL_SOURCES: RSSSource[] = [
   {
     id: 'elcomercio',
     name: 'El Comercio',
-    url: 'https://elcomercio.pe/arcio/rss/category/politica/',
-    category: 'mainstream',
-    language: 'es',
-    priority: 10,
-  },
-  {
-    id: 'larepublica',
-    name: 'La República',
-    url: 'https://larepublica.pe/arcio/rss/category/politica/',
+    url: 'https://elcomercio.pe/arc/outboundfeeds/rss/category/politica/?outputType=xml',
     category: 'mainstream',
     language: 'es',
     priority: 10,
@@ -38,7 +30,7 @@ export const ORIGINAL_SOURCES: RSSSource[] = [
   {
     id: 'rpp',
     name: 'RPP Noticias',
-    url: 'https://rpp.pe/feed',
+    url: 'https://rpp.pe/feed/politica',
     category: 'mainstream',
     language: 'es',
     priority: 9,
@@ -46,7 +38,7 @@ export const ORIGINAL_SOURCES: RSSSource[] = [
   {
     id: 'gestion',
     name: 'Gestión',
-    url: 'https://gestion.pe/arcio/rss/',
+    url: 'https://gestion.pe/arc/outboundfeeds/rss/category/peru/?outputType=xml',
     category: 'mainstream',
     language: 'es',
     priority: 8,
@@ -54,18 +46,10 @@ export const ORIGINAL_SOURCES: RSSSource[] = [
   {
     id: 'peru21',
     name: 'Peru21',
-    url: 'https://peru21.pe/arcio/rss/',
+    url: 'https://peru21.pe/feed/politica/',
     category: 'mainstream',
     language: 'es',
     priority: 8,
-  },
-  {
-    id: 'correo',
-    name: 'Diario Correo',
-    url: 'https://diariocorreo.pe/arcio/rss/',
-    category: 'mainstream',
-    language: 'es',
-    priority: 7,
   },
 ]
 
@@ -87,7 +71,7 @@ export const EXPANDED_SOURCES: RSSSource[] = [
   {
     id: 'infobae',
     name: 'Infobae Perú',
-    url: 'https://www.infobae.com/peru/rss/',
+    url: 'https://www.infobae.com/arc/outboundfeeds/rss/category/peru/?outputType=xml',
     category: 'digital',
     language: 'es',
     priority: 9,

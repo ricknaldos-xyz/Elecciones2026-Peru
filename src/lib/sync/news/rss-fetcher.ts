@@ -21,13 +21,7 @@ const NEWS_SOURCES: RSSSource[] = [
   {
     name: 'El Comercio',
     id: 'elcomercio',
-    url: 'https://elcomercio.pe/feed/politica/',
-    type: 'rss',
-  },
-  {
-    name: 'La República',
-    id: 'larepublica',
-    url: 'https://larepublica.pe/feed/politica/',
+    url: 'https://elcomercio.pe/arc/outboundfeeds/rss/category/politica/?outputType=xml',
     type: 'rss',
   },
   {
@@ -39,7 +33,7 @@ const NEWS_SOURCES: RSSSource[] = [
   {
     name: 'Gestión',
     id: 'gestion',
-    url: 'https://gestion.pe/feed/politica/',
+    url: 'https://gestion.pe/arc/outboundfeeds/rss/category/peru/?outputType=xml',
     type: 'rss',
   },
   {
@@ -49,9 +43,9 @@ const NEWS_SOURCES: RSSSource[] = [
     type: 'rss',
   },
   {
-    name: 'Correo',
-    id: 'correo',
-    url: 'https://diariocorreo.pe/feed/politica/',
+    name: 'Infobae Perú',
+    id: 'infobae',
+    url: 'https://www.infobae.com/arc/outboundfeeds/rss/category/peru/?outputType=xml',
     type: 'rss',
   },
   {
