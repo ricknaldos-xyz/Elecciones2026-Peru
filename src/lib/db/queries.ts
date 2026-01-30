@@ -794,8 +794,8 @@ function normalizeAssetsDeclaration(raw: any): AssetsDeclaration | null {
 
   const totalValue = (raw.real_estate_total || 0) + (raw.vehicle_total || 0)
 
-  // If there's no meaningful data at all, return null
-  if (totalValue === 0 && totalIncome === 0 && assets.length === 0) return null
+  // If there's no meaningful data AND no source indicator, there's no declaration
+  if (totalValue === 0 && totalIncome === 0 && assets.length === 0 && !raw.source) return null
 
   const incomeSource = publicSalary > 0 && privateSalary > 0
     ? 'Sector público y privado'
