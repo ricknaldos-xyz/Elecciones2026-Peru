@@ -25,8 +25,42 @@ import {
 
 const sql = neon(process.env.DATABASE_URL!)
 
-// Map database education level to scoring system
-function mapEducationLevel(level: string): EducationLevel {
+// Map database education detail to scoring level
+// DB stores: level ("Primaria", "Secundaria", "Técnico", "Universitario", "Posgrado")
+// plus fields: is_completed, has_title, has_bachelor, degree
+function mapEducationDetail(ed: any): EducationLevel {
+  const level = (ed.level || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  const degree = (ed.degree || '').toLowerCase()
+
+  if (level.includes('doctorado') || (level.includes('posgrado') && degree.includes('doctor'))) {
+    return 'doctorado'
+  }
+  if (level.includes('maestria') || level.includes('posgrado') || level.includes('postgrado') ||
+      degree.includes('magister') || degree.includes('maestro') || degree.includes('maestria') || degree.includes('master')) {
+    return 'maestria'
+  }
+  if (level.includes('universitario') || level.includes('universidad')) {
+    if (ed.has_title || degree.includes('titulo') || degree.includes('ingeniero') ||
+        degree.includes('abogado') || degree.includes('medico') || degree.includes('licenciado') ||
+        degree.includes('contador') || degree.includes('arquitecto')) {
+      return 'titulo_profesional'
+    }
+    if (ed.is_completed || ed.has_bachelor || degree.includes('bachiller')) {
+      return 'universitario_completo'
+    }
+    return 'universitario_incompleto'
+  }
+  if (level.includes('tecnico') || level.includes('tecnologico')) {
+    return ed.is_completed ? 'tecnico_completo' : 'tecnico_incompleto'
+  }
+  if (level.includes('secundaria')) {
+    return ed.is_completed ? 'secundaria_completa' : 'secundaria_incompleta'
+  }
+  if (level.includes('primaria')) {
+    return 'primaria'
+  }
+
+  // Also check snake_case format (legacy)
   const mapping: Record<string, EducationLevel> = {
     sin_informacion: 'sin_informacion',
     primaria_completa: 'primaria',
@@ -40,36 +74,84 @@ function mapEducationLevel(level: string): EducationLevel {
     maestria: 'maestria',
     doctorado: 'doctorado',
   }
-  return mapping[level] || 'sin_informacion'
+  return mapping[ed.level] || 'sin_informacion'
 }
 
-// Map database role type to scoring system
-function mapRoleType(roleType: string): RoleType {
-  const mapping: Record<string, RoleType> = {
-    electivo_alto: 'electivo_alto',
-    electivo_medio: 'electivo_medio',
-    ejecutivo_publico_alto: 'ejecutivo_publico_alto',
-    ejecutivo_publico_medio: 'ejecutivo_publico_medio',
-    ejecutivo_privado_alto: 'ejecutivo_privado_alto',
-    ejecutivo_privado_medio: 'ejecutivo_privado_medio',
-    tecnico_profesional: 'tecnico_profesional',
-    academia: 'academia',
-    internacional: 'internacional',
-    partidario: 'partidario',
+// Infer role type from position and organization name
+function inferRoleType(position: string, organization: string): RoleType {
+  const pos = (position || '').toLowerCase()
+  const org = (organization || '').toLowerCase()
+
+  // Public sector - elected
+  if (pos.includes('congresista') || pos.includes('senador') || pos.includes('diputado') ||
+      pos.includes('alcalde') || pos.includes('gobernador') || pos.includes('regidor') ||
+      pos.includes('presidente regional')) {
+    return 'electivo_alto'
   }
-  return mapping[roleType] || 'tecnico_profesional'
+  // Public sector - executive/appointed
+  if (pos.includes('ministro') || pos.includes('viceministro') || pos.includes('embajador') ||
+      pos.includes('secretario general') || pos.includes('jefe institucional') ||
+      pos.includes('superintendente') || pos.includes('contralor')) {
+    return 'ejecutivo_publico_alto'
+  }
+  if (org.includes('ministerio') || org.includes('gobierno') || org.includes('municipalidad') ||
+      org.includes('congreso') || org.includes('poder judicial') || org.includes('fiscalia') ||
+      org.includes('contraloria') || org.includes('defensa') || org.includes('fuerzas armadas') ||
+      org.includes('ejercito') || org.includes('marina') || org.includes('fuerza aerea') ||
+      org.includes('policia')) {
+    if (pos.includes('director') || pos.includes('general') || pos.includes('jefe') ||
+        pos.includes('comandante') || pos.includes('oficial superior')) {
+      return 'ejecutivo_publico_alto'
+    }
+    return 'ejecutivo_publico_medio'
+  }
+  // Academia
+  if (pos.includes('rector') || pos.includes('decano') || pos.includes('catedratico') ||
+      pos.includes('profesor') || pos.includes('docente')) {
+    return 'academia'
+  }
+  if ((org.includes('universidad') || org.includes('instituto')) &&
+      !pos.includes('director') && !pos.includes('gerente') && !pos.includes('empresario')) {
+    return 'academia'
+  }
+  // Private sector
+  if (pos.includes('gerente general') || pos.includes('director') || pos.includes('ceo') ||
+      pos.includes('presidente ejecutivo') || pos.includes('empresario')) {
+    return 'ejecutivo_privado_alto'
+  }
+  if (pos.includes('gerente') || pos.includes('subgerente') || pos.includes('jefe')) {
+    return 'ejecutivo_privado_medio'
+  }
+
+  return 'tecnico_profesional'
 }
 
-// Map seniority level
-function mapSeniorityLevel(level: string): SeniorityLevel {
-  const mapping: Record<string, SeniorityLevel> = {
-    individual: 'individual_contributor',
-    coordinador: 'coordinador',
-    jefatura: 'jefatura',
-    gerencia: 'gerencia',
-    direccion: 'direccion',
+// Infer seniority level from position
+function inferSeniorityLevel(position: string, organization: string): SeniorityLevel {
+  const pos = (position || '').toLowerCase()
+  const org = (organization || '').toLowerCase()
+
+  if (pos.includes('presidente') || pos.includes('rector') || pos.includes('ministro') ||
+      pos.includes('alcalde') || pos.includes('gobernador') || pos.includes('congresista') ||
+      pos.includes('senador') || pos.includes('director general') || pos.includes('ceo') ||
+      pos.includes('gerente general') || pos.includes('comandante general') ||
+      pos.includes('embajador') || pos.includes('superintendente') || pos.includes('contralor')) {
+    return 'direccion'
   }
-  return mapping[level] || 'individual_contributor'
+  if (pos.includes('general') || pos.includes('gerente') || pos.includes('director') ||
+      pos.includes('decano') || pos.includes('oficial superior') || pos.includes('empresario')) {
+    return 'gerencia'
+  }
+  if (pos.includes('jefe') || pos.includes('subgerente') || pos.includes('coordinador') ||
+      pos.includes('regidor') || pos.includes('asesor')) {
+    return 'jefatura'
+  }
+  if (pos.includes('profesor') || pos.includes('catedratico') || pos.includes('especialista') ||
+      pos.includes('analista') || pos.includes('abogado') || pos.includes('ingeniero')) {
+    return 'coordinador'
+  }
+
+  return 'individual_contributor'
 }
 
 // Parse year from date string
@@ -241,46 +323,51 @@ async function getTaxStatus(candidateId: string): Promise<{
  * Transform database data to EnhancedIntegrityData for scoring
  */
 async function transformToEnhancedScoringData(candidate: any): Promise<EnhancedIntegrityData> {
-  // Education
+  // Education - DB stores level as "Primaria", "Secundaria", "Universitario", "Posgrado", "Técnico"
   const education: EducationDetail[] = (candidate.education_details || []).map((ed: any) => ({
-    level: mapEducationLevel(ed.level),
-    field: ed.field_of_study,
+    level: mapEducationDetail(ed),
+    field: ed.field_of_study || ed.degree,
     institution: ed.institution,
-    year: ed.end_date ? parseYear(ed.end_date) : undefined,
+    year: ed.bachelor_year ? parseInt(ed.bachelor_year) : (ed.year ? parseInt(ed.year) : (ed.end_date ? parseYear(ed.end_date) : undefined)),
     isVerified: ed.is_verified,
   }))
 
-  // Experience
+  // Experience - DB has position/organization but no role_type/seniority_level, so we infer them
   const experience: Experience[] = (candidate.experience_details || []).map((exp: any) => {
-    const startYear = parseYear(exp.start_date)
-    const endYear = exp.is_current ? undefined : parseYear(exp.end_date)
-    const isLeadership = ['direccion', 'gerencia', 'jefatura'].includes(exp.seniority_level)
+    const startYear = exp.start_year ? parseInt(exp.start_year) : parseYear(exp.start_date)
+    const endYear = exp.is_current ? undefined : (exp.end_year ? parseInt(exp.end_year) : parseYear(exp.end_date))
+    const roleType = exp.role_type ? inferRoleType(exp.position, exp.organization) : inferRoleType(exp.position, exp.organization)
+    const seniorityLevel = exp.seniority_level ? inferSeniorityLevel(exp.position, exp.organization) : inferSeniorityLevel(exp.position, exp.organization)
+    const isLeadership = ['direccion', 'gerencia', 'jefatura'].includes(seniorityLevel)
 
     return {
       role: exp.position,
-      roleType: mapRoleType(exp.role_type),
+      roleType,
       organization: exp.organization,
-      startYear,
-      endYear,
+      startYear: isNaN(startYear) ? new Date().getFullYear() : startYear,
+      endYear: endYear && isNaN(endYear) ? undefined : endYear,
       isLeadership,
-      seniorityLevel: mapSeniorityLevel(exp.seniority_level),
+      seniorityLevel,
     }
   })
 
   // Add political trajectory as experience
   const politicalExp: Experience[] = (candidate.political_trajectory || []).map((pt: any) => {
-    const startYear = parseYear(pt.start_date)
-    const endYear = pt.end_date ? parseYear(pt.end_date) : undefined
-    const roleType: RoleType = pt.is_elected ? 'electivo_alto' : 'partidario'
+    // political_trajectory uses year_start/year_end as integers (after migration)
+    const startYear = pt.year_start || pt.year || new Date().getFullYear()
+    const endYear = pt.year_end || undefined
+    const isElected = pt.type === 'cargo_electivo' || pt.is_elected
+    const roleType: RoleType = isElected ? 'electivo_alto' :
+      pt.type === 'cargo_publico' ? 'ejecutivo_publico_alto' : 'partidario'
 
     return {
       role: pt.position,
       roleType,
-      organization: pt.party || 'Gobierno',
+      organization: pt.party || pt.institution || 'Gobierno',
       startYear,
       endYear,
-      isLeadership: pt.is_elected,
-      seniorityLevel: 'direccion' as SeniorityLevel,
+      isLeadership: isElected || pt.type === 'cargo_publico',
+      seniorityLevel: (isElected || pt.type === 'cargo_publico' ? 'direccion' : 'coordinador') as SeniorityLevel,
     }
   })
 
@@ -403,212 +490,167 @@ async function recalculateEnhancedScores() {
     balanced: number
   }> = []
 
-  for (const candidate of candidates) {
-    try {
-      console.log(`\n📊 Procesando: ${candidate.full_name} (${candidate.cargo})`)
+  // Process a single candidate
+  async function processCandidate(candidate: any) {
+    // Transform to enhanced scoring data
+    const scoringData = await transformToEnhancedScoringData(candidate)
 
-      // Get current scores for comparison
-      const currentScores = await sql`
-        SELECT integrity FROM scores WHERE candidate_id = ${candidate.id}::uuid
-      `
-      const oldIntegrity = currentScores.length > 0 ? Number(currentScores[0].integrity) : 100
+    // Calculate enhanced scores
+    const result = calculateEnhancedScores(scoringData, candidate.cargo)
+    const experienceOverlap = calculateTotalExperienceYears(scoringData.experience)
 
-      // Transform to enhanced scoring data
-      const scoringData = await transformToEnhancedScoringData(candidate)
+    const breakdownData = {
+      education_points: result.competence.education.total,
+      education_level_points: result.competence.education.level,
+      education_depth_points: result.competence.education.depth,
+      experience_total_points: result.competence.experienceTotal,
+      experience_relevant_points: result.competence.experienceRelevant,
+      experience_raw_years: experienceOverlap.rawYears,
+      experience_unique_years: experienceOverlap.uniqueYears,
+      experience_has_overlap: experienceOverlap.hasOverlap,
+      leadership_points: result.competence.leadership.total,
+      leadership_seniority: result.competence.leadership.seniority,
+      leadership_stability: result.competence.leadership.stability,
+      integrity_base: result.integrity.base,
+      penal_penalty: result.integrity.penalPenalty,
+      civil_penalties: result.integrity.civilPenalties,
+      resignation_penalty: result.integrity.resignationPenalty,
+      company_penalty: result.integrity.companyPenalty,
+      voting_penalty: result.integrity.votingPenalty,
+      voting_bonus: result.integrity.votingBonus,
+      tax_penalty: result.integrity.taxPenalty,
+      omission_penalty: result.integrity.omissionPenalty,
+      completeness_points: result.transparency.completeness,
+      consistency_points: result.transparency.consistency,
+      assets_quality_points: result.transparency.assetsQuality,
+      onpe_penalty: result.transparency.onpePenalty,
+      verification_points: result.confidence.verification,
+      coverage_points: result.confidence.coverage,
+    }
 
-      // Calculate enhanced scores
-      const result = calculateEnhancedScores(scoringData, candidate.cargo)
+    // Upsert scores
+    await sql`
+      INSERT INTO scores (
+        candidate_id, competence, integrity, transparency, confidence,
+        score_balanced, score_merit, score_integrity, updated_at
+      ) VALUES (
+        ${candidate.id}::uuid,
+        ${Math.round(result.scores.competence)},
+        ${Math.round(result.scores.integrity)},
+        ${Math.round(result.scores.transparency)},
+        ${Math.round(result.scores.confidence)},
+        ${Math.round(result.scores.balanced * 10) / 10},
+        ${Math.round(result.scores.merit * 10) / 10},
+        ${Math.round(result.scores.integrityFirst * 10) / 10},
+        NOW()
+      )
+      ON CONFLICT (candidate_id) DO UPDATE SET
+        competence = EXCLUDED.competence,
+        integrity = EXCLUDED.integrity,
+        transparency = EXCLUDED.transparency,
+        confidence = EXCLUDED.confidence,
+        score_balanced = EXCLUDED.score_balanced,
+        score_merit = EXCLUDED.score_merit,
+        score_integrity = EXCLUDED.score_integrity,
+        updated_at = NOW()
+    `
 
-      console.log(`   Competencia: ${result.scores.competence.toFixed(1)}`)
-      console.log(`   Integridad: ${result.scores.integrity.toFixed(1)}`)
+    // Upsert breakdown
+    await sql`
+      INSERT INTO score_breakdowns (
+        candidate_id,
+        education_points, education_level_points, education_depth_points,
+        experience_total_points, experience_relevant_points,
+        experience_raw_years, experience_unique_years, experience_has_overlap,
+        leadership_points, leadership_seniority, leadership_stability,
+        integrity_base, penal_penalty, civil_penalties, resignation_penalty,
+        company_penalty, voting_penalty, voting_bonus, tax_penalty, omission_penalty,
+        completeness_points, consistency_points, assets_quality_points, onpe_penalty,
+        verification_points, coverage_points
+      ) VALUES (
+        ${candidate.id}::uuid,
+        ${breakdownData.education_points}, ${breakdownData.education_level_points}, ${breakdownData.education_depth_points},
+        ${breakdownData.experience_total_points}, ${breakdownData.experience_relevant_points},
+        ${breakdownData.experience_raw_years}, ${breakdownData.experience_unique_years}, ${breakdownData.experience_has_overlap},
+        ${breakdownData.leadership_points}, ${breakdownData.leadership_seniority}, ${breakdownData.leadership_stability},
+        ${breakdownData.integrity_base}, ${breakdownData.penal_penalty},
+        ${JSON.stringify(breakdownData.civil_penalties)}::jsonb, ${breakdownData.resignation_penalty},
+        ${breakdownData.company_penalty}, ${breakdownData.voting_penalty}, ${breakdownData.voting_bonus},
+        ${breakdownData.tax_penalty}, ${breakdownData.omission_penalty},
+        ${breakdownData.completeness_points}, ${breakdownData.consistency_points},
+        ${breakdownData.assets_quality_points}, ${breakdownData.onpe_penalty},
+        ${breakdownData.verification_points}, ${breakdownData.coverage_points}
+      )
+      ON CONFLICT (candidate_id) DO UPDATE SET
+        education_points = EXCLUDED.education_points,
+        education_level_points = EXCLUDED.education_level_points,
+        education_depth_points = EXCLUDED.education_depth_points,
+        experience_total_points = EXCLUDED.experience_total_points,
+        experience_relevant_points = EXCLUDED.experience_relevant_points,
+        experience_raw_years = EXCLUDED.experience_raw_years,
+        experience_unique_years = EXCLUDED.experience_unique_years,
+        experience_has_overlap = EXCLUDED.experience_has_overlap,
+        leadership_points = EXCLUDED.leadership_points,
+        leadership_seniority = EXCLUDED.leadership_seniority,
+        leadership_stability = EXCLUDED.leadership_stability,
+        integrity_base = EXCLUDED.integrity_base,
+        penal_penalty = EXCLUDED.penal_penalty,
+        civil_penalties = EXCLUDED.civil_penalties,
+        resignation_penalty = EXCLUDED.resignation_penalty,
+        company_penalty = EXCLUDED.company_penalty,
+        voting_penalty = EXCLUDED.voting_penalty,
+        voting_bonus = EXCLUDED.voting_bonus,
+        tax_penalty = EXCLUDED.tax_penalty,
+        omission_penalty = EXCLUDED.omission_penalty,
+        completeness_points = EXCLUDED.completeness_points,
+        consistency_points = EXCLUDED.consistency_points,
+        assets_quality_points = EXCLUDED.assets_quality_points,
+        onpe_penalty = EXCLUDED.onpe_penalty,
+        verification_points = EXCLUDED.verification_points,
+        coverage_points = EXCLUDED.coverage_points
+    `
 
-      // Show breakdown of new penalties
-      if (result.integrity.companyPenalty > 0) {
-        console.log(`     ⚠️ Penalidad empresarial: -${result.integrity.companyPenalty}`)
-      }
-      if (result.integrity.votingPenalty > 0) {
-        console.log(`     ⚠️ Penalidad por votaciones: -${result.integrity.votingPenalty}`)
-      }
-      if (result.integrity.taxPenalty > 0) {
-        console.log(`     ⚠️ Penalidad tributaria: -${result.integrity.taxPenalty}`)
-      }
-      if (result.transparency.onpePenalty > 0) {
-        console.log(`     ⚠️ Penalidad ONPE (transparencia): -${result.transparency.onpePenalty}`)
-      }
-      if (scoringData.isIncumbent) {
-        console.log(`     📊 Es incumbente - Performance: ${result.scores.performance?.toFixed(1) || 'N/A'}`)
-      }
+    return {
+      name: candidate.full_name,
+      cargo: candidate.cargo,
+      integrity: result.scores.integrity,
+      companyPenalty: result.integrity.companyPenalty,
+      votingPenalty: result.integrity.votingPenalty,
+      balanced: result.scores.balanced,
+    }
+  }
 
-      console.log(`   Score Balanceado: ${result.scores.balanced.toFixed(1)}`)
+  // Process in parallel batches of 20
+  const BATCH_SIZE = 20
+  for (let i = 0; i < candidates.length; i += BATCH_SIZE) {
+    const batch = candidates.slice(i, i + BATCH_SIZE)
+    const results = await Promise.allSettled(
+      batch.map(c => processCandidate(c))
+    )
 
-      // Track changes
-      detailedResults.push({
-        name: candidate.full_name,
-        cargo: candidate.cargo,
-        oldIntegrity,
-        newIntegrity: result.scores.integrity,
-        companyPenalty: result.integrity.companyPenalty,
-        incumbentBonus: scoringData.isIncumbent ? (result.scores.performance || 50) - 50 : 0,
-        balanced: result.scores.balanced,
-      })
-
-      // Update scores in database
-      const existingScore = await sql`
-        SELECT id FROM scores WHERE candidate_id = ${candidate.id}::uuid
-      `
-
-      if (existingScore.length > 0) {
-        await sql`
-          UPDATE scores SET
-            competence = ${Math.round(result.scores.competence)},
-            integrity = ${Math.round(result.scores.integrity)},
-            transparency = ${Math.round(result.scores.transparency)},
-            confidence = ${Math.round(result.scores.confidence)},
-            score_balanced = ${Math.round(result.scores.balanced * 10) / 10},
-            score_merit = ${Math.round(result.scores.merit * 10) / 10},
-            score_integrity = ${Math.round(result.scores.integrityFirst * 10) / 10},
-            updated_at = NOW()
-          WHERE candidate_id = ${candidate.id}::uuid
-        `
+    for (const r of results) {
+      if (r.status === 'fulfilled') {
+        processed++
+        const d = r.value
+        if (d.companyPenalty > 0 || d.votingPenalty > 0) {
+          detailedResults.push({
+            name: d.name,
+            cargo: d.cargo,
+            oldIntegrity: 100,
+            newIntegrity: d.integrity,
+            companyPenalty: d.companyPenalty,
+            incumbentBonus: 0,
+            balanced: d.balanced,
+          })
+        }
       } else {
-        await sql`
-          INSERT INTO scores (
-            candidate_id, competence, integrity, transparency, confidence,
-            score_balanced, score_merit, score_integrity
-          ) VALUES (
-            ${candidate.id}::uuid,
-            ${Math.round(result.scores.competence)},
-            ${Math.round(result.scores.integrity)},
-            ${Math.round(result.scores.transparency)},
-            ${Math.round(result.scores.confidence)},
-            ${Math.round(result.scores.balanced * 10) / 10},
-            ${Math.round(result.scores.merit * 10) / 10},
-            ${Math.round(result.scores.integrityFirst * 10) / 10}
-          )
-        `
+        errors++
+        console.error(`   ❌ Error: ${r.reason}`)
       }
+    }
 
-      // Calculate experience overlap data
-      const experienceOverlap = calculateTotalExperienceYears(scoringData.experience)
-
-      if (experienceOverlap.hasOverlap) {
-        console.log(`   📅 Solapamiento detectado: ${experienceOverlap.rawYears.toFixed(1)} → ${experienceOverlap.uniqueYears.toFixed(1)} años`)
-      }
-
-      // Update breakdown with new penalty fields
-      const existingBreakdown = await sql`
-        SELECT id FROM score_breakdowns WHERE candidate_id = ${candidate.id}::uuid
-      `
-
-      const breakdownData = {
-        education_points: result.competence.education.total,
-        education_level_points: result.competence.education.level,
-        education_depth_points: result.competence.education.depth,
-        experience_total_points: result.competence.experienceTotal,
-        experience_relevant_points: result.competence.experienceRelevant,
-        experience_raw_years: experienceOverlap.rawYears,
-        experience_unique_years: experienceOverlap.uniqueYears,
-        experience_has_overlap: experienceOverlap.hasOverlap,
-        leadership_points: result.competence.leadership.total,
-        leadership_seniority: result.competence.leadership.seniority,
-        leadership_stability: result.competence.leadership.stability,
-        integrity_base: result.integrity.base,
-        penal_penalty: result.integrity.penalPenalty,
-        civil_penalties: result.integrity.civilPenalties,
-        resignation_penalty: result.integrity.resignationPenalty,
-        company_penalty: result.integrity.companyPenalty,
-        voting_penalty: result.integrity.votingPenalty,
-        voting_bonus: result.integrity.votingBonus,
-        tax_penalty: result.integrity.taxPenalty,
-        omission_penalty: result.integrity.omissionPenalty,
-        completeness_points: result.transparency.completeness,
-        consistency_points: result.transparency.consistency,
-        assets_quality_points: result.transparency.assetsQuality,
-        onpe_penalty: result.transparency.onpePenalty,
-        verification_points: result.confidence.verification,
-        coverage_points: result.confidence.coverage,
-      }
-
-      if (existingBreakdown.length > 0) {
-        await sql`
-          UPDATE score_breakdowns SET
-            education_points = ${breakdownData.education_points},
-            education_level_points = ${breakdownData.education_level_points},
-            education_depth_points = ${breakdownData.education_depth_points},
-            experience_total_points = ${breakdownData.experience_total_points},
-            experience_relevant_points = ${breakdownData.experience_relevant_points},
-            experience_raw_years = ${breakdownData.experience_raw_years},
-            experience_unique_years = ${breakdownData.experience_unique_years},
-            experience_has_overlap = ${breakdownData.experience_has_overlap},
-            leadership_points = ${breakdownData.leadership_points},
-            leadership_seniority = ${breakdownData.leadership_seniority},
-            leadership_stability = ${breakdownData.leadership_stability},
-            integrity_base = ${breakdownData.integrity_base},
-            penal_penalty = ${breakdownData.penal_penalty},
-            civil_penalties = ${JSON.stringify(breakdownData.civil_penalties)}::jsonb,
-            resignation_penalty = ${breakdownData.resignation_penalty},
-            company_penalty = ${breakdownData.company_penalty},
-            voting_penalty = ${breakdownData.voting_penalty},
-            voting_bonus = ${breakdownData.voting_bonus},
-            tax_penalty = ${breakdownData.tax_penalty},
-            omission_penalty = ${breakdownData.omission_penalty},
-            completeness_points = ${breakdownData.completeness_points},
-            consistency_points = ${breakdownData.consistency_points},
-            assets_quality_points = ${breakdownData.assets_quality_points},
-            onpe_penalty = ${breakdownData.onpe_penalty},
-            verification_points = ${breakdownData.verification_points},
-            coverage_points = ${breakdownData.coverage_points}
-          WHERE candidate_id = ${candidate.id}::uuid
-        `
-      } else {
-        await sql`
-          INSERT INTO score_breakdowns (
-            candidate_id,
-            education_points, education_level_points, education_depth_points,
-            experience_total_points, experience_relevant_points,
-            experience_raw_years, experience_unique_years, experience_has_overlap,
-            leadership_points, leadership_seniority, leadership_stability,
-            integrity_base, penal_penalty, civil_penalties, resignation_penalty,
-            company_penalty, voting_penalty, voting_bonus, tax_penalty, omission_penalty,
-            completeness_points, consistency_points, assets_quality_points, onpe_penalty,
-            verification_points, coverage_points
-          ) VALUES (
-            ${candidate.id}::uuid,
-            ${breakdownData.education_points},
-            ${breakdownData.education_level_points},
-            ${breakdownData.education_depth_points},
-            ${breakdownData.experience_total_points},
-            ${breakdownData.experience_relevant_points},
-            ${breakdownData.experience_raw_years},
-            ${breakdownData.experience_unique_years},
-            ${breakdownData.experience_has_overlap},
-            ${breakdownData.leadership_points},
-            ${breakdownData.leadership_seniority},
-            ${breakdownData.leadership_stability},
-            ${breakdownData.integrity_base},
-            ${breakdownData.penal_penalty},
-            ${JSON.stringify(breakdownData.civil_penalties)}::jsonb,
-            ${breakdownData.resignation_penalty},
-            ${breakdownData.company_penalty},
-            ${breakdownData.voting_penalty},
-            ${breakdownData.voting_bonus},
-            ${breakdownData.tax_penalty},
-            ${breakdownData.omission_penalty},
-            ${breakdownData.completeness_points},
-            ${breakdownData.consistency_points},
-            ${breakdownData.assets_quality_points},
-            ${breakdownData.onpe_penalty},
-            ${breakdownData.verification_points},
-            ${breakdownData.coverage_points}
-          )
-        `
-      }
-
-      console.log(`   ✅ Score actualizado`)
-      processed++
-    } catch (error) {
-      console.error(`   ❌ Error: ${error}`)
-      errors++
+    if ((i + BATCH_SIZE) % 200 === 0 || i + BATCH_SIZE >= candidates.length) {
+      console.log(`  Progreso: ${Math.min(i + BATCH_SIZE, candidates.length)} / ${candidates.length}`)
     }
   }
 
