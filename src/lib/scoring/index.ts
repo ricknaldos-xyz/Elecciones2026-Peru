@@ -87,6 +87,7 @@ export interface CandidateData {
   assetsQuality: number
   verificationLevel: number
   coverageLevel: number
+  onpeSanctionCount?: number
 }
 
 export interface Weights {
@@ -514,17 +515,22 @@ export function calculateTransparency(data: CandidateData): {
   completeness: number
   consistency: number
   assetsQuality: number
+  onpePenalty: number
   total: number
 } {
   const completeness = Math.round((data.declarationCompleteness / 100) * 35)
   const consistency = Math.round((data.declarationConsistency / 100) * 35)
   const assetsQuality = Math.round((data.assetsQuality / 100) * 30)
 
+  // ONPE sanctions: -15 pts per sanction (not submitting campaign finance reports)
+  const onpePenalty = Math.min((data.onpeSanctionCount || 0) * 15, 30)
+
   return {
     completeness,
     consistency,
     assetsQuality,
-    total: completeness + consistency + assetsQuality,
+    onpePenalty,
+    total: Math.max(0, completeness + consistency + assetsQuality - onpePenalty),
   }
 }
 

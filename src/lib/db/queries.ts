@@ -815,6 +815,35 @@ export async function getCandidateDetails(candidateId: string): Promise<Candidat
 }
 
 /**
+ * Get vice presidents for a party (presidential formula)
+ */
+export interface VicePresident {
+  id: string
+  slug: string
+  full_name: string
+  photo_url: string | null
+  list_position: number
+}
+
+export async function getVicePresidents(partyId: string): Promise<VicePresident[]> {
+  const rows = await sql`
+    SELECT id, slug, full_name, photo_url, list_position
+    FROM candidates
+    WHERE party_id = ${partyId}
+      AND cargo = 'vicepresidente'
+      AND is_active = true
+    ORDER BY list_position ASC
+  `
+  return rows.map(r => ({
+    id: r.id as string,
+    slug: r.slug as string,
+    full_name: r.full_name as string,
+    photo_url: r.photo_url as string | null,
+    list_position: Number(r.list_position),
+  }))
+}
+
+/**
  * Get score breakdown for a candidate
  */
 export async function getScoreBreakdown(candidateId: string): Promise<ScoreBreakdown | null> {

@@ -320,6 +320,16 @@ async function transformToEnhancedScoringData(candidate: any): Promise<EnhancedI
   if (candidate.data_verified) verificationLevel += 30
   if (candidate.data_source?.includes('verified')) verificationLevel += 20
 
+  // Fetch ONPE sanctions from flags
+  const onpeFlags = await sql`
+    SELECT COUNT(*) as cnt FROM flags
+    WHERE candidate_id = ${candidate.id}::uuid
+    AND type = 'OTHER'
+    AND title LIKE '%ONPE%'
+    AND is_verified = true
+  `
+  const onpeSanctionCount = Number(onpeFlags[0]?.cnt) || 0
+
   // Fetch new data sources
   const companyIssues = await getCompanyIssues(candidate.id)
   const incumbentPerf = await getIncumbentPerformance(candidate.id)
@@ -337,6 +347,7 @@ async function transformToEnhancedScoringData(candidate: any): Promise<EnhancedI
     assetsQuality: candidate.assets_declaration ? 60 : 30,
     verificationLevel,
     coverageLevel: verificationLevel,
+    onpeSanctionCount,
 
     // New data sources
     companyPenalCases: companyIssues.penalCases,
@@ -420,6 +431,9 @@ async function recalculateEnhancedScores() {
       }
       if (result.integrity.taxPenalty > 0) {
         console.log(`     ⚠️ Penalidad tributaria: -${result.integrity.taxPenalty}`)
+      }
+      if (result.transparency.onpePenalty > 0) {
+        console.log(`     ⚠️ Penalidad ONPE (transparencia): -${result.transparency.onpePenalty}`)
       }
       if (scoringData.isIncumbent) {
         console.log(`     📊 Es incumbente - Performance: ${result.scores.performance?.toFixed(1) || 'N/A'}`)
@@ -510,6 +524,7 @@ async function recalculateEnhancedScores() {
         completeness_points: result.transparency.completeness,
         consistency_points: result.transparency.consistency,
         assets_quality_points: result.transparency.assetsQuality,
+        onpe_penalty: result.transparency.onpePenalty,
         verification_points: result.confidence.verification,
         coverage_points: result.confidence.coverage,
       }
@@ -540,6 +555,7 @@ async function recalculateEnhancedScores() {
             completeness_points = ${breakdownData.completeness_points},
             consistency_points = ${breakdownData.consistency_points},
             assets_quality_points = ${breakdownData.assets_quality_points},
+            onpe_penalty = ${breakdownData.onpe_penalty},
             verification_points = ${breakdownData.verification_points},
             coverage_points = ${breakdownData.coverage_points}
           WHERE candidate_id = ${candidate.id}::uuid
@@ -554,7 +570,7 @@ async function recalculateEnhancedScores() {
             leadership_points, leadership_seniority, leadership_stability,
             integrity_base, penal_penalty, civil_penalties, resignation_penalty,
             company_penalty, voting_penalty, voting_bonus, tax_penalty, omission_penalty,
-            completeness_points, consistency_points, assets_quality_points,
+            completeness_points, consistency_points, assets_quality_points, onpe_penalty,
             verification_points, coverage_points
           ) VALUES (
             ${candidate.id}::uuid,
@@ -581,6 +597,7 @@ async function recalculateEnhancedScores() {
             ${breakdownData.completeness_points},
             ${breakdownData.consistency_points},
             ${breakdownData.assets_quality_points},
+            ${breakdownData.onpe_penalty},
             ${breakdownData.verification_points},
             ${breakdownData.coverage_points}
           )

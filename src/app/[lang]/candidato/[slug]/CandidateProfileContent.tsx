@@ -28,12 +28,13 @@ import { CompanyIssuesCard } from '@/components/candidate/CompanyIssuesCard'
 import { ExperienceOverlapBadge } from '@/components/candidate/ExperienceOverlapBadge'
 import { PRESETS } from '@/lib/constants'
 import type { CandidateWithScores, PresetType, ScoreBreakdown } from '@/types/database'
-import type { CandidateDetails } from '@/lib/db/queries'
+import type { CandidateDetails, VicePresident } from '@/lib/db/queries'
 
 interface CandidateProfileContentProps {
   candidate: CandidateWithScores
   breakdown: ScoreBreakdown | null
   details: CandidateDetails | null
+  vicePresidents?: VicePresident[]
 }
 
 const severityColors: Record<string, { bg: string; text: string; border: string }> = {
@@ -96,7 +97,7 @@ function BreakdownBar({
   )
 }
 
-export function CandidateProfileContent({ candidate, breakdown, details }: CandidateProfileContentProps) {
+export function CandidateProfileContent({ candidate, breakdown, details, vicePresidents = [] }: CandidateProfileContentProps) {
   const router = useRouter()
   const t = useTranslations('candidate')
   const tRanking = useTranslations('ranking')
@@ -1152,6 +1153,49 @@ export function CandidateProfileContent({ candidate, breakdown, details }: Candi
                       <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
                     </svg>
                   </Link>
+                )}
+
+                {/* Vice Presidents (Presidential Formula) */}
+                {vicePresidents.length > 0 && (
+                  <div className="space-y-2">
+                    <h4 className="text-xs font-black text-[var(--muted-foreground)] uppercase tracking-wider">
+                      {t('presidentialFormula')}
+                    </h4>
+                    {vicePresidents.map((vp) => (
+                      <Link
+                        key={vp.id}
+                        href={`/candidato/${vp.slug}`}
+                        className="flex items-center gap-2 p-2 bg-[var(--muted)] border-2 border-[var(--border)] hover:shadow-[var(--shadow-brutal-sm)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100"
+                      >
+                        {vp.photo_url ? (
+                          <Image
+                            src={vp.photo_url}
+                            alt={vp.full_name}
+                            width={32}
+                            height={32}
+                            className="w-8 h-8 border-2 border-[var(--border)] object-cover"
+                          />
+                        ) : (
+                          <div className="w-8 h-8 border-2 border-[var(--border)] bg-[var(--background)] flex items-center justify-center">
+                            <svg className="w-4 h-4 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                              <path strokeLinecap="square" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                          </div>
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <div className="text-xs font-bold text-[var(--foreground)] truncate uppercase">
+                            {vp.full_name}
+                          </div>
+                          <div className="text-xs text-[var(--muted-foreground)]">
+                            {vp.list_position === 2 ? t('firstVP') : t('secondVP')}
+                          </div>
+                        </div>
+                        <svg className="w-4 h-4 text-[var(--muted-foreground)] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                          <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
+                        </svg>
+                      </Link>
+                    ))}
+                  </div>
                 )}
 
                 {/* DJHV link */}
