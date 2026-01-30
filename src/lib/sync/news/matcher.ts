@@ -26,15 +26,8 @@ interface CandidateInfo {
   party_id: string | null
 }
 
-interface PartyInfo {
-  id: string
-  name: string
-  short_name: string | null
-}
-
-// Cache for candidates and parties (refreshed on each sync)
+// Cache for candidates (refreshed on each sync)
 let candidatesCache: CandidateInfo[] = []
-let partiesCache: PartyInfo[] = []
 let cacheTimestamp = 0
 const CACHE_TTL = 5 * 60 * 1000 // 5 minutes
 
@@ -120,18 +113,8 @@ async function loadCache(): Promise<void> {
     WHERE c.cargo IN ('presidente', 'vicepresidente', 'senador', 'diputado', 'parlamento_andino')
   `
   candidatesCache = candidates as CandidateInfo[]
-
-  // Load parties
-  const parties = await sql`
-    SELECT id, name, short_name
-    FROM parties
-  `
-  partiesCache = parties as PartyInfo[]
-
   cacheTimestamp = now
-  console.log(
-    `[News Matcher] Loaded ${candidatesCache.length} candidates and ${partiesCache.length} parties`
-  )
+  console.log(`[News Matcher] Loaded ${candidatesCache.length} candidates`)
 }
 
 /**
@@ -147,27 +130,94 @@ function normalizeText(text: string): string {
     .trim()
 }
 
+// Common Spanish words that should not count as distinctive name parts
+const STOPWORDS = new Set([
+  'de', 'del', 'la', 'el', 'los', 'las', 'en', 'al', 'por', 'con', 'para',
+  'y', 'e', 'o', 'a', 'un', 'una', 'su', 'se', 'no', 'si', 'que', 'es',
+  // Common given names that are also regular words
+  'flor', 'luz', 'rosa', 'sol', 'cruz', 'paz', 'fe', 'pilar',
+  // Common particles in compound names
+  'san', 'santa', 'santo', 'maria', 'juan', 'jose', 'ana',
+  // Political/generic terms that cause party false positives
+  'partido', 'politico', 'politica', 'nacional', 'popular', 'peru',
+  'alianza', 'electoral', 'democratico', 'democratica', 'integridad',
+  'accion', 'frente', 'pueblo', 'nacion', 'pais', 'social',
+  'libertad', 'progreso', 'union', 'unidad', 'nuevo', 'nueva',
+  'primero', 'ahora', 'avanza', 'juntos', 'fuerza', 'renovacion',
+  'cooperacion', 'ciudadanos', 'trabajadores',
+])
+
+// Very common given names in Peru - these alone don't make a distinctive match
+const COMMON_GIVEN_NAMES = new Set([
+  'luis', 'carlos', 'jorge', 'miguel', 'angel', 'alberto',
+  'enrique', 'fernando', 'daniel', 'victor', 'marco', 'david',
+  'oscar', 'cesar', 'hugo', 'pedro', 'manuel', 'raul', 'ivan',
+  'edgar', 'henry', 'sergio', 'walter', 'mario', 'julio', 'pablo',
+  'eduardo', 'roberto', 'andres', 'gustavo', 'arturo', 'ricardo',
+  'ernesto', 'francisco', 'antonio', 'alejandro', 'guillermo',
+  'patricia', 'carmen', 'elizabeth', 'jessica', 'teresa',
+  'gloria', 'martha', 'norma', 'silvia', 'olga', 'julia',
+  'diana', 'claudia', 'roxana', 'gladys', 'milagros', 'liliana',
+  'keiko', 'dina', 'martin', 'jaime', 'judith', 'laura',
+])
+
 /**
- * Checks if text contains a name (handles partial matches)
+ * Check if a word is a distinctive name part (not a stopword, long enough)
  */
-function containsName(text: string, name: string): boolean {
+function isDistinctive(word: string): boolean {
+  return word.length >= 3 && !STOPWORDS.has(word)
+}
+
+/**
+ * Check if a word is likely a surname (not a common given name)
+ */
+function isLikelySurname(word: string): boolean {
+  return isDistinctive(word) && !COMMON_GIVEN_NAMES.has(word)
+}
+
+/**
+ * Checks if text contains a candidate name.
+ * Peruvian candidate names are formatted: SURNAME1 SURNAME2 GIVENNAME1 [GIVENNAME2...]
+ * or display format: GIVENNAME1 SURNAME1 SURNAME2
+ *
+ * Requires two consecutive distinctive name parts to appear as a PHRASE in the text
+ * (adjacent words), to avoid false positives from common names appearing independently.
+ * Also checks the reverse order (e.g. "cesar acuña" matches both "César Acuña" and "ACUÑA ... CESAR").
+ */
+function containsCandidateName(text: string, name: string): boolean {
   const normalizedText = normalizeText(text)
   const normalizedName = normalizeText(name)
 
-  // Exact match
+  // Full name match
   if (normalizedText.includes(normalizedName)) {
     return true
   }
 
-  // Match by surname + first name
-  const nameParts = normalizedName.split(' ')
-  if (nameParts.length >= 2) {
-    // Try last name + first name combinations
-    for (let i = 0; i < nameParts.length - 1; i++) {
-      const combo = `${nameParts[i]} ${nameParts[i + 1]}`
-      if (normalizedText.includes(combo) && combo.length > 6) {
-        return true
-      }
+  const nameParts = normalizedName.split(' ').filter(p => p.length >= 2)
+  if (nameParts.length < 2) return false
+
+  // Try all consecutive 2-word combos as phrases
+  for (let i = 0; i < nameParts.length - 1; i++) {
+    const word1 = nameParts[i]
+    const word2 = nameParts[i + 1]
+
+    // Both words must be distinctive (not stopwords)
+    if (!isDistinctive(word1) || !isDistinctive(word2)) continue
+
+    // At least one word must be a likely surname (not a common given name)
+    // This prevents "luis enrique", "jorge daniel", "miguel angel" from matching
+    if (!isLikelySurname(word1) && !isLikelySurname(word2)) continue
+
+    // Check forward: "word1 word2"
+    const phrase = `${word1} ${word2}`
+    if (phrase.length >= 10 && normalizedText.includes(phrase)) {
+      return true
+    }
+
+    // Check reverse: "word2 word1" (handles JNE vs display name order)
+    const reversePhrase = `${word2} ${word1}`
+    if (reversePhrase.length >= 10 && normalizedText.includes(reversePhrase)) {
+      return true
     }
   }
 
@@ -249,7 +299,8 @@ function calculateRelevance(
 }
 
 /**
- * Matches a news item to candidates and parties
+ * Matches a news item to candidates only.
+ * Only returns matches where a specific candidate is identified.
  */
 export async function matchNewsToEntities(item: NewsItem): Promise<NewsMatch[]> {
   await loadCache()
@@ -260,9 +311,9 @@ export async function matchNewsToEntities(item: NewsItem): Promise<NewsMatch[]> 
   // Analyze sentiment once for the whole article
   const { sentiment, keywords } = analyzeSentiment(fullText)
 
-  // Match against candidates
+  // Match against candidates only
   for (const candidate of candidatesCache) {
-    if (containsName(fullText, candidate.full_name)) {
+    if (containsCandidateName(fullText, candidate.full_name)) {
       const relevance = calculateRelevance(item, candidate.full_name)
 
       matches.push({
@@ -277,31 +328,6 @@ export async function matchNewsToEntities(item: NewsItem): Promise<NewsMatch[]> 
     }
   }
 
-  // Match against parties (if no candidate matched)
-  if (matches.length === 0) {
-    for (const party of partiesCache) {
-      const partyMatched =
-        containsName(fullText, party.name) ||
-        (party.short_name && containsName(fullText, party.short_name))
-
-      if (partyMatched) {
-        const relevance = calculateRelevance(
-          item,
-          party.short_name || party.name
-        )
-
-        matches.push({
-          candidateId: null,
-          partyId: party.id,
-          partyName: party.name,
-          sentiment,
-          keywords,
-          relevanceScore: relevance,
-        })
-      }
-    }
-  }
-
   // Sort by relevance and limit to top 3
   return matches
     .sort((a, b) => b.relevanceScore - a.relevanceScore)
@@ -313,6 +339,5 @@ export async function matchNewsToEntities(item: NewsItem): Promise<NewsMatch[]> 
  */
 export function clearMatcherCache(): void {
   candidatesCache = []
-  partiesCache = []
   cacheTimestamp = 0
 }
