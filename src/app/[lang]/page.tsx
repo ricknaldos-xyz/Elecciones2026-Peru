@@ -92,8 +92,18 @@ export default async function Home() {
         {/* Countdown Banner - Full Width Urgency */}
         <CountdownBanner />
 
-      {/* Hero Section: CTA + Top 5 Side by Side */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+      {/* Hero Section: CTA + Top 5 Side by Side, with lateral ads */}
+      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        <div className="flex gap-4">
+          {/* Left sidebar ad */}
+          <aside className="hidden xl:block w-[160px] flex-shrink-0">
+            <div className="sticky top-20">
+              <AdSlot slotId="home-sidebar" size="300x250" />
+            </div>
+          </aside>
+
+          {/* Main content */}
+          <div className="flex-1 min-w-0">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
 
           {/* Left: Hero CTA */}
@@ -203,6 +213,15 @@ export default async function Home() {
             </div>
           </div>
 
+        </div>
+          </div>
+
+          {/* Right sidebar ad */}
+          <aside className="hidden xl:block w-[160px] flex-shrink-0">
+            <div className="sticky top-20">
+              <AdSlot slotId="home-sidebar" size="300x250" />
+            </div>
+          </aside>
         </div>
       </section>
 
