@@ -9,6 +9,7 @@
 
 import Parser from 'rss-parser'
 import { createSyncLogger } from '../logger'
+import { matchNewsToEntities } from '../news/matcher'
 import { sql } from '@/lib/db'
 
 const parser = new Parser({
@@ -264,7 +265,7 @@ export async function syncGoogleNews(): Promise<GoogleNewsSyncResult> {
       }
     }
 
-    // Search for each party
+    // Search for each party - only save if a candidate is mentioned
     for (const party of parties) {
       try {
         const query = `"${party.name}" elecciones 2026 peru`
@@ -279,9 +280,22 @@ export async function syncGoogleNews(): Promise<GoogleNewsSyncResult> {
             continue
           }
 
-          await saveNewsItem(item, null, party.id)
-          result.itemsSaved++
-          logger.incrementCreated()
+          // Try to match to a candidate via the matcher
+          const matches = await matchNewsToEntities({
+            title: cleanTitle(item.title),
+            url: item.link,
+            excerpt: item.contentSnippet,
+            source: extractSourceFromTitle(item.title) || item.source || 'google_news',
+          })
+
+          const candidateMatch = matches.find(m => m.candidateId)
+          if (candidateMatch) {
+            await saveNewsItem(item, candidateMatch.candidateId, party.id)
+            result.itemsSaved++
+            logger.incrementCreated()
+          } else {
+            logger.incrementSkipped()
+          }
         }
 
         await delay(DELAY_BETWEEN_REQUESTS)
@@ -290,7 +304,7 @@ export async function syncGoogleNews(): Promise<GoogleNewsSyncResult> {
       }
     }
 
-    // General election searches
+    // General election searches - only save if a candidate is mentioned
     const generalQueries = [
       'elecciones generales peru 2026',
       'candidatos presidenciales peru 2026',
@@ -311,9 +325,22 @@ export async function syncGoogleNews(): Promise<GoogleNewsSyncResult> {
             continue
           }
 
-          await saveNewsItem(item, null, null)
-          result.itemsSaved++
-          logger.incrementCreated()
+          // Only save if a candidate is mentioned
+          const matches = await matchNewsToEntities({
+            title: cleanTitle(item.title),
+            url: item.link,
+            excerpt: item.contentSnippet,
+            source: extractSourceFromTitle(item.title) || item.source || 'google_news',
+          })
+
+          const candidateMatch = matches.find(m => m.candidateId)
+          if (candidateMatch) {
+            await saveNewsItem(item, candidateMatch.candidateId, candidateMatch.partyId)
+            result.itemsSaved++
+            logger.incrementCreated()
+          } else {
+            logger.incrementSkipped()
+          }
         }
 
         await delay(DELAY_BETWEEN_REQUESTS)

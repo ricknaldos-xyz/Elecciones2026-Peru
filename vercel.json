@@ -7,15 +7,15 @@
   "crons": [
     {
       "path": "/api/sync/news",
-      "schedule": "0 */4 * * *"
+      "schedule": "0 */2 * * *"
     },
     {
       "path": "/api/sync/google-news",
-      "schedule": "30 */2 * * *"
+      "schedule": "30 * * * *"
     },
     {
       "path": "/api/sync/news-expanded",
-      "schedule": "0 */6 * * *"
+      "schedule": "0 */4 * * *"
     }
   ]
 }

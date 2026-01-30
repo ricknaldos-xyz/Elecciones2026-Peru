@@ -27,8 +27,8 @@ export async function GET(request: NextRequest) {
         party_short_name
       FROM news_mentions_enriched
       WHERE published_at > NOW() - INTERVAL '7 days'
+        AND candidate_name IS NOT NULL
       ORDER BY
-        CASE WHEN candidate_name IS NOT NULL THEN 0 ELSE 1 END,
         relevance_score DESC NULLS LAST,
         published_at DESC NULLS LAST
       LIMIT ${limit}
