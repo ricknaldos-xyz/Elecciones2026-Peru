@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getCandidatePerformanceSummary } from '@/lib/sync/mef/ejecucion'
+import { candidateIdParamSchema } from '@/lib/validation/schemas'
+import { parseParams } from '@/lib/validation/helpers'
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await params
+    const parsed = parseParams(await params, candidateIdParamSchema)
+    if (!parsed.success) return parsed.response
+    const { id } = parsed.data
     const summary = await getCandidatePerformanceSummary(id)
 
     if (!summary) {

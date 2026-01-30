@@ -492,7 +492,7 @@ function NewsDetailModal({
         <div className="p-6 border-b-2 border-[var(--border)]">
           <div className="flex items-start justify-between">
             <h2 className="text-lg font-black uppercase">Editar Noticia</h2>
-            <button onClick={onClose} className="text-2xl hover:opacity-70">×</button>
+            <button onClick={onClose} className="text-2xl hover:opacity-70" aria-label="Cerrar modal">×</button>
           </div>
         </div>
 

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { processAIQueue, queueForAnalysis } from '@/lib/sync/ai/analyzer'
+import { verifySyncAuth } from '@/lib/sync/auth'
 
 export const runtime = 'nodejs'
 export const maxDuration = 300
@@ -11,16 +12,8 @@ export const maxDuration = 300
  * Schedule: every 4 hours, 30 min offset (30 *​/4 * * *)
  */
 export async function GET(request: NextRequest) {
-  // Verify authorization
-  const isVercelCron = request.headers.get('x-vercel-cron') === '1'
-  const authHeader = request.headers.get('authorization')
-  const isAuthorized =
-    isVercelCron ||
-    authHeader === `Bearer ${process.env.CRON_SECRET}`
-
-  if (!isAuthorized) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
+  const authError = verifySyncAuth(request)
+  if (authError) return authError
 
   if (!process.env.ANTHROPIC_API_KEY) {
     return NextResponse.json({
@@ -54,11 +47,8 @@ export async function GET(request: NextRequest) {
  * POST: Manually queue an item for AI analysis
  */
 export async function POST(request: NextRequest) {
-  // Verify authorization
-  const authHeader = request.headers.get('authorization')
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
+  const authError = verifySyncAuth(request)
+  if (authError) return authError
 
   try {
     const body = await request.json()

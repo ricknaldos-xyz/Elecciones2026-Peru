@@ -3,6 +3,7 @@ import Parser from 'rss-parser'
 import { ALL_RSS_SOURCES, isPoliticallyRelevant, getRateLimit } from '@/lib/sync/news/expanded-sources'
 import { createSyncLogger } from '@/lib/sync/logger'
 import { sql } from '@/lib/db'
+import { verifySyncAuth } from '@/lib/sync/auth'
 
 export const runtime = 'nodejs'
 export const maxDuration = 300
@@ -24,16 +25,8 @@ interface RSSItem {
  * Schedule: every 2 hours (0 *​/2 * * *)
  */
 export async function GET(request: NextRequest) {
-  // Verify authorization
-  const isVercelCron = request.headers.get('x-vercel-cron') === '1'
-  const authHeader = request.headers.get('authorization')
-  const isAuthorized =
-    isVercelCron ||
-    authHeader === `Bearer ${process.env.CRON_SECRET}`
-
-  if (!isAuthorized) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
+  const authError = verifySyncAuth(request)
+  if (authError) return authError
 
   const logger = createSyncLogger('expanded_rss')
   const stats = {

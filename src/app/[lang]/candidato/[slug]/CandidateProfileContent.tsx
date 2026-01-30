@@ -238,7 +238,7 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                 {candidate.photo_url ? (
                   <Image
                     src={candidate.photo_url}
-                    alt=""
+                    alt={candidate.full_name}
                     fill
                     sizes="32px"
                     className="object-cover"

@@ -130,21 +130,15 @@ export async function getAllSyncLogs(options: {
 }): Promise<{ logs: SyncLogEntry[]; total: number }> {
   const { limit = 20, offset = 0, source, status } = options
 
-  let whereClause = ''
-  const conditions: string[] = []
-
-  if (source) conditions.push(`source = '${source}'`)
-  if (status) conditions.push(`status = '${status}'`)
-
-  if (conditions.length > 0) {
-    whereClause = `WHERE ${conditions.join(' AND ')}`
-  }
+  const sourceFilter = source || null
+  const statusFilter = status || null
 
   const [logs, countResult] = await Promise.all([
     sql`
       SELECT *
       FROM sync_logs
-      ${sql.unsafe(whereClause)}
+      WHERE (${sourceFilter}::text IS NULL OR source = ${sourceFilter})
+        AND (${statusFilter}::text IS NULL OR status = ${statusFilter})
       ORDER BY started_at DESC
       LIMIT ${limit}
       OFFSET ${offset}
@@ -152,7 +146,8 @@ export async function getAllSyncLogs(options: {
     sql`
       SELECT COUNT(*) as total
       FROM sync_logs
-      ${sql.unsafe(whereClause)}
+      WHERE (${sourceFilter}::text IS NULL OR source = ${sourceFilter})
+        AND (${statusFilter}::text IS NULL OR status = ${statusFilter})
     `,
   ])
 

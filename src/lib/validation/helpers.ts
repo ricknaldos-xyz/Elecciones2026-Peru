@@ -82,3 +82,32 @@ export async function parseBody<T extends z.ZodType>(
 
   return { success: true, data: result.data }
 }
+
+/**
+ * Parse and validate route params (e.g. { id: string }) using a Zod schema.
+ * Returns validated data or a 400 error response.
+ */
+export function parseParams<T extends z.ZodType>(
+  params: Record<string, string>,
+  schema: T
+): ParseResult<z.infer<T>> {
+  const result = schema.safeParse(params)
+
+  if (!result.success) {
+    return {
+      success: false,
+      response: NextResponse.json(
+        {
+          error: 'Invalid route parameters',
+          details: result.error.issues.map((i) => ({
+            path: i.path.join('.'),
+            message: i.message,
+          })),
+        },
+        { status: 400 }
+      ),
+    }
+  }
+
+  return { success: true, data: result.data }
+}

@@ -73,6 +73,14 @@ export const proposalsQuerySchema = z.object({
 })
 
 // ============================================
+// Candidate by ID (dynamic route param)
+// ============================================
+
+export const candidateIdParamSchema = z.object({
+  id: z.string().uuid(),
+})
+
+// ============================================
 // Candidates by IDs
 // ============================================
 

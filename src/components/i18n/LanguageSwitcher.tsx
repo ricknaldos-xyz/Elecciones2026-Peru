@@ -19,7 +19,7 @@ function LocaleFlag({ locale, size = 'md' }: { locale: Locale; size?: 'sm' | 'md
     return (
       <Image
         src={imageSrc}
-        alt=""
+        alt={localeNames[locale]}
         width={size === 'lg' ? 28 : size === 'md' ? 24 : 20}
         height={size === 'lg' ? 28 : size === 'md' ? 24 : 20}
         className={cn(sizeClasses[size], 'object-cover border border-[var(--border)]')}

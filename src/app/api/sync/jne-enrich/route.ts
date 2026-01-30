@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { enrichCandidates, enrichWithFallbackPhotos } from '@/lib/sync/jne/candidate-enricher'
+import { verifySyncAuth } from '@/lib/sync/auth'
 
 export const runtime = 'nodejs'
 export const maxDuration = 300
@@ -9,16 +10,8 @@ export const maxDuration = 300
  * Fetches additional data (photos, JNE IDs, DJHV URLs) for candidates
  */
 export async function GET(request: NextRequest) {
-  // Verify authorization
-  const isVercelCron = request.headers.get('x-vercel-cron') === '1'
-  const authHeader = request.headers.get('authorization')
-  const isAuthorized =
-    isVercelCron ||
-    authHeader === `Bearer ${process.env.CRON_SECRET}`
-
-  if (!isAuthorized) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
+  const authError = verifySyncAuth(request)
+  if (authError) return authError
 
   const mode = request.nextUrl.searchParams.get('mode') || 'jne'
 

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { syncTwitter, checkNitterHealth } from '@/lib/sync/twitter/scraper'
+import { verifySyncAuth } from '@/lib/sync/auth'
 
 export const runtime = 'nodejs'
 export const maxDuration = 300
@@ -11,16 +12,8 @@ export const maxDuration = 300
  * Schedule: every 6 hours, 30 min offset (30 *​/6 * * *)
  */
 export async function GET(request: NextRequest) {
-  // Verify authorization
-  const isVercelCron = request.headers.get('x-vercel-cron') === '1'
-  const authHeader = request.headers.get('authorization')
-  const isAuthorized =
-    isVercelCron ||
-    authHeader === `Bearer ${process.env.CRON_SECRET}`
-
-  if (!isAuthorized) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-  }
+  const authError = verifySyncAuth(request)
+  if (authError) return authError
 
   // Check if this is a health check request
   const url = new URL(request.url)

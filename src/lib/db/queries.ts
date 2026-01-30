@@ -59,8 +59,8 @@ function mapRowToCandidate(row: CandidateRow, flags: Flag[] = []): CandidateWith
 }
 
 /**
- * Get all candidates with scores and flags
- * Filters are applied in-memory for simplicity
+ * Get candidates with scores and flags
+ * Filters are applied at the SQL level for efficiency
  */
 export async function getCandidates(options?: {
   cargo?: CargoType
@@ -71,7 +71,14 @@ export async function getCandidates(options?: {
   limit?: number
   offset?: number
 }): Promise<CandidateWithScores[]> {
-  // Fetch all active candidates
+  const cargoFilter = options?.cargo || null
+  const districtSlugFilter = options?.districtSlug || null
+  const partyIdFilter = options?.partyId || null
+  const minConfidence = (options?.minConfidence && options.minConfidence > 0) ? options.minConfidence : null
+  const onlyClean = options?.onlyClean || false
+  const limit = (options?.limit && options.limit > 0) ? options.limit : 1000
+  const offset = (options?.offset && options.offset > 0) ? options.offset : 0
+
   const rows = await sql`
     SELECT
       c.id,
@@ -100,15 +107,39 @@ export async function getCandidates(options?: {
     LEFT JOIN districts d ON c.district_id = d.id
     LEFT JOIN scores s ON c.id = s.candidate_id
     WHERE c.is_active = true
+      AND (${cargoFilter}::text IS NULL OR c.cargo = ${cargoFilter})
+      AND (${districtSlugFilter}::text IS NULL OR d.slug = ${districtSlugFilter})
+      AND (${partyIdFilter}::text IS NULL OR c.party_id = ${partyIdFilter}::uuid)
+      AND (${minConfidence}::numeric IS NULL OR s.confidence >= ${minConfidence})
+      AND (
+        ${!onlyClean}
+        OR NOT EXISTS (
+          SELECT 1 FROM flags f
+          WHERE f.candidate_id = c.id AND f.severity = 'RED'
+        )
+      )
     ORDER BY s.score_balanced DESC NULLS LAST
+    LIMIT ${limit}
+    OFFSET ${offset}
   `
 
   if (rows.length === 0) return []
 
-  // Get flags for all candidates
+  // Get flags for filtered candidates only
   const candidateIds = rows.map((r) => r.id as string)
   const flags = await sql`
-    SELECT * FROM flags WHERE candidate_id = ANY(${candidateIds})
+    SELECT
+      id,
+      candidate_id,
+      type,
+      severity,
+      title,
+      description,
+      source,
+      evidence_url,
+      date_captured
+    FROM flags
+    WHERE candidate_id = ANY(${candidateIds})
   `
 
   const flagsByCandidate = flags.reduce<Record<string, Flag[]>>((acc, flag) => {
@@ -118,42 +149,9 @@ export async function getCandidates(options?: {
     return acc
   }, {})
 
-  // Map rows to candidates with flags
-  let result = rows.map((row) =>
+  return rows.map((row) =>
     mapRowToCandidate(row as unknown as CandidateRow, flagsByCandidate[row.id as string] || [])
   )
-
-  // Apply filters in memory
-  if (options?.cargo) {
-    result = result.filter((c) => c.cargo === options.cargo)
-  }
-
-  if (options?.districtSlug) {
-    result = result.filter((c) => c.district?.slug === options.districtSlug)
-  }
-
-  if (options?.partyId) {
-    result = result.filter((c) => c.party?.id === options.partyId)
-  }
-
-  if (options?.minConfidence && options.minConfidence > 0) {
-    result = result.filter((c) => c.scores.confidence >= options.minConfidence!)
-  }
-
-  if (options?.onlyClean) {
-    result = result.filter((c) => !c.flags.some((f) => f.severity === 'RED'))
-  }
-
-  // Apply limit and offset
-  if (options?.offset && options.offset > 0) {
-    result = result.slice(options.offset)
-  }
-
-  if (options?.limit && options.limit > 0) {
-    result = result.slice(0, options.limit)
-  }
-
-  return result
 }
 
 /**
@@ -197,7 +195,8 @@ export async function getCandidateBySlug(slug: string): Promise<CandidateWithSco
 
   // Get flags
   const flags = await sql`
-    SELECT * FROM flags WHERE candidate_id = ${row.id}
+    SELECT id, candidate_id, type, severity, title, description, source, evidence_url, date_captured
+    FROM flags WHERE candidate_id = ${row.id}
   `
 
   return mapRowToCandidate(row as unknown as CandidateRow, flags as Flag[])
@@ -241,7 +240,8 @@ export async function getCandidatesByIds(ids: string[]): Promise<CandidateWithSc
 
   // Get flags
   const flags = await sql`
-    SELECT * FROM flags WHERE candidate_id = ANY(${ids})
+    SELECT id, candidate_id, type, severity, title, description, source, evidence_url, date_captured
+    FROM flags WHERE candidate_id = ANY(${ids})
   `
 
   const flagsByCandidate = flags.reduce<Record<string, Flag[]>>((acc, flag) => {
@@ -261,7 +261,7 @@ export async function getCandidatesByIds(ids: string[]): Promise<CandidateWithSc
  */
 export async function getParties() {
   const rows = await sql`
-    SELECT * FROM parties ORDER BY name
+    SELECT id, name, short_name, logo_url, color FROM parties ORDER BY name
   `
   return rows
 }
@@ -271,7 +271,7 @@ export async function getParties() {
  */
 export async function getDistricts() {
   const rows = await sql`
-    SELECT * FROM districts ORDER BY name
+    SELECT id, name, slug, type, senators_count, deputies_count FROM districts ORDER BY name
   `
   return rows
 }
@@ -381,7 +381,7 @@ export interface PartyFinanceSummary {
  */
 export async function getPartyById(id: string) {
   const rows = await sql`
-    SELECT * FROM parties WHERE id = ${id} LIMIT 1
+    SELECT id, name, short_name, logo_url, color FROM parties WHERE id = ${id} LIMIT 1
   `
   return rows.length > 0 ? rows[0] : null
 }
@@ -848,7 +848,15 @@ export async function getVicePresidents(partyId: string): Promise<VicePresident[
  */
 export async function getScoreBreakdown(candidateId: string): Promise<ScoreBreakdown | null> {
   const rows = await sql`
-    SELECT * FROM score_breakdowns WHERE candidate_id = ${candidateId} LIMIT 1
+    SELECT
+      candidate_id,
+      education_level_points, education_depth_points,
+      experience_total_points, experience_relevant_points,
+      leadership_seniority_points, leadership_stability_points,
+      integrity_base, penal_penalty, civil_penalties, resignation_penalty,
+      completeness_points, consistency_points, assets_quality_points,
+      verification_points, coverage_points
+    FROM score_breakdowns WHERE candidate_id = ${candidateId} LIMIT 1
   `
 
   if (rows.length === 0) return null

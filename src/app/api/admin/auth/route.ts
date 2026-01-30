@@ -1,19 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123'
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
+if (!ADMIN_PASSWORD) {
+  console.error('CRITICAL: ADMIN_PASSWORD environment variable is not set')
+}
 const SESSION_COOKIE_NAME = 'admin_session'
 const SESSION_MAX_AGE = 60 * 60 * 24 // 24 hours
 
-// Simple session token generator
+// Cryptographically secure session token
 function generateSessionToken(): string {
-  const timestamp = Date.now().toString(36)
-  const random = Math.random().toString(36).substring(2, 15)
-  return `${timestamp}_${random}`
+  return crypto.randomUUID()
 }
 
-// Validate session token format
+// Validate session token format (UUID v4)
 function isValidSessionFormat(token: string): boolean {
-  return /^[a-z0-9]+_[a-z0-9]+$/.test(token)
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(token)
 }
 
 // POST /api/admin/auth - Login
@@ -23,6 +24,14 @@ export async function POST(request: NextRequest) {
     const { password } = body
 
     console.log('Admin auth: login attempt')
+
+    if (!ADMIN_PASSWORD) {
+      console.error('Admin login rejected: ADMIN_PASSWORD not configured')
+      return NextResponse.json(
+        { success: false, error: 'Admin login is not configured' },
+        { status: 503 }
+      )
+    }
 
     if (!password) {
       return NextResponse.json(

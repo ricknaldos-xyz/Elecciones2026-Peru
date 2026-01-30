@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getCandidateJudicialDiscrepancy } from '@/lib/sync/judicial/scraper'
+import { candidateIdParamSchema } from '@/lib/validation/schemas'
+import { parseParams } from '@/lib/validation/helpers'
 
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await params
+    const parsed = parseParams(await params, candidateIdParamSchema)
+    if (!parsed.success) return parsed.response
+    const { id } = parsed.data
     const discrepancy = await getCandidateJudicialDiscrepancy(id)
 
     if (!discrepancy) {
