@@ -122,8 +122,8 @@ export default function MetodologiaPage() {
                     <td className="py-2 text-[var(--foreground)]">
                       <Badge>PERSONALIZADO</Badge>
                     </td>
-                    <td className="text-center py-2 text-[var(--muted-foreground)] font-bold">20-75%</td>
-                    <td className="text-center py-2 text-[var(--muted-foreground)] font-bold">20-75%</td>
+                    <td className="text-center py-2 text-[var(--muted-foreground)] font-bold">20-55%</td>
+                    <td className="text-center py-2 text-[var(--muted-foreground)] font-bold">20-55%</td>
                     <td className="text-center py-2 text-[var(--muted-foreground)] font-bold">5-20%</td>
                   </tr>
                 </tbody>
@@ -180,9 +180,29 @@ export default function MetodologiaPage() {
                         <td className="py-1.5 font-medium">Técnico completo</td>
                         <td className="text-center font-bold">10</td>
                       </tr>
-                      <tr>
+                      <tr className="border-b border-[var(--border)]">
+                        <td className="py-1.5 font-medium">Universitario incompleto</td>
+                        <td className="text-center font-bold">9</td>
+                      </tr>
+                      <tr className="border-b border-[var(--border)]">
+                        <td className="py-1.5 font-medium">Técnico incompleto</td>
+                        <td className="text-center font-bold">7</td>
+                      </tr>
+                      <tr className="border-b border-[var(--border)]">
                         <td className="py-1.5 font-medium">Secundaria completa</td>
                         <td className="text-center font-bold">6</td>
+                      </tr>
+                      <tr className="border-b border-[var(--border)]">
+                        <td className="py-1.5 font-medium">Secundaria incompleta</td>
+                        <td className="text-center font-bold">4</td>
+                      </tr>
+                      <tr className="border-b border-[var(--border)]">
+                        <td className="py-1.5 font-medium">Primaria completa</td>
+                        <td className="text-center font-bold">2</td>
+                      </tr>
+                      <tr>
+                        <td className="py-1.5 font-medium">Sin información</td>
+                        <td className="text-center font-bold">0</td>
                       </tr>
                     </tbody>
                   </table>
@@ -244,8 +264,8 @@ export default function MetodologiaPage() {
                   Experiencia Relevante (máx. 25 pts)
                 </h4>
                 <p className="text-sm text-[var(--muted-foreground)] font-medium mb-2">
-                  Se pondera según el tipo de cargo y la relevancia de los roles previos.
-                  Por ejemplo, para Presidente/Vicepresidente:
+                  Se pondera según el tipo de cargo al que postula y la relevancia de los roles previos.
+                  Ejemplo para Presidente/Vicepresidente:
                 </p>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
@@ -279,6 +299,10 @@ export default function MetodologiaPage() {
                     </tbody>
                   </table>
                 </div>
+                <p className="text-xs text-[var(--muted-foreground)] mt-2 font-medium">
+                  <strong>Nota:</strong> Los pesos varían por cargo. Para Senador/Diputado, la experiencia legislativa
+                  y técnica pesa más. Para Parlamento Andino, la experiencia internacional tiene máxima relevancia (3.0 pts/año).
+                </p>
               </div>
 
               {/* Leadership */}
@@ -286,10 +310,31 @@ export default function MetodologiaPage() {
                 <h4 className="font-black text-[var(--foreground)] mb-2 uppercase">
                   Liderazgo (máx. 20 pts)
                 </h4>
-                <p className="text-sm text-[var(--muted-foreground)] font-medium">
+                <p className="text-sm text-[var(--muted-foreground)] font-medium mb-3">
                   Combina el nivel máximo de seniority alcanzado (0-14 pts) y la estabilidad
                   en posiciones de liderazgo (0-6 pts).
                 </p>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-xs font-bold text-[var(--foreground)] uppercase mb-1">Seniority</p>
+                    <div className="text-xs text-[var(--muted-foreground)] space-y-0.5 font-medium">
+                      <p>Dirección: 14 pts</p>
+                      <p>Gerencia: 10 pts</p>
+                      <p>Jefatura: 8 pts</p>
+                      <p>Coordinador: 6 pts</p>
+                      <p>Individual: 2 pts</p>
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-[var(--foreground)] uppercase mb-1">Estabilidad</p>
+                    <div className="text-xs text-[var(--muted-foreground)] space-y-0.5 font-medium">
+                      <p>7+ años en liderazgo: 6 pts</p>
+                      <p>4-6 años: 4 pts</p>
+                      <p>2-3 años: 2 pts</p>
+                      <p>0-1 años: 0 pts</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </CardContent>
@@ -374,17 +419,51 @@ export default function MetodologiaPage() {
             </p>
 
             {/* Enhanced Sources */}
-            <div className="mt-4 p-3 bg-[var(--muted)] border-2 border-[var(--border)]">
-              <h5 className="font-bold text-[var(--foreground)] mb-2 text-sm uppercase">Fuentes Adicionales</h5>
-              <p className="text-xs text-[var(--muted-foreground)] font-medium mb-2">
-                Para candidatos con historial público, evaluamos fuentes adicionales:
+            <div className="mt-6">
+              <h4 className="font-black text-[var(--foreground)] mb-3 uppercase">
+                Penalidades Extendidas
+              </h4>
+              <p className="text-sm text-[var(--muted-foreground)] font-medium mb-3">
+                Para candidatos con historial público, evaluamos fuentes adicionales que ajustan
+                el score de integridad:
               </p>
-              <ul className="text-xs text-[var(--muted-foreground)] space-y-1 font-medium">
-                <li>• Votaciones congresales (votos pro-impunidad o anti-democráticos)</li>
-                <li>• SUNAT (condición tributaria, deudas coactivas)</li>
-                <li>• Verificación judicial (casos no declarados en DJHV)</li>
-                <li>• Empresas vinculadas (casos penales, laborales, ambientales)</li>
-              </ul>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b-2 border-[var(--border)]">
+                      <th className="text-left py-2 font-bold text-[var(--foreground)]">Fuente</th>
+                      <th className="text-left py-2 font-bold text-[var(--foreground)]">Detalle</th>
+                      <th className="text-center py-2 font-bold text-[var(--foreground)]">Cap</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-[var(--muted-foreground)]">
+                    <tr className="border-b border-[var(--border)]">
+                      <td className="py-1.5 font-medium">Votaciones congresales</td>
+                      <td className="py-1.5 text-xs">Votos a favor de leyes pro-impunidad o anti-democráticas. Bonus por votar en contra.</td>
+                      <td className="text-center font-bold text-[var(--flag-red-text)]">-85 / +15</td>
+                    </tr>
+                    <tr className="border-b border-[var(--border)]">
+                      <td className="py-1.5 font-medium">SUNAT</td>
+                      <td className="py-1.5 text-xs">Condición NO HABIDO (-50), NO HALLADO (-20), deudas coactivas (-20 c/u, máx 3).</td>
+                      <td className="text-center font-bold text-[var(--flag-red-text)]">-85</td>
+                    </tr>
+                    <tr className="border-b border-[var(--border)]">
+                      <td className="py-1.5 font-medium">Verificación judicial</td>
+                      <td className="py-1.5 text-xs">Casos no declarados en DJHV: crítico (-60), mayor (-40), menor (-20).</td>
+                      <td className="text-center font-bold text-[var(--flag-red-text)]">-85</td>
+                    </tr>
+                    <tr>
+                      <td className="py-1.5 font-medium">Empresas vinculadas</td>
+                      <td className="py-1.5 text-xs">Casos penales (-40 c/u), ambientales (-25), laborales (-20), consumidor (-15).</td>
+                      <td className="text-center font-bold text-[var(--flag-amber-text)]">-60</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p className="text-xs text-[var(--muted-foreground)] mt-2 font-medium">
+                <strong>Auditoría:</strong> El breakdown muestra cada penalidad con subtotales incrementales
+                (base → tradicional → votación → tributario → judicial → empresas → final).
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -425,6 +504,15 @@ export default function MetodologiaPage() {
                 </h4>
                 <p className="text-sm text-[var(--muted-foreground)] font-medium">
                   ¿La declaración de bienes es detallada y verificable?
+                </p>
+              </div>
+              <div>
+                <h4 className="font-black text-[var(--foreground)] mb-1 uppercase">
+                  Sanciones ONPE (penalización)
+                </h4>
+                <p className="text-sm text-[var(--muted-foreground)] font-medium">
+                  -15 pts por cada sanción de ONPE (no presentar reportes de financiamiento de campaña).
+                  Cap: -30 pts.
                 </p>
               </div>
             </div>
