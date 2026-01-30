@@ -29,7 +29,9 @@
     "more": "Juk'amp",
     "transparencyDesc": "Partidonakan qullqi katuqäwipa",
     "methodologyDesc": "Kunjamas jakhunak lurañani",
-    "docsDesc": "Técnico qillqanaka API-mpi"
+    "docsDesc": "Técnico qillqanaka API-mpi",
+    "donate": "Yanapaña",
+    "donateDesc": "Aka luräwi yanapaña jan qullqipataki"
   },
   "hero": {
     "title": "Ajilanaka Ranking Perú 2026",
@@ -1056,5 +1058,32 @@
     "preview": "Saminaka uñjaña",
     "previewDescription": "Saminaka uñjaña: suma, wali, taypi, juk'a, yatiyawi",
     "close": "Jark'aña"
+  },
+  "donate": {
+    "badge": "Jan Qullqipataki",
+    "title": "Democracia Yanapaña",
+    "subtitle": "Yanapat'amampix aka plataforma sapaki, janikiniw qullqini, q'umarataki taqpach peruanonakataki.",
+    "yapeTitle": "Yape-mpi yanapaña",
+    "plinTitle": "Plin-mpi yanapaña",
+    "scanQr": "Aka QR códigota app-mampi escanea",
+    "orPhone": "Jan ukax aka númeroru apayaña",
+    "steps": "Luräwinaka",
+    "step1": "{platform} app-mama jist'aña",
+    "step2": "\"QR Escanear\" jan ukax \"Pagaña\" ajlliña",
+    "step3": "Camarama códigoru uñacht'ayaña",
+    "step4": "Qawqhas ukaxa qillqt'aña ukat confirmaña",
+    "whereGoes": "¿Kawkiruw saraki yanapt'ama?",
+    "use1Title": "Servidornaka",
+    "use1Desc": "Hosting, base de datos, cloud servicios plataformata jakayiri.",
+    "use2Title": "Yatiyawinaka Chiqanchata",
+    "use2Desc": "Oficial yatiyawi puyunakaru mantaña, electoral yatiyawinaka lurawi.",
+    "use3Title": "Wiñayaña Walirayaña",
+    "use3Desc": "Machaq luräwinaka ukat sapa uru walirayaña plataformataki.",
+    "transparencyNote": "100% q'umaratanwa qullqi apayawimpi.",
+    "viewTransparency": "Q'umara Yatiyawi Uñjaña",
+    "qrPlaceholder": "QR código suyt'aski",
+    "configureNote": "Jutir urunakan",
+    "metaTitle": "Yanapaña | Ajilanaka Ranking Perú 2026",
+    "metaDescription": "Aka jan qullqipataki luräwi yanapaña. Yanapt'amampi plataforma sapaki janikiniw qullqini."
   }
 }

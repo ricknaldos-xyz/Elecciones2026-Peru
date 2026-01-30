@@ -17,6 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/metodologia', priority: 0.5, changeFrequency: 'monthly' as const },
     { path: '/quiz', priority: 0.7, changeFrequency: 'weekly' as const },
     { path: '/docs', priority: 0.4, changeFrequency: 'monthly' as const },
+    { path: '/donar', priority: 0.5, changeFrequency: 'monthly' as const },
   ]
 
   for (const page of staticPages) {

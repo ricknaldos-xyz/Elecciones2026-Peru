@@ -29,7 +29,9 @@
     "more": "Ojevori",
     "transparencyDesc": "Partidotsikë ovisaririntsi kori",
     "methodologyDesc": "Tsika amatabeentsiro jakirontsikë",
-    "docsDesc": "Osankënarintsi técnico API-ro"
+    "docsDesc": "Osankënarintsi técnico API-ro",
+    "donate": "Yanabëntantsi",
+    "donateDesc": "Yanabëntantsi jëkako kori-mani"
   },
   "hero": {
     "title": "Ranking Apatotantsi Perú 2026",
@@ -1056,5 +1058,32 @@
     "preview": "Llimp'ikuna qhaway",
     "previewDescription": "Llimp'ikuna qhaway: allin, sumaq, chawpi, pisi, willana",
     "close": "Wichq'ay"
+  },
+  "donate": {
+    "badge": "Jëkako Kori-mani",
+    "title": "Yanabëntantsi Democracia",
+    "subtitle": "Yanabëntantsikë amëna plataforma sapaki, jëkako, oinabiinti tukuy peruanokunapaq.",
+    "yapeTitle": "Yape-ro yanabëntantsi",
+    "plinTitle": "Plin-ro yanabëntantsi",
+    "scanQr": "Amatabeentsi QR código app-ki-ro",
+    "orPhone": "Jan ukax aka númeroru",
+    "steps": "Irapiibë",
+    "step1": "{platform} app-ki kitsëro",
+    "step2": "\"QR Escanear\" jan ukax \"Pagar\" amëñëro",
+    "step3": "Cámaraki códigoru oinkëro",
+    "step4": "Tsika kori-mani amëñëro confirmëro",
+    "whereGoes": "¿Tsika saraki yanabëntantsiki?",
+    "use1Title": "Servidortsikë",
+    "use1Desc": "Hosting, base de datos, cloud servicios plataforma kawsantsikë.",
+    "use2Title": "Amëtakotërini Chiqantsikë",
+    "use2Desc": "Oficial amëtakotërini puyu-ro mantëro, electoral amëtakotërini lurantsikë.",
+    "use3Title": "Wiñantsikë Allintsikë",
+    "use3Desc": "Obaeki lurantsikë amëna sapa uru allintsikë plataformataki.",
+    "transparencyNote": "100% oinabiinti kori apayawi-ro.",
+    "viewTransparency": "Oinabiinti Amëtakotërini Oinkëro",
+    "qrPlaceholder": "QR código suyachkan",
+    "configureNote": "Hamuq urunakan",
+    "metaTitle": "Yanabëntantsi | Ranking Apatotantsi Perú 2026",
+    "metaDescription": "Yanabëntantsi jëkako kori-mani lurantsikë. Yanabëntantsikë plataforma sapaki jëkako."
   }
 }

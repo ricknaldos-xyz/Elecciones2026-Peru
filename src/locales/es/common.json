@@ -29,7 +29,9 @@
     "more": "Más",
     "transparencyDesc": "Financiamiento de partidos y campañas",
     "methodologyDesc": "Cómo calculamos las puntuaciones",
-    "docsDesc": "Documentación técnica y API"
+    "docsDesc": "Documentación técnica y API",
+    "donate": "Donar",
+    "donateDesc": "Apoya este proyecto sin fines de lucro"
   },
   "hero": {
     "title": "Ranking Electoral Perú 2026",
@@ -1058,5 +1060,32 @@
     "preview": "Vista previa de colores",
     "previewDescription": "Vista previa de colores: excelente, bueno, medio, bajo, alerta",
     "close": "Cerrar"
+  },
+  "donate": {
+    "badge": "Sin Fines de Lucro",
+    "title": "Apoya la Democracia",
+    "subtitle": "Tu aporte mantiene esta plataforma independiente, gratuita y transparente para todos los peruanos.",
+    "yapeTitle": "Donar con Yape",
+    "plinTitle": "Donar con Plin",
+    "scanQr": "Escanea este código QR con tu app",
+    "orPhone": "O envía al número",
+    "steps": "Pasos",
+    "step1": "Abre tu app de {platform}",
+    "step2": "Selecciona \"Escanear QR\" o \"Pagar\"",
+    "step3": "Apunta tu cámara al código",
+    "step4": "Ingresa el monto y confirma",
+    "whereGoes": "¿A dónde van tus aportes?",
+    "use1Title": "Servidores e Infraestructura",
+    "use1Desc": "Hosting, base de datos y servicios cloud para mantener la plataforma activa 24/7.",
+    "use2Title": "Datos y Verificación",
+    "use2Desc": "Acceso a fuentes oficiales y procesamiento de datos electorales.",
+    "use3Title": "Desarrollo y Mejoras",
+    "use3Desc": "Nuevas funcionalidades y mantenimiento continuo de la plataforma.",
+    "transparencyNote": "Somos 100% transparentes con el uso de fondos.",
+    "viewTransparency": "Ver Reporte de Transparencia",
+    "qrPlaceholder": "Código QR pendiente",
+    "configureNote": "Próximamente",
+    "metaTitle": "Donar | Ranking Electoral Perú 2026",
+    "metaDescription": "Apoya este proyecto sin fines de lucro. Tu donación mantiene la plataforma independiente y gratuita."
   }
 }

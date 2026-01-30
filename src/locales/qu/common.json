@@ -29,7 +29,9 @@
     "more": "Aswan",
     "transparencyDesc": "Partidokunapa qullqi japiqiynin",
     "methodologyDesc": "Imaynatas yupaykunata ruraniku",
-    "docsDesc": "Técnico qillqakuna API-wan"
+    "docsDesc": "Técnico qillqakuna API-wan",
+    "donate": "Yanapay",
+    "donateDesc": "Kay llamk'ayta yanapay mana qullqipaq"
   },
   "hero": {
     "title": "Akllana Ranking Perú 2026",
@@ -1056,5 +1058,32 @@
     "preview": "Llimp'ikuna qhaway",
     "previewDescription": "Llimp'ikuna qhaway: allin, sumaq, chawpi, pisi, willana",
     "close": "Wichq'ay"
+  },
+  "donate": {
+    "badge": "Mana Qullqipaq",
+    "title": "Democraciata Yanapay",
+    "subtitle": "Yanapayniykiwan kay plataforma sapanchasqa, qasi kaq, sut'i kaq tukuy peruanokunapaq.",
+    "yapeTitle": "Yape-wan yanapay",
+    "plinTitle": "Plin-wan yanapay",
+    "scanQr": "Kay QR codigota app-niykiwan escanea",
+    "orPhone": "Utaq kay numeroman apachiy",
+    "steps": "Ruwanakuna",
+    "step1": "{platform} app-niykita kichay",
+    "step2": "\"QR Escanear\" utaq \"Pagay\" akllay",
+    "step3": "Camaraykita codigoman rikuchiy",
+    "step4": "Hayk'ata churay hinaspa confirmay",
+    "whereGoes": "¿Mayman rin yanapayniyki?",
+    "use1Title": "Servidorkuna",
+    "use1Desc": "Hosting, base de datos, cloud servicios plataformata kawsachiq.",
+    "use2Title": "Willakuykuna Chiqapchasqa",
+    "use2Desc": "Oficial pukyu willakuykunaman yaykuy, electoral willakuykuna ruwasqa.",
+    "use3Title": "Wiñachiy Allinchay",
+    "use3Desc": "Musuq ruwanakuna hinaspa sapa p'unchay allinchay plataformapaq.",
+    "transparencyNote": "100% sut'imi kaniku qullqi apachiymanta.",
+    "viewTransparency": "Sut'i Willakuyta Qhaway",
+    "qrPlaceholder": "QR codigo suyachkan",
+    "configureNote": "Hamuq p'unchaykunapi",
+    "metaTitle": "Yanapay | Akllana Ranking Perú 2026",
+    "metaDescription": "Kay mana qullqipaq llamk'ayta yanapay. Yanapayniykiwan plataforma sapanchasqa qasi kaq."
   }
 }
