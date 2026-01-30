@@ -7,8 +7,8 @@ import { Badge } from '@/components/ui/Badge'
 import { cn } from '@/lib/utils'
 
 export const metadata: Metadata = {
-  title: 'Para Medios y Partners | Ranking Electoral Peru 2026',
-  description: 'Embebe los widgets de Ranking Electoral en tu sitio web. Informacion electoral verificada y actualizada para tus lectores.',
+  title: 'Para Medios y Partners | Ranking Electoral Perú 2026',
+  description: 'Embebe los widgets de Ranking Electoral en tu sitio web. Información electoral verificada y actualizada para tus lectores.',
 }
 
 export default function PartnersPage() {
@@ -26,7 +26,7 @@ export default function PartnersPage() {
             Widgets Embebibles
           </h1>
           <p className="text-lg text-[var(--muted-foreground)] max-w-2xl mx-auto">
-            Lleva informacion electoral verificada a tus lectores. Nuestros widgets son gratuitos y se actualizan automaticamente.
+            Lleva información electoral verificada a tus lectores. Nuestros widgets son gratuitos y se actualizan automáticamente.
           </p>
         </div>
 
@@ -99,7 +99,7 @@ export default function PartnersPage() {
                 </pre>
               </div>
 
-              <h4 className="font-bold text-[var(--foreground)] mb-2 uppercase text-sm">Parametros:</h4>
+              <h4 className="font-bold text-[var(--foreground)] mb-2 uppercase text-sm">Parámetros:</h4>
               <ul className="text-sm text-[var(--muted-foreground)] space-y-1 mb-4">
                 <li><code className="bg-[var(--muted)] px-1">cargo</code>: presidente, senador, diputado, parlamento_andino</li>
                 <li><code className="bg-[var(--muted)] px-1">limit</code>: 1-10 (cantidad de candidatos)</li>
@@ -149,8 +149,8 @@ export default function PartnersPage() {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-bold text-[var(--foreground)]">Actualizacion automatica</h4>
-                  <p className="text-sm text-[var(--muted-foreground)]">Datos siempre al dia</p>
+                  <h4 className="font-bold text-[var(--foreground)]">Actualización automática</h4>
+                  <p className="text-sm text-[var(--muted-foreground)]">Datos siempre al día</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -182,9 +182,9 @@ export default function PartnersPage() {
         {/* Contact */}
         <Card className="bg-[var(--foreground)] text-[var(--background)]">
           <CardContent className="py-8 text-center">
-            <h3 className="text-xl font-black uppercase mb-2">Necesitas algo personalizado?</h3>
+            <h3 className="text-xl font-black uppercase mb-2">¿Necesitas algo personalizado?</h3>
             <p className="text-[var(--background)]/70 mb-4">
-              Contactanos para widgets personalizados, APIs o integraciones especiales.
+              Contáctanos para widgets personalizados, APIs o integraciones especiales.
             </p>
             <a href="mailto:contacto@rankinelectoral.pe">
               <Button className="bg-[var(--background)] text-[var(--foreground)] hover:bg-[var(--muted)]">

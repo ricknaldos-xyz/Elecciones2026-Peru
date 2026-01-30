@@ -258,7 +258,7 @@
       "title": "Tus Resultados",
       "subtitle": "Basado en tus respuestas, estos candidatos tienen las posiciones más afines a ti",
       "match": "coincidencia",
-      "topMatches": "Candidatos con quien sintonizas",
+      "topMatches": "Candidatos con quienes sintonizas",
       "restOfRanking": "El resto del ranking",
       "politicalProfile": "Tu perfil político",
       "compatibility": "Compatibilidad",
@@ -266,7 +266,7 @@
       "compareCandidates": "Compara los candidatos",
       "share": "Compartir Resultados",
       "shareTitle": "Mi perfil político es {profile}",
-      "shareDescription": "Mis candidatos con quien sintonizo: {candidates}"
+      "shareDescription": "Mis candidatos con quienes sintonizo: {candidates}"
     },
     "answers": {
       "stronglyDisagree": "Muy en desacuerdo",
@@ -391,7 +391,7 @@
     "and": "y",
     "openData": "Datos Abiertos",
     "lastUpdate": "Última actualización: Enero 2026 - Los datos pueden variar según declaraciones actualizadas de los partidos",
-    "metaTitle": "Transparencia Financiera | Ranking Electoral Peru 2026",
+    "metaTitle": "Transparencia Financiera | Ranking Electoral Perú 2026",
     "metaDescription": "Información sobre el financiamiento de partidos políticos en Perú. Aportes, donantes, gastos de campaña y financiamiento público."
   },
   "methodology": {
@@ -603,48 +603,48 @@
   },
   "docs": {
     "meta": {
-      "title": "Documentacion Completa - Ranking Electoral 2026",
-      "description": "Documentacion tecnica completa del Ranking Electoral Peru 2026. Arquitectura, metodologia, fuentes de datos, diseno y mas."
+      "title": "Documentación Completa - Ranking Electoral 2026",
+      "description": "Documentación técnica completa del Ranking Electoral Perú 2026. Arquitectura, metodología, fuentes de datos, diseño y más."
     },
-    "badge": "DOCUMENTACION TECNICA",
-    "title": "Ranking Electoral Peru 2026",
+    "badge": "DOCUMENTACIÓN TÉCNICA",
+    "title": "Ranking Electoral Perú 2026",
     "description": "Plataforma de inteligencia electoral que proporciona rankings transparentes y basados en evidencia para las Elecciones Generales del 12 de abril de 2026.",
     "toc": {
-      "title": "INDICE DE CONTENIDOS",
-      "vision": "1. Vision y Mision",
+      "title": "ÍNDICE DE CONTENIDOS",
+      "vision": "1. Visión y Misión",
       "problem": "2. El Problema",
-      "solution": "3. Nuestra Solucion",
+      "solution": "3. Nuestra Solución",
       "architecture": "4. Arquitectura",
-      "techStack": "5. Stack Tecnologico",
-      "methodology": "6. Metodologia de Scoring",
+      "techStack": "5. Stack Tecnológico",
+      "methodology": "6. Metodología de Scoring",
       "dataSources": "7. Fuentes de Datos",
       "features": "8. Funcionalidades",
       "database": "9. Base de Datos",
       "api": "10. API Reference",
-      "designSystem": "11. Sistema de Diseno",
+      "designSystem": "11. Sistema de Diseño",
       "security": "12. Seguridad"
     },
     "vision": {
-      "title": "VISION Y MISION",
+      "title": "VISIÓN Y MISIÓN",
       "slogan": "Elige con datos, no con promesas",
-      "mission": "Nuestra mision es empoderar a los ciudadanos peruanos con informacion objetiva y verificable para tomar decisiones electorales informadas.",
-      "visionTitle": "Vision",
-      "visionText": "Ser la fuente de referencia mas confiable de informacion electoral en el Peru, promoviendo una democracia mas transparente y participativa.",
+      "mission": "Nuestra misión es empoderar a los ciudadanos peruanos con información objetiva y verificable para tomar decisiones electorales informadas.",
+      "visionTitle": "Visión",
+      "visionText": "Ser la fuente de referencia más confiable de información electoral en el Perú, promoviendo una democracia más transparente y participativa.",
       "valuesTitle": "Valores",
       "value1": "Transparencia total",
-      "value2": "Neutralidad politica",
-      "value3": "Rigor metodologico",
+      "value2": "Neutralidad política",
+      "value3": "Rigor metodológico",
       "value4": "Acceso abierto"
     },
     "problem": {
       "title": "EL PROBLEMA QUE RESOLVEMOS",
-      "intro": "El proceso electoral en Peru enfrenta multiples desafios que dificultan la toma de decisiones informadas:",
-      "issue1Title": "Informacion Dispersa",
-      "issue1Desc": "Los datos de candidatos estan fragmentados en multiples fuentes oficiales (JNE, ONPE, Poder Judicial) sin un punto unico de acceso.",
+      "intro": "El proceso electoral en Perú enfrenta múltiples desafíos que dificultan la toma de decisiones informadas:",
+      "issue1Title": "Información Dispersa",
+      "issue1Desc": "Los datos de candidatos están fragmentados en múltiples fuentes oficiales (JNE, ONPE, Poder Judicial) sin un punto único de acceso.",
       "issue2Title": "Falta de Contexto",
-      "issue2Desc": "Los datos crudos no ofrecen contexto comparativo para entender que significa la experiencia o formacion de un candidato.",
-      "issue3Title": "Sesgos Mediaticos",
-      "issue3Desc": "La cobertura mediatica esta influenciada por intereses politicos y economicos, dificultando una evaluacion objetiva.",
+      "issue2Desc": "Los datos crudos no ofrecen contexto comparativo para entender qué significa la experiencia o formación de un candidato.",
+      "issue3Title": "Sesgos Mediáticos",
+      "issue3Desc": "La cobertura mediática está influenciada por intereses políticos y económicos, dificultando una evaluación objetiva.",
       "issue4Title": "Complejidad Electoral",
       "issue4Desc": "Con 5 tipos de cargos y miles de candidatos, es imposible para el ciudadano promedio investigar todos los candidatos.",
       "statsTitle": "Datos Duros",
@@ -654,79 +654,79 @@
       "statsDistritos": "Distritos"
     },
     "solution": {
-      "title": "NUESTRA SOLUCION",
-      "intro": "Ranking Electoral Peru 2026 es una plataforma integral que combina:",
-      "feature1Title": "Agregacion de Datos",
-      "feature1Desc": "Recopilamos y consolidamos datos de multiples fuentes oficiales en una base de datos unificada.",
+      "title": "NUESTRA SOLUCIÓN",
+      "intro": "Ranking Electoral Perú 2026 es una plataforma integral que combina:",
+      "feature1Title": "Agregación de Datos",
+      "feature1Desc": "Recopilamos y consolidamos datos de múltiples fuentes oficiales en una base de datos unificada.",
       "feature2Title": "Scoring Objetivo",
-      "feature2Desc": "Aplicamos una metodologia transparente y verificable para evaluar candidatos en 3 dimensiones.",
+      "feature2Desc": "Aplicamos una metodología transparente y verificable para evaluar candidatos en 3 dimensiones.",
       "feature3Title": "UX Accesible",
-      "feature3Desc": "Presentamos la informacion de forma clara e intuitiva para cualquier ciudadano.",
-      "uvpTitle": "Propuesta de Valor Unica",
-      "uvpDesc": "Somos la unica plataforma que combina datos oficiales del JNE/ONPE con analisis de IA para proporcionar scores objetivos y comparables entre todos los candidatos a nivel nacional."
+      "feature3Desc": "Presentamos la información de forma clara e intuitiva para cualquier ciudadano.",
+      "uvpTitle": "Propuesta de Valor Única",
+      "uvpDesc": "Somos la única plataforma que combina datos oficiales del JNE/ONPE con análisis de IA para proporcionar scores objetivos y comparables entre todos los candidatos a nivel nacional."
     },
     "architecture": {
       "title": "ARQUITECTURA DEL SISTEMA",
-      "intro": "La arquitectura sigue un modelo de capas con separacion clara de responsabilidades:",
+      "intro": "La arquitectura sigue un modelo de capas con separación clara de responsabilidades:",
       "layers": {
-        "presentation": "CAPA DE PRESENTACION",
+        "presentation": "CAPA DE PRESENTACIÓN",
         "api": "CAPA DE API",
-        "logic": "CAPA DE LOGICA",
+        "logic": "CAPA DE LÓGICA",
         "data": "CAPA DE DATOS",
         "external": "FUENTES EXTERNAS"
       },
       "folderTitle": "Estructura de Carpetas",
-      "patternsTitle": "Patrones Arquitectonicos",
+      "patternsTitle": "Patrones Arquitectónicos",
       "pattern1": "Server Components: Rendering del lado del servidor para SEO y performance",
       "pattern2": "API Routes: Endpoints serverless con caching inteligente",
-      "pattern3": "Cron Jobs: Sincronizacion periodica de datos externos"
+      "pattern3": "Cron Jobs: Sincronización periódica de datos externos"
     },
     "techStack": {
-      "title": "STACK TECNOLOGICO",
+      "title": "STACK TECNOLÓGICO",
       "frontend": "Frontend",
       "backend": "Backend",
       "database": "Base de Datos",
       "ai": "Inteligencia Artificial",
-      "aiDesc": "Usado para: analisis de sentimiento, extraccion de entidades, deteccion de flags en noticias y redes sociales.",
+      "aiDesc": "Usado para: análisis de sentimiento, extracción de entidades, detección de flags en noticias y redes sociales.",
       "dataCollection": "Data Collection",
       "devops": "DevOps"
     },
     "methodology": {
-      "title": "METODOLOGIA DE SCORING",
-      "intro": "Nuestro sistema evalua candidatos en tres dimensiones principales, cada una con multiples sub-componentes:",
-      "formulaTitle": "Formula General",
+      "title": "METODOLOGÍA DE SCORING",
+      "intro": "Nuestro sistema evalúa candidatos en tres dimensiones principales, cada una con múltiples sub-componentes:",
+      "formulaTitle": "Fórmula General",
       "formula": "Score = (wC x Competencia) + (wI x Integridad) + (wT x Transparencia)",
       "presets": {
         "mode": "Modo",
         "competence": "Competencia",
         "integrity": "Integridad",
         "transparency": "Transparencia",
-        "description": "Descripcion",
+        "description": "Descripción",
         "balanced": "EQUILIBRADO",
-        "balancedDesc": "Balance entre capacidad y etica",
-        "merit": "MERITO",
-        "meritDesc": "Prioriza preparacion profesional",
+        "balancedDesc": "Balance entre capacidad y ética",
+        "merit": "MÉRITO",
+        "meritDesc": "Prioriza preparación profesional",
         "integrityMode": "INTEGRIDAD",
-        "integrityModeDesc": "Prioriza historial etico",
+        "integrityModeDesc": "Prioriza historial ético",
         "custom": "PERSONALIZADO",
         "customDesc": "Usuario define los pesos"
       },
       "competence": {
         "title": "COMPETENCIA (0-100 puntos)",
-        "desc": "Mide la preparacion profesional del candidato para ejercer el cargo.",
-        "educationTitle": "Educacion (max. 30 pts)",
+        "desc": "Mide la preparación profesional del candidato para ejercer el cargo.",
+        "educationTitle": "Educación (máx. 30 pts)",
         "education1": "Doctorado: 22 pts",
-        "education2": "Maestria: 18 pts",
-        "education3": "Titulo profesional: 16 pts",
+        "education2": "Maestría: 18 pts",
+        "education3": "Título profesional: 16 pts",
         "education4": "Universitario completo: 14 pts",
-        "education5": "Tecnico completo: 10 pts",
+        "education5": "Técnico completo: 10 pts",
         "education6": "+ Hasta 8 pts por especializaciones",
-        "experienceTitle": "Experiencia (max. 50 pts)",
+        "experienceTitle": "Experiencia (máx. 50 pts)",
         "experience1": "Experiencia total: 0-25 pts",
         "experience2": "Experiencia relevante: 0-25 pts",
         "experience3": "Ponderado por tipo de rol y sector",
-        "leadershipTitle": "Liderazgo (max. 20 pts)",
-        "leadership1": "Seniority maximo alcanzado: 0-14 pts (Individual -> Gerencia -> Direccion)",
+        "leadershipTitle": "Liderazgo (máx. 20 pts)",
+        "leadership1": "Seniority máximo alcanzado: 0-14 pts (Individual -> Gerencia -> Dirección)",
         "leadership2": "Estabilidad en posiciones de liderazgo: 0-6 pts"
       },
       "integrity": {
@@ -740,24 +740,24 @@
         "penal1": "Sentencia penal firme (1)",
         "penal2": "Sentencias penales (2+)",
         "violence": "Violencia familiar",
-        "alimony": "Omision alimentaria",
+        "alimony": "Omisión alimentaria",
         "labor": "Sentencia laboral",
         "contractual": "Sentencia contractual",
         "resignations": "Renuncias a partidos (1 / 2-3 / 4+)"
       },
       "transparency": {
         "title": "TRANSPARENCIA (0-100 puntos)",
-        "desc": "Evalua la calidad y completitud de la informacion declarada por el candidato en su DJHV.",
+        "desc": "Evalúa la calidad y completitud de la información declarada por el candidato en su DJHV.",
         "completeness": "Completitud",
-        "completenessDesc": "Lleno todos los campos del DJHV?",
+        "completenessDesc": "¿Llenó todos los campos del DJHV?",
         "consistency": "Consistencia",
-        "consistencyDesc": "Los datos son coherentes entre si?",
+        "consistencyDesc": "¿Los datos son coherentes entre sí?",
         "assetQuality": "Calidad Patrimonial",
-        "assetQualityDesc": "La declaracion de bienes es detallada?"
+        "assetQualityDesc": "¿La declaración de bienes es detallada?"
       },
       "confidence": {
-        "title": "INDICE DE CONFIANZA (0-100)",
-        "desc": "Indica que tan completa y verificable es la informacion que tenemos del candidato.",
+        "title": "ÍNDICE DE CONFIANZA (0-100)",
+        "desc": "Indica qué tan completa y verificable es la información que tenemos del candidato.",
         "note": "No afecta el score final, pero ayuda a interpretar los resultados.",
         "high": "Alta",
         "medium": "Media",
@@ -766,27 +766,27 @@
     },
     "dataSources": {
       "title": "FUENTES DE DATOS",
-      "intro": "Toda la informacion proviene de fuentes oficiales y publicas, procesadas mediante pipelines automatizados:",
+      "intro": "Toda la información proviene de fuentes oficiales y públicas, procesadas mediante pipelines automatizados:",
       "pipelineTitle": "PIPELINE DE DATOS",
       "jneTitle": "JNE - Jurado Nacional de Elecciones",
-      "jne1": "Declaracion Jurada de Hoja de Vida (DJHV)",
-      "jne2": "Datos biograficos y educacion",
-      "jne3": "Experiencia laboral y politica",
-      "jne4": "Declaracion de bienes",
+      "jne1": "Declaración Jurada de Hoja de Vida (DJHV)",
+      "jne2": "Datos biográficos y educación",
+      "jne3": "Experiencia laboral y política",
+      "jne4": "Declaración de bienes",
       "jne5": "Sentencias declaradas",
       "onpeTitle": "ONPE",
-      "onpe1": "Financiamiento publico de partidos",
+      "onpe1": "Financiamiento público de partidos",
       "onpe2": "Donaciones privadas",
-      "onpe3": "Gastos de campana",
+      "onpe3": "Gastos de campaña",
       "judicialTitle": "Poder Judicial",
       "judicial1": "Sentencias penales firmes",
       "judicial2": "Procesos civiles",
-      "mediaTitle": "Medios de Comunicacion",
-      "media1": "El Comercio, La Republica, RPP",
-      "media2": "Gestion, Peru21, Correo",
+      "mediaTitle": "Medios de Comunicación",
+      "media1": "El Comercio, La República, RPP",
+      "media2": "Gestión, Perú21, Correo",
       "media3": "Google News (agregador)",
       "socialTitle": "Redes Sociales",
-      "syncTitle": "Frecuencia de Actualizacion",
+      "syncTitle": "Frecuencia de Actualización",
       "syncJne": "JNE/ONPE:",
       "syncJneFreq": "Diario",
       "syncNews": "Noticias:",
@@ -797,28 +797,28 @@
     "features": {
       "title": "FUNCIONALIDADES",
       "ranking": {
-        "title": "Ranking Dinamico",
-        "desc": "Rankings en tiempo real con multiples modos de scoring y filtros por cargo, distrito y partido."
+        "title": "Ranking Dinámico",
+        "desc": "Rankings en tiempo real con múltiples modos de scoring y filtros por cargo, distrito y partido."
       },
       "profiles": {
         "title": "Perfiles Detallados",
-        "desc": "Informacion completa de cada candidato: educacion, experiencia, antecedentes, bienes y noticias relacionadas."
+        "desc": "Información completa de cada candidato: educación, experiencia, antecedentes, bienes y noticias relacionadas."
       },
       "quiz": {
         "title": "Quiz Electoral",
-        "desc": "10 preguntas para descubrir que candidatos tienen posiciones mas afines a las tuyas."
+        "desc": "10 preguntas para descubrir qué candidatos tienen posiciones más afines a las tuyas."
       },
       "compare": {
         "title": "Comparador",
-        "desc": "Compara lado a lado multiples candidatos en todas sus dimensiones y scores."
+        "desc": "Compara lado a lado múltiples candidatos en todas sus dimensiones y scores."
       },
       "news": {
         "title": "Noticias en Vivo",
-        "desc": "Agregacion de noticias de multiples fuentes con analisis de sentimiento por IA."
+        "desc": "Agregación de noticias de múltiples fuentes con análisis de sentimiento por IA."
       },
       "transparency": {
         "title": "Transparencia Financiera",
-        "desc": "Datos de financiamiento de partidos: ingresos publicos, donantes y gastos de campana."
+        "desc": "Datos de financiamiento de partidos: ingresos públicos, donantes y gastos de campaña."
       },
       "countdown": {
         "title": "Countdown Electoral",
@@ -836,23 +836,23 @@
       "finance": "Financiamiento",
       "content": "Contenido",
       "engagement": "Engagement",
-      "sync": "Sincronizacion"
+      "sync": "Sincronización"
     },
     "api": {
       "title": "API REFERENCE",
-      "intro": "RESTful API con endpoints publicos y protegidos. Los endpoints de sync requieren autenticacion.",
-      "publicTitle": "Endpoints Publicos",
-      "protectedTitle": "Endpoints de Sincronizacion",
-      "protectedNote": "Requieren header CRON_SECRET o autenticacion de Vercel Cron.",
+      "intro": "RESTful API con endpoints públicos y protegidos. Los endpoints de sync requieren autenticación.",
+      "publicTitle": "Endpoints Públicos",
+      "protectedTitle": "Endpoints de Sincronización",
+      "protectedNote": "Requieren header CRON_SECRET o autenticación de Vercel Cron.",
       "tableHeaders": {
-        "method": "Metodo",
+        "method": "Método",
         "endpoint": "Endpoint",
-        "description": "Descripcion"
+        "description": "Descripción"
       },
       "endpoints": {
         "candidates": "Lista candidatos con filtros (cargo, distrito, partido)",
-        "candidateDetail": "Detalle de candidato especifico",
-        "parties": "Lista de partidos politicos",
+        "candidateDetail": "Detalle de candidato específico",
+        "parties": "Lista de partidos políticos",
         "partiesFinances": "Financiamiento de todos los partidos",
         "newsTrending": "Noticias trending con actividad",
         "districts": "Lista de distritos electorales",
@@ -860,69 +860,69 @@
         "syncJne": "Sincronizar datos de JNE",
         "syncNews": "Sincronizar feeds RSS",
         "syncTwitter": "Sincronizar menciones Twitter",
-        "syncAi": "Ejecutar analisis IA en contenido",
+        "syncAi": "Ejecutar análisis IA en contenido",
         "syncStatus": "Estado de jobs de sync"
       },
       "exampleTitle": "Ejemplo de Respuesta: GET /api/candidates/[slug]"
     },
     "designSystem": {
-      "title": "SISTEMA DE DISENO",
-      "intro": "Diseno NEO-BRUTAL: bordes gruesos, sombras duras, tipografia bold, alto contraste.",
+      "title": "SISTEMA DE DISEÑO",
+      "intro": "Diseño NEO-BRUTAL: bordes gruesos, sombras duras, tipografía bold, alto contraste.",
       "principles": {
         "bordersTitle": "Bordes Gruesos",
-        "bordersDesc": "Bordes de 2-3px en todos los elementos. Definen claramente los limites y crean jerarquia visual.",
+        "bordersDesc": "Bordes de 2-3px en todos los elementos. Definen claramente los límites y crean jerarquía visual.",
         "shadowsTitle": "Sombras Duras",
         "shadowsDesc": "Sombras sin blur (4px-8px offset) que crean profundidad y efecto 3D retro.",
-        "typographyTitle": "Tipografia Bold",
-        "typographyDesc": "Space Grotesk para headings, JetBrains Mono para codigo. Todo en mayusculas para titulos."
+        "typographyTitle": "Tipografía Bold",
+        "typographyDesc": "Space Grotesk para headings, JetBrains Mono para código. Todo en mayúsculas para títulos."
       },
       "colorsTitle": "Paleta de Colores",
       "flagsTitle": "Severidad de Flags",
       "flagRed": "ROJO",
-      "flagRedDesc": "Critico",
-      "flagAmber": "AMBAR",
+      "flagRedDesc": "Crítico",
+      "flagAmber": "ÁMBAR",
       "flagAmberDesc": "Moderado",
       "flagGray": "GRIS",
       "flagGrayDesc": "Menor",
       "componentsTitle": "Componentes UI",
       "responsiveTitle": "Responsive Design",
       "responsive1": "Breakpoints: 320px (min), 640px (sm), 768px (md), 1024px (lg)",
-      "responsive2": "Touch targets: minimo 44x44px en mobile",
+      "responsive2": "Touch targets: mínimo 44x44px en mobile",
       "responsive3": "Font scaling: text-sm -> text-lg responsive",
       "responsive4": "Layout: Column-first, row on desktop"
     },
     "security": {
       "title": "SEGURIDAD Y PRIVACIDAD",
-      "authTitle": "Autenticacion",
+      "authTitle": "Autenticación",
       "auth1": "CRON_SECRET para endpoints de sync",
-      "auth2": "Verificacion de Vercel Cron headers",
+      "auth2": "Verificación de Vercel Cron headers",
       "auth3": "Supabase Auth para usuarios (futuro)",
       "privacyTitle": "Privacidad de Datos",
-      "privacy1": "DNI de donantes: solo ultimos 4 digitos",
+      "privacy1": "DNI de donantes: solo últimos 4 dígitos",
       "privacy2": "No almacenamos datos personales de usuarios",
-      "privacy3": "Quiz responses: anonimas con session ID",
+      "privacy3": "Quiz responses: anónimas con session ID",
       "infraTitle": "Infraestructura",
       "infra1": "Hosting en Vercel (SOC 2 compliant)",
       "infra2": "Base de datos en Neon (encriptada)",
       "infra3": "HTTPS obligatorio",
       "neutralityTitle": "Neutralidad",
-      "neutrality1": "Sin afiliacion politica",
-      "neutrality2": "Metodologia publica y auditable",
+      "neutrality1": "Sin afiliación política",
+      "neutrality2": "Metodología pública y auditable",
       "neutrality3": "Reportes de errores abiertos"
     },
     "disclaimer": {
       "title": "Disclaimer Legal",
-      "text": "Este ranking es una herramienta informativa basada en datos publicos. No representa una recomendacion de voto ni una evaluacion completa de las capacidades de un candidato. Los usuarios deben complementar esta informacion con su propio analisis de propuestas y valores. La plataforma no tiene afiliacion con ningun partido politico ni candidato."
+      "text": "Este ranking es una herramienta informativa basada en datos públicos. No representa una recomendación de voto ni una evaluación completa de las capacidades de un candidato. Los usuarios deben complementar esta información con su propio análisis de propuestas y valores. La plataforma no tiene afiliación con ningún partido político ni candidato."
     },
     "cta": {
       "viewRanking": "VER EL RANKING",
-      "viewMethodology": "METODOLOGIA DETALLADA"
+      "viewMethodology": "METODOLOGÍA DETALLADA"
     },
     "badges": {
       "official": "OFICIAL",
       "media": "MEDIA",
       "social": "SOCIAL",
-      "public": "PUBLICO",
+      "public": "PÚBLICO",
       "protected": "PROTEGIDO"
     }
   },

@@ -508,7 +508,21 @@
     "viewLess": "Pisita qhaway",
     "share": "Rakinakuy",
     "copy": "Kikinchasqa",
-    "copied": "Kikinchasqa"
+    "copied": "Kikinchasqa",
+    "months": {
+      "jan": "qul",
+      "feb": "hat",
+      "mar": "paw",
+      "apr": "ayr",
+      "may": "aym",
+      "jun": "int",
+      "jul": "ant",
+      "aug": "qha",
+      "sep": "uma",
+      "oct": "kan",
+      "nov": "aya",
+      "dec": "qap"
+    }
   },
   "disclaimer": {
     "aiTranslation": "IA nisqawan tikrasqa",
@@ -1018,22 +1032,6 @@
     "errors": {
       "loadError": "Pantay cargaspa",
       "syncError": "Pantay tupachispa {source}"
-    }
-  },
-  "common": {
-    "months": {
-      "jan": "qul",
-      "feb": "hat",
-      "mar": "paw",
-      "apr": "ayr",
-      "may": "aym",
-      "jun": "int",
-      "jul": "ant",
-      "aug": "qha",
-      "sep": "uma",
-      "oct": "kan",
-      "nov": "aya",
-      "dec": "qap"
     }
   },
   "accessibility": {

@@ -3,11 +3,11 @@ import { Header } from '@/components/layout/Header'
 import { QuizContent } from './QuizContent'
 
 export const metadata: Metadata = {
-  title: 'Quiz: Quien Piensa Como Tu? | Ranking Electoral Peru 2026',
-  description: 'Responde 10 preguntas sobre temas politicos clave y descubre que candidatos presidenciales tienen posiciones mas cercanas a las tuyas.',
+  title: 'Quiz: ¿Quién Piensa Como Tú? | Ranking Electoral Perú 2026',
+  description: 'Responde 10 preguntas sobre temas políticos clave y descubre qué candidatos presidenciales tienen posiciones más cercanas a las tuyas.',
   openGraph: {
-    title: 'Quiz: Quien Piensa Como Tu?',
-    description: 'Descubre que candidatos tienen posiciones similares a las tuyas en las elecciones Peru 2026',
+    title: 'Quiz: ¿Quién Piensa Como Tú?',
+    description: 'Descubre qué candidatos tienen posiciones similares a las tuyas en las elecciones Perú 2026',
     images: ['/api/og?type=quiz'],
   },
 }

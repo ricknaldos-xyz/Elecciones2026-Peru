@@ -508,7 +508,21 @@
     "viewLess": "Pist uñjaña",
     "share": "Chikanchaña",
     "copy": "Uñtata",
-    "copied": "Uñtatawa"
+    "copied": "Uñtatawa",
+    "months": {
+      "jan": "chi",
+      "feb": "anä",
+      "mar": "ach",
+      "apr": "llü",
+      "may": "aym",
+      "jun": "maq",
+      "jul": "wil",
+      "aug": "sat",
+      "sep": "ala",
+      "oct": "lap",
+      "nov": "qha",
+      "dec": "jal"
+    }
   },
   "disclaimer": {
     "aiTranslation": "IA ukatjam jaqukipata",
@@ -1018,22 +1032,6 @@
     "errors": {
       "loadError": "Pantjawi apkatasipana",
       "syncError": "Pantjawi tupthapisipana {source}"
-    }
-  },
-  "common": {
-    "months": {
-      "jan": "chi",
-      "feb": "anä",
-      "mar": "ach",
-      "apr": "llü",
-      "may": "aym",
-      "jun": "maq",
-      "jul": "wil",
-      "aug": "sat",
-      "sep": "ala",
-      "oct": "lap",
-      "nov": "qha",
-      "dec": "jal"
     }
   },
   "accessibility": {

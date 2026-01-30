@@ -54,7 +54,7 @@ export function ProposalsList({
   if (proposals.length === 0) {
     return (
       <div className="text-center py-8 text-[var(--muted-foreground)]">
-        <p>No hay propuestas extraidas para este candidato.</p>
+        <p>No hay propuestas extraídas para este candidato.</p>
         {pdfUrl && (
           <div className="flex items-center justify-center gap-4 mt-4">
             <a
@@ -89,7 +89,7 @@ export function ProposalsList({
       {pdfUrl && (
         <div className="flex items-center justify-between flex-wrap gap-2">
           <p className="text-sm text-[var(--muted-foreground)]">
-            {proposals.length} propuestas extraidas con IA
+            {proposals.length} propuestas extraídas con IA
           </p>
           <div className="flex items-center gap-3">
             <a

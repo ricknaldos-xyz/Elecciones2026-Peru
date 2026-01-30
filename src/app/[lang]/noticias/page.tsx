@@ -7,11 +7,11 @@ import { Card } from '@/components/ui/Card'
 import { NoticiasContent } from './NoticiasContent'
 
 export const metadata: Metadata = {
-  title: 'Noticias Electorales | Ranking Electoral Peru 2026',
-  description: 'Las ultimas noticias de las elecciones Peru 2026. Cobertura de candidatos presidenciales, congresales y partidos politicos de los principales medios.',
+  title: 'Noticias Electorales | Ranking Electoral Perú 2026',
+  description: 'Las últimas noticias de las elecciones Perú 2026. Cobertura de candidatos presidenciales, congresales y partidos políticos de los principales medios.',
   openGraph: {
-    title: 'Noticias Electorales Peru 2026',
-    description: 'Las ultimas noticias de las elecciones Peru 2026 de los principales medios de comunicacion.',
+    title: 'Noticias Electorales Perú 2026',
+    description: 'Las últimas noticias de las elecciones Perú 2026 de los principales medios de comunicación.',
   },
 }
 

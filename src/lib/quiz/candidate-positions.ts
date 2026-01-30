@@ -52,7 +52,7 @@ export const CANDIDATE_POSITIONS: CandidatePosition[] = [
   },
   {
     candidateId: 'cesar-acuna',
-    candidateName: 'Cesar Acuna',
+    candidateName: 'César Acuña',
     candidateSlug: 'cesar-acuna-peralta',
     partyName: 'Alianza para el Progreso',
     photoUrl: undefined,
@@ -92,7 +92,7 @@ export const CANDIDATE_POSITIONS: CandidatePosition[] = [
     candidateId: 'daniel-urresti',
     candidateName: 'Daniel Urresti',
     candidateSlug: 'daniel-urresti-elera',
-    partyName: 'Podemos Peru',
+    partyName: 'Podemos Perú',
     photoUrl: undefined,
     positions: {
       security: 5,

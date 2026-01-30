@@ -21,8 +21,8 @@ import { useLocale } from 'next-intl'
 const SUGGESTED_CANDIDATES = [
   { id: 'keiko-fujimori', name: 'Keiko Fujimori', party: 'Fuerza Popular' },
   { id: 'antauro-humala', name: 'Antauro Humala', party: 'A.N.T.A.U.R.O.' },
-  { id: 'cesar-acuna', name: 'Cesar Acuna', party: 'APP' },
-  { id: 'jose-luna', name: 'Jose Luna', party: 'Podemos Peru' },
+  { id: 'cesar-acuna', name: 'César Acuña', party: 'APP' },
+  { id: 'jose-luna', name: 'José Luna', party: 'Podemos Perú' },
 ]
 
 function getScoreByMode(
