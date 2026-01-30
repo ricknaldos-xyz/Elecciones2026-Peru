@@ -1,0 +1,254 @@
+[
+  {
+    "party": "UN CAMINO DIFERENTE",
+    "orgId": 2998,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/de662f06-21d5-4523-a3ec-4fcbacabe16c.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/8334f8be-c20c-4910-b1e3-fcf1a35f8197.pdf",
+    "pesoArchivo": 1.34
+  },
+  {
+    "party": "PARTIDO DEMOCRATICO SOMOS PERU",
+    "orgId": 14,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/1334ac30-c28e-42a5-8fc5-79a4638ccd2a.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/c1e6b2ab-a51c-4881-9365-033ec7b23577.pdf",
+    "pesoArchivo": 1.44
+  },
+  {
+    "party": "JUNTOS POR EL PERU",
+    "orgId": 1264,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/3dd0e649-061c-4f31-8c3f-7a0836b58bde.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/ec164ae5-0cc4-4a12-ac5e-762af886cc9a.pdf",
+    "pesoArchivo": 1.38
+  },
+  {
+    "party": "PARTIDO APRISTA PERUANO",
+    "orgId": 2930,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/4d581919-b090-43d4-89e4-e284fde587b7.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/ed45f5ef-bec7-427c-b998-f4d5abec0d48.pdf",
+    "pesoArchivo": 1.61
+  },
+  {
+    "party": "FE EN EL PERU",
+    "orgId": 2898,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/b4869a0b-ff3d-47d7-af7b-62fd1295db83.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/f470547e-6200-48b8-8035-7cc227135a93.pdf",
+    "pesoArchivo": 0.38
+  },
+  {
+    "party": "PARTIDO CIVICO OBRAS",
+    "orgId": 2941,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/5643db28-6dbd-4d35-b79e-30d20d3bed85.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/79008239-1adf-42aa-ae86-7d604e36d2b8.pdf",
+    "pesoArchivo": 0.86
+  },
+  {
+    "party": "ALIANZA ELECTORAL VENCEREMOS",
+    "orgId": 3025,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/9984addc-e998-43b1-920f-1178d4d973aa.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/d96622ee-a711-4a27-8fb3-639fa8023be7.pdf",
+    "pesoArchivo": 0.93
+  },
+  {
+    "party": "RENOVACION POPULAR",
+    "orgId": 22,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/2096b44a-f3b6-4c81-b03d-94fbfc9ac762.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/5a861148-6867-430a-9308-6eadf2868ed1.pdf",
+    "pesoArchivo": 0.37
+  },
+  {
+    "party": "ALIANZA PARA EL PROGRESO",
+    "orgId": 1257,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/72576403-804a-4f28-85d3-bf4c7e648667.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/707fd179-701a-43e6-b814-71d8b9301852.pdf",
+    "pesoArchivo": 0.98
+  },
+  {
+    "party": "FUERZA POPULAR",
+    "orgId": 1366,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/da4b943d-4344-4743-9362-a11ccf3054cb.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/54765cdc-b494-409a-a30c-9e6bb2833566.pdf",
+    "pesoArchivo": 2.21
+  },
+  {
+    "party": "PARTIDO DE LOS TRABAJADORES Y EMPRENDEDORES PTE - PERU",
+    "orgId": 2939,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/6988c030-5c2b-40d8-b656-dc48899d4d8c.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/51124bb5-022b-487d-9afc-78211fe2113d.pdf",
+    "pesoArchivo": 0.1
+  },
+  {
+    "party": "PARTIDO SICREO",
+    "orgId": 2935,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/e9d731a4-a79f-42e0-9ff7-29f6abe2bd3f.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/158f6b39-7a03-405f-b152-6a5a0af4f395.pdf",
+    "pesoArchivo": 0.53
+  },
+  {
+    "party": "PARTIDO POLITICO PERU ACCION",
+    "orgId": 2932,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/f4e5c2c2-b0df-4033-adda-6617af774154.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/04492ff5-792a-43c1-a952-05cc305c79b4.pdf",
+    "pesoArchivo": 0.41
+  },
+  {
+    "party": "PARTIDO POLITICO PERU PRIMERO",
+    "orgId": 2925,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/f9624874-7cf6-4737-8db3-b73707c98e70.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/db264271-bd78-4c78-af6c-c1fd64a2d6f5.pdf",
+    "pesoArchivo": 2.98
+  },
+  {
+    "party": "PERU MODERNO",
+    "orgId": 2924,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/12de1a7b-008b-43c5-9159-c62c9b45eab1.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/c27a6054-ece1-4c00-a3d0-ad3c23b0b9bb.pdf",
+    "pesoArchivo": 0.56
+  },
+  {
+    "party": "PODEMOS PERU",
+    "orgId": 2731,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/67b637b0-e2f7-47cc-8b23-fa16be709cc2.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/57cca898-e581-4019-9be0-dd9c44076703.pdf",
+    "pesoArchivo": 3.79
+  },
+  {
+    "party": "PARTIDO DEMOCRATA UNIDO PERU",
+    "orgId": 2867,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/2e5235de-e828-45f0-92cc-017a830abc33.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/0479dbb9-475f-40fe-8288-df630419c7f4.pdf",
+    "pesoArchivo": 0.2
+  },
+  {
+    "party": "PARTIDO DEMOCRATA VERDE",
+    "orgId": 2895,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/3f2a939b-edf2-4505-b709-df775a5e0038.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/49c261f9-1d57-4d77-a5d3-b3f5b4562ba7.pdf",
+    "pesoArchivo": 3.34
+  },
+  {
+    "party": "PARTIDO PATRIOTICO DEL PERU",
+    "orgId": 2869,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/6de519cb-bb4d-4319-a11b-be65d4438f4f.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/a45d799b-a8c3-4505-9d13-73a4289fd9ee.pdf",
+    "pesoArchivo": 0.4
+  },
+  {
+    "party": "PARTIDO POLITICO INTEGRIDAD DEMOCRATICA",
+    "orgId": 2985,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/ee89ac99-516b-4665-9297-413a0cf104de.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/4229a340-5d25-45c0-87dc-3f18d294c22c.pdf",
+    "pesoArchivo": 1.98
+  },
+  {
+    "party": "AHORA NACION - AN",
+    "orgId": 2980,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/7d70c5e1-2246-42e8-90c2-372aa1cf7f52.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/f935e50c-929a-4279-a4de-6c03c6c24b8b.pdf",
+    "pesoArchivo": 2.31
+  },
+  {
+    "party": "PARTIDO DEMOCRATICO FEDERAL",
+    "orgId": 2986,
+    "urlPlanCompleto": null,
+    "urlResumen": null,
+    "pesoArchivo": 0
+  },
+  {
+    "party": "PARTIDO POLITICO COOPERACION POPULAR",
+    "orgId": 2995,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/582e0d55-19ee-4a7f-85ef-c254be5bada6.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/690d981f-30bb-4487-8d17-b995579c522b.pdf",
+    "pesoArchivo": 0.55
+  },
+  {
+    "party": "FUERZA Y LIBERTAD",
+    "orgId": 3024,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/d4ab9fba-d366-4083-bbf5-63aa465114d9.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/de628fd3-12db-4fad-9880-e8614e2359b6.pdf",
+    "pesoArchivo": 1.64
+  },
+  {
+    "party": "UNIDAD NACIONAL",
+    "orgId": 3023,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/ae0c9ba2-6278-4ca7-b077-16ed2cc39e76.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/030f130b-7d76-4e2f-a9f4-99fd09e5c74a.pdf",
+    "pesoArchivo": 1.68
+  },
+  {
+    "party": "PARTIDO MORADO",
+    "orgId": 2840,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/6eb5d4b8-bd18-4cf0-ae0e-e250ca085f5f.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/438a1d07-1ffb-4d88-a044-5e9a73097ce2.pdf",
+    "pesoArchivo": 3.87
+  },
+  {
+    "party": "PARTIDO FRENTE DE LA ESPERANZA 2021",
+    "orgId": 2857,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/d656b83f-3177-4053-a381-0f36ec99490a.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/a29bd31b-ba8f-403c-ac52-9d43d3782c7b.pdf",
+    "pesoArchivo": 0.52
+  },
+  {
+    "party": "AVANZA PAIS - PARTIDO DE INTEGRACION SOCIAL",
+    "orgId": 2173,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/5857261c-789e-4599-ac05-4531654b10b4.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/cb71b186-9375-402c-be01-81fde4a4f3e7.pdf",
+    "pesoArchivo": 1.24
+  },
+  {
+    "party": "PARTIDO POLITICO NACIONAL PERU LIBRE",
+    "orgId": 2218,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/b2d25860-484e-4226-bd13-a57fb83c59cb.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/f4681d3f-c1ea-486b-a795-547995c21d33.pdf",
+    "pesoArchivo": 0.89
+  },
+  {
+    "party": "LIBERTAD POPULAR",
+    "orgId": 2933,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/30bab146-a532-4d1b-87a7-e0f8078dc70b.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/77f7d01e-0ae1-4bff-8763-4e18303733c0.pdf",
+    "pesoArchivo": 0.93
+  },
+  {
+    "party": "PRIMERO LA GENTE - COMUNIDAD, ECOLOGIA, LIBERTAD Y PROGRESO",
+    "orgId": 2931,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/1430b48a-b7d1-4acf-970e-7c5e58f450c2.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/1d58a0ed-0df0-4000-9792-df5ddd53ea2f.pdf",
+    "pesoArchivo": 0.53
+  },
+  {
+    "party": "SALVEMOS AL PERU",
+    "orgId": 2927,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/40877746-e670-42d3-840b-cdf683f46355.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/bf527749-0c7c-4642-a1d5-b8f15b4a8945.pdf",
+    "pesoArchivo": 2.28
+  },
+  {
+    "party": "PARTIDO DEL BUEN GOBIERNO",
+    "orgId": 2961,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/19bde703-f7f4-4715-92f3-b82e19bbe651.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/a8762e2b-b6e6-4d27-84e4-4f0da5fc17b7.pdf",
+    "pesoArchivo": 1.38
+  },
+  {
+    "party": "PARTIDO PAIS PARA TODOS",
+    "orgId": 2956,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/76291ee3-eba2-4c88-adef-2530f2d70bb8.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/fea1dba2-01b1-4831-ab7e-fbd1db6591c9.pdf",
+    "pesoArchivo": 1.02
+  },
+  {
+    "party": "PROGRESEMOS",
+    "orgId": 2967,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/b2f303a2-1e0d-4933-9d5f-04682a3710b0.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/ed137d45-cf88-47c0-9f15-4b10fd2107ea.pdf",
+    "pesoArchivo": 0.97
+  },
+  {
+    "party": "PARTIDO POLITICO PRIN",
+    "orgId": 2921,
+    "urlPlanCompleto": "https://mpesije.jne.gob.pe/docs/3b89548c-81fa-479d-9ff9-2b7011fec7d2.pdf",
+    "urlResumen": "https://mpesije.jne.gob.pe/docs/4ab0caad-f051-42a3-b3f8-236ba7df2e3b.pdf",
+    "pesoArchivo": 0.44
+  }
+]
