@@ -6,6 +6,7 @@ import { KeyboardEvent } from 'react'
 interface CardProps {
   children: React.ReactNode
   className?: string
+  id?: string
   hover?: boolean
   onClick?: () => void
   padding?: 'none' | 'sm' | 'md' | 'lg'
@@ -16,6 +17,7 @@ interface CardProps {
 export function Card({
   children,
   className,
+  id,
   hover = false,
   onClick,
   padding = 'none',
@@ -66,6 +68,7 @@ export function Card({
         paddingStyles[padding],
         className
       )}
+      id={id}
       onClick={onClick}
       onKeyDown={isInteractive ? handleKeyDown : undefined}
       role={isInteractive ? 'button' : undefined}

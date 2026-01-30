@@ -27,6 +27,7 @@ import { ProposalQualityCard } from '@/components/candidate/ProposalQualityCard'
 import { JudicialDiscrepancyCard } from '@/components/candidate/JudicialDiscrepancyCard'
 import { IncumbentPerformanceCard } from '@/components/candidate/IncumbentPerformanceCard'
 import { CompanyIssuesCard } from '@/components/candidate/CompanyIssuesCard'
+import { ControversialVotesCard } from '@/components/candidate/ControversialVotesCard'
 import { ExperienceOverlapBadge } from '@/components/candidate/ExperienceOverlapBadge'
 import { PRESETS } from '@/lib/constants'
 import type { CandidateWithScores, PresetType, ScoreBreakdown } from '@/types/database'
@@ -108,6 +109,50 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
   const [mode, setMode] = useState<PresetType>('balanced')
   const [showStickyBar, setShowStickyBar] = useState(false)
   const heroRef = useRef<HTMLDivElement>(null)
+
+  // Trajectory context: voting and performance summaries
+  const [trajectoryContext, setTrajectoryContext] = useState<{
+    votedInFavor?: number
+    votedAgainst?: number
+    totalControversialLaws?: number
+    budgetExecutionPct?: number
+    budgetRating?: string
+    cargoActual?: string
+  } | null>(null)
+
+  useEffect(() => {
+    async function fetchTrajectoryContext() {
+      const results: typeof trajectoryContext = {}
+      try {
+        const [votingRes, perfRes] = await Promise.all([
+          fetch(`/api/candidates/${candidate.id}/voting-details`).catch(() => null),
+          fetch(`/api/candidates/${candidate.id}/performance`).catch(() => null),
+        ])
+        if (votingRes?.ok) {
+          const v = await votingRes.json()
+          if (v.controversialVotes?.length > 0) {
+            results.votedInFavor = v.votedInFavor
+            results.votedAgainst = v.votedAgainst
+            results.totalControversialLaws = v.totalControversialLaws
+          }
+        }
+        if (perfRes?.ok) {
+          const p = await perfRes.json()
+          if (p.isIncumbent && p.budgetExecution) {
+            results.budgetExecutionPct = p.budgetExecution.pct
+            results.budgetRating = p.budgetExecution.rating
+            results.cargoActual = p.cargoActual
+          }
+        }
+        if (Object.keys(results).length > 0) {
+          setTrajectoryContext(results)
+        }
+      } catch {
+        // Silently fail - badges are optional
+      }
+    }
+    fetchTrajectoryContext()
+  }, [candidate.id])
 
   // Detect scroll to show/hide sticky bar
   useEffect(() => {
@@ -601,8 +646,9 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                           <div className={cn(
                             'w-8 h-8 sm:w-10 sm:h-10 border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0',
                             pol.type === 'cargo_electivo' ? 'bg-[var(--flag-red-bg)] text-[var(--flag-red-text)]' :
+                            pol.type === 'cargo_publico' ? 'bg-[var(--score-integrity)]/20 text-[var(--score-integrity-text)]' :
                             pol.type === 'cargo_partidario' ? 'bg-[var(--flag-amber-bg)] text-[var(--flag-amber-text)]' :
-                            pol.type === 'candidatura' ? 'bg-[var(--score-integrity)]/20 text-[var(--score-integrity-text)]' :
+                            pol.type === 'candidatura' ? 'bg-[var(--muted)] text-[var(--muted-foreground)]' :
                             'bg-[var(--muted)] text-[var(--muted-foreground)]'
                           )}>
                             <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -613,7 +659,7 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                             <div className="flex items-start justify-between">
                               <div>
                                 <h4 className="font-bold text-[var(--foreground)]">
-                                  {pol.position || (pol.type === 'afiliacion' ? t('partyAffiliation') : pol.type === 'candidatura' ? t('candidacy') : t('politicalPosition'))}
+                                  {pol.position || (pol.type === 'afiliacion' ? t('partyAffiliation') : pol.type === 'candidatura' ? t('candidacy') : pol.type === 'cargo_publico' ? 'Cargo Público' : t('politicalPosition'))}
                                 </h4>
                                 <p className="text-sm font-medium text-[var(--muted-foreground)]">
                                   {pol.party || pol.institution}
@@ -638,6 +684,36 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                               >
                                 {pol.result}
                               </Badge>
+                            )}
+                            {/* Context badges for ex-congresspeople */}
+                            {trajectoryContext && pol.type === 'cargo_electivo' &&
+                              (pol.position || '').toLowerCase().includes('congres') &&
+                              trajectoryContext.votedInFavor !== undefined && (
+                              <div className="flex flex-wrap gap-1 mt-1.5">
+                                {trajectoryContext.votedInFavor > 0 && (
+                                  <Badge variant="destructive" size="sm">
+                                    {trajectoryContext.votedInFavor} votos pro-crimen
+                                  </Badge>
+                                )}
+                                {trajectoryContext.votedAgainst !== undefined && trajectoryContext.votedAgainst > 0 && (
+                                  <Badge variant="success" size="sm">
+                                    {trajectoryContext.votedAgainst} votos en contra
+                                  </Badge>
+                                )}
+                              </div>
+                            )}
+                            {/* Context badges for ex-alcaldes/gobernadores */}
+                            {trajectoryContext && (pol.type === 'cargo_electivo' || pol.type === 'cargo_publico') &&
+                              (pol.position || '').toLowerCase().match(/alcalde|gobernador/) &&
+                              trajectoryContext.budgetExecutionPct !== undefined && (
+                              <div className="flex flex-wrap gap-1 mt-1.5">
+                                <Badge
+                                  variant={trajectoryContext.budgetExecutionPct >= 70 ? 'success' : trajectoryContext.budgetExecutionPct >= 50 ? 'warning' : 'destructive'}
+                                  size="sm"
+                                >
+                                  Ejecución {trajectoryContext.budgetExecutionPct.toFixed(0)}%
+                                </Badge>
+                              </div>
                             )}
                           </div>
                         </div>
@@ -775,6 +851,9 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
 
               {/* Historial de Votaciones Congresales */}
               <VotingRecordCard candidateId={candidate.id} />
+
+              {/* Votaciones en Leyes Controversiales */}
+              <ControversialVotesCard candidateId={candidate.id} />
 
               {/* Estado Tributario SUNAT */}
               <TaxStatusCard candidateId={candidate.id} />

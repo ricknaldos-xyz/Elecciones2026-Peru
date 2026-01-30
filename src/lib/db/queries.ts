@@ -733,7 +733,7 @@ export interface ExperienceRecord {
 }
 
 export interface PoliticalRecord {
-  type: 'afiliacion' | 'cargo_partidario' | 'cargo_electivo' | 'candidatura'
+  type: 'afiliacion' | 'cargo_partidario' | 'cargo_electivo' | 'candidatura' | 'cargo_publico'
   party?: string
   position?: string
   year_start?: number

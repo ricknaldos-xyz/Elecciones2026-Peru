@@ -152,6 +152,16 @@ export function VotingRecordCard({ candidateId }: VotingRecordCardProps) {
           </div>
         )}
 
+        {/* Link to detailed controversial votes */}
+        <div className="text-center">
+          <a
+            href="#votaciones-controversiales"
+            className="text-sm font-bold text-[var(--primary)] hover:underline"
+          >
+            Ver detalle de leyes controversiales
+          </a>
+        </div>
+
         {/* Good votes bonus */}
         {hasGoodVotes && (
           <div className="p-4 bg-green-100 border-2 border-green-500">
