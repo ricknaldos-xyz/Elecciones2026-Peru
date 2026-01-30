@@ -20,13 +20,13 @@ export async function GET(request: NextRequest) {
     const search = searchParams.get('q') || null
     const searchPattern = search ? `%${search}%` : null
 
-    // Only show news linked to candidates
+    // Only show news linked to candidates or parties
     const news = await sql`
       SELECT id, title, url, excerpt, source, published_at, sentiment,
              relevance_score, keywords, candidate_name, candidate_slug,
              candidate_cargo, party_name, party_short_name
       FROM news_mentions_enriched
-      WHERE candidate_name IS NOT NULL
+      WHERE (candidate_name IS NOT NULL OR party_name IS NOT NULL)
         AND (${candidateSlug}::text IS NULL OR candidate_slug = ${candidateSlug})
         AND (${source}::text IS NULL OR source = ${source})
         AND (${sentiment}::text IS NULL OR sentiment = ${sentiment})
@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
     const countResult = await sql`
       SELECT COUNT(*) as total
       FROM news_mentions_enriched
-      WHERE candidate_name IS NOT NULL
+      WHERE (candidate_name IS NOT NULL OR party_name IS NOT NULL)
         AND (${candidateSlug}::text IS NULL OR candidate_slug = ${candidateSlug})
         AND (${source}::text IS NULL OR source = ${source})
         AND (${sentiment}::text IS NULL OR sentiment = ${sentiment})

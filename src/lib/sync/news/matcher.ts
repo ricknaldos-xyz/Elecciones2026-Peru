@@ -26,8 +26,15 @@ interface CandidateInfo {
   party_id: string | null
 }
 
-// Cache for candidates (refreshed on each sync)
+interface PartyInfo {
+  id: string
+  name: string
+  short_name: string | null
+}
+
+// Cache for candidates and parties (refreshed on each sync)
 let candidatesCache: CandidateInfo[] = []
+let partiesCache: PartyInfo[] = []
 let cacheTimestamp = 0
 const CACHE_TTL = 5 * 60 * 1000 // 5 minutes
 
@@ -113,8 +120,18 @@ async function loadCache(): Promise<void> {
     WHERE c.cargo IN ('presidente', 'vicepresidente', 'senador', 'diputado', 'parlamento_andino')
   `
   candidatesCache = candidates as CandidateInfo[]
+
+  // Load parties
+  const parties = await sql`
+    SELECT id, name, short_name
+    FROM parties
+  `
+  partiesCache = parties as PartyInfo[]
+
   cacheTimestamp = now
-  console.log(`[News Matcher] Loaded ${candidatesCache.length} candidates`)
+  console.log(
+    `[News Matcher] Loaded ${candidatesCache.length} candidates and ${partiesCache.length} parties`
+  )
 }
 
 /**
@@ -224,6 +241,83 @@ function containsCandidateName(text: string, name: string): boolean {
   return false
 }
 
+// Generic prefixes to strip from party legal names to get the recognizable portion
+const PARTY_PREFIXES = [
+  'partido politico nacional',
+  'partido politico',
+  'partido democratico',
+  'partido democrata',
+  'partido de los',
+  'partido',
+  'alianza electoral',
+]
+
+/**
+ * Get recognizable phrases for a party.
+ * Strips generic legal prefixes to extract the distinctive name portion.
+ * Returns phrases that should be matched as-is in text.
+ */
+function getPartyMatchPhrases(fullName: string, shortName: string | null): string[] {
+  const phrases: string[] = []
+  const normalized = normalizeText(fullName)
+
+  // 1. Short name as whole word (>= 4 chars to avoid "AN", "AP", "SP" etc.)
+  if (shortName) {
+    const normalizedShort = normalizeText(shortName)
+    if (normalizedShort.length >= 4) {
+      phrases.push(normalizedShort)
+    }
+  }
+
+  // 2. Full name (exact match)
+  phrases.push(normalized)
+
+  // 3. Strip generic prefix to get distinctive portion
+  for (const prefix of PARTY_PREFIXES) {
+    if (normalized.startsWith(prefix + ' ')) {
+      const distinctive = normalized.slice(prefix.length + 1).trim()
+      // Only use if the remaining part is distinctive enough (>= 2 words or >= 8 chars)
+      if (distinctive.length >= 8) {
+        phrases.push(distinctive)
+      }
+      break
+    }
+  }
+
+  // 4. Handle "NAME - ACRONYM" format (e.g. "AHORA NACION - AN")
+  const dashParts = fullName.split(' - ')
+  if (dashParts.length > 1) {
+    const beforeDash = normalizeText(dashParts[0])
+    if (beforeDash.length >= 8) {
+      phrases.push(beforeDash)
+    }
+  }
+
+  return phrases
+}
+
+/**
+ * Checks if text contains a party name.
+ * Uses recognizable party identifiers, not generic legal prefixes.
+ */
+function containsPartyName(text: string, party: PartyInfo): boolean {
+  const normalizedText = normalizeText(text)
+  const phrases = getPartyMatchPhrases(party.name, party.short_name)
+
+  for (const phrase of phrases) {
+    // For short names (acronyms), require word boundary match
+    if (phrase.length <= 6) {
+      const regex = new RegExp(`\\b${phrase}\\b`)
+      if (regex.test(normalizedText)) return true
+    } else {
+      // For longer phrases, substring match is fine
+      if (normalizedText.includes(phrase)) return true
+    }
+  }
+
+  return false
+}
+
 /**
  * Analyzes sentiment of text
  */
@@ -299,8 +393,8 @@ function calculateRelevance(
 }
 
 /**
- * Matches a news item to candidates only.
- * Only returns matches where a specific candidate is identified.
+ * Matches a news item to candidates and/or parties.
+ * Candidates are matched first; if no candidate matches, tries party matching.
  */
 export async function matchNewsToEntities(item: NewsItem): Promise<NewsMatch[]> {
   await loadCache()
@@ -311,7 +405,7 @@ export async function matchNewsToEntities(item: NewsItem): Promise<NewsMatch[]> 
   // Analyze sentiment once for the whole article
   const { sentiment, keywords } = analyzeSentiment(fullText)
 
-  // Match against candidates only
+  // Match against candidates
   for (const candidate of candidatesCache) {
     if (containsCandidateName(fullText, candidate.full_name)) {
       const relevance = calculateRelevance(item, candidate.full_name)
@@ -328,6 +422,27 @@ export async function matchNewsToEntities(item: NewsItem): Promise<NewsMatch[]> 
     }
   }
 
+  // If no candidate matched, try party matching
+  if (matches.length === 0) {
+    for (const party of partiesCache) {
+      if (containsPartyName(fullText, party)) {
+        const relevance = calculateRelevance(
+          item,
+          party.short_name || party.name
+        )
+
+        matches.push({
+          candidateId: null,
+          partyId: party.id,
+          partyName: party.name,
+          sentiment,
+          keywords,
+          relevanceScore: relevance,
+        })
+      }
+    }
+  }
+
   // Sort by relevance and limit to top 3
   return matches
     .sort((a, b) => b.relevanceScore - a.relevanceScore)
@@ -339,5 +454,6 @@ export async function matchNewsToEntities(item: NewsItem): Promise<NewsMatch[]> 
  */
 export function clearMatcherCache(): void {
   candidatesCache = []
+  partiesCache = []
   cacheTimestamp = 0
 }
