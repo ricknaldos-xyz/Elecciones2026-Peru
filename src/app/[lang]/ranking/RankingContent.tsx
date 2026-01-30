@@ -14,6 +14,7 @@ import { RankingFilters } from '@/components/ranking/RankingFilters'
 import { RankingList } from '@/components/ranking/RankingList'
 import { CompareTray } from '@/components/compare/CompareTray'
 import { useSuccessToast } from '@/components/ui/Toast'
+import { AdBanner } from '@/components/ads/AdBanner'
 import { useCandidates } from '@/hooks/useCandidates'
 import { PRESETS, WEIGHT_LIMITS, DISTRICTS, validateAndNormalizeWeights } from '@/lib/constants'
 import { MOCK_PARTIES } from '@/lib/mock-data'
@@ -293,6 +294,9 @@ export function RankingContent() {
   return (
     <div className="min-h-screen bg-[var(--background)]">
       <Header currentPath="/ranking" />
+
+      {/* Ad Banner - Header */}
+      <AdBanner slotId="internal-header" className="py-2" />
 
       <main id="main-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Page Header - NEO BRUTAL */}
@@ -678,6 +682,8 @@ export function RankingContent() {
             )}
           </div>
         </div>
+        {/* Ad Banner - Footer */}
+        <AdBanner slotId="internal-footer" className="py-4 mt-6" />
       </main>
 
       {/* Compare Tray */}

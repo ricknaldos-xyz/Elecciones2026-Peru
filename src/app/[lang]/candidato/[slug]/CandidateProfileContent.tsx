@@ -17,6 +17,8 @@ import { Progress } from '@/components/ui/Progress'
 import { FlagChips } from '@/components/candidate/FlagChip'
 import { ConfidenceBadge } from '@/components/candidate/ConfidenceBadge'
 import { ShareButton } from '@/components/share/ShareButton'
+import { AdBanner } from '@/components/ads/AdBanner'
+import { AdSlot } from '@/components/ads/AdSlot'
 import { CandidateNewsSection } from '@/components/news/CandidateNewsSection'
 import { CandidateProposals } from '@/components/proposals/CandidateProposals'
 import { VotingRecordCard } from '@/components/candidate/VotingRecordCard'
@@ -160,6 +162,9 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
   return (
     <div className="min-h-screen bg-[var(--background)]">
       <Header />
+
+      {/* Ad Banner - Header */}
+      <AdBanner slotId="internal-header" className="py-2" />
 
       {/* Sticky Summary Bar - appears on scroll */}
       <div
@@ -1214,6 +1219,12 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                 )}
               </CardContent>
             </Card>
+
+            {/* Sidebar Ads */}
+            <div className="space-y-4">
+              <AdSlot slotId="internal-sidebar-top" size="300x250" />
+              <AdSlot slotId="internal-sidebar-bottom" size="300x600" />
+            </div>
           </aside>
         </div>
 
@@ -1276,6 +1287,9 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
             ))}
           </div>
         </section>
+
+        {/* Ad Banner - Footer */}
+        <AdBanner slotId="internal-footer" className="py-4" />
       </main>
     </div>
   )

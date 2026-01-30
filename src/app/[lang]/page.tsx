@@ -8,6 +8,8 @@ import { CountdownBanner } from '@/components/viral/CountdownBanner'
 import { DailyFact } from '@/components/viral/DailyFact'
 import { TrendingNews } from '@/components/news/TrendingNews'
 import { CandidateCardMini } from '@/components/candidate/CandidateCardMini'
+import { AdBanner } from '@/components/ads/AdBanner'
+import { AdSlot } from '@/components/ads/AdSlot'
 import { DISTRICTS } from '@/lib/constants'
 import { sql } from '@/lib/db'
 
@@ -84,6 +86,9 @@ export default async function Home() {
       <Header currentPath="/" />
 
       <main id="main-content">
+        {/* Ad Banner - Header */}
+        <AdBanner slotId="home-header" className="py-2" />
+
         {/* Countdown Banner - Full Width Urgency */}
         <CountdownBanner />
 
@@ -224,14 +229,26 @@ export default async function Home() {
         </Link>
       </section>
 
+      {/* Ad Banner - Mid */}
+      <AdBanner slotId="home-mid" className="py-2" />
+
       {/* Daily Fact - Full width */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
         <DailyFact variant="card" />
       </section>
 
-      {/* Trending News - Full width */}
+      {/* Trending News - With sidebar ad on desktop */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-        <TrendingNews limit={6} variant="grid" />
+        <div className="lg:flex lg:gap-6">
+          <div className="flex-1 min-w-0">
+            <TrendingNews limit={6} variant="grid" />
+          </div>
+          <aside className="hidden lg:block w-[300px] flex-shrink-0">
+            <div className="sticky top-20 space-y-4">
+              <AdSlot slotId="home-sidebar" size="300x250" />
+            </div>
+          </aside>
+        </div>
       </section>
 
       {/* Scoring Methodology - Con hover interactivo */}
@@ -363,6 +380,8 @@ export default async function Home() {
           </div>
         </Card>
       </section>
+      {/* Ad Banner - Footer */}
+      <AdBanner slotId="home-footer" className="py-2" />
       </main>
 
       {/* Footer - NEO BRUTAL - Mobile Optimized */}
