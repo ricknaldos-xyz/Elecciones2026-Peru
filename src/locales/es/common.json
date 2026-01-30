@@ -31,7 +31,9 @@
     "methodologyDesc": "Cómo calculamos las puntuaciones",
     "docsDesc": "Documentación técnica y API",
     "donate": "Donar",
-    "donateDesc": "Apoya este proyecto sin fines de lucro"
+    "donateDesc": "Apoya este proyecto sin fines de lucro",
+    "games": "Juegos",
+    "gamesDesc": "Juegos virales con sátira política"
   },
   "hero": {
     "title": "Ranking Electoral Perú 2026",
@@ -1087,5 +1089,74 @@
     "configureNote": "Próximamente",
     "metaTitle": "Donar | Ranking Electoral Perú 2026",
     "metaDescription": "Apoya este proyecto sin fines de lucro. Tu donación mantiene la plataforma independiente y gratuita."
+  },
+  "games": {
+    "loading": "Cargando...",
+    "hub": {
+      "badge": "NUEVO",
+      "title": "Juegos Electorales",
+      "subtitle": "Aprende sobre los candidatos jugando. Comparte tus resultados y reta a tus amigos.",
+      "metaTitle": "Juegos Electorales | Ranking Electoral Perú 2026",
+      "metaDescription": "Juegos virales sobre los candidatos presidenciales. Batalla, Swipe y Frankenstein político.",
+      "play": "Jugar"
+    },
+    "batalla": {
+      "badge": "⚔️ BATALLA",
+      "title": "Batalla Presidencial",
+      "subtitle": "Dos candidatos, una pregunta. ¿Quién gana? Adivina correctamente y mantén tu racha. Un error y se acabó.",
+      "hubDesc": "Dos candidatos se enfrentan en categorías random. Adivina quién gana. Racha infinita con comentarios satíricos.",
+      "metaTitle": "Batalla Presidencial | Ranking Electoral Perú 2026",
+      "metaDescription": "Juego viral: dos candidatos se enfrentan, adivina quién gana. Comentarios satíricos incluidos.",
+      "play": "¡A la batalla!",
+      "playAgain": "Jugar de nuevo",
+      "streak": "Racha",
+      "bestStreak": "Mejor racha",
+      "played": "Jugadas",
+      "accuracy": "Aciertos",
+      "correct": "¡CORRECTO!",
+      "incorrect": "¡FALLASTE!",
+      "tie": "¡EMPATE!",
+      "next": "Siguiente →",
+      "seeResult": "Ver resultado",
+      "gameOver": "¡Game Over!",
+      "finalStreak": "Llegaste a {count} aciertos seguidos",
+      "lastRound": "Última ronda"
+    },
+    "swipe": {
+      "badge": "💘 SWIPE",
+      "title": "Swipe Electoral",
+      "hubDesc": "Tinder de propuestas: desliza sin saber de quién son. Al final descubre con quién matcheas. Prepárate para la sorpresa.",
+      "metaTitle": "Swipe Electoral | Ranking Electoral Perú 2026",
+      "metaDescription": "Tinder de propuestas políticas. Desliza y descubre con qué candidato eres más compatible.",
+      "subtitle": "¿Con quién estás de acuerdo sin saberlo?",
+      "agree": "De acuerdo",
+      "disagree": "En contra",
+      "proposalOf": "Propuesta {current} de {total}",
+      "results": "Tus matches",
+      "match": "compatibilidad",
+      "playAgain": "Jugar de nuevo",
+      "share": "Compartir resultado",
+      "noProposals": "No hay suficientes propuestas disponibles."
+    },
+    "frankenstein": {
+      "badge": "🧟 FRANKENSTEIN",
+      "title": "Arma tu Presidente",
+      "hubDesc": "Combina lo mejor (o peor) de cada candidato. Crea tu Frankenstein presidencial y compara su score con los reales.",
+      "metaTitle": "Arma tu Presidente | Ranking Electoral Perú 2026",
+      "metaDescription": "Crea tu candidato ideal combinando atributos de diferentes candidatos. Frankenstein político.",
+      "subtitle": "Crea tu candidato ideal combinando lo mejor (o peor) de cada uno.",
+      "step": "Paso {current} de {total}",
+      "select": "Elige un candidato",
+      "education": "Educación",
+      "integrity": "Integridad",
+      "economy": "Propuesta Económica",
+      "assets": "Patrimonio",
+      "trajectory": "Trayectoria",
+      "result": "Tu Presidente Frankenstein",
+      "score": "Score total",
+      "beatsCount": "Mejor que {count} de {total} candidatos reales",
+      "playAgain": "Crear otro",
+      "share": "Compartir"
+    }
   }
 }

@@ -31,7 +31,9 @@
     "methodologyDesc": "Kunjamas jakhunak lurañani",
     "docsDesc": "Técnico qillqanaka API-mpi",
     "donate": "Yanapaña",
-    "donateDesc": "Aka luräwi yanapaña jan qullqipataki"
+    "donateDesc": "Aka luräwi yanapaña jan qullqipataki",
+    "games": "Anataña",
+    "gamesDesc": "Anatawinaka ajilanakampi"
   },
   "hero": {
     "title": "Ajilanaka Ranking Perú 2026",
@@ -1085,5 +1087,74 @@
     "configureNote": "Jutir urunakan",
     "metaTitle": "Yanapaña | Ajilanaka Ranking Perú 2026",
     "metaDescription": "Aka jan qullqipataki luräwi yanapaña. Yanapt'amampi plataforma sapaki janikiniw qullqini."
+  },
+  "games": {
+    "loading": "Cargasaki...",
+    "hub": {
+      "badge": "MACHAQ",
+      "title": "Ajilanaka Anatawinaka",
+      "subtitle": "Ajilanakamanta yatiqa anatasasa. Yatiyawi uñacht'ayaña.",
+      "metaTitle": "Anatawinaka | Ajilanaka Ranking Perú 2026",
+      "metaDescription": "Anatawinaka virales ajilanaka presidentenakampi.",
+      "play": "Anataña"
+    },
+    "batalla": {
+      "badge": "⚔️ CH'AXWA",
+      "title": "Ch'axwa Presidencial",
+      "subtitle": "Pä ajilanaka, maya jiskht'awi. ¿Kitis atipani? Wali ajlliña, racha-ma jark'aña.",
+      "hubDesc": "Pä ajilanaka ch'axwanipxi. Kitis atipanisa ajlliña. Comentarios satíricos-mpi.",
+      "metaTitle": "Ch'axwa Presidencial | Ajilanaka Ranking Perú 2026",
+      "metaDescription": "Anataña viral: pä ajilanaka ch'axwanipxi, kitis atipani.",
+      "play": "¡Ch'axwañaru!",
+      "playAgain": "Maynit anataña",
+      "streak": "Racha",
+      "bestStreak": "Juk'amp suma racha",
+      "played": "Anatatanaka",
+      "accuracy": "Atipata",
+      "correct": "¡WALIKI!",
+      "incorrect": "¡PANTJTA!",
+      "tie": "¡EMPATE!",
+      "next": "Jutiri →",
+      "seeResult": "Yatiyawi uñjaña",
+      "gameOver": "¡Tukuyatayna!",
+      "finalStreak": "{count} atipata jikxatäta",
+      "lastRound": "Qhipa muyu"
+    },
+    "swipe": {
+      "badge": "💘 SWIPE",
+      "title": "Swipe Electoral",
+      "hubDesc": "Amtawinaka uñjaña jan kuna ajilanakatakisa yatasasa. Kitimpisa tupäta jikxataña.",
+      "metaTitle": "Swipe Electoral | Ajilanaka Ranking Perú 2026",
+      "metaDescription": "Amtawinaka desliza, kitimpisa tupt'asima jikxataña.",
+      "subtitle": "¿Kitimpisa tupt'asta jan yatasasa?",
+      "agree": "Jisa",
+      "disagree": "Janiwa",
+      "proposalOf": "Amtawi {current} / {total}",
+      "results": "Tupt'asiwinaka",
+      "match": "tupt'awi",
+      "playAgain": "Maynit anataña",
+      "share": "Uñacht'ayaña",
+      "noProposals": "Jan amtawinakakiti utjkiti."
+    },
+    "frankenstein": {
+      "badge": "🧟 FRANKENSTEIN",
+      "title": "Presidentema Luraña",
+      "hubDesc": "Sapa ajilanakata juk'amp suma kawinakapa tupaña. Frankenstein presidencial-ma luraña.",
+      "metaTitle": "Presidentema Luraña | Ajilanaka Ranking Perú 2026",
+      "metaDescription": "Ajilanakamanta tupañasa machaq ajilanakata luraña.",
+      "subtitle": "Sapa ajilanakata juk'amp suma (jan ukax jan wali) ajlliña.",
+      "step": "Lurawi {current} / {total}",
+      "select": "Maya ajilanaka ajlliña",
+      "education": "Yatiqawi",
+      "integrity": "Chiqapa",
+      "economy": "Qullqi amtawi",
+      "assets": "Janiranaka",
+      "trajectory": "Thakhi",
+      "result": "Frankenstein Presidentema",
+      "score": "Taqpach puntaje",
+      "beatsCount": "Juk'amp suma {count} / {total} chiqapa ajilanakamanta",
+      "playAgain": "Maynit luraña",
+      "share": "Uñacht'ayaña"
+    }
   }
 }
