@@ -191,13 +191,20 @@ export function processGuess(round: BatallaRound, chosenSlug: string): BatallaGu
  */
 export function buildBatallaShareText(streak: number, bestStreak: number): string {
   const fire = streak >= 10 ? '🔥🔥🔥' : streak >= 5 ? '🔥🔥' : '🔥'
+  const taunt = streak >= 10
+    ? 'Conozco a los candidatos mejor que sus propios abogados.'
+    : streak >= 5
+    ? 'Sé más de política peruana que el 90% del Congreso.'
+    : 'Al menos yo sí investigo antes de votar. ¿Y tú?'
   return [
-    `BATALLA PRESIDENCIAL ⚔️`,
-    `Racha: ${streak} aciertos ${fire}`,
-    `Mi mejor: ${bestStreak}`,
+    `⚔️ BATALLA PRESIDENCIAL 2026`,
     ``,
-    `¿Puedes superarme?`,
-    `rankinelectoral.pe/juegos/batalla`,
+    `${streak} aciertos seguidos ${fire}`,
+    `Mejor racha: ${bestStreak}`,
+    ``,
+    taunt,
+    ``,
+    `votainformado.pe/juegos/batalla`,
   ].join('\n')
 }
 

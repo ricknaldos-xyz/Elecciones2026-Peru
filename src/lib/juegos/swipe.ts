@@ -153,13 +153,22 @@ export function getRevealComment(matches: SwipeResult[]): string {
 
 export function buildSwipeShareText(matches: SwipeResult[]): string {
   const top3 = matches.slice(0, 3)
+  const topPercent = top3[0]?.matchPercent ?? 0
+  const reaction = topPercent >= 80
+    ? '¿Soy su jefe de campaña y no lo sabía?'
+    : topPercent >= 50
+    ? 'No sé si alegrarme o preocuparme.'
+    : 'Mi candidato ideal probablemente emigró a Chile.'
   const lines = [
-    'SWIPE ELECTORAL 💘',
-    'Mis matches:',
-    ...top3.map((m, i) => `${i + 1}. ${'█'.repeat(8)} ${m.matchPercent}%${i === 0 ? ' 😱' : ''}`),
+    '💘 SWIPE ELECTORAL 2026',
     '',
-    '¿Con quién matcheas tú?',
-    'rankinelectoral.pe/juegos/swipe',
+    'Mis matches (sin saber de quién era cada propuesta):',
+    ...top3.map((m, i) => `${i + 1}. ${'█'.repeat(8)} — ${m.matchPercent}%${i === 0 ? ' 😱' : ''}`),
+    '',
+    reaction,
+    '',
+    '¿Con quién matcheas TÚ sin saberlo?',
+    'votainformado.pe/juegos/swipe',
   ]
   return lines.join('\n')
 }

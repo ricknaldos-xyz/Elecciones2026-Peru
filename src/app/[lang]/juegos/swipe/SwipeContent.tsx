@@ -183,19 +183,19 @@ export function SwipeContent() {
         <Card className="p-6 max-w-md mx-auto text-left space-y-3">
           <div className="flex items-center gap-3">
             <span className="w-8 h-8 bg-[var(--score-good)] text-white font-black flex items-center justify-center border-2 border-[var(--border)]">1</span>
-            <p className="text-sm text-[var(--foreground)]">Verás propuestas REALES de planes de gobierno</p>
+            <p className="text-sm text-[var(--foreground)]">Propuestas REALES de planes de gobierno. Sin filtro.</p>
           </div>
           <div className="flex items-center gap-3">
             <span className="w-8 h-8 bg-[var(--score-good)] text-white font-black flex items-center justify-center border-2 border-[var(--border)]">2</span>
-            <p className="text-sm text-[var(--foreground)]">NO sabrás de quién es cada propuesta</p>
+            <p className="text-sm text-[var(--foreground)]">NO sabrás de quién es cada una. Cero sesgo.</p>
           </div>
           <div className="flex items-center gap-3">
             <span className="w-8 h-8 bg-[var(--score-good)] text-white font-black flex items-center justify-center border-2 border-[var(--border)]">3</span>
-            <p className="text-sm text-[var(--foreground)]">Desliza → de acuerdo, ← en contra</p>
+            <p className="text-sm text-[var(--foreground)]">Desliza → si estás de acuerdo, ← si ni hablar</p>
           </div>
           <div className="flex items-center gap-3">
             <span className="w-8 h-8 bg-[var(--primary)] text-white font-black flex items-center justify-center border-2 border-[var(--border)]">!</span>
-            <p className="text-sm text-[var(--foreground)] font-bold">Al final descubrirás con quién matcheas</p>
+            <p className="text-sm text-[var(--foreground)] font-bold">Al final te revelamos tu match. Prepárate para el shock.</p>
           </div>
         </Card>
 

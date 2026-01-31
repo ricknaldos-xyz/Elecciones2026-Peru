@@ -170,19 +170,26 @@ function generateName(selections: FrankensteinSelection[]): string {
 export function buildFrankensteinShareText(
   result: FrankensteinResult
 ): string {
+  const beatsCount = result.totalCandidates - result.rank
+  const verdict = result.combinedScore >= 70
+    ? 'Mi monstruo es mejor que casi todos los reales. Bienvenidos al Perú.'
+    : result.combinedScore >= 40
+    ? 'Mi monstruo es tan mediocre como la oferta electoral real.'
+    : 'Creé al peor candidato posible. Tiene futuro en el Congreso.'
   const lines = [
-    'MI PRESIDENTE FRANKENSTEIN 🧟',
+    '🧟 MI PRESIDENTE FRANKENSTEIN 2026',
     '',
     ...result.selections.map(s => {
       const cat = FRANKENSTEIN_CATEGORIES.find(c => c.id === s.categoryId)
-      return `${cat?.label || s.categoryId}: de ${'█'.repeat(8)}`
+      return `${cat?.label || s.categoryId}: ${'█'.repeat(8)}`
     }),
     '',
-    `Score: ${result.combinedScore}/100`,
-    `Mejor que ${result.totalCandidates - result.rank} de ${result.totalCandidates} reales`,
+    `Score: ${result.combinedScore}/100 — Supera a ${beatsCount}/${result.totalCandidates} candidatos reales`,
     '',
-    '¡Arma el tuyo!',
-    'rankinelectoral.pe/juegos/frankenstein',
+    verdict,
+    '',
+    '¿Puedes armar uno mejor? (Spoiler: probablemente no)',
+    'votainformado.pe/juegos/frankenstein',
   ]
   return lines.join('\n')
 }

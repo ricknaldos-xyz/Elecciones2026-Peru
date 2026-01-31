@@ -90,7 +90,7 @@ export async function generateShareCard(result: GameResult): Promise<string> {
   ctx.fillStyle = fg
   ctx.font = 'bold 22px "Space Grotesk", system-ui'
   ctx.textAlign = 'center'
-  ctx.fillText('¿Qué político eres tú?', W / 2, 610)
+  ctx.fillText('¿Qué tipo de político eres TÚ?', W / 2, 610)
 
   ctx.fillStyle = primary
   ctx.font = 'bold 18px "Space Grotesk", system-ui'
@@ -153,12 +153,26 @@ function wrapText(ctx: CanvasRenderingContext2D, text: string, x: number, y: num
  * Build text for ShareButton fallback
  */
 export function buildRunnerShareText(result: GameResult): string {
+  const roleInsults: Record<string, string> = {
+    populista: 'Soy puro humo y la gente me aplaude.',
+    florista: 'Prometo todo, cumplo nada. Material de congresista.',
+    tecnocrata: 'Honesto y aburrido. En Perú eso vale 3% en encuestas.',
+    showman: 'Entretengo Y cumplo. Básicamente no existo.',
+    fantasma: 'Mi campaña fue tan invisible que ni la ONPE la registró.',
+    equilibrista: 'Mi posición política es "depende". De qué, nadie sabe.',
+    sobreviviente: 'Duré más que un gabinete ministerial. Victoria.',
+  }
+  const insult = roleInsults[result.role.id] || `"${result.role.description}"`
+
   return [
-    `CRAZY CAMPAÑA 2026 🚌`,
-    `${result.role.emoji} ${result.role.name}`,
-    `Score: ${result.score.toLocaleString()} | HUMO: ${result.humo}% | CRED: ${result.cred}%`,
+    `🚌 CRAZY CAMPAÑA 2026`,
     ``,
-    `¿Qué político eres tú?`,
+    `${result.role.emoji} Soy ${result.role.name}`,
+    insult,
+    ``,
+    `HUMO: ${result.humo}% | CRED: ${result.cred}% | Score: ${result.score.toLocaleString()}`,
+    ``,
+    `¿Qué tipo de político eres TÚ?`,
     `votainformado.pe/juegos/runner`,
   ].join('\n')
 }
