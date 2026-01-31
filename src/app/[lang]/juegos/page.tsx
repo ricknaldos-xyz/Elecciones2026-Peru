@@ -51,6 +51,15 @@ export default async function JuegosPage({ params }: Props) {
       description: t('frankenstein.hubDesc'),
       badge: t('frankenstein.badge'),
     },
+    {
+      id: 'runner',
+      href: '/juegos/runner' as const,
+      icon: '🚌',
+      color: 'var(--score-excellent)',
+      title: t('runner.title'),
+      description: t('runner.hubDesc'),
+      badge: t('runner.badge'),
+    },
   ]
 
   return (

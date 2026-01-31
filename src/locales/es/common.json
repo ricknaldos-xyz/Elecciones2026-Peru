@@ -1157,6 +1157,29 @@
       "beatsCount": "Mejor que {count} de {total} candidatos reales",
       "playAgain": "Crear otro",
       "share": "Compartir"
+    },
+    "runner": {
+      "badge": "🚌 RUNNER",
+      "title": "Crazy Campaña",
+      "hubDesc": "Endless runner politico. Esquiva obstaculos, recoge promesas, acumula HUMO. Reto diario con el mismo mapa para todos.",
+      "metaTitle": "Crazy Campaña | Ranking Electoral Perú 2026",
+      "metaDescription": "Endless runner satirico. Maneja tu combi de campaña, esquiva la prensa y acumula promesas.",
+      "subtitle": "Maneja tu combi de campaña. Esquiva obstaculos. ¿Cuanto HUMO aguantas?",
+      "play": "¡Arrancar!",
+      "playAgain": "Otra vuelta",
+      "daily": "Reto del dia",
+      "score": "Puntaje",
+      "bestScore": "Mejor",
+      "humo": "HUMO",
+      "cred": "CRED",
+      "combo": "Combo",
+      "runs": "Carreras",
+      "role": "Tu rol politico",
+      "gameOver": "¡Fin de campaña!",
+      "shareTitle": "¿Que politico eres tu?",
+      "tapToStart": "Toca para arrancar",
+      "swipeHint": "Desliza ← → para cambiar de carril",
+      "dailyBest": "Hoy"
     }
   }
 }

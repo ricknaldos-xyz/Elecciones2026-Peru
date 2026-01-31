@@ -1155,6 +1155,29 @@
       "beatsCount": "Aswan allin {count} / {total} chiqap akllasqa runakunamanta",
       "playAgain": "Hukmanta ruway",
       "share": "Riqsichiy"
+    },
+    "runner": {
+      "badge": "🚌 RUNNER",
+      "title": "Crazy Campaña",
+      "hubDesc": "Tukuy ñan purichiq juego. Sasachakuykunata qispiy, promesata huñuy, HUMO-ta qulluy. Sapa p'unchaw huk ñan.",
+      "metaTitle": "Crazy Campaña | Ranking Electoral Perú 2026",
+      "metaDescription": "Endless runner satirico. Combiykiwan campaña purichiy, prensata qispiy, promesata huñuy.",
+      "subtitle": "Combi campañaykiwan purichiy. Sasachakuykunata qispiy. ¿Hayk'a HUMO-ta aguantanki?",
+      "play": "¡Qallariy!",
+      "playAgain": "Hukmanta",
+      "daily": "Kunan p'unchaw",
+      "score": "Puntaje",
+      "bestScore": "Aswan allin",
+      "humo": "HUMO",
+      "cred": "CRED",
+      "combo": "Combo",
+      "runs": "Purichisqa",
+      "role": "Politica ruraykikama",
+      "gameOver": "¡Campaña tukukun!",
+      "shareTitle": "¿Ima politico kanki?",
+      "tapToStart": "Llank'ay qallachinaykipaq",
+      "swipeHint": "← → suyukunata tikray",
+      "dailyBest": "Kunan"
     }
   }
 }

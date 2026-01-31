@@ -1155,6 +1155,29 @@
       "beatsCount": "Juk'amp suma {count} / {total} chiqapa ajilanakamanta",
       "playAgain": "Maynit luraña",
       "share": "Uñacht'ayaña"
+    },
+    "runner": {
+      "badge": "🚌 RUNNER",
+      "title": "Crazy Campaña",
+      "hubDesc": "Taqpach thakhi anataña. Jank'akirinakat jaltaña, promesanakat apthapiyaña, HUMO apthapiyaña. Sapa uru mä thakhi.",
+      "metaTitle": "Crazy Campaña | Ranking Electoral Perú 2026",
+      "metaDescription": "Endless runner satirico. Combi campañamamp sartaña, prensata jaltaña, promesanakat apthapiyaña.",
+      "subtitle": "Combi campañamampi sartaña. Jank'akirinakat jaltaña. ¿Qawqha HUMO-ti aguantasta?",
+      "play": "¡Qalltaña!",
+      "playAgain": "Maynit",
+      "daily": "Jichhüru",
+      "score": "Puntaje",
+      "bestScore": "Juk'amp suma",
+      "humo": "HUMO",
+      "cred": "CRED",
+      "combo": "Combo",
+      "runs": "Sartanaka",
+      "role": "Politica luratamata",
+      "gameOver": "¡Campaña tukusi!",
+      "shareTitle": "¿Kuna politico-ti?",
+      "tapToStart": "Tokaña qalltañataki",
+      "swipeHint": "← → thakhinak jaqukipaña",
+      "dailyBest": "Jichhüru"
     }
   }
 }

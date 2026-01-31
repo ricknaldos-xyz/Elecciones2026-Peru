@@ -22,6 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/juegos/batalla', priority: 0.8, changeFrequency: 'daily' as const },
     { path: '/juegos/swipe', priority: 0.8, changeFrequency: 'daily' as const },
     { path: '/juegos/frankenstein', priority: 0.8, changeFrequency: 'daily' as const },
+    { path: '/juegos/runner', priority: 0.8, changeFrequency: 'daily' as const },
   ]
 
   for (const page of staticPages) {

@@ -1155,6 +1155,34 @@
       "beatsCount": "Ojevori {count} / {total} chiqapa apatotantsimanta",
       "playAgain": "Obaeki lurantsikë",
       "share": "Oinkëro"
+    },
+    "runner": {
+      "badge": "Machka",
+      "title": "Crazy Campaña",
+      "hubDesc": "Kampañëntsi thakhinta purëro. Humo jan ukax credibilidad tantëro.",
+      "metaTitle": "Crazy Campaña — Juego Electoral",
+      "metaDescription": "Kampañëntsi thakhinta purëro. Humo jan ukax credibilidad tantëro.",
+      "subtitle": "Kampañëntsi thakhinta purëro. ¿Populista jan ukax tecnócrata?",
+      "play": "¡Qalltëro!",
+      "playAgain": "Obaeki qalltëro",
+      "daily": "Uru desafío",
+      "score": "Puntaje",
+      "bestScore": "Ojevori puntaje",
+      "humo": "Humo",
+      "cred": "Credibilidad",
+      "combo": "Combo",
+      "runs": "Purëntsi",
+      "role": "Rol político",
+      "gameOver": "¡Kampañëntsi tukuyi!",
+      "shareTitle": "Nayax {role} — Crazy Campaña",
+      "tapToStart": "Tap qalltëro",
+      "swipeHint": "← Swipe thakhinta kutirinëro →",
+      "dailyBest": "Uru ojevori",
+      "howToPlay": "¿Kamachëntsi puririntsi?",
+      "dodge": "Obstáculo jithëro",
+      "collect": "Promesas jan ukax fuentes tantëro",
+      "humoDesc": "Humo = ojevori puntaje, jan ukax ojevori velocidad",
+      "credDesc": "Credibilidad = ojevori protección"
     }
   }
 }

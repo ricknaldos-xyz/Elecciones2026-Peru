@@ -217,3 +217,56 @@ const FRANK_TERRIBLE = [
   'Con ese Frankenstein, mejor dejamos la democracia para otro día.',
   'Impresionantemente malo. ¿Lo hiciste a propósito?',
 ]
+
+// ============================================
+// CRAZY CAMPAÑA (RUNNER) COMMENTS
+// ============================================
+
+export function getRunnerComment(roleId: string): string {
+  return pick(RUNNER_COMMENTS[roleId] || RUNNER_COMMENTS['sobreviviente'])
+}
+
+const RUNNER_COMMENTS: Record<string, string[]> = {
+  populista: [
+    'Con ese nivel de humo, deberias abrir una parrilleria.',
+    'El pueblo te aplaude. Todavia no saben por que.',
+    'Tanto humo que ya necesitas extintor.',
+    'Tus promesas llegan antes que el oxigeno.',
+  ],
+  florista: [
+    'Vendiste humo premium. Humo artesanal. Humo gourmet.',
+    'Si las promesas fueran bitcoins, serias millonario.',
+    'Todo floro y nada de sustancia. Politico nato.',
+    'Tu campaña huele a promesa vencida.',
+  ],
+  tecnocrata: [
+    'Aburrido pero honesto. En Peru eso es revolucionario.',
+    'Tus datos son impecables. Tu carisma, no tanto.',
+    'El Excel mas bonito que nadie va a leer.',
+    'Felicidades, ganaste el premio al candidato que nadie recuerda.',
+  ],
+  showman: [
+    'Entretienes Y cumples. Eres un unicornio politico.',
+    'Alto humo, alta credibilidad. Como es eso posible?',
+    'Si existieras en la vida real, ya tendrias 90% en encuestas.',
+    'El candidato que Peru necesita pero no merece.',
+  ],
+  fantasma: [
+    'Tu campaña fue tan discreta que ni tu familia se entero.',
+    'Candidato fantasma. Literal.',
+    'Ni promesas ni datos. Solo existencia.',
+    'Pasaste de largo. Como el presupuesto de educacion.',
+  ],
+  equilibrista: [
+    'Ni fu ni fa. El clasico tibio peruano.',
+    'Un poco de todo, mucho de nada. Promedio.',
+    'El candidato que dice "voy a analizar la situacion" y nunca hace nada.',
+    'Equilibrio perfecto entre la mediocridad y la irrelevancia.',
+  ],
+  sobreviviente: [
+    'Llegaste al final. Eso ya es mas que muchos congresistas.',
+    'Sobrevivir en politica peruana ya es un logro.',
+    'No brillaste, pero tampoco te investigaron. Victoria.',
+    'El arte de llegar al final sin que nadie sepa como.',
+  ],
+}
