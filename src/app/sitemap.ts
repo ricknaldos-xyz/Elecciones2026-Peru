@@ -18,11 +18,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/quiz', priority: 0.7, changeFrequency: 'weekly' as const },
     { path: '/docs', priority: 0.4, changeFrequency: 'monthly' as const },
     { path: '/donar', priority: 0.5, changeFrequency: 'monthly' as const },
-    { path: '/juegos', priority: 0.8, changeFrequency: 'weekly' as const },
-    { path: '/juegos/batalla', priority: 0.8, changeFrequency: 'daily' as const },
-    { path: '/juegos/swipe', priority: 0.8, changeFrequency: 'daily' as const },
-    { path: '/juegos/frankenstein', priority: 0.8, changeFrequency: 'daily' as const },
-    { path: '/juegos/runner', priority: 0.8, changeFrequency: 'daily' as const },
   ]
 
   for (const page of staticPages) {

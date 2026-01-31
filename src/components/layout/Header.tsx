@@ -132,7 +132,6 @@ export function Header({ currentPath }: HeaderProps) {
     { href: '/ranking' as const, labelKey: 'ranking' as const },
     { href: '/comparar' as const, labelKey: 'compare' as const },
     { href: '/quiz' as const, labelKey: 'quiz' as const, isNew: true },
-    { href: '/juegos' as const, labelKey: 'games' as const, isNew: true },
     { href: '/noticias' as const, labelKey: 'news' as const },
   ]
 
