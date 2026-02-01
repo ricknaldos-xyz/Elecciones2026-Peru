@@ -322,7 +322,8 @@
     "shareTitle": "Apatotantsipë Amëñëro - Ranking 2026",
     "shareText": "Amëñërosa {names}",
     "proposalsComparison": "Kamachi Amëñëro",
-    "proposalsDescription": "Sapa apatotantsip kamachinakaparu amëñëro, kamachi qillqatapatxa apsuña."
+    "proposalsDescription": "Sapa apatotantsip kamachinakaparu amëñëro, kamachi qillqatapatxa apsuña.",
+    "searchPlaceholder": "Apatotantsiru sutimpix thaqaña..."
   },
   "news": {
     "title": "Amëtakotërini Apatotantsi",

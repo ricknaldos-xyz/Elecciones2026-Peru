@@ -322,7 +322,8 @@
     "shareTitle": "Comparación de Candidatos - Ranking Electoral 2026",
     "shareText": "Comparando {names}",
     "proposalsComparison": "Comparación de Propuestas",
-    "proposalsDescription": "Compara las propuestas de cada candidato extraídas de sus planes de gobierno."
+    "proposalsDescription": "Compara las propuestas de cada candidato extraídas de sus planes de gobierno.",
+    "searchPlaceholder": "Buscar candidato por nombre..."
   },
   "news": {
     "title": "Noticias Electorales",

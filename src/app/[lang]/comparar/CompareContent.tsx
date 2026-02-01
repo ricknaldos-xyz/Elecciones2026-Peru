@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
+import Image from 'next/image'
 import { cn } from '@/lib/utils'
 import { Header } from '@/components/layout/Header'
 import { Card, CardContent } from '@/components/ui/Card'
@@ -13,16 +14,18 @@ import { useCandidatesByIds } from '@/hooks/useCandidates'
 import { useSuccessToast } from '@/components/ui/Toast'
 import { PRESETS } from '@/lib/constants'
 import { Link, useRouter } from '@/i18n/routing'
+import { FlagChips } from '@/components/candidate/FlagChip'
+import { SubScoreStat } from '@/components/candidate/SubScoreBar'
 import type { CandidateWithScores, PresetType, Weights } from '@/types/database'
 import { ProposalsCompare } from '@/components/proposals/ProposalsCompare'
 import { useLocale } from 'next-intl'
 
-// Popular candidates to suggest when empty or can add more
-const SUGGESTED_CANDIDATES = [
-  { id: 'keiko-fujimori', name: 'Keiko Fujimori', party: 'Fuerza Popular' },
-  { id: 'george-forsyth', name: 'George Forsyth', party: 'Somos Perú' },
-  { id: 'lopez-aliaga-cazorla-rafael-bernardo', name: 'Rafael López Aliaga', party: 'Renovación Popular' },
-  { id: 'luna-galvez-jose-leon', name: 'José Luna', party: 'Podemos Perú' },
+// IDs of suggested candidates (must exist in DB)
+const SUGGESTED_IDS = [
+  'keiko-fujimori',
+  'george-forsyth',
+  'lopez-aliaga-cazorla-rafael-bernardo',
+  'luna-galvez-jose-leon',
 ]
 
 function getScoreByMode(
@@ -48,7 +51,6 @@ function getScoreByMode(
 }
 
 function getScoreColor(score: number): string {
-  // Usar colores de texto de alto contraste
   if (score >= 80) return 'text-[var(--score-excellent-text)]'
   if (score >= 60) return 'text-[var(--score-good-text)]'
   if (score >= 40) return 'text-[var(--score-medium-text)]'
@@ -63,8 +65,8 @@ function getBarColor(score: number): string {
 }
 
 interface CompareMetric {
-  labelKey: 'total' | 'competence' | 'integrity' | 'transparency' | 'confidence'
-  key: 'competence' | 'integrity' | 'transparency' | 'confidence' | 'total'
+  labelKey: 'total' | 'competence' | 'integrity' | 'transparency'
+  key: 'competence' | 'integrity' | 'transparency' | 'total'
   max: number
 }
 
@@ -73,9 +75,202 @@ const metrics: CompareMetric[] = [
   { labelKey: 'competence', key: 'competence', max: 100 },
   { labelKey: 'integrity', key: 'integrity', max: 100 },
   { labelKey: 'transparency', key: 'transparency', max: 100 },
-  { labelKey: 'confidence', key: 'confidence', max: 100 },
 ]
 
+// ──────────────────────────────────────────────
+// Inline candidate search component
+// ──────────────────────────────────────────────
+function CandidateSearch({
+  onSelect,
+  excludeIds,
+  placeholder,
+  className,
+}: {
+  onSelect: (slug: string) => void
+  excludeIds: string[]
+  placeholder: string
+  className?: string
+}) {
+  const [query, setQuery] = useState('')
+  const [results, setResults] = useState<CandidateWithScores[]>([])
+  const [allCandidates, setAllCandidates] = useState<CandidateWithScores[] | null>(null)
+  const [isSearching, setIsSearching] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  // Fetch all candidates once (cached)
+  const fetchAll = useCallback(async () => {
+    if (allCandidates) return allCandidates
+    setIsSearching(true)
+    try {
+      const res = await fetch('/api/candidates')
+      const data: CandidateWithScores[] = await res.json()
+      setAllCandidates(data)
+      return data
+    } catch {
+      return []
+    } finally {
+      setIsSearching(false)
+    }
+  }, [allCandidates])
+
+  // Filter on query change
+  useEffect(() => {
+    if (query.length < 2) {
+      setResults([])
+      return
+    }
+    const timer = setTimeout(async () => {
+      const data = await fetchAll()
+      const q = query.toLowerCase()
+      const filtered = data
+        .filter((c) => c.full_name.toLowerCase().includes(q))
+        .slice(0, 6)
+      setResults(filtered)
+      setIsOpen(true)
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [query, fetchAll])
+
+  // Close on click outside
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [])
+
+  // Close on escape
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsOpen(false)
+        inputRef.current?.blur()
+      }
+    }
+    document.addEventListener('keydown', handleKey)
+    return () => document.removeEventListener('keydown', handleKey)
+  }, [])
+
+  const handleSelect = (slug: string) => {
+    onSelect(slug)
+    setQuery('')
+    setResults([])
+    setIsOpen(false)
+  }
+
+  return (
+    <div ref={containerRef} className={cn('relative', className)}>
+      <div className="relative">
+        <svg
+          className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--muted-foreground)]"
+          fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
+        >
+          <path strokeLinecap="square" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input
+          ref={inputRef}
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onFocus={() => results.length > 0 && setIsOpen(true)}
+          placeholder={placeholder}
+          className={cn(
+            'w-full pl-11 pr-4 py-3',
+            'bg-[var(--background)] text-[var(--foreground)]',
+            'border-3 border-[var(--border)]',
+            'font-bold text-sm uppercase placeholder:normal-case placeholder:font-medium',
+            'focus:outline-none focus:border-[var(--primary)] focus:shadow-[var(--shadow-brutal-sm)]',
+            'transition-all duration-100'
+          )}
+        />
+        {isSearching && (
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 border-2 border-[var(--muted-foreground)] border-t-transparent animate-spin" />
+        )}
+      </div>
+
+      {/* Results dropdown */}
+      {isOpen && results.length > 0 && (
+        <div className="absolute z-50 w-full mt-1 bg-[var(--card)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-lg)] max-h-[320px] overflow-y-auto">
+          {results.map((c) => {
+            const isAdded = excludeIds.includes(c.slug) || excludeIds.includes(c.id)
+            return (
+              <button
+                key={c.id}
+                onClick={() => !isAdded && handleSelect(c.slug)}
+                disabled={isAdded}
+                className={cn(
+                  'w-full flex items-center gap-3 px-4 py-3 text-left',
+                  'border-b-2 border-[var(--border)] last:border-b-0',
+                  'transition-colors duration-100',
+                  isAdded
+                    ? 'opacity-40 cursor-not-allowed'
+                    : 'hover:bg-[var(--muted)] cursor-pointer'
+                )}
+              >
+                {/* Photo */}
+                <div className="flex-shrink-0 w-10 h-10 border-2 border-[var(--border)] bg-[var(--muted)] overflow-hidden relative">
+                  {c.photo_url ? (
+                    <Image src={c.photo_url} alt="" fill sizes="40px" className="object-cover" loading="lazy" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-xs font-bold text-[var(--muted-foreground)]">
+                      {c.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+                    </div>
+                  )}
+                </div>
+                {/* Info */}
+                <div className="flex-1 min-w-0">
+                  <div className="font-bold text-sm text-[var(--foreground)] truncate">
+                    {c.full_name}
+                  </div>
+                  <div className="flex items-center gap-1.5 mt-0.5">
+                    {c.party && (
+                      <span
+                        className="text-[10px] font-bold uppercase px-1.5 py-0.5 text-white"
+                        style={{ backgroundColor: c.party.color || '#6B7280' }}
+                      >
+                        {c.party.short_name || c.party.name}
+                      </span>
+                    )}
+                    <span className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">
+                      {c.cargo}
+                    </span>
+                  </div>
+                </div>
+                {/* Score */}
+                <div className={cn('text-lg font-black', getScoreColor(c.scores.score_balanced))}>
+                  {c.scores.score_balanced.toFixed(0)}
+                </div>
+                {isAdded && (
+                  <span className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">
+                    ✓
+                  </span>
+                )}
+              </button>
+            )
+          })}
+        </div>
+      )}
+
+      {/* No results */}
+      {isOpen && query.length >= 2 && results.length === 0 && !isSearching && (
+        <div className="absolute z-50 w-full mt-1 bg-[var(--card)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-lg)] px-4 py-6 text-center">
+          <div className="text-sm font-bold text-[var(--muted-foreground)]">
+            No se encontraron candidatos
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ──────────────────────────────────────────────
+// Main compare component
+// ──────────────────────────────────────────────
 export function CompareContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -102,8 +297,12 @@ export function CompareContent() {
 
   const { candidates, loading, error } = useCandidatesByIds(candidateIds)
 
+  // Fetch suggested candidates for empty state
+  const { candidates: suggestedCandidates } = useCandidatesByIds(
+    candidateIds.length === 0 ? SUGGESTED_IDS : []
+  )
+
   // Remove a candidate from comparison
-  // URL params can contain UUIDs or slugs, so match by both
   const removeCandidate = (candidate: CandidateWithScores) => {
     const newIds = candidateIds.filter(id => id !== candidate.id && id !== candidate.slug)
     if (newIds.length === 0) {
@@ -149,6 +348,14 @@ export function CompareContent() {
     }
   }
 
+  const cargoLabels: Record<string, string> = {
+    presidente: 'Presidente',
+    vicepresidente: 'Vicepresidente',
+    senador: 'Senador',
+    diputado: 'Diputado',
+    parlamento_andino: 'Parl. Andino',
+  }
+
   return (
     <div className="min-h-screen bg-[var(--background)]">
       <Header currentPath="/comparar" />
@@ -178,23 +385,13 @@ export function CompareContent() {
             </p>
           </div>
           {candidates.length > 0 && (
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
               <Button variant="outline" size="sm" onClick={handleShare} className="min-h-[40px]">
                 <svg className="w-4 h-4 sm:mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
                 </svg>
                 <span className="hidden sm:inline font-bold">{t('share').toUpperCase()}</span>
               </Button>
-              {candidates.length < 4 && (
-                <Link href="/ranking">
-                  <Button variant="primary" size="sm" className="min-h-[40px]">
-                    <svg className="w-4 h-4 sm:mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="square" d="M12 4v16m8-8H4" />
-                    </svg>
-                    <span className="hidden sm:inline font-bold">{t('addMore').toUpperCase()}</span>
-                  </Button>
-                </Link>
-              )}
             </div>
           )}
         </div>
@@ -224,12 +421,12 @@ export function CompareContent() {
             </Card>
           </div>
         ) : loading ? (
-          <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3].map((i) => (
               <Card key={i} className="animate-pulse">
-                <CardContent className="p-4">
+                <CardContent className="p-5">
                   <div className="flex flex-col items-center">
-                    <div className="w-20 h-20 bg-[var(--muted)] border-2 border-[var(--border)] mb-3" />
+                    <div className="w-24 h-24 bg-[var(--muted)] border-2 border-[var(--border)] mb-3" />
                     <div className="h-5 w-32 bg-[var(--muted)] border border-[var(--border)] mb-2" />
                     <div className="h-4 w-24 bg-[var(--muted)] border border-[var(--border)]" />
                   </div>
@@ -238,9 +435,10 @@ export function CompareContent() {
             ))}
           </div>
         ) : candidates.length === 0 ? (
+          /* ─── EMPTY STATE ─── */
           <Card>
             <CardContent className="py-8 sm:py-12">
-              <div className="text-center mb-8">
+              <div className="text-center mb-6">
                 <div className="w-16 h-16 mx-auto mb-4 bg-[var(--muted)] border-3 border-[var(--border)] flex items-center justify-center">
                   <svg className="w-8 h-8 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="square" strokeLinejoin="miter" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -254,31 +452,73 @@ export function CompareContent() {
                 </p>
               </div>
 
+              {/* Search input */}
+              <div className="max-w-lg mx-auto mb-8">
+                <CandidateSearch
+                  onSelect={addCandidate}
+                  excludeIds={candidateIds}
+                  placeholder={t('searchPlaceholder')}
+                />
+              </div>
+
               {/* Suggested candidates */}
               <div className="border-t-2 border-[var(--border)] pt-6">
                 <p className="text-xs font-bold text-[var(--muted-foreground)] uppercase mb-4 text-center">
                   {t('emptyState.suggestedTitle')}
                 </p>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 max-w-2xl mx-auto">
-                  {SUGGESTED_CANDIDATES.map((c) => (
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto">
+                  {(suggestedCandidates.length > 0 ? suggestedCandidates : []).map((c) => (
                     <button
                       key={c.id}
-                      onClick={() => addCandidate(c.id)}
+                      onClick={() => addCandidate(c.slug)}
                       className={cn(
-                        'p-3 text-left',
-                        'bg-[var(--muted)] border-2 border-[var(--border)]',
+                        'p-3 text-center',
+                        'bg-[var(--card)] border-3 border-[var(--border)]',
+                        'shadow-[var(--shadow-brutal-sm)]',
                         'hover:bg-[var(--primary)] hover:text-white hover:border-[var(--primary)]',
-                        'transition-all duration-100'
+                        'hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal)]',
+                        'active:translate-x-0 active:translate-y-0 active:shadow-none',
+                        'transition-all duration-100 group'
                       )}
                     >
-                      <div className="text-xs font-bold uppercase truncate">{c.name}</div>
-                      <div className="text-[10px] font-medium opacity-70 truncate">{c.party}</div>
+                      {/* Photo */}
+                      <div className="w-14 h-14 mx-auto mb-2 border-2 border-[var(--border)] bg-[var(--muted)] overflow-hidden relative group-hover:border-white/50">
+                        {c.photo_url ? (
+                          <Image src={c.photo_url} alt="" fill sizes="56px" className="object-cover" loading="lazy" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-xs font-bold text-[var(--muted-foreground)]">
+                            {c.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+                          </div>
+                        )}
+                      </div>
+                      {/* Name */}
+                      <div className="text-xs font-black uppercase truncate leading-tight">
+                        {c.full_name.split(' ').slice(0, 2).join(' ')}
+                      </div>
+                      {/* Party */}
+                      <div className="text-[10px] font-bold opacity-60 truncate mt-0.5">
+                        {c.party?.short_name || c.party?.name || ''}
+                      </div>
+                      {/* Score */}
+                      <div className={cn(
+                        'text-lg font-black mt-1 group-hover:text-white',
+                        getScoreColor(c.scores.score_balanced)
+                      )}>
+                        {c.scores.score_balanced.toFixed(0)}
+                      </div>
                     </button>
                   ))}
+                  {suggestedCandidates.length === 0 && SUGGESTED_IDS.map((id) => (
+                    <div key={id} className="p-3 bg-[var(--muted)] border-3 border-[var(--border)] animate-pulse">
+                      <div className="w-14 h-14 mx-auto mb-2 bg-[var(--background)] border-2 border-[var(--border)]" />
+                      <div className="h-3 w-16 mx-auto bg-[var(--background)] border border-[var(--border)] mb-1" />
+                      <div className="h-3 w-12 mx-auto bg-[var(--background)] border border-[var(--border)]" />
+                    </div>
+                  ))}
                 </div>
-                <div className="text-center mt-4">
+                <div className="text-center mt-6">
                   <Link href="/ranking">
-                    <Button variant="primary" size="sm">
+                    <Button variant="outline" size="sm">
                       {t('emptyState.viewAllRanking')}
                     </Button>
                   </Link>
@@ -288,13 +528,27 @@ export function CompareContent() {
           </Card>
         ) : (
           <>
-            {/* Candidate Cards */}
+            {/* Search bar for adding more */}
+            {candidates.length < 4 && (
+              <div className="mb-6">
+                <CandidateSearch
+                  onSelect={addCandidate}
+                  excludeIds={candidateIds}
+                  placeholder={t('searchPlaceholder')}
+                />
+              </div>
+            )}
+
+            {/* ─── CANDIDATE CARDS ─── */}
             <div className={cn(
-              'grid gap-4 mb-6',
+              'mb-6',
+              // Mobile: horizontal scroll for 3+
+              candidates.length >= 3
+                ? 'flex overflow-x-auto snap-x snap-mandatory gap-4 -mx-4 px-4 pb-2 md:grid md:overflow-visible md:mx-0 md:px-0 md:pb-0 md:grid-cols-3'
+                : 'grid gap-4',
+              candidates.length >= 4 && 'md:grid-cols-4',
               candidates.length === 1 && 'grid-cols-1 max-w-sm mx-auto',
               candidates.length === 2 && 'grid-cols-1 sm:grid-cols-2',
-              candidates.length === 3 && 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
-              candidates.length >= 4 && 'grid-cols-2 lg:grid-cols-4',
             )}>
               {candidates.map((candidate) => {
                 const score = getScoreByMode(candidate.scores, mode, currentWeights)
@@ -305,7 +559,9 @@ export function CompareContent() {
                     key={candidate.id}
                     className={cn(
                       'relative',
-                      isBest && 'ring-3 ring-[var(--score-excellent)]'
+                      isBest && 'ring-3 ring-[var(--score-excellent)]',
+                      // Snap for horizontal scroll
+                      candidates.length >= 3 && 'min-w-[270px] max-w-[300px] flex-shrink-0 snap-start md:min-w-0 md:max-w-none',
                     )}
                   >
                     {/* Remove button */}
@@ -313,7 +569,7 @@ export function CompareContent() {
                       onClick={() => removeCandidate(candidate)}
                       className={cn(
                         'absolute top-2 right-2 z-10',
-                        'w-7 h-7 flex items-center justify-center',
+                        'w-9 h-9 flex items-center justify-center',
                         'bg-[var(--muted)] border-2 border-[var(--border)]',
                         'text-[var(--muted-foreground)]',
                         'hover:bg-[var(--flag-red)] hover:text-white hover:border-[var(--flag-red)]',
@@ -333,39 +589,48 @@ export function CompareContent() {
                     )}
                     <CardContent className="p-4 sm:p-5">
                       <div className="flex flex-col items-center text-center">
-                        {/* Photo */}
-                        <div className="w-16 h-16 sm:w-20 sm:h-20 border-3 border-[var(--border)] bg-[var(--muted)] overflow-hidden mb-3">
+                        {/* Photo - bigger */}
+                        <div className="w-20 h-20 sm:w-24 sm:h-24 border-3 border-[var(--border)] bg-[var(--muted)] overflow-hidden mb-3 relative">
                           {candidate.photo_url ? (
-                            <img
+                            <Image
                               src={candidate.photo_url}
                               alt={candidate.full_name}
-                              className="w-full h-full object-cover"
+                              fill
+                              sizes="(max-width: 640px) 80px, 96px"
+                              className="object-cover"
+                              loading="lazy"
                             />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)]">
-                              <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                              <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                               </svg>
                             </div>
                           )}
                         </div>
 
-                        {/* Name & Party */}
+                        {/* Name */}
                         <h3 className="font-black text-[var(--foreground)] text-sm sm:text-base uppercase tracking-tight leading-tight">
                           {candidate.full_name}
                         </h3>
-                        {candidate.party && (
-                          <Badge
-                            size="sm"
-                            className="mt-1.5"
-                            style={{
-                              backgroundColor: candidate.party.color || '#6B7280',
-                              color: '#fff',
-                            }}
-                          >
-                            {candidate.party.short_name || candidate.party.name}
+
+                        {/* Party + Cargo badges */}
+                        <div className="flex flex-wrap items-center justify-center gap-1.5 mt-1.5">
+                          {candidate.party && (
+                            <Badge
+                              size="sm"
+                              style={{
+                                backgroundColor: candidate.party.color || '#6B7280',
+                                color: '#fff',
+                              }}
+                            >
+                              {candidate.party.short_name || candidate.party.name}
+                            </Badge>
+                          )}
+                          <Badge variant="outline" size="sm">
+                            {cargoLabels[candidate.cargo] || candidate.cargo}
                           </Badge>
-                        )}
+                        </div>
 
                         {/* Score */}
                         <div className={cn(
@@ -378,36 +643,31 @@ export function CompareContent() {
                           {t('outOf100')}
                         </div>
 
-                        {/* Flags with descriptions */}
+                        {/* Sub-scores */}
+                        <div className="w-full grid grid-cols-3 gap-2 mt-3 pt-3 border-t-2 border-[var(--border)]">
+                          <SubScoreStat type="competence" value={candidate.scores.competence} size="sm" />
+                          <SubScoreStat type="integrity" value={candidate.scores.integrity} size="sm" />
+                          <SubScoreStat type="transparency" value={candidate.scores.transparency} size="sm" />
+                        </div>
+
+                        {/* Flags */}
                         {candidate.flags.length > 0 && (
                           <div className="w-full mt-3 pt-3 border-t-2 border-[var(--border)]">
-                            <div className="space-y-1">
-                              {candidate.flags.slice(0, 2).map((flag) => (
-                                <div
-                                  key={flag.id}
-                                  className={cn(
-                                    'text-[10px] sm:text-xs font-bold px-2 py-1 truncate',
-                                    flag.severity === 'RED'
-                                      ? 'bg-[var(--flag-red)]/10 text-[var(--flag-red-text)]'
-                                      : 'bg-[var(--flag-amber)]/10 text-[var(--flag-amber-text)]'
-                                  )}
-                                >
-                                  {flag.title || flag.type}
-                                </div>
-                              ))}
-                              {candidate.flags.length > 2 && (
-                                <div className="text-[10px] font-bold text-[var(--muted-foreground)]">
-                                  {t('moreFlags', { count: candidate.flags.length - 2 })}
-                                </div>
-                              )}
-                            </div>
+                            <FlagChips flags={candidate.flags} maxVisible={2} size="sm" />
                           </div>
                         )}
 
-                        {/* View Profile Link */}
+                        {/* View Profile Link - bigger */}
                         <Link
                           href={`/candidato/${candidate.slug}`}
-                          className="mt-3 inline-flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-[var(--primary)] border-2 border-[var(--primary)] hover:bg-[var(--primary)] hover:text-white transition-colors uppercase"
+                          className={cn(
+                            'mt-3 inline-flex items-center gap-1',
+                            'px-4 py-2 min-h-[44px]',
+                            'text-sm font-bold text-[var(--primary)]',
+                            'border-2 border-[var(--primary)]',
+                            'hover:bg-[var(--primary)] hover:text-white',
+                            'transition-colors uppercase'
+                          )}
                         >
                           {t('viewProfile')}
                         </Link>
@@ -416,104 +676,96 @@ export function CompareContent() {
                   </Card>
                 )
               })}
-
-              {/* Add more card when space available */}
-              {candidates.length < 4 && candidates.length > 0 && (
-                <Link
-                  href="/ranking"
-                  className={cn(
-                    'border-3 border-dashed border-[var(--border)]',
-                    'flex flex-col items-center justify-center p-6',
-                    'text-[var(--muted-foreground)]',
-                    'hover:border-[var(--primary)] hover:text-[var(--primary)]',
-                    'transition-colors min-h-[200px]'
-                  )}
-                >
-                  <svg className="w-10 h-10 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="square" d="M12 4v16m8-8H4" />
-                  </svg>
-                  <span className="text-xs font-bold uppercase">{t('addCandidate')}</span>
-                </Link>
-              )}
             </div>
 
             {/* Single candidate prompt */}
             {candidates.length === 1 && (
               <Card className="mb-6 bg-[var(--muted)]">
-                <CardContent className="py-4 px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-                  <p className="text-sm font-medium text-[var(--foreground)]">
+                <CardContent className="py-4 px-6">
+                  <p className="text-sm font-medium text-[var(--foreground)] mb-3">
                     {t('addAtLeastOne')}
                   </p>
-                  <Link href="/ranking">
-                    <Button variant="primary" size="sm">
-                      {t('addAnother')}
-                    </Button>
-                  </Link>
+                  <CandidateSearch
+                    onSelect={addCandidate}
+                    excludeIds={candidateIds}
+                    placeholder={t('searchPlaceholder')}
+                  />
                 </CardContent>
               </Card>
             )}
 
-            {/* Comparison Section - Only show with 2+ candidates */}
+            {/* ─── COMPARISON METRICS ─── (Only show with 2+) */}
             {candidates.length >= 2 && (
             <div>
               <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight mb-4">
                 {t('metricsComparison')}
               </h2>
 
-              {/* Vista movil: Cards por metrica */}
-              <div className="space-y-4 md:hidden">
-                {metrics.map((metric) => {
-                  const best = getBestScore(metric.key)
+              {/* Mobile: Single compact card with all metrics */}
+              <Card className="md:hidden">
+                <CardContent className="p-4">
+                  {/* Candidate names header */}
+                  <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-[var(--border)]">
+                    {candidates.map((c) => (
+                      <div key={c.id} className="flex-1 flex items-center gap-1.5 min-w-0">
+                        <div className="w-6 h-6 flex-shrink-0 border-2 border-[var(--border)] bg-[var(--muted)] overflow-hidden relative">
+                          {c.photo_url ? (
+                            <Image src={c.photo_url} alt="" fill sizes="24px" className="object-cover" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-[8px] font-bold text-[var(--muted-foreground)]">
+                              {c.full_name[0]}
+                            </div>
+                          )}
+                        </div>
+                        <span className="text-xs font-bold text-[var(--foreground)] truncate">
+                          {c.full_name.split(' ')[0]}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
 
-                  return (
-                    <Card key={metric.key}>
-                      <CardContent className="p-5">
-                        <h3 className="text-base font-black text-[var(--foreground)] uppercase mb-4">
-                          {t(`metrics.${metric.labelKey}`)}
-                        </h3>
-                        <div className="space-y-4">
-                          {candidates.map((candidate) => {
-                            const value = getMetricValue(candidate, metric.key)
-                            const isBest = value === best && candidates.length > 1
-
-                            return (
-                              <div key={candidate.id} className="space-y-2">
-                                <div className="flex items-center justify-between">
-                                  <span className="font-bold text-sm text-[var(--foreground)] truncate flex-1">
-                                    {candidate.full_name.split(' ').slice(0, 2).join(' ')}
+                  {/* Metric rows */}
+                  <div className="space-y-5">
+                    {metrics.map((metric) => {
+                      const best = getBestScore(metric.key)
+                      return (
+                        <div key={metric.key}>
+                          <div className="text-xs font-black text-[var(--muted-foreground)] uppercase mb-2">
+                            {t(`metrics.${metric.labelKey}`)}
+                          </div>
+                          <div className="space-y-2">
+                            {candidates.map((candidate) => {
+                              const value = getMetricValue(candidate, metric.key)
+                              const isBest = value === best && candidates.length > 1
+                              return (
+                                <div key={candidate.id} className="flex items-center gap-2">
+                                  <span className="text-xs font-bold text-[var(--foreground)] w-14 truncate">
+                                    {candidate.full_name.split(' ')[0]}
                                   </span>
+                                  <div className="flex-1 h-3 bg-[var(--muted)] border-2 border-[var(--border)] overflow-hidden">
+                                    <div
+                                      className={cn('h-full transition-all', getBarColor(value))}
+                                      style={{ width: `${(value / metric.max) * 100}%` }}
+                                    />
+                                  </div>
                                   <span className={cn(
-                                    'font-black text-xl ml-3',
+                                    'text-sm font-black w-8 text-right tabular-nums',
                                     isBest ? 'text-[var(--score-excellent-text)]' : 'text-[var(--foreground)]'
                                   )}>
-                                    {value.toFixed(1)}
-                                    {isBest && (
-                                      <svg className="inline-block w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                                      </svg>
-                                    )}
+                                    {value.toFixed(0)}
                                   </span>
                                 </div>
-                                <div className="h-3 bg-[var(--muted)] border-2 border-[var(--border)] overflow-hidden">
-                                  <div
-                                    className={cn(
-                                      'h-full transition-all',
-                                      getBarColor(value)
-                                    )}
-                                    style={{ width: `${(value / metric.max) * 100}%` }}
-                                  />
-                                </div>
-                              </div>
-                            )
-                          })}
+                              )
+                            })}
+                          </div>
                         </div>
-                      </CardContent>
-                    </Card>
-                  )
-                })}
-              </div>
+                      )
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
 
-              {/* Vista desktop: Tabla */}
+              {/* Desktop: Table */}
               <Card className="hidden md:block">
                 <CardContent className="p-0">
                   <div className="overflow-x-auto">
@@ -550,7 +802,7 @@ export function CompareContent() {
                                 const isBest = value === best && candidates.length > 1
 
                                 return (
-                                  <td key={candidate.id} className="p-5">
+                                  <td key={candidate.id} className={cn('p-5', isBest && 'bg-[var(--score-excellent)]/5')}>
                                     <div className="flex flex-col items-center gap-2">
                                       <div className={cn(
                                         'font-black text-xl',
@@ -597,7 +849,7 @@ export function CompareContent() {
             </div>
             )}
 
-            {/* Proposals Comparison Section - Only show with 2+ candidates */}
+            {/* ─── PROPOSALS COMPARISON ─── */}
             {candidates.length >= 2 && (
               <div className="mt-8">
                 <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight mb-4">
