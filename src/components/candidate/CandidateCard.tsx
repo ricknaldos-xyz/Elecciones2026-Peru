@@ -1,8 +1,8 @@
 'use client'
 
 import { useRouter } from '@/i18n/routing'
-import Image from 'next/image'
 import { cn } from '@/lib/utils'
+import { CandidateImage } from './CandidateImage'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
@@ -123,20 +123,7 @@ export function CandidateCard({
 
             {/* Photo */}
             <div className="flex-shrink-0 w-12 h-12 border-3 border-[var(--border)] bg-[var(--muted)] overflow-hidden relative">
-              {candidate.photo_url ? (
-                <Image
-                  src={candidate.photo_url}
-                  alt={candidate.full_name}
-                  fill
-                  sizes="48px"
-                  className="object-cover"
-                  loading="lazy"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)] text-sm font-bold">
-                  {candidate.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
-                </div>
-              )}
+              <CandidateImage src={candidate.photo_url} name={candidate.full_name} fill sizes="48px" containerClassName="text-sm" />
             </div>
 
             {/* Info */}
@@ -250,20 +237,7 @@ export function CandidateCard({
             )}
             {/* Photo - Smaller on mobile */}
             <div className="w-14 h-14 sm:w-16 sm:h-16 border-3 border-[var(--border)] bg-[var(--muted)] overflow-hidden relative">
-              {candidate.photo_url ? (
-                <Image
-                  src={candidate.photo_url}
-                  alt={candidate.full_name}
-                  fill
-                  sizes="(max-width: 640px) 56px, 64px"
-                  className="object-cover"
-                  loading="lazy"
-                />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)] text-lg sm:text-xl font-bold">
-                  {candidate.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
-                </div>
-              )}
+              <CandidateImage src={candidate.photo_url} name={candidate.full_name} fill sizes="(max-width: 640px) 56px, 64px" containerClassName="text-lg sm:text-xl" />
             </div>
           </div>
 

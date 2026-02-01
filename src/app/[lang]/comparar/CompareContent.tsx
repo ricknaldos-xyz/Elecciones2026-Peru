@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { cn } from '@/lib/utils'
+import { CandidateImage } from '@/components/candidate/CandidateImage'
 import { Header } from '@/components/layout/Header'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -214,13 +215,7 @@ function CandidateSearch({
               >
                 {/* Photo */}
                 <div className="flex-shrink-0 w-10 h-10 border-2 border-[var(--border)] bg-[var(--muted)] overflow-hidden relative">
-                  {c.photo_url ? (
-                    <Image src={c.photo_url} alt="" fill sizes="40px" className="object-cover" loading="lazy" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-xs font-bold text-[var(--muted-foreground)]">
-                      {c.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
-                    </div>
-                  )}
+                  <CandidateImage src={c.photo_url} name={c.full_name} fill sizes="40px" containerClassName="text-xs" />
                 </div>
                 {/* Info */}
                 <div className="flex-1 min-w-0">
@@ -483,13 +478,7 @@ export function CompareContent() {
                     >
                       {/* Photo */}
                       <div className="w-14 h-14 mx-auto mb-2 border-2 border-[var(--border)] bg-[var(--muted)] overflow-hidden relative group-hover:border-white/50">
-                        {c.photo_url ? (
-                          <Image src={c.photo_url} alt="" fill sizes="56px" className="object-cover" loading="lazy" />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-xs font-bold text-[var(--muted-foreground)]">
-                            {c.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
-                          </div>
-                        )}
+                        <CandidateImage src={c.photo_url} name={c.full_name} fill sizes="56px" containerClassName="text-xs" />
                       </div>
                       {/* Name */}
                       <div className="text-xs font-black uppercase truncate leading-tight">
@@ -591,22 +580,7 @@ export function CompareContent() {
                       <div className="flex flex-col items-center text-center">
                         {/* Photo - bigger */}
                         <div className="w-20 h-20 sm:w-24 sm:h-24 border-3 border-[var(--border)] bg-[var(--muted)] overflow-hidden mb-3 relative">
-                          {candidate.photo_url ? (
-                            <Image
-                              src={candidate.photo_url}
-                              alt={candidate.full_name}
-                              fill
-                              sizes="(max-width: 640px) 80px, 96px"
-                              className="object-cover"
-                              loading="lazy"
-                            />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)]">
-                              <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                              </svg>
-                            </div>
-                          )}
+                          <CandidateImage src={candidate.photo_url} name={candidate.full_name} fill sizes="(max-width: 640px) 80px, 96px" containerClassName="text-2xl" />
                         </div>
 
                         {/* Name */}
@@ -709,13 +683,7 @@ export function CompareContent() {
                     {candidates.map((c) => (
                       <div key={c.id} className="flex-1 flex items-center gap-1.5 min-w-0">
                         <div className="w-6 h-6 flex-shrink-0 border-2 border-[var(--border)] bg-[var(--muted)] overflow-hidden relative">
-                          {c.photo_url ? (
-                            <Image src={c.photo_url} alt="" fill sizes="24px" className="object-cover" />
-                          ) : (
-                            <div className="w-full h-full flex items-center justify-center text-[8px] font-bold text-[var(--muted-foreground)]">
-                              {c.full_name[0]}
-                            </div>
-                          )}
+                          <CandidateImage src={c.photo_url} name={c.full_name} fill sizes="24px" containerClassName="text-[8px]" />
                         </div>
                         <span className="text-xs font-bold text-[var(--foreground)] truncate">
                           {c.full_name.split(' ')[0]}

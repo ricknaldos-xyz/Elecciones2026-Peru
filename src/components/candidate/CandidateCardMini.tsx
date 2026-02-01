@@ -1,8 +1,8 @@
 'use client'
 
 import { Link } from '@/i18n/routing'
-import Image from 'next/image'
 import { cn } from '@/lib/utils'
+import { CandidateImage } from './CandidateImage'
 
 interface TopCandidate {
   id: string
@@ -84,19 +84,14 @@ export function CandidateCardMini({ rank, candidate, className }: CandidateCardM
 
         {/* Photo */}
         <div className="aspect-square bg-[var(--muted)] relative overflow-hidden">
-          {candidate.photo_url ? (
-            <Image
-              src={candidate.photo_url}
-              alt={candidate.full_name}
-              fill
-              sizes="(max-width: 640px) 140px, (max-width: 1024px) 180px, 200px"
-              className="object-cover group-hover:scale-105 transition-transform duration-200"
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)] text-2xl font-black">
-              {candidate.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
-            </div>
-          )}
+          <CandidateImage
+            src={candidate.photo_url}
+            name={candidate.full_name}
+            fill
+            sizes="(max-width: 640px) 140px, (max-width: 1024px) 180px, 200px"
+            className="group-hover:scale-105 transition-transform duration-200"
+            containerClassName="text-2xl"
+          />
         </div>
       </div>
 

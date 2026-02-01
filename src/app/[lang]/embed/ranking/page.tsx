@@ -1,6 +1,7 @@
 import { Link } from '@/i18n/routing'
 import { sql } from '@/lib/db'
 import { cn } from '@/lib/utils'
+import { CandidateImage } from '@/components/candidate/CandidateImage'
 
 interface RankingCandidate {
   id: string
@@ -116,18 +117,8 @@ export default async function EmbedRankingPage({ searchParams }: PageProps) {
               </div>
 
               {/* Photo */}
-              <div className="w-10 h-10 border-2 border-[var(--border)] bg-[var(--muted)] overflow-hidden flex-shrink-0">
-                {candidate.photo_url ? (
-                  <img
-                    src={candidate.photo_url}
-                    alt={candidate.full_name}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)] text-xs font-black uppercase">
-                    {candidate.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
-                  </div>
-                )}
+              <div className="w-10 h-10 border-2 border-[var(--border)] bg-[var(--muted)] overflow-hidden flex-shrink-0 relative">
+                <CandidateImage src={candidate.photo_url} name={candidate.full_name} fill sizes="40px" containerClassName="text-xs" />
               </div>
 
               {/* Info */}

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from '@/i18n/routing'
 import Image from 'next/image'
+import { CandidateImage } from '@/components/candidate/CandidateImage'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
@@ -235,20 +236,7 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
               </button>
               {/* Photo mini */}
               <div className="w-8 h-8 border-2 border-[var(--border)] bg-[var(--muted)] overflow-hidden flex-shrink-0 relative">
-                {candidate.photo_url ? (
-                  <Image
-                    src={candidate.photo_url}
-                    alt={candidate.full_name}
-                    fill
-                    sizes="32px"
-                    className="object-cover"
-                    loading="eager"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)] text-xs font-bold">
-                    {candidate.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
-                  </div>
-                )}
+                <CandidateImage src={candidate.photo_url} name={candidate.full_name} fill sizes="32px" priority containerClassName="text-xs" />
               </div>
               {/* Name truncated */}
               <span className="font-bold text-[var(--foreground)] truncate text-sm uppercase">
@@ -302,20 +290,7 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
               {/* Photo - Smaller on mobile */}
               <div className="flex-shrink-0">
                 <div className="w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 border-3 border-[var(--border)] bg-[var(--muted)] overflow-hidden mx-auto sm:mx-0 relative">
-                  {candidate.photo_url ? (
-                    <Image
-                      src={candidate.photo_url}
-                      alt={candidate.full_name}
-                      fill
-                      sizes="(max-width: 640px) 96px, (max-width: 1024px) 112px, 128px"
-                      className="object-cover"
-                      priority
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-[var(--muted-foreground)] text-2xl sm:text-3xl font-black uppercase">
-                      {candidate.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
-                    </div>
-                  )}
+                  <CandidateImage src={candidate.photo_url} name={candidate.full_name} fill sizes="(max-width: 640px) 96px, (max-width: 1024px) 112px, 128px" priority containerClassName="text-2xl sm:text-3xl" />
                 </div>
               </div>
 
@@ -1251,21 +1226,9 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                         href={`/candidato/${vp.slug}`}
                         className="flex items-center gap-2 p-2 bg-[var(--muted)] border-2 border-[var(--border)] hover:shadow-[var(--shadow-brutal-sm)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100"
                       >
-                        {vp.photo_url ? (
-                          <Image
-                            src={vp.photo_url}
-                            alt={vp.full_name}
-                            width={32}
-                            height={32}
-                            className="w-8 h-8 border-2 border-[var(--border)] object-cover"
-                          />
-                        ) : (
-                          <div className="w-8 h-8 border-2 border-[var(--border)] bg-[var(--background)] flex items-center justify-center">
-                            <svg className="w-4 h-4 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                              <path strokeLinecap="square" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                          </div>
-                        )}
+                        <div className="w-8 h-8 border-2 border-[var(--border)] bg-[var(--muted)] overflow-hidden relative">
+                          <CandidateImage src={vp.photo_url} name={vp.full_name} fill sizes="32px" containerClassName="text-xs" />
+                        </div>
                         <div className="flex-1 min-w-0">
                           <div className="text-xs font-bold text-[var(--foreground)] truncate uppercase">
                             {vp.full_name}

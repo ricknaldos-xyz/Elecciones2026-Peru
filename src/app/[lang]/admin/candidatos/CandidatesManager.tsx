@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { CandidateImage } from '@/components/candidate/CandidateImage'
 
 interface Candidate {
   id: string
@@ -150,18 +151,8 @@ export function CandidatesManager() {
               className="flex items-center gap-4 p-4 hover:bg-[var(--muted)] transition-colors"
             >
               {/* Photo */}
-              <div className="w-12 h-12 rounded-full bg-[var(--muted)] overflow-hidden flex-shrink-0">
-                {candidate.photo_url ? (
-                  <img
-                    src={candidate.photo_url}
-                    alt={candidate.full_name}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-xl">
-                    👤
-                  </div>
-                )}
+              <div className="w-12 h-12 rounded-full bg-[var(--muted)] overflow-hidden flex-shrink-0 relative">
+                <CandidateImage src={candidate.photo_url} name={candidate.full_name} fill sizes="48px" className="rounded-full" />
               </div>
 
               {/* Info */}

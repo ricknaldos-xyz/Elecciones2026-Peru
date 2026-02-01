@@ -136,12 +136,12 @@ export function ProposalsCompare({ candidateIds, lang }: ProposalsCompareProps) 
                 src={candidate.photo_url}
                 alt={candidate.candidate_name}
                 className={styles.candidatePhoto}
+                onError={(e) => { e.currentTarget.style.display = 'none'; e.currentTarget.nextElementSibling && ((e.currentTarget.nextElementSibling as HTMLElement).style.display = 'flex') }}
               />
-            ) : (
-              <div className={styles.candidatePhotoPlaceholder}>
-                {candidate.candidate_name.charAt(0)}
-              </div>
-            )}
+            ) : null}
+            <div className={styles.candidatePhotoPlaceholder} style={{ display: candidate.photo_url ? 'none' : 'flex' }}>
+              {candidate.candidate_name.charAt(0)}
+            </div>
             <h3 className={styles.candidateName}>{candidate.candidate_name}</h3>
             {candidate.party_name && (
               <span className={styles.partyName}>{candidate.party_name}</span>
