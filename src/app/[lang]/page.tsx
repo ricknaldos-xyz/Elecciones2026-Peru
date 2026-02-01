@@ -29,6 +29,36 @@ async function getStats() {
   }
 }
 
+interface PartyWithCount {
+  id: string
+  name: string
+  short_name: string | null
+  color: string | null
+  candidate_count: number
+}
+
+async function getPartiesWithCounts(): Promise<PartyWithCount[]> {
+  try {
+    const rows = await sql`
+      SELECT p.id, p.name, p.short_name, p.color, COUNT(c.id) as candidate_count
+      FROM parties p
+      LEFT JOIN candidates c ON c.party_id = p.id AND c.is_active = true
+      GROUP BY p.id, p.name, p.short_name, p.color
+      HAVING COUNT(c.id) > 0
+      ORDER BY COUNT(c.id) DESC, p.name
+    `
+    return rows.map(r => ({
+      id: r.id as string,
+      name: r.name as string,
+      short_name: r.short_name as string | null,
+      color: r.color as string | null,
+      candidate_count: Number(r.candidate_count),
+    }))
+  } catch {
+    return []
+  }
+}
+
 interface TopCandidate {
   id: string
   full_name: string
@@ -76,9 +106,10 @@ async function getTopPresidentialCandidates(): Promise<TopCandidate[]> {
 }
 
 export default async function Home() {
-  const [stats, topCandidates, t] = await Promise.all([
+  const [stats, topCandidates, parties, t] = await Promise.all([
     getStats(),
     getTopPresidentialCandidates(),
+    getPartiesWithCounts(),
     getTranslations('home')
   ])
   return (
@@ -247,6 +278,44 @@ export default async function Home() {
           </div>
         </Link>
       </section>
+
+      {/* Parties Grid */}
+      {parties.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight">
+              Partidos Políticos
+            </h2>
+            <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">
+              {parties.length} partidos
+            </span>
+          </div>
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 sm:gap-3">
+            {parties.map(party => (
+              <Link
+                key={party.id}
+                href={`/partido/${party.id}`}
+                className="group flex flex-col items-center gap-2 p-3 bg-[var(--card)] border-2 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100"
+              >
+                <div
+                  className="w-12 h-12 sm:w-14 sm:h-14 border-2 border-[var(--border)] flex items-center justify-center text-white font-black text-sm sm:text-base group-hover:scale-110 transition-transform"
+                  style={{ backgroundColor: party.color || '#6B7280' }}
+                >
+                  {party.short_name?.slice(0, 3) || party.name.slice(0, 2)}
+                </div>
+                <div className="text-center">
+                  <div className="text-xs font-black text-[var(--foreground)] uppercase leading-tight line-clamp-2 group-hover:text-[var(--primary)] transition-colors">
+                    {party.short_name || party.name}
+                  </div>
+                  <div className="text-xs text-[var(--muted-foreground)] font-medium">
+                    {party.candidate_count}
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Ad Banner - Mid */}
       <AdBanner slotId="home-mid" className="py-2" />
