@@ -27,7 +27,7 @@
     "mobileNavigation": "Celularpaq sartawi",
     "moreMenu": "Juk'amp ajllinaka",
     "more": "Juk'amp",
-    "transparencyDesc": "Partidonakan qullqi katuqäwipa",
+    "transparencyDesc": "Tantachawinakan qullqi katuqäwipa",
     "methodologyDesc": "Kunjamas jakhunak lurañani",
     "docsDesc": "Técnico qillqanaka API-mpi",
     "donate": "Yanapaña",
@@ -52,7 +52,7 @@
     "filters": {
       "cargo": "Irnaqa",
       "district": "Suyu",
-      "party": "Partido",
+      "party": "Tantachawi",
       "confidence": "Askin iyawsaña",
       "all": "Taqi",
       "search": "Sutimp thaqaña",
@@ -74,14 +74,14 @@
     "cargo": {
       "presidente": "Jach'a Irpiri",
       "vicepresidente": "Payïri Irpiri",
-      "senador": "Senador",
-      "diputado": "Diputado",
+      "senador": "Jach'a Arsuiri",
+      "diputado": "Arsuiri",
       "parlamento_andino": "Qullanaka Parlamento"
     },
     "table": {
       "rank": "#",
       "candidate": "Ajilata",
-      "party": "Partido",
+      "party": "Tantachawi",
       "score": "Jakhunaka",
       "competence": "Yatiqawi",
       "integrity": "Wali jakaña",
@@ -90,8 +90,8 @@
       "actions": "Lurawinaka"
     },
     "noResults": "Jan ajilanaka jikxatati uka t'aqampi",
-    "loading": "Ajilanaka apanipxi...",
-    "viewProfile": "Perfil uñjaña",
+    "loading": "Ajilanaka apanisipkiwa...",
+    "viewProfile": "Uñt'awi uñjaña",
     "compare": "Uñacht'ayaña",
     "elections2026": "Ajilana 2026",
     "shareRanking": "Ranking chikanchaña",
@@ -142,7 +142,7 @@
     "annualIncome": "Marani Mantir Qullqi",
     "declaredAssets": "Yatiyata Imanaka",
     "incomeSource": "Qullqi Jutiri",
-    "politicalParty": "Política Partido",
+    "politicalParty": "Política Tantachawi",
     "penalSentences": "Juchañchäwinaka",
     "civilSentences": "Civil Juchañchäwinaka",
     "civilSentence": "Civil Juchañchäwi",
@@ -184,8 +184,8 @@
       "confidenceDesc": "Kunjams chiqa yatiqawinaka"
     },
     "educationLevels": {
-      "doctorado": "Doctorado",
-      "maestria": "Maestría",
+      "doctorado": "Jach'a Yatiqawi Título",
+      "maestria": "Taypi Jach'a Yatiqawi",
       "titulo_profesional": "Profesional Título",
       "universitario_comp": "Universidad Tukuyata",
       "universitario_inc": "Universidad Jan Tukuyata",
@@ -224,20 +224,20 @@
     "record": "nayra luräwi",
     "records": "nayra luräwinaka",
     "compareButton": "UÑACHT'AYAÑA",
-    "viewParty": "Partido uñjaña",
+    "viewParty": "Tantachawi uñjaña",
     "presidentialFormula": "Presidenta Tantiyu",
     "firstVP": "1ru Vicepresidenta",
     "secondVP": "2ru Vicepresidenta",
     "cvJNE": "Jakaña Qillqa JNE",
-    "backToRanking": "RANKING ARU KUTIÑA",
+    "backToRanking": "RANKING KUTIÑA",
     "compareWithOthers": "YAQHANAKANPI UÑACHT'AYAÑA",
     "similarCandidates": "Ukat ajilanaka",
     "viewAll": "Taqpach uñjaña",
     "otherCandidatesTo": "Yaqha {cargo} ajilanaka uñacht'ayañataki.",
     "viewMoreCandidates": "Juk'amp ajilanaka uñjaña",
-    "notFound": "Ajiliri janiw jikxatatäkiti",
+    "notFound": "Ajilata janiw jikxatatäkiti",
     "metaDescription": "{name} yatiyawi - Chanchi: {score}/100 yatiñat, suma sarnaqañat, uñanchäwinakat.",
-    "metaOgDescription": "Ajiliri {score}/100 chanchi Perú 2026 ajilañana."
+    "metaOgDescription": "Ajilata {score}/100 chanchi Perú 2026 ajilañana."
   },
   "quiz": {
     "title": "Ajilana Jiskhtanaka",
@@ -290,7 +290,7 @@
       "home": "Qalltaña",
       "compare": "Uñacht'ayaña"
     },
-    "loading": "Apanipxi...",
+    "loading": "Apanisipkiwa...",
     "selectToCompare": "Ajilanaka ajilañ uñacht'ayañataki",
     "candidateCount": "{count} pusi ajilanakat",
     "share": "Chikanchaña",
@@ -304,7 +304,7 @@
     "best": "Jilïri suma",
     "outOf100": "patakata",
     "moreFlags": "+{count} jilïri",
-    "viewProfile": "Perfil uñjaña",
+    "viewProfile": "Uñt'awi uñjaña",
     "addCandidate": "Ajilata yapxataña",
     "addAtLeastOne": "Maya ajilata jilïri yapxatam uñacht'ayañataki uñjañataki.",
     "addAnother": "Yaqha yapxataña",
@@ -353,7 +353,7 @@
     "toneNegative": "- Jan wali",
     "clearFilters": "T'aqanaka pichaña",
     "viewing": "Uñjasaki:",
-    "loading": "Apanipxi...",
+    "loading": "Apanisipkiwa...",
     "newsFound": "{count} yatiyawinaka jikxatata",
     "noResults": "Jan yatiyawinaka utjiti uka t'aqampi",
     "tryOtherFilter": "Yaqha t'aqata jan ukax ajilata uñjam",
@@ -421,8 +421,8 @@
     "education": "Yatiqawi (jilïri 30 jakhu)",
     "level": "Nivel",
     "points": "Jakhunakanaka",
-    "doctorate": "Doctorado",
-    "masters": "Maestría",
+    "doctorate": "Jach'a Yatiqawi Título",
+    "masters": "Taypi Jach'a Yatiqawi",
     "professionalTitle": "Profesional título",
     "universityComplete": "Universidad tukuyata",
     "technicalComplete": "Técnico tukuyata",
@@ -497,7 +497,7 @@
     "disclaimer": "Aka ranking yatiyaña herramienta. Jan ajilana kamachiwiti."
   },
   "common": {
-    "loading": "Apanipxi...",
+    "loading": "Apanisipkiwa...",
     "error": "Pantjawi",
     "retry": "Wasitat luraña",
     "close": "Jist'araña",
@@ -514,9 +514,9 @@
     "copied": "Uñtatawa",
     "months": {
       "jan": "chi",
-      "feb": "anä",
+      "feb": "ana",
       "mar": "ach",
-      "apr": "llü",
+      "apr": "llu",
       "may": "aym",
       "jun": "maq",
       "jul": "wil",
@@ -543,7 +543,7 @@
     "compare": "Uñacht'ayaña",
     "top3Presidential": "Kimsa Nayräx Jach'a Irpiri",
     "viewMore": "Jilpach uñjaña",
-    "loadingCandidates": "Ajilanaka apanipxi...",
+    "loadingCandidates": "Ajilanaka apanisipkiwa...",
     "alsoView": "Ukatxa uñjam:",
     "senators": "Senadornaka",
     "deputies": "Diputadonaka",
@@ -578,12 +578,12 @@
     "hours": "HORA",
     "minutes": "MIN",
     "seconds": "SEG",
-    "yourVoteMatters": "Votomax yupan"
+    "yourVoteMatters": "Ajillañamax yupan"
   },
   "dailyFact": {
     "didYouKnow": "¿Yatiytati...?",
-    "loading": "Apanipxi...",
-    "error": "Pantjawi apanipxi",
+    "loading": "Apanisipkiwa...",
+    "error": "Pantjawi apanisipkiwa",
     "noFact": "Jan yatiyawinaka utjiti",
     "viewSource": "Phuqtu uñjaña",
     "fallbackFacts": {
@@ -598,8 +598,8 @@
     "title": "Askin Uñjata Yatiyawinaka",
     "viewAll": "Taqpach yatiyawinaka uñjaña",
     "trending": "Askin yatiyata",
-    "loading": "Yatiyawinaka apanipxi...",
-    "error": "Pantjawi yatiyawinaka apanipxi",
+    "loading": "Yatiyawinaka apanisipkiwa...",
+    "error": "Pantjawi yatiyawinaka apanisipkiwa",
     "noNews": "Jan yatiyawinaka utjiti",
     "readMore": "Jilpach ullaña",
     "hoursAgo": "{hours}h nayräx",
@@ -612,11 +612,11 @@
     }
   },
   "candidateCard": {
-    "viewProfile": "Perfil uñjaña",
+    "viewProfile": "Uñt'awi uñjaña",
     "score": "Jakhunakanaka",
     "rank": "Lugar",
-    "party": "Partido",
-    "noParty": "Sapaki"
+    "party": "Tantachawi",
+    "noParty": "Jan tantachawini"
   },
   "docs": {
     "meta": {
@@ -1040,7 +1040,7 @@
   "accessibility": {
     "title": "Taqitaq suma uñjaña",
     "colorVision": "Sami uñjaña",
-    "normal": "Normal",
+    "normal": "Jank'aki",
     "protanopia": "Protanopia (wila jan wali uñjaña)",
     "deuteranopia": "Deuteranopia (ch'uxña jan wali uñjaña)",
     "tritanopia": "Tritanopia (larama jan wali uñjaña)",
@@ -1051,7 +1051,7 @@
     "showPatternsDesc": "Saminaka t'aqañataki siq'inaka",
     "darkMode": "Ch'amaka",
     "fontSize": "Qillqa jach'apa",
-    "fontNormal": "Normal",
+    "fontNormal": "Jank'aki",
     "fontLarge": "Jach'a",
     "fontExtraLarge": "Juk'amp jach'a",
     "useSystemDefaults": "Sistemana ajllatapa",
