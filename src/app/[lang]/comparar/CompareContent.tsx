@@ -103,8 +103,9 @@ export function CompareContent() {
   const { candidates, loading, error } = useCandidatesByIds(candidateIds)
 
   // Remove a candidate from comparison
-  const removeCandidate = (idToRemove: string) => {
-    const newIds = candidateIds.filter(id => id !== idToRemove)
+  // URL params can contain UUIDs or slugs, so match by both
+  const removeCandidate = (candidate: CandidateWithScores) => {
+    const newIds = candidateIds.filter(id => id !== candidate.id && id !== candidate.slug)
     if (newIds.length === 0) {
       router.push('/comparar')
     } else {
@@ -309,7 +310,7 @@ export function CompareContent() {
                   >
                     {/* Remove button */}
                     <button
-                      onClick={() => removeCandidate(candidate.id)}
+                      onClick={() => removeCandidate(candidate)}
                       className={cn(
                         'absolute top-2 right-2 z-10',
                         'w-7 h-7 flex items-center justify-center',
