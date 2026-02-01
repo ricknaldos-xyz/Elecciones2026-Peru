@@ -64,14 +64,24 @@ function computePartyStats(candidates: CandidateWithScores[]) {
   const cleanCandidates = candidates.filter(c => c.flags.length === 0)
   const totalFlags = candidates.reduce((s, c) => s + c.flags.length, 0)
 
-  const top3 = [...candidates].sort((a, b) => b.scores.score_balanced - a.scores.score_balanced).slice(0, 3)
-  const worst3 = [...candidates]
+  const dedup = (list: CandidateWithScores[]) => {
+    const seen = new Set<string>()
+    return list.filter(c => {
+      const name = c.full_name.toUpperCase()
+      if (seen.has(name)) return false
+      seen.add(name)
+      return true
+    })
+  }
+
+  const top3 = dedup([...candidates].sort((a, b) => b.scores.score_balanced - a.scores.score_balanced)).slice(0, 3)
+  const worst3 = dedup([...candidates]
     .filter(c => c.flags.some(f => f.severity === 'RED'))
     .sort((a, b) => {
       const aRed = a.flags.filter(f => f.severity === 'RED').length
       const bRed = b.flags.filter(f => f.severity === 'RED').length
       return bRed - aRed
-    })
+    }))
     .slice(0, 3)
 
   const byCargo = cargoOrder
