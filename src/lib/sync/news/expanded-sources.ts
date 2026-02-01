@@ -38,7 +38,7 @@ export const ORIGINAL_SOURCES: RSSSource[] = [
   {
     id: 'gestion',
     name: 'Gestión',
-    url: 'https://gestion.pe/arc/outboundfeeds/rss/category/peru/?outputType=xml',
+    url: 'https://gestion.pe/arc/outboundfeeds/rss/category/peru/politica-peru/?outputType=xml',
     category: 'mainstream',
     language: 'es',
     priority: 8,
@@ -67,11 +67,11 @@ export const EXPANDED_SOURCES: RSSSource[] = [
     priority: 10,
   },
 
-  // Digital Media - Infobae tiene RSS funcional
+  // Digital Media - Infobae política
   {
     id: 'infobae',
     name: 'Infobae Perú',
-    url: 'https://www.infobae.com/arc/outboundfeeds/rss/category/peru/?outputType=xml',
+    url: 'https://www.infobae.com/arc/outboundfeeds/rss/category/peru/politica-peru/?outputType=xml',
     category: 'digital',
     language: 'es',
     priority: 9,

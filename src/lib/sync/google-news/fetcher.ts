@@ -251,10 +251,22 @@ export async function syncGoogleNews(): Promise<GoogleNewsSyncResult> {
             continue
           }
 
-          // Save to database
-          await saveNewsItem(item, candidate.id, candidate.partyId)
-          result.itemsSaved++
-          logger.incrementCreated()
+          // Verify the candidate is actually mentioned in the article
+          const matches = await matchNewsToEntities({
+            title: cleanTitle(item.title),
+            url: item.link,
+            excerpt: item.contentSnippet,
+            source: extractSourceFromTitle(item.title) || item.source || 'google_news',
+          })
+
+          const candidateMatch = matches.find(m => m.candidateId)
+          if (candidateMatch) {
+            await saveNewsItem(item, candidateMatch.candidateId, candidateMatch.partyId)
+            result.itemsSaved++
+            logger.incrementCreated()
+          } else {
+            logger.incrementSkipped()
+          }
         }
 
         await delay(DELAY_BETWEEN_REQUESTS)

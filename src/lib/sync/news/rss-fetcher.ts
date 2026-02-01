@@ -33,7 +33,7 @@ const NEWS_SOURCES: RSSSource[] = [
   {
     name: 'Gestión',
     id: 'gestion',
-    url: 'https://gestion.pe/arc/outboundfeeds/rss/category/peru/?outputType=xml',
+    url: 'https://gestion.pe/arc/outboundfeeds/rss/category/peru/politica-peru/?outputType=xml',
     type: 'rss',
   },
   {
@@ -45,7 +45,7 @@ const NEWS_SOURCES: RSSSource[] = [
   {
     name: 'Infobae Perú',
     id: 'infobae',
-    url: 'https://www.infobae.com/arc/outboundfeeds/rss/category/peru/?outputType=xml',
+    url: 'https://www.infobae.com/arc/outboundfeeds/rss/category/peru/politica-peru/?outputType=xml',
     type: 'rss',
   },
   {

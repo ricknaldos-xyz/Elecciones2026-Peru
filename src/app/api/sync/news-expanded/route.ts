@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Parser from 'rss-parser'
 import { ALL_RSS_SOURCES, isPoliticallyRelevant, getRateLimit } from '@/lib/sync/news/expanded-sources'
+import { matchNewsToEntities } from '@/lib/sync/news/matcher'
 import { createSyncLogger } from '@/lib/sync/logger'
 import { sql } from '@/lib/db'
 import { verifySyncAuth } from '@/lib/sync/auth'
@@ -70,25 +71,49 @@ export async function GET(request: NextRequest) {
             continue
           }
 
-          // Save to database
-          await sql`
-            INSERT INTO news_mentions (
-              source,
-              title,
-              url,
-              excerpt,
-              published_at,
-              relevance_score
-            ) VALUES (
-              ${source.id},
-              ${item.title},
-              ${item.link},
-              ${item.contentSnippet || item.content || ''},
-              ${item.pubDate || new Date().toISOString()},
-              ${0.5}
-            )
-            ON CONFLICT (url) DO NOTHING
-          `
+          // Match to candidates/parties - only save if linked
+          const matches = await matchNewsToEntities({
+            title: item.title,
+            url: item.link,
+            excerpt: item.contentSnippet || item.content || '',
+            source: source.id,
+          })
+
+          if (matches.length === 0) {
+            stats.itemsSkipped++
+            logger.incrementSkipped()
+            continue
+          }
+
+          // Save for each match (candidate or party)
+          for (const match of matches) {
+            await sql`
+              INSERT INTO news_mentions (
+                candidate_id,
+                party_id,
+                source,
+                title,
+                url,
+                excerpt,
+                published_at,
+                sentiment,
+                keywords,
+                relevance_score
+              ) VALUES (
+                ${match.candidateId}::uuid,
+                ${match.partyId}::uuid,
+                ${source.id},
+                ${item.title},
+                ${item.link},
+                ${item.contentSnippet || item.content || ''},
+                ${item.pubDate || new Date().toISOString()},
+                ${match.sentiment},
+                ${match.keywords}::text[],
+                ${match.relevanceScore}
+              )
+              ON CONFLICT (url) DO NOTHING
+            `
+          }
 
           stats.itemsSaved++
           logger.incrementCreated()
