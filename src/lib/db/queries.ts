@@ -233,15 +233,16 @@ export async function getCandidatesByIds(ids: string[]): Promise<CandidateWithSc
     LEFT JOIN parties p ON c.party_id = p.id
     LEFT JOIN districts d ON c.district_id = d.id
     LEFT JOIN scores s ON c.id = s.candidate_id
-    WHERE c.id = ANY(${ids}) AND c.is_active = true
+    WHERE (c.id = ANY(${ids}) OR c.slug = ANY(${ids})) AND c.is_active = true
   `
 
   if (rows.length === 0) return []
 
-  // Get flags
+  // Get flags using resolved candidate IDs
+  const resolvedIds = rows.map((r) => r.id as string)
   const flags = await sql`
     SELECT id, candidate_id, type, severity, title, description, source, evidence_url, date_captured
-    FROM flags WHERE candidate_id = ANY(${ids})
+    FROM flags WHERE candidate_id = ANY(${resolvedIds})
   `
 
   const flagsByCandidate = flags.reduce<Record<string, Flag[]>>((acc, flag) => {
@@ -586,7 +587,10 @@ export async function getPartyExpensesByCategory(partyId: string, year?: number)
  */
 export async function getPartyBySlug(slug: string) {
   const parties = await getParties()
+  const normalize = (s: string) => s.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')
   const party = parties.find((p) =>
+    normalize(p.short_name || '') === slug ||
+    normalize(p.name || '') === slug ||
     p.short_name?.toLowerCase().replace(/\s+/g, '-') === slug ||
     p.name?.toLowerCase().replace(/\s+/g, '-') === slug ||
     p.id === slug // Also allow lookup by ID for backwards compatibility

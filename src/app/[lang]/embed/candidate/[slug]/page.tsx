@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation'
-import Link from 'next/link'
+import { Link } from '@/i18n/routing'
 import { getCandidateBySlug } from '@/lib/db/queries'
 import { cn } from '@/lib/utils'
 

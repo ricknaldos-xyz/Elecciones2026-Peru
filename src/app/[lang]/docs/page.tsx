@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/routing'
 import { Metadata } from 'next'
 import { Header } from '@/components/layout/Header'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -1325,7 +1325,7 @@ CREATE TABLE scores (
                       </tr>
                       <tr className="border-b border-[var(--border)]">
                         <td className="py-2"><Badge variant="default" size="sm">GET</Badge></td>
-                        <td className="py-2">/api/candidates/[slug]</td>
+                        <td className="py-2">/api/candidates/by-slug/[slug]</td>
                         <td className="py-2 font-sans">Detalle de candidato específico</td>
                       </tr>
                       <tr className="border-b border-[var(--border)]">
@@ -1409,7 +1409,7 @@ CREATE TABLE scores (
 
               {/* Example Response */}
               <div className="p-4 bg-[var(--muted)] border-2 border-[var(--border)]">
-                <h5 className="font-bold text-[var(--foreground)] mb-2 text-sm">Ejemplo de Respuesta: GET /api/candidates/[slug]</h5>
+                <h5 className="font-bold text-[var(--foreground)] mb-2 text-sm">Ejemplo de Respuesta: GET /api/candidates/by-slug/[slug]</h5>
                 <pre className="font-mono text-xs text-[var(--foreground)] overflow-x-auto">{`{
   "id": "uuid",
   "slug": "keiko-fujimori",

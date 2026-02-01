@@ -1,4 +1,4 @@
-import Link from 'next/link'
+import { Link } from '@/i18n/routing'
 import { sql } from '@/lib/db'
 import { cn } from '@/lib/utils'
 
