@@ -58,6 +58,7 @@ const FLAG_TYPE_LABELS: Record<string, string> = {
   LABORAL: 'Sentencia Laboral',
   CONTRACTUAL: 'Incumplimiento',
   MULTIPLE_RESIGNATIONS: 'Múltiples Renuncias',
+  REINFO: 'Minería Informal (REINFO)',
   LOW_DATA: 'Datos Incompletos',
   UNDER_REVIEW: 'En Revisión',
 }

@@ -324,6 +324,7 @@ export type FlagType =
   | 'LABORAL'
   | 'CONTRACTUAL'
   | 'MULTIPLE_RESIGNATIONS'
+  | 'REINFO'
   | 'LOW_DATA'
   | 'UNDER_REVIEW'
 
