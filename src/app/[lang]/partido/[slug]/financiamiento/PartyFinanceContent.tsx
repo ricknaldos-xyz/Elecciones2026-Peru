@@ -6,6 +6,7 @@ import { Card, CardHeader, CardContent, CardTitle, CardDescription } from '@/com
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { PartyFinanceCard } from '@/components/party/PartyFinanceCard'
+import { PartyLogo } from '@/components/party/PartyLogo'
 import { DonorsList } from '@/components/party/DonorsList'
 import { ExpenseBreakdown } from '@/components/party/ExpenseBreakdown'
 import type { PartyFinanceSummary } from '@/lib/db/queries'
@@ -52,12 +53,14 @@ export function PartyFinanceContent({ initialData }: PartyFinanceContentProps) {
       {/* Page Header */}
       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 md:gap-6 mb-8">
         <div className="flex items-center gap-3 sm:gap-4">
-          <div
-            className="w-12 h-12 sm:w-16 sm:h-16 border-3 border-[var(--border)] flex items-center justify-center text-white text-base sm:text-xl font-black flex-shrink-0"
-            style={{ backgroundColor: party.color || '#ef4444' }}
-          >
-            {party.short_name || party.name.substring(0, 2)}
-          </div>
+          <PartyLogo
+            name={party.name}
+            shortName={party.short_name}
+            color={party.color}
+            logoUrl={party.logo_url}
+            size="lg"
+            className="border-3"
+          />
           <div className="min-w-0">
             <h1 className="text-xl sm:text-3xl font-black text-[var(--foreground)] truncate uppercase tracking-tight">
               {party.name}

@@ -455,6 +455,7 @@ export interface CandidateWithScores {
     name: string
     short_name: string | null
     color: string | null
+    logo_url: string | null
   } | null
   district: {
     id: string

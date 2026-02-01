@@ -18,6 +18,7 @@ import { Progress } from '@/components/ui/Progress'
 import { FlagChips } from '@/components/candidate/FlagChip'
 import { ConfidenceBadge } from '@/components/candidate/ConfidenceBadge'
 import { ShareButton } from '@/components/share/ShareButton'
+import { PartyLogo } from '@/components/party/PartyLogo'
 import { AdBanner } from '@/components/ads/AdBanner'
 import { AdSlot } from '@/components/ads/AdSlot'
 import { CandidateNewsSection } from '@/components/news/CandidateNewsSection'
@@ -764,12 +765,13 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                   </CardHeader>
                   <CardContent>
                     <Link href={`/partido/${candidate.party.id}`} className="flex items-center gap-3 p-3 bg-[var(--muted)] border-2 border-[var(--border)] hover:shadow-[var(--shadow-brutal-sm)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100">
-                      <div
-                        className="w-10 h-10 border-2 border-[var(--border)] flex items-center justify-center text-white font-black"
-                        style={{ backgroundColor: candidate.party.color || '#6B7280' }}
-                      >
-                        {candidate.party.short_name?.substring(0, 2) || candidate.party.name.substring(0, 2)}
-                      </div>
+                      <PartyLogo
+                        name={candidate.party.name}
+                        shortName={candidate.party.short_name}
+                        color={candidate.party.color}
+                        logoUrl={candidate.party.logo_url}
+                        size="md"
+                      />
                       <div className="flex-1">
                         <div className="font-bold text-[var(--foreground)]">
                           {candidate.party.name}
@@ -1196,12 +1198,13 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                     href={`/partido/${candidate.party.id}`}
                     className="flex items-center gap-2 p-3 bg-[var(--muted)] border-2 border-[var(--border)] hover:shadow-[var(--shadow-brutal-sm)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100"
                   >
-                    <div
-                      className="w-8 h-8 border-2 border-[var(--border)] flex items-center justify-center text-white font-bold text-xs"
-                      style={{ backgroundColor: candidate.party.color || '#6B7280' }}
-                    >
-                      {candidate.party.short_name?.substring(0, 2) || candidate.party.name.substring(0, 2)}
-                    </div>
+                    <PartyLogo
+                      name={candidate.party.name}
+                      shortName={candidate.party.short_name}
+                      color={candidate.party.color}
+                      logoUrl={candidate.party.logo_url}
+                      size="sm"
+                    />
                     <div className="flex-1 min-w-0">
                       <div className="text-xs font-bold text-[var(--foreground)] truncate uppercase">
                         {candidate.party.short_name || candidate.party.name}

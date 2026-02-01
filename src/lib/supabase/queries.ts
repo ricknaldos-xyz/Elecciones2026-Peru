@@ -14,6 +14,7 @@ interface RankingViewRow {
   party_name: string | null
   party_short_name: string | null
   party_color: string | null
+  party_logo_url: string | null
   district_id: string | null
   district_name: string | null
   district_slug: string | null
@@ -116,6 +117,7 @@ export async function getCandidates(options?: {
       name: row.party_name || '',
       short_name: row.party_short_name,
       color: row.party_color,
+      logo_url: row.party_logo_url || null,
     } : null,
     district: row.district_id ? {
       id: row.district_id,
@@ -173,6 +175,7 @@ export async function getCandidateBySlug(slug: string): Promise<CandidateWithSco
       name: row.party_name || '',
       short_name: row.party_short_name,
       color: row.party_color,
+      logo_url: row.party_logo_url || null,
     } : null,
     district: row.district_id ? {
       id: row.district_id,
@@ -236,6 +239,7 @@ export async function getCandidatesByIds(ids: string[]): Promise<CandidateWithSc
       name: row.party_name || '',
       short_name: row.party_short_name,
       color: row.party_color,
+      logo_url: row.party_logo_url || null,
     } : null,
     district: row.district_id ? {
       id: row.district_id,

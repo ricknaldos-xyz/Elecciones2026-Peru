@@ -9,6 +9,7 @@ import { CandidateImage } from '@/components/candidate/CandidateImage'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
+import { PartyLogo } from '@/components/party/PartyLogo'
 import type { CargoType, CandidateWithScores } from '@/types/database'
 
 interface PageProps {
@@ -154,12 +155,14 @@ export default async function PartidoPage({ params }: PageProps) {
         {/* ========== HEADER ========== */}
         <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div
-              className="w-16 h-16 border-3 border-[var(--border)] flex items-center justify-center text-white font-black text-xl"
-              style={{ backgroundColor: (party.color as string) || '#6B7280' }}
-            >
-              {(party.short_name as string)?.slice(0, 2) || (party.name as string)?.slice(0, 2)}
-            </div>
+            <PartyLogo
+              name={party.name as string}
+              shortName={party.short_name as string | null}
+              color={party.color as string | null}
+              logoUrl={party.logo_url as string | null}
+              size="lg"
+              className="border-3"
+            />
             <div>
               <h1 className="text-3xl font-black text-[var(--foreground)] uppercase tracking-tight">
                 {party.name}

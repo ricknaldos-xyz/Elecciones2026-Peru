@@ -11,6 +11,7 @@ interface CandidateRow {
   party_name: string | null
   party_short_name: string | null
   party_color: string | null
+  party_logo_url: string | null
   district_id: string | null
   district_name: string | null
   district_slug: string | null
@@ -37,6 +38,7 @@ function mapRowToCandidate(row: CandidateRow, flags: Flag[] = []): CandidateWith
       name: row.party_name || '',
       short_name: row.party_short_name,
       color: row.party_color,
+      logo_url: row.party_logo_url,
     } : null,
     district: row.district_id ? {
       id: row.district_id,
@@ -96,6 +98,7 @@ export async function getCandidates(options?: {
       p.name as party_name,
       p.short_name as party_short_name,
       p.color as party_color,
+      p.logo_url as party_logo_url,
       c.district_id,
       d.name as district_name,
       d.slug as district_slug,
@@ -181,6 +184,7 @@ export async function getCandidateBySlug(slug: string): Promise<CandidateWithSco
       p.name as party_name,
       p.short_name as party_short_name,
       p.color as party_color,
+      p.logo_url as party_logo_url,
       c.district_id,
       d.name as district_name,
       d.slug as district_slug,
@@ -231,6 +235,7 @@ export async function getCandidatesByIds(ids: string[]): Promise<CandidateWithSc
       p.name as party_name,
       p.short_name as party_short_name,
       p.color as party_color,
+      p.logo_url as party_logo_url,
       c.district_id,
       d.name as district_name,
       d.slug as district_slug,

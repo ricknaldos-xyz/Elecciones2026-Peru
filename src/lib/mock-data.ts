@@ -8,19 +8,19 @@ import type { CandidateWithScores, CargoType } from '@/types/database'
 
 // Partidos políticos - IDs sincronizados con base de datos
 export const MOCK_PARTIES = [
-  { id: '11111111-1111-1111-1111-111111111101', name: 'Fuerza Popular', short_name: 'FP', color: '#FF6B00' },
-  { id: '11111111-1111-1111-1111-111111111102', name: 'Renovación Popular', short_name: 'RP', color: '#0066CC' },
-  { id: '11111111-1111-1111-1111-111111111103', name: 'Alianza para el Progreso', short_name: 'APP', color: '#00AA55' },
-  { id: '11111111-1111-1111-1111-111111111104', name: 'Somos Perú', short_name: 'SP', color: '#FFD700' },
-  { id: '11111111-1111-1111-1111-111111111105', name: 'Perú Libre', short_name: 'PL', color: '#CC0000' },
-  { id: '11111111-1111-1111-1111-111111111106', name: 'Avanza País', short_name: 'AP', color: '#4169E1' },
-  { id: '11111111-1111-1111-1111-111111111107', name: 'Partido Morado', short_name: 'PM', color: '#8B008B' },
-  { id: '11111111-1111-1111-1111-111111111108', name: 'Acción Popular', short_name: 'AP', color: '#DC143C' },
-  { id: '11111111-1111-1111-1111-111111111109', name: 'Fe en el Perú', short_name: 'FEP', color: '#228B22' },
-  { id: '11111111-1111-1111-1111-111111111110', name: 'Podemos Perú', short_name: 'PP', color: '#FF69B4' },
-  { id: '11111111-1111-1111-1111-111111111111', name: 'Primero la Gente', short_name: 'PLG', color: '#9932CC' },
-  { id: '11111111-1111-1111-1111-111111111112', name: 'Juntos por el Perú', short_name: 'JP', color: '#FF4500' },
-  { id: '11111111-1111-1111-1111-111111111113', name: 'Victoria Nacional', short_name: 'VN', color: '#006400' },
+  { id: '11111111-1111-1111-1111-111111111101', name: 'Fuerza Popular', short_name: 'FP', color: '#FF6B00', logo_url: null },
+  { id: '11111111-1111-1111-1111-111111111102', name: 'Renovación Popular', short_name: 'RP', color: '#0066CC', logo_url: null },
+  { id: '11111111-1111-1111-1111-111111111103', name: 'Alianza para el Progreso', short_name: 'APP', color: '#00AA55', logo_url: null },
+  { id: '11111111-1111-1111-1111-111111111104', name: 'Somos Perú', short_name: 'SP', color: '#FFD700', logo_url: null },
+  { id: '11111111-1111-1111-1111-111111111105', name: 'Perú Libre', short_name: 'PL', color: '#CC0000', logo_url: null },
+  { id: '11111111-1111-1111-1111-111111111106', name: 'Avanza País', short_name: 'AP', color: '#4169E1', logo_url: null },
+  { id: '11111111-1111-1111-1111-111111111107', name: 'Partido Morado', short_name: 'PM', color: '#8B008B', logo_url: null },
+  { id: '11111111-1111-1111-1111-111111111108', name: 'Acción Popular', short_name: 'AP', color: '#DC143C', logo_url: null },
+  { id: '11111111-1111-1111-1111-111111111109', name: 'Fe en el Perú', short_name: 'FEP', color: '#228B22', logo_url: null },
+  { id: '11111111-1111-1111-1111-111111111110', name: 'Podemos Perú', short_name: 'PP', color: '#FF69B4', logo_url: null },
+  { id: '11111111-1111-1111-1111-111111111111', name: 'Primero la Gente', short_name: 'PLG', color: '#9932CC', logo_url: null },
+  { id: '11111111-1111-1111-1111-111111111112', name: 'Juntos por el Perú', short_name: 'JP', color: '#FF4500', logo_url: null },
+  { id: '11111111-1111-1111-1111-111111111113', name: 'Victoria Nacional', short_name: 'VN', color: '#006400', logo_url: null },
 ]
 
 // Distritos electorales - IDs sincronizados con base de datos
