@@ -20,9 +20,9 @@ import { useLocale } from 'next-intl'
 // Popular candidates to suggest when empty or can add more
 const SUGGESTED_CANDIDATES = [
   { id: 'keiko-fujimori', name: 'Keiko Fujimori', party: 'Fuerza Popular' },
-  { id: 'antauro-humala', name: 'Antauro Humala', party: 'A.N.T.A.U.R.O.' },
-  { id: 'cesar-acuna', name: 'César Acuña', party: 'APP' },
-  { id: 'jose-luna', name: 'José Luna', party: 'Podemos Perú' },
+  { id: 'george-forsyth', name: 'George Forsyth', party: 'Somos Perú' },
+  { id: 'lopez-aliaga-cazorla-rafael-bernardo', name: 'Rafael López Aliaga', party: 'Renovación Popular' },
+  { id: 'luna-galvez-jose-leon', name: 'José Luna', party: 'Podemos Perú' },
 ]
 
 function getScoreByMode(
