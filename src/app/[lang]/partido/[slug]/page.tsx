@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { getCandidates, getParties, getPartyFinances } from '@/lib/db/queries'
+import { getCandidates, getPartyBySlug, getPartyFinances } from '@/lib/db/queries'
 import { Header } from '@/components/layout/Header'
 import { CandidateCard } from '@/components/candidate/CandidateCard'
 import { Badge } from '@/components/ui/Badge'
@@ -11,14 +11,6 @@ import type { CargoType } from '@/types/database'
 
 interface PageProps {
   params: Promise<{ slug: string }>
-}
-
-async function getPartyBySlug(slug: string) {
-  const parties = await getParties()
-  return parties.find((p) =>
-    p.short_name?.toLowerCase().replace(/\s+/g, '-') === slug ||
-    p.name?.toLowerCase().replace(/\s+/g, '-') === slug
-  )
 }
 
 const cargoLabels: Record<CargoType, string> = {
