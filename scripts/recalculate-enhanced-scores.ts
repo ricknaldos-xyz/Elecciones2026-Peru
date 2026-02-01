@@ -10,6 +10,8 @@
  */
 
 import { neon } from '@neondatabase/serverless'
+import * as fs from 'fs'
+import * as path from 'path'
 import {
   calculateEnhancedScores,
   calculateTotalExperienceYears,
@@ -23,7 +25,12 @@ import {
   type CivilSentence,
 } from '../src/lib/scoring'
 
-const sql = neon(process.env.DATABASE_URL!)
+// Load DATABASE_URL from .env.local
+const envPath = path.join(process.cwd(), '.env.local')
+const envContent = fs.readFileSync(envPath, 'utf-8')
+const dbMatch = envContent.match(/DATABASE_URL=["']?([^"'\n]+)["']?/)
+const DATABASE_URL = dbMatch ? dbMatch[1] : process.env.DATABASE_URL!
+const sql = neon(DATABASE_URL)
 
 // Map database education detail to scoring level
 // DB stores: level ("Primaria", "Secundaria", "Técnico", "Universitario", "Posgrado")
