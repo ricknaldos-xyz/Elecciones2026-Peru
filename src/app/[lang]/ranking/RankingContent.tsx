@@ -85,6 +85,8 @@ export function RankingContent() {
   })
 
   const [distrito, setDistrito] = useState<string | undefined>(() => {
+    const param = searchParams.get('cargo')
+    if (param && param !== 'diputado') return undefined
     return searchParams.get('distrito') || undefined
   })
 

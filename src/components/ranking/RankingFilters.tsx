@@ -43,7 +43,7 @@ export function RankingFilters({
   onReset,
   className,
 }: RankingFiltersProps) {
-  const showDistrito = cargo === 'diputado' || cargo === 'senador'
+  const showDistrito = cargo === 'diputado'
 
   return (
     <form className={cn('space-y-5', className)} role="search" aria-label="Filtros de ranking">
