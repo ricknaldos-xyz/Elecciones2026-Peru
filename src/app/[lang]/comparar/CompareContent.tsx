@@ -94,45 +94,33 @@ function CandidateSearch({
 }) {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<CandidateWithScores[]>([])
-  const [allCandidates, setAllCandidates] = useState<CandidateWithScores[] | null>(null)
   const [isSearching, setIsSearching] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // Fetch all candidates once (cached)
-  const fetchAll = useCallback(async () => {
-    if (allCandidates) return allCandidates
-    setIsSearching(true)
-    try {
-      const res = await fetch('/api/candidates')
-      const data: CandidateWithScores[] = await res.json()
-      setAllCandidates(data)
-      return data
-    } catch {
-      return []
-    } finally {
-      setIsSearching(false)
-    }
-  }, [allCandidates])
-
-  // Filter on query change
+  // Server-side search on query change
   useEffect(() => {
     if (query.length < 2) {
       setResults([])
       return
     }
     const timer = setTimeout(async () => {
-      const data = await fetchAll()
-      const q = query.toLowerCase()
-      const filtered = data
-        .filter((c) => c.full_name.toLowerCase().includes(q))
-        .slice(0, 6)
-      setResults(filtered)
-      setIsOpen(true)
+      setIsSearching(true)
+      try {
+        const params = new URLSearchParams({ search: query, limit: '8' })
+        const res = await fetch(`/api/candidates?${params}`)
+        const data: CandidateWithScores[] = await res.json()
+        setResults(data.slice(0, 8))
+        setIsOpen(true)
+      } catch {
+        setResults([])
+      } finally {
+        setIsSearching(false)
+      }
     }, 300)
     return () => clearTimeout(timer)
-  }, [query, fetchAll])
+  }, [query])
 
   // Close on click outside
   useEffect(() => {

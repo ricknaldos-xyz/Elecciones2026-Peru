@@ -68,6 +68,7 @@ export async function getCandidates(options?: {
   partyId?: string
   minConfidence?: number
   onlyClean?: boolean
+  search?: string
   limit?: number
   offset?: number
 }): Promise<CandidateWithScores[]> {
@@ -76,6 +77,11 @@ export async function getCandidates(options?: {
   const partyIdFilter = options?.partyId || null
   const minConfidence = (options?.minConfidence && options.minConfidence > 0) ? options.minConfidence : null
   const onlyClean = options?.onlyClean || false
+  const searchQuery = options?.search?.trim() || null
+  // Normalize search: remove accents for matching against DB names (which are typically unaccented uppercase)
+  const searchPattern = searchQuery
+    ? `%${searchQuery.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()}%`
+    : null
   const limit = (options?.limit && options.limit > 0) ? options.limit : 1000
   const offset = (options?.offset && options.offset > 0) ? options.offset : 0
 
@@ -111,6 +117,12 @@ export async function getCandidates(options?: {
       AND (${districtSlugFilter}::text IS NULL OR d.slug = ${districtSlugFilter})
       AND (${partyIdFilter}::text IS NULL OR c.party_id = ${partyIdFilter}::uuid)
       AND (${minConfidence}::numeric IS NULL OR s.confidence >= ${minConfidence})
+      AND (
+        ${searchPattern}::text IS NULL
+        OR LOWER(TRANSLATE(c.full_name, 'ÁÉÍÓÚáéíóúÑñÜü', 'AEIOUaeiouNnUu')) LIKE ${searchPattern}
+        OR LOWER(TRANSLATE(p.name, 'ÁÉÍÓÚáéíóúÑñÜü', 'AEIOUaeiouNnUu')) LIKE ${searchPattern}
+        OR LOWER(TRANSLATE(COALESCE(p.short_name, ''), 'ÁÉÍÓÚáéíóúÑñÜü', 'AEIOUaeiouNnUu')) LIKE ${searchPattern}
+      )
       AND (
         ${!onlyClean}
         OR NOT EXISTS (

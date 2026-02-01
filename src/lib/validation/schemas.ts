@@ -34,6 +34,7 @@ export const candidatesQuerySchema = z.object({
     .transform((v) => v === 'true')
     .optional()
     .catch(undefined),
+  search: z.string().max(100).transform(sanitizeString).optional(),
   limit: coerceInt(50).pipe(z.number().min(1).max(200)).optional(),
   offset: coerceInt(0).pipe(z.number().min(0)).optional(),
 })

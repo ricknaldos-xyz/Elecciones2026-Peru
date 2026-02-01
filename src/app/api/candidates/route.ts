@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     const parsed = parseSearchParams(request, candidatesQuerySchema)
     if (!parsed.success) return parsed.response
 
-    const { cargo, distrito: districtSlug, partido: partyId, minConfidence, onlyClean, limit, offset } = parsed.data
+    const { cargo, distrito: districtSlug, partido: partyId, minConfidence, onlyClean, search, limit, offset } = parsed.data
 
     const candidates = await getCandidates({
       cargo,
@@ -19,6 +19,7 @@ export async function GET(request: NextRequest) {
       partyId,
       minConfidence,
       onlyClean,
+      search,
       limit,
       offset,
     })

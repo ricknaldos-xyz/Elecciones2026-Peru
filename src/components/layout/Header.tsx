@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/Button'
 import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher'
 import { AccessibilityButton } from '@/components/accessibility/AccessibilityButton'
 import { useSearchShortcut } from '@/hooks/useKeyboardShortcuts'
+import { CandidateImage } from '@/components/candidate/CandidateImage'
 import type { CandidateWithScores } from '@/types/database'
 import type { Locale } from '@/i18n/config'
 
@@ -110,12 +111,10 @@ export function Header({ currentPath }: HeaderProps) {
 
       setIsSearching(true)
       try {
-        const response = await fetch(`/api/candidates`)
+        const params = new URLSearchParams({ search: searchQuery, limit: '8' })
+        const response = await fetch(`/api/candidates?${params}`)
         const candidates: CandidateWithScores[] = await response.json()
-        const filtered = candidates.filter((c) =>
-          c.full_name.toLowerCase().includes(searchQuery.toLowerCase())
-        ).slice(0, 5)
-        setSearchResults(filtered)
+        setSearchResults(candidates.slice(0, 8))
       } catch (error) {
         console.error('Search error:', error)
       } finally {
@@ -333,21 +332,15 @@ export function Header({ currentPath }: HeaderProps) {
                             'border-b-2 border-[var(--border)] last:border-b-0'
                           )}
                         >
-                          <div className={cn(
-                            'w-10 h-10',
-                            'bg-[var(--muted)]',
-                            'border-2 border-[var(--border)]',
-                            'flex items-center justify-center',
-                            'text-sm font-black text-[var(--foreground)]'
-                          )}>
-                            {candidate.full_name.split(' ').map(n => n[0]).slice(0, 2).join('')}
+                          <div className="w-10 h-10 flex-shrink-0 bg-[var(--muted)] border-2 border-[var(--border)] overflow-hidden relative">
+                            <CandidateImage src={candidate.photo_url} name={candidate.full_name} fill sizes="40px" containerClassName="text-sm" />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="text-sm font-bold text-[var(--foreground)] truncate uppercase">
                               {candidate.full_name}
                             </div>
-                            <div className="text-xs font-medium text-[var(--muted-foreground)]">
-                              {candidate.party?.short_name || candidate.cargo}
+                            <div className="text-xs font-medium text-[var(--muted-foreground)] truncate">
+                              {candidate.party?.short_name || candidate.party?.name || ''}{candidate.party ? ' · ' : ''}{candidate.cargo}
                             </div>
                           </div>
                           <div className="text-xl font-black text-[var(--foreground)]">
