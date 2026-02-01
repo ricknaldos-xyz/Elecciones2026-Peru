@@ -233,7 +233,7 @@ export async function getCandidatesByIds(ids: string[]): Promise<CandidateWithSc
     LEFT JOIN parties p ON c.party_id = p.id
     LEFT JOIN districts d ON c.district_id = d.id
     LEFT JOIN scores s ON c.id = s.candidate_id
-    WHERE (c.id = ANY(${ids}) OR c.slug = ANY(${ids})) AND c.is_active = true
+    WHERE (c.id::text = ANY(${ids}) OR c.slug = ANY(${ids})) AND c.is_active = true
   `
 
   if (rows.length === 0) return []
