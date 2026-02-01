@@ -335,7 +335,7 @@ export const CARGOS = {
 
 export const DISTRICTS = [
   // Departamentos principales (ordenados por número de diputados)
-  { slug: 'lima', name: 'Lima', type: 'departamento', deputies: 36 },
+  { slug: 'lima-metropolitana', name: 'Lima Metropolitana', type: 'departamento', deputies: 36 },
   { slug: 'la-libertad', name: 'La Libertad', type: 'departamento', deputies: 7 },
   { slug: 'piura', name: 'Piura', type: 'departamento', deputies: 7 },
   { slug: 'arequipa', name: 'Arequipa', type: 'departamento', deputies: 6 },
