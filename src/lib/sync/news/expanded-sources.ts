@@ -200,6 +200,14 @@ export const POLITICAL_KEYWORDS = [
   '2026',
   'peru 2026',
   'elecciones 2026',
+
+  // Investigative / corruption
+  'minería ilegal',
+  'economías ilegales',
+  'territorio tomado',
+  'reinfo',
+  'lavado de activos',
+  'crimen organizado',
 ]
 
 /**

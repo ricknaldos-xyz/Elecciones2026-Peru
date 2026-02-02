@@ -163,6 +163,7 @@ function extractSourceFromUrl(link: string): string {
       'andina.pe': 'Andina',
       'infobae.com': 'Infobae',
       'americatv.com.pe': 'América TV',
+      'territoriotomado.pe': 'Territorio Tomado',
     }
 
     return sourceMap[host] || host
@@ -323,6 +324,8 @@ export async function syncGoogleNews(): Promise<GoogleNewsSyncResult> {
       'encuesta electoral peru 2026',
       'JNE inscripción candidatos 2026',
       'ONPE elecciones 2026',
+      'site:territoriotomado.pe elecciones 2026',
+      'site:territoriotomado.pe candidatos corrupción',
     ]
 
     for (const query of generalQueries) {
