@@ -26,6 +26,7 @@ import { CandidateProposals } from '@/components/proposals/CandidateProposals'
 import { VotingRecordCard } from '@/components/candidate/VotingRecordCard'
 import { TaxStatusCard } from '@/components/candidate/TaxStatusCard'
 import { ProposalQualityCard } from '@/components/candidate/ProposalQualityCard'
+import { PlanViabilityCard } from '@/components/candidate/PlanViabilityCard'
 import { JudicialDiscrepancyCard } from '@/components/candidate/JudicialDiscrepancyCard'
 import { IncumbentPerformanceCard } from '@/components/candidate/IncumbentPerformanceCard'
 import { CompanyIssuesCard } from '@/components/candidate/CompanyIssuesCard'
@@ -797,6 +798,11 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
             <div className="space-y-6">
               {/* Evaluación de Calidad por IA */}
               <ProposalQualityCard candidateId={candidate.id} />
+
+              {/* Análisis de Viabilidad del Plan de Gobierno (solo presidenciales) */}
+              {candidate.cargo === 'presidente' && (
+                <PlanViabilityCard candidateId={candidate.id} />
+              )}
 
               {/* Lista de Propuestas */}
               <CandidateProposals

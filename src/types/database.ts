@@ -530,6 +530,86 @@ export interface ScoreBreakdown {
 }
 
 // ============================================
+// PLAN VIABILITY ANALYSIS TYPES
+// ============================================
+
+export interface FiscalViabilityDetails {
+  estimated_cost_soles?: number
+  budget_gap_pct?: number
+  revenue_proposals_realistic?: boolean
+  gdp_impact_assessment?: string
+  inflation_risk?: 'low' | 'medium' | 'high'
+  key_findings: string[]
+}
+
+export interface LegalViabilityDetails {
+  constitutional_amendments_needed: number
+  simple_legislation_needed: number
+  executive_decree_possible: number
+  timeline_realistic: boolean
+  proposals_by_mechanism: {
+    proposal: string
+    mechanism: 'constitutional' | 'legislation' | 'decree'
+    difficulty: string
+  }[]
+  key_findings: string[]
+}
+
+export interface CoherenceDetails {
+  contradictions: {
+    proposal_a: string
+    proposal_b: string
+    explanation: string
+  }[]
+  priority_alignment_score: number
+  coverage_gaps: string[]
+  key_findings: string[]
+}
+
+export interface HistoricalDetails {
+  similar_past_proposals: {
+    proposal: string
+    past_government: string
+    outcome: string
+  }[]
+  international_comparisons: {
+    proposal: string
+    country: string
+    result: string
+  }[]
+  expert_consensus_alignment: 'aligned' | 'mixed' | 'divergent'
+  key_findings: string[]
+}
+
+export interface PlanViabilityAnalysis {
+  id: string
+  candidate_id: string
+  fiscal_viability_score: number
+  fiscal_viability_analysis: string
+  fiscal_viability_details: FiscalViabilityDetails
+  legal_viability_score: number
+  legal_viability_analysis: string
+  legal_viability_details: LegalViabilityDetails
+  coherence_score: number
+  coherence_analysis: string
+  coherence_details: CoherenceDetails
+  historical_score: number
+  historical_analysis: string
+  historical_details: HistoricalDetails
+  overall_viability_score: number
+  executive_summary: string
+  key_strengths: string[]
+  key_weaknesses: string[]
+  key_risks: string[]
+  analysis_model: string
+  analysis_version: string
+  proposals_analyzed: number
+  analyzed_at: string
+  created_at: string
+  updated_at: string
+}
+
+// ============================================
 // PRESET TYPES
 // ============================================
 

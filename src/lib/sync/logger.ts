@@ -20,6 +20,7 @@ export type SyncSource =
   | 'indecopi'
   | 'sunafil'
   | 'oefa'
+  | 'plan_viability'
 export type SyncStatus = 'started' | 'running' | 'completed' | 'failed'
 
 export interface SyncResult {
