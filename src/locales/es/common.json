@@ -349,7 +349,8 @@
       "competence": "Competencia",
       "integrity": "Integridad",
       "transparency": "Transparencia",
-      "confidence": "Confianza"
+      "confidence": "Confianza",
+      "plan": "Plan de Gobierno"
     },
     "scoresVaryByMode": "Los puntajes varían según el modo seleccionado.",
     "viewMethodology": "Ver metodología",

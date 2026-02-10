@@ -3,28 +3,33 @@
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { Tooltip } from '@/components/ui/Tooltip'
-import { PRESETS, WEIGHT_LIMITS, validateAndNormalizeWeights } from '@/lib/constants'
-import type { PresetType, Weights } from '@/types/database'
+import { PRESETS, WEIGHT_LIMITS, PRESIDENTIAL_PRESETS, PRESIDENTIAL_WEIGHT_LIMITS, validateAndNormalizeWeights, validateAndNormalizePresidentialWeights } from '@/lib/constants'
+import type { PresetType, Weights, AnyWeights, PresidentialWeights, CargoType } from '@/types/database'
+import { isPresidentialWeights } from '@/types/database'
 
 interface PresetSelectorProps {
   value: PresetType
-  weights?: Weights
-  onChange: (mode: PresetType, weights?: Weights) => void
+  weights?: AnyWeights
+  onChange: (mode: PresetType, weights?: AnyWeights) => void
+  cargo?: CargoType
   className?: string
 }
 
-const presetConfig: Record<Exclude<PresetType, 'custom'>, { label: string; description: string }> = {
+const presetConfig: Record<Exclude<PresetType, 'custom'>, { label: string; description: string; descriptionPres?: string }> = {
   balanced: {
     label: 'Equilibrado',
     description: 'Equilibra preparación e integridad',
+    descriptionPres: 'Equilibra preparación, integridad y plan de gobierno',
   },
   merit: {
     label: 'Mérito',
     description: 'Prioriza experiencia y estudios; mantiene integridad como filtro clave',
+    descriptionPres: 'Prioriza experiencia y estudios; incluye viabilidad del plan',
   },
   integrity: {
     label: 'Integridad',
     description: 'Prioriza historial limpio y señales verificables',
+    descriptionPres: 'Prioriza historial limpio; incluye viabilidad del plan',
   },
 }
 
@@ -32,11 +37,13 @@ export function PresetSelector({
   value,
   weights,
   onChange,
+  cargo,
   className,
 }: PresetSelectorProps) {
+  const isPresidential = cargo === 'presidente'
   const [showCustom, setShowCustom] = useState(value === 'custom')
-  const [customWeights, setCustomWeights] = useState<Weights>(
-    weights || PRESETS.balanced
+  const [customWeights, setCustomWeights] = useState<AnyWeights>(
+    weights || (isPresidential ? PRESIDENTIAL_PRESETS.balanced : PRESETS.balanced)
   )
 
   const handlePresetClick = (preset: Exclude<PresetType, 'custom'>) => {
@@ -47,38 +54,46 @@ export function PresetSelector({
   const handleCustomClick = () => {
     setShowCustom(!showCustom)
     if (!showCustom) {
-      onChange('custom', customWeights)
+      // Initialize custom weights with proper pillar count
+      const defaultCustom = isPresidential
+        ? { ...PRESIDENTIAL_PRESETS.balanced }
+        : { ...PRESETS.balanced }
+      setCustomWeights(defaultCustom)
+      onChange('custom', defaultCustom)
     }
   }
 
-  const handleWeightChange = (key: keyof Weights, newValue: number) => {
-    const limits = WEIGHT_LIMITS[key]
+  const handleWeightChange = (key: string, newValue: number) => {
+    const currentLimits = isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS
+    const limits = currentLimits[key as keyof typeof currentLimits]
     const clampedValue = Math.max(limits.min, Math.min(limits.max, newValue))
 
     // Redistribute remaining weight proportionally
     const remaining = 1 - clampedValue
-    const otherKeys = (Object.keys(customWeights) as Array<keyof Weights>).filter(
-      (k) => k !== key
-    )
+    const allKeys = Object.keys(customWeights) as string[]
+    const otherKeys = allKeys.filter((k) => k !== key)
 
-    const otherTotal = otherKeys.reduce((sum, k) => sum + customWeights[k], 0)
-    const prelimWeights: Weights = { ...customWeights, [key]: clampedValue }
+    const weightsRecord = customWeights as unknown as Record<string, number>
+    const otherTotal = otherKeys.reduce((sum, k) => sum + weightsRecord[k], 0)
+    const prelimWeights: Record<string, number> = { ...weightsRecord, [key]: clampedValue }
 
     if (otherTotal > 0) {
       otherKeys.forEach((k) => {
-        const proportion = customWeights[k] / otherTotal
+        const proportion = weightsRecord[k] / otherTotal
         let newVal = remaining * proportion
-        const kLimits = WEIGHT_LIMITS[k]
+        const kLimits = currentLimits[k as keyof typeof currentLimits]
         newVal = Math.max(kLimits.min, Math.min(kLimits.max, newVal))
         prelimWeights[k] = newVal
       })
     }
 
     // Use centralized validation and normalization
-    const newWeights = validateAndNormalizeWeights(prelimWeights)
+    const newWeights = isPresidential
+      ? validateAndNormalizePresidentialWeights(prelimWeights as unknown as PresidentialWeights)
+      : validateAndNormalizeWeights(prelimWeights as unknown as Weights)
 
-    setCustomWeights(newWeights)
-    onChange('custom', newWeights)
+    setCustomWeights(newWeights as AnyWeights)
+    onChange('custom', newWeights as AnyWeights)
   }
 
   return (
@@ -88,7 +103,7 @@ export function PresetSelector({
         <div className="flex items-center gap-1 p-1 bg-[var(--muted)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)] min-w-max sm:min-w-0">
           {(Object.keys(presetConfig) as Array<Exclude<PresetType, 'custom'>>).map(
             (preset) => (
-              <Tooltip key={preset} content={presetConfig[preset].description}>
+              <Tooltip key={preset} content={isPresidential ? (presetConfig[preset].descriptionPres || presetConfig[preset].description) : presetConfig[preset].description}>
                 <button
                   onClick={() => handlePresetClick(preset)}
                   className={cn(
@@ -159,8 +174,11 @@ export function PresetSelector({
             </p>
             <button
               onClick={() => {
-                setCustomWeights(PRESETS.balanced)
-                onChange('custom', PRESETS.balanced)
+                const defaults = isPresidential
+                  ? { ...PRESIDENTIAL_PRESETS.balanced }
+                  : { ...PRESETS.balanced }
+                setCustomWeights(defaults)
+                onChange('custom', defaults as AnyWeights)
               }}
               className="text-xs font-bold text-[var(--primary)] hover:underline uppercase tracking-wide whitespace-nowrap"
             >
@@ -168,29 +186,41 @@ export function PresetSelector({
             </button>
           </div>
 
-          {/* Sliders - 3 columns on desktop, stack on mobile */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
+          {/* Sliders - columns on desktop, stack on mobile */}
+          <div className={cn(
+            'grid grid-cols-1 gap-4 lg:gap-6',
+            isPresidential ? 'lg:grid-cols-4' : 'lg:grid-cols-3'
+          )}>
             <WeightSlider
               label="Competencia"
-              value={customWeights.wC}
-              min={WEIGHT_LIMITS.wC.min}
-              max={WEIGHT_LIMITS.wC.max}
+              value={(customWeights as unknown as Record<string, number>).wC}
+              min={(isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS).wC.min}
+              max={(isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS).wC.max}
               onChange={(v) => handleWeightChange('wC', v)}
             />
             <WeightSlider
               label="Integridad"
-              value={customWeights.wI}
-              min={WEIGHT_LIMITS.wI.min}
-              max={WEIGHT_LIMITS.wI.max}
+              value={(customWeights as unknown as Record<string, number>).wI}
+              min={(isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS).wI.min}
+              max={(isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS).wI.max}
               onChange={(v) => handleWeightChange('wI', v)}
             />
             <WeightSlider
               label="Transparencia"
-              value={customWeights.wT}
-              min={WEIGHT_LIMITS.wT.min}
-              max={WEIGHT_LIMITS.wT.max}
+              value={(customWeights as unknown as Record<string, number>).wT}
+              min={(isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS).wT.min}
+              max={(isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS).wT.max}
               onChange={(v) => handleWeightChange('wT', v)}
             />
+            {isPresidential && (
+              <WeightSlider
+                label="Plan de Gob."
+                value={(customWeights as unknown as Record<string, number>).wP || PRESIDENTIAL_PRESETS.balanced.wP}
+                min={PRESIDENTIAL_WEIGHT_LIMITS.wP.min}
+                max={PRESIDENTIAL_WEIGHT_LIMITS.wP.max}
+                onChange={(v) => handleWeightChange('wP', v)}
+              />
+            )}
           </div>
         </div>
       )}

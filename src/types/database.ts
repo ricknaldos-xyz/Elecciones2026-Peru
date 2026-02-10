@@ -470,6 +470,11 @@ export interface CandidateWithScores {
     score_balanced: number
     score_merit: number
     score_integrity: number
+    // Plan de Gobierno (4th pillar, presidential candidates only)
+    plan_viability?: number       // 0-100 normalized
+    score_balanced_p?: number     // 4-pillar balanced
+    score_merit_p?: number        // 4-pillar merit
+    score_integrity_p?: number    // 4-pillar integrity
   }
   flags: Flag[]
   data_verified: boolean
@@ -526,6 +531,14 @@ export interface ScoreBreakdown {
     verification: number
     coverage: number
     total: number
+  }
+  // Plan de Gobierno (presidential candidates only)
+  planViability?: {
+    overall: number    // 0-100
+    fiscal: number     // 0-100
+    legal: number      // 0-100
+    coherence: number  // 0-100
+    historical: number // 0-100
   }
 }
 
@@ -619,6 +632,16 @@ export interface Weights {
   wC: number // Competencia
   wI: number // Integridad
   wT: number // Transparencia
+}
+
+export interface PresidentialWeights extends Weights {
+  wP: number // Plan de Gobierno
+}
+
+export type AnyWeights = Weights | PresidentialWeights
+
+export function isPresidentialWeights(w: AnyWeights): w is PresidentialWeights {
+  return 'wP' in w
 }
 
 export interface RankingFilters {

@@ -71,19 +71,21 @@ function BreakdownBar({
   label: string
   value: number
   max: number
-  color: 'competence' | 'integrity' | 'transparency' | 'default'
+  color: 'competence' | 'integrity' | 'transparency' | 'plan' | 'default'
 }) {
   const percentage = Math.min((value / max) * 100, 100)
   const colorClasses = {
     competence: 'bg-[var(--score-competence)]',
     integrity: 'bg-[var(--score-integrity)]',
     transparency: 'bg-[var(--score-transparency)]',
+    plan: 'bg-[var(--score-plan)]',
     default: 'bg-[var(--muted-foreground)]',
   }
   const patternClasses = {
     competence: 'pattern-competence',
     integrity: 'pattern-integrity',
     transparency: 'pattern-transparency',
+    plan: 'pattern-plan',
     default: '',
   }
 
@@ -393,10 +395,16 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
 
           {/* Sub-scores strip - Responsive gaps */}
           <div className="px-4 sm:px-6 lg:px-8 py-3 sm:py-4 bg-[var(--muted)] border-t-3 border-[var(--border)]">
-            <div className="grid grid-cols-3 gap-2 sm:gap-4 lg:gap-6">
+            <div className={cn(
+              'grid gap-2 sm:gap-4 lg:gap-6',
+              candidate.scores.plan_viability != null ? 'grid-cols-4' : 'grid-cols-3'
+            )}>
               <SubScoreStat type="competence" value={candidate.scores.competence} size="sm" />
               <SubScoreStat type="integrity" value={candidate.scores.integrity} size="sm" />
               <SubScoreStat type="transparency" value={candidate.scores.transparency} size="sm" />
+              {candidate.scores.plan_viability != null && (
+                <SubScoreStat type="plan" value={candidate.scores.plan_viability} size="sm" />
+              )}
             </div>
           </div>
         </Card>
@@ -1110,6 +1118,27 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                         <BreakdownBar label={t('breakdown.coverage')} value={breakdown.confidence.coverage} max={50} color="default" />
                       </div>
                     </div>
+
+                    {/* Plan de Gobierno (presidential only) */}
+                    {breakdown.planViability && (
+                      <div className="pt-6 border-t-2 border-[var(--border)]">
+                        <div className="flex items-center justify-between mb-4">
+                          <h4 className="font-black text-[var(--foreground)] flex items-center gap-2 uppercase">
+                            <div className="w-4 h-4 bg-[var(--score-plan)] border-2 border-[var(--border)]" />
+                            Plan de Gobierno
+                          </h4>
+                          <span className="text-2xl font-black text-[var(--score-plan-text)]">
+                            {candidate.scores.plan_viability?.toFixed(0) ?? '-'}
+                          </span>
+                        </div>
+                        <div className="space-y-3">
+                          <BreakdownBar label="Viabilidad Fiscal" value={breakdown.planViability.fiscal} max={100} color="plan" />
+                          <BreakdownBar label="Viabilidad Legal" value={breakdown.planViability.legal} max={100} color="plan" />
+                          <BreakdownBar label="Coherencia Interna" value={breakdown.planViability.coherence} max={100} color="plan" />
+                          <BreakdownBar label="Comparación Histórica" value={breakdown.planViability.historical} max={100} color="plan" />
+                        </div>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="text-center py-8 text-[var(--muted-foreground)]">

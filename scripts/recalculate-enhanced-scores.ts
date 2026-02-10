@@ -502,8 +502,30 @@ async function recalculateEnhancedScores() {
     // Transform to enhanced scoring data
     const scoringData = await transformToEnhancedScoringData(candidate)
 
-    // Calculate enhanced scores
-    const result = calculateEnhancedScores(scoringData, candidate.cargo)
+    // Fetch plan viability for presidential candidates
+    let planViabilityRaw: number | undefined
+    let planViabilityBreakdown: { fiscal: number; legal: number; coherence: number; historical: number } | undefined
+    if (candidate.cargo === 'presidente') {
+      const pva = await sql`
+        SELECT overall_viability_score, fiscal_viability_score,
+               legal_viability_score, coherence_score, historical_score
+        FROM plan_viability_analysis
+        WHERE candidate_id = ${candidate.id}::uuid
+        LIMIT 1
+      `
+      if (pva.length > 0) {
+        planViabilityRaw = Number(pva[0].overall_viability_score)
+        planViabilityBreakdown = {
+          fiscal: Number(pva[0].fiscal_viability_score),
+          legal: Number(pva[0].legal_viability_score),
+          coherence: Number(pva[0].coherence_score),
+          historical: Number(pva[0].historical_score),
+        }
+      }
+    }
+
+    // Calculate enhanced scores (with optional plan viability for presidents)
+    const result = calculateEnhancedScores(scoringData, candidate.cargo, planViabilityRaw)
     const experienceOverlap = calculateTotalExperienceYears(scoringData.experience)
 
     const breakdownData = {
@@ -536,10 +558,17 @@ async function recalculateEnhancedScores() {
     }
 
     // Upsert scores
+    const planViabilityNorm = result.scores.planViability ?? null
+    const balancedP = result.scores.balancedP != null ? Math.round(result.scores.balancedP * 10) / 10 : null
+    const meritP = result.scores.meritP != null ? Math.round(result.scores.meritP * 10) / 10 : null
+    const integrityP = result.scores.integrityFirstP != null ? Math.round(result.scores.integrityFirstP * 10) / 10 : null
+
     await sql`
       INSERT INTO scores (
         candidate_id, competence, integrity, transparency, confidence,
-        score_balanced, score_merit, score_integrity, updated_at
+        score_balanced, score_merit, score_integrity,
+        plan_viability, score_balanced_p, score_merit_p, score_integrity_p,
+        updated_at
       ) VALUES (
         ${candidate.id}::uuid,
         ${Math.round(result.scores.competence)},
@@ -549,6 +578,10 @@ async function recalculateEnhancedScores() {
         ${Math.round(result.scores.balanced * 10) / 10},
         ${Math.round(result.scores.merit * 10) / 10},
         ${Math.round(result.scores.integrityFirst * 10) / 10},
+        ${planViabilityNorm},
+        ${balancedP},
+        ${meritP},
+        ${integrityP},
         NOW()
       )
       ON CONFLICT (candidate_id) DO UPDATE SET
@@ -559,8 +592,19 @@ async function recalculateEnhancedScores() {
         score_balanced = EXCLUDED.score_balanced,
         score_merit = EXCLUDED.score_merit,
         score_integrity = EXCLUDED.score_integrity,
+        plan_viability = EXCLUDED.plan_viability,
+        score_balanced_p = EXCLUDED.score_balanced_p,
+        score_merit_p = EXCLUDED.score_merit_p,
+        score_integrity_p = EXCLUDED.score_integrity_p,
         updated_at = NOW()
     `
+
+    // Plan viability breakdown values (normalized to 0-100)
+    const pvOverall = planViabilityNorm
+    const pvFiscal = planViabilityBreakdown ? planViabilityBreakdown.fiscal * 10 : null
+    const pvLegal = planViabilityBreakdown ? planViabilityBreakdown.legal * 10 : null
+    const pvCoherence = planViabilityBreakdown ? planViabilityBreakdown.coherence * 10 : null
+    const pvHistorical = planViabilityBreakdown ? planViabilityBreakdown.historical * 10 : null
 
     // Upsert breakdown
     await sql`
@@ -573,7 +617,9 @@ async function recalculateEnhancedScores() {
         integrity_base, penal_penalty, civil_penalties, resignation_penalty,
         company_penalty, voting_penalty, voting_bonus, tax_penalty, omission_penalty,
         completeness_points, consistency_points, assets_quality_points, onpe_penalty,
-        verification_points, coverage_points
+        verification_points, coverage_points,
+        plan_viability_overall, plan_viability_fiscal, plan_viability_legal,
+        plan_viability_coherence, plan_viability_historical
       ) VALUES (
         ${candidate.id}::uuid,
         ${breakdownData.education_points}, ${breakdownData.education_level_points}, ${breakdownData.education_depth_points},
@@ -586,7 +632,8 @@ async function recalculateEnhancedScores() {
         ${breakdownData.tax_penalty}, ${breakdownData.omission_penalty},
         ${breakdownData.completeness_points}, ${breakdownData.consistency_points},
         ${breakdownData.assets_quality_points}, ${breakdownData.onpe_penalty},
-        ${breakdownData.verification_points}, ${breakdownData.coverage_points}
+        ${breakdownData.verification_points}, ${breakdownData.coverage_points},
+        ${pvOverall}, ${pvFiscal}, ${pvLegal}, ${pvCoherence}, ${pvHistorical}
       )
       ON CONFLICT (candidate_id) DO UPDATE SET
         education_points = EXCLUDED.education_points,
@@ -614,7 +661,12 @@ async function recalculateEnhancedScores() {
         assets_quality_points = EXCLUDED.assets_quality_points,
         onpe_penalty = EXCLUDED.onpe_penalty,
         verification_points = EXCLUDED.verification_points,
-        coverage_points = EXCLUDED.coverage_points
+        coverage_points = EXCLUDED.coverage_points,
+        plan_viability_overall = EXCLUDED.plan_viability_overall,
+        plan_viability_fiscal = EXCLUDED.plan_viability_fiscal,
+        plan_viability_legal = EXCLUDED.plan_viability_legal,
+        plan_viability_coherence = EXCLUDED.plan_viability_coherence,
+        plan_viability_historical = EXCLUDED.plan_viability_historical
     `
 
     return {
@@ -684,20 +736,22 @@ async function recalculateEnhancedScores() {
     }
   }
 
-  // Show top 10 by balanced score
+  // Show top 10 by balanced score (presidential with 4-pillar score)
   const topCandidates = await sql`
-    SELECT c.full_name, c.cargo, s.score_balanced, s.competence, s.integrity
+    SELECT c.full_name, c.cargo, s.score_balanced, s.score_balanced_p,
+           s.competence, s.integrity, s.plan_viability
     FROM candidates c
     JOIN scores s ON c.id = s.candidate_id
     WHERE c.cargo = 'presidente'
-    ORDER BY s.score_balanced DESC
+    ORDER BY COALESCE(s.score_balanced_p, s.score_balanced) DESC
     LIMIT 10
   `
 
-  console.log('\n📈 Top 10 candidatos presidenciales por score balanceado:')
+  console.log('\n📈 Top 10 candidatos presidenciales por score balanceado (4 pilares):')
   topCandidates.forEach((c: any, i: number) => {
-    console.log(`  ${i + 1}. ${c.full_name}: ${c.score_balanced}`)
-    console.log(`     Competencia: ${c.competence} | Integridad: ${c.integrity}`)
+    const score = c.score_balanced_p ?? c.score_balanced
+    console.log(`  ${i + 1}. ${c.full_name}: ${score}`)
+    console.log(`     C: ${c.competence} | I: ${c.integrity} | Plan: ${c.plan_viability ?? 'N/A'}`)
   })
 
   console.log('\n✅ Recálculo completado!')

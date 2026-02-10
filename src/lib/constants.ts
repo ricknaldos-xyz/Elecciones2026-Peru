@@ -10,6 +10,13 @@ export const PRESETS = {
 
 export type PresetType = keyof typeof PRESETS
 
+// Presidential 4-pillar presets (Plan de Gobierno as 4th weight)
+export const PRESIDENTIAL_PRESETS = {
+  balanced: { wC: 0.30, wI: 0.30, wT: 0.10, wP: 0.30 },
+  merit: { wC: 0.40, wI: 0.25, wT: 0.10, wP: 0.25 },
+  integrity: { wC: 0.25, wI: 0.40, wT: 0.10, wP: 0.25 },
+} as const
+
 // Guardrails para modo custom
 // Límites ajustados para que la suma máxima no exceda 1.0 significativamente
 // max(wC) + max(wI) + min(wT) = 0.55 + 0.55 + 0.05 = 1.15 (se normaliza)
@@ -21,6 +28,14 @@ export const WEIGHT_LIMITS = {
 } as const
 
 export type Weights = { wC: number; wI: number; wT: number }
+
+// Presidential weight limits (4 pillars)
+export const PRESIDENTIAL_WEIGHT_LIMITS = {
+  wC: { min: 0.15, max: 0.45 },
+  wI: { min: 0.15, max: 0.45 },
+  wT: { min: 0.05, max: 0.15 },
+  wP: { min: 0.10, max: 0.40 },
+} as const
 
 /**
  * Validates and normalizes weights to ensure they sum to exactly 1.0
@@ -75,6 +90,58 @@ export function areWeightsValid(weights: Weights): boolean {
     wT >= WEIGHT_LIMITS.wT.min && wT <= WEIGHT_LIMITS.wT.max
 
   return withinLimits && Math.abs(total - 1.0) < 0.001
+}
+
+/**
+ * Validates and normalizes presidential weights (4 pillars) to sum to 1.0
+ */
+export function validateAndNormalizePresidentialWeights(weights: { wC: number; wI: number; wT: number; wP: number }): { wC: number; wI: number; wT: number; wP: number } {
+  let wC = Math.max(PRESIDENTIAL_WEIGHT_LIMITS.wC.min, Math.min(PRESIDENTIAL_WEIGHT_LIMITS.wC.max, weights.wC))
+  let wI = Math.max(PRESIDENTIAL_WEIGHT_LIMITS.wI.min, Math.min(PRESIDENTIAL_WEIGHT_LIMITS.wI.max, weights.wI))
+  let wT = Math.max(PRESIDENTIAL_WEIGHT_LIMITS.wT.min, Math.min(PRESIDENTIAL_WEIGHT_LIMITS.wT.max, weights.wT))
+  let wP = Math.max(PRESIDENTIAL_WEIGHT_LIMITS.wP.min, Math.min(PRESIDENTIAL_WEIGHT_LIMITS.wP.max, weights.wP))
+
+  const total = wC + wI + wT + wP
+
+  if (Math.abs(total - 1.0) < 0.001) {
+    return { wC, wI, wT, wP }
+  }
+
+  const factor = 1.0 / total
+  wC = Math.round(wC * factor * 1000) / 1000
+  wI = Math.round(wI * factor * 1000) / 1000
+  wT = Math.round(wT * factor * 1000) / 1000
+  wP = Math.round(wP * factor * 1000) / 1000
+
+  const newTotal = wC + wI + wT + wP
+  if (newTotal !== 1.0) {
+    const diff = 1.0 - newTotal
+    if (wC >= wI && wC >= wT && wC >= wP) {
+      wC = Math.round((wC + diff) * 1000) / 1000
+    } else if (wI >= wC && wI >= wT && wI >= wP) {
+      wI = Math.round((wI + diff) * 1000) / 1000
+    } else if (wP >= wC && wP >= wI && wP >= wT) {
+      wP = Math.round((wP + diff) * 1000) / 1000
+    } else {
+      wT = Math.round((wT + diff) * 1000) / 1000
+    }
+  }
+
+  return { wC, wI, wT, wP }
+}
+
+/**
+ * Get presets for a given cargo type
+ */
+export function getPresetsForCargo(cargo: CargoType) {
+  return cargo === 'presidente' ? PRESIDENTIAL_PRESETS : PRESETS
+}
+
+/**
+ * Get weight limits for a given cargo type
+ */
+export function getWeightLimitsForCargo(cargo: CargoType) {
+  return cargo === 'presidente' ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS
 }
 
 // ============================================

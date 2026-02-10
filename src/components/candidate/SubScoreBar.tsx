@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils'
 
-type ScoreType = 'competence' | 'integrity' | 'transparency' | 'confidence'
+type ScoreType = 'competence' | 'integrity' | 'transparency' | 'confidence' | 'plan'
 
 interface SubScoreBarProps {
   type: ScoreType
@@ -37,6 +37,12 @@ const typeConfig: Record<ScoreType, { label: string; shortLabel: string; icon: s
     shortLabel: 'Data',
     icon: 'D',
     color: 'var(--muted-foreground)',
+  },
+  plan: {
+    label: 'Plan de Gobierno',
+    shortLabel: 'Plan',
+    icon: 'P',
+    color: 'var(--score-plan)',
   },
 }
 
@@ -134,6 +140,7 @@ export function SubScoreBar({
               type === 'competence' && 'pattern-competence',
               type === 'integrity' && 'pattern-integrity',
               type === 'transparency' && 'pattern-transparency',
+              type === 'plan' && 'pattern-plan',
             )}
             style={{ width: `${percentage}%` }}
           />
@@ -175,6 +182,7 @@ export function SubScoreBar({
               type === 'competence' && 'pattern-competence',
               type === 'integrity' && 'pattern-integrity',
               type === 'transparency' && 'pattern-transparency',
+              type === 'plan' && 'pattern-plan',
             )}
             style={{ width: `${percentage}%` }}
           />
@@ -227,6 +235,7 @@ export function SubScoreBarMini({
             type === 'competence' && 'pattern-competence',
             type === 'integrity' && 'pattern-integrity',
             type === 'transparency' && 'pattern-transparency',
+            type === 'plan' && 'pattern-plan',
           )}
           style={{ width: `${percentage}%` }}
         />
@@ -292,6 +301,7 @@ export function SubScoreStat({
             type === 'competence' && 'pattern-competence',
             type === 'integrity' && 'pattern-integrity',
             type === 'transparency' && 'pattern-transparency',
+            type === 'plan' && 'pattern-plan',
           )}
           style={{ width: `${percentage}%` }}
         />

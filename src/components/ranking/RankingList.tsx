@@ -5,12 +5,12 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
 import { CandidateCard } from '@/components/candidate/CandidateCard'
 import { useListNavigationShortcuts } from '@/hooks/useKeyboardShortcuts'
-import type { CandidateWithScores, PresetType, Weights, CargoType } from '@/types/database'
+import type { CandidateWithScores, PresetType, AnyWeights, CargoType } from '@/types/database'
 
 interface RankingListProps {
   candidates: CandidateWithScores[]
   mode: PresetType
-  weights?: Weights
+  weights?: AnyWeights
   selectedIds: string[]
   onCompare: (id: string) => void
   onView: (slug: string) => void

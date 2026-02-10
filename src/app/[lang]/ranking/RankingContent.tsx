@@ -17,19 +17,21 @@ import { CompareTray } from '@/components/compare/CompareTray'
 import { useSuccessToast } from '@/components/ui/Toast'
 import { AdBanner } from '@/components/ads/AdBanner'
 import { useCandidates } from '@/hooks/useCandidates'
-import { PRESETS, WEIGHT_LIMITS, DISTRICTS, validateAndNormalizeWeights } from '@/lib/constants'
+import { PRESETS, WEIGHT_LIMITS, PRESIDENTIAL_PRESETS, DISTRICTS, validateAndNormalizeWeights } from '@/lib/constants'
 import { MOCK_PARTIES } from '@/lib/mock-data'
 import { getScoreByMode } from '@/lib/scoring/utils'
-import type { PresetType, CargoType, Weights, CandidateWithScores } from '@/types/database'
+import type { PresetType, CargoType, AnyWeights, CandidateWithScores } from '@/types/database'
+import { isPresidentialWeights } from '@/types/database'
 
 function sortCandidatesByScore(
   candidates: CandidateWithScores[],
   mode: PresetType,
-  weights?: Weights
+  weights?: AnyWeights,
+  isPresidential?: boolean
 ): CandidateWithScores[] {
   return [...candidates].sort((a, b) => {
-    const scoreA = getScoreByMode(a.scores, mode, weights)
-    const scoreB = getScoreByMode(b.scores, mode, weights)
+    const scoreA = getScoreByMode(a.scores, mode, weights, isPresidential)
+    const scoreB = getScoreByMode(b.scores, mode, weights, isPresidential)
     return scoreB - scoreA
   })
 }
@@ -60,7 +62,7 @@ export function RankingContent() {
   })
 
   // Estado de pesos custom
-  const [customWeights, setCustomWeights] = useState<Weights>(() => {
+  const [customWeights, setCustomWeights] = useState<AnyWeights>(() => {
     const wC = searchParams.get('wC')
     const wI = searchParams.get('wI')
     const wT = searchParams.get('wT')
@@ -168,21 +170,30 @@ export function RankingContent() {
       )
     }
 
-    return sortCandidatesByScore(filtered, mode, customWeights)
-  }, [rawCandidates, mode, searchQuery, customWeights])
+    return sortCandidatesByScore(filtered, mode, customWeights, cargo === 'presidente')
+  }, [rawCandidates, mode, searchQuery, customWeights, cargo])
 
   // Pesos actuales
   const currentWeights = useMemo(() => {
-    return mode === 'custom' ? customWeights : PRESETS[mode]
-  }, [mode, customWeights])
+    if (mode === 'custom') return customWeights
+    return cargo === 'presidente' ? PRESIDENTIAL_PRESETS[mode] : PRESETS[mode]
+  }, [mode, customWeights, cargo])
 
   // Handlers
   const handleCargoChange = useCallback((newCargo: CargoType) => {
+    // Reset weights when switching to/from presidente (4-pillar vs 3-pillar)
+    if ((newCargo === 'presidente') !== (cargo === 'presidente')) {
+      const newDefaults = newCargo === 'presidente'
+        ? PRESIDENTIAL_PRESETS.balanced
+        : PRESETS.balanced
+      setCustomWeights(newDefaults)
+      setMode('balanced')
+    }
     setCargo(newCargo)
     setDistrito(undefined)
     setSelectedForCompare([])
     updateURL({ cargo: newCargo, distrito: '' })
-  }, [updateURL])
+  }, [cargo, updateURL])
 
   const handleDistritoChange = useCallback((newDistrito?: string) => {
     setDistrito(newDistrito)
@@ -378,6 +389,7 @@ export function RankingContent() {
               <PresetSelector
                 value={mode}
                 weights={customWeights}
+                cargo={cargo}
                 onChange={(newMode, newWeights) => {
                   setMode(newMode)
                   if (newWeights) {
@@ -434,6 +446,11 @@ export function RankingContent() {
               <span className="px-2 py-1 bg-[var(--score-transparency-bg)] text-[var(--score-transparency-text)] border border-[var(--border)]">
                 T: {(currentWeights.wT * 100).toFixed(0)}%
               </span>
+              {cargo === 'presidente' && isPresidentialWeights(currentWeights) && (
+                <span className="px-2 py-1 bg-[var(--score-medium-bg)] text-[var(--score-plan-text)] border border-[var(--border)]">
+                  P: {(currentWeights.wP * 100).toFixed(0)}%
+                </span>
+              )}
             </div>
           )}
 

@@ -22,6 +22,10 @@ interface CandidateRow {
   score_balanced: number | null
   score_merit: number | null
   score_integrity: number | null
+  plan_viability: number | null
+  score_balanced_p: number | null
+  score_merit_p: number | null
+  score_integrity_p: number | null
   data_verified: boolean | null
   data_source: string | null
 }
@@ -53,6 +57,10 @@ function mapRowToCandidate(row: CandidateRow, flags: Flag[] = []): CandidateWith
       score_balanced: Number(row.score_balanced) || 0,
       score_merit: Number(row.score_merit) || 0,
       score_integrity: Number(row.score_integrity) || 0,
+      plan_viability: row.plan_viability != null ? Number(row.plan_viability) : undefined,
+      score_balanced_p: row.score_balanced_p != null ? Number(row.score_balanced_p) : undefined,
+      score_merit_p: row.score_merit_p != null ? Number(row.score_merit_p) : undefined,
+      score_integrity_p: row.score_integrity_p != null ? Number(row.score_integrity_p) : undefined,
     },
     flags,
     data_verified: row.data_verified ?? false,
@@ -109,6 +117,10 @@ export async function getCandidates(options?: {
       s.score_balanced,
       s.score_merit,
       s.score_integrity,
+      s.plan_viability,
+      s.score_balanced_p,
+      s.score_merit_p,
+      s.score_integrity_p,
       c.data_verified,
       c.data_source
     FROM candidates c
@@ -195,6 +207,10 @@ export async function getCandidateBySlug(slug: string): Promise<CandidateWithSco
       s.score_balanced,
       s.score_merit,
       s.score_integrity,
+      s.plan_viability,
+      s.score_balanced_p,
+      s.score_merit_p,
+      s.score_integrity_p,
       c.data_verified,
       c.data_source
     FROM candidates c
@@ -245,7 +261,11 @@ export async function getCandidatesByIds(ids: string[]): Promise<CandidateWithSc
       s.confidence,
       s.score_balanced,
       s.score_merit,
-      s.score_integrity
+      s.score_integrity,
+      s.plan_viability,
+      s.score_balanced_p,
+      s.score_merit_p,
+      s.score_integrity_p
     FROM candidates c
     LEFT JOIN parties p ON c.party_id = p.id
     LEFT JOIN districts d ON c.district_id = d.id
@@ -933,7 +953,9 @@ export async function getScoreBreakdown(candidateId: string): Promise<ScoreBreak
       leadership_seniority_points, leadership_stability_points,
       integrity_base, penal_penalty, civil_penalties, resignation_penalty,
       completeness_points, consistency_points, assets_quality_points,
-      verification_points, coverage_points
+      verification_points, coverage_points,
+      plan_viability_overall, plan_viability_fiscal,
+      plan_viability_legal, plan_viability_coherence, plan_viability_historical
     FROM score_breakdowns WHERE candidate_id = ${candidateId} LIMIT 1
   `
 
@@ -986,5 +1008,12 @@ export async function getScoreBreakdown(candidateId: string): Promise<ScoreBreak
       coverage: Number(row.coverage_points),
       total: Number(row.verification_points) + Number(row.coverage_points),
     },
+    planViability: row.plan_viability_overall != null ? {
+      overall: Number(row.plan_viability_overall),
+      fiscal: Number(row.plan_viability_fiscal) || 0,
+      legal: Number(row.plan_viability_legal) || 0,
+      coherence: Number(row.plan_viability_coherence) || 0,
+      historical: Number(row.plan_viability_historical) || 0,
+    } : undefined,
   }
 }

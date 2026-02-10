@@ -2,13 +2,14 @@
 
 import { cn } from '@/lib/utils'
 import { Tooltip } from '@/components/ui/Tooltip'
-import type { PresetType, Weights } from '@/types/database'
+import type { PresetType, AnyWeights } from '@/types/database'
+import { isPresidentialWeights } from '@/types/database'
 import { PRESETS } from '@/lib/constants'
 
 interface ScorePillProps {
   score: number
   mode: PresetType
-  weights?: Weights
+  weights?: AnyWeights
   size?: 'sm' | 'md' | 'lg' | 'xl'
   showMode?: boolean
   showMax?: boolean
@@ -73,6 +74,7 @@ export function ScorePill({
 }: ScorePillProps) {
   const displayWeights = weights || PRESETS[mode === 'custom' ? 'balanced' : mode]
   const colors = getScoreColor(score)
+  const isPres = weights ? isPresidentialWeights(weights) : false
 
   const tooltipContent = (
     <div className="text-xs font-bold">
@@ -80,6 +82,9 @@ export function ScorePill({
       <div>Puntaje = {(displayWeights.wC * 100).toFixed(0)}% Competencia</div>
       <div className="ml-4">+ {(displayWeights.wI * 100).toFixed(0)}% Integridad</div>
       <div className="ml-4">+ {(displayWeights.wT * 100).toFixed(0)}% Transparencia</div>
+      {isPres && isPresidentialWeights(displayWeights) && (
+        <div className="ml-4">+ {(displayWeights.wP * 100).toFixed(0)}% Plan de Gobierno</div>
+      )}
     </div>
   )
 

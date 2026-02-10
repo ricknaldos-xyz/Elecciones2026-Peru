@@ -73,6 +73,8 @@
   --score-integrity-text: #5B21B6; /* Violeta oscuro para alto contraste */
   --score-transparency: #06B6D4; /* Cyan - Transparencia */
   --score-transparency-text: #0E7490; /* Cyan oscuro para alto contraste */
+  --score-plan: #F59E0B; /* Amber - Plan de Gobierno */
+  --score-plan-text: #92400E; /* Amber oscuro para alto contraste */
 
   /* === FLAGS === */
   --flag-red: #DC2626;
@@ -147,6 +149,8 @@
   --score-integrity-text: #C4B5FD; /* Violeta muy claro */
   --score-transparency: #22D3EE; /* Cyan claro */
   --score-transparency-text: #67E8F9; /* Cyan muy claro */
+  --score-plan: #FBBF24; /* Amber claro */
+  --score-plan-text: #FDE047; /* Amber muy claro */
 
   /* Flags dark - textos claros */
   --flag-red-bg: #450A0A;
@@ -549,6 +553,41 @@ body {
     transparent 1px
   );
   background-size: 4px 4px;
+}
+
+/* Plan de Gobierno - diamond grid pattern */
+.pattern-plan {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.20) 3px,
+    rgba(0, 0, 0, 0.20) 4px
+  ),
+  repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 3px,
+    rgba(0, 0, 0, 0.20) 3px,
+    rgba(0, 0, 0, 0.20) 4px
+  );
+}
+
+.dark .pattern-plan {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 3px,
+    rgba(255, 255, 255, 0.15) 3px,
+    rgba(255, 255, 255, 0.15) 4px
+  ),
+  repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 3px,
+    rgba(255, 255, 255, 0.15) 3px,
+    rgba(255, 255, 255, 0.15) 4px
+  );
 }
 
 /* Severity patterns for flags - increased visibility */

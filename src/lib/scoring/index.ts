@@ -7,7 +7,8 @@
  * - Transparency (Completeness, Consistency, Assets quality)
  */
 
-import type { CargoType } from '@/types/database'
+import type { CargoType, PresidentialWeights } from '@/types/database'
+import { PRESIDENTIAL_PRESETS } from '@/lib/constants'
 
 // ============================================
 // TYPES
@@ -562,6 +563,21 @@ export function calculateWeightedScore(
   )
 }
 
+export function calculatePresidentialWeightedScore(
+  competence: number,
+  integrity: number,
+  transparency: number,
+  planViability: number,
+  weights: PresidentialWeights
+): number {
+  return (
+    weights.wC * competence +
+    weights.wI * integrity +
+    weights.wT * transparency +
+    weights.wP * planViability
+  )
+}
+
 export function calculateAllScores(
   data: CandidateData,
   cargo: CargoType
@@ -861,7 +877,8 @@ export function calculatePerformanceScore(data: EnhancedIntegrityData): number |
  */
 export function calculateEnhancedScores(
   data: EnhancedIntegrityData,
-  cargo: CargoType
+  cargo: CargoType,
+  planViabilityRaw?: number // 1-10 scale from viability analysis
 ) {
   const competence = calculateCompetence(data, cargo)
   const integrity = calculateEnhancedIntegrity(data)
@@ -890,12 +907,35 @@ export function calculateEnhancedScores(
     { wC: 0.30, wI: 0.60, wT: 0.10 }
   )
 
+  // Presidential 4-pillar scores (when plan viability data is available)
+  const planViability = planViabilityRaw != null ? Math.round(planViabilityRaw * 10) : undefined
+
+  let balancedP: number | undefined
+  let meritP: number | undefined
+  let integrityFirstP: number | undefined
+
+  if (planViability != null) {
+    balancedP = calculatePresidentialWeightedScore(
+      competence.total, integrity.total, transparency.total, planViability,
+      PRESIDENTIAL_PRESETS.balanced as unknown as PresidentialWeights
+    )
+    meritP = calculatePresidentialWeightedScore(
+      competence.total, integrity.total, transparency.total, planViability,
+      PRESIDENTIAL_PRESETS.merit as unknown as PresidentialWeights
+    )
+    integrityFirstP = calculatePresidentialWeightedScore(
+      competence.total, integrity.total, transparency.total, planViability,
+      PRESIDENTIAL_PRESETS.integrity as unknown as PresidentialWeights
+    )
+  }
+
   return {
     competence,
     integrity,
     transparency,
     confidence,
     performance,
+    planViability,
     scores: {
       competence: competence.total,
       integrity: integrity.total,
@@ -905,6 +945,10 @@ export function calculateEnhancedScores(
       balanced,
       merit,
       integrityFirst,
+      planViability,
+      balancedP,
+      meritP,
+      integrityFirstP,
     },
     integrityBreakdown: integrity.breakdown,
   }

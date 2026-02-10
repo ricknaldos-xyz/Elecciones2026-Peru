@@ -11,13 +11,13 @@ import { SubScoreStat } from './SubScoreBar'
 import { FlagChips } from './FlagChip'
 import { useSuccessToast } from '@/components/ui/Toast'
 import { getScoreByMode } from '@/lib/scoring/utils'
-import type { CandidateWithScores, PresetType, Weights } from '@/types/database'
+import type { CandidateWithScores, PresetType, AnyWeights } from '@/types/database'
 
 interface CandidateCardProps {
   candidate: CandidateWithScores
   rank?: number
   mode: PresetType
-  weights?: Weights
+  weights?: AnyWeights
   onCompare?: () => void
   onView?: () => void
   onShare?: () => void
@@ -54,7 +54,9 @@ export function CandidateCard({
 }: CandidateCardProps) {
   const router = useRouter()
   const showSuccess = useSuccessToast()
-  const score = getScoreByMode(candidate.scores, mode, weights)
+  const isPresidential = candidate.cargo === 'presidente'
+  const hasPlan = candidate.scores.plan_viability != null
+  const score = getScoreByMode(candidate.scores, mode, weights, isPresidential)
 
   const handleView = () => {
     if (onView) {
@@ -145,7 +147,10 @@ export function CandidateCard({
           </div>
 
           {/* Sub-scores row */}
-          <div className="grid grid-cols-3 gap-2 py-2 border-t-2 border-[var(--border)]">
+          <div className={cn(
+            'grid gap-2 py-2 border-t-2 border-[var(--border)]',
+            hasPlan ? 'grid-cols-4' : 'grid-cols-3'
+          )}>
             <div className="text-center">
               <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Comp.</div>
               <div className="text-sm font-black text-[var(--foreground)]">{candidate.scores.competence.toFixed(0)}</div>
@@ -158,6 +163,12 @@ export function CandidateCard({
               <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Trans.</div>
               <div className="text-sm font-black text-[var(--foreground)]">{candidate.scores.transparency.toFixed(0)}</div>
             </div>
+            {hasPlan && (
+              <div className="text-center">
+                <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Plan</div>
+                <div className="text-sm font-black text-[var(--foreground)]">{candidate.scores.plan_viability!.toFixed(0)}</div>
+              </div>
+            )}
           </div>
 
           {/* Flags indicator */}
@@ -269,10 +280,16 @@ export function CandidateCard({
         </div>
 
         {/* Sub-scores grid - Reduced gap on mobile */}
-        <div className="grid grid-cols-3 gap-2 sm:gap-3 py-3 sm:py-4 border-t-3 border-[var(--border)]">
+        <div className={cn(
+          'grid gap-2 sm:gap-3 py-3 sm:py-4 border-t-3 border-[var(--border)]',
+          hasPlan ? 'grid-cols-4' : 'grid-cols-3'
+        )}>
           <SubScoreStat type="competence" value={candidate.scores.competence} size="sm" />
           <SubScoreStat type="integrity" value={candidate.scores.integrity} size="sm" />
           <SubScoreStat type="transparency" value={candidate.scores.transparency} size="sm" />
+          {hasPlan && (
+            <SubScoreStat type="plan" value={candidate.scores.plan_viability!} size="sm" />
+          )}
         </div>
 
         {/* Flags */}

@@ -13,11 +13,12 @@ import { Badge } from '@/components/ui/Badge'
 import { PresetSelector } from '@/components/ranking/PresetSelector'
 import { useCandidatesByIds } from '@/hooks/useCandidates'
 import { useSuccessToast } from '@/components/ui/Toast'
-import { PRESETS } from '@/lib/constants'
+import { PRESETS, PRESIDENTIAL_PRESETS } from '@/lib/constants'
 import { Link, useRouter } from '@/i18n/routing'
 import { FlagChips } from '@/components/candidate/FlagChip'
 import { SubScoreStat } from '@/components/candidate/SubScoreBar'
-import type { CandidateWithScores, PresetType, Weights } from '@/types/database'
+import type { CandidateWithScores, PresetType, AnyWeights } from '@/types/database'
+import { isPresidentialWeights } from '@/types/database'
 import { ProposalsCompare } from '@/components/proposals/ProposalsCompare'
 import { useLocale } from 'next-intl'
 
@@ -32,8 +33,30 @@ const SUGGESTED_IDS = [
 function getScoreByMode(
   scores: CandidateWithScores['scores'],
   mode: PresetType,
-  weights?: Weights
+  weights?: AnyWeights,
+  isPresidential?: boolean
 ): number {
+  // Presidential 4-pillar scoring
+  if (isPresidential && scores.plan_viability != null) {
+    if (mode === 'custom' && weights) {
+      const base = weights.wC * scores.competence +
+        weights.wI * scores.integrity +
+        weights.wT * scores.transparency
+      if (isPresidentialWeights(weights)) {
+        return base + weights.wP * scores.plan_viability
+      }
+      return base
+    }
+    switch (mode) {
+      case 'merit':
+        return scores.score_merit_p ?? scores.score_merit
+      case 'integrity':
+        return scores.score_integrity_p ?? scores.score_integrity
+      default:
+        return scores.score_balanced_p ?? scores.score_balanced
+    }
+  }
+  // Standard 3-pillar scoring
   if (mode === 'custom' && weights) {
     return (
       weights.wC * scores.competence +
@@ -66,9 +89,10 @@ function getBarColor(score: number): string {
 }
 
 interface CompareMetric {
-  labelKey: 'total' | 'competence' | 'integrity' | 'transparency'
-  key: 'competence' | 'integrity' | 'transparency' | 'total'
+  labelKey: 'total' | 'competence' | 'integrity' | 'transparency' | 'plan'
+  key: 'competence' | 'integrity' | 'transparency' | 'plan' | 'total'
   max: number
+  presidentialOnly?: boolean
 }
 
 const metrics: CompareMetric[] = [
@@ -76,6 +100,7 @@ const metrics: CompareMetric[] = [
   { labelKey: 'competence', key: 'competence', max: 100 },
   { labelKey: 'integrity', key: 'integrity', max: 100 },
   { labelKey: 'transparency', key: 'transparency', max: 100 },
+  { labelKey: 'plan', key: 'plan', max: 100, presidentialOnly: true },
 ]
 
 // ──────────────────────────────────────────────
@@ -270,7 +295,7 @@ export function CompareContent() {
     return 'balanced'
   })
 
-  const [customWeights, setCustomWeights] = useState<Weights>(PRESETS.balanced)
+  const [customWeights, setCustomWeights] = useState<AnyWeights>(PRESETS.balanced)
 
   const candidateIds = useMemo(() => {
     const idsParam = searchParams.get('ids')
@@ -303,11 +328,17 @@ export function CompareContent() {
     router.push(`/comparar?ids=${newIds.join(',')}`)
   }
 
-  const currentWeights = mode === 'custom' ? customWeights : PRESETS[mode]
+  // Detect if comparing presidential candidates (at least one has plan_viability)
+  const hasPresidential = candidates.some(c => c.cargo === 'presidente' && c.scores.plan_viability != null)
+  const currentWeights = mode === 'custom' ? customWeights : (hasPresidential ? PRESIDENTIAL_PRESETS[mode] : PRESETS[mode])
 
   const getMetricValue = (candidate: CandidateWithScores, key: CompareMetric['key']): number => {
     if (key === 'total') {
-      return getScoreByMode(candidate.scores, mode, currentWeights)
+      const isPres = candidate.cargo === 'presidente' && candidate.scores.plan_viability != null
+      return getScoreByMode(candidate.scores, mode, currentWeights, isPres)
+    }
+    if (key === 'plan') {
+      return candidate.scores.plan_viability ?? 0
     }
     return candidate.scores[key]
   }
@@ -384,6 +415,7 @@ export function CompareContent() {
           <PresetSelector
             value={mode}
             weights={customWeights}
+            cargo={hasPresidential ? 'presidente' : undefined}
             onChange={(newMode, newWeights) => {
               setMode(newMode)
               if (newWeights) {
@@ -528,7 +560,8 @@ export function CompareContent() {
               candidates.length === 2 && 'grid-cols-1 sm:grid-cols-2',
             )}>
               {candidates.map((candidate) => {
-                const score = getScoreByMode(candidate.scores, mode, currentWeights)
+                const isPres = candidate.cargo === 'presidente' && candidate.scores.plan_viability != null
+                const score = getScoreByMode(candidate.scores, mode, currentWeights, isPres)
                 const isBest = score === getBestScore('total') && candidates.length > 1
 
                 return (
@@ -606,10 +639,16 @@ export function CompareContent() {
                         </div>
 
                         {/* Sub-scores */}
-                        <div className="w-full grid grid-cols-3 gap-2 mt-3 pt-3 border-t-2 border-[var(--border)]">
+                        <div className={cn(
+                          'w-full grid gap-2 mt-3 pt-3 border-t-2 border-[var(--border)]',
+                          isPres ? 'grid-cols-4' : 'grid-cols-3'
+                        )}>
                           <SubScoreStat type="competence" value={candidate.scores.competence} size="sm" />
                           <SubScoreStat type="integrity" value={candidate.scores.integrity} size="sm" />
                           <SubScoreStat type="transparency" value={candidate.scores.transparency} size="sm" />
+                          {isPres && (
+                            <SubScoreStat type="plan" value={candidate.scores.plan_viability!} size="sm" />
+                          )}
                         </div>
 
                         {/* Flags */}
@@ -668,6 +707,7 @@ export function CompareContent() {
                 <CardContent className="p-4">
                   {/* Candidate names header */}
                   <div className="flex items-center gap-2 mb-4 pb-3 border-b-2 border-[var(--border)]">
+
                     {candidates.map((c) => (
                       <div key={c.id} className="flex-1 flex items-center gap-1.5 min-w-0">
                         <div className="w-6 h-6 flex-shrink-0 border-2 border-[var(--border)] bg-[var(--muted)] overflow-hidden relative">
@@ -682,7 +722,7 @@ export function CompareContent() {
 
                   {/* Metric rows */}
                   <div className="space-y-5">
-                    {metrics.map((metric) => {
+                    {metrics.filter(m => !m.presidentialOnly || hasPresidential).map((metric) => {
                       const best = getBestScore(metric.key)
                       return (
                         <div key={metric.key}>
@@ -742,7 +782,7 @@ export function CompareContent() {
                         </tr>
                       </thead>
                       <tbody>
-                        {metrics.map((metric) => {
+                        {metrics.filter(m => !m.presidentialOnly || hasPresidential).map((metric) => {
                           const best = getBestScore(metric.key)
 
                           return (
