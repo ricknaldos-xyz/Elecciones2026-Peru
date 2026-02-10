@@ -556,7 +556,7 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                                 )}
                               </div>
                               <Badge variant="outline" size="sm">
-                                {edu.year_end || t('inProgress')}
+                                {edu.year_end || (edu.completed ? t('completed') : t('inProgress'))}
                               </Badge>
                             </div>
                             {edu.country && edu.country !== 'Perú' && (

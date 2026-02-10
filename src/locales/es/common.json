@@ -129,6 +129,7 @@
     "academicBackground": "Formación Académica",
     "professionalExperience": "Experiencia Profesional",
     "inProgress": "En curso",
+    "completed": "Completado",
     "verified": "Verificado",
     "notVerified": "No verificado",
     "flagsFound": "{count} alertas encontradas",

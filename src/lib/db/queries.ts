@@ -870,6 +870,27 @@ export interface SentenceRecord {
   source: string
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function normalizeEducationDetails(raw: any): EducationRecord[] {
+  if (!raw || !Array.isArray(raw)) return []
+  return raw.map((entry: Record<string, unknown>) => {
+    // Derive year_end from available year fields (best available)
+    const yearEnd = entry.title_year || entry.bachelor_year || entry.year || entry.end_date
+    const parsedYear = yearEnd ? parseInt(String(yearEnd), 10) : undefined
+
+    return {
+      level: String(entry.level || ''),
+      institution: String(entry.institution || ''),
+      degree: entry.degree ? String(entry.degree) : undefined,
+      field: entry.field_of_study ? String(entry.field_of_study) : undefined,
+      year_start: entry.start_date ? parseInt(String(entry.start_date), 10) || undefined : undefined,
+      year_end: parsedYear && !isNaN(parsedYear) ? parsedYear : undefined,
+      completed: Boolean(entry.is_completed ?? entry.completed ?? false),
+      country: entry.country ? String(entry.country) : undefined,
+    } as EducationRecord
+  })
+}
+
 /**
  * Get detailed candidate information
  */
@@ -899,7 +920,7 @@ export async function getCandidateDetails(candidateId: string): Promise<Candidat
   return {
     birth_date: row.birth_date as string | null,
     dni: row.dni as string | null,
-    education_details: (row.education_details as EducationRecord[]) || [],
+    education_details: normalizeEducationDetails(row.education_details),
     experience_details: (row.experience_details as ExperienceRecord[]) || [],
     political_trajectory: (row.political_trajectory as PoliticalRecord[]) || [],
     assets_declaration: normalizeAssetsDeclaration(row.assets_declaration),
