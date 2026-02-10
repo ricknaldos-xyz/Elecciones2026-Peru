@@ -120,9 +120,26 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: 'Partido no encontrado' }
   }
 
+  const candidates = await getCandidates({ partyId: party.id as string })
+  const avgScore = candidates.length > 0
+    ? candidates.reduce((sum, c) => sum + c.scores.score_balanced, 0) / candidates.length
+    : 0
+
+  const ogParams = new URLSearchParams({
+    type: 'party',
+    name: party.name,
+    short_name: party.short_name || '',
+    color: party.color || '#DC2626',
+    candidates: candidates.length.toString(),
+    avgScore: avgScore.toFixed(1),
+  })
+
   return {
     title: `${party.name} - Ranking Electoral 2026`,
     description: `Ver todos los candidatos de ${party.name}. Compara scores de competencia, integridad y transparencia.`,
+    openGraph: {
+      images: [`/api/og?${ogParams.toString()}`],
+    },
   }
 }
 

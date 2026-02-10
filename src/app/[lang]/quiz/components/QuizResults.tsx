@@ -18,9 +18,10 @@ interface QuizResultsProps {
     color: string
   }
   onRestart: () => void
+  shareUrl?: string
 }
 
-export function QuizResults({ matches, profile, onRestart }: QuizResultsProps) {
+export function QuizResults({ matches, profile, onRestart, shareUrl }: QuizResultsProps) {
   const t = useTranslations('quiz')
   const top3 = matches.slice(0, 3)
   const rest = matches.slice(3, 8)
@@ -178,6 +179,7 @@ export function QuizResults({ matches, profile, onRestart }: QuizResultsProps) {
         <ShareButton
           title={t('results.shareTitle', { profile: profile.label })}
           description={t('results.shareDescription', { candidates: top3.map(m => m.candidateName).join(', ') })}
+          url={shareUrl}
           className="w-full min-h-[56px]"
           variant="full"
           platforms={['whatsapp', 'twitter', 'facebook', 'copy']}

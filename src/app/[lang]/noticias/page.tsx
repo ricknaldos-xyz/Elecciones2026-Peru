@@ -5,6 +5,8 @@ import { Header } from '@/components/layout/Header'
 import { Badge } from '@/components/ui/Badge'
 import { Card } from '@/components/ui/Card'
 import { NoticiasContent } from './NoticiasContent'
+import { sql } from '@/lib/db'
+import { generateNewsListSchema, generateBreadcrumbSchema } from '@/lib/schema'
 
 export const metadata: Metadata = {
   title: 'Noticias Electorales | Ranking Electoral Perú 2026',
@@ -12,6 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Noticias Electorales Perú 2026',
     description: 'Las últimas noticias de las elecciones Perú 2026 de los principales medios de comunicación.',
+    images: ['/api/og?type=news'],
   },
 }
 
@@ -46,8 +49,34 @@ function LoadingFallback() {
 export default async function NoticiasPage() {
   const t = await getTranslations('news')
 
+  // Fetch recent news for JSON-LD
+  const recentNews = await sql`
+    SELECT title, url, source, published_at, excerpt
+    FROM news_mentions_enriched
+    WHERE (candidate_name IS NOT NULL OR party_name IS NOT NULL)
+    ORDER BY published_at DESC NULLS LAST
+    LIMIT 10
+  `
+
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://rankingelectoral.pe'
+  const newsSchema = generateNewsListSchema(
+    recentNews.map(n => ({
+      title: n.title as string,
+      url: n.url as string,
+      source: n.source as string,
+      published_at: n.published_at as string,
+      excerpt: n.excerpt as string | null,
+    }))
+  )
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Inicio', url: BASE_URL },
+    { name: 'Noticias', url: `${BASE_URL}/es/noticias` },
+  ])
+
   return (
     <div className="min-h-screen bg-[var(--background)]">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(newsSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <Header currentPath="/noticias" />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">

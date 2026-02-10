@@ -24,9 +24,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: 'Distrito no encontrado' }
   }
 
+  const candidates = await getCandidates({ districtSlug: slug })
+  const ogParams = new URLSearchParams({
+    type: 'district',
+    name: district.name,
+    candidates: candidates.length.toString(),
+    dtype: district.type || '',
+  })
+
   return {
     title: `Candidatos de ${district.name} - Ranking Electoral 2026`,
     description: `Ver ranking de candidatos al Congreso por ${district.name}. Compara scores de competencia, integridad y transparencia.`,
+    openGraph: {
+      images: [`/api/og?${ogParams.toString()}`],
+    },
   }
 }
 

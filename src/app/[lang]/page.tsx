@@ -14,6 +14,7 @@ import { PartiesGrid } from '@/components/home/PartiesGrid'
 import { DISTRICTS } from '@/lib/constants'
 import { sql } from '@/lib/db'
 import { generateWebSiteSchema, generateOrganizationSchema } from '@/lib/schema'
+import { DataFreshnessFooter } from '@/components/layout/DataFreshnessFooter'
 
 async function getStats() {
   try {
@@ -482,9 +483,7 @@ export default async function Home() {
                 {t('compare')}
               </Link>
             </div>
-            <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wide text-center">
-              {t('dataUpdated')}
-            </div>
+            <DataFreshnessFooter />
           </div>
         </div>
       </footer>

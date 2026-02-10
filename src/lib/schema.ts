@@ -75,6 +75,34 @@ export function generatePoliticalPartySchema(party: {
   }
 }
 
+export function generateNewsListSchema(items: {
+  title: string
+  url: string
+  source: string
+  published_at: string
+  excerpt: string | null
+}[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    itemListElement: items.map((item, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': 'NewsArticle',
+        headline: item.title,
+        url: item.url,
+        datePublished: item.published_at,
+        description: item.excerpt || undefined,
+        publisher: {
+          '@type': 'Organization',
+          name: item.source,
+        },
+      },
+    })),
+  }
+}
+
 export function generateBreadcrumbSchema(items: { name: string; url: string }[]) {
   return {
     '@context': 'https://schema.org',

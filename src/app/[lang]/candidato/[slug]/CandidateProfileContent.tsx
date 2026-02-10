@@ -33,6 +33,7 @@ import { CompanyIssuesCard } from '@/components/candidate/CompanyIssuesCard'
 import { ControversialVotesCard } from '@/components/candidate/ControversialVotesCard'
 import { IntegritySummaryCard } from '@/components/candidate/IntegritySummaryCard'
 import { SocialMentionsCard } from '@/components/candidate/SocialMentionsCard'
+import { AssetsDeclarationCard } from '@/components/candidate/AssetsDeclarationCard'
 import { ExperienceOverlapBadge } from '@/components/candidate/ExperienceOverlapBadge'
 import { PRESETS } from '@/lib/constants'
 import type { CandidateWithScores, PresetType, ScoreBreakdown } from '@/types/database'
@@ -719,61 +720,8 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
               )}
 
               {/* Patrimonio */}
-              {details && details.assets_declaration && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>{t('assetsDeclaration')}{details.assets_declaration.declaration_year ? ` ${details.assets_declaration.declaration_year}` : ''}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {/* Resumen - Grid-1 on mobile, grid-2 on tablet+ */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-4 bg-[var(--muted)] border-2 border-[var(--border)]">
-                        <div>
-                          <span className="text-sm font-bold uppercase text-[var(--muted-foreground)]">{t('totalAssets')}</span>
-                          <p className="text-lg sm:text-xl font-black text-[var(--foreground)]">
-                            {formatCurrency(details.assets_declaration.total_value)}
-                          </p>
-                        </div>
-                        {details.assets_declaration.income && (
-                          <div>
-                            <span className="text-sm font-bold uppercase text-[var(--muted-foreground)]">{t('annualIncome')}</span>
-                            <p className="text-lg sm:text-xl font-black text-[var(--foreground)]">
-                              {formatCurrency(details.assets_declaration.income.annual_income)}
-                            </p>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Lista de bienes */}
-                      {details.assets_declaration.assets && details.assets_declaration.assets.length > 0 && (
-                        <div>
-                          <h4 className="text-sm font-black uppercase text-[var(--foreground)] mb-2">{t('declaredAssets')}</h4>
-                          <div className="space-y-2">
-                            {details.assets_declaration.assets.map((asset, idx) => (
-                              <div key={idx} className="flex justify-between items-center py-2 border-b-2 border-[var(--border)] last:border-0">
-                                <div>
-                                  <span className="text-sm font-bold text-[var(--foreground)]">{asset.type}</span>
-                                  <p className="text-xs text-[var(--muted-foreground)]">{asset.description}</p>
-                                </div>
-                                <span className="text-sm font-bold text-[var(--foreground)]">
-                                  {formatCurrency(asset.value)}
-                                </span>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Fuente de ingresos */}
-                      {details.assets_declaration.income?.source && (
-                        <div className="pt-2">
-                          <span className="text-sm text-[var(--muted-foreground)]">{t('incomeSource')}: </span>
-                          <span className="text-sm font-bold text-[var(--foreground)]">{details.assets_declaration.income.source}</span>
-                        </div>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
+              {details?.assets_declaration && (
+                <AssetsDeclarationCard assets={details.assets_declaration} />
               )}
 
               {/* Partido Político */}

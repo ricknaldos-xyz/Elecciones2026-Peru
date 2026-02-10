@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
@@ -22,12 +23,38 @@ interface Answers {
 
 export function QuizContent() {
   const t = useTranslations('quiz')
+  const searchParams = useSearchParams()
   const [state, setState] = useState<QuizState>('intro')
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState<Answers>({})
   const [isTransitioning, setIsTransitioning] = useState(false)
 
   const currentQuestion = QUIZ_QUESTIONS[currentQuestionIndex]
+
+  // Restore results from shared URL param
+  useEffect(() => {
+    const encoded = searchParams.get('r')
+    if (!encoded) return
+    try {
+      const decoded = JSON.parse(atob(encoded)) as Record<string, number>
+      const restored: Answers = {}
+      for (const [questionId, value] of Object.entries(decoded)) {
+        const question = QUIZ_QUESTIONS.find(q => q.id === questionId)
+        if (question) {
+          const option = question.options.reduce((closest, opt) =>
+            Math.abs(opt.value - value) < Math.abs(closest.value - value) ? opt : closest
+          )
+          restored[questionId] = { optionId: option.id, value }
+        }
+      }
+      if (Object.keys(restored).length > 0) {
+        setAnswers(restored)
+        setState('results')
+      }
+    } catch {
+      // Invalid param, ignore
+    }
+  }, [searchParams])
 
   const handleStart = () => {
     setState('questions')
@@ -64,6 +91,9 @@ export function QuizContent() {
     setState('intro')
     setCurrentQuestionIndex(0)
     setAnswers({})
+    if (typeof window !== 'undefined') {
+      window.history.replaceState(null, '', window.location.pathname)
+    }
   }
 
   // Calculate results
@@ -74,6 +104,18 @@ export function QuizContent() {
 
   const matches = calculateMatches(userAnswerValues)
   const profile = getUserProfile(userAnswerValues)
+
+  // Build shareable URL when results are ready
+  const shareUrl = useMemo(() => {
+    if (state !== 'results' || Object.keys(userAnswerValues).length === 0) return undefined
+    const encoded = btoa(JSON.stringify(userAnswerValues))
+    if (typeof window !== 'undefined') {
+      const url = `${window.location.origin}${window.location.pathname}?r=${encoded}`
+      window.history.replaceState(null, '', url)
+      return url
+    }
+    return undefined
+  }, [state, userAnswerValues])
 
   if (state === 'intro') {
     return (
@@ -129,6 +171,7 @@ export function QuizContent() {
           matches={matches}
           profile={profile}
           onRestart={handleRestart}
+          shareUrl={shareUrl}
         />
       </div>
     )
