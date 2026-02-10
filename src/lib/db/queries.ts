@@ -792,70 +792,106 @@ export interface AssetsDeclaration {
     currency: string
   }[]
   total_value: number
+  total_liabilities: number | null
   income: {
     annual_income: number
-    other_income: number
+    public_income: number
+    private_income: number
     source: string
   } | null
   declaration_year: number | null
-  djhv_compliant: boolean
+  has_declaration: boolean
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function normalizeAssetsDeclaration(raw: any): AssetsDeclaration | null {
   if (!raw || typeof raw !== 'object') return null
 
-  // Already in the expected format
+  // Already in the expected format (structured with assets array)
   if (Array.isArray(raw.assets)) return raw as AssetsDeclaration
+
+  // Handle seed format: {total: number}
+  if (raw.total != null && !raw.real_estate_count && !raw.source) {
+    const totalVal = Math.max(0, Number(raw.total) || 0)
+    return totalVal > 0 ? {
+      assets: [{ type: 'Patrimonio', description: 'Declaración general', value: totalVal, currency: 'PEN' }],
+      total_value: totalVal,
+      total_liabilities: null,
+      income: null,
+      declaration_year: null,
+      has_declaration: true,
+    } : null
+  }
 
   // Transform flat scraper format to structured UI format
   const assets: AssetsDeclaration['assets'] = []
 
-  if (raw.real_estate_count > 0 || raw.real_estate_total > 0) {
+  const realEstateTotal = Math.max(0, Number(raw.real_estate_total) || 0)
+  const realEstateCount = Math.max(0, Number(raw.real_estate_count) || 0)
+  const vehicleTotal = Math.max(0, Number(raw.vehicle_total) || 0)
+  const vehicleCount = Math.max(0, Number(raw.vehicle_count) || 0)
+
+  if (realEstateCount > 0 || realEstateTotal > 0) {
     assets.push({
       type: 'Inmuebles',
-      description: `${raw.real_estate_count || 0} propiedad(es)`,
-      value: raw.real_estate_total || 0,
+      description: `${realEstateCount} propiedad(es)`,
+      value: realEstateTotal,
       currency: 'PEN',
     })
   }
 
-  if (raw.vehicle_count > 0 || raw.vehicle_total > 0) {
+  if (vehicleCount > 0 || vehicleTotal > 0) {
     assets.push({
       type: 'Vehículos',
-      description: `${raw.vehicle_count || 0} vehículo(s)`,
-      value: raw.vehicle_total || 0,
+      description: `${vehicleCount} vehículo(s)`,
+      value: vehicleTotal,
       currency: 'PEN',
     })
   }
 
-  const totalIncome = raw.total_income || 0
-  const publicSalary = (raw.public_salary || 0) + (raw.public_rent || 0) + (raw.other_public || 0)
-  const privateSalary = (raw.private_salary || 0) + (raw.private_rent || 0) + (raw.other_private || 0)
+  const totalIncome = Math.max(0, Number(raw.total_income) || 0)
+  const publicSalary = Math.max(0, Number(raw.public_salary) || 0)
+  const publicRent = Math.max(0, Number(raw.public_rent) || 0)
+  const otherPublic = Math.max(0, Number(raw.other_public) || 0)
+  const privateSalary = Math.max(0, Number(raw.private_salary) || 0)
+  const privateRent = Math.max(0, Number(raw.private_rent) || 0)
+  const otherPrivate = Math.max(0, Number(raw.other_private) || 0)
 
-  const totalValue = (raw.real_estate_total || 0) + (raw.vehicle_total || 0)
+  const publicIncome = publicSalary + publicRent + otherPublic
+  const privateIncome = privateSalary + privateRent + otherPrivate
 
-  // If there's no meaningful data AND no source indicator, there's no declaration
+  // Use total_assets from JNE if available (more comprehensive), else sum categories
+  const totalValue = raw.total_assets != null
+    ? Math.max(0, Number(raw.total_assets) || 0)
+    : realEstateTotal + vehicleTotal
+
+  const totalLiabilities = raw.total_liabilities != null
+    ? Math.max(0, Number(raw.total_liabilities) || 0)
+    : null
+
+  // If there's no meaningful data, there's no declaration
   if (totalValue === 0 && totalIncome === 0 && assets.length === 0 && !raw.source) return null
 
-  const incomeSource = publicSalary > 0 && privateSalary > 0
+  const incomeSource = publicIncome > 0 && privateIncome > 0
     ? 'Sector público y privado'
-    : publicSalary > 0
+    : publicIncome > 0
       ? 'Sector público'
-      : privateSalary > 0
+      : privateIncome > 0
         ? 'Sector privado'
         : ''
 
   return {
     assets,
     total_value: totalValue,
+    total_liabilities: totalLiabilities,
     income: totalIncome > 0 ? {
       annual_income: totalIncome,
-      other_income: 0,
+      public_income: publicIncome,
+      private_income: privateIncome,
       source: incomeSource,
     } : null,
-    declaration_year: raw.income_year ? parseInt(raw.income_year, 10) : null,
-    djhv_compliant: true,
+    declaration_year: raw.income_year ? parseInt(String(raw.income_year), 10) : null,
+    has_declaration: true,
   }
 }
 

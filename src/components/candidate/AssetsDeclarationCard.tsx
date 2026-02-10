@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { cn } from '@/lib/utils'
@@ -10,6 +11,7 @@ interface AssetsDeclarationCardProps {
 const TYPE_COLORS: Record<string, string> = {
   'Inmuebles': 'bg-blue-500',
   'Vehículos': 'bg-green-500',
+  'Patrimonio': 'bg-purple-500',
 }
 const DEFAULT_COLOR = 'bg-gray-400'
 
@@ -23,6 +25,7 @@ function formatCurrency(amount: number): string {
 }
 
 export function AssetsDeclarationCard({ assets }: AssetsDeclarationCardProps) {
+  const t = useTranslations('candidate')
   const maxValue = assets.assets.length > 0
     ? Math.max(...assets.assets.map(a => a.value))
     : 0
@@ -34,7 +37,7 @@ export function AssetsDeclarationCard({ assets }: AssetsDeclarationCardProps) {
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="square" d="M3 6l9-4 9 4M3 6v12l9 4 9-4V6M3 6l9 4m0 0l9-4m-9 4v12" />
           </svg>
-          Declaración Jurada de Bienes
+          {t('assetsDeclaration')}
           {assets.declaration_year && (
             <Badge variant="secondary" className="ml-auto">{assets.declaration_year}</Badge>
           )}
@@ -42,23 +45,33 @@ export function AssetsDeclarationCard({ assets }: AssetsDeclarationCardProps) {
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Summary stats */}
-        <div className="grid grid-cols-2 gap-3">
+        <div className={cn('grid gap-3', assets.total_liabilities != null ? 'grid-cols-3' : 'grid-cols-2')}>
           <div className="p-3 bg-[var(--muted)] border-2 border-[var(--border)] text-center">
             <div className="text-2xl font-black text-[var(--foreground)]">
               {formatCurrency(assets.total_value)}
             </div>
             <div className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">
-              Patrimonio Total
+              {t('totalAssets')}
             </div>
           </div>
           <div className="p-3 bg-[var(--muted)] border-2 border-[var(--border)] text-center">
             <div className="text-2xl font-black text-[var(--foreground)]">
-              {assets.income ? formatCurrency(assets.income.annual_income) : '-'}
+              {assets.income ? formatCurrency(assets.income.annual_income) : '—'}
             </div>
             <div className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">
-              Ingreso Anual
+              {t('annualIncome')}
             </div>
           </div>
+          {assets.total_liabilities != null && assets.total_liabilities > 0 && (
+            <div className="p-3 bg-[var(--muted)] border-2 border-[var(--border)] text-center">
+              <div className="text-2xl font-black text-[var(--flag-red-text)]">
+                {formatCurrency(assets.total_liabilities)}
+              </div>
+              <div className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">
+                {t('totalLiabilities')}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Asset distribution bar */}
@@ -72,7 +85,7 @@ export function AssetsDeclarationCard({ assets }: AssetsDeclarationCardProps) {
                   <div
                     key={idx}
                     className={cn('h-full', TYPE_COLORS[asset.type] || DEFAULT_COLOR)}
-                    style={{ width: `${pct}%` }}
+                    style={{ width: `${Math.min(pct, 100)}%` }}
                     title={`${asset.type}: ${pct.toFixed(0)}%`}
                   />
                 )
@@ -80,7 +93,7 @@ export function AssetsDeclarationCard({ assets }: AssetsDeclarationCardProps) {
             </div>
             <div className="flex flex-wrap gap-3 mt-2">
               {assets.assets.map((asset, idx) => {
-                const pct = assets.total_value > 0 ? ((asset.value / assets.total_value) * 100).toFixed(0) : '0'
+                const pct = ((asset.value / assets.total_value) * 100).toFixed(0)
                 return (
                   <div key={idx} className="flex items-center gap-1.5">
                     <div className={cn('w-3 h-3', TYPE_COLORS[asset.type] || DEFAULT_COLOR)} />
@@ -115,7 +128,7 @@ export function AssetsDeclarationCard({ assets }: AssetsDeclarationCardProps) {
                   <div className="h-2 border border-[var(--border)] bg-[var(--muted)] overflow-hidden ml-5">
                     <div
                       className={cn('h-full', TYPE_COLORS[asset.type] || DEFAULT_COLOR)}
-                      style={{ width: `${(asset.value / maxValue) * 100}%` }}
+                      style={{ width: `${Math.min((asset.value / maxValue) * 100, 100)}%` }}
                     />
                   </div>
                 )}
@@ -124,15 +137,43 @@ export function AssetsDeclarationCard({ assets }: AssetsDeclarationCardProps) {
           </div>
         )}
 
-        {/* Badges */}
-        <div className="flex flex-wrap gap-2 pt-2 border-t-2 border-[var(--border)]">
-          {assets.djhv_compliant && (
-            <Badge variant="success">DJHV Completo</Badge>
-          )}
-          {assets.income?.source && (
+        {/* Income breakdown */}
+        {assets.income && (assets.income.public_income > 0 || assets.income.private_income > 0) && (
+          <div className="pt-2 border-t-2 border-[var(--border)]">
+            <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase mb-2">
+              {t('incomeSource')}
+            </div>
+            <div className="flex gap-2">
+              {assets.income.public_income > 0 && (
+                <div className="flex-1 p-2 bg-[var(--score-transparency)]/10 border-2 border-[var(--border)]">
+                  <div className="text-sm font-black text-[var(--foreground)]">
+                    {formatCurrency(assets.income.public_income)}
+                  </div>
+                  <div className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">
+                    {t('publicIncome')}
+                  </div>
+                </div>
+              )}
+              {assets.income.private_income > 0 && (
+                <div className="flex-1 p-2 bg-[var(--score-competence)]/10 border-2 border-[var(--border)]">
+                  <div className="text-sm font-black text-[var(--foreground)]">
+                    {formatCurrency(assets.income.private_income)}
+                  </div>
+                  <div className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">
+                    {t('privateIncome')}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Source badge */}
+        {assets.income?.source && (
+          <div className="flex flex-wrap gap-2 pt-2 border-t-2 border-[var(--border)]">
             <Badge variant="secondary">{assets.income.source}</Badge>
-          )}
-        </div>
+          </div>
+        )}
       </CardContent>
     </Card>
   )
