@@ -359,6 +359,18 @@
     "shareText": "Comparando {names}",
     "proposalsComparison": "Comparación de Propuestas",
     "proposalsDescription": "Compara las propuestas de cada candidato extraídas de sus planes de gobierno.",
+    "viabilityComparison": "Viabilidad del Plan de Gobierno",
+    "viabilityDescription": "Análisis comparativo de la viabilidad de los planes de gobierno de cada candidato presidencial.",
+    "viabilityFiscal": "Fiscal",
+    "viabilityLegal": "Legal",
+    "viabilityCoherence": "Coherencia",
+    "viabilityHistorical": "Histórica",
+    "viabilityOverall": "Score General",
+    "viabilitySummary": "Resumen Ejecutivo",
+    "viabilityStrengths": "Fortalezas",
+    "viabilityWeaknesses": "Debilidades",
+    "viabilityRisks": "Riesgos",
+    "viabilityNoData": "Sin análisis disponible",
     "searchPlaceholder": "Buscar candidato por nombre..."
   },
   "news": {

@@ -44,6 +44,7 @@ export function CompanyIssuesCard({ candidateId }: CompanyIssuesCardProps) {
   const [data, setData] = useState<CompanyData | null>(null)
   const [loading, setLoading] = useState(true)
   const [expanded, setExpanded] = useState(false)
+  const [expandedCompany, setExpandedCompany] = useState<string | null>(null)
 
   useEffect(() => {
     async function fetchData() {
@@ -223,38 +224,63 @@ export function CompanyIssuesCard({ candidateId }: CompanyIssuesCardProps) {
                 <div
                   key={company.ruc}
                   className={cn(
-                    'p-3 border-2',
+                    'border-2',
                     company.hasLegalIssues
                       ? 'border-[var(--flag-amber)] bg-[var(--flag-amber)]/5'
                       : 'border-[var(--border)] bg-[var(--muted)]'
                   )}
                 >
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex-1 min-w-0">
-                      <div className="font-bold text-sm truncate">{company.name}</div>
-                      <div className="text-xs text-[var(--muted-foreground)]">
-                        RUC: {company.ruc}
+                  <button
+                    className="w-full p-3 text-left"
+                    onClick={() => setExpandedCompany(expandedCompany === company.ruc ? null : company.ruc)}
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold text-sm truncate">{company.name}</div>
+                        <div className="text-xs text-[var(--muted-foreground)]">
+                          RUC: {company.ruc}
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-end gap-1">
+                        <Badge variant={company.isActive ? 'success' : 'secondary'}>
+                          {company.isActive ? 'Activo' : 'Inactivo'}
+                        </Badge>
+                        {company.hasLegalIssues && (
+                          <Badge variant="warning">
+                            {company.issuesCount} problema{company.issuesCount !== 1 ? 's' : ''}
+                          </Badge>
+                        )}
                       </div>
                     </div>
-                    <div className="flex flex-col items-end gap-1">
-                      <Badge variant={company.isActive ? 'success' : 'secondary'}>
-                        {company.isActive ? 'Activo' : 'Inactivo'}
-                      </Badge>
-                      <span className="text-xs text-[var(--muted-foreground)]">
-                        {roleLabels[company.role] || company.role}
-                      </span>
-                    </div>
-                  </div>
-                  {company.ownershipPct && (
-                    <div className="mt-1 text-xs text-[var(--muted-foreground)]">
-                      Participación: {company.ownershipPct}%
-                    </div>
-                  )}
-                  {company.hasLegalIssues && (
-                    <div className="mt-2 pt-2 border-t border-[var(--border)]">
-                      <Badge variant="warning">
-                        {company.issuesCount} problema{company.issuesCount !== 1 ? 's' : ''} legal{company.issuesCount !== 1 ? 'es' : ''}
-                      </Badge>
+                  </button>
+                  {expandedCompany === company.ruc && (
+                    <div className="px-3 pb-3 pt-0 border-t border-[var(--border)] space-y-2">
+                      <div className="grid grid-cols-2 gap-2 text-xs">
+                        <div>
+                          <span className="font-bold text-[var(--muted-foreground)] uppercase">Rol</span>
+                          <p className="font-bold">{roleLabels[company.role] || company.role}</p>
+                        </div>
+                        {company.ownershipPct != null && (
+                          <div>
+                            <span className="font-bold text-[var(--muted-foreground)] uppercase">Participación</span>
+                            <p className="font-bold">{company.ownershipPct}%</p>
+                          </div>
+                        )}
+                        <div>
+                          <span className="font-bold text-[var(--muted-foreground)] uppercase">Estado</span>
+                          <p className={cn('font-bold', company.isActive ? 'text-green-700' : 'text-[var(--muted-foreground)]')}>
+                            {company.isActive ? 'Activo' : 'Inactivo'}
+                          </p>
+                        </div>
+                        {company.hasLegalIssues && (
+                          <div>
+                            <span className="font-bold text-[var(--muted-foreground)] uppercase">Problemas</span>
+                            <p className="font-bold text-[var(--flag-amber-text)]">
+                              {company.issuesCount} registrado{company.issuesCount !== 1 ? 's' : ''}
+                            </p>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   )}
                 </div>

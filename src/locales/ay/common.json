@@ -359,6 +359,18 @@
     "shareText": "Uñacht'ayasa {names}",
     "proposalsComparison": "Kamachi Uñacht'ayaña",
     "proposalsDescription": "Sapa ajilatap kamachinakaparu uñacht'ayaña, kamachi qillqatapatxa apsuña.",
+    "viabilityComparison": "Kamachi Thakhip Atipawi",
+    "viabilityDescription": "Sapa kamachi thakhip atipawipa uñacht'ayaña.",
+    "viabilityFiscal": "Qullqi",
+    "viabilityLegal": "Kamachi",
+    "viabilityCoherence": "Mayacht'awi",
+    "viabilityHistorical": "Nayra",
+    "viabilityOverall": "Taqi Score",
+    "viabilitySummary": "Jisk'a Yatiyawi",
+    "viabilityStrengths": "Ch'amanakata",
+    "viabilityWeaknesses": "Jan ch'amanakata",
+    "viabilityRisks": "Jan wali lurañanaka",
+    "viabilityNoData": "Jani uñjata utjkiti",
     "searchPlaceholder": "Ajilataru sutimpix thaqaña..."
   },
   "news": {

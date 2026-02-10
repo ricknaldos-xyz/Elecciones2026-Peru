@@ -359,6 +359,18 @@
     "shareText": "Tupachispa {names}",
     "proposalsComparison": "Kamachiy Tupachiy",
     "proposalsDescription": "Sapa akllasqa runapa kamachiykunata tupachiy, paykunap kamachiy qillqasqankumanta hurqusqa.",
+    "viabilityComparison": "Kamachiy Ñanpa Atipay",
+    "viabilityDescription": "Sapa kamachiy ñanpa atipayninkunata tupachiy.",
+    "viabilityFiscal": "Qullqi",
+    "viabilityLegal": "Kamachiy",
+    "viabilityCoherence": "Huñunakuy",
+    "viabilityHistorical": "Ñawpa",
+    "viabilityOverall": "Tukuy Score",
+    "viabilitySummary": "Pisilla Willakuy",
+    "viabilityStrengths": "Kallpakuna",
+    "viabilityWeaknesses": "Pisiyasqakuna",
+    "viabilityRisks": "Manchaykuna",
+    "viabilityNoData": "Mana qhawasqa kanchu",
     "searchPlaceholder": "Akllasqa runata sutinwan maskay..."
   },
   "news": {

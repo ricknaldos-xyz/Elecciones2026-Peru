@@ -5,6 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { Link } from '@/i18n/routing'
+import { DonationQR } from '@/components/donate/DonationQR'
 import type { Locale } from '@/i18n/config'
 
 type Props = {
@@ -57,15 +58,8 @@ export default async function DonatePage({ params }: Props) {
               </CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              {/* QR Placeholder */}
-              <div className="w-48 h-48 mx-auto mb-4 border-3 border-dashed border-[var(--border)] bg-[var(--muted)] flex flex-col items-center justify-center gap-2">
-                <svg className="w-12 h-12 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75H16.5v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75H16.5v-.75z" />
-                </svg>
-                <span className="text-xs text-[var(--muted-foreground)] font-bold uppercase">
-                  {t('qrPlaceholder')}
-                </span>
+              <div className="mb-4">
+                <DonationQR value="999999999" />
               </div>
 
               <p className="text-sm text-[var(--muted-foreground)] mb-4">
@@ -96,15 +90,8 @@ export default async function DonatePage({ params }: Props) {
               </CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              {/* QR Placeholder */}
-              <div className="w-48 h-48 mx-auto mb-4 border-3 border-dashed border-[var(--border)] bg-[var(--muted)] flex flex-col items-center justify-center gap-2">
-                <svg className="w-12 h-12 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75H16.5v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75H16.5v-.75z" />
-                </svg>
-                <span className="text-xs text-[var(--muted-foreground)] font-bold uppercase">
-                  {t('qrPlaceholder')}
-                </span>
+              <div className="mb-4">
+                <DonationQR value="999999999" />
               </div>
 
               <p className="text-sm text-[var(--muted-foreground)] mb-4">

@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
 import { Link } from '@/i18n/routing'
 import { getCandidates, getPartyBySlug, getPartyFinances } from '@/lib/db/queries'
+import { generatePoliticalPartySchema, generateBreadcrumbSchema } from '@/lib/schema'
 import { Header } from '@/components/layout/Header'
 import { CandidateCard } from '@/components/candidate/CandidateCard'
 import { CandidateCardMini } from '@/components/candidate/CandidateCardMini'
@@ -147,8 +148,17 @@ export default async function PartidoPage({ params }: PageProps) {
     return acc
   }, {} as Record<CargoType, typeof candidates>)
 
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://rankingelectoral.pe'
+  const partySchema = generatePoliticalPartySchema(party as { name: string; short_name?: string | null; logo_url?: string | null }, slug)
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Ranking', url: `${baseUrl}/es/ranking` },
+    { name: (party.name as string), url: `${baseUrl}/es/partido/${slug}` },
+  ])
+
   return (
     <div className="min-h-screen bg-[var(--background)]">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(partySchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <Header />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

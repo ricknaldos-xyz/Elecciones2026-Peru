@@ -13,6 +13,7 @@ import { AdSlot } from '@/components/ads/AdSlot'
 import { PartiesGrid } from '@/components/home/PartiesGrid'
 import { DISTRICTS } from '@/lib/constants'
 import { sql } from '@/lib/db'
+import { generateWebSiteSchema, generateOrganizationSchema } from '@/lib/schema'
 
 async function getStats() {
   try {
@@ -115,8 +116,13 @@ export default async function Home() {
     getPartiesWithCounts(),
     getTranslations('home')
   ])
+  const webSiteSchema = generateWebSiteSchema()
+  const orgSchema = generateOrganizationSchema()
+
   return (
     <div className="min-h-screen bg-[var(--background)]">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webSiteSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }} />
       <Header currentPath="/" />
 
       <main id="main-content">

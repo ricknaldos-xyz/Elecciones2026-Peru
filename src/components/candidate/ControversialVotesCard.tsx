@@ -193,6 +193,40 @@ export function ControversialVotesCard({ candidateId }: ControversialVotesCardPr
           </div>
         </div>
 
+        {/* Category breakdown */}
+        {(() => {
+          const categoryCounts = data.controversialVotes
+            .filter(v => v.voteType === 'favor')
+            .reduce((acc, vote) => {
+              acc[vote.category] = (acc[vote.category] || 0) + 1
+              return acc
+            }, {} as Record<string, number>)
+          const sortedCategories = Object.entries(categoryCounts).sort((a, b) => b[1] - a[1])
+          const maxCount = Math.max(...Object.values(categoryCounts), 1)
+
+          if (sortedCategories.length === 0) return null
+
+          return (
+            <div className="mb-4 p-3 bg-[var(--muted)] border-2 border-[var(--border)]">
+              <h4 className="font-black text-xs uppercase text-[var(--muted-foreground)] mb-2">Votos a favor por categoría</h4>
+              <div className="space-y-1.5">
+                {sortedCategories.map(([cat, count]) => (
+                  <div key={cat} className="flex items-center gap-2">
+                    <span className="text-[10px] font-bold w-24 truncate uppercase">{CATEGORY_LABELS[cat] || cat}</span>
+                    <div className="flex-1 h-3 bg-[var(--background)] border-2 border-[var(--border)] overflow-hidden">
+                      <div
+                        className="h-full bg-[var(--flag-red)]"
+                        style={{ width: `${(count / maxCount) * 100}%` }}
+                      />
+                    </div>
+                    <span className="text-xs font-black w-4 text-right">{count}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
+        })()}
+
         {/* Individual votes */}
         <div className="space-y-3">
           {data.controversialVotes.map((vote) => {

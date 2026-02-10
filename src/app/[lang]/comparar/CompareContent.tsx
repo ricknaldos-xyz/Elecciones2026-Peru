@@ -17,10 +17,14 @@ import { PRESETS, PRESIDENTIAL_PRESETS } from '@/lib/constants'
 import { Link, useRouter } from '@/i18n/routing'
 import { FlagChips } from '@/components/candidate/FlagChip'
 import { SubScoreStat } from '@/components/candidate/SubScoreBar'
-import type { CandidateWithScores, PresetType, AnyWeights } from '@/types/database'
+import type { CandidateWithScores, PresetType, AnyWeights, PlanViabilityAnalysis } from '@/types/database'
 import { isPresidentialWeights } from '@/types/database'
 import { ProposalsCompare } from '@/components/proposals/ProposalsCompare'
 import { useLocale } from 'next-intl'
+
+interface ViabilityDataMap {
+  [candidateId: string]: PlanViabilityAnalysis | null
+}
 
 // IDs of suggested candidates (must exist in DB)
 const SUGGESTED_IDS = [
@@ -309,6 +313,38 @@ export function CompareContent() {
   const { candidates: suggestedCandidates } = useCandidatesByIds(
     candidateIds.length === 0 ? SUGGESTED_IDS : []
   )
+
+  // Plan viability comparison data
+  const [viabilityData, setViabilityData] = useState<ViabilityDataMap>({})
+  const [viabilityLoading, setViabilityLoading] = useState(false)
+
+  useEffect(() => {
+    const presidentialCandidates = candidates.filter(c => c.cargo === 'presidente' && c.scores.plan_viability != null)
+    if (presidentialCandidates.length < 2) {
+      setViabilityData({})
+      return
+    }
+    setViabilityLoading(true)
+    Promise.all(
+      presidentialCandidates.map(async (c) => {
+        try {
+          const res = await fetch(`/api/candidates/${c.id}/plan-viability`)
+          if (!res.ok) return { id: c.id, data: null }
+          const json = await res.json()
+          return { id: c.id, data: json as PlanViabilityAnalysis | null }
+        } catch {
+          return { id: c.id, data: null }
+        }
+      })
+    ).then((results) => {
+      const map: ViabilityDataMap = {}
+      for (const r of results) {
+        map[r.id] = r.data
+      }
+      setViabilityData(map)
+      setViabilityLoading(false)
+    })
+  }, [candidates])
 
   // Remove a candidate from comparison
   const removeCandidate = (candidate: CandidateWithScores) => {
@@ -862,6 +898,171 @@ export function CompareContent() {
                     />
                   </CardContent>
                 </Card>
+              </div>
+            )}
+
+            {/* ─── PLAN VIABILITY COMPARISON ─── */}
+            {hasPresidential && candidates.length >= 2 && (
+              <div className="mt-8">
+                <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight mb-4">
+                  {t('viabilityComparison')}
+                </h2>
+                <p className="text-sm text-[var(--muted-foreground)] font-medium mb-4">
+                  {t('viabilityDescription')}
+                </p>
+
+                {viabilityLoading ? (
+                  <Card>
+                    <CardContent className="p-6">
+                      <div className="animate-pulse space-y-4">
+                        <div className="h-4 bg-[var(--muted)] rounded w-3/4" />
+                        <div className="h-4 bg-[var(--muted)] rounded w-1/2" />
+                        <div className="h-4 bg-[var(--muted)] rounded w-2/3" />
+                      </div>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <div className="space-y-6">
+                    {/* Viability metric bars */}
+                    {(['fiscal_viability_score', 'legal_viability_score', 'coherence_score', 'historical_score'] as const).map((metricKey) => {
+                      const labelMap: Record<string, string> = {
+                        fiscal_viability_score: t('viabilityFiscal'),
+                        legal_viability_score: t('viabilityLegal'),
+                        coherence_score: t('viabilityCoherence'),
+                        historical_score: t('viabilityHistorical'),
+                      }
+                      return (
+                        <Card key={metricKey}>
+                          <CardContent className="p-4">
+                            <h4 className="text-xs font-black uppercase text-[var(--muted-foreground)] mb-3">
+                              {labelMap[metricKey]}
+                            </h4>
+                            <div className="space-y-2">
+                              {candidates.filter(c => c.cargo === 'presidente').map((c) => {
+                                const v = viabilityData[c.id]
+                                const score = v ? Number(v[metricKey]) : 0
+                                const normalized = score * 10 // 1-10 scale → percentage
+                                return (
+                                  <div key={c.id} className="flex items-center gap-3">
+                                    <div className="w-24 sm:w-32 truncate text-xs font-bold">
+                                      {c.full_name.split(' ').slice(-2).join(' ')}
+                                    </div>
+                                    <div className="flex-1 h-5 border-2 border-[var(--border)] bg-[var(--muted)] overflow-hidden">
+                                      <div
+                                        className={cn('h-full', getBarColor(normalized))}
+                                        style={{ width: `${normalized}%` }}
+                                      />
+                                    </div>
+                                    <div className={cn('w-10 text-right text-sm font-black', getScoreColor(normalized))}>
+                                      {score.toFixed(1)}
+                                    </div>
+                                  </div>
+                                )
+                              })}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      )
+                    })}
+
+                    {/* Overall score + summaries per candidate */}
+                    <div className={cn(
+                      'grid gap-4',
+                      candidates.filter(c => c.cargo === 'presidente').length === 2 ? 'grid-cols-1 sm:grid-cols-2' :
+                      candidates.filter(c => c.cargo === 'presidente').length === 3 ? 'grid-cols-1 sm:grid-cols-3' :
+                      'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
+                    )}>
+                      {candidates.filter(c => c.cargo === 'presidente').map((c) => {
+                        const v = viabilityData[c.id]
+                        if (!v) {
+                          return (
+                            <Card key={c.id}>
+                              <CardContent className="p-4 text-center">
+                                <div className="text-sm font-bold mb-2">{c.full_name.split(' ').slice(-2).join(' ')}</div>
+                                <div className="text-xs text-[var(--muted-foreground)]">{t('viabilityNoData')}</div>
+                              </CardContent>
+                            </Card>
+                          )
+                        }
+                        const overallPct = v.overall_viability_score * 10
+                        return (
+                          <Card key={c.id}>
+                            <CardContent className="p-4 space-y-3">
+                              {/* Candidate name + overall score */}
+                              <div className="flex items-center justify-between">
+                                <div className="text-sm font-bold truncate">{c.full_name.split(' ').slice(-2).join(' ')}</div>
+                                <div className={cn('text-2xl font-black', getScoreColor(overallPct))}>
+                                  {v.overall_viability_score.toFixed(1)}
+                                </div>
+                              </div>
+                              <div className="text-[10px] font-black uppercase text-[var(--muted-foreground)]">
+                                {t('viabilityOverall')}
+                              </div>
+
+                              {/* Executive summary */}
+                              <div>
+                                <h5 className="text-[10px] font-black uppercase text-[var(--muted-foreground)] mb-1">
+                                  {t('viabilitySummary')}
+                                </h5>
+                                <p className="text-xs text-[var(--foreground)] line-clamp-4">
+                                  {v.executive_summary}
+                                </p>
+                              </div>
+
+                              {/* Strengths */}
+                              {v.key_strengths.length > 0 && (
+                                <div>
+                                  <h5 className="text-[10px] font-black uppercase text-green-600 mb-1">
+                                    {t('viabilityStrengths')}
+                                  </h5>
+                                  <div className="flex flex-wrap gap-1">
+                                    {v.key_strengths.slice(0, 3).map((s, i) => (
+                                      <span key={i} className="text-[10px] px-1.5 py-0.5 bg-green-100 text-green-800 border border-green-300 font-bold">
+                                        {s}
+                                      </span>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* Weaknesses */}
+                              {v.key_weaknesses.length > 0 && (
+                                <div>
+                                  <h5 className="text-[10px] font-black uppercase text-red-600 mb-1">
+                                    {t('viabilityWeaknesses')}
+                                  </h5>
+                                  <div className="flex flex-wrap gap-1">
+                                    {v.key_weaknesses.slice(0, 3).map((w, i) => (
+                                      <span key={i} className="text-[10px] px-1.5 py-0.5 bg-red-100 text-red-800 border border-red-300 font-bold">
+                                        {w}
+                                      </span>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* Risks */}
+                              {v.key_risks.length > 0 && (
+                                <div>
+                                  <h5 className="text-[10px] font-black uppercase text-[var(--flag-amber-text)] mb-1">
+                                    {t('viabilityRisks')}
+                                  </h5>
+                                  <div className="flex flex-wrap gap-1">
+                                    {v.key_risks.slice(0, 3).map((r, i) => (
+                                      <span key={i} className="text-[10px] px-1.5 py-0.5 bg-amber-100 text-amber-800 border border-amber-300 font-bold">
+                                        {r}
+                                      </span>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            </CardContent>
+                          </Card>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </>

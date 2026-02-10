@@ -31,6 +31,8 @@ import { JudicialDiscrepancyCard } from '@/components/candidate/JudicialDiscrepa
 import { IncumbentPerformanceCard } from '@/components/candidate/IncumbentPerformanceCard'
 import { CompanyIssuesCard } from '@/components/candidate/CompanyIssuesCard'
 import { ControversialVotesCard } from '@/components/candidate/ControversialVotesCard'
+import { IntegritySummaryCard } from '@/components/candidate/IntegritySummaryCard'
+import { SocialMentionsCard } from '@/components/candidate/SocialMentionsCard'
 import { ExperienceOverlapBadge } from '@/components/candidate/ExperienceOverlapBadge'
 import { PRESETS } from '@/lib/constants'
 import type { CandidateWithScores, PresetType, ScoreBreakdown } from '@/types/database'
@@ -475,6 +477,14 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
           {/* ==================== RESUMEN TAB ==================== */}
           <TabPanel value="resumen">
             <div className="space-y-6">
+              {/* Resumen de Integridad (solo si tiene penalidades) */}
+              {breakdown && (breakdown.integrity.penal_penalty > 0 || breakdown.integrity.civil_penalties.length > 0 || breakdown.integrity.resignation_penalty > 0 || breakdown.integrity.reinfo_penalty > 0) && (
+                <IntegritySummaryCard breakdown={breakdown} integrityScore={candidate.scores.integrity} />
+              )}
+
+              {/* Desempeño en Cargo Actual (solo incumbentes) */}
+              <IncumbentPerformanceCard candidateId={candidate.id} />
+
               {/* Datos Personales */}
               {details && (
                 <Card>
@@ -831,6 +841,11 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
           {/* ==================== EVIDENCIA TAB ==================== */}
           <TabPanel value="evidencia">
             <div className="space-y-6">
+              {/* Resumen de Integridad */}
+              {breakdown && (
+                <IntegritySummaryCard breakdown={breakdown} integrityScore={candidate.scores.integrity} />
+              )}
+
               {/* Desempeño en Cargo Actual (solo incumbentes) */}
               <IncumbentPerformanceCard candidateId={candidate.id} />
 
@@ -848,6 +863,9 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
 
               {/* Estado Tributario SUNAT */}
               <TaxStatusCard candidateId={candidate.id} />
+
+              {/* Menciones en Redes Sociales */}
+              <SocialMentionsCard candidateId={candidate.id} />
 
               {/* Sentencias Penales */}
               {details && details.penal_sentences.length > 0 && (

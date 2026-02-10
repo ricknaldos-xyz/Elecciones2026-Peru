@@ -117,6 +117,40 @@ export function VotingRecordCard({ candidateId }: VotingRecordCardProps) {
           </div>
         </div>
 
+        {/* Vote distribution bar */}
+        {data.totalVotes > 0 && (
+          <div>
+            <div className="h-4 border-2 border-[var(--border)] flex overflow-hidden">
+              {data.votesInFavor > 0 && (
+                <div
+                  className="bg-green-500 h-full"
+                  style={{ width: `${(data.votesInFavor / data.totalVotes) * 100}%` }}
+                  title={`A favor: ${data.votesInFavor}`}
+                />
+              )}
+              {data.votesAgainst > 0 && (
+                <div
+                  className="bg-red-500 h-full"
+                  style={{ width: `${(data.votesAgainst / data.totalVotes) * 100}%` }}
+                  title={`En contra: ${data.votesAgainst}`}
+                />
+              )}
+              {(data.abstentions + data.absences) > 0 && (
+                <div
+                  className="bg-gray-400 h-full"
+                  style={{ width: `${((data.abstentions + data.absences) / data.totalVotes) * 100}%` }}
+                  title={`Ausencias: ${data.abstentions + data.absences}`}
+                />
+              )}
+            </div>
+            <div className="flex justify-between mt-1">
+              <span className="text-[10px] font-bold text-green-600 uppercase">A favor</span>
+              <span className="text-[10px] font-bold text-red-600 uppercase">En contra</span>
+              <span className="text-[10px] font-bold text-gray-500 uppercase">Ausencias</span>
+            </div>
+          </div>
+        )}
+
         {/* Pro-crime votes warning */}
         {hasProblematicVotes && (
           <div className="p-4 bg-[var(--flag-red)]/10 border-2 border-[var(--flag-red)]">

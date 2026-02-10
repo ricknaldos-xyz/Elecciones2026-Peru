@@ -3,6 +3,7 @@ import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { getCandidateBySlug, getScoreBreakdown, getCandidateDetails, getVicePresidents } from '@/lib/db/queries'
 import { CandidateProfileContent } from './CandidateProfileContent'
+import { generatePersonSchema, generateBreadcrumbSchema } from '@/lib/schema'
 
 interface PageProps {
   params: Promise<{ slug: string; lang: string }>
@@ -62,5 +63,18 @@ export default async function CandidatePage({ params }: PageProps) {
       : Promise.resolve([]),
   ])
 
-  return <CandidateProfileContent candidate={candidate} breakdown={breakdown} details={details} vicePresidents={vicePresidents} />
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://rankingelectoral.pe'
+  const personSchema = generatePersonSchema(candidate)
+  const breadcrumbSchema = generateBreadcrumbSchema([
+    { name: 'Ranking', url: `${baseUrl}/es/ranking` },
+    { name: candidate.full_name, url: `${baseUrl}/es/candidato/${candidate.slug}` },
+  ])
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <CandidateProfileContent candidate={candidate} breakdown={breakdown} details={details} vicePresidents={vicePresidents} />
+    </>
+  )
 }

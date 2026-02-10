@@ -324,6 +324,18 @@
     "shareText": "Amëñërosa {names}",
     "proposalsComparison": "Kamachi Amëñëro",
     "proposalsDescription": "Sapa apatotantsip kamachinakaparu amëñëro, kamachi qillqatapatxa apsuña.",
+    "viabilityComparison": "Kamachi Ñantsi Atipabeentsi",
+    "viabilityDescription": "Sapa kamachi ñantsip atipabentsikuna amëñëro.",
+    "viabilityFiscal": "Qullqiñëro",
+    "viabilityLegal": "Kamachi",
+    "viabilityCoherence": "Mayachanëro",
+    "viabilityHistorical": "Pairani",
+    "viabilityOverall": "Tukuy Score",
+    "viabilitySummary": "Tsika Yatiyabeentsi",
+    "viabilityStrengths": "Ch'amanakatsipë",
+    "viabilityWeaknesses": "Janika ch'amanakatsipë",
+    "viabilityRisks": "Janika wali lurañanakatsipë",
+    "viabilityNoData": "Jani uñjata kantsipë",
     "searchPlaceholder": "Apatotantsiru sutimpix amatabeentsi..."
   },
   "news": {
