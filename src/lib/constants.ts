@@ -334,6 +334,14 @@ export function getResignationPenalty(count: number): number {
   return INTEGRITY_PENALTIES.RENUNCIAS_4_PLUS
 }
 
+export const REINFO_PENALTIES = {
+  VIGENTE: 25,           // Conflicto de interés activo con minería informal
+  EXCLUIDO: 10,          // Fue vinculado pero fue excluido
+  SUSPENDIDO: 15,        // Estado intermedio
+  MULTIPLE_VIGENTE: 35,  // 3+ derechos mineros vigentes
+  CAP: 40,               // Penalidad máxima por REINFO
+} as const
+
 // ============================================
 // FLAG TYPES
 // ============================================

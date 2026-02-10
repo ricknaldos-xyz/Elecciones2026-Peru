@@ -657,6 +657,11 @@ export interface EnhancedIntegrityData extends CandidateData {
   companyEnvironmentalIssues?: number
   companyConsumerComplaints?: number
 
+  // REINFO (mining registry)
+  reinfoVigenteCount?: number
+  reinfoExcluidoCount?: number
+  reinfoSuspendidoCount?: number
+
   // Incumbent performance
   isIncumbent?: boolean
   budgetExecutionPct?: number
@@ -730,6 +735,28 @@ export function calculateOmissionPenalty(data: EnhancedIntegrityData): number {
 }
 
 /**
+ * Calculate penalty for REINFO (mining registry) conflict of interest
+ */
+export function calculateReinfoPenalty(data: EnhancedIntegrityData): number {
+  let penalty = 0
+  const vigente = data.reinfoVigenteCount || 0
+  const excluido = data.reinfoExcluidoCount || 0
+  const suspendido = data.reinfoSuspendidoCount || 0
+
+  if (vigente > 0) {
+    penalty = vigente >= 3 ? 35 : 25
+  }
+  if (suspendido > 0 && penalty < 15) {
+    penalty = 15
+  }
+  if (excluido > 0 && penalty < 10) {
+    penalty = 10
+  }
+
+  return Math.min(penalty, 40)
+}
+
+/**
  * Calculate penalty from company legal issues
  */
 export function calculateCompanyPenalty(data: EnhancedIntegrityData): number {
@@ -773,6 +800,7 @@ export function calculateEnhancedIntegrity(data: EnhancedIntegrityData): {
   taxPenalty: number
   omissionPenalty: number
   companyPenalty: number
+  reinfoPenalty: number
   total: number
   breakdown: {
     base: number
@@ -781,6 +809,7 @@ export function calculateEnhancedIntegrity(data: EnhancedIntegrityData): {
     taxCompliance: number
     judicialVerification: number
     corporateRecord: number
+    reinfoConflict: number
     subtotals: {
       afterTraditional: number
       afterVoting: number
@@ -798,6 +827,7 @@ export function calculateEnhancedIntegrity(data: EnhancedIntegrityData): {
   const taxPenalty = calculateTaxPenalty(data)
   const omissionPenalty = calculateOmissionPenalty(data)
   const companyPenalty = calculateCompanyPenalty(data)
+  const reinfoPenalty = calculateReinfoPenalty(data)
 
   // Calculate traditional penalties as negative value for clear breakdown
   const traditionalPenalties = -(
@@ -811,7 +841,8 @@ export function calculateEnhancedIntegrity(data: EnhancedIntegrityData): {
   const afterVoting = afterTraditional - voting.penalty + voting.bonus
   const afterTax = afterVoting - taxPenalty
   const afterJudicial = afterTax - omissionPenalty
-  const final = Math.max(0, Math.min(100, afterJudicial - companyPenalty))
+  const afterCompany = afterJudicial - companyPenalty
+  const final = Math.max(0, Math.min(100, afterCompany - reinfoPenalty))
 
   return {
     base: 100,
@@ -825,6 +856,7 @@ export function calculateEnhancedIntegrity(data: EnhancedIntegrityData): {
     taxPenalty,
     omissionPenalty,
     companyPenalty,
+    reinfoPenalty,
     total: final,
     breakdown: {
       base: 100,
@@ -833,6 +865,7 @@ export function calculateEnhancedIntegrity(data: EnhancedIntegrityData): {
       taxCompliance: -taxPenalty,
       judicialVerification: -omissionPenalty,
       corporateRecord: -companyPenalty,
+      reinfoConflict: -reinfoPenalty,
       subtotals: {
         afterTraditional,
         afterVoting,

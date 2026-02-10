@@ -951,7 +951,7 @@ export async function getScoreBreakdown(candidateId: string): Promise<ScoreBreak
       education_level_points, education_depth_points,
       experience_total_points, experience_relevant_points,
       leadership_seniority_points, leadership_stability_points,
-      integrity_base, penal_penalty, civil_penalties, resignation_penalty,
+      integrity_base, penal_penalty, civil_penalties, resignation_penalty, reinfo_penalty,
       completeness_points, consistency_points, assets_quality_points,
       verification_points, coverage_points,
       plan_viability_overall, plan_viability_fiscal,
@@ -995,7 +995,8 @@ export async function getScoreBreakdown(candidateId: string): Promise<ScoreBreak
         }
       })(),
       resignation_penalty: Number(row.resignation_penalty),
-      final: Number(row.integrity_base) - Number(row.penal_penalty) - Number(row.resignation_penalty),
+      reinfo_penalty: Number(row.reinfo_penalty) || 0,
+      final: Number(row.integrity_base) - Number(row.penal_penalty) - Number(row.resignation_penalty) - (Number(row.reinfo_penalty) || 0),
     },
     transparency: {
       completeness: Number(row.completeness_points),

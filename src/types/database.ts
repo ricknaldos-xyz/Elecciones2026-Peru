@@ -517,6 +517,7 @@ export interface ScoreBreakdown {
     penal_penalty: number
     civil_penalties: CivilPenalty[]
     resignation_penalty: number
+    reinfo_penalty: number
     final: number
   }
   // Transparencia

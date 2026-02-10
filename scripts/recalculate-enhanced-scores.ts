@@ -430,6 +430,25 @@ async function transformToEnhancedScoringData(candidate: any): Promise<EnhancedI
   const votingPenalties = await getVotingPenalties(candidate.id)
   const taxStatus = await getTaxStatus(candidate.id)
 
+  // Fetch REINFO flags
+  const reinfoFlags = await sql`
+    SELECT severity, title FROM flags
+    WHERE candidate_id = ${candidate.id}::uuid AND type = 'REINFO'
+  `
+  // Count derechos mineros by status from flag titles
+  let reinfoVigenteCount = 0
+  let reinfoExcluidoCount = 0
+  let reinfoSuspendidoCount = 0
+  for (const flag of reinfoFlags) {
+    const title = (flag.title as string) || ''
+    const vMatch = title.match(/(\d+)\s*vigente/)
+    const eMatch = title.match(/(\d+)\s*excluido/)
+    const sMatch = title.match(/(\d+)\s*suspendido/)
+    if (vMatch) reinfoVigenteCount += parseInt(vMatch[1])
+    if (eMatch) reinfoExcluidoCount += parseInt(eMatch[1])
+    if (sMatch) reinfoSuspendidoCount += parseInt(sMatch[1])
+  }
+
   return {
     education,
     experience: allExperience,
@@ -463,6 +482,11 @@ async function transformToEnhancedScoringData(candidate: any): Promise<EnhancedI
     taxStatus: taxStatus.taxStatus,
     hasCoactiveDebts: taxStatus.hasCoactiveDebts,
     coactiveDebtCount: taxStatus.coactiveDebtCount,
+
+    // REINFO
+    reinfoVigenteCount,
+    reinfoExcluidoCount,
+    reinfoSuspendidoCount,
   }
 }
 
@@ -549,6 +573,7 @@ async function recalculateEnhancedScores() {
       voting_bonus: result.integrity.votingBonus,
       tax_penalty: result.integrity.taxPenalty,
       omission_penalty: result.integrity.omissionPenalty,
+      reinfo_penalty: result.integrity.reinfoPenalty,
       completeness_points: result.transparency.completeness,
       consistency_points: result.transparency.consistency,
       assets_quality_points: result.transparency.assetsQuality,
@@ -615,7 +640,7 @@ async function recalculateEnhancedScores() {
         experience_raw_years, experience_unique_years, experience_has_overlap,
         leadership_points, leadership_seniority, leadership_stability,
         integrity_base, penal_penalty, civil_penalties, resignation_penalty,
-        company_penalty, voting_penalty, voting_bonus, tax_penalty, omission_penalty,
+        company_penalty, voting_penalty, voting_bonus, tax_penalty, omission_penalty, reinfo_penalty,
         completeness_points, consistency_points, assets_quality_points, onpe_penalty,
         verification_points, coverage_points,
         plan_viability_overall, plan_viability_fiscal, plan_viability_legal,
@@ -629,7 +654,7 @@ async function recalculateEnhancedScores() {
         ${breakdownData.integrity_base}, ${breakdownData.penal_penalty},
         ${JSON.stringify(breakdownData.civil_penalties)}::jsonb, ${breakdownData.resignation_penalty},
         ${breakdownData.company_penalty}, ${breakdownData.voting_penalty}, ${breakdownData.voting_bonus},
-        ${breakdownData.tax_penalty}, ${breakdownData.omission_penalty},
+        ${breakdownData.tax_penalty}, ${breakdownData.omission_penalty}, ${breakdownData.reinfo_penalty},
         ${breakdownData.completeness_points}, ${breakdownData.consistency_points},
         ${breakdownData.assets_quality_points}, ${breakdownData.onpe_penalty},
         ${breakdownData.verification_points}, ${breakdownData.coverage_points},
@@ -656,6 +681,7 @@ async function recalculateEnhancedScores() {
         voting_bonus = EXCLUDED.voting_bonus,
         tax_penalty = EXCLUDED.tax_penalty,
         omission_penalty = EXCLUDED.omission_penalty,
+        reinfo_penalty = EXCLUDED.reinfo_penalty,
         completeness_points = EXCLUDED.completeness_points,
         consistency_points = EXCLUDED.consistency_points,
         assets_quality_points = EXCLUDED.assets_quality_points,

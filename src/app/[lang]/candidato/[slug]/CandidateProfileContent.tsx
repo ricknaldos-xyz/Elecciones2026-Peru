@@ -1081,6 +1081,12 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                             <span className="font-black text-[var(--flag-amber-text)]">-{breakdown.integrity.resignation_penalty.toFixed(0)}</span>
                           </div>
                         )}
+                        {breakdown.integrity.reinfo_penalty > 0 && (
+                          <div className="flex items-center gap-3 p-2 bg-[var(--flag-red)]/10 border-2 border-[var(--flag-red)]">
+                            <span className="text-xs font-bold text-[var(--flag-red-text)] flex-1 uppercase">REINFO (Minería)</span>
+                            <span className="font-black text-[var(--flag-red-text)]">-{breakdown.integrity.reinfo_penalty.toFixed(0)}</span>
+                          </div>
+                        )}
                       </div>
                     </div>
 
