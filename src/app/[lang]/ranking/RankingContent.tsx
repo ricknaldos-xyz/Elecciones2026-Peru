@@ -18,7 +18,12 @@ import { useSuccessToast } from '@/components/ui/Toast'
 import { AdBanner } from '@/components/ads/AdBanner'
 import { useCandidates } from '@/hooks/useCandidates'
 import { PRESETS, WEIGHT_LIMITS, PRESIDENTIAL_PRESETS, DISTRICTS, validateAndNormalizeWeights } from '@/lib/constants'
-import { MOCK_PARTIES } from '@/lib/mock-data'
+// Party type for filter dropdown
+interface PartyOption {
+  id: string
+  name: string
+  short_name: string | null
+}
 import { getScoreByMode } from '@/lib/scoring/utils'
 import type { PresetType, CargoType, AnyWeights, CandidateWithScores } from '@/types/database'
 import { isPresidentialWeights } from '@/types/database'
@@ -119,6 +124,20 @@ export function RankingContent() {
 
   // Back to top visibility
   const [showBackToTop, setShowBackToTop] = useState(false)
+
+  // Parties from database
+  const [parties, setParties] = useState<PartyOption[]>([])
+
+  useEffect(() => {
+    fetch('/api/parties')
+      .then(res => res.json())
+      .then((data: PartyOption[]) => {
+        if (Array.isArray(data)) {
+          setParties(data.sort((a, b) => a.name.localeCompare(b.name)))
+        }
+      })
+      .catch(() => {})
+  }, [])
 
   // Track scroll for back-to-top
   useEffect(() => {
@@ -474,7 +493,7 @@ export function RankingContent() {
                   onClick={() => handlePartyChange(undefined)}
                   className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--primary)] text-white text-sm font-bold border-2 border-[var(--border)] hover:opacity-90 transition-opacity"
                 >
-                  {MOCK_PARTIES.find(p => p.id === partyId)?.name || 'Partido'}
+                  {parties.find(p => p.id === partyId)?.name || 'Partido'}
                   <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                     <path strokeLinecap="square" strokeLinejoin="miter" d="M6 18L18 6M6 6l12 12" />
                   </svg>
@@ -526,6 +545,7 @@ export function RankingContent() {
                 cargo={cargo}
                 distrito={distrito}
                 partyId={partyId}
+                parties={parties}
                 minConfidence={minConfidence}
                 onlyClean={onlyClean}
                 onCargoChange={handleCargoChange}
@@ -613,6 +633,7 @@ export function RankingContent() {
                     cargo={cargo}
                     distrito={distrito}
                     partyId={partyId}
+                    parties={parties}
                     minConfidence={minConfidence}
                     onlyClean={onlyClean}
                     onCargoChange={(newCargo) => {

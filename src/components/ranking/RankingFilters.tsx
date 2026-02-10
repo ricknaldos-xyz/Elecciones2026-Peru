@@ -3,13 +3,19 @@
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
 import { CARGOS, DISTRICTS } from '@/lib/constants'
-import { MOCK_PARTIES } from '@/lib/mock-data'
 import type { CargoType } from '@/types/database'
+
+interface PartyOption {
+  id: string
+  name: string
+  short_name: string | null
+}
 
 interface RankingFiltersProps {
   cargo: CargoType
   distrito?: string
   partyId?: string
+  parties: PartyOption[]
   minConfidence: number
   onlyClean: boolean
   onCargoChange: (cargo: CargoType) => void
@@ -33,6 +39,7 @@ export function RankingFilters({
   cargo,
   distrito,
   partyId,
+  parties,
   minConfidence,
   onlyClean,
   onCargoChange,
@@ -121,7 +128,7 @@ export function RankingFilters({
           )}
         >
           <option value="">Todos los partidos</option>
-          {MOCK_PARTIES.map((p) => (
+          {parties.map((p) => (
             <option key={p.id} value={p.id}>
               {p.name}
             </option>
@@ -211,7 +218,7 @@ export function RankingFilters({
                 'hover:opacity-80 transition-opacity'
               )}
             >
-              {MOCK_PARTIES.find(p => p.id === partyId)?.short_name || 'Partido'}
+              {parties.find(p => p.id === partyId)?.short_name || 'Partido'}
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
