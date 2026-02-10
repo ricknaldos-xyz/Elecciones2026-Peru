@@ -26,67 +26,111 @@ const CATEGORIES = [
   'mineria_ambiente', 'infraestructura', 'social', 'reforma_politica', 'otros',
 ] as const
 
-const EXTRACTION_PROMPT = `Eres un analista político experto. Analiza el plan de gobierno adjunto (PDF) y extrae las propuestas principales.
+const EXTRACTION_PROMPT = `Eres un analista político experto. Analiza el plan de gobierno adjunto (PDF) y extrae TODAS las propuestas concretas.
 
-Extrae entre 10 y 20 propuestas principales, clasificándolas en estas categorías:
-- economia: Política económica, empleo, impuestos, comercio
-- salud: Sistema de salud, hospitales, medicinas, pandemia
-- educacion: Escuelas, universidades, investigación, becas
-- seguridad: Policía, crimen, narcotráfico, fuerzas armadas
-- corrupcion: Lucha anticorrupción, transparencia, contraloría
-- mineria_ambiente: Minería, medio ambiente, agua, cambio climático
-- infraestructura: Obras públicas, transporte, conectividad
-- social: Programas sociales, pensiones, vivienda, pobreza
-- reforma_politica: Reforma del Estado, descentralización, electoral
+Extrae TODAS las propuestas que encuentres en el documento (típicamente entre 25 y 60 propuestas por plan de gobierno). NO te limites a un número fijo — tu objetivo es ser exhaustivo y capturar cada propuesta concreta mencionada en el plan.
+
+Clasifícalas en estas categorías:
+- economia: Política económica, empleo, impuestos, comercio, agricultura, pesca, turismo, industria
+- salud: Sistema de salud, hospitales, medicinas, pandemia, salud mental
+- educacion: Escuelas, universidades, investigación, becas, cultura, deporte, ciencia y tecnología
+- seguridad: Policía, crimen, narcotráfico, fuerzas armadas, defensa, fronteras
+- corrupcion: Lucha anticorrupción, transparencia, contraloría, justicia, poder judicial
+- mineria_ambiente: Minería, medio ambiente, agua, cambio climático, energía, recursos naturales
+- infraestructura: Obras públicas, transporte, conectividad, telecomunicaciones, vivienda
+- social: Programas sociales, pensiones, pobreza, inclusión, pueblos indígenas, género, discapacidad
+- reforma_politica: Reforma del Estado, descentralización, electoral, gobierno digital, relaciones exteriores
 - otros: Propuestas que no encajan en las categorías anteriores
 
 Responde SOLO con un array JSON válido (sin markdown, sin explicaciones) con esta estructura:
 [
   {
     "category": "<categoria>",
-    "title": "<título corto y descriptivo, máximo 100 caracteres>",
-    "description": "<descripción clara de la propuesta, máximo 300 caracteres>",
+    "title": "<título corto y descriptivo, máximo 120 caracteres>",
+    "description": "<descripción clara de la propuesta, máximo 400 caracteres>",
     "sourceQuote": "<cita textual relevante del documento si la hay>",
     "pageReference": "<número de página si se puede identificar>"
   }
 ]
 
 REGLAS:
-- Incluye SOLO propuestas concretas, no declaraciones generales
+- Extrae TODAS las propuestas concretas, no solo las principales
+- Incluye SOLO propuestas concretas con acciones específicas, no declaraciones generales ni diagnósticos
 - El título debe ser específico y descriptivo
 - La descripción debe explicar QUÉ propone y CÓMO lo haría
 - Si no hay propuestas claras en una categoría, omítela
-- Prioriza propuestas con impacto medible
-- Sé objetivo y basado en el texto, no inventes información`
+- Revisa TODAS las secciones del documento, incluyendo anexos
+- Sé objetivo y basado en el texto, no inventes información
+- Si una propuesta toca múltiples categorías, clasifícala en la más relevante`
+
+function filterProposals(parsed: any[]): any[] {
+  return parsed.filter((item: any) => {
+    return (
+      item && typeof item === 'object' &&
+      typeof item.category === 'string' &&
+      typeof item.title === 'string' &&
+      CATEGORIES.includes(item.category)
+    )
+  }).map((item: any) => ({
+    category: item.category,
+    title: String(item.title).slice(0, 250),
+    description: String(item.description || '').slice(0, 600),
+    sourceQuote: item.sourceQuote ? String(item.sourceQuote).slice(0, 600) : null,
+    pageReference: item.pageReference ? String(item.pageReference) : null,
+  }))
+}
 
 function parseAIResponse(response: string): any[] {
+  let jsonStr = response.trim()
+  if (jsonStr.startsWith('```json')) jsonStr = jsonStr.slice(7)
+  else if (jsonStr.startsWith('```')) jsonStr = jsonStr.slice(3)
+  if (jsonStr.endsWith('```')) jsonStr = jsonStr.slice(0, -3)
+  jsonStr = jsonStr.trim()
+
+  const arrayStart = jsonStr.indexOf('[')
+  if (arrayStart === -1) return []
+  jsonStr = jsonStr.substring(arrayStart)
+
+  // Try direct parse first
   try {
-    let jsonStr = response.trim()
-    if (jsonStr.startsWith('```json')) jsonStr = jsonStr.slice(7)
-    else if (jsonStr.startsWith('```')) jsonStr = jsonStr.slice(3)
-    if (jsonStr.endsWith('```')) jsonStr = jsonStr.slice(0, -3)
-
-    const parsed = JSON.parse(jsonStr.trim())
-    if (!Array.isArray(parsed)) return []
-
-    return parsed.filter((item: any) => {
-      return (
-        item && typeof item === 'object' &&
-        typeof item.category === 'string' &&
-        typeof item.title === 'string' &&
-        CATEGORIES.includes(item.category)
-      )
-    }).map((item: any) => ({
-      category: item.category,
-      title: String(item.title).slice(0, 200),
-      description: String(item.description || '').slice(0, 500),
-      sourceQuote: item.sourceQuote ? String(item.sourceQuote).slice(0, 500) : null,
-      pageReference: item.pageReference ? String(item.pageReference) : null,
-    }))
-  } catch (error) {
-    console.error('  Failed to parse AI response:', error)
-    return []
+    const parsed = JSON.parse(jsonStr)
+    if (Array.isArray(parsed)) return filterProposals(parsed)
+  } catch {
+    console.log('  JSON truncated, attempting partial recovery...')
   }
+
+  // Recover truncated JSON by finding last complete object
+  let lastGoodEnd = -1
+  let braceDepth = 0
+  let inString = false
+  let escape = false
+
+  for (let i = 1; i < jsonStr.length; i++) {
+    const ch = jsonStr[i]
+    if (escape) { escape = false; continue }
+    if (ch === '\\') { escape = true; continue }
+    if (ch === '"') { inString = !inString; continue }
+    if (inString) continue
+    if (ch === '{') braceDepth++
+    if (ch === '}') {
+      braceDepth--
+      if (braceDepth === 0) lastGoodEnd = i
+    }
+  }
+
+  if (lastGoodEnd > 0) {
+    try {
+      const parsed = JSON.parse(jsonStr.substring(0, lastGoodEnd + 1) + ']')
+      if (Array.isArray(parsed)) {
+        console.log(`  Recovered ${parsed.length} proposals from truncated JSON`)
+        return filterProposals(parsed)
+      }
+    } catch (e) {
+      console.error('  Recovery failed:', (e as Error).message?.slice(0, 80))
+    }
+  }
+
+  return []
 }
 
 async function delay(ms: number) {
