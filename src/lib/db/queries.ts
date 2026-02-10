@@ -145,7 +145,7 @@ export async function getCandidates(options?: {
           WHERE f.candidate_id = c.id AND f.severity = 'RED'
         )
       )
-    ORDER BY s.score_balanced DESC NULLS LAST
+    ORDER BY COALESCE(s.score_balanced_p, s.score_balanced) DESC NULLS LAST
     LIMIT ${limit}
     OFFSET ${offset}
   `

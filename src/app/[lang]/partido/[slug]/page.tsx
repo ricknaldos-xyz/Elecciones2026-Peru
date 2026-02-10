@@ -51,11 +51,18 @@ function getScoreLevel(score: number): { label: string; color: string; bg: strin
   return { label: 'Bajo', color: 'var(--score-low)', bg: 'bg-[var(--score-low)]', text: 'text-[var(--score-low-text)]' }
 }
 
+function getEffectiveScore(c: CandidateWithScores): number {
+  if (c.cargo === 'presidente' && c.scores.score_balanced_p != null) {
+    return c.scores.score_balanced_p
+  }
+  return c.scores.score_balanced
+}
+
 function computePartyStats(candidates: CandidateWithScores[]) {
   const total = candidates.length
   if (total === 0) return null
 
-  const avgBalanced = Math.round(candidates.reduce((s, c) => s + c.scores.score_balanced, 0) / total)
+  const avgBalanced = Math.round(candidates.reduce((s, c) => s + getEffectiveScore(c), 0) / total)
   const avgCompetence = Math.round(candidates.reduce((s, c) => s + c.scores.competence, 0) / total)
   const avgIntegrity = Math.round(candidates.reduce((s, c) => s + c.scores.integrity, 0) / total)
   const avgTransparency = Math.round(candidates.reduce((s, c) => s + c.scores.transparency, 0) / total)
@@ -76,7 +83,7 @@ function computePartyStats(candidates: CandidateWithScores[]) {
     })
   }
 
-  const top3 = dedup([...candidates].sort((a, b) => b.scores.score_balanced - a.scores.score_balanced)).slice(0, 3)
+  const top3 = dedup([...candidates].sort((a, b) => getEffectiveScore(b) - getEffectiveScore(a))).slice(0, 3)
   const worst3 = dedup([...candidates]
     .filter(c => c.flags.some(f => f.severity === 'RED'))
     .sort((a, b) => {
@@ -122,7 +129,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const candidates = await getCandidates({ partyId: party.id as string })
   const avgScore = candidates.length > 0
-    ? candidates.reduce((sum, c) => sum + c.scores.score_balanced, 0) / candidates.length
+    ? candidates.reduce((sum, c) => {
+        const score = c.cargo === 'presidente' && c.scores.score_balanced_p != null
+          ? c.scores.score_balanced_p : c.scores.score_balanced
+        return sum + score
+      }, 0) / candidates.length
     : 0
 
   const ogParams = new URLSearchParams({
@@ -451,7 +462,7 @@ export default async function PartidoPage({ params }: PageProps) {
                         full_name: c.full_name,
                         slug: c.slug,
                         photo_url: c.photo_url,
-                        score_balanced: c.scores.score_balanced,
+                        score_balanced: getEffectiveScore(c),
                         party_name: c.party?.name || null,
                         party_short_name: c.party?.short_name || null,
                         party_color: c.party?.color || null,
@@ -480,7 +491,7 @@ export default async function PartidoPage({ params }: PageProps) {
                           full_name: c.full_name,
                           slug: c.slug,
                           photo_url: c.photo_url,
-                          score_balanced: c.scores.score_balanced,
+                          score_balanced: getEffectiveScore(c),
                           party_name: c.party?.name || null,
                           party_short_name: c.party?.short_name || null,
                           party_color: c.party?.color || null,

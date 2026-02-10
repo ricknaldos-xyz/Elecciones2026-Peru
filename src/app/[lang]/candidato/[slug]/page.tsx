@@ -21,11 +21,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
   }
 
+  const isPresidential = candidate.cargo === 'presidente'
+  const effectiveScore = isPresidential && candidate.scores.score_balanced_p != null
+    ? candidate.scores.score_balanced_p
+    : candidate.scores.score_balanced
+
   const ogParams = new URLSearchParams({
     name: candidate.full_name,
     party: candidate.party?.short_name || candidate.party?.name || '',
     cargo: candidate.cargo,
-    score: candidate.scores.score_balanced.toFixed(1),
+    score: effectiveScore.toFixed(1),
     c: candidate.scores.competence.toFixed(0),
     i: candidate.scores.integrity.toFixed(0),
     t: candidate.scores.transparency.toFixed(0),
@@ -35,12 +40,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: `${candidate.full_name} - ${tMeta('title')}`,
     description: t('metaDescription', {
       name: candidate.full_name,
-      score: candidate.scores.score_balanced.toFixed(1)
+      score: effectiveScore.toFixed(1)
     }),
     openGraph: {
       title: `${candidate.full_name} - ${tMeta('title')}`,
       description: t('metaOgDescription', {
-        score: candidate.scores.score_balanced.toFixed(1)
+        score: effectiveScore.toFixed(1)
       }),
       images: [`/api/og?${ogParams.toString()}`],
     },

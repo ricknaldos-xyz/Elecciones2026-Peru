@@ -83,7 +83,7 @@ async function getTopPresidentialCandidates(): Promise<TopCandidate[]> {
         c.full_name,
         c.slug,
         c.photo_url,
-        s.score_balanced,
+        COALESCE(s.score_balanced_p, s.score_balanced) as score,
         p.name as party_name,
         p.short_name as party_short_name,
         p.color as party_color
@@ -91,7 +91,7 @@ async function getTopPresidentialCandidates(): Promise<TopCandidate[]> {
       LEFT JOIN scores s ON c.id = s.candidate_id
       LEFT JOIN parties p ON c.party_id = p.id
       WHERE c.cargo = 'presidente' AND c.is_active = true
-      ORDER BY s.score_balanced DESC NULLS LAST
+      ORDER BY COALESCE(s.score_balanced_p, s.score_balanced) DESC NULLS LAST
       LIMIT 3
     `
     return result.map(row => ({
@@ -99,7 +99,7 @@ async function getTopPresidentialCandidates(): Promise<TopCandidate[]> {
       full_name: row.full_name as string,
       slug: row.slug as string,
       photo_url: row.photo_url as string | null,
-      score_balanced: Number(row.score_balanced) || 0,
+      score_balanced: Number(row.score) || 0,
       party_name: row.party_name as string | null,
       party_short_name: row.party_short_name as string | null,
       party_color: row.party_color as string | null,

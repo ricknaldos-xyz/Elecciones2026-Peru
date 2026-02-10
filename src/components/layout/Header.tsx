@@ -344,7 +344,10 @@ export function Header({ currentPath }: HeaderProps) {
                             </div>
                           </div>
                           <div className="text-xl font-black text-[var(--foreground)]">
-                            {candidate.scores.score_balanced.toFixed(0)}
+                            {(candidate.cargo === 'presidente' && candidate.scores.score_balanced_p != null
+                              ? candidate.scores.score_balanced_p
+                              : candidate.scores.score_balanced
+                            ).toFixed(0)}
                           </div>
                         </button>
                       ))}

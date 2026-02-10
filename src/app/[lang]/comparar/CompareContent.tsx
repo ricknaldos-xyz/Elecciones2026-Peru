@@ -210,8 +210,13 @@ function CandidateSearch({
                   </div>
                 </div>
                 {/* Score */}
-                <div className={cn('text-lg font-black', getScoreColor(c.scores.score_balanced))}>
-                  {c.scores.score_balanced.toFixed(0)}
+                <div className={cn('text-lg font-black', getScoreColor(
+                  c.cargo === 'presidente' && c.scores.score_balanced_p != null
+                    ? c.scores.score_balanced_p : c.scores.score_balanced
+                ))}>
+                  {(c.cargo === 'presidente' && c.scores.score_balanced_p != null
+                    ? c.scores.score_balanced_p : c.scores.score_balanced
+                  ).toFixed(0)}
                 </div>
                 {isAdded && (
                   <span className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">
@@ -503,9 +508,12 @@ export function CompareContent() {
                       {/* Score */}
                       <div className={cn(
                         'text-lg font-black mt-1 group-hover:text-white',
-                        getScoreColor(c.scores.score_balanced)
+                        getScoreColor(c.cargo === 'presidente' && c.scores.score_balanced_p != null
+                          ? c.scores.score_balanced_p : c.scores.score_balanced)
                       )}>
-                        {c.scores.score_balanced.toFixed(0)}
+                        {(c.cargo === 'presidente' && c.scores.score_balanced_p != null
+                          ? c.scores.score_balanced_p : c.scores.score_balanced
+                        ).toFixed(0)}
                       </div>
                     </button>
                   ))}
