@@ -1,5 +1,8 @@
 import { z } from 'zod'
 
+// UUID-like pattern (relaxed, accepts non-RFC-4122 UUIDs like mock IDs)
+const uuidLike = z.string().regex(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/)
+
 // ============================================
 // Shared schemas
 // ============================================
@@ -27,7 +30,7 @@ const coerceInt = (fallback: number) =>
 export const candidatesQuerySchema = z.object({
   cargo: cargoSchema.optional().catch(undefined),
   distrito: safeString.optional(),
-  partido: z.string().uuid().optional().catch(undefined),
+  partido: uuidLike.optional().catch(undefined),
   minConfidence: coerceInt(0).pipe(z.number().min(0).max(100)).optional(),
   onlyClean: z
     .enum(['true', 'false'])
@@ -65,7 +68,7 @@ export const newsByCandidateSchema = z.object({
 // ============================================
 
 export const proposalsQuerySchema = z.object({
-  candidateId: z.string().uuid().optional().catch(undefined),
+  candidateId: uuidLike.optional().catch(undefined),
   category: safeString.optional(),
   candidateIds: z
     .string()
@@ -78,7 +81,7 @@ export const proposalsQuerySchema = z.object({
 // ============================================
 
 export const candidateIdParamSchema = z.object({
-  id: z.string().uuid(),
+  id: uuidLike,
 })
 
 // ============================================
