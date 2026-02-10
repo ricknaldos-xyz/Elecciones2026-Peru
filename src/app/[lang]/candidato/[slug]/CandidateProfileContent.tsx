@@ -480,9 +480,6 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
           {/* ==================== RESUMEN TAB ==================== */}
           <TabPanel value="resumen">
             <div className="space-y-6">
-              {/* Desempeño en Cargo Actual (solo incumbentes) */}
-              <IncumbentPerformanceCard candidateId={candidate.id} />
-
               {/* Datos Personales */}
               {details && (
                 <Card>
