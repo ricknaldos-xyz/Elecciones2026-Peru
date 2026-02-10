@@ -303,7 +303,11 @@
       "compareCandidates": "Akllasqa runakuna tupachiy",
       "share": "Taripakuykuna Rakinakuy",
       "shareTitle": "Política perfilyqa {profile}",
-      "shareDescription": "Akllasqa runakuna qanwan tupaq: {candidates}"
+      "shareDescription": "Akllasqa runakuna qanwan tupaq: {candidates}",
+      "challengeFriends": "Amigoykikunata atipachiy",
+      "challengeText": "Ñuqaqa {profile} kani. ¿Qanri? Política perfilniykita tariy: {url}",
+      "copiedChallenge": "Atipachiy copiasqa",
+      "copyChallenge": "Atipachiy copiy"
     },
     "answers": {
       "stronglyDisagree": "Ancha mana tupaq",
@@ -311,6 +315,14 @@
       "neutral": "Chawpi",
       "agree": "Tupaq",
       "stronglyAgree": "Ancha tupaq"
+    },
+    "savedProgress": "Mana tukusqa tapukuyniyki kan. ¿Saqisqaykimanta qatinki?",
+    "continueQuiz": "Qatiy",
+    "startOver": "Musuqmanta qallariy",
+    "stats": {
+      "participants": "Ruwaqkuna",
+      "mostPopular": "Aswan reqsisqa",
+      "profileDistribution": "Perfilkunap rakiy"
     }
   },
   "compare": {

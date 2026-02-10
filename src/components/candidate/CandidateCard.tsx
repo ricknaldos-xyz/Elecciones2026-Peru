@@ -1,5 +1,6 @@
 'use client'
 
+import { memo } from 'react'
 import { useRouter } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
 import { CandidateImage } from './CandidateImage'
@@ -40,7 +41,7 @@ function getRankStyle(rank: number): { bg: string; text: string; label: string }
   }
 }
 
-export function CandidateCard({
+export const CandidateCard = memo(function CandidateCard({
   candidate,
   rank,
   mode,
@@ -342,4 +343,4 @@ export function CandidateCard({
       </div>
     </Card>
   )
-}
+})

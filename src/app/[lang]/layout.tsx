@@ -14,6 +14,8 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ lang: locale }));
 }
 
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://votainformado.pe'
+
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   const locale = lang as Locale;
@@ -48,7 +50,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     },
     alternates: {
       languages: Object.fromEntries(
-        locales.map((l) => [l, `/${l}`])
+        locales.map((l) => [l, `${BASE_URL}/${l}`])
       ),
     },
   };

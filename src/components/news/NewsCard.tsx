@@ -1,5 +1,6 @@
 'use client'
 
+import { memo } from 'react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
@@ -24,7 +25,7 @@ interface NewsCardProps {
   className?: string
 }
 
-export function NewsCard({
+export const NewsCard = memo(function NewsCard({
   title,
   url,
   excerpt,
@@ -156,4 +157,4 @@ export function NewsCard({
       </a>
     </Card>
   )
-}
+})

@@ -237,7 +237,42 @@
     "viewMoreCandidates": "Ashirëa apatotantsiri ñëtsitanaki",
     "notFound": "Aniri apatotantsiri marëquëpanëquë",
     "metaDescription": "{name} yëtëñëtsa - Puntuaciónpë: {score}/100 yatsiñënëtsa, yopëñënëtsa, chiñëñënëtsa.",
-    "metaOgDescription": "Apatotantsiri {score}/100 Perú 2026 ëjëcciónpë."
+    "metaOgDescription": "Apatotantsiri {score}/100 Perú 2026 ëjëcciónpë.",
+    "planViability": {
+      "title": "Aníbëtsitëro Kantatsinëriki Obamëtantsipë",
+      "overallScore": "Kantatsinëriki Jempe",
+      "proposalsAnalyzed": "{count} okantatsinërikitë anibëtsitëro",
+      "fiscal": "Kantatsinëriki Kípatsi",
+      "fiscalDesc": "¿Aíro kantatsinëri kípatsi Perúpë?",
+      "legal": "Kantatsinëriki Ashitarori",
+      "legalDesc": "¿Aíro kantatsinëri ashitaroripë?",
+      "coherence": "Oñagantsi Irotaintsipë",
+      "coherenceDesc": "¿Aíro oñagantsi irotaintsipë okantatsiri?",
+      "historical": "Oñagantsi Pairani",
+      "historicalDesc": "¿Tsikarika okantsitëkari pairani?",
+      "strengths": "Katsinkantërontsiki",
+      "weaknesses": "Tsinanërontsiki",
+      "risks": "Kañanërontsiki",
+      "constitutionalAmendments": "Oshëkitëro constitución okantëro",
+      "simpleLegislation": "Ashitarori okantëro mayoría simple",
+      "executiveDecree": "Okantëropë decreto ejecutivo",
+      "contradictions": "Oñaagantsipë akaratsinëri",
+      "coverageGaps": "Tsikarika tërotsiki",
+      "pastPrecedents": "Oñaagantsipë pairani",
+      "showDetails": "Oñagantsi irotaintsipë",
+      "hideDetails": "Ompëratëro irotaintsipë",
+      "aiDisclaimer": "IA (Gemini) okantatsinëri. Anibëtsitëro kantatsinëriki obamëtantsipë, tëro ashitarori politikopë.",
+      "notAvailable": "Tëro anibëtsitëro kantatsinëriki ari apatotantsiri.",
+      "estimatedCost": "Tsika okantëro",
+      "budgetGap": "Tsinanëro kípatsi",
+      "inflationRisk": "Kañanëro inflación",
+      "timelineRealistic": "Cronograma kantatsinëri",
+      "low": "Ishto",
+      "medium": "Choenitë",
+      "high": "Irotë",
+      "yes": "Jëë",
+      "no": "Tëro"
+    }
   },
   "quiz": {
     "title": "Amatabeentsi Apatotantsi",
@@ -268,7 +303,11 @@
       "compareCandidates": "Apatotantsipë amëñëro",
       "share": "Ampatyakirori amëtakotërini",
       "shareTitle": "Política perfil aniro {profile}",
-      "shareDescription": "Apatotantsipë aniro añantsiki: {candidates}"
+      "shareDescription": "Apatotantsipë aniro añantsiki: {candidates}",
+      "challengeFriends": "Amikopë atipakotantsi",
+      "challengeText": "Naroka {profile} aikiro. ¿Abiroka? Política perfil aniro jikxatam: {url}",
+      "copiedChallenge": "Atipakotantsi copiatawa",
+      "copyChallenge": "Atipakotantsi copiaña"
     },
     "answers": {
       "stronglyDisagree": "Kitëkiyaki te añantsiki",
@@ -276,6 +315,14 @@
       "neutral": "Tampatyaki",
       "agree": "Jëë añantsiki",
       "stronglyAgree": "Kitëkiyaki jëë añantsiki"
+    },
+    "savedProgress": "Amatabeentsi te otsitimotatsi aikyiro. ¿Ikantabiita owakiraa?",
+    "continueQuiz": "Owakiraa",
+    "startOver": "Yapita owakiraa",
+    "stats": {
+      "participants": "Anikipë",
+      "mostPopular": "Antëromani oñaantsi",
+      "profileDistribution": "Perfilpë jaljaña"
     }
   },
   "compare": {

@@ -303,7 +303,11 @@
       "compareCandidates": "Ajilanaka uñacht'ayaña",
       "share": "Jikxatawinaka Chikanchaña",
       "shareTitle": "Política perfilmax {profile}",
-      "shareDescription": "Ajilanaka nayampi tupuqi: {candidates}"
+      "shareDescription": "Ajilanaka nayampi tupuqi: {candidates}",
+      "challengeFriends": "Amigonakamar jiskhtam",
+      "challengeText": "Nayax {profile} jutawa. ¿Jumax? Política perfilma jikxatam: {url}",
+      "copiedChallenge": "Jiskhtawi copiatawa",
+      "copyChallenge": "Jiskhtawi copiaña"
     },
     "answers": {
       "stronglyDisagree": "Sinti jan tupuqi",
@@ -311,6 +315,14 @@
       "neutral": "Taypiku",
       "agree": "Tupuqi",
       "stronglyAgree": "Sinti tupuqi"
+    },
+    "savedProgress": "Jan tukuyata jiskhtanakanakam utji. ¿Jaytawimata qaltaña?",
+    "continueQuiz": "Sarantaña",
+    "startOver": "Wasitat qaltaña",
+    "stats": {
+      "participants": "Lurïrinaka",
+      "mostPopular": "Jilïri uñt'ata",
+      "profileDistribution": "Perfilnakana jaljaña"
     }
   },
   "compare": {

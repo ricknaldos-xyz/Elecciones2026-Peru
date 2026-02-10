@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from '@/i18n/routing'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
 import { CandidateImage } from '@/components/candidate/CandidateImage'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
@@ -21,9 +22,6 @@ import { ShareButton } from '@/components/share/ShareButton'
 import { PartyLogo } from '@/components/party/PartyLogo'
 import { AdBanner } from '@/components/ads/AdBanner'
 import { AdSlot } from '@/components/ads/AdSlot'
-import { CandidateNewsSection } from '@/components/news/CandidateNewsSection'
-import { CandidateProposals } from '@/components/proposals/CandidateProposals'
-import { VotingRecordCard } from '@/components/candidate/VotingRecordCard'
 import { TaxStatusCard } from '@/components/candidate/TaxStatusCard'
 import { ProposalQualityCard } from '@/components/candidate/ProposalQualityCard'
 import { PlanViabilityCard } from '@/components/candidate/PlanViabilityCard'
@@ -32,9 +30,14 @@ import { IncumbentPerformanceCard } from '@/components/candidate/IncumbentPerfor
 import { CompanyIssuesCard } from '@/components/candidate/CompanyIssuesCard'
 import { ControversialVotesCard } from '@/components/candidate/ControversialVotesCard'
 import { IntegritySummaryCard } from '@/components/candidate/IntegritySummaryCard'
-import { SocialMentionsCard } from '@/components/candidate/SocialMentionsCard'
 import { AssetsDeclarationCard } from '@/components/candidate/AssetsDeclarationCard'
 import { ExperienceOverlapBadge } from '@/components/candidate/ExperienceOverlapBadge'
+
+// Lazy load heavy components used in secondary tabs
+const SocialMentionsCard = dynamic(() => import('@/components/candidate/SocialMentionsCard').then(m => ({ default: m.SocialMentionsCard })), { ssr: false })
+const CandidateProposals = dynamic(() => import('@/components/proposals/CandidateProposals').then(m => ({ default: m.CandidateProposals })), { ssr: false })
+const VotingRecordCard = dynamic(() => import('@/components/candidate/VotingRecordCard').then(m => ({ default: m.VotingRecordCard })), { ssr: false })
+const CandidateNewsSection = dynamic(() => import('@/components/news/CandidateNewsSection').then(m => ({ default: m.CandidateNewsSection })), { ssr: false })
 import { PRESETS } from '@/lib/constants'
 import type { CandidateWithScores, PresetType, ScoreBreakdown } from '@/types/database'
 import type { CandidateDetails, VicePresident } from '@/lib/db/queries'

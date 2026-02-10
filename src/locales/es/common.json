@@ -303,7 +303,11 @@
       "compareCandidates": "Compara los candidatos",
       "share": "Compartir Resultados",
       "shareTitle": "Mi perfil político es {profile}",
-      "shareDescription": "Mis candidatos con quienes sintonizo: {candidates}"
+      "shareDescription": "Mis candidatos con quienes sintonizo: {candidates}",
+      "challengeFriends": "Reta a tus amigos",
+      "challengeText": "Yo soy {profile}. ¿Y tú? Descubre tu perfil político: {url}",
+      "copiedChallenge": "Reto copiado al portapapeles",
+      "copyChallenge": "Copiar reto"
     },
     "answers": {
       "stronglyDisagree": "Muy en desacuerdo",
@@ -311,6 +315,14 @@
       "neutral": "Neutral",
       "agree": "De acuerdo",
       "stronglyAgree": "Muy de acuerdo"
+    },
+    "savedProgress": "Tienes un quiz sin terminar. ¿Quieres continuar donde lo dejaste?",
+    "continueQuiz": "Continuar",
+    "startOver": "Empezar de nuevo",
+    "stats": {
+      "participants": "Participantes",
+      "mostPopular": "Más popular",
+      "profileDistribution": "Distribución de perfiles"
     }
   },
   "compare": {

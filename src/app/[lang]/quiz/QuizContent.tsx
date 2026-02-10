@@ -11,6 +11,7 @@ import { calculateMatches, getUserProfile } from '@/lib/quiz/scoring'
 import { QuizProgress } from './components/QuizProgress'
 import { QuizQuestion } from './components/QuizQuestion'
 import { QuizResults } from './components/QuizResults'
+import { QuizStats } from './components/QuizStats'
 
 type QuizState = 'intro' | 'questions' | 'results'
 
@@ -28,8 +29,45 @@ export function QuizContent() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [answers, setAnswers] = useState<Answers>({})
   const [isTransitioning, setIsTransitioning] = useState(false)
+  const [hasSavedProgress, setHasSavedProgress] = useState(false)
 
   const currentQuestion = QUIZ_QUESTIONS[currentQuestionIndex]
+
+  // Restore saved progress from localStorage (only if no shared URL)
+  useEffect(() => {
+    if (searchParams.get('r')) return
+    try {
+      const saved = localStorage.getItem('quiz_progress')
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        if (parsed.answers && parsed.currentQuestionIndex != null) {
+          setHasSavedProgress(true)
+        }
+      }
+    } catch {
+      // Ignore
+    }
+  }, [searchParams])
+
+  const handleContinueSaved = () => {
+    try {
+      const saved = localStorage.getItem('quiz_progress')
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        setAnswers(parsed.answers)
+        setCurrentQuestionIndex(parsed.currentQuestionIndex)
+        setState('questions')
+        setHasSavedProgress(false)
+      }
+    } catch {
+      localStorage.removeItem('quiz_progress')
+    }
+  }
+
+  const handleDiscardSaved = () => {
+    localStorage.removeItem('quiz_progress')
+    setHasSavedProgress(false)
+  }
 
   // Restore results from shared URL param
   useEffect(() => {
@@ -63,23 +101,33 @@ export function QuizContent() {
   const handleSelectOption = useCallback((optionId: string, value: number) => {
     if (isTransitioning) return
 
-    setAnswers(prev => ({
-      ...prev,
+    const newAnswers = {
+      ...answers,
       [currentQuestion.id]: { optionId, value },
-    }))
+    }
+    setAnswers(newAnswers)
 
     setIsTransitioning(true)
 
     // Auto-advance after selection
+    const nextIndex = currentQuestionIndex + 1
     setTimeout(() => {
-      if (currentQuestionIndex < QUIZ_QUESTIONS.length - 1) {
-        setCurrentQuestionIndex(prev => prev + 1)
+      if (nextIndex < QUIZ_QUESTIONS.length) {
+        setCurrentQuestionIndex(nextIndex)
+        // Save progress to localStorage
+        try {
+          localStorage.setItem('quiz_progress', JSON.stringify({
+            answers: newAnswers,
+            currentQuestionIndex: nextIndex,
+          }))
+        } catch { /* quota exceeded */ }
       } else {
         setState('results')
+        localStorage.removeItem('quiz_progress')
       }
       setIsTransitioning(false)
     }, 300)
-  }, [currentQuestionIndex, currentQuestion?.id, isTransitioning])
+  }, [currentQuestionIndex, currentQuestion?.id, isTransitioning, answers])
 
   const handlePrevious = () => {
     if (currentQuestionIndex > 0) {
@@ -91,6 +139,7 @@ export function QuizContent() {
     setState('intro')
     setCurrentQuestionIndex(0)
     setAnswers({})
+    localStorage.removeItem('quiz_progress')
     if (typeof window !== 'undefined') {
       window.history.replaceState(null, '', window.location.pathname)
     }
@@ -145,6 +194,23 @@ export function QuizContent() {
             </div>
           </div>
 
+          {/* Saved progress banner */}
+          {hasSavedProgress && (
+            <div className="bg-[var(--primary)]/10 border-3 border-[var(--primary)] p-4 mb-6 text-left">
+              <p className="font-bold text-[var(--foreground)] text-sm mb-3">
+                {t('savedProgress')}
+              </p>
+              <div className="flex gap-2">
+                <Button size="sm" onClick={handleContinueSaved} className="flex-1">
+                  {t('continueQuiz')}
+                </Button>
+                <Button size="sm" variant="outline" onClick={handleDiscardSaved} className="flex-1">
+                  {t('startOver')}
+                </Button>
+              </div>
+            </div>
+          )}
+
           <Button size="lg" onClick={handleStart} className="min-w-[200px]">
             {t('start')}
             <svg aria-hidden="true" className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -152,6 +218,8 @@ export function QuizContent() {
             </svg>
           </Button>
         </Card>
+
+        <QuizStats />
 
         <div className="text-center text-sm text-[var(--muted-foreground)] font-medium">
           <p>

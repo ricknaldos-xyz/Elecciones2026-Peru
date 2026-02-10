@@ -4,15 +4,53 @@ import { Header } from '@/components/layout/Header'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
+import { generateFAQSchema } from '@/lib/schema'
 
 export const metadata: Metadata = {
   title: 'Metodología - Ranking Electoral 2026',
   description: 'Conoce cómo calculamos los puntajes de los candidatos. Metodología transparente y verificable.',
 }
 
+const FAQ_ITEMS = [
+  {
+    question: '¿Cómo se calcula el puntaje de cada candidato?',
+    answer: 'El puntaje se calcula combinando tres dimensiones: Competencia (educación, experiencia, liderazgo), Integridad (antecedentes judiciales, fiscales, patrimoniales) y Transparencia (accesibilidad de información y coherencia). Cada dimensión tiene sub-indicadores con pesos específicos.',
+  },
+  {
+    question: '¿Qué son los modos de ranking (Equilibrado, Mérito, Integridad)?',
+    answer: 'Son diferentes perspectivas para ver el ranking. Equilibrado pondera las tres dimensiones por igual. Mérito prioriza la competencia profesional. Integridad prioriza la ausencia de problemas legales y la transparencia. Puedes cambiar entre modos según lo que más valores.',
+  },
+  {
+    question: '¿De dónde vienen los datos?',
+    answer: 'Los datos provienen de fuentes oficiales públicas: JNE (hojas de vida), ONPE (finanzas partidarias), Poder Judicial (sentencias), SUNAT (deudas tributarias), Contraloría (sanciones), MEF (presupuestos), y Congreso (votaciones). También se monitorean medios de comunicación y redes sociales.',
+  },
+  {
+    question: '¿Qué significa la "confianza de datos"?',
+    answer: 'Es un indicador de cuánta información verificada tenemos sobre un candidato. Una confianza alta significa que tenemos datos completos de múltiples fuentes. Una confianza baja indica que faltan datos importantes, lo que hace el puntaje menos confiable.',
+  },
+  {
+    question: '¿Los planes de gobierno son evaluados?',
+    answer: 'Sí. Para candidatos presidenciales, el plan de gobierno es analizado por IA en cuatro dimensiones: viabilidad fiscal, viabilidad legal, coherencia interna y comparación histórica. Cada propuesta individual también es evaluada en especificidad, viabilidad, impacto y evidencia.',
+  },
+  {
+    question: '¿Es posible manipular el ranking?',
+    answer: 'No. El ranking se basa exclusivamente en datos objetivos y verificables de fuentes oficiales. No aceptamos pagos ni influencias para modificar puntajes. La metodología es pública y cualquier persona puede verificar cómo se calculan los scores.',
+  },
+  {
+    question: '¿Con qué frecuencia se actualizan los datos?',
+    answer: 'Los datos se actualizan de forma automatizada: las fuentes oficiales (JNE, ONPE, Poder Judicial) se sincronizan diariamente, las noticias cada pocas horas, y las redes sociales varias veces al día. El indicador de frescura en la página principal muestra la última actualización de cada fuente.',
+  },
+]
+
 export default function MetodologiaPage() {
+  const faqSchema = generateFAQSchema(FAQ_ITEMS)
+
   return (
     <div className="min-h-screen bg-[var(--background)]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <Header currentPath="/metodologia" />
 
       <main id="main-content" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

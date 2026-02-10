@@ -87,6 +87,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         })
       }
     }
+    // News-active candidate pages (boost priority for candidates with recent coverage)
+    const newsActiveCandidates = await sql`
+      SELECT DISTINCT n.candidate_slug
+      FROM news_mentions_enriched n
+      WHERE n.candidate_slug IS NOT NULL
+      AND n.published_at > NOW() - INTERVAL '30 days'
+      ORDER BY n.candidate_slug
+      LIMIT 100
+    `
+
+    const existingUrls = new Set(entries.map(e => e.url))
+    for (const row of newsActiveCandidates) {
+      for (const locale of LOCALES) {
+        const url = `${BASE_URL}/${locale}/candidato/${row.candidate_slug}`
+        if (!existingUrls.has(url)) {
+          entries.push({
+            url,
+            lastModified: new Date(),
+            changeFrequency: 'daily',
+            priority: 0.9,
+          })
+        }
+      }
+    }
   } catch (error) {
     console.error('Error generating sitemap:', error)
   }

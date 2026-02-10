@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { ShareButton } from '@/components/share/ShareButton'
+import { useSuccessToast } from '@/components/ui/Toast'
 import { QuizMatch } from '@/lib/quiz/scoring'
 import { TOPIC_LABELS } from '@/lib/quiz/questions'
 
@@ -23,8 +24,15 @@ interface QuizResultsProps {
 
 export function QuizResults({ matches, profile, onRestart, shareUrl }: QuizResultsProps) {
   const t = useTranslations('quiz')
+  const showSuccess = useSuccessToast()
   const top3 = matches.slice(0, 3)
   const rest = matches.slice(3, 8)
+
+  const handleCopyChallenge = () => {
+    const text = t('results.challengeText', { profile: profile.label, url: shareUrl || '' })
+    navigator.clipboard.writeText(text)
+    showSuccess(t('results.copiedChallenge'))
+  }
 
   const getMatchColor = (percentage: number) => {
     if (percentage >= 80) return 'var(--score-excellent)'
@@ -184,6 +192,36 @@ export function QuizResults({ matches, profile, onRestart, shareUrl }: QuizResul
           variant="full"
           platforms={['whatsapp', 'twitter', 'facebook', 'copy']}
         />
+
+        {/* Challenge Friends */}
+        <Card className="p-5 sm:p-6 bg-[var(--muted)]">
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 bg-[var(--primary)] border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0">
+              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <path strokeLinecap="square" strokeLinejoin="miter" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+              </svg>
+            </div>
+            <div className="flex-1 min-w-0">
+              <h4 className="font-black text-[var(--foreground)] uppercase text-sm mb-1">
+                {t('results.challengeFriends')}
+              </h4>
+              <p className="text-sm text-[var(--muted-foreground)] mb-3 line-clamp-2">
+                {t('results.challengeText', { profile: profile.label, url: '' })}
+              </p>
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={handleCopyChallenge}
+                className="min-h-[40px]"
+              >
+                <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <path strokeLinecap="square" strokeLinejoin="miter" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                {t('results.copyChallenge')}
+              </Button>
+            </div>
+          </div>
+        </Card>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-3">

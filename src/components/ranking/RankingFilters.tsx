@@ -178,6 +178,84 @@ export function RankingFilters({
         </span>
       </label>
 
+      {/* Active filter chips */}
+      {(distrito || partyId || minConfidence > 0 || onlyClean) && (
+        <div className="flex flex-wrap gap-2 pt-3 border-t-2 border-[var(--border)]">
+          {distrito && (
+            <button
+              type="button"
+              onClick={() => onDistritoChange(undefined)}
+              className={cn(
+                'flex items-center gap-1.5 px-3 py-1.5',
+                'text-xs font-bold',
+                'bg-[var(--primary)] text-white',
+                'border-2 border-[var(--border)]',
+                'hover:opacity-80 transition-opacity'
+              )}
+            >
+              {DISTRICTS.find(d => d.slug === distrito)?.name || distrito}
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          )}
+          {partyId && (
+            <button
+              type="button"
+              onClick={() => onPartyChange(undefined)}
+              className={cn(
+                'flex items-center gap-1.5 px-3 py-1.5',
+                'text-xs font-bold',
+                'bg-[var(--primary)] text-white',
+                'border-2 border-[var(--border)]',
+                'hover:opacity-80 transition-opacity'
+              )}
+            >
+              {MOCK_PARTIES.find(p => p.id === partyId)?.short_name || 'Partido'}
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          )}
+          {minConfidence > 0 && (
+            <button
+              type="button"
+              onClick={() => onMinConfidenceChange(0)}
+              className={cn(
+                'flex items-center gap-1.5 px-3 py-1.5',
+                'text-xs font-bold',
+                'bg-[var(--primary)] text-white',
+                'border-2 border-[var(--border)]',
+                'hover:opacity-80 transition-opacity'
+              )}
+            >
+              Info. mín. {minConfidence}%
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          )}
+          {onlyClean && (
+            <button
+              type="button"
+              onClick={() => onOnlyCleanChange(false)}
+              className={cn(
+                'flex items-center gap-1.5 px-3 py-1.5',
+                'text-xs font-bold',
+                'bg-[var(--score-good)] text-white',
+                'border-2 border-[var(--border)]',
+                'hover:opacity-80 transition-opacity'
+              )}
+            >
+              Sin antecedentes
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          )}
+        </div>
+      )}
+
       {/* Reset - NEO BRUTAL */}
       <Button variant="outline" size="sm" onClick={onReset} className="w-full min-h-[48px]" type="button">
         Limpiar filtros

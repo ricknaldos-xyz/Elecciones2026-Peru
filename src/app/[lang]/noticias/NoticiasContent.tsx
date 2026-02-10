@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { NewsCard } from '@/components/news/NewsCard'
+import { NewsTrendingSection } from '@/components/news/NewsTrendingSection'
 
 interface NewsItem {
   id: string
@@ -148,6 +149,9 @@ export function NoticiasContent() {
 
   return (
     <div className="space-y-6">
+      {/* Trending Section */}
+      <NewsTrendingSection />
+
       {/* Filters */}
       <Card className="p-5 sm:p-6">
         {/* Search */}
