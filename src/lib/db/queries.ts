@@ -891,6 +891,112 @@ function normalizeEducationDetails(raw: any): EducationRecord[] {
   })
 }
 
+// Keywords to infer public sector from organization name
+const PUBLIC_SECTOR_KEYWORDS = [
+  'municipalidad', 'gobierno', 'ministerio', 'congreso', 'poder judicial',
+  'tribunal', 'contraloria', 'defensoria', 'fiscalia', 'procuraduria',
+  'superintendencia', 'organismo', 'instituto nacional', 'essalud',
+  'seguro social', 'policia', 'fuerzas armadas', 'ejercito', 'marina',
+  'fuerza aerea', 'sunat', 'sunarp', 'onpe', 'jne', 'reniec',
+  'banco central', 'bcrp', 'sbs', 'indecopi', 'osinergmin', 'osiptel',
+  'ositran', 'sunass', 'oefa', 'senace', 'servir', 'ceplan',
+  'region', 'regional', 'prefectura', 'subprefectura', 'gobernacion',
+  'ugel', 'dre', 'direccion regional', 'gerencia regional',
+  'corte superior', 'juzgado', 'notaria', 'registro', 'electoral',
+  'senado', 'camara', 'parlamento', 'asamblea',
+]
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function normalizeExperienceDetails(raw: any): ExperienceRecord[] {
+  if (!raw || !Array.isArray(raw)) return []
+  return raw.map((entry: Record<string, unknown>) => {
+    // Map organization → institution
+    const institution = String(entry.organization || entry.institution || entry.centro_trabajo || '')
+
+    // Map start_year/start_date → year_start
+    const rawStart = entry.start_year ?? entry.year_start ?? entry.start_date
+    const yearStart = rawStart ? parseInt(String(rawStart), 10) : 0
+
+    // Map end_year/end_date → year_end
+    const rawEnd = entry.end_year ?? entry.year_end ?? entry.end_date
+    const yearEnd = rawEnd ? parseInt(String(rawEnd), 10) : 0
+
+    // Infer type from sector field or organization name
+    let type: 'publico' | 'privado' = 'privado'
+    if (entry.sector) {
+      const sector = String(entry.sector).toLowerCase()
+      if (sector.includes('public') || sector.includes('público') || sector === 'publico') {
+        type = 'publico'
+      }
+    } else if (entry.type === 'publico' || entry.type === 'privado') {
+      type = entry.type as 'publico' | 'privado'
+    } else {
+      // Infer from organization name
+      const orgLower = institution.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      if (PUBLIC_SECTOR_KEYWORDS.some(kw => orgLower.includes(kw))) {
+        type = 'publico'
+      }
+    }
+
+    return {
+      type,
+      institution,
+      position: String(entry.position || entry.cargo || ''),
+      year_start: yearStart && !isNaN(yearStart) ? yearStart : 0,
+      year_end: yearEnd && !isNaN(yearEnd) ? yearEnd : 0,
+      description: entry.description ? String(entry.description) : undefined,
+    } as ExperienceRecord
+  })
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function normalizePoliticalTrajectory(raw: any): PoliticalRecord[] {
+  if (!raw || !Array.isArray(raw)) return []
+  return raw.map((entry: Record<string, unknown>) => {
+    // Normalize type values
+    let type: PoliticalRecord['type'] = 'afiliacion'
+    const rawType = String(entry.type || '').toLowerCase()
+    if (rawType === 'partidario' || rawType === 'cargo_partidario') {
+      type = 'cargo_partidario'
+    } else if (rawType === 'eleccion' || rawType === 'cargo_electivo') {
+      type = 'cargo_electivo'
+    } else if (rawType === 'candidatura') {
+      type = 'candidatura'
+    } else if (rawType === 'cargo_publico') {
+      type = 'cargo_publico'
+    } else if (rawType === 'afiliacion') {
+      type = 'afiliacion'
+    }
+
+    // Map start_year/start_date → year_start
+    const rawStart = entry.start_year ?? entry.year_start ?? entry.start_date
+    const yearStart = rawStart ? parseInt(String(rawStart), 10) : undefined
+
+    // Map end_year/end_date → year_end
+    const rawEnd = entry.end_year ?? entry.year_end ?? entry.end_date
+    const parsedEnd = rawEnd ? parseInt(String(rawEnd), 10) : undefined
+    // Preserve null distinction (null = present/ongoing, undefined = no data)
+    const yearEnd = rawEnd === null ? null : (parsedEnd && !isNaN(parsedEnd) ? parsedEnd : undefined)
+
+    // Map is_elected → result
+    let result: string | undefined = entry.result ? String(entry.result) : undefined
+    if (!result && entry.is_elected === true) {
+      result = 'Electo'
+    }
+
+    return {
+      type,
+      party: entry.party ? String(entry.party) : undefined,
+      position: entry.position ? String(entry.position) : undefined,
+      year_start: yearStart && !isNaN(yearStart) ? yearStart : undefined,
+      year_end: yearEnd,
+      year: entry.year ? parseInt(String(entry.year), 10) || undefined : undefined,
+      institution: entry.institution ? String(entry.institution) : undefined,
+      result,
+    } as PoliticalRecord
+  })
+}
+
 /**
  * Get detailed candidate information
  */
@@ -921,8 +1027,8 @@ export async function getCandidateDetails(candidateId: string): Promise<Candidat
     birth_date: row.birth_date as string | null,
     dni: row.dni as string | null,
     education_details: normalizeEducationDetails(row.education_details),
-    experience_details: (row.experience_details as ExperienceRecord[]) || [],
-    political_trajectory: (row.political_trajectory as PoliticalRecord[]) || [],
+    experience_details: normalizeExperienceDetails(row.experience_details),
+    political_trajectory: normalizePoliticalTrajectory(row.political_trajectory),
     assets_declaration: normalizeAssetsDeclaration(row.assets_declaration),
     penal_sentences: (row.penal_sentences as SentenceRecord[]) || [],
     civil_sentences: (row.civil_sentences as SentenceRecord[]) || [],

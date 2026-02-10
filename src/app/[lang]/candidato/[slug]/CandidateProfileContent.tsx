@@ -607,7 +607,14 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                                 <p className="text-sm font-medium text-[var(--muted-foreground)]">{exp.institution}</p>
                               </div>
                               <Badge variant={exp.type === 'publico' ? 'secondary' : 'outline'} size="sm">
-                                {exp.year_start} - {exp.year_end}
+                                {exp.year_start && exp.year_end
+                                  ? `${exp.year_start} - ${exp.year_end}`
+                                  : exp.year_start
+                                    ? `${exp.year_start} - ${t('present')}`
+                                    : exp.year_end
+                                      ? `${exp.year_end}`
+                                      : t('candidate.noDate') || '—'
+                                }
                               </Badge>
                             </div>
                             {exp.description && (
