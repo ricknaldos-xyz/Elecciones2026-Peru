@@ -481,11 +481,6 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
           {/* ==================== RESUMEN TAB ==================== */}
           <TabPanel value="resumen">
             <div className="space-y-6">
-              {/* Resumen de Integridad (solo si tiene penalidades) */}
-              {breakdown && (breakdown.integrity.penal_penalty > 0 || breakdown.integrity.civil_penalties.length > 0 || breakdown.integrity.resignation_penalty > 0 || breakdown.integrity.reinfo_penalty > 0) && (
-                <IntegritySummaryCard breakdown={breakdown} integrityScore={candidate.scores.integrity} />
-              )}
-
               {/* Desempeño en Cargo Actual (solo incumbentes) */}
               <IncumbentPerformanceCard candidateId={candidate.id} />
 
