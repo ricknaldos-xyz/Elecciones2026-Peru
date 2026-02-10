@@ -14,11 +14,11 @@ import { PresetSelector } from '@/components/ranking/PresetSelector'
 import { useCandidatesByIds } from '@/hooks/useCandidates'
 import { useSuccessToast } from '@/components/ui/Toast'
 import { PRESETS, PRESIDENTIAL_PRESETS } from '@/lib/constants'
+import { getScoreByMode } from '@/lib/scoring/utils'
 import { Link, useRouter } from '@/i18n/routing'
 import { FlagChips } from '@/components/candidate/FlagChip'
 import { SubScoreStat } from '@/components/candidate/SubScoreBar'
 import type { CandidateWithScores, PresetType, AnyWeights, PlanViabilityAnalysis } from '@/types/database'
-import { isPresidentialWeights } from '@/types/database'
 import { ProposalsCompare } from '@/components/proposals/ProposalsCompare'
 import { useLocale } from 'next-intl'
 
@@ -33,50 +33,6 @@ const SUGGESTED_IDS = [
   'lopez-aliaga-cazorla-rafael-bernardo',
   'luna-galvez-jose-leon',
 ]
-
-function getScoreByMode(
-  scores: CandidateWithScores['scores'],
-  mode: PresetType,
-  weights?: AnyWeights,
-  isPresidential?: boolean
-): number {
-  // Presidential 4-pillar scoring
-  if (isPresidential && scores.plan_viability != null) {
-    if (mode === 'custom' && weights) {
-      const base = weights.wC * scores.competence +
-        weights.wI * scores.integrity +
-        weights.wT * scores.transparency
-      if (isPresidentialWeights(weights)) {
-        return base + weights.wP * scores.plan_viability
-      }
-      return base
-    }
-    switch (mode) {
-      case 'merit':
-        return scores.score_merit_p ?? scores.score_merit
-      case 'integrity':
-        return scores.score_integrity_p ?? scores.score_integrity
-      default:
-        return scores.score_balanced_p ?? scores.score_balanced
-    }
-  }
-  // Standard 3-pillar scoring
-  if (mode === 'custom' && weights) {
-    return (
-      weights.wC * scores.competence +
-      weights.wI * scores.integrity +
-      weights.wT * scores.transparency
-    )
-  }
-  switch (mode) {
-    case 'merit':
-      return scores.score_merit
-    case 'integrity':
-      return scores.score_integrity
-    default:
-      return scores.score_balanced
-  }
-}
 
 function getScoreColor(score: number): string {
   if (score >= 80) return 'text-[var(--score-excellent-text)]'

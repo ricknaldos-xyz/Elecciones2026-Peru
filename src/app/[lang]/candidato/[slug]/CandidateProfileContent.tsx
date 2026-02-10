@@ -37,7 +37,8 @@ const SocialMentionsCard = dynamic(() => import('@/components/candidate/SocialMe
 const CandidateProposals = dynamic(() => import('@/components/proposals/CandidateProposals').then(m => ({ default: m.CandidateProposals })), { ssr: false })
 const VotingRecordCard = dynamic(() => import('@/components/candidate/VotingRecordCard').then(m => ({ default: m.VotingRecordCard })), { ssr: false })
 const CandidateNewsSection = dynamic(() => import('@/components/news/CandidateNewsSection').then(m => ({ default: m.CandidateNewsSection })), { ssr: false })
-import { PRESETS } from '@/lib/constants'
+import { PRESETS, PRESIDENTIAL_PRESETS } from '@/lib/constants'
+import { getScoreByMode } from '@/lib/scoring/utils'
 import type { CandidateWithScores, PresetType, ScoreBreakdown } from '@/types/database'
 import type { CandidateDetails, VicePresident } from '@/lib/db/queries'
 
@@ -176,15 +177,13 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const isPresidential = candidate.cargo === 'presidente'
+  const activeWeights = isPresidential && candidate.scores.plan_viability != null
+    ? PRESIDENTIAL_PRESETS[mode as keyof typeof PRESIDENTIAL_PRESETS]
+    : PRESETS[mode as keyof typeof PRESETS]
+
   const getScore = () => {
-    switch (mode) {
-      case 'merit':
-        return candidate.scores.score_merit
-      case 'integrity':
-        return candidate.scores.score_integrity
-      default:
-        return candidate.scores.score_balanced
-    }
+    return getScoreByMode(candidate.scores, mode, activeWeights, isPresidential)
   }
 
   const getCargoLabel = (cargo: string) => {
@@ -360,7 +359,7 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                   <ScorePill
                     score={getScore()}
                     mode={mode}
-                    weights={PRESETS[mode as keyof typeof PRESETS]}
+                    weights={activeWeights}
                     size="md"
                     variant="default"
                     showMode
@@ -370,7 +369,7 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                   <ScorePill
                     score={getScore()}
                     mode={mode}
-                    weights={PRESETS[mode as keyof typeof PRESETS]}
+                    weights={activeWeights}
                     size="lg"
                     variant="default"
                     showMode

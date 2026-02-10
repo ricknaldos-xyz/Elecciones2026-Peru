@@ -9,13 +9,14 @@ interface RankingCandidate {
   slug: string
   cargo: string
   photo_url: string | null
-  score_balanced: number
+  score: number
   party_name: string | null
   party_color: string | null
 }
 
 async function getTopCandidates(cargo = 'presidente', limit = 5): Promise<RankingCandidate[]> {
   try {
+    const isPresidential = cargo === 'presidente'
     const result = await sql`
       SELECT
         c.id,
@@ -23,16 +24,17 @@ async function getTopCandidates(cargo = 'presidente', limit = 5): Promise<Rankin
         c.slug,
         c.cargo,
         c.photo_url,
-        c.score_balanced,
+        COALESCE(${isPresidential ? sql`s.score_balanced_p` : sql`s.score_balanced`}, s.score_balanced) as score,
         p.name as party_name,
         p.color as party_color
       FROM candidates c
       LEFT JOIN parties p ON c.party_id = p.id
+      LEFT JOIN scores s ON c.id = s.candidate_id
       WHERE c.cargo = ${cargo} AND c.is_active = true
-      ORDER BY c.score_balanced DESC
+      ORDER BY score DESC NULLS LAST
       LIMIT ${limit}
     `
-    return result as RankingCandidate[]
+    return result.map(r => ({ ...r, score: Number(r.score) || 0 })) as RankingCandidate[]
   } catch (error) {
     console.error('Error fetching candidates:', error)
     return []
@@ -140,10 +142,10 @@ export default async function EmbedRankingPage({ searchParams }: PageProps) {
                   'flex items-center justify-center',
                   'border-2 border-[var(--border)]'
                 )}
-                style={{ backgroundColor: getScoreColor(candidate.score_balanced) }}
+                style={{ backgroundColor: getScoreColor(candidate.score) }}
               >
                 <span className="text-sm font-black text-white">
-                  {candidate.score_balanced.toFixed(0)}
+                  {candidate.score.toFixed(0)}
                 </span>
               </div>
             </Link>
