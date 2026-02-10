@@ -29,7 +29,6 @@ import { JudicialDiscrepancyCard } from '@/components/candidate/JudicialDiscrepa
 import { IncumbentPerformanceCard } from '@/components/candidate/IncumbentPerformanceCard'
 import { CompanyIssuesCard } from '@/components/candidate/CompanyIssuesCard'
 import { ControversialVotesCard } from '@/components/candidate/ControversialVotesCard'
-import { IntegritySummaryCard } from '@/components/candidate/IntegritySummaryCard'
 import { AssetsDeclarationCard } from '@/components/candidate/AssetsDeclarationCard'
 import { ExperienceOverlapBadge } from '@/components/candidate/ExperienceOverlapBadge'
 
@@ -787,11 +786,6 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
           {/* ==================== EVIDENCIA TAB ==================== */}
           <TabPanel value="evidencia">
             <div className="space-y-6">
-              {/* Resumen de Integridad */}
-              {breakdown && (
-                <IntegritySummaryCard breakdown={breakdown} integrityScore={candidate.scores.integrity} />
-              )}
-
               {/* Desempeño en Cargo Actual (solo incumbentes) */}
               <IncumbentPerformanceCard candidateId={candidate.id} />
 
