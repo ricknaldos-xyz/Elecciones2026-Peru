@@ -612,7 +612,7 @@ export function RankingContent() {
                   <button
                     onClick={() => setShowFilters(false)}
                     className={cn(
-                      'w-10 h-10',
+                      'w-11 h-11',
                       'flex items-center justify-center',
                       'text-[var(--foreground)]',
                       'border-2 border-[var(--border)]',

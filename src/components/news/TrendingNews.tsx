@@ -131,7 +131,7 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
                   key={candidate.candidate_slug}
                   href={`/candidato/${candidate.candidate_slug}`}
                   className={cn(
-                    'inline-flex items-center gap-1 px-2 py-1',
+                    'inline-flex items-center gap-1 px-3 py-1.5 min-h-[36px]',
                     'text-xs font-bold whitespace-nowrap',
                     'bg-[var(--muted)]',
                     'border-2 border-[var(--border)]',

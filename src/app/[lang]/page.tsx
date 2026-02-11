@@ -601,19 +601,19 @@ export default async function Home() {
                             className="w-2.5 h-2.5 border border-[var(--border)] flex-shrink-0"
                             style={{ backgroundColor: candidate.party_color || '#6B7280' }}
                           />
-                          <span className="text-[10px] font-bold text-[var(--muted-foreground)] truncate uppercase">
+                          <span className="text-xs font-bold text-[var(--muted-foreground)] truncate uppercase">
                             {candidate.party_short_name}
                           </span>
                         </div>
                       )}
                       <div className="mt-auto space-y-1">
                         {candidate.flag_count > 0 && (
-                          <span className="inline-block text-[10px] font-black text-[var(--score-low)] bg-red-50 dark:bg-red-950/30 px-1.5 py-0.5 border border-[var(--score-low)] uppercase">
+                          <span className="inline-block text-xs font-black text-[var(--score-low)] bg-red-50 dark:bg-red-950/30 px-1.5 py-0.5 border border-[var(--score-low)] uppercase">
                             {candidate.flag_count} {t('flagsCount')}
                           </span>
                         )}
                         <div className="flex items-center gap-1">
-                          <span className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">{t('integrityScore')}:</span>
+                          <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('integrityScore')}:</span>
                           <span className={`text-xs font-black ${candidate.integrity_score < 30 ? 'text-[var(--score-low)]' : candidate.integrity_score < 50 ? 'text-[var(--score-medium)]' : 'text-[var(--foreground)]'}`}>
                             {candidate.integrity_score.toFixed(0)}
                           </span>
@@ -690,7 +690,7 @@ export default async function Home() {
                             className="w-2.5 h-2.5 border border-[var(--border)] flex-shrink-0"
                             style={{ backgroundColor: voter.party_color || '#6B7280' }}
                           />
-                          <span className="text-[10px] font-bold text-[var(--muted-foreground)] truncate uppercase">
+                          <span className="text-xs font-bold text-[var(--muted-foreground)] truncate uppercase">
                             {voter.party_short_name}
                           </span>
                         </div>
@@ -699,7 +699,7 @@ export default async function Home() {
                         <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('votedInFavor')}</span>
                         <div className="flex items-baseline gap-1 mt-0.5">
                           <span className="text-lg font-black text-[var(--score-low)]">{voter.favor_count}</span>
-                          <span className="text-[10px] font-bold text-[var(--muted-foreground)]">{t('of17Laws')}</span>
+                          <span className="text-xs font-bold text-[var(--muted-foreground)]">{t('of17Laws')}</span>
                         </div>
                       </div>
                     </div>
@@ -779,19 +779,19 @@ export default async function Home() {
                     className="group flex flex-col bg-[var(--card)] border-2 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100 overflow-hidden"
                   >
                     <div className="p-2 flex-1 flex flex-col">
-                      <div className={`self-start px-1.5 py-0.5 text-[9px] font-black text-white uppercase mb-1 ${candidate.severity === 'RED' ? 'bg-[var(--score-low)]' : 'bg-orange-500'}`}>
+                      <div className={`self-start px-1.5 py-0.5 text-[10px] sm:text-xs font-black text-white uppercase mb-1 ${candidate.severity === 'RED' ? 'bg-[var(--score-low)]' : 'bg-orange-500'}`}>
                         {candidate.severity}
                       </div>
-                      <h3 className="text-[11px] font-black text-[var(--foreground)] uppercase leading-tight line-clamp-2 mb-1 group-hover:text-orange-700 transition-colors">
+                      <h3 className="text-xs font-black text-[var(--foreground)] uppercase leading-tight line-clamp-2 mb-1 group-hover:text-orange-700 transition-colors">
                         {candidate.full_name}
                       </h3>
                       {candidate.party_short_name && (
-                        <span className="text-[9px] font-bold text-[var(--muted-foreground)] truncate uppercase">
+                        <span className="text-[10px] sm:text-xs font-bold text-[var(--muted-foreground)] truncate uppercase">
                           {candidate.party_short_name}
                         </span>
                       )}
                       <div className="mt-auto pt-1">
-                        <span className="text-[9px] font-bold text-orange-700 dark:text-orange-400 uppercase">
+                        <span className="text-[10px] sm:text-xs font-bold text-orange-700 dark:text-orange-400 uppercase">
                           {candidate.concession_count} {candidate.concession_count === 1 ? t('concession') : t('concessions')}
                         </span>
                       </div>
@@ -851,7 +851,7 @@ export default async function Home() {
                   </div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-black text-[var(--primary)]">{cat.count}</span>
-                    <span className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">{t('proposalsCount')}</span>
+                    <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('proposalsCount')}</span>
                   </div>
                 </div>
               )
@@ -938,13 +938,13 @@ export default async function Home() {
                             className="w-2.5 h-2.5 border border-[var(--border)] flex-shrink-0"
                             style={{ backgroundColor: candidate.party_color || '#6B7280' }}
                           />
-                          <span className="text-[10px] font-bold text-[var(--muted-foreground)] truncate uppercase">
+                          <span className="text-xs font-bold text-[var(--muted-foreground)] truncate uppercase">
                             {candidate.party_short_name}
                           </span>
                         </div>
                       )}
                       <div className="mt-auto">
-                        <span className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">{t('scoreLabel')}</span>
+                        <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('scoreLabel')}</span>
                         <div className={`inline-flex items-center gap-1 px-2 py-0.5 border-2 border-[var(--border)] font-black text-sm mt-0.5 ${candidate.score_balanced < 30 ? 'bg-[var(--score-low)] text-white' : candidate.score_balanced < 50 ? 'bg-[var(--score-medium)] text-black' : 'bg-[var(--score-good)] text-white'}`}>
                           <span>{candidate.score_balanced.toFixed(0)}</span>
                           <span className="text-xs font-bold opacity-70">/100</span>

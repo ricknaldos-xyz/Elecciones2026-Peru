@@ -99,7 +99,7 @@ export const CandidateCardMini = memo(function CandidateCardMini({ rank, candida
       {/* Info */}
       <div className="p-3 flex-1 flex flex-col">
         {/* Name */}
-        <h3 className="text-xs sm:text-sm font-black text-[var(--foreground)] uppercase leading-tight line-clamp-2 mb-1 group-hover:text-[var(--primary)] transition-colors">
+        <h3 className="text-sm font-black text-[var(--foreground)] uppercase leading-tight line-clamp-2 mb-1 group-hover:text-[var(--primary)] transition-colors">
           {candidate.full_name}
         </h3>
 
@@ -110,7 +110,7 @@ export const CandidateCardMini = memo(function CandidateCardMini({ rank, candida
               className="w-3 h-3 border border-[var(--border)] flex-shrink-0"
               style={{ backgroundColor: candidate.party_color || '#6B7280' }}
             />
-            <span className="text-xs font-bold text-[var(--muted-foreground)] truncate uppercase">
+            <span className="text-xs sm:text-sm font-bold text-[var(--muted-foreground)] truncate uppercase">
               {candidate.party_short_name || candidate.party_name}
             </span>
           </div>
@@ -123,7 +123,7 @@ export const CandidateCardMini = memo(function CandidateCardMini({ rank, candida
             className={cn(
               'inline-flex items-center gap-1 px-2 py-1',
               'border-2 border-[var(--border)]',
-              'font-black text-sm',
+              'font-black text-base',
               scoreColor
             )}
           >

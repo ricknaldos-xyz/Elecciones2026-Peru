@@ -338,7 +338,7 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                   {candidate.party && (
                     <Badge
                       size="sm"
-                      className="sm:size-md"
+                      className="sm:size-md max-w-[160px] sm:max-w-none truncate"
                       style={{
                         backgroundColor: candidate.party.color || '#6B7280',
                         color: '#fff',
@@ -367,7 +367,8 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                       {t('notVerified')}
                     </Badge>
                   )}
-                  <ConfidenceBadge value={candidate.scores.confidence} size="md" />
+                  <ConfidenceBadge value={candidate.scores.confidence} size="sm" className="sm:hidden" />
+                  <ConfidenceBadge value={candidate.scores.confidence} size="md" className="hidden sm:inline-flex" />
                   <ShareButton
                     title={shareTitle}
                     description={shareDescription}
