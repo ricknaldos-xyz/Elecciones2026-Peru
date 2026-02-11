@@ -1,3 +1,4 @@
+import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/routing'
 import { Button } from '@/components/ui/Button'
@@ -15,6 +16,20 @@ import { DISTRICTS } from '@/lib/constants'
 import { sql } from '@/lib/db'
 import { generateWebSiteSchema, generateOrganizationSchema } from '@/lib/schema'
 import { DataFreshnessFooter } from '@/components/layout/DataFreshnessFooter'
+
+interface HomePageProps {
+  params: Promise<{ lang: string }>
+}
+
+export async function generateMetadata({ params }: HomePageProps): Promise<Metadata> {
+  const { lang } = await params
+  const t = await getTranslations({ locale: lang, namespace: 'meta' })
+
+  return {
+    title: t('title'),
+    description: t('description'),
+  }
+}
 
 async function getStats() {
   try {
@@ -294,10 +309,10 @@ export default async function Home() {
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight">
-              Partidos Políticos
+              {t('politicalParties')}
             </h2>
             <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">
-              {parties.length} partidos
+              {parties.length} {t('partiesCount')}
             </span>
           </div>
           <PartiesGrid parties={parties} />

@@ -6,6 +6,8 @@ import { CandidateProfileContent } from './CandidateProfileContent'
 import { generatePersonSchema, generateBreadcrumbSchema } from '@/lib/schema'
 import type { CargoType } from '@/types/database'
 
+export const revalidate = 86400
+
 // Priority order: higher priority cargo is the canonical profile
 const CARGO_PRIORITY: Record<CargoType, number> = {
   presidente: 1,

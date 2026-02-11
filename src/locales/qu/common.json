@@ -740,7 +740,9 @@
     "privacy": "Pakasqa Kay",
     "rectification": "Allichay Mañakuy",
     "operatedBy": "Akllana Ranking Perú ruwasqa",
-    "legalContact": "legal@rankingelectoral.pe"
+    "legalContact": "legal@rankingelectoral.pe",
+    "politicalParties": "Kamachiy Tantanakuykuna",
+    "partiesCount": "partidokuna"
   },
   "dailyFact": {
     "didYouKnow": "¿Yacharqankichu...?",
@@ -774,11 +776,17 @@
     }
   },
   "candidateCard": {
-    "viewProfile": "Perfil qhaway",
+    "viewProfile": "Willakuyta qhaway",
     "score": "Chaninkuna",
     "rank": "Ñiqin",
     "party": "Partido",
-    "noParty": "Kikillan"
+    "noParty": "Kikillan",
+    "record": "ñawpa ruray",
+    "records": "ñawpa ruraykuna",
+    "remove": "Hurquy",
+    "compare": "Tupachiy",
+    "compareShort": "Tup.",
+    "viewMore": "Astawan qhaway"
   },
   "docs": {
     "meta": {
@@ -1564,5 +1572,15 @@
     "noProposals": "Mana rimaykunata hurqusqachu kay candidatokunapaq.",
     "autoExtractHint": "Rimaykunata kikinmanta hurqukunqa gobierno plankuna kanqa chayqa.",
     "noCategoryProposals": "Mana rimaykunata kay layapi"
+  },
+  "compareTray": {
+    "comparing": "Tupachiy",
+    "removeCandidate": "{name} hurquy",
+    "clear": "Pichay",
+    "compare": "Tupachiy"
+  },
+  "partiesGrid": {
+    "candidates": "akllasqakuna",
+    "viewAllParties": "{count} partidokunata qhaway"
   }
 }

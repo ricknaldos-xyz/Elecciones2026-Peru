@@ -23,7 +23,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    console.log('[API] Starting Contraloria sync...')
     const result = await syncContraloriaReports()
 
     return NextResponse.json({

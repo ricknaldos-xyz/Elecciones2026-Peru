@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 interface PartyWithCount {
   id: string
@@ -16,6 +17,7 @@ const INITIAL_COUNT = 8
 
 export function PartiesGrid({ parties }: { parties: PartyWithCount[] }) {
   const [showAll, setShowAll] = useState(false)
+  const t = useTranslations('partiesGrid')
   const visible = showAll ? parties : parties.slice(0, INITIAL_COUNT)
   const hasMore = parties.length > INITIAL_COUNT
 
@@ -54,7 +56,7 @@ export function PartiesGrid({ parties }: { parties: PartyWithCount[] }) {
                 {party.name}
               </div>
               <div className="text-xs text-[var(--muted-foreground)] font-medium">
-                {party.candidate_count} candidatos
+                {party.candidate_count} {t('candidates')}
               </div>
             </div>
           </Link>
@@ -64,9 +66,10 @@ export function PartiesGrid({ parties }: { parties: PartyWithCount[] }) {
         <div className="mt-3 text-center">
           <button
             onClick={() => setShowAll(true)}
+            aria-label={t('viewAllParties', { count: parties.length })}
             className="inline-flex items-center gap-2 px-4 py-2 text-xs font-black uppercase bg-[var(--card)] border-2 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100 text-[var(--primary)] min-h-[44px]"
           >
-            Ver los {parties.length} partidos
+            {t('viewAllParties', { count: parties.length })}
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
               <path strokeLinecap="square" strokeLinejoin="miter" d="M19 9l-7 7-7-7" />
             </svg>

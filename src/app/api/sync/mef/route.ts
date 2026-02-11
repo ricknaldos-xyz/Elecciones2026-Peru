@@ -23,7 +23,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    console.log('[API] Starting MEF budget execution sync...')
     const result = await syncBudgetExecution()
 
     return NextResponse.json({

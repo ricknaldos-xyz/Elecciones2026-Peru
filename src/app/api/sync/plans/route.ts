@@ -25,7 +25,6 @@ export async function POST(request: NextRequest) {
 
     if (candidateId) {
       // Process single candidate
-      console.log(`Processing single candidate: ${candidateId}`)
       const result = await extractCandidatePlan(candidateId)
 
       return NextResponse.json({
@@ -37,7 +36,6 @@ export async function POST(request: NextRequest) {
     }
 
     // Process all candidates with government plans
-    console.log('Processing all government plans...')
     const result = await processAllPlans()
 
     return NextResponse.json({

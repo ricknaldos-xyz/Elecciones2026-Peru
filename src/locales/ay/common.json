@@ -740,7 +740,9 @@
     "privacy": "Imantata Jakaña",
     "rectification": "Chiqanchawi Mayiña",
     "operatedBy": "Ajilana Ranking Perú lurawi",
-    "legalContact": "legal@rankingelectoral.pe"
+    "legalContact": "legal@rankingelectoral.pe",
+    "politicalParties": "Kamachi Tantachäwinaka",
+    "partiesCount": "partidonaka"
   },
   "dailyFact": {
     "didYouKnow": "¿Yatiytati...?",
@@ -774,11 +776,17 @@
     }
   },
   "candidateCard": {
-    "viewProfile": "Uñt'awi uñjaña",
+    "viewProfile": "Yatiyäwi uñjaña",
     "score": "Jakhunakanaka",
     "rank": "Lugar",
     "party": "Tantachawi",
-    "noParty": "Jan tantachawini"
+    "noParty": "Jan tantachawini",
+    "record": "nayra luräwi",
+    "records": "nayra luräwinaka",
+    "remove": "Apsuña",
+    "compare": "Tupaña",
+    "compareShort": "Tup.",
+    "viewMore": "Juk'amp uñjaña"
   },
   "docs": {
     "meta": {
@@ -1564,5 +1572,15 @@
     "noProposals": "Janiw arst'awinakax apsuñäkiti aka candidatonakataki.",
     "autoExtractHint": "Arst'awinakaxa sapakiw apsuyasipxi gobierno plananakat utjki ukhaxa.",
     "noCategoryProposals": "Janiw arst'awinakax aka layani"
+  },
+  "compareTray": {
+    "comparing": "Tupaña",
+    "removeCandidate": "{name} apsuña",
+    "clear": "Apsuña",
+    "compare": "Tupaña"
+  },
+  "partiesGrid": {
+    "candidates": "ajilirinaxa",
+    "viewAllParties": "{count} partidonaka uñjaña"
   }
 }

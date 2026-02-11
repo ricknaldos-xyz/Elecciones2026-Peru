@@ -59,7 +59,7 @@ export default async function DonatePage({ params }: Props) {
             </CardHeader>
             <CardContent className="text-center">
               <div className="mb-4">
-                <DonationQR value="999999999" />
+                <DonationQR value={process.env.NEXT_PUBLIC_YAPE_NUMBER || ''} />
               </div>
 
               <p className="text-sm text-[var(--muted-foreground)] mb-4">
@@ -91,7 +91,7 @@ export default async function DonatePage({ params }: Props) {
             </CardHeader>
             <CardContent className="text-center">
               <div className="mb-4">
-                <DonationQR value="999999999" />
+                <DonationQR value={process.env.NEXT_PUBLIC_PLIN_NUMBER || ''} />
               </div>
 
               <p className="text-sm text-[var(--muted-foreground)] mb-4">

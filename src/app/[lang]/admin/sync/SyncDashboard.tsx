@@ -263,8 +263,6 @@ export function SyncDashboard() {
         result = { error: text.substring(0, 200) || 'Respuesta no válida del servidor' }
       }
 
-      console.log(`Sync ${source} response:`, response.status, result)
-
       if (response.status === 401) {
         setError(`Error 401: ${result.error || 'No autorizado'}`)
         return
@@ -274,8 +272,6 @@ export function SyncDashboard() {
         setError(result.error || `Error HTTP ${response.status}`)
         return
       }
-
-      console.log(`Sync ${source} result:`, result)
 
       // Refresh data
       await Promise.all([fetchStatus(), fetchLogs()])

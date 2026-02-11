@@ -5,7 +5,7 @@ const SESSION_COOKIE_NAME = 'admin_session'
 
 function isAuthenticated(request: NextRequest): boolean {
   const sessionToken = request.cookies.get(SESSION_COOKIE_NAME)?.value
-  return !!sessionToken && /^[a-z0-9]+_[a-z0-9]+$/.test(sessionToken)
+  return !!sessionToken && /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(sessionToken)
 }
 
 // GET /api/admin/flags - List flags with filters

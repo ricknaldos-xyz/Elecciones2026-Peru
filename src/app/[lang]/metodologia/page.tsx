@@ -9,6 +9,10 @@ import { generateFAQSchema } from '@/lib/schema'
 export const metadata: Metadata = {
   title: 'Metodología - Ranking Electoral 2026',
   description: 'Conoce cómo calculamos los puntajes de los candidatos. Metodología transparente y verificable.',
+  openGraph: {
+    title: 'Metodología - Ranking Electoral 2026',
+    description: 'Cómo calculamos los puntajes: competencia, historial legal y transparencia.',
+  },
 }
 
 const FAQ_ITEMS = [

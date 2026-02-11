@@ -1,5 +1,6 @@
 'use client'
 
+import { memo } from 'react'
 import { Link } from '@/i18n/routing'
 import { cn } from '@/lib/utils'
 import { CandidateImage } from './CandidateImage'
@@ -48,7 +49,7 @@ function getScoreLevelKey(score: number): 'excellent' | 'good' | 'medium' | 'low
   return 'low'
 }
 
-export function CandidateCardMini({ rank, candidate, className }: CandidateCardMiniProps) {
+export const CandidateCardMini = memo(function CandidateCardMini({ rank, candidate, className }: CandidateCardMiniProps) {
   const rankStyle = getRankStyle(rank)
   const scoreColor = getScoreColor(candidate.score_balanced)
 
@@ -133,7 +134,7 @@ export function CandidateCardMini({ rank, candidate, className }: CandidateCardM
       </div>
     </Link>
   )
-}
+})
 
 // Skeleton for loading state
 export function CandidateCardMiniSkeleton({ className }: { className?: string }) {

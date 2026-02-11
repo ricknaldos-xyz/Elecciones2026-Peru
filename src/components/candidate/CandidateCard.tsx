@@ -57,6 +57,7 @@ export const CandidateCard = memo(function CandidateCard({
   const router = useRouter()
   const showSuccess = useSuccessToast()
   const tShare = useTranslations('share')
+  const t = useTranslations('candidateCard')
   const isPresidential = candidate.cargo === 'presidente'
   const hasPlan = candidate.scores.plan_viability != null
   const score = getScoreByMode(candidate.scores, mode, weights, isPresidential)
@@ -184,7 +185,7 @@ export const CandidateCard = memo(function CandidateCard({
                   : 'bg-[var(--flag-amber)]'
               )} />
               <span className="text-xs font-bold text-[var(--muted-foreground)]">
-                {candidate.flags.length} antecedente{candidate.flags.length > 1 ? 's' : ''}
+                {candidate.flags.length} {candidate.flags.length > 1 ? t('records') : t('record')}
               </span>
             </div>
           )}
@@ -200,7 +201,7 @@ export const CandidateCard = memo(function CandidateCard({
               }}
               className="flex-1"
             >
-              {isSelected ? 'Quitar' : 'Comparar'}
+              {isSelected ? t('remove') : t('compare')}
             </Button>
             <Button
               variant="primary"
@@ -211,7 +212,7 @@ export const CandidateCard = memo(function CandidateCard({
               }}
               className="flex-1"
             >
-              Ver más
+              {t('viewMore')}
             </Button>
           </div>
         </div>
@@ -313,8 +314,8 @@ export const CandidateCard = memo(function CandidateCard({
             }}
             className="flex-1 min-h-[44px]"
           >
-            <span className="hidden sm:inline">{isSelected ? 'Quitar' : 'Comparar'}</span>
-            <span className="sm:hidden">{isSelected ? 'Quitar' : 'Comp.'}</span>
+            <span className="hidden sm:inline">{isSelected ? t('remove') : t('compare')}</span>
+            <span className="sm:hidden">{isSelected ? t('remove') : t('compareShort')}</span>
           </Button>
           <Button
             variant="primary"
@@ -325,7 +326,7 @@ export const CandidateCard = memo(function CandidateCard({
             }}
             className="flex-1 min-h-[44px]"
           >
-            Ver perfil
+            {t('viewProfile')}
           </Button>
           <Button
             variant="ghost"
@@ -334,7 +335,7 @@ export const CandidateCard = memo(function CandidateCard({
               e.stopPropagation()
               handleShare()
             }}
-            aria-label="Compartir"
+            aria-label={tShare('shareLabel')}
             className="min-h-[44px] min-w-[44px]"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>

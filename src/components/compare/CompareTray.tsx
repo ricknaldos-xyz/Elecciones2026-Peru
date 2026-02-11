@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
+import { useTranslations } from 'next-intl'
 import type { CandidateWithScores } from '@/types/database'
 
 interface CompareTrayProps {
@@ -19,6 +20,8 @@ export function CompareTray({
   onClear,
   className,
 }: CompareTrayProps) {
+  const t = useTranslations('compareTray')
+
   if (candidates.length === 0) return null
 
   return (
@@ -40,7 +43,7 @@ export function CompareTray({
           {/* Selected candidates - Horizontal scroll */}
           <div className="flex items-center gap-2 overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 pb-1 sm:pb-0">
             <span className="text-xs sm:text-sm font-bold text-[var(--muted-foreground)] whitespace-nowrap uppercase tracking-wide">
-              Comparar:
+              {t('comparing')}:
             </span>
             {candidates.map((c) => (
               <div
@@ -58,6 +61,7 @@ export function CompareTray({
                 </span>
                 <button
                   onClick={() => onRemove(c.id)}
+                  aria-label={t('removeCandidate', { name: c.full_name })}
                   className={cn(
                     'w-7 h-7 sm:w-6 sm:h-6',
                     'bg-[var(--background)]',
@@ -89,7 +93,7 @@ export function CompareTray({
               onClick={onClear}
               className="min-h-[44px] sm:min-h-0 flex-1 sm:flex-initial"
             >
-              Limpiar
+              {t('clear')}
             </Button>
             <Button
               variant="primary"
@@ -98,7 +102,7 @@ export function CompareTray({
               disabled={candidates.length < 2}
               className="min-h-[44px] sm:min-h-0 flex-1 sm:flex-initial"
             >
-              Comparar {candidates.length >= 2 ? `(${candidates.length})` : ''}
+              {t('compare')} {candidates.length >= 2 ? `(${candidates.length})` : ''}
             </Button>
           </div>
         </div>

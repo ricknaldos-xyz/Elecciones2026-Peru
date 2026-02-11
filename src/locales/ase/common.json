@@ -740,7 +740,9 @@
     "privacy": "Imantata Kay",
     "rectification": "Chiqanchawi Mayintsi",
     "operatedBy": "Apatotantsi Ranking Perú lurawi",
-    "legalContact": "legal@rankingelectoral.pe"
+    "legalContact": "legal@rankingelectoral.pe",
+    "politicalParties": "Kamachiri Jananekikë",
+    "partiesCount": "partidokite"
   },
   "dailyFact": {
     "didYouKnow": "¿Amatabeentsi...?",
@@ -774,11 +776,17 @@
     }
   },
   "candidateCard": {
-    "viewProfile": "Oimabëntantsi perfil",
+    "viewProfile": "Oñaagantsi kengagantsi",
     "score": "Katsinkabokë",
     "rank": "Lugar",
     "party": "Partido",
-    "noParty": "Aparoni"
+    "noParty": "Aparoni",
+    "record": "pairani oñaantsi",
+    "records": "pairaniki oñaantsiki",
+    "remove": "Okakoteri",
+    "compare": "Añaberotantsi",
+    "compareShort": "Añab.",
+    "viewMore": "Ashitari oñaagantsi"
   },
   "docs": {
     "meta": {
@@ -1564,5 +1572,15 @@
     "noProposals": "Tëjonka okaratantsikë hurqusqachu oka candidatokëpaq.",
     "autoExtractHint": "Okaratantsikëqa sapakiw hurquyasipxi kamachiri plankuna kanqa okaqa.",
     "noCategoryProposals": "Tëjonka okaratantsikë oka layapi"
+  },
+  "compareTray": {
+    "comparing": "Añaberotantsi",
+    "removeCandidate": "{name} okakoteri",
+    "clear": "Okitiagantsi",
+    "compare": "Añaberotantsi"
+  },
+  "partiesGrid": {
+    "candidates": "apatotantsipë",
+    "viewAllParties": "{count} partidokite oñaagantsi"
   }
 }

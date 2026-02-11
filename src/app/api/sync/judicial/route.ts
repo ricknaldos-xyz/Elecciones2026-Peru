@@ -23,7 +23,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    console.log('[API] Starting Judicial sync...')
     const result = await syncJudicialRecords()
 
     return NextResponse.json({

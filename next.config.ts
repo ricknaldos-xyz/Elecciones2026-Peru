@@ -18,17 +18,42 @@ const nextConfig: NextConfig = {
   },
   headers: async () => [
     {
+      source: '/api/candidates',
+      headers: [
+        { key: 'Cache-Control', value: 'public, s-maxage=600, stale-while-revalidate=86400' },
+      ],
+    },
+    {
+      source: '/api/news/:path*',
+      headers: [
+        { key: 'Cache-Control', value: 'public, s-maxage=300, stale-while-revalidate=86400' },
+      ],
+    },
+    {
+      source: '/api/parties',
+      headers: [
+        { key: 'Cache-Control', value: 'public, s-maxage=3600, stale-while-revalidate=86400' },
+      ],
+    },
+    {
+      source: '/api/districts',
+      headers: [
+        { key: 'Cache-Control', value: 'public, s-maxage=86400, stale-while-revalidate=604800' },
+      ],
+    },
+    {
       source: '/(.*)',
       headers: [
         { key: 'X-Frame-Options', value: 'DENY' },
         { key: 'X-Content-Type-Options', value: 'nosniff' },
         { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
         { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+        { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' },
         {
           key: 'Content-Security-Policy',
           value: [
             "default-src 'self'",
-            "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+            "script-src 'self' 'unsafe-inline'",
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com",
             "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com",
             "img-src 'self' data: blob: https://plataformaelectoral.jne.gob.pe https://votoinformado.jne.gob.pe https://mpesije.jne.gob.pe https://upload.wikimedia.org https://ui-avatars.com",

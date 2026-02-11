@@ -716,7 +716,9 @@
     "privacy": "Privacidad",
     "rectification": "Rectificación",
     "operatedBy": "Operado por Ranking Electoral Perú",
-    "legalContact": "legal@rankingelectoral.pe"
+    "legalContact": "legal@rankingelectoral.pe",
+    "politicalParties": "Partidos Políticos",
+    "partiesCount": "partidos"
   },
   "dailyFact": {
     "didYouKnow": "¿Sabías que...?",
@@ -754,7 +756,13 @@
     "score": "Puntos",
     "rank": "Puesto",
     "party": "Partido",
-    "noParty": "Independiente"
+    "noParty": "Independiente",
+    "record": "antecedente",
+    "records": "antecedentes",
+    "remove": "Quitar",
+    "compare": "Comparar",
+    "compareShort": "Comp.",
+    "viewMore": "Ver más"
   },
   "docs": {
     "meta": {
@@ -1566,5 +1574,15 @@
     "noProposals": "No hay propuestas extraídas para estos candidatos.",
     "autoExtractHint": "Las propuestas se extraen automáticamente de los planes de gobierno cuando están disponibles.",
     "noCategoryProposals": "Sin propuestas en esta categoría"
+  },
+  "compareTray": {
+    "comparing": "Comparar",
+    "removeCandidate": "Quitar {name} de comparación",
+    "clear": "Limpiar",
+    "compare": "Comparar"
+  },
+  "partiesGrid": {
+    "candidates": "candidatos",
+    "viewAllParties": "Ver los {count} partidos"
   }
 }

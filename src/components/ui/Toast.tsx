@@ -91,12 +91,12 @@ const typeStyles: Record<ToastType, { container: string; icon: string; title: st
   },
 }
 
-// Accessible labels for screen readers
+// Accessible labels for screen readers — kept as static since Toast renders outside i18n provider context
 const typeLabels: Record<ToastType, string> = {
-  success: 'Éxito',
+  success: 'Success',
   error: 'Error',
-  warning: 'Advertencia',
-  info: 'Información',
+  warning: 'Warning',
+  info: 'Info',
 }
 
 // Individual Toast component
@@ -171,7 +171,7 @@ function ToastItem({ toast, onRemove }: { toast: Toast; onRemove: () => void }) 
           'transition-colors',
           'focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)]',
         )}
-        aria-label="Cerrar notificación"
+        aria-label="Close notification"
       >
         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
           <path strokeLinecap="square" strokeLinejoin="miter" d="M6 18L18 6M6 6l12 12" />

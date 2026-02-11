@@ -24,7 +24,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    console.log('[API] Starting JNE sync...')
     const result = await syncJNECandidates()
 
     return NextResponse.json({

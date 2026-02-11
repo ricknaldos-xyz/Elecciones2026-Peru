@@ -1,7 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { timingSafeEqual } from 'node:crypto'
 
 const SESSION_COOKIE_NAME = 'admin_session'
 const SESSION_MAX_AGE = 60 * 60 * 24 // 24 hours
+
+// Simple in-memory rate limiter for auth attempts
+const loginAttempts = new Map<string, { count: number; resetAt: number }>()
+const RATE_LIMIT_MAX = 5
+const RATE_LIMIT_WINDOW = 60 * 1000 // 1 minute
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now()
+  const entry = loginAttempts.get(ip)
+  if (!entry || now > entry.resetAt) {
+    loginAttempts.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW })
+    return false
+  }
+  entry.count++
+  return entry.count > RATE_LIMIT_MAX
+}
 
 // Cryptographically secure session token
 function generateSessionToken(): string {
@@ -15,24 +32,24 @@ function isValidSessionFormat(token: string): boolean {
 
 // Constant-time string comparison to prevent timing attacks
 function safeCompare(a: string, b: string): boolean {
-  if (a.length !== b.length) {
-    // Still do a full comparison to avoid leaking length info via timing
-    let result = 1
-    for (let i = 0; i < a.length; i++) {
-      result |= a.charCodeAt(i) ^ a.charCodeAt(i)
-    }
-    return false
+  try {
+    return timingSafeEqual(Buffer.from(a), Buffer.from(b))
+  } catch {
+    return false // Different lengths
   }
-  let result = 0
-  for (let i = 0; i < a.length; i++) {
-    result |= a.charCodeAt(i) ^ b.charCodeAt(i)
-  }
-  return result === 0
 }
 
 // POST /api/admin/auth - Login
 export async function POST(request: NextRequest) {
   try {
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+    if (isRateLimited(ip)) {
+      return NextResponse.json(
+        { success: false, error: 'Too many attempts. Try again later.' },
+        { status: 429 }
+      )
+    }
+
     const body = await request.json()
     const { password } = body
 

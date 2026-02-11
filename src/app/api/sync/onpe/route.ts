@@ -23,7 +23,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    console.log('[API] Starting ONPE sync...')
     const result = await syncONPEFinances()
 
     return NextResponse.json({

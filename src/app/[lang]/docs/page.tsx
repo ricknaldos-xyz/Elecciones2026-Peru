@@ -9,6 +9,10 @@ import { DocsContent } from './DocsContent'
 export const metadata: Metadata = {
   title: 'Documentación Completa - Ranking Electoral 2026',
   description: 'Documentación técnica completa del Ranking Electoral Perú 2026. Arquitectura, metodología, fuentes de datos, diseño y más.',
+  openGraph: {
+    title: 'Documentación Técnica - Ranking Electoral 2026',
+    description: 'Arquitectura, metodología, fuentes de datos y diseño del Ranking Electoral Perú 2026.',
+  },
 }
 
 export default function DocsPage() {
