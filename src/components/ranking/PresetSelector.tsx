@@ -18,18 +18,18 @@ interface PresetSelectorProps {
 const presetConfig: Record<Exclude<PresetType, 'custom'>, { label: string; description: string; descriptionPres?: string }> = {
   balanced: {
     label: 'Equilibrado',
-    description: 'Equilibra preparación e integridad',
-    descriptionPres: 'Equilibra preparación, integridad y plan de gobierno',
+    description: 'Equilibra preparación e historial legal',
+    descriptionPres: 'Equilibra preparación, historial legal y plan de gobierno',
   },
   merit: {
     label: 'Mérito',
-    description: 'Prioriza experiencia y estudios; mantiene integridad como filtro clave',
+    description: 'Prioriza experiencia y estudios; mantiene historial legal como filtro clave',
     descriptionPres: 'Prioriza experiencia y estudios; incluye viabilidad del plan',
   },
   integrity: {
-    label: 'Integridad',
-    description: 'Prioriza historial limpio y señales verificables',
-    descriptionPres: 'Prioriza historial limpio; incluye viabilidad del plan',
+    label: 'Historial Legal',
+    description: 'Prioriza ausencia de antecedentes verificables',
+    descriptionPres: 'Prioriza ausencia de antecedentes; incluye viabilidad del plan',
   },
 }
 
@@ -199,7 +199,7 @@ export function PresetSelector({
               onChange={(v) => handleWeightChange('wC', v)}
             />
             <WeightSlider
-              label="Integridad"
+              label="Historial Legal"
               value={(customWeights as unknown as Record<string, number>).wI}
               min={(isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS).wI.min}
               max={(isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS).wI.max}

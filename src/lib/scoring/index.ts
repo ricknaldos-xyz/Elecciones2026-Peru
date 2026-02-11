@@ -204,7 +204,7 @@ const STABILITY_POINTS: { minYears: number; points: number }[] = [
 
 const CIVIL_PENALTIES: Record<CivilSentence['type'], number> = {
   violence: 50,
-  alimentos: 35,
+  alimentos: 0,   // Informativo solamente — no afecta puntaje (compliance legal)
   laboral: 25,
   contractual: 15,
 }
@@ -212,7 +212,7 @@ const CIVIL_PENALTIES: Record<CivilSentence['type'], number> = {
 // Caps per type to prevent extreme accumulation
 const CIVIL_PENALTY_CAPS: Record<CivilSentence['type'], number> = {
   violence: 70,    // Max 70 pts even with multiple violence sentences
-  alimentos: 50,   // Max 50 pts for multiple alimentos cases
+  alimentos: 0,    // Informativo solamente — no afecta puntaje (compliance legal)
   laboral: 40,     // Max 40 pts for multiple labor cases
   contractual: 25, // Max 25 pts for multiple contractual cases
 }

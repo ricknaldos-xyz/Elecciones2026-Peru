@@ -34,7 +34,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   return {
     title: `Candidatos de ${district.name} - Ranking Electoral 2026`,
-    description: `Ver ranking de candidatos al Congreso por ${district.name}. Compara scores de competencia, integridad y transparencia.`,
+    description: `Ver ranking de candidatos al Congreso por ${district.name}. Compara scores de competencia, historial legal y transparencia.`,
     openGraph: {
       images: [`/api/og?${ogParams.toString()}`],
     },

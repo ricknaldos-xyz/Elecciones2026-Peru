@@ -110,7 +110,7 @@ export default async function EmbedCandidatePage({ params }: PageProps) {
               {candidate.scores.integrity.toFixed(0)}
             </span>
             <span className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">
-              Integridad
+              H. Legal
             </span>
           </div>
           <div className="text-center">

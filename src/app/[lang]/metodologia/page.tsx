@@ -14,11 +14,11 @@ export const metadata: Metadata = {
 const FAQ_ITEMS = [
   {
     question: '¿Cómo se calcula el puntaje de cada candidato?',
-    answer: 'El puntaje se calcula combinando tres dimensiones: Competencia (educación, experiencia, liderazgo), Integridad (antecedentes judiciales, fiscales, patrimoniales) y Transparencia (accesibilidad de información y coherencia). Cada dimensión tiene sub-indicadores con pesos específicos.',
+    answer: 'El puntaje se calcula combinando tres dimensiones: Competencia (educación, experiencia, liderazgo), Historial Legal (antecedentes judiciales, fiscales, patrimoniales) y Transparencia (accesibilidad de información y coherencia). Cada dimensión tiene sub-indicadores con pesos específicos.',
   },
   {
-    question: '¿Qué son los modos de ranking (Equilibrado, Mérito, Integridad)?',
-    answer: 'Son diferentes perspectivas para ver el ranking. Equilibrado pondera las tres dimensiones por igual. Mérito prioriza la competencia profesional. Integridad prioriza la ausencia de problemas legales y la transparencia. Puedes cambiar entre modos según lo que más valores.',
+    question: '¿Qué son los modos de ranking (Equilibrado, Mérito, Historial Legal)?',
+    answer: 'Son diferentes perspectivas para ver el ranking. Equilibrado pondera las tres dimensiones por igual. Mérito prioriza la competencia profesional. Historial Legal prioriza la ausencia de problemas legales y la transparencia. Puedes cambiar entre modos según lo que más valores.',
   },
   {
     question: '¿De dónde vienen los datos?',
@@ -87,7 +87,7 @@ export default function MetodologiaPage() {
               <div className="p-4 bg-[var(--score-integrity)]/10 border-2 border-[var(--score-integrity)]">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-3 h-3 bg-[var(--score-integrity)]" />
-                  <span className="font-black text-[var(--score-integrity-text)] uppercase">Integridad</span>
+                  <span className="font-black text-[var(--score-integrity-text)] uppercase">Historial Legal</span>
                 </div>
                 <p className="text-sm font-medium text-[var(--foreground)]">
                   Ausencia de sentencias penales, civiles y comportamiento ético verificable.
@@ -113,7 +113,7 @@ export default function MetodologiaPage() {
           </CardHeader>
           <CardContent>
             <div className="bg-[var(--muted)] border-2 border-[var(--border)] p-4 font-mono text-center text-sm mb-4">
-              <div>Score = (wC × Competencia) + (wI × Integridad) + (wT × Transparencia)</div>
+              <div>Score = (wC × Competencia) + (wI × Historial Legal) + (wT × Transparencia)</div>
               <div className="text-xs text-[var(--muted-foreground)] mt-2">
                 Los pesos siempre suman 1.0 (wC + wI + wT = 1.0). El sistema valida y normaliza automáticamente.
               </div>
@@ -150,7 +150,7 @@ export default function MetodologiaPage() {
                   </tr>
                   <tr className="border-b-2 border-[var(--border)]">
                     <td className="py-2 text-[var(--foreground)]">
-                      <Badge variant="outline">INTEGRIDAD</Badge>
+                      <Badge variant="outline">HISTORIAL LEGAL</Badge>
                     </td>
                     <td className="text-center py-2 text-[var(--muted-foreground)] font-bold">30%</td>
                     <td className="text-center py-2 text-[var(--muted-foreground)] font-bold">60%</td>
@@ -383,7 +383,7 @@ export default function MetodologiaPage() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <div className="w-3 h-3 bg-[var(--score-integrity)]" />
-              INTEGRIDAD (0-100)
+              HISTORIAL LEGAL (0-100)
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -425,7 +425,7 @@ export default function MetodologiaPage() {
                     <td className="text-center"><Badge variant="warning" size="sm">AMBER</Badge></td>
                   </tr>
                   <tr className="border-b border-[var(--border)]">
-                    <td className="py-1.5 font-medium">Omisión alimentaria</td>
+                    <td className="py-1.5 font-medium">Omisión alimentaria (informativo)</td>
                     <td className="text-center text-[var(--flag-amber-text)] font-bold">-35</td>
                     <td className="text-center font-bold">-50</td>
                     <td className="text-center"><Badge variant="warning" size="sm">AMBER</Badge></td>
@@ -463,7 +463,7 @@ export default function MetodologiaPage() {
               </h4>
               <p className="text-sm text-[var(--muted-foreground)] font-medium mb-3">
                 Para candidatos con historial público, evaluamos fuentes adicionales que ajustan
-                el score de integridad:
+                el score de historial legal:
               </p>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">

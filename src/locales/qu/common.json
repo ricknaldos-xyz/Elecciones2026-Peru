@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Akllana Ranking Perú 2026",
-    "description": "Akllasqa runakunapa ranking, yachayninwan, allin kayninwan. Hatun Akllana 12 abril 2026.",
+    "description": "Akllasqa runakunapa ranking, yachayninwan, kamachiy qillqanwan. Hatun Akllana 12 abril 2026.",
     "ogTitle": "Akllana Ranking Perú 2026",
     "ogDescription": "Yupaykunawan akllay, ama rimaykunawanchu. Sut'i ranking akllasqa runakunapaq."
   },
@@ -36,7 +36,7 @@
   "hero": {
     "title": "Akllana Ranking Perú 2026",
     "subtitle": "Yupaykunawan akllay, ama rimaykunawanchu",
-    "description": "Akllasqa runakunapa yachayninta, allin kayninta qhawaspa ranking ruwaq plataforma. Hatun Akllana 12 abril 2026.",
+    "description": "Akllasqa runakunapa yachayninta, kamachiy qillqanta qhawaspa ranking ruwaq plataforma. Hatun Akllana 12 abril 2026.",
     "cta": "Tukuy Ranking qhaway",
     "countdown": {
       "title": "Akllana 2026",
@@ -48,7 +48,7 @@
   },
   "ranking": {
     "title": "Akllasqa Runakunapa Ranking",
-    "subtitle": "Akllasqa runakunata qhaway yachayninwan, allin kayninwan",
+    "subtitle": "Akllasqa runakunata qhaway yachayninwan, kamachiy qillqanwan",
     "filters": {
       "cargo": "Llamk'ay",
       "district": "Suyu",
@@ -64,11 +64,11 @@
     },
     "presets": {
       "balanced": "Chawpi",
-      "balancedDesc": "Yachay allin kaywan tupachisqa",
+      "balancedDesc": "Yachay kamachiy qillqawan tupachisqa",
       "merit": "Yachay",
       "meritDesc": "Yachayninta aswan qhaway",
-      "integrity": "Allin kay",
-      "integrityDesc": "Allin kayninta aswan qhaway",
+      "integrity": "Kamachiy Qillqa",
+      "integrityDesc": "Mana antecedente kayninta qhaway",
       "custom": "Munayniyuq"
     },
     "cargo": {
@@ -84,7 +84,7 @@
       "party": "Partido",
       "score": "Chanin",
       "competence": "Yachay",
-      "integrity": "Allin kay",
+      "integrity": "Kamachiy Qillqa",
       "transparency": "Sut'i kay",
       "confidence": "Iñiy",
       "actions": "Ruwaykuna"
@@ -181,12 +181,13 @@
       "title": "Chaninkuna",
       "competence": "Yachay",
       "competenceDesc": "Yachay, ruwaykuna, umalliq kay",
-      "integrity": "Allin kay",
-      "integrityDesc": "Mana sentenciakuna, allin kawsay",
+      "integrity": "Kamachiy Qillqa",
+      "integrityDesc": "Antecedente penal, civil qillqasqa",
       "transparency": "Sut'i kay",
-      "transparencyDesc": "Willasqa yachaypa allin kaynin",
+      "transparencyDesc": "Willasqa yachaypa kamachiy qillqan",
       "confidence": "Yachay Iñiy",
-      "confidenceDesc": "Imayna chiqap kanku yachaykuna"
+      "confidenceDesc": "Imayna chiqap kanku yachaykuna",
+      "scoreDisclaimer": "Algoritmo puntaje llaqta yachaykunamanta. Mana chaninchaymi kanchu."
     },
     "educationLevels": {
       "doctorado": "Yachay Hatun Kamaq",
@@ -224,7 +225,7 @@
     "scoreMode": {
       "balanced": "Chawpi",
       "merit": "Yachay",
-      "integrity": "Allin kay"
+      "integrity": "Kamachiy Qillqa"
     },
     "record": "ñawpa ruray",
     "records": "ñawpa ruraykuna",
@@ -241,7 +242,7 @@
     "otherCandidatesTo": "Wak {cargo} akllasqa runakuna tupachipaq.",
     "viewMoreCandidates": "Aswan akllasqa runakunata qhaway",
     "notFound": "Manam akllasqa runa tarikuranchu",
-    "metaDescription": "{name} willaynin - Chanin: {score}/100 yachay, allin kay, sut'i kaymanta.",
+    "metaDescription": "{name} willaynin - Chanin: {score}/100 yachay, kamachiy qillqa, sut'i kaymanta.",
     "metaOgDescription": "Akllasqa runa {score}/100 chaniyuq Perú 2026 akllaypi.",
     "planViability": {
       "title": "Kamachiy Planinpa Ruwanapaq Qhawariy",
@@ -364,7 +365,7 @@
     "metrics": {
       "total": "Tukuy Chanin",
       "competence": "Yachay",
-      "integrity": "Allin kay",
+      "integrity": "Kamachiy Qillqa",
       "transparency": "Sut'i kay",
       "confidence": "Iñiy",
       "plan": "Kamachiy Yuyay"
@@ -469,17 +470,17 @@
     "overviewDescription": "Qhipa chanin kimsa hatun partekunawan tupachispa yupaykun:",
     "competence": "Yachay",
     "competenceDescription": "Yachay, llamk'ay ruwasqan, umalliq kay rikuchisqa.",
-    "integrity": "Allin kay",
-    "integrityDescription": "Mana sentencia penal, civil, allin kawsay qhawasqa.",
+    "integrity": "Kamachiy Qillqa",
+    "integrityDescription": "Antecedente penal, civil qillqasqa, fuente oficialkunamanta.",
     "transparency": "Sut'i kay",
-    "transparencyDescription": "DJHV nisqapi willasqa yachaypa allin kaynin.",
+    "transparencyDescription": "DJHV nisqapi willasqa yachaypa kamachiy qillqan.",
     "formula": "HATUN FÓRMULA",
-    "formulaEquation": "Chanin = (wC × Yachay) + (wI × Allin kay) + (wT × Sut'i kay)",
+    "formulaEquation": "Chanin = (wC × Yachay) + (wI × Kamachiy Qillqa) + (wT × Sut'i kay)",
     "weightsDescription": "Chay llasaqkuna (w) tikrakun akllay nisqaman hina:",
     "mode": "Modo",
     "balanced": "CHAWPI",
     "merit": "YACHAY",
-    "integrityMode": "ALLIN KAY",
+    "integrityMode": "KAMACHIY QILLQA",
     "custom": "MUNAYNIYUQ",
     "competenceTitle": "YACHAY (0-100)",
     "competenceMeasure": "Akllasqa runapa yachaykunata llamk'aypaq chaninchan.",
@@ -512,7 +513,7 @@
     "roleTechnical": "Técnico/profesional",
     "leadership": "Umalliq Kay (máx. 20 chanin)",
     "leadershipDescription": "Hatun seniority (0-14 chanin) umalliq kaynin llamk'aypi (0-6 chanin) tupachisqa.",
-    "integrityTitle": "ALLIN KAY (0-100)",
+    "integrityTitle": "KAMACHIY QILLQA (0-100)",
     "integrityMeasure": "100-manta qallarispa, antecedentes qhawasqamanta qichukun.",
     "penalties": "Qichukuna",
     "type": "Laya",
@@ -522,12 +523,12 @@
     "penalSentence2plus": "Penal sentenciakuna (2+)",
     "cap": "tope",
     "familyViolence": "Ayllu maqanakuy",
-    "childSupportOmission": "Wawaman mana quy",
+    "childSupportOmission": "Wawaman mana quy (willakuy, mana puntaje afectanchu)",
     "laborSentence": "Llamk'ay sentencia",
     "contractualSentence": "Trato sentencia",
     "partyResignations": "Partidomanta saqiy (1 / 2-3 / 4+)",
     "transparencyTitle": "SUT'I KAY (0-100)",
-    "transparencyMeasure": "Akllasqa runapa willasqa yachaypa allin kayninta chaninchan.",
+    "transparencyMeasure": "Akllasqa runapa willasqa yachaypa kamachiy qillqanta chaninchan.",
     "completeness": "Tukuynin (máx. 35 chanin)",
     "completenessDescription": "¿Tukuy DJHV campokunata hunt'arqa? ¿Mana entendiy ch'usaq kanchu?",
     "consistency": "Tupaq kay (máx. 35 chanin)",
@@ -561,7 +562,17 @@
     "terms": "Kamachikuykuna",
     "disclaimer": "Kay ranking willay herramienta. Mana akllana kamachiy kanchu."
   },
+  "veda": {
+    "title": "Akllana Hark'ay",
+    "message": "Art. 191 Akllana Kamachiy nisqanman hina, kay llika ranking nisqakunata harkan akllana p'unchawpa 7 p'unchaw ñawpaqninpi.",
+    "exemptNote": "Ruwaykuna, pakasqa kay, allichay mañakuy p'anqakunaman yaykuyta atinki.",
+    "viewMethodology": "Ruwaykunata Qhaway",
+    "viewDocs": "Qillqakuna",
+    "legalRef": "Ref: Art. 191, Akllana Kamachiy (Ley 26859)"
+  },
   "common": {
+    "aiBadge": "IA",
+    "aiGenerated": "Inteligencia artificial nisqawan ruwasqa",
     "loading": "Apamuchkan...",
     "error": "Pantay",
     "retry": "Musuqmanta ruway",
@@ -621,8 +632,8 @@
     "viewFullMethodology": "Tukuy ruwayta qhaway",
     "competence": "Yachay",
     "competenceDesc": "Yachay, ruwaykuna, umalliq kay.",
-    "integrity": "Allin kay",
-    "integrityDesc": "Ch'uya kawsay, mana sentenciakuna.",
+    "integrity": "Kamachiy Qillqa",
+    "integrityDesc": "Antecedente legal qhawasqa.",
     "transparency": "Sut'i kay",
     "transparencyDesc": "Tukuy willay Kawsay Qillqapi.",
     "officialSources": "Kamachiq pukyukuna",
@@ -635,7 +646,11 @@
     "peru2026": "Perú 2026",
     "methodology": "Ruwaykuna",
     "rankings": "Rankingkuna",
-    "dataUpdated": "Musuqchasqa willaykuna: Iniru 2026"
+    "dataUpdated": "Musuqchasqa willaykuna: Iniru 2026",
+    "privacy": "Pakasqa Kay",
+    "rectification": "Allichay Mañakuy",
+    "operatedBy": "Akllana Ranking Perú ruwasqa",
+    "legalContact": "legal@rankingelectoral.pe"
   },
   "countdown": {
     "title": "Hatun Akllana 2026",
@@ -690,7 +705,7 @@
     },
     "badge": "TÉCNICO QILLQAKUNA",
     "title": "Akllana Ranking Perú 2026",
-    "description": "Plataforma akllasqa runakunapa yachayninta, allin kayninta qhawaspa ranking ruwaq. Hatun Akllana 12 abril 2026.",
+    "description": "Plataforma akllasqa runakunapa yachayninta, kamachiy qillqanta qhawaspa ranking ruwaq. Hatun Akllana 12 abril 2026.",
     "toc": {
       "title": "QILLQA ÍNDICE",
       "vision": "1. Qhawarina Ruway",
@@ -777,19 +792,19 @@
       "title": "CHANIN RUWAYKUNA",
       "intro": "Sistemanchik akllasqa runakunata kimsa hatun partepi chaninchan, sapa huk achka huch'uy parteyuq:",
       "formulaTitle": "Hatun Fórmula",
-      "formula": "Chanin = (wC x Yachay) + (wI x Allin kay) + (wT x Sut'i kay)",
+      "formula": "Chanin = (wC x Yachay) + (wI x Kamachiy Qillqa) + (wT x Sut'i kay)",
       "presets": {
         "mode": "Modo",
         "competence": "Yachay",
-        "integrity": "Allin kay",
+        "integrity": "Kamachiy Qillqa",
         "transparency": "Sut'i kay",
         "description": "Willay",
         "balanced": "CHAWPI",
-        "balancedDesc": "Yachay allin kaywan tupachisqa",
+        "balancedDesc": "Yachay kamachiy qillqawan tupachisqa",
         "merit": "YACHAY",
         "meritDesc": "Yachayninta aswan qhaway",
-        "integrityMode": "ALLIN KAY",
-        "integrityModeDesc": "Allin kayninta aswan qhaway",
+        "integrityMode": "KAMACHIY QILLQA",
+        "integrityModeDesc": "Mana antecedente kayninta qhaway",
         "custom": "MUNAYNIYUQ",
         "customDesc": "Runaq llasaqkuna churan"
       },
@@ -812,7 +827,7 @@
         "leadership2": "Umalliq llamk'aypi kaqlla kay: 0-6 chanin"
       },
       "integrity": {
-        "title": "ALLIN KAY (0-100 chanin)",
+        "title": "KAMACHIY QILLQA (0-100 chanin)",
         "desc": "100 chanipi qallarin, antecedentes qhawasqamanta qichukun.",
         "tableHeaders": {
           "type": "Antecedente Laya",
@@ -822,14 +837,14 @@
         "penal1": "Penal sentencia (1)",
         "penal2": "Penal sentenciakuna (2+)",
         "violence": "Ayllu maqanakuy",
-        "alimony": "Wawaman mana quy",
+        "alimony": "Wawaman mana quy (willakuy)",
         "labor": "Llamk'ay sentencia",
         "contractual": "Trato sentencia",
         "resignations": "Partidomanta saqiy (1 / 2-3 / 4+)"
       },
       "transparency": {
         "title": "SUT'I KAY (0-100 chanin)",
-        "desc": "Akllasqa runapa willasqa yachaypa allin kayninta chaninchan DJHV nisqapi.",
+        "desc": "Akllasqa runapa willasqa yachaypa kamachiy qillqanta chaninchan DJHV nisqapi.",
         "completeness": "Tukuynin",
         "completenessDesc": "¿Tukuy DJHV campokunata hunt'arqa?",
         "consistency": "Tupaq kay",
@@ -981,8 +996,8 @@
       "auth3": "Supabase Auth runapaq (hamuq)",
       "privacyTitle": "Yachay Pakasqa Kay",
       "privacy1": "Donantes DNI: qhipa 4 yupayllaña",
-      "privacy2": "Mana kikin yachaykuna waqaychanchikchu",
-      "privacy3": "Quiz kutichiy: anónimo session ID nisqawan",
+      "privacy2": "Pisi técnico yachaykuna huñunchik (sesión rikch'aq, ñiqisqa p'anqakuna)",
+      "privacy3": "Quiz kutichiy: anónimo session ID nisqawan temporal",
       "infraTitle": "Infraestructura",
       "infra1": "Vercel hosting (SOC 2 compliant)",
       "infra2": "Neon yachay wasi (cifrada)",

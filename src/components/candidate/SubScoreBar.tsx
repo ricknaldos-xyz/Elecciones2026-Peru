@@ -21,8 +21,8 @@ const typeConfig: Record<ScoreType, { label: string; shortLabel: string; icon: s
     color: 'var(--score-competence)',
   },
   integrity: {
-    label: 'Integridad',
-    shortLabel: 'Integ',
+    label: 'Historial Legal',
+    shortLabel: 'H.Legal',
     icon: 'I',
     color: 'var(--score-integrity)',
   },

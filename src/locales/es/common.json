@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Ranking Electoral Perú 2026",
-    "description": "Ranking transparente de candidatos basado en mérito, integridad y evidencia. Elecciones Generales 12 de abril 2026.",
+    "description": "Ranking transparente de candidatos basado en mérito, historial legal y evidencia. Elecciones Generales 12 de abril 2026.",
     "ogTitle": "Ranking Electoral Perú 2026",
     "ogDescription": "Elige con datos, no con slogans. Ranking transparente de candidatos."
   },
@@ -48,7 +48,7 @@
   },
   "ranking": {
     "title": "Ranking de Candidatos",
-    "subtitle": "Explora y compara candidatos según su competencia, integridad y transparencia",
+    "subtitle": "Explora y compara candidatos según su competencia, historial legal y transparencia",
     "filters": {
       "cargo": "Cargo",
       "district": "Distrito",
@@ -67,8 +67,8 @@
       "balancedDesc": "Balance entre capacidad y ética",
       "merit": "Mérito",
       "meritDesc": "Prioriza preparación profesional",
-      "integrity": "Integridad",
-      "integrityDesc": "Prioriza historial ético",
+      "integrity": "Historial Legal",
+      "integrityDesc": "Prioriza ausencia de antecedentes",
       "custom": "Personalizado"
     },
     "cargo": {
@@ -84,7 +84,7 @@
       "party": "Partido",
       "score": "Puntaje",
       "competence": "Competencia",
-      "integrity": "Integridad",
+      "integrity": "Historial Legal",
       "transparency": "Transparencia",
       "confidence": "Confianza",
       "actions": "Acciones"
@@ -181,12 +181,13 @@
       "title": "Puntajes",
       "competence": "Competencia",
       "competenceDesc": "Educación, experiencia y liderazgo",
-      "integrity": "Integridad",
-      "integrityDesc": "Ausencia de sentencias y ética verificable",
+      "integrity": "Historial Legal",
+      "integrityDesc": "Registro de antecedentes penales, civiles y disciplinarios",
       "transparency": "Transparencia",
       "transparencyDesc": "Calidad de información declarada",
       "confidence": "Confianza de Datos",
-      "confidenceDesc": "Qué tan verificados están los datos"
+      "confidenceDesc": "Qué tan verificados están los datos",
+      "scoreDisclaimer": "Puntaje algorítmico basado en datos públicos. No constituye juicio de valor."
     },
     "educationLevels": {
       "doctorado": "Doctorado",
@@ -224,7 +225,7 @@
     "scoreMode": {
       "balanced": "Equilibrado",
       "merit": "Mérito",
-      "integrity": "Integridad"
+      "integrity": "Historial Legal"
     },
     "record": "antecedente",
     "records": "antecedentes",
@@ -241,7 +242,7 @@
     "otherCandidatesTo": "Otros candidatos a {cargo} para comparar.",
     "viewMoreCandidates": "Ver más candidatos",
     "notFound": "Candidato no encontrado",
-    "metaDescription": "Perfil de {name} - Puntaje: {score}/100 basado en competencia, integridad y transparencia.",
+    "metaDescription": "Perfil de {name} - Puntaje: {score}/100 basado en competencia, historial legal y transparencia.",
     "metaOgDescription": "Candidato con puntaje de {score}/100 en el Ranking Electoral Perú 2026.",
     "planViability": {
       "title": "Análisis de Viabilidad del Plan de Gobierno",
@@ -364,7 +365,7 @@
     "metrics": {
       "total": "Puntaje Total",
       "competence": "Competencia",
-      "integrity": "Integridad",
+      "integrity": "Historial Legal",
       "transparency": "Transparencia",
       "confidence": "Confianza",
       "plan": "Plan de Gobierno"
@@ -469,17 +470,17 @@
     "overviewDescription": "El score final se calcula combinando tres dimensiones principales:",
     "competence": "Competencia",
     "competenceDescription": "Educación, experiencia profesional y capacidad de liderazgo demostrada.",
-    "integrity": "Integridad",
-    "integrityDescription": "Ausencia de sentencias penales, civiles y comportamiento ético verificable.",
+    "integrity": "Historial Legal",
+    "integrityDescription": "Registro de antecedentes penales, civiles y disciplinarios verificados.",
     "transparency": "Transparencia",
     "transparencyDescription": "Calidad y completitud de la información declarada en el DJHV.",
     "formula": "FÓRMULA GENERAL",
-    "formulaEquation": "Score = (wC × Competencia) + (wI × Integridad) + (wT × Transparencia)",
+    "formulaEquation": "Score = (wC × Competencia) + (wI × Historial Legal) + (wT × Transparencia)",
     "weightsDescription": "Donde los pesos (w) varían según el modo seleccionado:",
     "mode": "Modo",
     "balanced": "EQUILIBRADO",
     "merit": "MÉRITO",
-    "integrityMode": "INTEGRIDAD",
+    "integrityMode": "HISTORIAL LEGAL",
     "custom": "PERSONALIZADO",
     "competenceTitle": "COMPETENCIA (0-100)",
     "competenceMeasure": "Mide la preparación profesional del candidato para ejercer el cargo.",
@@ -512,8 +513,8 @@
     "roleTechnical": "Técnico/profesional",
     "leadership": "Liderazgo (máx. 20 pts)",
     "leadershipDescription": "Combina el nivel máximo de seniority alcanzado (0-14 pts) y la estabilidad en posiciones de liderazgo (0-6 pts).",
-    "integrityTitle": "INTEGRIDAD (0-100)",
-    "integrityMeasure": "Comienza en 100 y se restan penalidades por antecedentes verificados.",
+    "integrityTitle": "HISTORIAL LEGAL (0-100)",
+    "integrityMeasure": "Comienza en 100 puntos. Se aplican deducciones por antecedentes penales, civiles y disciplinarios verificados en fuentes oficiales.",
     "penalties": "Penalidades",
     "type": "Tipo",
     "penalty": "Penalidad",
@@ -522,7 +523,7 @@
     "penalSentence2plus": "Sentencias penales (2+)",
     "cap": "cap",
     "familyViolence": "Violencia familiar",
-    "childSupportOmission": "Omisión alimentaria",
+    "childSupportOmission": "Omisión alimentaria (informativo, sin impacto en puntaje)",
     "laborSentence": "Sentencia laboral",
     "contractualSentence": "Sentencia contractual",
     "partyResignations": "Renuncias a partidos (1 / 2-3 / 4+)",
@@ -607,8 +608,8 @@
     "viewFullMethodology": "Ver metodología completa",
     "competence": "Competencia",
     "competenceDesc": "Educación, experiencia y liderazgo.",
-    "integrity": "Integridad",
-    "integrityDesc": "Historial limpio, sin sentencias.",
+    "integrity": "Historial Legal",
+    "integrityDesc": "Registro verificado de antecedentes legales.",
     "transparency": "Transparencia",
     "transparencyDesc": "Info completa en Hoja de Vida.",
     "officialSources": "Fuentes oficiales",
@@ -621,7 +622,11 @@
     "peru2026": "Perú 2026",
     "methodology": "Metodología",
     "rankings": "Rankings",
-    "dataUpdated": "Datos actualizados: Enero 2026"
+    "dataUpdated": "Datos actualizados: Enero 2026",
+    "privacy": "Privacidad",
+    "rectification": "Rectificación",
+    "operatedBy": "Operado por Ranking Electoral Perú",
+    "legalContact": "legal@rankingelectoral.pe"
   },
   "countdown": {
     "title": "Elecciones Generales 2026",
@@ -763,19 +768,19 @@
       "title": "METODOLOGÍA DE SCORING",
       "intro": "Nuestro sistema evalúa candidatos en tres dimensiones principales, cada una con múltiples sub-componentes:",
       "formulaTitle": "Fórmula General",
-      "formula": "Score = (wC x Competencia) + (wI x Integridad) + (wT x Transparencia)",
+      "formula": "Score = (wC x Competencia) + (wI x Historial Legal) + (wT x Transparencia)",
       "presets": {
         "mode": "Modo",
         "competence": "Competencia",
-        "integrity": "Integridad",
+        "integrity": "Historial Legal",
         "transparency": "Transparencia",
         "description": "Descripción",
         "balanced": "EQUILIBRADO",
         "balancedDesc": "Balance entre capacidad y ética",
         "merit": "MÉRITO",
         "meritDesc": "Prioriza preparación profesional",
-        "integrityMode": "INTEGRIDAD",
-        "integrityModeDesc": "Prioriza historial ético",
+        "integrityMode": "HISTORIAL LEGAL",
+        "integrityModeDesc": "Prioriza ausencia de antecedentes legales",
         "custom": "PERSONALIZADO",
         "customDesc": "Usuario define los pesos"
       },
@@ -798,8 +803,8 @@
         "leadership2": "Estabilidad en posiciones de liderazgo: 0-6 pts"
       },
       "integrity": {
-        "title": "INTEGRIDAD (0-100 puntos)",
-        "desc": "Comienza en 100 puntos y se restan penalidades por antecedentes verificados.",
+        "title": "HISTORIAL LEGAL (0-100 puntos)",
+        "desc": "Comienza en 100 puntos. Se aplican deducciones por antecedentes penales, civiles y disciplinarios verificados en fuentes oficiales.",
         "tableHeaders": {
           "type": "Tipo de Antecedente",
           "penalty": "Penalidad",
@@ -808,7 +813,7 @@
         "penal1": "Sentencia penal firme (1)",
         "penal2": "Sentencias penales (2+)",
         "violence": "Violencia familiar",
-        "alimony": "Omisión alimentaria",
+        "alimony": "Omisión alimentaria (informativo)",
         "labor": "Sentencia laboral",
         "contractual": "Sentencia contractual",
         "resignations": "Renuncias a partidos (1 / 2-3 / 4+)"
@@ -967,8 +972,8 @@
       "auth3": "Supabase Auth para usuarios (futuro)",
       "privacyTitle": "Privacidad de Datos",
       "privacy1": "DNI de donantes: solo últimos 4 dígitos",
-      "privacy2": "No almacenamos datos personales de usuarios",
-      "privacy3": "Quiz responses: anónimas con session ID",
+      "privacy2": "Recopilamos datos técnicos mínimos (identificador de sesión, páginas visitadas)",
+      "privacy3": "Quiz responses: anónimas con session ID temporal",
       "infraTitle": "Infraestructura",
       "infra1": "Hosting en Vercel (SOC 2 compliant)",
       "infra2": "Base de datos en Neon (encriptada)",
@@ -1088,7 +1093,17 @@
       "syncError": "Error sincronizando {source}"
     }
   },
+  "veda": {
+    "title": "Veda Electoral",
+    "message": "En cumplimiento del Art. 191 de la Ley Orgánica de Elecciones, esta plataforma suspende la difusión de rankings y comparaciones de candidatos durante el período de veda electoral (7 días antes de la elección).",
+    "exemptNote": "Podrás seguir accediendo a nuestra metodología, política de privacidad y procedimiento de rectificación.",
+    "viewMethodology": "Ver Metodología",
+    "viewDocs": "Documentación",
+    "legalRef": "Ref: Art. 191, Ley Orgánica de Elecciones (Ley 26859)"
+  },
   "common": {
+    "aiBadge": "IA",
+    "aiGenerated": "Contenido generado por inteligencia artificial",
     "months": {
       "jan": "ene",
       "feb": "feb",

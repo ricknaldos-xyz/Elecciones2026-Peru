@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils'
+import { AIBadge } from '@/components/ui/AIBadge'
 
 interface NewsSentimentBadgeProps {
   sentiment: string | null
@@ -53,6 +54,7 @@ export function NewsSentimentBadge({
     >
       <span>{config.icon}</span>
       {showLabel && <span>{config.label}</span>}
+      <AIBadge className="ml-1" />
     </div>
   )
 }

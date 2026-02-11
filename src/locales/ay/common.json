@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Ajilanaka Ranking Perú 2026",
-    "description": "Ajilanakana ranking, yatiqawinakampi, wali jakañampi. Jach'a Ajilana 12 abril 2026.",
+    "description": "Ajilanakana ranking, yatiqawinakampi, kamachi qillqampi. Jach'a Ajilana 12 abril 2026.",
     "ogTitle": "Ajilanaka Ranking Perú 2026",
     "ogDescription": "Jakhunakanpi ajila, jan arumpi. Suma ranking ajilanakaru."
   },
@@ -36,7 +36,7 @@
   "hero": {
     "title": "Ajilanaka Ranking Perú 2026",
     "subtitle": "Jakhunakanpi ajila, jan arumpi",
-    "description": "Ajilanakana yatiqawipa, wali jakañapa uñjaña ranking plataforma. Jach'a Ajilana 12 abril 2026.",
+    "description": "Ajilanakana yatiqawipa, kamachi qillqapa uñjaña ranking plataforma. Jach'a Ajilana 12 abril 2026.",
     "cta": "Taqi Ranking uñjaña",
     "countdown": {
       "title": "Ajilana 2026",
@@ -48,7 +48,7 @@
   },
   "ranking": {
     "title": "Ajilanakana Ranking",
-    "subtitle": "Ajilanaka uñjaña yatiqawimpi, wali jakañampi",
+    "subtitle": "Ajilanaka uñjaña yatiqawimpi, kamachi qillqampi",
     "filters": {
       "cargo": "Irnaqa",
       "district": "Suyu",
@@ -64,11 +64,11 @@
     },
     "presets": {
       "balanced": "Taypiku",
-      "balancedDesc": "Yatiqawi wali jakañampi chikanchataw",
+      "balancedDesc": "Yatiqawi kamachi qillqampi chikanchataw",
       "merit": "Yatiqawi",
       "meritDesc": "Yatiqawir askin uñjaña",
-      "integrity": "Wali jakaña",
-      "integrityDesc": "Wali jakañar askin uñjaña",
+      "integrity": "Kamachi Qillqa",
+      "integrityDesc": "Jan antecedente ukanak uñjaña",
       "custom": "Munañ ukham"
     },
     "cargo": {
@@ -84,7 +84,7 @@
       "party": "Tantachawi",
       "score": "Jakhunaka",
       "competence": "Yatiqawi",
-      "integrity": "Wali jakaña",
+      "integrity": "Kamachi Qillqa",
       "transparency": "Q'umara",
       "confidence": "Iyawsaña",
       "actions": "Lurawinaka"
@@ -181,12 +181,13 @@
       "title": "Jakhunakanaka",
       "competence": "Yatiqawi",
       "competenceDesc": "Yatiqawi, lurawinaka, irpiri jakaña",
-      "integrity": "Wali jakaña",
-      "integrityDesc": "Jan sentencianaka, suma jakaña",
+      "integrity": "Kamachi Qillqa",
+      "integrityDesc": "Antecedente penal, civil qillqata",
       "transparency": "Q'umara",
       "transparencyDesc": "Yatiyatana suma jakaña",
       "confidence": "Yatiqawi Iyawsaña",
-      "confidenceDesc": "Kunjams chiqa yatiqawinaka"
+      "confidenceDesc": "Kunjams chiqa yatiqawinaka",
+      "scoreDisclaimer": "Algoritmo puntaje llaqta yatiqawinakata. Jan chaninchaykiti."
     },
     "educationLevels": {
       "doctorado": "Jach'a Yatiqawi Título",
@@ -224,7 +225,7 @@
     "scoreMode": {
       "balanced": "Taypiku",
       "merit": "Yatiqawi",
-      "integrity": "Wali jakaña"
+      "integrity": "Kamachi Qillqa"
     },
     "record": "nayra luräwi",
     "records": "nayra luräwinaka",
@@ -364,7 +365,7 @@
     "metrics": {
       "total": "Taqpach Jakhunaka",
       "competence": "Yatiqawi",
-      "integrity": "Wali jakaña",
+      "integrity": "Kamachi Qillqa",
       "transparency": "Q'umara",
       "confidence": "Iyawsaña",
       "plan": "Marka Irpañ Yatiyawi"
@@ -469,17 +470,17 @@
     "overviewDescription": "Qhipa jakhunakaxa kimsa jach'a partinakampi chikanchataw jakhuñ:",
     "competence": "Yatiqawi",
     "competenceDescription": "Yatiqawi, irnaqa lurawi, irpiri jakaña uñachtayata.",
-    "integrity": "Wali jakaña",
-    "integrityDescription": "Jan sentencia penal, civil, suma jakaña uñjata.",
+    "integrity": "Kamachi Qillqa",
+    "integrityDescription": "Antecedente penal, civil qillqata, fuente oficialnakata.",
     "transparency": "Q'umara",
     "transparencyDescription": "DJHV ukanxa yatiyatana suma jakaña.",
     "formula": "JACH'A FÓRMULA",
-    "formulaEquation": "Jakhunaka = (wC × Yatiqawi) + (wI × Wali jakaña) + (wT × Q'umara)",
+    "formulaEquation": "Jakhunaka = (wC × Yatiqawi) + (wI × Kamachi Qillqa) + (wT × Q'umara)",
     "weightsDescription": "Uka llasatanakaxa (w) jaqukipasxi ajilata modorupi:",
     "mode": "Modo",
     "balanced": "TAYPIKU",
     "merit": "YATIQAWI",
-    "integrityMode": "WALI JAKAÑA",
+    "integrityMode": "KAMACHI QILLQA",
     "custom": "MUNAÑ UKHAM",
     "competenceTitle": "YATIQAWI (0-100)",
     "competenceMeasure": "Ajilatana yatiqawinaka irnaqañataki jakhuñ.",
@@ -512,7 +513,7 @@
     "roleTechnical": "Técnico/profesional",
     "leadership": "Irpiri Jakaña (jilïri 20 jakhu)",
     "leadershipDescription": "Jach'a seniority (0-14 jakhu) irpiri jakañampi irnaqana (0-6 jakhu) chikanchataw.",
-    "integrityTitle": "WALI JAKAÑA (0-100)",
+    "integrityTitle": "KAMACHI QILLQA (0-100)",
     "integrityMeasure": "100-at qalltasa, antecedentes uñjatamukaxa apsuñawa.",
     "penalties": "Apsunaka",
     "type": "Laya",
@@ -522,7 +523,7 @@
     "penalSentence2plus": "Penal sentencianaka (2+)",
     "cap": "tope",
     "familyViolence": "Familia nuwasiña",
-    "childSupportOmission": "Wawaru jan churaña",
+    "childSupportOmission": "Wawaru jan churaña (willañchawi, jan puntaje afectaniti)",
     "laborSentence": "Irnaqa sentencia",
     "contractualSentence": "Trato sentencia",
     "partyResignations": "Partidot saraña (1 / 2-3 / 4+)",
@@ -561,7 +562,17 @@
     "terms": "Kamachiwinaka",
     "disclaimer": "Aka ranking yatiyaña herramienta. Jan ajilana kamachiwiti."
   },
+  "veda": {
+    "title": "Ajilana Jark'awi",
+    "message": "Art. 191 Ajilana Kamachi ukanjamarjama, aka llika ranking uñacht'awinakata jark'i ajilana urupata 7 uru nayraqata.",
+    "exemptNote": "Lurawinaka, imantata jakaña, chiqanchawi mayiña p'iqinakar mantañma.",
+    "viewMethodology": "Lurawinaka Uñjaña",
+    "viewDocs": "Qillqanaka",
+    "legalRef": "Ref: Art. 191, Ajilana Kamachi (Ley 26859)"
+  },
   "common": {
+    "aiBadge": "IA",
+    "aiGenerated": "Inteligencia artificial ukampi lurawi",
     "loading": "Apanisipkiwa...",
     "error": "Pantjawi",
     "retry": "Wasitat luraña",
@@ -621,8 +632,8 @@
     "viewFullMethodology": "Taqpach lurawi uñjaña",
     "competence": "Yatiqawi",
     "competenceDesc": "Yatiqawi, lurawinaka, irpiri jakaña.",
-    "integrity": "Wali jakaña",
-    "integrityDesc": "Q'uma jakaña, jan sentencianaka.",
+    "integrity": "Kamachi Qillqa",
+    "integrityDesc": "Antecedente legal uñjata.",
     "transparency": "Q'umara",
     "transparencyDesc": "Taqpach yatiyawi Jakaña Qillqan.",
     "officialSources": "Kamachi phuqtunaka",
@@ -635,7 +646,11 @@
     "peru2026": "Perú 2026",
     "methodology": "Lurawinaka",
     "rankings": "Rankingnaka",
-    "dataUpdated": "Machaqchataw yatiyawinaka: Iniru 2026"
+    "dataUpdated": "Machaqchataw yatiyawinaka: Iniru 2026",
+    "privacy": "Imantata Jakaña",
+    "rectification": "Chiqanchawi Mayiña",
+    "operatedBy": "Ajilana Ranking Perú lurawi",
+    "legalContact": "legal@rankingelectoral.pe"
   },
   "countdown": {
     "title": "Jach'a Ajilana 2026",
@@ -690,7 +705,7 @@
     },
     "badge": "TÉCNICO QILLQANAKA",
     "title": "Ajilana Ranking Perú 2026",
-    "description": "Plataforma ajilanakana yatiqawipa, wali jakañapa uñjaña ranking ruwaq. Jach'a Ajilana 12 abril 2026.",
+    "description": "Plataforma ajilanakana yatiqawipa, kamachi qillqapa uñjaña ranking ruwaq. Jach'a Ajilana 12 abril 2026.",
     "toc": {
       "title": "QILLQA ÍNDICE",
       "vision": "1. Uñakipawi Lurawi",
@@ -777,19 +792,19 @@
       "title": "JAKHUNAKA LURAWINAKA",
       "intro": "Sistemasax ajilanaka kimsa jach'a partina jakhuñ, sapa maya walja jisk'a partini:",
       "formulaTitle": "Jach'a Fórmula",
-      "formula": "Jakhunaka = (wC x Yatiqawi) + (wI x Wali jakaña) + (wT x Q'umara)",
+      "formula": "Jakhunaka = (wC x Yatiqawi) + (wI x Kamachi Qillqa) + (wT x Q'umara)",
       "presets": {
         "mode": "Modo",
         "competence": "Yatiqawi",
-        "integrity": "Wali jakaña",
+        "integrity": "Kamachi Qillqa",
         "transparency": "Q'umara",
         "description": "Yatiyawi",
         "balanced": "TAYPIKU",
-        "balancedDesc": "Yatiqawi wali jakañampi chikanchataw",
+        "balancedDesc": "Yatiqawi kamachi qillqampi chikanchataw",
         "merit": "YATIQAWI",
         "meritDesc": "Yatiqawir askin uñjaña",
-        "integrityMode": "WALI JAKAÑA",
-        "integrityModeDesc": "Wali jakañar askin uñjaña",
+        "integrityMode": "KAMACHI QILLQA",
+        "integrityModeDesc": "Jan antecedente ukanak uñjaña",
         "custom": "MUNAÑ UKHAM",
         "customDesc": "Jakena llasatanaka churañ"
       },
@@ -812,7 +827,7 @@
         "leadership2": "Irpiri irnaqana kikpa jakaña: 0-6 jakhu"
       },
       "integrity": {
-        "title": "WALI JAKAÑA (0-100 jakhunaka)",
+        "title": "KAMACHI QILLQA (0-100 jakhunaka)",
         "desc": "100 jakhunatxa qalltasa, antecedentes uñjatamukatxa apsuñawa.",
         "tableHeaders": {
           "type": "Antecedente Laya",
@@ -822,7 +837,7 @@
         "penal1": "Penal sentencia (1)",
         "penal2": "Penal sentencianaka (2+)",
         "violence": "Familia nuwasiña",
-        "alimony": "Wawaru jan churaña",
+        "alimony": "Wawaru jan churaña (willañchawi)",
         "labor": "Irnaqa sentencia",
         "contractual": "Trato sentencia",
         "resignations": "Partidot saraña (1 / 2-3 / 4+)"
@@ -981,8 +996,8 @@
       "auth3": "Supabase Auth jakenakaru (jutiri)",
       "privacyTitle": "Yatiqawi Imantata Jakaña",
       "privacy1": "Donantes DNI: qhipa 4 jakhukiwa",
-      "privacy2": "Jan kikin yatiqawinaka imañajti",
-      "privacy3": "Quiz jaysawi: anónimo session ID ukampi",
+      "privacy2": "Juk'a técnico yatiqawinaka apthapipxtwa (sesión uñacht'iri, uñjata p'iqinaka)",
+      "privacy3": "Quiz jaysawi: anónimo session ID temporal ukampi",
       "infraTitle": "Infraestructura",
       "infra1": "Vercel hosting (SOC 2 compliant)",
       "infra2": "Neon yatiqawi uta (cifrada)",

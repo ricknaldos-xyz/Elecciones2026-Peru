@@ -359,7 +359,7 @@ export default async function Home() {
             </Card>
           </Link>
 
-          <Link href="/metodologia#integridad" className="group">
+          <Link href="/metodologia#historial-legal" className="group">
             <Card className="p-4 h-full hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal-lg)] transition-all duration-100">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[var(--score-integrity)] border-3 border-[var(--border)] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
@@ -482,8 +482,23 @@ export default async function Home() {
               <Link href="/comparar" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
                 {t('compare')}
               </Link>
+              <Link href="/privacidad" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
+                {t('privacy')}
+              </Link>
+              <Link href="/rectificacion" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
+                {t('rectification')}
+              </Link>
             </div>
-            <DataFreshnessFooter />
+            <div className="flex flex-col items-center md:items-end gap-2">
+              <DataFreshnessFooter />
+              <div className="text-xs text-[var(--muted-foreground)] font-medium text-center md:text-right">
+                <span>{t('operatedBy')}</span>
+                <span className="mx-1">·</span>
+                <a href="mailto:legal@rankingelectoral.pe" className="hover:text-[var(--foreground)] transition-colors">
+                  legal@rankingelectoral.pe
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </footer>

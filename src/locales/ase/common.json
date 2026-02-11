@@ -48,7 +48,7 @@
   },
   "ranking": {
     "title": "Ranking Apatotantsipë",
-    "subtitle": "Oimabëntantsi apatotantsipë kenkitsarentsikë, wametantsikë",
+    "subtitle": "Oimabëntantsi apatotantsipë kenkitsarentsikë, kamachiri sankenari",
     "filters": {
       "cargo": "Antabëëtantsi",
       "district": "Nampitsi",
@@ -64,11 +64,11 @@
     },
     "presets": {
       "balanced": "Tampatyaki",
-      "balancedDesc": "Kenkitsarentsikë wametantsikëro",
+      "balancedDesc": "Kenkitsarentsikë kamachiri sankenariro",
       "merit": "Kenkitsarentsikë",
       "meritDesc": "Oimabëntantsi kenkitsarentsikë",
-      "integrity": "Wametantsikë",
-      "integrityDesc": "Oimabëntantsi wametantsikë",
+      "integrity": "Kamachiri Sankenari",
+      "integrityDesc": "Tëjonka antecedente uñayantsirë",
       "custom": "Pishintaka"
     },
     "cargo": {
@@ -84,7 +84,7 @@
       "party": "Partido",
       "score": "Katsinkabo",
       "competence": "Kenkitsarentsikë",
-      "integrity": "Wametantsikë",
+      "integrity": "Kamachiri Sankenari",
       "transparency": "Oinabiinti",
       "confidence": "Amëtakotsi",
       "actions": "Antabëëtantsi"
@@ -181,12 +181,13 @@
       "title": "Katsinkabokë",
       "competence": "Kenkitsarentsikë",
       "competenceDesc": "Kenkitsarentsikë, antabëëtantsi, pinkatsari",
-      "integrity": "Wametantsikë",
-      "integrityDesc": "Tëjonka sentencia, wamëtankë",
+      "integrity": "Kamachiri Sankenari",
+      "integrityDesc": "Antecedente penal, civil sankenaritsikë",
       "transparency": "Oinabiinti",
       "transparencyDesc": "Osankënarintsi wamëtankë",
       "confidence": "Amëtakotsi",
-      "confidenceDesc": "Irapiibë katsinkabo"
+      "confidenceDesc": "Irapiibë katsinkabo",
+      "scoreDisclaimer": "Algoritmo puntaje llaqta amëtakotërinimanta. Tëjantsibë chaninchaymi kanchu."
     },
     "educationLevels": {
       "doctorado": "Jananequi Sanquenarentsi",
@@ -224,7 +225,7 @@
     "scoreMode": {
       "balanced": "Tampatyaki",
       "merit": "Kenkitsarentsikë",
-      "integrity": "Wametantsikë"
+      "integrity": "Kamachiri Sankenari"
     },
     "record": "pairani oñaantsi",
     "records": "pairaniki oñaantsiki",
@@ -364,7 +365,7 @@
     "metrics": {
       "total": "Tasorintsi Katsinkabo",
       "competence": "Kenkitsarentsikë",
-      "integrity": "Wametantsikë",
+      "integrity": "Kamachiri Sankenari",
       "transparency": "Oinabiinti",
       "confidence": "Amëtakotsi",
       "plan": "Marinka Kamëthari"
@@ -469,17 +470,17 @@
     "overviewDescription": "Qhipa katsinkabokëxa kimsa antëromani partinakampi owakiraa:",
     "competence": "Kenkitsarentsikë",
     "competenceDescription": "Kenkitsarentsikë, antabëëtantsi, pinkatsari uñachtayata.",
-    "integrity": "Wametantsikë",
-    "integrityDescription": "Tëjonka sentencia penal, civil, wamëtankë jakaña uñjata.",
+    "integrity": "Kamachiri Sankenari",
+    "integrityDescription": "Antecedente penal, civil sankenaritsikë, fuente oficialkunapë.",
     "transparency": "Oinabiinti",
     "transparencyDescription": "DJHV ukanxa amëtakotërinina wamëtankë.",
     "formula": "ANTËROMANI FÓRMULA",
-    "formulaEquation": "Katsinkabo = (wC × Kenkitsarentsikë) + (wI × Wametantsikë) + (wT × Oinabiinti)",
+    "formulaEquation": "Katsinkabo = (wC × Kenkitsarentsikë) + (wI × Kamachiri Sankenari) + (wT × Oinabiinti)",
     "weightsDescription": "Oka katsiñëritakëxa (w) owakiraa ajilata modorupi:",
     "mode": "Modo",
     "balanced": "TAMPATYAKI",
     "merit": "KENKITSARENTSIKË",
-    "integrityMode": "WAMETANTSIKË",
+    "integrityMode": "KAMACHIRI SANKENARI",
     "custom": "PISHINTAKA",
     "competenceTitle": "KENKITSARENTSIKË (0-100)",
     "competenceMeasure": "Apatotantsina kenkitsarentsikë antabëëtantsipaq jakhuñ.",
@@ -512,7 +513,7 @@
     "roleTechnical": "Técnico/profesional",
     "leadership": "Pinkatsari (antëromani 20 katsinkabo)",
     "leadershipDescription": "Antëromani seniority (0-14 katsinkabo) pinkatsarimpi antabëëtantsina (0-6 katsinkabo) owakiraa.",
-    "integrityTitle": "WAMETANTSIKË (0-100)",
+    "integrityTitle": "KAMACHIRI SANKENARI (0-100)",
     "integrityMeasure": "100-at owakiraa, antecedentes oñaantsikixa apsunaka.",
     "penalties": "Apsunaka",
     "type": "Laya",
@@ -522,7 +523,7 @@
     "penalSentence2plus": "Penal sentencianaka (2+)",
     "cap": "tope",
     "familyViolence": "Familia amënkëro",
-    "childSupportOmission": "Janikiru jan churantsi",
+    "childSupportOmission": "Janikiru jan churantsi (willakuy, tëjantsibë puntaje)",
     "laborSentence": "Antabëëtantsi sentencia",
     "contractualSentence": "Trato sentencia",
     "partyResignations": "Partidomanta aninkatantsi (1 / 2-3 / 4+)",
@@ -561,7 +562,17 @@
     "terms": "Kamachikuykuna",
     "disclaimer": "Ranking amëtakotërini herramienta. Tëjantsibë apatotantsi kamachiwiti."
   },
+  "veda": {
+    "title": "Apatotantsi Jark'antsi",
+    "message": "Art. 191 Apatotantsi Kamachiri nisqanman hina, ranking uñacht'awikuna jark'antsi apatotantsi kiteëripata 7 kiteëri ñawpaqninpi.",
+    "exemptNote": "Irapiibë, imantata kay, chiqanchawi mayintsi p'anqakunaman mantañma.",
+    "viewMethodology": "Irapiibë Oñagantsi",
+    "viewDocs": "Sankenariikë",
+    "legalRef": "Ref: Art. 191, Apatotantsi Kamachiri (Ley 26859)"
+  },
   "common": {
+    "aiBadge": "IA",
+    "aiGenerated": "Inteligencia artificial nisqawan lurawi",
     "loading": "Apitsatantsi...",
     "error": "Irotiro",
     "retry": "Yapita luraña",
@@ -621,8 +632,8 @@
     "viewFullMethodology": "Tasorintsi irapiibë oimabëntantsi",
     "competence": "Kenkitsarentsikë",
     "competenceDesc": "Kenkitsarentsikë, antabëëtantsi, pinkatsari.",
-    "integrity": "Wametantsikë",
-    "integrityDesc": "Wamëtankë jakaña, tëjonka sentencia.",
+    "integrity": "Kamachiri Sankenari",
+    "integrityDesc": "Antecedente legal uñayantsi.",
     "transparency": "Oinabiinti",
     "transparencyDesc": "Tasorintsi amëtakotërini Jakaña Osankënarintsi.",
     "officialSources": "Kamachi amëtakotërini",
@@ -635,7 +646,11 @@
     "peru2026": "Perú 2026",
     "methodology": "Irapiibë",
     "rankings": "Rankingkë",
-    "dataUpdated": "Obaeki amëtakotërini: Iniru 2026"
+    "dataUpdated": "Obaeki amëtakotërini: Iniru 2026",
+    "privacy": "Imantata Kay",
+    "rectification": "Chiqanchawi Mayintsi",
+    "operatedBy": "Apatotantsi Ranking Perú lurawi",
+    "legalContact": "legal@rankingelectoral.pe"
   },
   "countdown": {
     "title": "Antëromani Apatotantsi 2026",
@@ -690,7 +705,7 @@
     },
     "badge": "TÉCNICO OSANKËNARINTSI",
     "title": "Apatotantsi Ranking Perú 2026",
-    "description": "Plataforma apatotantsipëna kenkitsarentsikëpa, wametantsikëpa oimabëntantsi ranking ruwaq. Antëromani Apatotantsi 12 abril 2026.",
+    "description": "Plataforma apatotantsipëna kenkitsarentsikëpa, kamachiri sankenaripa oimabëntantsi ranking ruwaq. Antëromani Apatotantsi 12 abril 2026.",
     "toc": {
       "title": "OSANKËNARINTSI ÍNDICE",
       "vision": "1. Oimabëntantsi Irapiibë",
@@ -777,19 +792,19 @@
       "title": "KATSINKABO IRAPIIBË",
       "intro": "Sistemasatzi apatotantsipëta mabani antëromani partepi katsinkabo, sapa maya ampiki tsonkari parteyuq:",
       "formulaTitle": "Antëromani Fórmula",
-      "formula": "Katsinkabo = (wC x Kenkitsarentsikë) + (wI x Wametantsikë) + (wT x Oinabiinti)",
+      "formula": "Katsinkabo = (wC x Kenkitsarentsikë) + (wI x Kamachiri Sankenari) + (wT x Oinabiinti)",
       "presets": {
         "mode": "Modo",
         "competence": "Kenkitsarentsikë",
-        "integrity": "Wametantsikë",
+        "integrity": "Kamachiri Sankenari",
         "transparency": "Oinabiinti",
         "description": "Amëtakotërini",
         "balanced": "TAMPATYAKI",
-        "balancedDesc": "Kenkitsarentsikë wametantsikëro tupachisqa",
+        "balancedDesc": "Kenkitsarentsikë kamachiri sankenariro tupachisqa",
         "merit": "KENKITSARENTSIKË",
         "meritDesc": "Kenkitsarentsikëta antëromani oimabëntantsi",
-        "integrityMode": "WAMETANTSIKË",
-        "integrityModeDesc": "Wametantsikëta antëromani oimabëntantsi",
+        "integrityMode": "KAMACHIRI SANKENARI",
+        "integrityModeDesc": "Kamachiri Sankenarita antëromani oimabëntantsi",
         "custom": "PISHINTAKA",
         "customDesc": "Janikiq llasaqkë churan"
       },
@@ -812,7 +827,7 @@
         "leadership2": "Pinkatsari antabëëtantsipi kaqlla kay: 0-6 katsinkabo"
       },
       "integrity": {
-        "title": "WAMETANTSIKË (0-100 katsinkabo)",
+        "title": "KAMACHIRI SANKENARI (0-100 katsinkabo)",
         "desc": "100 katsinkabopi qallarispa, antecedentes oimabëntasqamanta qichukun.",
         "tableHeaders": {
           "type": "Antecedente Laya",
@@ -822,7 +837,7 @@
         "penal1": "Penal sentencia (1)",
         "penal2": "Penal sentenciakë (2+)",
         "violence": "Ayllu amënkëro",
-        "alimony": "Janiki tëjantsibë churantsi",
+        "alimony": "Janiki tëjantsibë churantsi (willakuy)",
         "labor": "Antabëëtantsi sentencia",
         "contractual": "Trato sentencia",
         "resignations": "Partidomanta aninkatantsi (1 / 2-3 / 4+)"
@@ -981,8 +996,8 @@
       "auth3": "Supabase Auth janikirupaq (owakiraa)",
       "privacyTitle": "Amëtakotërini Imantata Kay",
       "privacy1": "Donantes DNI: qhipa 4 katsinkabollaña",
-      "privacy2": "Tëjonka kikin amëtakotërini waqaychasatzichikchu",
-      "privacy3": "Quiz kutichiy: anónimo session ID nisqawan",
+      "privacy2": "Juk'a técnico amëtakotërini apankë (sesión rikch'aq, oñagantsi p'anqakuna)",
+      "privacy3": "Quiz kutichiy: anónimo session ID temporal nisqawan",
       "infraTitle": "Infraestructura",
       "infra1": "Vercel hosting (SOC 2 compliant)",
       "infra2": "Neon amëtakotërini pankotsi (cifrada)",

@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { locales, type Locale, localeNames } from '@/i18n/config';
 import { TranslationDisclaimer } from '@/components/i18n/TranslationDisclaimer';
 import { ClientProviders } from '@/components/providers/ClientProviders';
+import { VedaElectoral } from '@/components/legal/VedaElectoral';
 
 type Props = {
   children: React.ReactNode;
@@ -28,9 +29,9 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   };
 
   const descriptions: Record<Locale, string> = {
-    es: 'Ranking transparente de candidatos basado en mérito, integridad y evidencia. Elecciones Generales 12 de abril 2026.',
+    es: 'Ranking transparente de candidatos basado en mérito, historial legal y evidencia. Elecciones Generales 12 de abril 2026.',
     qu: 'Akllasqa runakunapa ranking, yachayninwan, allin kayninwan. Hatun Akllana 12 abril 2026.',
-    ay: 'Ajilanakana ranking, yatiqawinakampi, wali jakañampi. Jach\'a Ajilana 12 abril 2026.',
+    ay: 'Ajilanakana ranking, yatiqawinakampi, kamachi qillqampi. Jach\'a Ajilana 12 abril 2026.',
     ase: 'Ranking kenkitsarentsikë apatotantsipë. Antëromani Apatotantsi 12 abril 2026.',
   };
 
@@ -76,6 +77,7 @@ export default async function LocaleLayout({ children, params }: Props) {
     <NextIntlClientProvider messages={messages} locale={locale}>
       <ClientProviders>
         <TranslationDisclaimer locale={locale} />
+        <VedaElectoral />
         {children}
       </ClientProviders>
     </NextIntlClientProvider>

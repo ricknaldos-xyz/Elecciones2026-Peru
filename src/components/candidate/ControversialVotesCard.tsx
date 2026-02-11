@@ -31,14 +31,14 @@ interface ControversialVotesCardProps {
 }
 
 const CATEGORY_LABELS: Record<string, string> = {
-  pro_crimen: 'Pro-crimen',
-  anti_colaboracion: 'Anti-colaboración',
-  pro_impunidad: 'Pro-impunidad',
-  anti_fiscalia: 'Anti-fiscalía',
-  anti_prensa: 'Anti-prensa',
-  pro_evasion: 'Pro-evasión',
-  anti_transparencia: 'Anti-transparencia',
-  clientelismo: 'Clientelismo',
+  pro_crimen: 'Modifica sanciones penales',
+  anti_colaboracion: 'Modifica colaboración eficaz',
+  pro_impunidad: 'Modifica prescripción',
+  anti_fiscalia: 'Modifica competencias fiscales',
+  anti_prensa: 'Regula medios de comunicación',
+  pro_evasion: 'Modifica normativa tributaria',
+  anti_transparencia: 'Modifica acceso a información',
+  clientelismo: 'Gestión de recursos públicos',
 }
 
 const VOTE_CONFIG: Record<string, { label: string; color: string; bgColor: string; borderColor: string }> = {
@@ -283,12 +283,12 @@ export function ControversialVotesCard({ candidateId }: ControversialVotesCardPr
                   </Badge>
                   {vote.voteType === 'favor' && vote.penaltyPoints > 0 && (
                     <span className="text-xs font-black text-[var(--flag-red-text)]">
-                      -{vote.penaltyPoints} pts integridad
+                      -{vote.penaltyPoints} pts historial legal
                     </span>
                   )}
                   {vote.voteType === 'contra' && vote.bonusPoints > 0 && (
                     <span className="text-xs font-black text-green-700">
-                      +{vote.bonusPoints} pts integridad
+                      +{vote.bonusPoints} pts historial legal
                     </span>
                   )}
                 </div>

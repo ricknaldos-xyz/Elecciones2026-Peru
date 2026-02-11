@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
+import { AIBadge } from '@/components/ui/AIBadge'
 import { cn } from '@/lib/utils'
 
 interface SocialStats {
@@ -217,7 +218,14 @@ export function SocialMentionsCard({ candidateId }: SocialMentionsCardProps) {
                     </span>
                   </div>
                   <p className="text-xs text-[var(--foreground)] mb-2 line-clamp-3">
-                    {mention.ai_summary || mention.content}
+                    {mention.ai_summary ? (
+                      <>
+                        {mention.ai_summary}
+                        <AIBadge className="ml-1 inline-flex" />
+                      </>
+                    ) : (
+                      mention.content
+                    )}
                   </p>
                   <div className="flex items-center gap-3 text-[10px] text-[var(--muted-foreground)]">
                     {mention.like_count > 0 && <span className="font-bold">{formatNumber(mention.like_count)} likes</span>}

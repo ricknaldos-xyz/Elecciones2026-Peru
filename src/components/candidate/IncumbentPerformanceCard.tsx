@@ -200,7 +200,7 @@ export function IncumbentPerformanceCard({ candidateId }: IncumbentPerformanceCa
             {data.integrityPenalty > 0 && (
               <div className="mt-2">
                 <Badge variant="destructive">
-                  Penalización: -{data.integrityPenalty} pts integridad
+                  Penalización: -{data.integrityPenalty} pts historial legal
                 </Badge>
               </div>
             )}

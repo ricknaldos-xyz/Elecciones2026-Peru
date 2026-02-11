@@ -17,7 +17,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: "Ranking Electoral Perú 2026",
-  description: "Ranking transparente de candidatos basado en mérito, integridad y evidencia. Elecciones Generales 12 de abril 2026.",
+  description: "Ranking transparente de candidatos basado en mérito, historial legal y evidencia. Elecciones Generales 12 de abril 2026.",
   keywords: ["elecciones", "perú", "2026", "candidatos", "ranking", "votación"],
 };
 

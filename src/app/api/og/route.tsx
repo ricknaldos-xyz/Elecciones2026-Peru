@@ -411,7 +411,7 @@ export async function GET(request: NextRequest) {
                   {integrity.toFixed(0)}
                 </span>
                 <span style={{ fontSize: '12px', fontWeight: 700, color: '#64748B', textTransform: 'uppercase' }}>
-                  Integridad
+                  H. Legal
                 </span>
               </div>
               <div

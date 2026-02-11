@@ -2,6 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import { Tooltip } from '@/components/ui/Tooltip'
+import { useTranslations } from 'next-intl'
 import type { PresetType, AnyWeights } from '@/types/database'
 import { isPresidentialWeights } from '@/types/database'
 import { PRESETS } from '@/lib/constants'
@@ -20,7 +21,7 @@ interface ScorePillProps {
 const modeLabels: Record<PresetType, string> = {
   balanced: 'Equilibrado',
   merit: 'Mérito',
-  integrity: 'Integridad',
+  integrity: 'Historial Legal',
   custom: 'Personalizado',
 }
 
@@ -72,6 +73,7 @@ export function ScorePill({
   variant = 'default',
   className,
 }: ScorePillProps) {
+  const t = useTranslations('candidate')
   const displayWeights = weights || PRESETS[mode === 'custom' ? 'balanced' : mode]
   const colors = getScoreColor(score)
   const isPres = weights ? isPresidentialWeights(weights) : false
@@ -79,12 +81,13 @@ export function ScorePill({
   const tooltipContent = (
     <div className="text-xs font-bold">
       <div className="font-black mb-2 uppercase tracking-wide">Cómo se calcula:</div>
-      <div>Puntaje = {(displayWeights.wC * 100).toFixed(0)}% Competencia</div>
-      <div className="ml-4">+ {(displayWeights.wI * 100).toFixed(0)}% Integridad</div>
-      <div className="ml-4">+ {(displayWeights.wT * 100).toFixed(0)}% Transparencia</div>
+      <div>Puntaje = {(displayWeights.wC * 100).toFixed(0)}% {t('scores.competence')}</div>
+      <div className="ml-4">+ {(displayWeights.wI * 100).toFixed(0)}% {t('scores.integrity')}</div>
+      <div className="ml-4">+ {(displayWeights.wT * 100).toFixed(0)}% {t('scores.transparency')}</div>
       {isPres && isPresidentialWeights(displayWeights) && (
         <div className="ml-4">+ {(displayWeights.wP * 100).toFixed(0)}% Plan de Gobierno</div>
       )}
+      <div className="mt-2 pt-2 border-t border-[var(--border)] text-[10px] opacity-80">{t('scores.scoreDisclaimer')}</div>
     </div>
   )
 

@@ -496,7 +496,7 @@ export default function DocsPage() {
               <div className="p-4 bg-[var(--muted)] border-2 border-[var(--border)] font-mono text-center">
                 <div className="text-sm text-[var(--muted-foreground)] mb-2">Fórmula General</div>
                 <div className="text-lg font-bold text-[var(--foreground)]">
-                  Score = (wC × Competencia) + (wI × Integridad) + (wT × Transparencia)
+                  Score = (wC × Competencia) + (wI × Historial Legal) + (wT × Transparencia)
                 </div>
                 <div className="text-xs text-[var(--muted-foreground)] mt-2">
                   Los pesos siempre suman 1.0 (wC + wI + wT = 1.0). El sistema valida y normaliza automáticamente.
@@ -510,7 +510,7 @@ export default function DocsPage() {
                     <tr className="border-b-3 border-[var(--border)]">
                       <th className="text-left py-3 font-black text-[var(--foreground)] uppercase">Modo</th>
                       <th className="text-center py-3 font-black text-[var(--foreground)] uppercase">Competencia</th>
-                      <th className="text-center py-3 font-black text-[var(--foreground)] uppercase">Integridad</th>
+                      <th className="text-center py-3 font-black text-[var(--foreground)] uppercase">Historial Legal</th>
                       <th className="text-center py-3 font-black text-[var(--foreground)] uppercase">Transparencia</th>
                       <th className="text-left py-3 font-black text-[var(--foreground)] uppercase">Descripción</th>
                     </tr>
@@ -531,7 +531,7 @@ export default function DocsPage() {
                       <td className="text-sm font-medium">Prioriza preparación profesional</td>
                     </tr>
                     <tr className="border-b-2 border-[var(--border)]">
-                      <td className="py-3"><Badge variant="outline">INTEGRIDAD</Badge></td>
+                      <td className="py-3"><Badge variant="outline">HISTORIAL LEGAL</Badge></td>
                       <td className="text-center font-bold">30%</td>
                       <td className="text-center font-bold">60%</td>
                       <td className="text-center font-bold">10%</td>
@@ -592,7 +592,7 @@ export default function DocsPage() {
               <div className="p-4 bg-[var(--score-integrity)]/10 border-2 border-[var(--score-integrity)]">
                 <h4 className="font-black text-[var(--score-integrity-text)] mb-4 uppercase flex items-center gap-2">
                   <div className="w-4 h-4 bg-[var(--score-integrity)]" />
-                  INTEGRIDAD (0-100 puntos)
+                  HISTORIAL LEGAL (0-100 puntos)
                 </h4>
                 <p className="text-sm text-[var(--foreground)] font-medium mb-4">
                   Comienza en 100 puntos y se restan penalidades por antecedentes verificados.
@@ -628,7 +628,7 @@ export default function DocsPage() {
                         <td className="text-center"><Badge variant="warning" size="sm">ÁMBAR</Badge></td>
                       </tr>
                       <tr className="border-b border-[var(--border)]">
-                        <td className="py-2 font-medium">Omisión alimentaria</td>
+                        <td className="py-2 font-medium">Omisión alimentaria (informativo)</td>
                         <td className="text-center font-bold text-[var(--flag-amber-text)]">-35</td>
                         <td className="text-center font-bold">-50</td>
                         <td className="text-center"><Badge variant="warning" size="sm">ÁMBAR</Badge></td>
@@ -1489,7 +1489,7 @@ CREATE TABLE scores (
                   </div>
                   <div>
                     <div className="h-16 bg-[var(--score-integrity)] border-2 border-[var(--border)] mb-2" />
-                    <div className="text-xs font-bold text-[var(--foreground)]">Integridad</div>
+                    <div className="text-xs font-bold text-[var(--foreground)]">Historial Legal</div>
                     <div className="text-xs font-mono text-[var(--muted-foreground)]">Green</div>
                   </div>
                   <div>
@@ -1575,8 +1575,9 @@ CREATE TABLE scores (
                   <h4 className="font-black text-[var(--foreground)] mb-2 uppercase text-sm">Privacidad de Datos</h4>
                   <ul className="text-sm text-[var(--muted-foreground)] space-y-1 font-medium">
                     <li>• DNI de donantes: solo últimos 4 dígitos</li>
-                    <li>• No almacenamos datos personales de usuarios</li>
-                    <li>• Quiz responses: anónimas con session ID</li>
+                    <li>• Recopilamos datos técnicos mínimos (identificador de sesión, páginas visitadas) para mejorar la plataforma</li>
+                    <li>• Quiz responses: anónimas con session ID temporal</li>
+                    <li>• No compartimos datos con terceros</li>
                   </ul>
                 </div>
                 <div className="p-4 border-2 border-[var(--border)]">
@@ -2074,11 +2075,12 @@ CREATE TABLE scores (
                 <div className="p-4 border-2 border-[var(--border)]">
                   <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Política de Privacidad</h4>
                   <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
-                    <li>• <strong>No recopilamos datos personales</strong> de visitantes</li>
+                    <li>• Recopilamos <strong>datos técnicos mínimos</strong>: identificador de sesión, páginas visitadas, eventos de compartir</li>
                     <li>• Quiz responses son <strong>anónimas</strong> (solo session ID temporal)</li>
-                    <li>• No usamos cookies de tracking ni publicidad</li>
-                    <li>• Analytics básicos via Vercel (agregados, no individuales)</li>
+                    <li>• <strong>No usamos cookies publicitarias.</strong> Usamos cookies funcionales para sesiones</li>
+                    <li>• No compartimos datos con terceros</li>
                     <li>• DNIs de donantes se muestran <strong>parcialmente ocultos</strong></li>
+                    <li>• Consulta nuestra <a href="/es/privacidad" className="underline font-bold text-[var(--foreground)]">Política de Privacidad completa</a></li>
                   </ul>
                 </div>
 
