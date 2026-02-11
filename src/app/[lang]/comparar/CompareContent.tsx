@@ -78,7 +78,7 @@ function CandidateSearch({
   className?: string
 }) {
   const [query, setQuery] = useState('')
-  const [results, setResults] = useState<(CandidateWithScores & { allCargos?: CargoType[] })[]>([])
+  const [results, setResults] = useState<CandidateWithScores[]>([])
   const [isSearching, setIsSearching] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -93,30 +93,10 @@ function CandidateSearch({
     const timer = setTimeout(async () => {
       setIsSearching(true)
       try {
-        const params = new URLSearchParams({ search: query, limit: '20' })
+        const params = new URLSearchParams({ search: query, limit: '10' })
         const res = await fetch(`/api/candidates?${params}`)
         const data: CandidateWithScores[] = await res.json()
-
-        // Deduplicate: group by full_name + party_id, keep highest-priority cargo, collect all cargos
-        const cargoPriority: Record<string, number> = { presidente: 1, vicepresidente: 2, senador: 3, diputado: 4, parlamento_andino: 5 }
-        const grouped = new Map<string, CandidateWithScores & { allCargos: CargoType[] }>()
-        for (const c of data) {
-          const key = `${c.full_name}::${c.party?.id || ''}`
-          const existing = grouped.get(key)
-          if (!existing) {
-            grouped.set(key, { ...c, allCargos: [c.cargo] })
-          } else {
-            if (!existing.allCargos.includes(c.cargo)) {
-              existing.allCargos.push(c.cargo)
-            }
-            // Keep the entry with the highest-priority cargo (presidente > senador > etc.)
-            if ((cargoPriority[c.cargo] || 99) < (cargoPriority[existing.cargo] || 99)) {
-              const allCargos = existing.allCargos
-              grouped.set(key, { ...c, allCargos })
-            }
-          }
-        }
-        setResults(Array.from(grouped.values()).slice(0, 8))
+        setResults(data.slice(0, 8))
         setIsOpen(true)
       } catch {
         setResults([])
@@ -224,11 +204,9 @@ function CandidateSearch({
                         {c.party.short_name || c.party.name}
                       </span>
                     )}
-                    {(c.allCargos || [c.cargo]).map((cargo) => (
-                      <span key={cargo} className="text-xs font-bold text-[var(--muted-foreground)] uppercase">
-                        {cargo}
-                      </span>
-                    ))}
+                    <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">
+                      {c.cargo}
+                    </span>
                   </div>
                 </div>
                 {/* Score */}

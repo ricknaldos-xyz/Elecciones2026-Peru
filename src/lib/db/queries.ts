@@ -145,6 +145,29 @@ export async function getCandidates(options?: {
           WHERE f.candidate_id = c.id AND f.severity = 'RED'
         )
       )
+      AND NOT EXISTS (
+        SELECT 1 FROM candidates c2
+        WHERE c2.full_name = c.full_name
+          AND c2.is_active = true
+          AND c2.party_id IS NOT DISTINCT FROM c.party_id
+          AND c2.id != c.id
+          AND CASE c2.cargo
+            WHEN 'presidente' THEN 1
+            WHEN 'vicepresidente' THEN 2
+            WHEN 'senador' THEN 3
+            WHEN 'diputado' THEN 4
+            WHEN 'parlamento_andino' THEN 5
+            ELSE 99
+          END
+          < CASE c.cargo
+            WHEN 'presidente' THEN 1
+            WHEN 'vicepresidente' THEN 2
+            WHEN 'senador' THEN 3
+            WHEN 'diputado' THEN 4
+            WHEN 'parlamento_andino' THEN 5
+            ELSE 99
+          END
+      )
     ORDER BY COALESCE(s.score_balanced_p, s.score_balanced) DESC NULLS LAST
     LIMIT ${limit}
     OFFSET ${offset}

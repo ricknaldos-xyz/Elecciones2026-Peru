@@ -9,7 +9,7 @@ import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher'
 import { AccessibilityButton } from '@/components/accessibility/AccessibilityButton'
 import { useSearchShortcut } from '@/hooks/useKeyboardShortcuts'
 import { CandidateImage } from '@/components/candidate/CandidateImage'
-import type { CandidateWithScores, CargoType } from '@/types/database'
+import type { CandidateWithScores } from '@/types/database'
 import type { Locale } from '@/i18n/config'
 
 interface HeaderProps {
@@ -24,7 +24,7 @@ export function Header({ currentPath }: HeaderProps) {
   const [searchOpen, setSearchOpen] = useState(false)
   const [moreMenuOpen, setMoreMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-  const [searchResults, setSearchResults] = useState<(CandidateWithScores & { allCargos?: CargoType[] })[]>([])
+  const [searchResults, setSearchResults] = useState<CandidateWithScores[]>([])
   const [isSearching, setIsSearching] = useState(false)
   const searchRef = useRef<HTMLDivElement>(null)
   const moreMenuRef = useRef<HTMLDivElement>(null)
@@ -111,30 +111,10 @@ export function Header({ currentPath }: HeaderProps) {
 
       setIsSearching(true)
       try {
-        const params = new URLSearchParams({ search: searchQuery, limit: '20' })
+        const params = new URLSearchParams({ search: searchQuery, limit: '10' })
         const response = await fetch(`/api/candidates?${params}`)
         const candidates: CandidateWithScores[] = await response.json()
-
-        // Deduplicate: group by full_name + party_id, keep highest-priority cargo, collect all cargos
-        const cargoPriority: Record<string, number> = { presidente: 1, vicepresidente: 2, senador: 3, diputado: 4, parlamento_andino: 5 }
-        const grouped = new Map<string, CandidateWithScores & { allCargos: CargoType[] }>()
-        for (const c of candidates) {
-          const key = `${c.full_name}::${c.party?.id || ''}`
-          const existing = grouped.get(key)
-          if (!existing) {
-            grouped.set(key, { ...c, allCargos: [c.cargo] })
-          } else {
-            if (!existing.allCargos.includes(c.cargo)) {
-              existing.allCargos.push(c.cargo)
-            }
-            // Keep the entry with the highest-priority cargo (presidente > senador > etc.)
-            if ((cargoPriority[c.cargo] || 99) < (cargoPriority[existing.cargo] || 99)) {
-              const allCargos = existing.allCargos
-              grouped.set(key, { ...c, allCargos })
-            }
-          }
-        }
-        setSearchResults(Array.from(grouped.values()).slice(0, 8))
+        setSearchResults(candidates.slice(0, 8))
       } catch (error) {
         console.error('Search error:', error)
       } finally {
@@ -360,7 +340,7 @@ export function Header({ currentPath }: HeaderProps) {
                               {candidate.full_name}
                             </div>
                             <div className="text-xs font-medium text-[var(--muted-foreground)] truncate">
-                              {candidate.party?.short_name || candidate.party?.name || ''}{candidate.party ? ' · ' : ''}{(candidate.allCargos || [candidate.cargo]).join(' / ')}
+                              {candidate.party?.short_name || candidate.party?.name || ''}{candidate.party ? ' · ' : ''}{candidate.cargo}
                             </div>
                           </div>
                           <div className="text-xl font-black text-[var(--foreground)]">
