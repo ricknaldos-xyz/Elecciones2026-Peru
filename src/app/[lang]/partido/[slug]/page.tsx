@@ -142,7 +142,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     avgScore: avgScore.toFixed(1),
   })
 
-  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://votainformado.pe'
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://eleccionesperu2026.xyz'
   const t = await getTranslations('partyPage')
   return {
     title: `${party.name} - Ranking Electoral 2026`,
@@ -187,7 +187,7 @@ export default async function PartidoPage({ params }: PageProps) {
     return acc
   }, {} as Record<CargoType, typeof candidates>)
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://rankingelectoral.pe'
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://eleccionesperu2026.xyz'
   const partySchema = generatePoliticalPartySchema(party as { name: string; short_name?: string | null; logo_url?: string | null }, slug)
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Ranking', url: `${baseUrl}/es/ranking` },

@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 import { sql } from '@/lib/db'
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://votainformado.pe'
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://eleccionesperu2026.xyz'
 const LOCALES = ['es', 'qu', 'ay', 'ase']
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

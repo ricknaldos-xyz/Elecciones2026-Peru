@@ -188,7 +188,7 @@ export async function GET(request: NextRequest) {
               </div>
               <span style={{ fontSize: '24px', fontWeight: 700, color: 'white' }}>Ranking Electoral Peru 2026</span>
             </div>
-            <span style={{ fontSize: '18px', color: '#94A3B8' }}>rankingelectoral.pe</span>
+            <span style={{ fontSize: '18px', color: '#94A3B8' }}>eleccionesperu2026.xyz</span>
           </div>
         </div>
       ),
@@ -222,7 +222,7 @@ export async function GET(request: NextRequest) {
               </div>
               <span style={{ fontSize: '24px', fontWeight: 700, color: 'white' }}>Ranking Electoral Peru 2026</span>
             </div>
-            <span style={{ fontSize: '20px', color: '#94A3B8' }}>rankingelectoral.pe/noticias</span>
+            <span style={{ fontSize: '20px', color: '#94A3B8' }}>eleccionesperu2026.xyz/noticias</span>
           </div>
         </div>
       ),
@@ -262,7 +262,7 @@ export async function GET(request: NextRequest) {
               </div>
               <span style={{ fontSize: '24px', fontWeight: 700, color: 'white' }}>Ranking Electoral Peru 2026</span>
             </div>
-            <span style={{ fontSize: '18px', color: '#94A3B8' }}>rankingelectoral.pe</span>
+            <span style={{ fontSize: '18px', color: '#94A3B8' }}>eleccionesperu2026.xyz</span>
           </div>
         </div>
       ),

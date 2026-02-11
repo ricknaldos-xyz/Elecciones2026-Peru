@@ -37,7 +37,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     dtype: district.type || '',
   })
 
-  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://votainformado.pe'
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://eleccionesperu2026.xyz'
   const t = await getTranslations('district')
   return {
     title: t('metaTitle', { name: district.name }),

@@ -49,7 +49,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     t: candidate.scores.transparency.toFixed(0),
   })
 
-  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://votainformado.pe'
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://eleccionesperu2026.xyz'
 
   return {
     title: `${candidate.full_name} - ${tMeta('title')}`,
@@ -101,7 +101,7 @@ export default async function CandidatePage({ params }: PageProps) {
       : Promise.resolve([]),
   ])
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://rankingelectoral.pe'
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://eleccionesperu2026.xyz'
   const personSchema = generatePersonSchema(candidate)
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Ranking', url: `${baseUrl}/es/ranking` },

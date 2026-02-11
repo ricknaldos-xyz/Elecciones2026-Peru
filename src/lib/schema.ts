@@ -2,7 +2,7 @@
  * Schema.org JSON-LD generators for SEO structured data
  */
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://rankingelectoral.pe'
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://eleccionesperu2026.xyz'
 
 export function generateWebSiteSchema() {
   return {

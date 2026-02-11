@@ -15,7 +15,7 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ lang: locale }));
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://votainformado.pe'
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://eleccionesperu2026.xyz'
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;

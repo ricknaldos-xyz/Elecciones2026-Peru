@@ -60,7 +60,7 @@ export default async function NoticiasPage() {
     LIMIT 10
   `
 
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://rankingelectoral.pe'
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://eleccionesperu2026.xyz'
   const newsSchema = generateNewsListSchema(
     recentNews.map(n => ({
       title: n.title as string,
