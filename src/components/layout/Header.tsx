@@ -73,7 +73,11 @@ export function Header({ currentPath }: HeaderProps) {
     // Focus first element when menu opens
     firstElement?.focus()
 
-    return () => document.removeEventListener('keydown', handleTabKey)
+    return () => {
+      document.removeEventListener('keydown', handleTabKey)
+      // Return focus to the menu trigger button when menu closes
+      mobileMenuButtonRef.current?.focus()
+    }
   }, [mobileMenuOpen])
 
   useEffect(() => {
@@ -94,7 +98,10 @@ export function Header({ currentPath }: HeaderProps) {
     function handleEscape(event: KeyboardEvent) {
       if (event.key === 'Escape') {
         if (searchOpen) setSearchOpen(false)
-        if (mobileMenuOpen) setMobileMenuOpen(false)
+        if (mobileMenuOpen) {
+          setMobileMenuOpen(false)
+          mobileMenuButtonRef.current?.focus()
+        }
         if (moreMenuOpen) setMoreMenuOpen(false)
       }
     }
@@ -374,6 +381,7 @@ export function Header({ currentPath }: HeaderProps) {
                 onClick={() => setMoreMenuOpen(!moreMenuOpen)}
                 aria-expanded={moreMenuOpen}
                 aria-haspopup="true"
+                aria-controls="more-menu"
                 className={cn(
                   'px-3 py-2',
                   'min-w-[44px] min-h-[44px]',
@@ -408,7 +416,7 @@ export function Header({ currentPath }: HeaderProps) {
 
               {/* Megamenu Dropdown */}
               {moreMenuOpen && (
-                <div className={cn(
+                <div id="more-menu" className={cn(
                   'absolute right-0 top-full mt-2',
                   'w-72',
                   'bg-[var(--card)]',
@@ -467,6 +475,7 @@ export function Header({ currentPath }: HeaderProps) {
 
             {/* Mobile Menu Button - NEO BRUTAL - 44px Touch Target */}
             <button
+              ref={mobileMenuButtonRef}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className={cn(
                 'md:hidden p-2.5',

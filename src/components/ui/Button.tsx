@@ -92,6 +92,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           className
         )}
         disabled={disabled || isLoading}
+        aria-busy={isLoading ? true : undefined}
         {...props}
       >
         {isLoading ? (
@@ -99,6 +100,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             className="animate-spin h-5 w-5"
             fill="none"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
             <circle
               className="opacity-25"

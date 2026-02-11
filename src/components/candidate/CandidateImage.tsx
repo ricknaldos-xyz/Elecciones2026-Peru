@@ -33,7 +33,10 @@ export function CandidateImage({
 
   if (!src || failed) {
     return (
-      <div className={cn(
+      <div
+        role="img"
+        aria-label={name}
+        className={cn(
         'w-full h-full flex items-center justify-center bg-[var(--muted)] text-[var(--muted-foreground)] font-bold select-none',
         containerClassName
       )}>

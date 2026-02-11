@@ -11,6 +11,7 @@ interface BadgeProps {
   size?: 'sm' | 'md'
   className?: string
   style?: CSSProperties
+  'aria-label'?: string
 }
 
 const variantStyles: Record<BadgeVariant, string> = {
@@ -31,7 +32,9 @@ const sizeStyles = {
   md: 'text-sm px-3 py-1.5',
 }
 
-export function Badge({ children, variant = 'default', size = 'sm', className, style }: BadgeProps) {
+const statusVariants: BadgeVariant[] = ['warning', 'danger', 'success', 'info']
+
+export function Badge({ children, variant = 'default', size = 'sm', className, style, 'aria-label': ariaLabel }: BadgeProps) {
   return (
     <span
       className={cn(
@@ -45,6 +48,8 @@ export function Badge({ children, variant = 'default', size = 'sm', className, s
         className
       )}
       style={style}
+      role={statusVariants.includes(variant) ? 'status' : undefined}
+      aria-label={ariaLabel}
     >
       {children}
     </span>

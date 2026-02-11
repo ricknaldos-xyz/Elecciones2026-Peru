@@ -298,6 +298,12 @@ export function NoticiasContent() {
         )}
       </Card>
 
+      {/* Aria-live region for search results */}
+      <div className="sr-only" aria-live="polite" aria-atomic="true">
+        {!loading && news.length > 0 && `${pagination.total || news.length} noticias encontradas`}
+        {!loading && news.length === 0 && 'No se encontraron noticias'}
+      </div>
+
       {/* Results count */}
       <div className="flex items-center justify-between">
         <p className="text-sm text-[var(--muted-foreground)]">
@@ -362,6 +368,7 @@ export function NoticiasContent() {
             onClick={() => goToPage(pagination.page - 1)}
             disabled={pagination.page <= 1}
             className="min-h-[44px] px-4"
+            aria-label="Página anterior"
           >
             <span className="hidden sm:inline">{t('previous')}</span>
             <span className="sm:hidden">
@@ -388,6 +395,8 @@ export function NoticiasContent() {
                 <button
                   key={pageNum}
                   onClick={() => goToPage(pageNum)}
+                  aria-label={`Página ${pageNum}`}
+                  aria-current={pagination.page === pageNum ? 'page' : undefined}
                   className={cn(
                     'min-w-[44px] min-h-[44px] px-3 text-sm font-bold',
                     'border-2 border-[var(--border)]',
@@ -408,6 +417,7 @@ export function NoticiasContent() {
             onClick={() => goToPage(pagination.page + 1)}
             disabled={!pagination.hasMore}
             className="min-h-[44px] px-4"
+            aria-label="Página siguiente"
           >
             <span className="hidden sm:inline">{t('next')}</span>
             <span className="sm:hidden">

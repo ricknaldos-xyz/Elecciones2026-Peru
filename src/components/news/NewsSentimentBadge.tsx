@@ -41,6 +41,7 @@ export function NewsSentimentBadge({
 
   return (
     <div
+      aria-label={config.label}
       className={cn(
         'inline-flex items-center gap-1',
         'border-2 border-[var(--border)]',

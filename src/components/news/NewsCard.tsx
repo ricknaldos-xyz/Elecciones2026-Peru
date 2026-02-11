@@ -92,6 +92,7 @@ export const NewsCard = memo(function NewsCard({
           )}>
             {title}
           </h3>
+          <span className="sr-only"> (abre en nueva ventana)</span>
         </a>
 
         {!compact && excerpt && (
@@ -116,7 +117,7 @@ export const NewsCard = memo(function NewsCard({
                 'min-h-[44px]'
               )}
             >
-              <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg aria-hidden="true" className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
               <span className="truncate max-w-[140px] sm:max-w-[200px]">{candidate_name}</span>
@@ -151,9 +152,10 @@ export const NewsCard = memo(function NewsCard({
       >
         <span className="hidden sm:inline">{t('readInSource', { source })}</span>
         <span className="sm:hidden">{t('readArticle')}</span>
-        <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+        <svg aria-hidden="true" className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
         </svg>
+        <span className="sr-only"> (abre en nueva ventana)</span>
       </a>
     </Card>
   )

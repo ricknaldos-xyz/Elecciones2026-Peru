@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { usePathname, useRouter } from '@/i18n/routing';
 import { locales, type Locale, localeNames, localeFlags, localeFlagImages } from '@/i18n/config';
@@ -46,6 +46,7 @@ interface LanguageSwitcherProps {
 export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const listboxRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -74,6 +75,39 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
     router.replace(pathname, { locale: newLocale });
     setIsOpen(false);
   };
+
+  const handleListboxKeyDown = useCallback((event: React.KeyboardEvent) => {
+    const listbox = listboxRef.current;
+    if (!listbox) return;
+
+    const options = Array.from(listbox.querySelectorAll<HTMLElement>('[role="option"]'));
+    const currentIndex = options.findIndex((opt) => opt === document.activeElement);
+
+    let nextIndex: number | null = null;
+
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault();
+        nextIndex = currentIndex < options.length - 1 ? currentIndex + 1 : 0;
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        nextIndex = currentIndex > 0 ? currentIndex - 1 : options.length - 1;
+        break;
+      case 'Home':
+        event.preventDefault();
+        nextIndex = 0;
+        break;
+      case 'End':
+        event.preventDefault();
+        nextIndex = options.length - 1;
+        break;
+    }
+
+    if (nextIndex !== null && options[nextIndex]) {
+      options[nextIndex].focus();
+    }
+  }, []);
 
   return (
     <div ref={dropdownRef} className="relative">
@@ -122,9 +156,11 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
 
       {isOpen && (
         <div
+          ref={listboxRef}
           id="language-menu"
           role="listbox"
           aria-label="Seleccionar idioma"
+          onKeyDown={handleListboxKeyDown}
           className={cn(
             'absolute right-0 top-full mt-2',
             'w-56',

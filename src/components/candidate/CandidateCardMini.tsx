@@ -107,6 +107,7 @@ export const CandidateCardMini = memo(function CandidateCardMini({ rank, candida
         {candidate.party_name && (
           <div className="flex items-center gap-1.5 mb-2">
             <div
+              aria-hidden="true"
               className="w-3 h-3 border border-[var(--border)] flex-shrink-0"
               style={{ backgroundColor: candidate.party_color || '#6B7280' }}
             />

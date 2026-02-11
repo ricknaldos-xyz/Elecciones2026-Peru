@@ -285,17 +285,17 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
 
       <main id="main-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Breadcrumb Navigation */}
-        <nav className="mb-4 flex items-center gap-2 text-sm overflow-hidden min-w-0">
+        <nav aria-label="Breadcrumb" className="mb-4 flex items-center gap-2 text-sm overflow-hidden min-w-0">
           <Link href="/ranking" className="text-[var(--muted-foreground)] hover:text-[var(--primary)] font-bold uppercase transition-colors">
             {tRanking('title')}
           </Link>
-          <svg className="w-4 h-4 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-4 h-4 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
             <path strokeLinecap="square" d="M9 5l7 7-7 7" />
           </svg>
           <Link href={`/ranking?cargo=${candidate.cargo}`} className="text-[var(--muted-foreground)] hover:text-[var(--primary)] font-bold uppercase transition-colors">
             {getCargoLabel(candidate.cargo)}
           </Link>
-          <svg className="w-4 h-4 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="w-4 h-4 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
             <path strokeLinecap="square" d="M9 5l7 7-7 7" />
           </svg>
           <span className="text-[var(--foreground)] font-bold uppercase truncate">

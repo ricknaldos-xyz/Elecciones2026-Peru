@@ -37,8 +37,8 @@ export default function PrivacidadPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b-2 border-[var(--border)]">
-                    <th className="text-left py-2 font-black text-[var(--foreground)] uppercase">Dato</th>
-                    <th className="text-left py-2 font-black text-[var(--foreground)] uppercase">Propósito</th>
+                    <th scope="col" className="text-left py-2 font-black text-[var(--foreground)] uppercase">Dato</th>
+                    <th scope="col" className="text-left py-2 font-black text-[var(--foreground)] uppercase">Propósito</th>
                   </tr>
                 </thead>
                 <tbody className="text-[var(--muted-foreground)]">

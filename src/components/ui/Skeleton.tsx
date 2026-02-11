@@ -10,6 +10,8 @@ interface SkeletonProps {
 export function Skeleton({ className, variant = 'default' }: SkeletonProps) {
   return (
     <div
+      role="status"
+      aria-label="Loading..."
       className={cn(
         'animate-pulse bg-[var(--muted)] border-2 border-[var(--border)]',
         variant === 'circle' && 'rounded-full',

@@ -43,9 +43,9 @@ function formatRelativeTime(isoDate: string): string {
 function getFreshnessStyle(isoDate: string): string {
   const diff = Date.now() - new Date(isoDate).getTime()
   const hours = diff / (1000 * 60 * 60)
-  if (hours < 24) return 'bg-green-100 text-green-800 border-green-300'
-  if (hours < 72) return 'bg-amber-100 text-amber-800 border-amber-300'
-  return 'bg-red-100 text-red-800 border-red-300'
+  if (hours < 24) return 'bg-green-100 text-green-900 border-green-400'
+  if (hours < 72) return 'bg-amber-100 text-amber-900 border-amber-400'
+  return 'bg-red-100 text-red-900 border-red-400'
 }
 
 export function DataFreshnessFooter() {
@@ -84,10 +84,12 @@ export function DataFreshnessFooter() {
     <div className="space-y-2">
       <button
         onClick={() => setExpanded(!expanded)}
+        aria-expanded={expanded}
         className="w-full text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wide text-center hover:text-[var(--foreground)] transition-colors flex items-center justify-center gap-1"
       >
         <span>{t('dataSources')}</span>
         <svg
+          aria-hidden="true"
           className={cn('w-3 h-3 transition-transform', expanded && 'rotate-180')}
           fill="none"
           viewBox="0 0 24 24"

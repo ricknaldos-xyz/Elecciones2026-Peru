@@ -168,6 +168,11 @@ function CandidateSearch({
         )}
       </div>
 
+      {/* Accessible result count announcement */}
+      <div className="sr-only" aria-live="polite" aria-atomic="true">
+        {results.length > 0 ? `${results.length} candidatos encontrados` : query.length >= 2 && !isSearching ? 'No se encontraron candidatos' : ''}
+      </div>
+
       {/* Results dropdown */}
       {isOpen && results.length > 0 && (
         <div className="absolute z-50 w-full mt-1 bg-[var(--card)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-lg)] max-h-[320px] overflow-y-auto">
@@ -178,6 +183,7 @@ function CandidateSearch({
                 key={c.id}
                 onClick={() => !isAdded && handleSelect(c.slug)}
                 disabled={isAdded}
+                aria-label={`${c.full_name} — ${c.cargo}${c.party ? `, ${c.party.short_name || c.party.name}` : ''}`}
                 className={cn(
                   'w-full flex items-center gap-3 px-4 py-3 text-left',
                   'border-b-2 border-[var(--border)] last:border-b-0',

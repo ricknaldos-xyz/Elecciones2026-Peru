@@ -335,8 +335,9 @@ export function RankingContent() {
                   'flex items-center justify-center'
                 )}
                 title={t('shareRanking')}
+                aria-label={t('shareRanking')}
               >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                <svg className="w-4 h-4" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
                 </svg>
               </button>
@@ -367,7 +368,11 @@ export function RankingContent() {
 
           {/* Search Input */}
           <div className="relative mb-4">
+            <label htmlFor="candidate-search" className="sr-only">
+              {t('filters.searchPlaceholder')}
+            </label>
             <input
+              id="candidate-search"
               type="text"
               placeholder={t('filters.searchPlaceholder')}
               value={searchQuery}
@@ -586,11 +591,12 @@ export function RankingContent() {
 
           {/* Mobile Filter Panel - NEO BRUTAL with safe-area support */}
           {showFilters && (
-            <div className="lg:hidden fixed inset-0 z-50">
+            <div className="lg:hidden fixed inset-0 z-50" role="dialog" aria-modal="true" aria-label={t('filters.filters')}>
               {/* Backdrop */}
               <div
                 className="absolute inset-0 bg-black/50"
                 onClick={() => setShowFilters(false)}
+                aria-hidden="true"
               />
               {/* Panel */}
               <div className={cn(

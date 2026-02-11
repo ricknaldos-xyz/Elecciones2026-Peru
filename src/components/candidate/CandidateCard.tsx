@@ -178,7 +178,9 @@ export const CandidateCard = memo(function CandidateCard({
           {/* Flags indicator */}
           {candidate.flags.length > 0 && (
             <div className="flex items-center gap-1.5 pt-2 border-t-2 border-[var(--border)]">
-              <div className={cn(
+              <div
+                aria-hidden="true"
+                className={cn(
                 'w-3 h-3',
                 candidate.flags.some(f => f.severity === 'RED')
                   ? 'bg-[var(--flag-red)]'
@@ -195,6 +197,7 @@ export const CandidateCard = memo(function CandidateCard({
             <Button
               variant="outline"
               size="sm"
+              aria-pressed={isSelected}
               onClick={(e) => {
                 e.stopPropagation()
                 handleCompare()
@@ -308,6 +311,7 @@ export const CandidateCard = memo(function CandidateCard({
           <Button
             variant="outline"
             size="sm"
+            aria-pressed={isSelected}
             onClick={(e) => {
               e.stopPropagation()
               handleCompare()

@@ -64,6 +64,7 @@ export function NewsSourceBadge({ source, size = 'sm', className }: NewsSourceBa
         className
       )}
       title={source}
+      aria-label={source}
     >
       {config.abbr}
     </div>

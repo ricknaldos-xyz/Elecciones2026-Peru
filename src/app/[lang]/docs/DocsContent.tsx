@@ -135,7 +135,7 @@ export function DocsContent({ children }: DocsContentProps) {
       {/* Mobile Nav Toggle */}
       <button
         onClick={() => setMobileNavOpen(!mobileNavOpen)}
-        className="lg:hidden fixed bottom-6 right-6 z-40 w-14 h-14 bg-[var(--primary)] text-white rounded-none border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] flex items-center justify-center font-black text-xl hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_rgba(0,0,0,1)] transition-all"
+        className="lg:hidden fixed bottom-6 right-6 z-40 w-14 h-14 bg-[var(--primary)] text-white rounded-none border-4 border-black shadow-[4px_4px_0_0_rgba(0,0,0,1)] flex items-center justify-center font-black text-xl hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_rgba(0,0,0,1)] transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--primary)]"
         aria-label="Toggle navigation"
       >
         {mobileNavOpen ? '✕' : '☰'}

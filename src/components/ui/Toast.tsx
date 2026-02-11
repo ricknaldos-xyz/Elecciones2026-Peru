@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useState, useCallback, useEffect } from 'react'
+import { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
 
 // Toast types with distinct visual indicators
@@ -102,17 +102,57 @@ const typeLabels: Record<ToastType, string> = {
 // Individual Toast component
 function ToastItem({ toast, onRemove }: { toast: Toast; onRemove: () => void }) {
   const [isExiting, setIsExiting] = useState(false)
+  const [isPaused, setIsPaused] = useState(false)
   const duration = toast.duration ?? 5000
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const remainingRef = useRef(duration)
+  const startTimeRef = useRef(Date.now())
+
+  const startTimer = useCallback((remaining: number) => {
+    if (remaining <= 0) return
+    startTimeRef.current = Date.now()
+    remainingRef.current = remaining
+    timerRef.current = setTimeout(() => {
+      setIsExiting(true)
+      setTimeout(onRemove, 200)
+    }, remaining)
+  }, [onRemove])
+
+  const pauseTimer = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current)
+      timerRef.current = null
+      const elapsed = Date.now() - startTimeRef.current
+      remainingRef.current = Math.max(remainingRef.current - elapsed, 0)
+    }
+  }, [])
+
+  const resumeTimer = useCallback(() => {
+    startTimer(remainingRef.current)
+  }, [startTimer])
 
   useEffect(() => {
     if (duration > 0) {
-      const timer = setTimeout(() => {
-        setIsExiting(true)
-        setTimeout(onRemove, 200)
-      }, duration)
-      return () => clearTimeout(timer)
+      startTimer(duration)
+      return () => {
+        if (timerRef.current) clearTimeout(timerRef.current)
+      }
     }
-  }, [duration, onRemove])
+  }, [duration, startTimer])
+
+  const handlePause = useCallback(() => {
+    if (duration > 0) {
+      setIsPaused(true)
+      pauseTimer()
+    }
+  }, [duration, pauseTimer])
+
+  const handleResume = useCallback(() => {
+    if (duration > 0) {
+      setIsPaused(false)
+      resumeTimer()
+    }
+  }, [duration, resumeTimer])
 
   const handleClose = () => {
     setIsExiting(true)
@@ -126,6 +166,10 @@ function ToastItem({ toast, onRemove }: { toast: Toast; onRemove: () => void }) 
       role="alert"
       aria-live={toast.type === 'error' ? 'assertive' : 'polite'}
       aria-atomic="true"
+      onMouseEnter={handlePause}
+      onMouseLeave={handleResume}
+      onFocus={handlePause}
+      onBlur={handleResume}
       className={cn(
         // NEO BRUTAL toast
         'flex items-start gap-3',
@@ -185,6 +229,7 @@ function ToastItem({ toast, onRemove }: { toast: Toast; onRemove: () => void }) 
             className={cn('h-full', styles.icon.replace('text-', 'bg-'))}
             style={{
               animation: `toast-progress ${duration}ms linear forwards`,
+              animationPlayState: isPaused ? 'paused' : 'running',
             }}
           />
         </div>
