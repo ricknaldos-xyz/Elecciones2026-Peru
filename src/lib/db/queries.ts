@@ -235,6 +235,29 @@ export async function getCandidateBySlug(slug: string): Promise<CandidateWithSco
 }
 
 /**
+ * Get sibling cargos for a candidate (same person registered under different positions)
+ */
+export async function getSiblingCargos(candidateId: string, fullName: string, partyId: string | null): Promise<{ cargo: CargoType; slug: string }[]> {
+  const rows = await sql`
+    SELECT c.cargo, c.slug
+    FROM candidates c
+    WHERE c.full_name = ${fullName}
+      AND c.is_active = true
+      AND c.id != ${candidateId}
+      AND (${partyId}::uuid IS NULL OR c.party_id = ${partyId}::uuid)
+    ORDER BY
+      CASE c.cargo
+        WHEN 'presidente' THEN 1
+        WHEN 'vicepresidente' THEN 2
+        WHEN 'senador' THEN 3
+        WHEN 'diputado' THEN 4
+        WHEN 'parlamento_andino' THEN 5
+      END
+  `
+  return rows.map(r => ({ cargo: r.cargo as CargoType, slug: r.slug as string }))
+}
+
+/**
  * Get candidates by IDs (for comparison)
  */
 export async function getCandidatesByIds(ids: string[]): Promise<CandidateWithScores[]> {

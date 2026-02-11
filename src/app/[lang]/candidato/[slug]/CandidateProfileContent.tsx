@@ -39,7 +39,7 @@ const VotingRecordCard = dynamic(() => import('@/components/candidate/VotingReco
 const CandidateNewsSection = dynamic(() => import('@/components/news/CandidateNewsSection').then(m => ({ default: m.CandidateNewsSection })), { ssr: false })
 import { PRESETS, PRESIDENTIAL_PRESETS } from '@/lib/constants'
 import { getScoreByMode } from '@/lib/scoring/utils'
-import type { CandidateWithScores, PresetType, ScoreBreakdown } from '@/types/database'
+import type { CandidateWithScores, PresetType, ScoreBreakdown, CargoType } from '@/types/database'
 import type { CandidateDetails, VicePresident } from '@/lib/db/queries'
 
 interface CandidateProfileContentProps {
@@ -47,6 +47,7 @@ interface CandidateProfileContentProps {
   breakdown: ScoreBreakdown | null
   details: CandidateDetails | null
   vicePresidents?: VicePresident[]
+  siblingCargos?: { cargo: CargoType; slug: string }[]
 }
 
 const severityColors: Record<string, { bg: string; text: string; border: string }> = {
@@ -111,7 +112,7 @@ function BreakdownBar({
   )
 }
 
-export function CandidateProfileContent({ candidate, breakdown, details, vicePresidents = [] }: CandidateProfileContentProps) {
+export function CandidateProfileContent({ candidate, breakdown, details, vicePresidents = [], siblingCargos = [] }: CandidateProfileContentProps) {
   const router = useRouter()
   const t = useTranslations('candidate')
   const tRanking = useTranslations('ranking')
@@ -327,6 +328,13 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                   <Badge variant="primary" size="sm" className="sm:size-md">
                     {getCargoLabel(candidate.cargo)}
                   </Badge>
+                  {siblingCargos.map((s) => (
+                    <Link key={s.cargo} href={`/candidato/${s.slug}`}>
+                      <Badge variant="outline" size="sm" className="sm:size-md hover:bg-[var(--primary)] hover:text-white transition-colors cursor-pointer">
+                        {getCargoLabel(s.cargo)}
+                      </Badge>
+                    </Link>
+                  ))}
                   {candidate.party && (
                     <Badge
                       size="sm"
