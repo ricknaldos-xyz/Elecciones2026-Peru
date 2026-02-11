@@ -115,7 +115,8 @@ export function Header({ currentPath }: HeaderProps) {
         const response = await fetch(`/api/candidates?${params}`)
         const candidates: CandidateWithScores[] = await response.json()
 
-        // Deduplicate: group by full_name + party_id, keep highest scored, collect all cargos
+        // Deduplicate: group by full_name + party_id, keep highest-priority cargo, collect all cargos
+        const cargoPriority: Record<string, number> = { presidente: 1, vicepresidente: 2, senador: 3, diputado: 4, parlamento_andino: 5 }
         const grouped = new Map<string, CandidateWithScores & { allCargos: CargoType[] }>()
         for (const c of candidates) {
           const key = `${c.full_name}::${c.party?.id || ''}`
@@ -126,9 +127,8 @@ export function Header({ currentPath }: HeaderProps) {
             if (!existing.allCargos.includes(c.cargo)) {
               existing.allCargos.push(c.cargo)
             }
-            const existingScore = existing.scores.score_balanced_p ?? existing.scores.score_balanced
-            const newScore = c.scores.score_balanced_p ?? c.scores.score_balanced
-            if (newScore > existingScore) {
+            // Keep the entry with the highest-priority cargo (presidente > senador > etc.)
+            if ((cargoPriority[c.cargo] || 99) < (cargoPriority[existing.cargo] || 99)) {
               const allCargos = existing.allCargos
               grouped.set(key, { ...c, allCargos })
             }

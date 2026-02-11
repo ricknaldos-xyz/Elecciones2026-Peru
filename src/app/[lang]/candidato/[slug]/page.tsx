@@ -1,9 +1,19 @@
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { getCandidateBySlug, getScoreBreakdown, getCandidateDetails, getVicePresidents, getSiblingCargos } from '@/lib/db/queries'
 import { CandidateProfileContent } from './CandidateProfileContent'
 import { generatePersonSchema, generateBreadcrumbSchema } from '@/lib/schema'
+import type { CargoType } from '@/types/database'
+
+// Priority order: higher priority cargo is the canonical profile
+const CARGO_PRIORITY: Record<CargoType, number> = {
+  presidente: 1,
+  vicepresidente: 2,
+  senador: 3,
+  diputado: 4,
+  parlamento_andino: 5,
+}
 
 interface PageProps {
   params: Promise<{ slug: string; lang: string }>
@@ -53,20 +63,28 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function CandidatePage({ params }: PageProps) {
-  const { slug } = await params
+  const { slug, lang } = await params
   const candidate = await getCandidateBySlug(slug)
 
   if (!candidate) {
     notFound()
   }
 
-  const [breakdown, details, vicePresidents, siblingCargos] = await Promise.all([
+  // Check if a higher-priority sibling exists → redirect to canonical profile
+  const siblingCargos = await getSiblingCargos(candidate.id, candidate.full_name, candidate.party?.id || null)
+  const higherPrioritySibling = siblingCargos.find(
+    (s) => CARGO_PRIORITY[s.cargo] < CARGO_PRIORITY[candidate.cargo]
+  )
+  if (higherPrioritySibling) {
+    redirect(`/${lang}/candidato/${higherPrioritySibling.slug}`)
+  }
+
+  const [breakdown, details, vicePresidents] = await Promise.all([
     getScoreBreakdown(candidate.id),
     getCandidateDetails(candidate.id),
     candidate.cargo === 'presidente' && candidate.party?.id
       ? getVicePresidents(candidate.party.id)
       : Promise.resolve([]),
-    getSiblingCargos(candidate.id, candidate.full_name, candidate.party?.id || null),
   ])
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://rankingelectoral.pe'
