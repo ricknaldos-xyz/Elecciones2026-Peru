@@ -125,11 +125,252 @@ async function getTopPresidentialCandidates(): Promise<TopCandidate[]> {
   }
 }
 
+// ── New data queries for 5 sections ──
+
+interface AlertCandidate {
+  id: string
+  full_name: string
+  slug: string
+  photo_url: string | null
+  integrity_score: number
+  party_name: string | null
+  party_short_name: string | null
+  party_color: string | null
+  flag_count: number
+  flag_types: string[]
+}
+
+async function getWorstIntegrityCandidates(): Promise<AlertCandidate[]> {
+  try {
+    const result = await sql`
+      SELECT
+        c.id,
+        c.full_name,
+        c.slug,
+        c.photo_url,
+        COALESCE(s.integrity, 50) as integrity_score,
+        p.name as party_name,
+        p.short_name as party_short_name,
+        p.color as party_color,
+        COUNT(DISTINCT f.id) as flag_count,
+        ARRAY_AGG(DISTINCT f.type) FILTER (WHERE f.type IS NOT NULL) as flag_types
+      FROM candidates c
+      LEFT JOIN scores s ON c.id = s.candidate_id
+      LEFT JOIN parties p ON c.party_id = p.id
+      LEFT JOIN flags f ON c.id = f.candidate_id AND f.severity IN ('RED', 'AMBER')
+      WHERE c.cargo = 'presidente' AND c.is_active = true
+      AND (s.integrity < 40 OR (SELECT COUNT(*) FROM flags WHERE candidate_id = c.id AND severity IN ('RED', 'AMBER')) > 0)
+      GROUP BY c.id, c.full_name, c.slug, c.photo_url, s.integrity, p.name, p.short_name, p.color
+      ORDER BY COALESCE(s.integrity, 50) ASC
+      LIMIT 6
+    `
+    return result.map(row => ({
+      id: row.id as string,
+      full_name: row.full_name as string,
+      slug: row.slug as string,
+      photo_url: row.photo_url as string | null,
+      integrity_score: Number(row.integrity_score) || 0,
+      party_name: row.party_name as string | null,
+      party_short_name: row.party_short_name as string | null,
+      party_color: row.party_color as string | null,
+      flag_count: Number(row.flag_count) || 0,
+      flag_types: (row.flag_types as string[]) || [],
+    }))
+  } catch {
+    return []
+  }
+}
+
+interface WorstVoter {
+  id: string
+  full_name: string
+  slug: string
+  photo_url: string | null
+  party_name: string | null
+  party_short_name: string | null
+  party_color: string | null
+  cargo: string
+  favor_count: number
+}
+
+async function getWorstVoters(): Promise<{ voters: WorstVoter[]; totalLaws: number }> {
+  try {
+    const [votersResult, lawsCount] = await Promise.all([
+      sql`
+        SELECT
+          c.id,
+          c.full_name,
+          c.slug,
+          c.photo_url,
+          c.cargo,
+          p.name as party_name,
+          p.short_name as party_short_name,
+          p.color as party_color,
+          COUNT(CASE WHEN cv.vote = 'favor' THEN 1 END) as favor_count
+        FROM candidates c
+        JOIN congressional_votes cv ON c.id = cv.candidate_id
+        LEFT JOIN parties p ON c.party_id = p.id
+        WHERE cv.vote = 'favor'
+        GROUP BY c.id, c.full_name, c.slug, c.photo_url, c.cargo, p.name, p.short_name, p.color
+        ORDER BY favor_count DESC
+        LIMIT 6
+      `,
+      sql`SELECT COUNT(*) as total FROM controversial_laws`
+    ])
+
+    return {
+      voters: votersResult.map(row => ({
+        id: row.id as string,
+        full_name: row.full_name as string,
+        slug: row.slug as string,
+        photo_url: row.photo_url as string | null,
+        party_name: row.party_name as string | null,
+        party_short_name: row.party_short_name as string | null,
+        party_color: row.party_color as string | null,
+        cargo: row.cargo as string,
+        favor_count: Number(row.favor_count) || 0,
+      })),
+      totalLaws: Number(lawsCount[0].total) || 0,
+    }
+  } catch {
+    return { voters: [], totalLaws: 0 }
+  }
+}
+
+interface ReinfoCandidate {
+  id: string
+  full_name: string
+  slug: string
+  photo_url: string | null
+  party_name: string | null
+  party_short_name: string | null
+  party_color: string | null
+  cargo: string
+  severity: string
+  concession_count: number
+}
+
+async function getReinfoCandidates(): Promise<ReinfoCandidate[]> {
+  try {
+    const result = await sql`
+      SELECT
+        c.id,
+        c.full_name,
+        c.slug,
+        c.photo_url,
+        c.cargo,
+        p.name as party_name,
+        p.short_name as party_short_name,
+        p.color as party_color,
+        f.severity,
+        COUNT(DISTINCT f.id) as concession_count
+      FROM candidates c
+      JOIN flags f ON c.id = f.candidate_id AND f.type = 'REINFO'
+      LEFT JOIN parties p ON c.party_id = p.id
+      WHERE c.is_active = true
+      GROUP BY c.id, c.full_name, c.slug, c.photo_url, c.cargo, p.name, p.short_name, p.color, f.severity
+      ORDER BY
+        CASE f.severity WHEN 'RED' THEN 1 WHEN 'AMBER' THEN 2 ELSE 3 END,
+        c.full_name
+      LIMIT 8
+    `
+    return result.map(row => ({
+      id: row.id as string,
+      full_name: row.full_name as string,
+      slug: row.slug as string,
+      photo_url: row.photo_url as string | null,
+      party_name: row.party_name as string | null,
+      party_short_name: row.party_short_name as string | null,
+      party_color: row.party_color as string | null,
+      cargo: row.cargo as string,
+      severity: row.severity as string,
+      concession_count: Number(row.concession_count) || 0,
+    }))
+  } catch {
+    return []
+  }
+}
+
+interface ProposalCategory {
+  category: string
+  count: number
+}
+
+async function getProposalsByCategory(): Promise<ProposalCategory[]> {
+  try {
+    const result = await sql`
+      SELECT category, COUNT(*) as count
+      FROM candidate_proposals
+      GROUP BY category
+      ORDER BY count DESC
+    `
+    return result.map(row => ({
+      category: row.category as string,
+      count: Number(row.count) || 0,
+    }))
+  } catch {
+    return []
+  }
+}
+
+async function getBottomPresidentialCandidates(): Promise<TopCandidate[]> {
+  try {
+    const result = await sql`
+      SELECT
+        c.id,
+        c.full_name,
+        c.slug,
+        c.photo_url,
+        COALESCE(s.score_balanced_p, s.score_balanced) as score,
+        p.name as party_name,
+        p.short_name as party_short_name,
+        p.color as party_color
+      FROM candidates c
+      LEFT JOIN scores s ON c.id = s.candidate_id
+      LEFT JOIN parties p ON c.party_id = p.id
+      WHERE c.cargo = 'presidente' AND c.is_active = true
+      ORDER BY COALESCE(s.score_balanced_p, s.score_balanced) ASC NULLS FIRST
+      LIMIT 5
+    `
+    return result.map(row => ({
+      id: row.id as string,
+      full_name: row.full_name as string,
+      slug: row.slug as string,
+      photo_url: row.photo_url as string | null,
+      score_balanced: Number(row.score) || 0,
+      party_name: row.party_name as string | null,
+      party_short_name: row.party_short_name as string | null,
+      party_color: row.party_color as string | null,
+    }))
+  } catch {
+    return []
+  }
+}
+
+// ── Category icons/colors for proposals ──
+const CATEGORY_STYLES: Record<string, { icon: string; color: string }> = {
+  economia: { icon: '💰', color: 'bg-emerald-600' },
+  seguridad: { icon: '🛡️', color: 'bg-red-700' },
+  infraestructura: { icon: '🏗️', color: 'bg-amber-600' },
+  reforma_politica: { icon: '⚖️', color: 'bg-blue-700' },
+  educacion: { icon: '📚', color: 'bg-purple-600' },
+  mineria_ambiente: { icon: '⛏️', color: 'bg-orange-700' },
+  social: { icon: '🤝', color: 'bg-pink-600' },
+  salud: { icon: '🏥', color: 'bg-teal-600' },
+  corrupcion: { icon: '🔍', color: 'bg-indigo-700' },
+  otros: { icon: '📋', color: 'bg-gray-600' },
+}
+
 export default async function Home() {
-  const [stats, topCandidates, parties, t] = await Promise.all([
+  const [stats, topCandidates, parties, alertCandidates, worstVotersData, reinfoCandidates, proposalCategories, bottomCandidates, t] = await Promise.all([
     getStats(),
     getTopPresidentialCandidates(),
     getPartiesWithCounts(),
+    getWorstIntegrityCandidates(),
+    getWorstVoters(),
+    getReinfoCandidates(),
+    getProposalsByCategory(),
+    getBottomPresidentialCandidates(),
     getTranslations('home')
   ])
   const webSiteSchema = generateWebSiteSchema()
@@ -304,6 +545,172 @@ export default async function Home() {
         </Link>
       </section>
 
+      {/* ══════════════════════════════════════════════════════════ */}
+      {/* SECTION 1: ALERTA CIUDADANA — Candidates with criminal records */}
+      {/* ══════════════════════════════════════════════════════════ */}
+      {alertCandidates.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <div className="border-3 border-[var(--score-low)] bg-[var(--card)] shadow-[var(--shadow-brutal-lg)]">
+            {/* Header */}
+            <div className="p-4 sm:p-5 border-b-3 border-[var(--score-low)] bg-red-50 dark:bg-red-950/30">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-[var(--score-low)] border-2 border-[var(--border)] flex items-center justify-center">
+                    <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 15.75h.007v.008H12v-.008z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 className="text-lg sm:text-xl font-black text-[var(--score-low)] uppercase tracking-tight">
+                      {t('alertTitle')}
+                    </h2>
+                    <p className="text-xs sm:text-sm text-[var(--muted-foreground)] font-medium">
+                      {t('alertSubtitle')}
+                    </p>
+                  </div>
+                </div>
+                <Link
+                  href="/ranking?cargo=presidente&preset=integrity"
+                  className="text-xs font-bold text-[var(--score-low)] hover:underline uppercase flex items-center gap-1"
+                >
+                  {t('seeAllFlags')}
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+
+            {/* Candidate grid */}
+            <div className="p-3 sm:p-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
+                {alertCandidates.map((candidate) => (
+                  <Link
+                    key={candidate.id}
+                    href={`/candidato/${candidate.slug}`}
+                    className="group flex flex-col bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal)] transition-all duration-100 overflow-hidden"
+                  >
+                    <div className="p-3 flex-1 flex flex-col">
+                      <h3 className="text-xs font-black text-[var(--foreground)] uppercase leading-tight line-clamp-2 mb-1 group-hover:text-[var(--score-low)] transition-colors">
+                        {candidate.full_name}
+                      </h3>
+                      {candidate.party_short_name && (
+                        <div className="flex items-center gap-1 mb-2">
+                          <div
+                            className="w-2.5 h-2.5 border border-[var(--border)] flex-shrink-0"
+                            style={{ backgroundColor: candidate.party_color || '#6B7280' }}
+                          />
+                          <span className="text-[10px] font-bold text-[var(--muted-foreground)] truncate uppercase">
+                            {candidate.party_short_name}
+                          </span>
+                        </div>
+                      )}
+                      <div className="mt-auto space-y-1">
+                        {candidate.flag_count > 0 && (
+                          <span className="inline-block text-[10px] font-black text-[var(--score-low)] bg-red-50 dark:bg-red-950/30 px-1.5 py-0.5 border border-[var(--score-low)] uppercase">
+                            {candidate.flag_count} {t('flagsCount')}
+                          </span>
+                        )}
+                        <div className="flex items-center gap-1">
+                          <span className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">{t('integrityScore')}:</span>
+                          <span className={`text-xs font-black ${candidate.integrity_score < 30 ? 'text-[var(--score-low)]' : candidate.integrity_score < 50 ? 'text-[var(--score-medium)]' : 'text-[var(--foreground)]'}`}>
+                            {candidate.integrity_score.toFixed(0)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ══════════════════════════════════════════════════════════ */}
+      {/* SECTION 2: VOTARON CONTRA EL PERÚ — Worst congressional voters */}
+      {/* ══════════════════════════════════════════════════════════ */}
+      {worstVotersData.voters.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <div className="border-3 border-[var(--border)] bg-[var(--card)] shadow-[var(--shadow-brutal-lg)]">
+            {/* Header */}
+            <div className="p-4 sm:p-5 border-b-3 border-[var(--border)] bg-[var(--muted)]">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-[var(--primary)] border-2 border-[var(--border)] flex items-center justify-center">
+                    <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 15h2.25m8.024-9.75c.011.05.028.1.052.148.591 1.2.924 2.55.924 3.977a8.96 8.96 0 01-.999 4.125m.023-8.25c-.076-.365.183-.75.575-.75h.908c.889 0 1.713.518 1.972 1.368.339 1.11.521 2.287.521 3.507 0 1.553-.295 3.036-.831 4.398C20.613 14.547 19.833 15 19 15h-1.053c-.472 0-.745-.556-.5-.96a8.95 8.95 0 00.303-.54m.023-8.25H16.48a4.5 4.5 0 01-1.423-.23l-3.114-1.04a4.5 4.5 0 00-1.423-.23H6.504c-.694 0-1.352.353-1.725.926L2.1 12.262a2.25 2.25 0 00-.165.871v.112c0 .796.418 1.534 1.1 1.945l.005.003c.168.097.324.217.455.36l.115.126a2.67 2.67 0 002.395 1.07l.292-.039c.252-.034.503-.076.752-.126" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight">
+                      {t('votedAgainstTitle')}
+                    </h2>
+                    <p className="text-xs sm:text-sm text-[var(--muted-foreground)] font-medium">
+                      {t('votedAgainstSubtitle')}
+                    </p>
+                  </div>
+                </div>
+                <Link
+                  href="/ranking?cargo=presidente"
+                  className="text-xs font-bold text-[var(--primary)] hover:underline uppercase flex items-center gap-1"
+                >
+                  {t('seeVotingRecords')}
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+
+            {/* Info banner */}
+            <div className="px-4 py-3 bg-amber-50 dark:bg-amber-950/20 border-b-2 border-[var(--border)]">
+              <p className="text-xs text-[var(--muted-foreground)] font-medium">
+                <span className="font-black text-[var(--foreground)]">{worstVotersData.totalLaws}</span> {t('controversialLaws')}. {t('lawCategories')}
+              </p>
+            </div>
+
+            {/* Voters grid */}
+            <div className="p-3 sm:p-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
+                {worstVotersData.voters.map((voter) => (
+                  <Link
+                    key={voter.id}
+                    href={`/candidato/${voter.slug}`}
+                    className="group flex flex-col bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal)] transition-all duration-100 overflow-hidden"
+                  >
+                    <div className="p-3 flex-1 flex flex-col">
+                      <h3 className="text-xs font-black text-[var(--foreground)] uppercase leading-tight line-clamp-2 mb-1 group-hover:text-[var(--primary)] transition-colors">
+                        {voter.full_name}
+                      </h3>
+                      {voter.party_short_name && (
+                        <div className="flex items-center gap-1 mb-2">
+                          <div
+                            className="w-2.5 h-2.5 border border-[var(--border)] flex-shrink-0"
+                            style={{ backgroundColor: voter.party_color || '#6B7280' }}
+                          />
+                          <span className="text-[10px] font-bold text-[var(--muted-foreground)] truncate uppercase">
+                            {voter.party_short_name}
+                          </span>
+                        </div>
+                      )}
+                      <div className="mt-auto">
+                        <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('votedInFavor')}</span>
+                        <div className="flex items-baseline gap-1 mt-0.5">
+                          <span className="text-lg font-black text-[var(--score-low)]">{voter.favor_count}</span>
+                          <span className="text-[10px] font-bold text-[var(--muted-foreground)]">{t('of17Laws')}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Parties Grid */}
       {parties.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
@@ -319,8 +726,139 @@ export default async function Home() {
         </section>
       )}
 
+      {/* ══════════════════════════════════════════════════════════ */}
+      {/* SECTION 3: REINFO — Mining-linked candidates */}
+      {/* ══════════════════════════════════════════════════════════ */}
+      {reinfoCandidates.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <div className="border-3 border-orange-600 bg-[var(--card)] shadow-[var(--shadow-brutal-lg)]">
+            {/* Header */}
+            <div className="p-4 sm:p-5 border-b-3 border-orange-600 bg-orange-50 dark:bg-orange-950/30">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-orange-600 border-2 border-[var(--border)] flex items-center justify-center">
+                    <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M20.893 13.393l-1.135-1.135a2.252 2.252 0 01-.421-.585l-1.08-2.16a.414.414 0 00-.663-.107.827.827 0 01-.812.21l-1.273-.363a.89.89 0 00-.738 1.595l.587.39c.59.395.674 1.23.172 1.732l-.2.2c-.212.212-.33.498-.33.796v.41c0 .409-.11.809-.32 1.158l-1.315 2.191a2.11 2.11 0 01-1.81 1.025 1.055 1.055 0 01-1.055-1.055v-1.172c0-.92-.56-1.747-1.414-2.089l-.655-.261a2.25 2.25 0 01-1.383-2.46l.007-.042a2.25 2.25 0 01.29-.787l.09-.15a2.25 2.25 0 012.37-1.048l1.178.236a1.125 1.125 0 001.302-.795l.208-.73a1.125 1.125 0 00-.578-1.315l-.665-.332-.091.091a2.25 2.25 0 01-1.591.659h-.18c-.249 0-.487.1-.662.274a.931.931 0 01-1.458-1.137l1.411-2.353a2.25 2.25 0 00.286-.76m11.928 9.869A9 9 0 008.965 3.525m11.928 9.868A9 9 0 118.965 3.525" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 className="text-lg sm:text-xl font-black text-orange-700 dark:text-orange-400 uppercase tracking-tight">
+                      {t('reinfoTitle')}
+                    </h2>
+                    <p className="text-xs sm:text-sm text-[var(--muted-foreground)] font-medium">
+                      {t('reinfoSubtitle')}
+                    </p>
+                  </div>
+                </div>
+                <Link
+                  href="/ranking?cargo=presidente"
+                  className="text-xs font-bold text-orange-700 dark:text-orange-400 hover:underline uppercase flex items-center gap-1"
+                >
+                  {t('seeAllReinfo')}
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+
+            {/* Source */}
+            <div className="px-4 py-2 bg-orange-50/50 dark:bg-orange-950/10 border-b-2 border-[var(--border)]">
+              <p className="text-[10px] text-[var(--muted-foreground)] font-medium uppercase tracking-wide">
+                {t('reinfoSource')}
+              </p>
+            </div>
+
+            {/* Candidates grid */}
+            <div className="p-3 sm:p-4">
+              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2">
+                {reinfoCandidates.map((candidate) => (
+                  <Link
+                    key={candidate.id}
+                    href={`/candidato/${candidate.slug}`}
+                    className="group flex flex-col bg-[var(--card)] border-2 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100 overflow-hidden"
+                  >
+                    <div className="p-2 flex-1 flex flex-col">
+                      <div className={`self-start px-1.5 py-0.5 text-[9px] font-black text-white uppercase mb-1 ${candidate.severity === 'RED' ? 'bg-[var(--score-low)]' : 'bg-orange-500'}`}>
+                        {candidate.severity}
+                      </div>
+                      <h3 className="text-[11px] font-black text-[var(--foreground)] uppercase leading-tight line-clamp-2 mb-1 group-hover:text-orange-700 transition-colors">
+                        {candidate.full_name}
+                      </h3>
+                      {candidate.party_short_name && (
+                        <span className="text-[9px] font-bold text-[var(--muted-foreground)] truncate uppercase">
+                          {candidate.party_short_name}
+                        </span>
+                      )}
+                      <div className="mt-auto pt-1">
+                        <span className="text-[9px] font-bold text-orange-700 dark:text-orange-400 uppercase">
+                          {candidate.concession_count} {candidate.concession_count === 1 ? t('concession') : t('concessions')}
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Ad Banner - Mid */}
       <AdBanner slotId="home-mid" className="py-2" />
+
+      {/* ══════════════════════════════════════════════════════════ */}
+      {/* SECTION 4: ¿QUÉ PROPONEN? — Proposals by category */}
+      {/* ══════════════════════════════════════════════════════════ */}
+      {proposalCategories.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight">
+                {t('proposalsTitle')}
+              </h2>
+              <p className="text-xs text-[var(--muted-foreground)] font-medium mt-1">
+                {t('proposalsSubtitle')}
+              </p>
+            </div>
+            <Link
+              href="/ranking?cargo=presidente"
+              className="text-xs font-bold text-[var(--primary)] hover:underline uppercase flex items-center gap-1"
+            >
+              {t('seeProposals')}
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-3">
+            {proposalCategories.map((cat) => {
+              const style = CATEGORY_STYLES[cat.category] || CATEGORY_STYLES.otros
+              const categoryKey = `propCategory_${cat.category}` as const
+              return (
+                <div
+                  key={cat.category}
+                  className="border-3 border-[var(--border)] bg-[var(--card)] p-3 sm:p-4 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal)] transition-all duration-100"
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className={`w-8 h-8 ${style.color} border-2 border-[var(--border)] flex items-center justify-center text-white text-sm`}>
+                      {style.icon}
+                    </div>
+                    <span className="text-xs font-black text-[var(--foreground)] uppercase leading-tight">
+                      {t.has(categoryKey) ? t(categoryKey) : cat.category.replace(/_/g, ' ')}
+                    </span>
+                  </div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-black text-[var(--primary)]">{cat.count}</span>
+                    <span className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">{t('proposalsCount')}</span>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Daily Fact - Full width */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
@@ -340,6 +878,86 @@ export default async function Home() {
           </aside>
         </div>
       </section>
+
+      {/* ══════════════════════════════════════════════════════════ */}
+      {/* SECTION 5: PEORES PUNTAJES — Bottom 5 presidential candidates */}
+      {/* ══════════════════════════════════════════════════════════ */}
+      {bottomCandidates.length > 0 && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+          <div className="border-3 border-[var(--border)] bg-[var(--card)] shadow-[var(--shadow-brutal-lg)]">
+            {/* Header */}
+            <div className="p-4 sm:p-5 border-b-3 border-[var(--border)] bg-[var(--muted)]">
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-[var(--score-low)] border-2 border-[var(--border)] flex items-center justify-center">
+                    <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h5.25m5.25-.75L17.25 9m0 0L21 12.75M17.25 9v12" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight">
+                      {t('bottom5Title')}
+                    </h2>
+                    <p className="text-xs sm:text-sm text-[var(--muted-foreground)] font-medium">
+                      {t('bottom5Subtitle')}
+                    </p>
+                  </div>
+                </div>
+                <Link
+                  href="/ranking?cargo=presidente"
+                  className="text-xs font-bold text-[var(--primary)] hover:underline uppercase flex items-center gap-1"
+                >
+                  {t('seeFullRanking')}
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+
+            {/* Bottom 5 grid */}
+            <div className="p-3 sm:p-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
+                {bottomCandidates.map((candidate, index) => (
+                  <Link
+                    key={candidate.id}
+                    href={`/candidato/${candidate.slug}`}
+                    className="group flex flex-col bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal)] transition-all duration-100 overflow-hidden"
+                  >
+                    <div className="p-3 flex-1 flex flex-col">
+                      {/* Position badge */}
+                      <div className="self-start w-6 h-6 bg-[var(--score-low)] border-2 border-[var(--border)] flex items-center justify-center mb-2">
+                        <span className="text-white font-black text-[10px]">{index + 1}</span>
+                      </div>
+                      <h3 className="text-xs font-black text-[var(--foreground)] uppercase leading-tight line-clamp-2 mb-1 group-hover:text-[var(--score-low)] transition-colors">
+                        {candidate.full_name}
+                      </h3>
+                      {candidate.party_short_name && (
+                        <div className="flex items-center gap-1 mb-2">
+                          <div
+                            className="w-2.5 h-2.5 border border-[var(--border)] flex-shrink-0"
+                            style={{ backgroundColor: candidate.party_color || '#6B7280' }}
+                          />
+                          <span className="text-[10px] font-bold text-[var(--muted-foreground)] truncate uppercase">
+                            {candidate.party_short_name}
+                          </span>
+                        </div>
+                      )}
+                      <div className="mt-auto">
+                        <span className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">{t('scoreLabel')}</span>
+                        <div className={`inline-flex items-center gap-1 px-2 py-0.5 border-2 border-[var(--border)] font-black text-sm mt-0.5 ${candidate.score_balanced < 30 ? 'bg-[var(--score-low)] text-white' : candidate.score_balanced < 50 ? 'bg-[var(--score-medium)] text-black' : 'bg-[var(--score-good)] text-white'}`}>
+                          <span>{candidate.score_balanced.toFixed(0)}</span>
+                          <span className="text-xs font-bold opacity-70">/100</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Scoring Methodology - Con hover interactivo */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
