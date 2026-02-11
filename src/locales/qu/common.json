@@ -117,7 +117,15 @@
     "backToTop": "Wichaman kutiy",
     "error": "Pantay",
     "shareTitle": "{cargo} Ranking - Akllana 2026",
-    "shareText": "{count} akllasqa runakuna chaninchasqa"
+    "shareText": "{count} akllasqa runakuna chaninchasqa",
+    "noSearchResults": "Mana tarikunchu maskasqaykipaq",
+    "noCandidatesFound": "Mana kandidatukuna tarikurqanchu",
+    "searchingFor": "Maskachkanki:",
+    "partyFiltered": "Partido akllasqa",
+    "noRecords": "Mana antecedenteyuqchu",
+    "clearSearch": "Maskana pichasqa",
+    "clearFilters": "Filtrokuna pichay",
+    "tryOtherCargo": "Huk cargowan pruebay:"
   },
   "candidate": {
     "profile": "Akllasqa Runapa Perfilnin",
@@ -1298,6 +1306,13 @@
     "scoreLevelGood": "Allin",
     "scoreLevelRegular": "Chawpi",
     "scoreLevelLow": "Ura"
+  },
+  "proposals": {
+    "governmentPlan": "Kamachiy Ruranakuna",
+    "loadingProposals": "Kamachiy ruranakuna chaqachkanki...",
+    "errorLoading": "Kamachiy ruranakuna chaqay pantasqa",
+    "connectionError": "Tinkiy pantasqa",
+    "unknownError": "Mana riqsisqa pantasqa"
   },
   "partners": {
     "forMedia": "Willakuy Mediokunapaq",

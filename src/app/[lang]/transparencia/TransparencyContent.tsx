@@ -448,7 +448,7 @@ export function TransparencyContent() {
                 return (
                   <div
                     key={item.party.id}
-                    className="p-4 hover:bg-[var(--muted)] transition-colors cursor-pointer"
+                    className="p-4 hover:bg-[var(--muted)] transition-colors cursor-pointer min-h-[48px]"
                     onClick={() => router.push(`/partido/${generatePartySlug(item.party)}/financiamiento`)}
                   >
                     <div className="flex items-center gap-3 sm:gap-4">

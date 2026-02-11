@@ -64,7 +64,7 @@ export function PartiesGrid({ parties }: { parties: PartyWithCount[] }) {
         <div className="mt-3 text-center">
           <button
             onClick={() => setShowAll(true)}
-            className="inline-flex items-center gap-2 px-4 py-2 text-xs font-black uppercase bg-[var(--card)] border-2 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100 text-[var(--primary)]"
+            className="inline-flex items-center gap-2 px-4 py-2 text-xs font-black uppercase bg-[var(--card)] border-2 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100 text-[var(--primary)] min-h-[44px]"
           >
             Ver los {parties.length} partidos
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>

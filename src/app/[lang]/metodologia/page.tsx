@@ -112,8 +112,8 @@ export default function MetodologiaPage() {
             <CardTitle>FÓRMULA GENERAL</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="bg-[var(--muted)] border-2 border-[var(--border)] p-4 font-mono text-center text-sm mb-4">
-              <div>Score = (wC × Competencia) + (wI × Historial Legal) + (wT × Transparencia)</div>
+            <div className="bg-[var(--muted)] border-2 border-[var(--border)] p-4 font-mono text-center text-xs sm:text-sm mb-4 overflow-x-auto">
+              <div className="whitespace-nowrap">Score = (wC × Competencia) + (wI × Historial Legal) + (wT × Transparencia)</div>
               <div className="text-xs text-[var(--muted-foreground)] mt-2">
                 Los pesos siempre suman 1.0 (wC + wI + wT = 1.0). El sistema valida y normaliza automáticamente.
               </div>
@@ -568,7 +568,7 @@ export default function MetodologiaPage() {
               No afecta el score, pero sí su interpretación.
             </p>
 
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
               <div className="flex-1 p-3 bg-[var(--score-excellent-bg)] border-2 border-[var(--score-excellent)] text-center">
                 <div className="font-black text-[var(--score-excellent-text)]">70-100</div>
                 <div className="text-xs font-bold text-[var(--score-excellent-text)] uppercase">Alta confianza</div>

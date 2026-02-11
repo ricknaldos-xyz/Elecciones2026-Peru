@@ -117,7 +117,15 @@
     "backToTop": "Jananeki opitsëro",
     "error": "Irotiro",
     "shareTitle": "{cargo} Ranking - Apatotantsi 2026",
-    "shareText": "{count} apatotantsipë katsinkabota"
+    "shareText": "{count} apatotantsipë katsinkabota",
+    "noSearchResults": "Te oshintsitzimotziri oantyabentaigairi",
+    "noCandidatesFound": "Te aniitakotziri candidato",
+    "searchingFor": "Oantyabentaigairi:",
+    "partyFiltered": "Partido akotakoitziri",
+    "noRecords": "Te antecedente otzimi",
+    "clearSearch": "Pakoisanteari oantyabentaigairi",
+    "clearFilters": "Pakoisanteari filtro",
+    "tryOtherCargo": "Yotakoteri itsipa cargo:"
   },
   "candidate": {
     "profile": "Apatotantsi Perfil",
@@ -1298,6 +1306,13 @@
     "scoreLevelGood": "Wamëtankë",
     "scoreLevelRegular": "Tampatyaki",
     "scoreLevelLow": "Tsonkari"
+  },
+  "proposals": {
+    "governmentPlan": "Kamachiri Antirika",
+    "loadingProposals": "Kamachiri antirika okaratzi...",
+    "errorLoading": "Kamachiri antirika okaratzi pantsinari",
+    "connectionError": "Tinkiari pantsinari",
+    "unknownError": "Te okantakotziri pantsinari"
   },
   "partners": {
     "forMedia": "Amëtakotërini Mediokëpaq",

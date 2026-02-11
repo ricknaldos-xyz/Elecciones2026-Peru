@@ -174,7 +174,7 @@ export function DocsContent({ children }: DocsContentProps) {
                       key={item.id}
                       onClick={() => scrollToSection(item.id)}
                       className={cn(
-                        'px-3 py-2 text-left text-sm font-bold border-2 transition-all',
+                        'px-3 py-2 text-left text-sm font-bold border-2 transition-all min-h-[44px]',
                         activeSection === item.id
                           ? 'bg-[var(--primary)] text-white border-[var(--primary)]'
                           : 'bg-[var(--muted)] border-[var(--border)] text-[var(--foreground)]'

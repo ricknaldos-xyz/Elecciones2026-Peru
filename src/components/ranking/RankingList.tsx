@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useCallback, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
 import { CandidateCard } from '@/components/candidate/CandidateCard'
@@ -29,14 +30,6 @@ interface RankingListProps {
   onCargoChange?: (cargo: CargoType) => void
 }
 
-const cargoLabels: Record<CargoType, string> = {
-  presidente: 'Presidente',
-  vicepresidente: 'Vicepresidente',
-  senador: 'Senador',
-  diputado: 'Diputado',
-  parlamento_andino: 'Parlamento Andino',
-}
-
 export function RankingList({
   candidates,
   mode,
@@ -52,6 +45,7 @@ export function RankingList({
   onClearSearch,
   onCargoChange,
 }: RankingListProps) {
+  const t = useTranslations('ranking')
   // Keyboard navigation state
   const [focusedIndex, setFocusedIndex] = useState(-1)
   const listRef = useRef<HTMLDivElement>(null)
@@ -107,20 +101,20 @@ export function RankingList({
       <div className="text-center py-10 sm:py-12 bg-[var(--card)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal)]">
         <div className="text-5xl sm:text-6xl mb-4">🔍</div>
         <h3 className="text-lg font-black text-[var(--foreground)] mb-2 uppercase tracking-tight">
-          {hasSearch ? 'Sin resultados para tu búsqueda' : 'No se encontraron candidatos'}
+          {hasSearch ? t('noSearchResults') : t('noCandidatesFound')}
         </h3>
 
         {/* Show what's filtering */}
         <div className="space-y-3 mt-4 px-4">
           {hasSearch && (
             <p className="text-sm text-[var(--muted-foreground)] font-bold">
-              Buscando: &ldquo;<span className="text-[var(--foreground)]">{searchQuery}</span>&rdquo;
+              {t('searchingFor')} &ldquo;<span className="text-[var(--foreground)]">{searchQuery}</span>&rdquo;
             </p>
           )}
 
           {hasFilters && (
             <div className="flex flex-wrap items-center justify-center gap-2">
-              <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Filtros activos:</span>
+              <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('activeFilters')}:</span>
               {activeFilters.distrito && (
                 <span className="px-2 py-1 text-xs font-bold bg-[var(--muted)] border border-[var(--border)]">
                   {activeFilters.distrito}
@@ -128,17 +122,17 @@ export function RankingList({
               )}
               {activeFilters.partyId && (
                 <span className="px-2 py-1 text-xs font-bold bg-[var(--muted)] border border-[var(--border)]">
-                  Partido filtrado
+                  {t('partyFiltered')}
                 </span>
               )}
               {activeFilters.minConfidence && activeFilters.minConfidence > 0 && (
                 <span className="px-2 py-1 text-xs font-bold bg-[var(--muted)] border border-[var(--border)]">
-                  Info. mín. {activeFilters.minConfidence}%
+                  {t('minInfo')} {activeFilters.minConfidence}%
                 </span>
               )}
               {activeFilters.onlyClean && (
                 <span className="px-2 py-1 text-xs font-bold bg-[var(--muted)] border border-[var(--border)]">
-                  Sin antecedentes
+                  {t('noRecords')}
                 </span>
               )}
             </div>
@@ -148,12 +142,12 @@ export function RankingList({
           <div className="flex flex-col sm:flex-row items-center justify-center gap-2 mt-4">
             {hasSearch && onClearSearch && (
               <Button variant="outline" size="sm" onClick={onClearSearch}>
-                Limpiar búsqueda
+                {t('clearSearch')}
               </Button>
             )}
             {hasFilters && onResetFilters && (
               <Button variant="outline" size="sm" onClick={onResetFilters}>
-                Limpiar filtros
+                {t('clearFilters')}
               </Button>
             )}
           </div>
@@ -162,7 +156,7 @@ export function RankingList({
           {onCargoChange && (
             <div className="mt-6 pt-4 border-t-2 border-[var(--border)]">
               <p className="text-xs font-bold text-[var(--muted-foreground)] uppercase mb-3">
-                Prueba con otro cargo:
+                {t('tryOtherCargo')}
               </p>
               <div className="flex flex-wrap items-center justify-center gap-2">
                 {(['presidente', 'senador', 'diputado'] as CargoType[]).map((cargo) => (
@@ -176,7 +170,7 @@ export function RankingList({
                       'transition-all duration-100'
                     )}
                   >
-                    {cargoLabels[cargo]}
+                    {t(`cargo.${cargo}`)}
                   </button>
                 ))}
               </div>

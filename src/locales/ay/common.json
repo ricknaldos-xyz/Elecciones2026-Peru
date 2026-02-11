@@ -117,7 +117,15 @@
     "backToTop": "Patxaru kutiña",
     "error": "Pantjawi",
     "shareTitle": "{cargo} Ranking - Ajilana 2026",
-    "shareText": "{count} ajilanaka jakhuta"
+    "shareText": "{count} ajilanaka jakhuta",
+    "noSearchResults": "Janiw thaqt'atax jikisitkiti",
+    "noCandidatesFound": "Janiw candidatunakax jikisiskiti",
+    "searchingFor": "Thaqtata:",
+    "partyFiltered": "Partido ajllita",
+    "noRecords": "Janiw antecedentenakax utjkiti",
+    "clearSearch": "Thaqaña pichaña",
+    "clearFilters": "Filtronaka pichaña",
+    "tryOtherCargo": "Yaqha cargomp yant'aña:"
   },
   "candidate": {
     "profile": "Ajilata Perfilpa",
@@ -1298,6 +1306,13 @@
     "scoreLevelGood": "Suma",
     "scoreLevelRegular": "Taypi",
     "scoreLevelLow": "Jisk'a"
+  },
+  "proposals": {
+    "governmentPlan": "Kamachi Lurawinaka",
+    "loadingProposals": "Kamachi lurawinaka apkatasa...",
+    "errorLoading": "Kamachi lurawinaka apkataña pantjata",
+    "connectionError": "Tinkiña pantjata",
+    "unknownError": "Jan uñt'at pantjata"
   },
   "partners": {
     "forMedia": "Yatiyawi Medionakataki",

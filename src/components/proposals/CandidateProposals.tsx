@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import { ProposalsList } from './ProposalsList'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import type { ProposalCategory } from '@/lib/sync/plans/extractor'
@@ -20,6 +21,7 @@ interface CandidateProposalsProps {
 }
 
 export function CandidateProposals({ candidateId, planUrl }: CandidateProposalsProps) {
+  const t = useTranslations('proposals')
   const [proposals, setProposals] = useState<Proposal[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -38,10 +40,10 @@ export function CandidateProposals({ candidateId, planUrl }: CandidateProposalsP
           setLocalPdfUrl(data.planPdfLocal || null)
           setRemotePlanUrl(data.planUrl || planUrl || null)
         } else {
-          setError(data.error || 'Error al cargar propuestas')
+          setError(data.error || t('errorLoading'))
         }
       } catch (err) {
-        setError('Error de conexion')
+        setError(t('connectionError'))
         console.error(err)
       } finally {
         setLoading(false)
@@ -55,7 +57,7 @@ export function CandidateProposals({ candidateId, planUrl }: CandidateProposalsP
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Plan de Gobierno</CardTitle>
+          <CardTitle>{t('governmentPlan')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center py-12">
@@ -70,7 +72,7 @@ export function CandidateProposals({ candidateId, planUrl }: CandidateProposalsP
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Plan de Gobierno</CardTitle>
+          <CardTitle>{t('governmentPlan')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-center py-8 text-[var(--muted-foreground)]">

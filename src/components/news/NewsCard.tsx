@@ -113,7 +113,7 @@ export const NewsCard = memo(function NewsCard({
                 'bg-[var(--primary)] text-white',
                 'border-2 border-[var(--border)]',
                 'hover:bg-[var(--primary)]/90 transition-colors',
-                'min-h-[36px]'
+                'min-h-[44px]'
               )}
             >
               <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -128,7 +128,7 @@ export const NewsCard = memo(function NewsCard({
               'text-sm font-medium',
               'bg-[var(--muted)] text-[var(--muted-foreground)]',
               'border-2 border-[var(--border)]',
-              'min-h-[36px]'
+              'min-h-[44px]'
             )}>
               <span className="truncate max-w-[120px] sm:max-w-[150px]">{party_name}</span>
             </span>

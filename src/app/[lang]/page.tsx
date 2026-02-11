@@ -238,15 +238,15 @@ export default async function Home() {
             <div className="px-4 pb-4 pt-2 border-t-2 border-[var(--border)]">
               <p className="text-xs font-bold text-[var(--muted-foreground)] uppercase mb-2">{t('alsoView')}</p>
               <div className="flex flex-wrap gap-2">
-                <Link href="/ranking?cargo=senador" className="inline-flex items-center gap-1.5 px-2 py-1 text-xs font-bold bg-[var(--background)] border-2 border-[var(--border)] hover:bg-[var(--score-good)] hover:text-white transition-colors uppercase">
+                <Link href="/ranking?cargo=senador" className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold bg-[var(--background)] border-2 border-[var(--border)] hover:bg-[var(--score-good)] hover:text-white transition-colors uppercase min-h-[44px]">
                   <span className="w-4 h-4 bg-[var(--score-good)] border border-[var(--border)] flex items-center justify-center text-white text-xs font-black">S</span>
                   {t('senators')}
                 </Link>
-                <Link href="/ranking?cargo=diputado" className="inline-flex items-center gap-1.5 px-2 py-1 text-xs font-bold bg-[var(--background)] border-2 border-[var(--border)] hover:bg-[var(--score-excellent)] hover:text-white transition-colors uppercase">
+                <Link href="/ranking?cargo=diputado" className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold bg-[var(--background)] border-2 border-[var(--border)] hover:bg-[var(--score-excellent)] hover:text-white transition-colors uppercase min-h-[44px]">
                   <span className="w-4 h-4 bg-[var(--score-excellent)] border border-[var(--border)] flex items-center justify-center text-white text-xs font-black">D</span>
                   {t('deputies')}
                 </Link>
-                <Link href="/ranking?cargo=parlamento_andino" className="inline-flex items-center gap-1.5 px-2 py-1 text-xs font-bold bg-[var(--background)] border-2 border-[var(--border)] hover:bg-[var(--score-medium)] hover:text-black transition-colors uppercase">
+                <Link href="/ranking?cargo=parlamento_andino" className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold bg-[var(--background)] border-2 border-[var(--border)] hover:bg-[var(--score-medium)] hover:text-black transition-colors uppercase min-h-[44px]">
                   <span className="w-4 h-4 bg-[var(--score-medium)] border border-[var(--border)] flex items-center justify-center text-black text-xs font-black">A</span>
                   {t('andeanParliament')}
                 </Link>

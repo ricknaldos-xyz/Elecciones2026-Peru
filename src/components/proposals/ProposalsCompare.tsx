@@ -53,12 +53,12 @@ export function ProposalsCompare({ candidateIds, lang }: ProposalsCompareProps) 
         }
 
         const response = await fetch(`/api/proposals?${params.toString()}`)
-        if (!response.ok) throw new Error('Error al cargar propuestas')
+        if (!response.ok) throw new Error(t('proposals.errorLoading'))
 
         const result = await response.json()
         setData(result.data || [])
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error desconocido')
+        setError(err instanceof Error ? err.message : t('proposals.unknownError'))
       } finally {
         setLoading(false)
       }
@@ -71,7 +71,7 @@ export function ProposalsCompare({ candidateIds, lang }: ProposalsCompareProps) 
     return (
       <div className={styles.loading}>
         <div className={styles.spinner} />
-        <span>Cargando propuestas...</span>
+        <span>{t('proposals.loadingProposals')}</span>
       </div>
     )
   }

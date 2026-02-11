@@ -103,6 +103,13 @@
       "actions": "Acciones"
     },
     "noResults": "No se encontraron candidatos con los filtros seleccionados",
+    "noSearchResults": "Sin resultados para tu búsqueda",
+    "noCandidatesFound": "No se encontraron candidatos",
+    "searchingFor": "Buscando:",
+    "partyFiltered": "Partido filtrado",
+    "noRecords": "Sin antecedentes",
+    "clearSearch": "Limpiar búsqueda",
+    "clearFilters": "Limpiar filtros",
     "loading": "Cargando candidatos...",
     "viewProfile": "Ver perfil",
     "compare": "Comparar",
@@ -117,7 +124,8 @@
     "backToTop": "Volver arriba",
     "error": "Error",
     "shareTitle": "Ranking de {cargo} - Elecciones 2026",
-    "shareText": "{count} candidatos evaluados"
+    "shareText": "{count} candidatos evaluados",
+    "tryOtherCargo": "Prueba con otro cargo:"
   },
   "candidate": {
     "profile": "Perfil del Candidato",
@@ -1300,6 +1308,13 @@
     "scoreLevelGood": "Bueno",
     "scoreLevelRegular": "Regular",
     "scoreLevelLow": "Bajo"
+  },
+  "proposals": {
+    "governmentPlan": "Plan de Gobierno",
+    "loadingProposals": "Cargando propuestas...",
+    "errorLoading": "Error al cargar propuestas",
+    "connectionError": "Error de conexión",
+    "unknownError": "Error desconocido"
   },
   "partners": {
     "forMedia": "Para Medios",
