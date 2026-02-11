@@ -78,7 +78,7 @@ export const NewsCard = memo(function NewsCard({
       </div>
 
       {/* Content */}
-      <div className="p-5 flex-1">
+      <div className="p-4 sm:p-5 flex-1">
         <a
           href={url}
           target="_blank"
@@ -119,7 +119,7 @@ export const NewsCard = memo(function NewsCard({
               <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
-              <span className="truncate max-w-[200px]">{candidate_name}</span>
+              <span className="truncate max-w-[140px] sm:max-w-[200px]">{candidate_name}</span>
             </Link>
           )}
           {party_name && (
@@ -130,7 +130,7 @@ export const NewsCard = memo(function NewsCard({
               'border-2 border-[var(--border)]',
               'min-h-[36px]'
             )}>
-              <span className="truncate max-w-[150px]">{party_name}</span>
+              <span className="truncate max-w-[120px] sm:max-w-[150px]">{party_name}</span>
             </span>
           )}
         </div>

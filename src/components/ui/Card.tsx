@@ -26,9 +26,9 @@ export function Card({
 }: CardProps) {
   const paddingStyles = {
     none: '',
-    sm: 'p-4',
-    md: 'p-6',
-    lg: 'p-8',
+    sm: 'p-3 sm:p-4',
+    md: 'p-4 sm:p-6',
+    lg: 'p-6 sm:p-8',
   }
 
   const variantStyles = {
@@ -83,7 +83,7 @@ export function Card({
 export function CardHeader({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
     <div className={cn(
-      'px-6 py-4',
+      'px-4 py-3 sm:px-6 sm:py-4',
       'border-b-3 border-[var(--border)]',
       'bg-[var(--background-secondary)]',
       className
@@ -94,13 +94,13 @@ export function CardHeader({ children, className }: { children: React.ReactNode;
 }
 
 export function CardContent({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <div className={cn('p-6', className)}>{children}</div>
+  return <div className={cn('p-4 sm:p-6', className)}>{children}</div>
 }
 
 export function CardFooter({ children, className }: { children: React.ReactNode; className?: string }) {
   return (
     <div className={cn(
-      'px-6 py-4',
+      'px-4 py-3 sm:px-6 sm:py-4',
       'border-t-3 border-[var(--border)]',
       'bg-[var(--muted)]',
       className

@@ -3,6 +3,7 @@
 import { cn } from '@/lib/utils'
 import { Tooltip } from '@/components/ui/Tooltip'
 import { CONFIDENCE_THRESHOLDS } from '@/lib/constants'
+import { useTranslations } from 'next-intl'
 
 interface ConfidenceBadgeProps {
   value: number
@@ -17,31 +18,31 @@ function getConfidenceStatus(value: number): 'high' | 'medium' | 'low' {
   return 'low'
 }
 
-const statusConfig = {
+const statusStyles = {
   high: {
-    label: 'Info. verificada',
-    // Usando colores sólidos de alto contraste en lugar de transparencias
     color: 'bg-[var(--score-excellent-bg)] text-[var(--score-excellent-text)] border-[var(--score-excellent)]',
     dot: 'bg-[var(--score-excellent)]',
-    description: 'Tenemos datos completos de este candidato',
+    labelKey: 'verified' as const,
+    descKey: 'verifiedDesc' as const,
   },
   medium: {
-    label: 'Info. parcial',
     color: 'bg-[var(--score-medium-bg)] text-[var(--score-medium-text)] border-[var(--score-medium)]',
     dot: 'bg-[var(--score-medium)]',
-    description: 'Hay datos que faltan verificar',
+    labelKey: 'partial' as const,
+    descKey: 'partialDesc' as const,
   },
   low: {
-    label: 'Info. limitada',
     color: 'bg-[var(--flag-red-bg)] text-[var(--flag-red-text)] border-[var(--flag-red)]',
     dot: 'bg-[var(--flag-red)]',
-    description: 'Poca información disponible. El puntaje puede cambiar.',
+    labelKey: 'limited' as const,
+    descKey: 'limitedDesc' as const,
   },
 }
 
 export function ConfidenceBadge({ value, className, showLabel = false, size = 'sm' }: ConfidenceBadgeProps) {
+  const t = useTranslations('candidate.confidenceBadge')
   const status = getConfidenceStatus(value)
-  const config = statusConfig[status]
+  const styles = statusStyles[status]
 
   const sizeStyles = {
     sm: 'px-2 py-0.5 text-xs gap-1.5',
@@ -54,18 +55,18 @@ export function ConfidenceBadge({ value, className, showLabel = false, size = 's
   }
 
   return (
-    <Tooltip content={config.description}>
+    <Tooltip content={t(styles.descKey)}>
       <span
         className={cn(
           'inline-flex items-center font-bold border-2',
           sizeStyles[size],
-          config.color,
+          styles.color,
           className
         )}
       >
-        <span className={cn('flex-shrink-0', dotSizes[size], config.dot)} />
-        {showLabel && <span className="uppercase">Confianza:</span>}
-        <span className="uppercase">{config.label}</span>
+        <span className={cn('flex-shrink-0', dotSizes[size], styles.dot)} />
+        {showLabel && <span className="uppercase">{t('label')}</span>}
+        <span className="uppercase">{t(styles.labelKey)}</span>
         <span className="font-black">{value.toFixed(0)}%</span>
       </span>
     </Tooltip>

@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/routing'
 import { getCandidates, getPartyBySlug, getPartyFinances } from '@/lib/db/queries'
 import { generatePoliticalPartySchema, generateBreadcrumbSchema } from '@/lib/schema'
@@ -15,14 +16,6 @@ import type { CargoType, CandidateWithScores } from '@/types/database'
 
 interface PageProps {
   params: Promise<{ slug: string }>
-}
-
-const cargoLabels: Record<CargoType, string> = {
-  presidente: 'Presidente',
-  vicepresidente: 'Vicepresidente',
-  senador: 'Senador',
-  diputado: 'Diputado',
-  parlamento_andino: 'Parlamento Andino',
 }
 
 const cargoColors: Record<CargoType, string> = {
@@ -44,11 +37,11 @@ function formatCurrency(amount: number): string {
   }).format(amount)
 }
 
-function getScoreLevel(score: number): { label: string; color: string; bg: string; text: string } {
-  if (score >= 70) return { label: 'Alto', color: 'var(--score-excellent)', bg: 'bg-[var(--score-excellent)]', text: 'text-[var(--score-excellent-text)]' }
-  if (score >= 50) return { label: 'Bueno', color: 'var(--score-good)', bg: 'bg-[var(--score-good)]', text: 'text-[var(--score-good-text)]' }
-  if (score >= 30) return { label: 'Regular', color: 'var(--score-medium)', bg: 'bg-[var(--score-medium)]', text: 'text-[var(--score-medium-text)]' }
-  return { label: 'Bajo', color: 'var(--score-low)', bg: 'bg-[var(--score-low)]', text: 'text-[var(--score-low-text)]' }
+function getScoreLevel(score: number, t: (key: string) => string): { label: string; color: string; bg: string; text: string } {
+  if (score >= 70) return { label: t('scoreLevelHigh'), color: 'var(--score-excellent)', bg: 'bg-[var(--score-excellent)]', text: 'text-[var(--score-excellent-text)]' }
+  if (score >= 50) return { label: t('scoreLevelGood'), color: 'var(--score-good)', bg: 'bg-[var(--score-good)]', text: 'text-[var(--score-good-text)]' }
+  if (score >= 30) return { label: t('scoreLevelRegular'), color: 'var(--score-medium)', bg: 'bg-[var(--score-medium)]', text: 'text-[var(--score-medium-text)]' }
+  return { label: t('scoreLevelLow'), color: 'var(--score-low)', bg: 'bg-[var(--score-low)]', text: 'text-[var(--score-low-text)]' }
 }
 
 function getEffectiveScore(c: CandidateWithScores): number {
@@ -58,7 +51,7 @@ function getEffectiveScore(c: CandidateWithScores): number {
   return c.scores.score_balanced
 }
 
-function computePartyStats(candidates: CandidateWithScores[]) {
+function computePartyStats(candidates: CandidateWithScores[], tCargo: (key: string) => string) {
   const total = candidates.length
   if (total === 0) return null
 
@@ -96,7 +89,7 @@ function computePartyStats(candidates: CandidateWithScores[]) {
   const byCargo = cargoOrder
     .map(cargo => ({
       cargo,
-      label: cargoLabels[cargo],
+      label: tCargo(cargo),
       color: cargoColors[cargo],
       count: candidates.filter(c => c.cargo === cargo).length,
     }))
@@ -124,7 +117,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const party = await getPartyBySlug(slug)
 
   if (!party) {
-    return { title: 'Partido no encontrado' }
+    const t = await getTranslations('partyPage')
+    return { title: t('notFound') }
   }
 
   const candidates = await getCandidates({ partyId: party.id as string })
@@ -145,9 +139,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     avgScore: avgScore.toFixed(1),
   })
 
+  const t = await getTranslations('district')
   return {
     title: `${party.name} - Ranking Electoral 2026`,
-    description: `Ver todos los candidatos de ${party.name}. Compara scores de competencia, historial legal y transparencia.`,
+    description: t('metaDesc', { name: party.name as string }),
     openGraph: {
       images: [`/api/og?${ogParams.toString()}`],
     },
@@ -162,13 +157,16 @@ export default async function PartidoPage({ params }: PageProps) {
     notFound()
   }
 
-  const [candidates, finances] = await Promise.all([
+  const [candidates, finances, t, tCargo, tScores] = await Promise.all([
     getCandidates({ partyId: party.id as string }),
-    getPartyFinances(party.id as string)
+    getPartyFinances(party.id as string),
+    getTranslations('partyPage'),
+    getTranslations('ranking.cargo'),
+    getTranslations('candidate.scores'),
   ])
 
   const latestFinance = finances.length > 0 ? finances[0] : null
-  const stats = computePartyStats(candidates)
+  const stats = computePartyStats(candidates, tCargo)
 
   const groupedByCargo = candidates.reduce((acc, c) => {
     if (!acc[c.cargo]) acc[c.cargo] = []
@@ -206,7 +204,7 @@ export default async function PartidoPage({ params }: PageProps) {
                 {party.name}
               </h1>
               <p className="text-[var(--muted-foreground)] font-medium">
-                {candidates.length} candidatos registrados
+                {t('registeredCandidates', { count: candidates.length })}
               </p>
             </div>
           </div>
@@ -215,7 +213,7 @@ export default async function PartidoPage({ params }: PageProps) {
               <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="square" strokeLinejoin="miter" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              VER FINANCIAMIENTO
+              {t('viewFinancing')}
             </Button>
           </Link>
         </div>
@@ -228,27 +226,27 @@ export default async function PartidoPage({ params }: PageProps) {
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
-                Scores Promedio
+                {t('avgScores')}
               </h2>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 {/* Score General */}
                 <Card className="p-4">
-                  <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase mb-2">Score General</div>
-                  <div className={`text-3xl font-black ${getScoreLevel(stats.avgBalanced).text}`}>
+                  <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase mb-2">{t('overallScore')}</div>
+                  <div className={`text-3xl font-black ${getScoreLevel(stats.avgBalanced, t).text}`}>
                     {stats.avgBalanced}
                   </div>
                   <div className="mt-2 h-2.5 bg-[var(--muted)] border-2 border-[var(--border)]">
                     <div
                       className="h-full transition-all"
-                      style={{ width: `${stats.avgBalanced}%`, backgroundColor: getScoreLevel(stats.avgBalanced).color }}
+                      style={{ width: `${stats.avgBalanced}%`, backgroundColor: getScoreLevel(stats.avgBalanced, t).color }}
                     />
                   </div>
-                  <div className="text-xs font-bold text-[var(--muted-foreground)] mt-1">{getScoreLevel(stats.avgBalanced).label}</div>
+                  <div className="text-xs font-bold text-[var(--muted-foreground)] mt-1">{getScoreLevel(stats.avgBalanced, t).label}</div>
                 </Card>
 
                 {/* Competencia */}
                 <Card className="p-4">
-                  <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase mb-2">Competencia</div>
+                  <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase mb-2">{tScores('competence')}</div>
                   <div className="text-3xl font-black text-[var(--score-competence-text)]">
                     {stats.avgCompetence}
                   </div>
@@ -258,12 +256,12 @@ export default async function PartidoPage({ params }: PageProps) {
                       style={{ width: `${stats.avgCompetence}%` }}
                     />
                   </div>
-                  <div className="text-xs font-bold text-[var(--muted-foreground)] mt-1">Promedio</div>
+                  <div className="text-xs font-bold text-[var(--muted-foreground)] mt-1">{t('average')}</div>
                 </Card>
 
                 {/* Historial Legal */}
                 <Card className="p-4">
-                  <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase mb-2">Historial Legal</div>
+                  <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase mb-2">{tScores('integrity')}</div>
                   <div className="text-3xl font-black text-[var(--score-integrity-text)]">
                     {stats.avgIntegrity}
                   </div>
@@ -273,12 +271,12 @@ export default async function PartidoPage({ params }: PageProps) {
                       style={{ width: `${stats.avgIntegrity}%` }}
                     />
                   </div>
-                  <div className="text-xs font-bold text-[var(--muted-foreground)] mt-1">Promedio</div>
+                  <div className="text-xs font-bold text-[var(--muted-foreground)] mt-1">{t('average')}</div>
                 </Card>
 
                 {/* Transparencia */}
                 <Card className="p-4">
-                  <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase mb-2">Transparencia</div>
+                  <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase mb-2">{tScores('transparency')}</div>
                   <div className="text-3xl font-black text-[var(--score-transparency-text)]">
                     {stats.avgTransparency}
                   </div>
@@ -288,7 +286,7 @@ export default async function PartidoPage({ params }: PageProps) {
                       style={{ width: `${stats.avgTransparency}%` }}
                     />
                   </div>
-                  <div className="text-xs font-bold text-[var(--muted-foreground)] mt-1">Promedio</div>
+                  <div className="text-xs font-bold text-[var(--muted-foreground)] mt-1">{t('average')}</div>
                 </Card>
               </div>
             </section>
@@ -299,7 +297,7 @@ export default async function PartidoPage({ params }: PageProps) {
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
-                Historial Legal del Partido
+                {t('partyLegalHistory')}
               </h2>
               <Card className="p-5">
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
@@ -312,8 +310,8 @@ export default async function PartidoPage({ params }: PageProps) {
                     </div>
                     <div>
                       <div className="text-2xl font-black text-[var(--score-excellent-text)]">{stats.cleanCandidates.length}</div>
-                      <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Sin alertas</div>
-                      <div className="text-xs text-[var(--muted-foreground)]">{Math.round(stats.cleanCandidates.length / stats.total * 100)}% del total</div>
+                      <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('noAlerts')}</div>
+                      <div className="text-xs text-[var(--muted-foreground)]">{t('ofTotal', { percent: Math.round(stats.cleanCandidates.length / stats.total * 100) })}</div>
                     </div>
                   </div>
 
@@ -326,8 +324,8 @@ export default async function PartidoPage({ params }: PageProps) {
                     </div>
                     <div>
                       <div className="text-2xl font-black text-[var(--flag-red-text)]">{stats.redFlagCandidates.length}</div>
-                      <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Alerta roja</div>
-                      <div className="text-xs text-[var(--muted-foreground)]">{Math.round(stats.redFlagCandidates.length / stats.total * 100)}% del total</div>
+                      <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('redAlert')}</div>
+                      <div className="text-xs text-[var(--muted-foreground)]">{t('ofTotal', { percent: Math.round(stats.redFlagCandidates.length / stats.total * 100) })}</div>
                     </div>
                   </div>
 
@@ -340,8 +338,8 @@ export default async function PartidoPage({ params }: PageProps) {
                     </div>
                     <div>
                       <div className="text-2xl font-black text-[var(--flag-amber-text)]">{stats.amberFlagCandidates.length}</div>
-                      <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Alerta media</div>
-                      <div className="text-xs text-[var(--muted-foreground)]">{Math.round(stats.amberFlagCandidates.length / stats.total * 100)}% del total</div>
+                      <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('amberAlert')}</div>
+                      <div className="text-xs text-[var(--muted-foreground)]">{t('ofTotal', { percent: Math.round(stats.amberFlagCandidates.length / stats.total * 100) })}</div>
                     </div>
                   </div>
 
@@ -354,8 +352,8 @@ export default async function PartidoPage({ params }: PageProps) {
                     </div>
                     <div>
                       <div className="text-2xl font-black text-[var(--foreground)]">{stats.totalFlags}</div>
-                      <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Total alertas</div>
-                      <div className="text-xs text-[var(--muted-foreground)]">{stats.redFlagCandidates.length + stats.amberFlagCandidates.length} candidatos</div>
+                      <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('totalAlerts')}</div>
+                      <div className="text-xs text-[var(--muted-foreground)]">{t('candidatesCount', { count: stats.redFlagCandidates.length + stats.amberFlagCandidates.length })}</div>
                     </div>
                   </div>
                 </div>
@@ -363,8 +361,8 @@ export default async function PartidoPage({ params }: PageProps) {
                 {/* Barra visual limpios vs alertas */}
                 <div>
                   <div className="flex items-center justify-between text-xs font-bold text-[var(--muted-foreground)] uppercase mb-1.5">
-                    <span>Sin alertas ({Math.round(stats.cleanCandidates.length / stats.total * 100)}%)</span>
-                    <span>Con alertas ({Math.round((stats.total - stats.cleanCandidates.length) / stats.total * 100)}%)</span>
+                    <span>{t('noAlertsPercent', { percent: Math.round(stats.cleanCandidates.length / stats.total * 100) })}</span>
+                    <span>{t('withAlertsPercent', { percent: Math.round((stats.total - stats.cleanCandidates.length) / stats.total * 100) })}</span>
                   </div>
                   <div className="h-4 border-2 border-[var(--border)] flex overflow-hidden">
                     <div
@@ -383,15 +381,15 @@ export default async function PartidoPage({ params }: PageProps) {
                   <div className="flex items-center gap-4 mt-2">
                     <div className="flex items-center gap-1.5">
                       <div className="w-3 h-3 bg-[var(--score-excellent)] border border-[var(--border)]" />
-                      <span className="text-xs font-medium text-[var(--muted-foreground)]">Limpios</span>
+                      <span className="text-xs font-medium text-[var(--muted-foreground)]">{t('clean')}</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <div className="w-3 h-3 bg-[var(--flag-amber)] border border-[var(--border)]" />
-                      <span className="text-xs font-medium text-[var(--muted-foreground)]">Media</span>
+                      <span className="text-xs font-medium text-[var(--muted-foreground)]">{t('medium')}</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                       <div className="w-3 h-3 bg-[var(--flag-red)] border border-[var(--border)]" />
-                      <span className="text-xs font-medium text-[var(--muted-foreground)]">Roja</span>
+                      <span className="text-xs font-medium text-[var(--muted-foreground)]">{t('red')}</span>
                     </div>
                   </div>
                 </div>
@@ -404,7 +402,7 @@ export default async function PartidoPage({ params }: PageProps) {
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
-                Distribución por Cargo
+                {t('distributionByCargo')}
               </h2>
               <Card className="p-5">
                 {/* Stacked bar */}
@@ -450,7 +448,7 @@ export default async function PartidoPage({ params }: PageProps) {
                   <svg className="w-5 h-5 text-[var(--score-excellent-text)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="square" strokeLinejoin="miter" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
                   </svg>
-                  Mejor Rankeados
+                  {t('bestRanked')}
                 </h2>
                 <div className="grid grid-cols-3 gap-3">
                   {stats.top3.map((c, i) => (
@@ -479,7 +477,7 @@ export default async function PartidoPage({ params }: PageProps) {
                     <svg className="w-5 h-5 text-[var(--flag-red-text)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="square" strokeLinejoin="miter" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
-                    Más Alertas
+                    {t('mostAlerts')}
                   </h2>
                   <div className="grid grid-cols-3 gap-3">
                     {stats.worst3.map((c, i) => (
@@ -510,13 +508,13 @@ export default async function PartidoPage({ params }: PageProps) {
                   <svg className="w-5 h-5 text-[var(--flag-red-text)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="square" strokeLinejoin="miter" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
                   </svg>
-                  Candidatos Vinculados a Minería Informal (REINFO)
+                  {t('reinfoTitle')}
                 </h2>
                 <Card className="p-5 border-[var(--flag-red)] border-opacity-50">
                   <div className="flex items-center gap-3 mb-4 pb-4 border-b-2 border-[var(--border)]">
-                    <Badge variant="danger">{stats.reinfoCandidates.length} candidatos</Badge>
+                    <Badge variant="danger">{t('candidatesCount', { count: stats.reinfoCandidates.length })}</Badge>
                     <span className="text-sm text-[var(--muted-foreground)]">
-                      registrados en el REINFO (Registro Integral de Formalización Minera)
+                      {t('reinfoDesc')}
                     </span>
                   </div>
                   <div className="space-y-3">
@@ -544,15 +542,15 @@ export default async function PartidoPage({ params }: PageProps) {
                               {c.full_name}
                             </div>
                             <div className="text-xs text-[var(--muted-foreground)] font-medium">
-                              {cargoLabels[c.cargo]}
+                              {tCargo(c.cargo)}
                             </div>
                           </div>
                           <div className="flex items-center gap-2 flex-shrink-0">
                             {vigentes > 0 && (
-                              <Badge variant="danger">{vigentes} vigente{vigentes > 1 ? 's' : ''}</Badge>
+                              <Badge variant="danger">{t('vigentes', { count: vigentes })}</Badge>
                             )}
                             {otros > 0 && (
-                              <Badge variant="warning">{otros} excl/susp</Badge>
+                              <Badge variant="warning">{t('exclSusp', { count: otros })}</Badge>
                             )}
                           </div>
                         </Link>
@@ -579,30 +577,30 @@ export default async function PartidoPage({ params }: PageProps) {
                   <svg className="w-5 h-5 text-[var(--score-excellent-text)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="square" strokeLinejoin="miter" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  Transparencia Financiera {latestFinance.year}
+                  {t('financialTransparency', { year: latestFinance.year })}
                 </h2>
                 <Badge variant="outline">ONPE</Badge>
               </div>
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                 <div>
-                  <div className="text-xs sm:text-sm text-[var(--muted-foreground)] font-bold uppercase">Público</div>
+                  <div className="text-xs sm:text-sm text-[var(--muted-foreground)] font-bold uppercase">{t('publicFunding')}</div>
                   <div className="text-base sm:text-lg font-black text-[var(--score-excellent-text)]">{formatCurrency(latestFinance.public_funding)}</div>
                 </div>
                 <div>
-                  <div className="text-xs sm:text-sm text-[var(--muted-foreground)] font-bold uppercase">Privado</div>
+                  <div className="text-xs sm:text-sm text-[var(--muted-foreground)] font-bold uppercase">{t('privateFunding')}</div>
                   <div className="text-base sm:text-lg font-black text-[var(--score-good-text)]">{formatCurrency(latestFinance.private_funding_total)}</div>
                 </div>
                 <div>
-                  <div className="text-xs sm:text-sm text-[var(--muted-foreground)] font-bold uppercase">Total</div>
+                  <div className="text-xs sm:text-sm text-[var(--muted-foreground)] font-bold uppercase">{t('totalLabel')}</div>
                   <div className="text-base sm:text-lg font-black text-[var(--foreground)]">{formatCurrency(latestFinance.total_income)}</div>
                 </div>
                 <div>
-                  <div className="text-xs sm:text-sm text-[var(--muted-foreground)] font-bold uppercase">Donantes</div>
+                  <div className="text-xs sm:text-sm text-[var(--muted-foreground)] font-bold uppercase">{t('donorsLabel')}</div>
                   <div className="text-base sm:text-lg font-black text-[var(--foreground)]">{latestFinance.donor_count}</div>
                 </div>
               </div>
               <div className="mt-4 flex items-center text-sm text-[var(--primary)] font-bold uppercase">
-                Ver detalle completo
+                {t('viewFullDetail')}
                 <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
                 </svg>
@@ -618,7 +616,7 @@ export default async function PartidoPage({ params }: PageProps) {
           return (
             <section key={cargo} className="mb-8">
               <h2 className="text-xl font-black text-[var(--foreground)] mb-4 uppercase tracking-tight">
-                {cargoLabels[cargo]}
+                {tCargo(cargo)}
               </h2>
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {cargoCandidates.map((candidate, index) => (
@@ -637,11 +635,11 @@ export default async function PartidoPage({ params }: PageProps) {
         {candidates.length === 0 && (
           <div className="text-center py-12 bg-[var(--card)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal)]">
             <p className="text-[var(--muted-foreground)] font-medium">
-              No hay candidatos registrados para este partido.
+              {t('noCandidatesParty')}
             </p>
             <Link href="/ranking">
               <Button variant="primary" className="mt-4">
-                VER TODOS LOS CANDIDATOS
+                {t('viewAllCandidates')}
               </Button>
             </Link>
           </div>

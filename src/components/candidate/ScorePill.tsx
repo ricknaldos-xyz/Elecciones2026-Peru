@@ -18,18 +18,11 @@ interface ScorePillProps {
   className?: string
 }
 
-const modeLabels: Record<PresetType, string> = {
-  balanced: 'Equilibrado',
-  merit: 'Mérito',
-  integrity: 'Historial Legal',
-  custom: 'Personalizado',
-}
-
-function getScoreLevel(score: number): string {
-  if (score >= 80) return 'Excelente'
-  if (score >= 60) return 'Bueno'
-  if (score >= 40) return 'Regular'
-  return 'Bajo'
+function getScoreLevelKeyName(score: number): 'excellent' | 'good' | 'medium' | 'low' {
+  if (score >= 80) return 'excellent'
+  if (score >= 60) return 'good'
+  if (score >= 40) return 'medium'
+  return 'low'
 }
 
 function getScoreLevelKey(score: number): 'excellent' | 'good' | 'medium' | 'low' {
@@ -78,14 +71,17 @@ export function ScorePill({
   const colors = getScoreColor(score)
   const isPres = weights ? isPresidentialWeights(weights) : false
 
+  const modeLabel = t(`scoreMode.${mode}`)
+  const scoreLevelLabel = t(`scoreLevel.${getScoreLevelKeyName(score)}`)
+
   const tooltipContent = (
     <div className="text-xs font-bold">
-      <div className="font-black mb-2 uppercase tracking-wide">Cómo se calcula:</div>
+      <div className="font-black mb-2 uppercase tracking-wide">{t('howCalculated')}</div>
       <div>Puntaje = {(displayWeights.wC * 100).toFixed(0)}% {t('scores.competence')}</div>
       <div className="ml-4">+ {(displayWeights.wI * 100).toFixed(0)}% {t('scores.integrity')}</div>
       <div className="ml-4">+ {(displayWeights.wT * 100).toFixed(0)}% {t('scores.transparency')}</div>
       {isPres && isPresidentialWeights(displayWeights) && (
-        <div className="ml-4">+ {(displayWeights.wP * 100).toFixed(0)}% Plan de Gobierno</div>
+        <div className="ml-4">+ {(displayWeights.wP * 100).toFixed(0)}% {t('planLabel')}</div>
       )}
       <div className="mt-2 pt-2 border-t border-[var(--border)] text-[10px] opacity-80">{t('scores.scoreDisclaimer')}</div>
     </div>
@@ -100,8 +96,7 @@ export function ScorePill({
   }
 
   const config = sizeConfig[size]
-  const scoreLevel = getScoreLevel(score)
-  const ariaLabel = `Puntuación ${score.toFixed(0)} de 100, nivel ${scoreLevel}, modo ${modeLabels[mode]}`
+  const ariaLabel = t('scoreAriaLabel', { score: score.toFixed(0), level: scoreLevelLabel, mode: modeLabel })
 
   if (variant === 'minimal') {
     return (
@@ -160,7 +155,7 @@ export function ScorePill({
           </div>
           {showMode && (
             <span className="text-xs font-bold text-[var(--muted-foreground)] mt-1 uppercase tracking-wide">
-              {modeLabels[mode]}
+              {modeLabel}
             </span>
           )}
         </div>
@@ -203,7 +198,7 @@ export function ScorePill({
         </div>
         {showMode && (
           <span className="text-xs font-bold text-[var(--muted-foreground)] mt-1 uppercase tracking-wide">
-            {modeLabels[mode]}
+            {modeLabel}
           </span>
         )}
       </div>

@@ -249,6 +249,7 @@ export function CompareContent() {
   const router = useRouter()
   const t = useTranslations('compare')
   const tCommon = useTranslations('common')
+  const tCargo = useTranslations('ranking.cargo')
   const showSuccess = useSuccessToast()
   const locale = useLocale()
 
@@ -360,11 +361,11 @@ export function CompareContent() {
   }
 
   const cargoLabels: Record<string, string> = {
-    presidente: 'Presidente',
-    vicepresidente: 'Vicepresidente',
-    senador: 'Senador',
-    diputado: 'Diputado',
-    parlamento_andino: 'Parl. Andino',
+    presidente: tCargo('presidente'),
+    vicepresidente: tCargo('vicepresidente'),
+    senador: tCargo('senador'),
+    diputado: tCargo('diputado'),
+    parlamento_andino: tCargo('parlamento_andino'),
   }
 
   return (

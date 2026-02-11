@@ -65,11 +65,24 @@
     "presets": {
       "balanced": "Chawpi",
       "balancedDesc": "Yachay kamachiy qillqawan tupachisqa",
+      "balancedDescPres": "Yachay, kamachiy qillqa, kamachiy ruway tupachisqa",
       "merit": "Yachay",
-      "meritDesc": "Yachayninta aswan qhaway",
+      "meritDesc": "Yachayninta aswan qhaway; kamachiy qillqata t'aqawan",
+      "meritDescPres": "Yachayninta aswan qhaway; kamachiy ruwaypa ruwanapaq",
       "integrity": "Kamachiy Qillqa",
       "integrityDesc": "Mana antecedente kayninta qhaway",
-      "custom": "Munayniyuq"
+      "integrityDescPres": "Mana antecedente kayninta qhaway; kamachiy ruwaypa ruwanapaq",
+      "custom": "Munayniyuq",
+      "customDesc": "Llasaqkunata churay (mana pantachiq rankinpaq t'aqawan)",
+      "customInfo": "Munayniyuq ranking. Yachayqa mana tikrakurqanchu, munayniykillaña.",
+      "resetToBalanced": "Chawpiman kutichiy",
+      "adjust": "Tikray"
+    },
+    "flagMore": "+{count} aswan",
+    "flagSeverityAria": {
+      "RED": "Hatun sasachakuy",
+      "AMBER": "Chawpi sasachakuy",
+      "GRAY": "Willakuy"
     },
     "cargo": {
       "presidente": "Hatun Kamachiq",
@@ -187,7 +200,8 @@
       "transparencyDesc": "Willasqa yachaypa kamachiy qillqan",
       "confidence": "Yachay Iñiy",
       "confidenceDesc": "Imayna chiqap kanku yachaykuna",
-      "scoreDisclaimer": "Algoritmo puntaje llaqta yachaykunamanta. Mana chaninchaymi kanchu."
+      "scoreDisclaimer": "Algoritmo puntaje llaqta yachaykunamanta. Mana chaninchaymi kanchu.",
+      "plan": "Kamachiy Ruway"
     },
     "educationLevels": {
       "doctorado": "Yachay Hatun Kamaq",
@@ -225,7 +239,47 @@
     "scoreMode": {
       "balanced": "Chawpi",
       "merit": "Yachay",
-      "integrity": "Kamachiy Qillqa"
+      "integrity": "Kamachiy Qillqa",
+      "custom": "Munayniyuq"
+    },
+    "scoreLevel": {
+      "excellent": "Allin",
+      "good": "Wali",
+      "medium": "Chawpi",
+      "low": "Ura"
+    },
+    "howCalculated": "Imaynata yupan:",
+    "planLabel": "Kamachiy Ruway",
+    "scoreAriaLabel": "Chanin {score} pachakta, nivel {level}, modo {mode}",
+    "subScores": {
+      "compShort": "Comp",
+      "intShort": "H.Legal",
+      "transShort": "Trans",
+      "confShort": "Data",
+      "planShort": "Plan",
+      "of100": "pachakta"
+    },
+    "confidenceBadge": {
+      "verified": "Willaq chiqap",
+      "partial": "Willaq pisi",
+      "limited": "Willaq pisilla",
+      "verifiedDesc": "Tukuy yachaykuna kanmi kay akllasqa runapaq",
+      "partialDesc": "Wakin yachaykuna chiqapchanapaq falta",
+      "limitedDesc": "Pisi yachay kan. Chaninqa tikrakuyta atin.",
+      "label": "Iñiy:"
+    },
+    "integritySummary": {
+      "title": "Kamachiy Qillqa Willakuy",
+      "noRecords": "Mana mana allin ñawpa ruray qillqasqa",
+      "baseScore": "Qallariy chanin",
+      "finalScore": "Qhipa chanin",
+      "penal": "Huchachay kamachiy",
+      "violenciaFamiliar": "Ayllu maqanakuy",
+      "alimentos": "Wawaman quykuna",
+      "laboral": "Llamk'ay mañakuy",
+      "contractual": "Trato mana hunt'ay",
+      "resignations": "Partidomanta saqiykuna",
+      "reinfo": "REINFO (Quri llamk'ay)"
     },
     "record": "ñawpa ruray",
     "records": "ñawpa ruraykuna",
@@ -1194,5 +1248,82 @@
     "configureNote": "Hamuq p'unchaykunapi",
     "metaTitle": "Yanapay | Akllana Ranking Perú 2026",
     "metaDescription": "Kay mana qullqipaq llamk'ayta yanapay. Yanapayniykiwan plataforma sapanchasqa qasi kaq."
+  },
+  "district": {
+    "notFound": "Mana suyu tarikurkuchu",
+    "metaTitle": "{name} Akllasqa Runakuna - Akllana Ranking 2026",
+    "metaDesc": "{name} suyupi Congresopaq akllasqa runakunapa rankingninta qhaway. Yachay chaninkuna, kamachiy qillqa, sut'i kayta tupachiy.",
+    "senatorsCount": "{count} senadorkunakuna",
+    "deputiesCount": "{count} diputadokunakuna",
+    "candidatesForSenator": "Senadorpaq Akllasqa Runakuna",
+    "candidatesForDeputy": "Diputadopaq Akllasqa Runakuna",
+    "noCandidates": "Mana akllasqa runakuna qillqasqa kanchu kay suyupaq.",
+    "viewAllCandidates": "TUKUY AKLLASQA RUNAKUNATA QHAWAY"
+  },
+  "partyPage": {
+    "notFound": "Mana partido tarikurkuchu",
+    "registeredCandidates": "{count} akllasqa runakuna qillqasqa",
+    "viewFinancing": "QULLQI CHURAY QHAWAY",
+    "avgScores": "Chawpi Chaninkuna",
+    "overallScore": "Tukuy Chanin",
+    "average": "Chawpi",
+    "partyLegalHistory": "Partidopa Kamachiy Qillqa Ñawpaq Ruway",
+    "noAlerts": "Mana willakuykuna",
+    "redAlert": "Puka willakuy",
+    "amberAlert": "Chawpi willakuy",
+    "totalAlerts": "Tukuy willakuykuna",
+    "candidatesCount": "{count} akllasqa runakuna",
+    "noAlertsPercent": "Mana willakuy ({percent}%)",
+    "withAlertsPercent": "Willakuyyuq ({percent}%)",
+    "clean": "Ch'uyakuna",
+    "medium": "Chawpi",
+    "red": "Puka",
+    "distributionByCargo": "Llamk'aymanhina Rakinakuy",
+    "bestRanked": "Aswan Allin Rankingyuq",
+    "mostAlerts": "Aswan Willakuyyuq",
+    "reinfoTitle": "Mana Kamachiq Quri Llamk'ayman Tinkisqa Akllasqa Runakuna (REINFO)",
+    "reinfoDesc": "REINFO nisqapi qillqasqa (Registro Integral de Formalización Minera)",
+    "vigentes": "{count} kawsaq(kuna)",
+    "exclSusp": "{count} excl/susp",
+    "financialTransparency": "Qullqi Sut'i Kay {year}",
+    "publicFunding": "Llaqta Qullqi",
+    "privateFunding": "Kikin Qullqi",
+    "totalLabel": "Tukuy",
+    "donorsLabel": "Qullqi Quqkuna",
+    "viewFullDetail": "Tukuyninta qhaway",
+    "noCandidatesParty": "Mana akllasqa runakuna qillqasqa kanchu kay partidopaq.",
+    "viewAllCandidates": "TUKUY AKLLASQA RUNAKUNATA QHAWAY",
+    "ofTotal": "{percent}% tukuymanta",
+    "scoreLevelHigh": "Hatun",
+    "scoreLevelGood": "Allin",
+    "scoreLevelRegular": "Chawpi",
+    "scoreLevelLow": "Ura"
+  },
+  "partners": {
+    "forMedia": "Willakuy Mediokunapaq",
+    "embeddableWidgets": "Churana Widgetkuna",
+    "heroDesc": "Chiqapchasqa akllana willayta ñawiriqkunaykiman apay. Widgetkunaqa qasilla kanku, kikillanmanta musuqchakun.",
+    "candidateWidget": "Akllasqa Runa Widget",
+    "candidateWidgetDesc": "Akllasqa runapa pisilla perfilninta chaninnintawan, subscore-kunawan, hunt'asqa perfil t'inkiwan rikuchin.",
+    "viewExample": "Ejemplo qhaway",
+    "rankingWidget": "Ranking Widget",
+    "rankingWidgetDesc": "Llamk'aymanhina aswan allin akllasqa runakunata rikuchin. Hayk'a akllasqa runawan llamk'ay layawan ruwana.",
+    "parameters": "Parámetrokuna:",
+    "paramCargoDesc": "presidente, senador, diputado, parlamento_andino",
+    "paramLimitDesc": "1-10 (hayk'a akllasqa runakuna)",
+    "viewExamplePresidents": "Hatun kamachiq ejemplo qhaway",
+    "viewExampleSenators": "Senador ejemplo qhaway",
+    "benefits": "Willakuy medioykipaq allin kaykuna",
+    "free": "100% Qasi",
+    "freeDesc": "Mana qullqi mana licencia",
+    "autoUpdate": "Kikillanmanta musuqchakuy",
+    "autoUpdateDesc": "Willaykuna sapa kuti musuqchasqa",
+    "officialSources": "Kamachiq pukyukuna",
+    "officialSourcesDesc": "JNE, ONPE, DJHV willaykunamanta",
+    "responsive": "Responsive",
+    "responsiveDesc": "Mayqin celularpipas llamk'an",
+    "customQuestion": "¿Imatapas kikillaykipaq munanki?",
+    "customDesc": "Ñuqaykuwan rimanakuy kikin widgetkuna, API-kuna, chayri sapaq t'inkiykunapaq.",
+    "contact": "Rimanakuy"
   }
 }

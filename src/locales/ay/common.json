@@ -65,11 +65,24 @@
     "presets": {
       "balanced": "Taypiku",
       "balancedDesc": "Yatiqawi kamachi qillqampi chikanchataw",
+      "balancedDescPres": "Yatiqawi, kamachi qillqa, kamachi luraña chikanchataw",
       "merit": "Yatiqawi",
-      "meritDesc": "Yatiqawir askin uñjaña",
+      "meritDesc": "Yatiqawir askin uñjaña; kamachi qillqata t'aqampi",
+      "meritDescPres": "Yatiqawir askin uñjaña; kamachi lurañana atipawi",
       "integrity": "Kamachi Qillqa",
       "integrityDesc": "Jan antecedente ukanak uñjaña",
-      "custom": "Munañ ukham"
+      "integrityDescPres": "Jan antecedente ukanak uñjaña; kamachi lurañana atipawi",
+      "custom": "Munañ ukham",
+      "customDesc": "Llasatanaka churaña (jan pantjiri rankingpataki t'aqanakanpi)",
+      "customInfo": "Munañ ukham ranking. Yatiyawi jan jaqukipaskiti, munañamakiwa.",
+      "resetToBalanced": "Taypikuru kutiyaña",
+      "adjust": "Jaqukipaña"
+    },
+    "flagMore": "+{count} jilïri",
+    "flagSeverityAria": {
+      "RED": "Sinti ch'amawi",
+      "AMBER": "Taypiku ch'amawi",
+      "GRAY": "Yatiyawi"
     },
     "cargo": {
       "presidente": "Jach'a Irpiri",
@@ -187,7 +200,8 @@
       "transparencyDesc": "Yatiyatana suma jakaña",
       "confidence": "Yatiqawi Iyawsaña",
       "confidenceDesc": "Kunjams chiqa yatiqawinaka",
-      "scoreDisclaimer": "Algoritmo puntaje llaqta yatiqawinakata. Jan chaninchaykiti."
+      "scoreDisclaimer": "Algoritmo puntaje llaqta yatiqawinakata. Jan chaninchaykiti.",
+      "plan": "Kamachi Luraña"
     },
     "educationLevels": {
       "doctorado": "Jach'a Yatiqawi Título",
@@ -225,7 +239,47 @@
     "scoreMode": {
       "balanced": "Taypiku",
       "merit": "Yatiqawi",
-      "integrity": "Kamachi Qillqa"
+      "integrity": "Kamachi Qillqa",
+      "custom": "Munañ ukham"
+    },
+    "scoreLevel": {
+      "excellent": "Wali",
+      "good": "Suma",
+      "medium": "Taypita",
+      "low": "Aynachata"
+    },
+    "howCalculated": "Kunjamatï jakhun:",
+    "planLabel": "Kamachi Luraña",
+    "scoreAriaLabel": "Jakhunaka {score} patakata, nivel {level}, modo {mode}",
+    "subScores": {
+      "compShort": "Comp",
+      "intShort": "H.Legal",
+      "transShort": "Trans",
+      "confShort": "Data",
+      "planShort": "Plan",
+      "of100": "patakata"
+    },
+    "confidenceBadge": {
+      "verified": "Yatiyawi chiqapa",
+      "partial": "Yatiyawi juk'a",
+      "limited": "Yatiyawi jisk'a",
+      "verifiedDesc": "Taqpach yatiyawinaka utjiwa aka ajilatarux",
+      "partialDesc": "Yatiyawinaka chiqanchañataki falta utji",
+      "limitedDesc": "Juk'a yatiyawi utji. Jakhunakaxa jaqukipasiñjamawa.",
+      "label": "Iyawsaña:"
+    },
+    "integritySummary": {
+      "title": "Kamachi Qillqa Yatiyawi",
+      "noRecords": "Jan wali nayra luräwi janiw qillqatäkiti",
+      "baseScore": "Qalltawi jakhu",
+      "finalScore": "Qhipa jakhu",
+      "penal": "Juchañchäwi kamachi",
+      "violenciaFamiliar": "Familia nuwasiña",
+      "alimentos": "Wawaru churaña",
+      "laboral": "Irnaqa mayiña",
+      "contractual": "Trato jan phuqhawi",
+      "resignations": "Partidot saräwinaka",
+      "reinfo": "REINFO (Quri irnaqa)"
     },
     "record": "nayra luräwi",
     "records": "nayra luräwinaka",
@@ -1194,5 +1248,82 @@
     "configureNote": "Jutir urunakan",
     "metaTitle": "Yanapaña | Ajilanaka Ranking Perú 2026",
     "metaDescription": "Aka jan qullqipataki luräwi yanapaña. Yanapt'amampi plataforma sapaki janikiniw qullqini."
+  },
+  "district": {
+    "notFound": "Suyu janiw jikxatatäkiti",
+    "metaTitle": "{name} Ajilanaka - Ajilana Ranking 2026",
+    "metaDesc": "{name} suyuna Congresotaki ajilanakana rankingpa uñjaña. Yatiqawi jakhunakanaka, kamachi qillqa, q'umara uñacht'ayaña.",
+    "senatorsCount": "{count} senadornaka",
+    "deputiesCount": "{count} diputadonaka",
+    "candidatesForSenator": "Senadortaki Ajilanaka",
+    "candidatesForDeputy": "Diputadotaki Ajilanaka",
+    "noCandidates": "Janiw ajilanaka qillqatäkiti aka suyutaki.",
+    "viewAllCandidates": "TAQPACH AJILANAKA UÑJAÑA"
+  },
+  "partyPage": {
+    "notFound": "Tantachawi janiw jikxatatäkiti",
+    "registeredCandidates": "{count} ajilanaka qillqata",
+    "viewFinancing": "QULLQI CHURAWI UÑJAÑA",
+    "avgScores": "Chika Jakhunakanaka",
+    "overallScore": "Taqpach Jakhunaka",
+    "average": "Chika",
+    "partyLegalHistory": "Tantachawina Kamachi Qillqa Nayra Luräwi",
+    "noAlerts": "Jan yatiyawinaka",
+    "redAlert": "Wila yatiyawi",
+    "amberAlert": "Taypi yatiyawi",
+    "totalAlerts": "Taqpach yatiyawinaka",
+    "candidatesCount": "{count} ajilanaka",
+    "noAlertsPercent": "Jan yatiyawi ({percent}%)",
+    "withAlertsPercent": "Yatiyawini ({percent}%)",
+    "clean": "Q'uma",
+    "medium": "Taypi",
+    "red": "Wila",
+    "distributionByCargo": "Irnaqjam Jaljaña",
+    "bestRanked": "Jilïr Suma Rankingyuq",
+    "mostAlerts": "Jilïr Yatiyawini",
+    "reinfoTitle": "Jan Kamachi Quri Irnaqaru Chikt'ata Ajilanaka (REINFO)",
+    "reinfoDesc": "REINFO ukanxa qillqata (Registro Integral de Formalización Minera)",
+    "vigentes": "{count} jakaskiri(naka)",
+    "exclSusp": "{count} excl/susp",
+    "financialTransparency": "Qullqi Q'umara {year}",
+    "publicFunding": "Marka Qullqi",
+    "privateFunding": "Kimsir Qullqi",
+    "totalLabel": "Taqpach",
+    "donorsLabel": "Qullqi Churirinaka",
+    "viewFullDetail": "Taqpach uñjaña",
+    "noCandidatesParty": "Janiw ajilanaka qillqatäkiti aka tantachawiru.",
+    "viewAllCandidates": "TAQPACH AJILANAKA UÑJAÑA",
+    "ofTotal": "{percent}% taqpachat",
+    "scoreLevelHigh": "Jach'a",
+    "scoreLevelGood": "Suma",
+    "scoreLevelRegular": "Taypi",
+    "scoreLevelLow": "Jisk'a"
+  },
+  "partners": {
+    "forMedia": "Yatiyawi Medionakataki",
+    "embeddableWidgets": "Churañ Widgetnaka",
+    "heroDesc": "Chiqanchata ajilana yatiyawi ullïrinakamar apayaña. Widgetnakaxa janikiniw qullqini ukat kikinpachaw machaqchasi.",
+    "candidateWidget": "Ajilata Widget",
+    "candidateWidgetDesc": "Ajilata jisk'a perfilpa jakhunakapampi, subscorenakapampi, taqpach perfil chikthapiwimpi uñacht'ayi.",
+    "viewExample": "Ejemplo uñjaña",
+    "rankingWidget": "Ranking Widget",
+    "rankingWidgetDesc": "Irnaqjam jilïr suma ajilanaka uñacht'ayi. Qawqha ajilanakampi irnaqa layampi lurasiñjama.",
+    "parameters": "Parámetronaka:",
+    "paramCargoDesc": "presidente, senador, diputado, parlamento_andino",
+    "paramLimitDesc": "1-10 (qawqha ajilanaka)",
+    "viewExamplePresidents": "Jach'a irpiri ejemplo uñjaña",
+    "viewExampleSenators": "Senador ejemplo uñjaña",
+    "benefits": "Mediomapataki wali yanaka",
+    "free": "100% Janikiniw Qullqini",
+    "freeDesc": "Jan qullqi jan licencia",
+    "autoUpdate": "Kikinpachaw machaqchasi",
+    "autoUpdateDesc": "Yatiyawinaka sapüru machaqchata",
+    "officialSources": "Kamachi phuqtunaka",
+    "officialSourcesDesc": "JNE, ONPE, DJHV yatiyawinakata",
+    "responsive": "Responsive",
+    "responsiveDesc": "Kawkir celularnansa irnaqaski",
+    "customQuestion": "¿Kunats personalizadota munapxta?",
+    "customDesc": "Nanakaruxa aruskipapxam personalizadat widgetnaka, APInaka, jan ukax especial chikthapinaka munapxataxa.",
+    "contact": "Aruskipaña"
   }
 }

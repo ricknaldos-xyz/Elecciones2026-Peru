@@ -1,6 +1,7 @@
 'use client'
 
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 
 type ScoreType = 'competence' | 'integrity' | 'transparency' | 'confidence' | 'plan'
 
@@ -13,37 +14,37 @@ interface SubScoreBarProps {
   className?: string
 }
 
-const typeConfig: Record<ScoreType, { label: string; shortLabel: string; icon: string; color: string }> = {
-  competence: {
-    label: 'Competencia',
-    shortLabel: 'Comp',
-    icon: 'C',
-    color: 'var(--score-competence)',
-  },
-  integrity: {
-    label: 'Historial Legal',
-    shortLabel: 'H.Legal',
-    icon: 'I',
-    color: 'var(--score-integrity)',
-  },
-  transparency: {
-    label: 'Transparencia',
-    shortLabel: 'Trans',
-    icon: 'T',
-    color: 'var(--score-transparency)',
-  },
-  confidence: {
-    label: 'Confianza',
-    shortLabel: 'Data',
-    icon: 'D',
-    color: 'var(--muted-foreground)',
-  },
-  plan: {
-    label: 'Plan de Gobierno',
-    shortLabel: 'Plan',
-    icon: 'P',
-    color: 'var(--score-plan)',
-  },
+const scoreKeyMap: Record<ScoreType, string> = {
+  competence: 'competence',
+  integrity: 'integrity',
+  transparency: 'transparency',
+  confidence: 'confidence',
+  plan: 'plan',
+}
+
+const shortLabelKeyMap: Record<ScoreType, string> = {
+  competence: 'compShort',
+  integrity: 'intShort',
+  transparency: 'transShort',
+  confidence: 'confShort',
+  plan: 'planShort',
+}
+
+const typeIcons: Record<ScoreType, string> = {
+  competence: 'C',
+  integrity: 'I',
+  transparency: 'T',
+  confidence: 'D',
+  plan: 'P',
+}
+
+function useTypeConfig() {
+  const t = useTranslations('candidate')
+  return (type: ScoreType) => ({
+    label: type === 'plan' ? t('planLabel') : t(`scores.${scoreKeyMap[type]}`),
+    shortLabel: t(`subScores.${shortLabelKeyMap[type]}`),
+    icon: typeIcons[type],
+  })
 }
 
 function getBarColor(type: ScoreType, value: number): string {
@@ -105,7 +106,8 @@ export function SubScoreBar({
   variant = 'horizontal',
   className,
 }: SubScoreBarProps) {
-  const config = typeConfig[type]
+  const getConfig = useTypeConfig()
+  const config = getConfig(type)
   const barColor = getBarColor(type, value)
   const textColor = getTextColor(type, value)
   const percentage = Math.min(Math.max(value, 0), 100)
@@ -120,7 +122,7 @@ export function SubScoreBar({
   if (variant === 'vertical') {
     return (
       <div className={cn('flex flex-col items-center gap-1', className)}>
-        <span className={cn('text-xl font-black score-display', textColor)} aria-hidden="true">
+        <span className={cn('text-lg sm:text-xl font-black score-display', textColor)} aria-hidden="true">
           {value.toFixed(0)}
         </span>
         {/* NEO BRUTAL bar - no rounded corners */}
@@ -208,7 +210,8 @@ export function SubScoreBarMini({
   value: number
   className?: string
 }) {
-  const config = typeConfig[type]
+  const getConfig = useTypeConfig()
+  const config = getConfig(type)
   const barColor = getBarColor(type, value)
   const textColor = getTextColor(type, value)
   const percentage = Math.min(Math.max(value, 0), 100)
@@ -259,7 +262,8 @@ export function SubScoreStat({
   size?: 'sm' | 'md' | 'lg'
   className?: string
 }) {
-  const config = typeConfig[type]
+  const getConfig = useTypeConfig()
+  const config = getConfig(type)
   const barColor = getBarColor(type, value)
   const textColor = getTextColor(type, value)
   const percentage = Math.min(Math.max(value, 0), 100)

@@ -65,11 +65,24 @@
     "presets": {
       "balanced": "Tampatyaki",
       "balancedDesc": "Kenkitsarentsikë kamachiri sankenariro",
+      "balancedDescPres": "Kenkitsarentsikë, kamachiri sankenari, kamachiri antaro owakiraantsi",
       "merit": "Kenkitsarentsikë",
-      "meritDesc": "Oimabëntantsi kenkitsarentsikë",
+      "meritDesc": "Oimabëntantsi kenkitsarentsikë; kamachiri sankenari t'aqawan",
+      "meritDescPres": "Oimabëntantsi kenkitsarentsikë; kamachiri antaropa atipabentsiki",
       "integrity": "Kamachiri Sankenari",
       "integrityDesc": "Tëjonka antecedente uñayantsirë",
-      "custom": "Pishintaka"
+      "integrityDescPres": "Tëjonka antecedente uñayantsirë; kamachiri antaropa atipabentsiki",
+      "custom": "Pishintaka",
+      "customDesc": "Katsiñëritakë churantsi (tëjonka pantachiq rankingpaq t'aqawan)",
+      "customInfo": "Pishintaka ranking. Amëtakotërini te tikrakurkuchu, pishintakakiña.",
+      "resetToBalanced": "Tampatyakiru opitsëro",
+      "adjust": "Tikrantsi"
+    },
+    "flagMore": "+{count} ampiki",
+    "flagSeverityAria": {
+      "RED": "Kitëkiyaki sasachakuy",
+      "AMBER": "Tampatyaki sasachakuy",
+      "GRAY": "Amëtakotërini"
     },
     "cargo": {
       "presidente": "Antëromani Pinkatsari",
@@ -187,7 +200,8 @@
       "transparencyDesc": "Osankënarintsi wamëtankë",
       "confidence": "Amëtakotsi",
       "confidenceDesc": "Irapiibë katsinkabo",
-      "scoreDisclaimer": "Algoritmo puntaje llaqta amëtakotërinimanta. Tëjantsibë chaninchaymi kanchu."
+      "scoreDisclaimer": "Algoritmo puntaje llaqta amëtakotërinimanta. Tëjantsibë chaninchaymi kanchu.",
+      "plan": "Kamachiri Antaro"
     },
     "educationLevels": {
       "doctorado": "Jananequi Sanquenarentsi",
@@ -225,7 +239,47 @@
     "scoreMode": {
       "balanced": "Tampatyaki",
       "merit": "Kenkitsarentsikë",
-      "integrity": "Kamachiri Sankenari"
+      "integrity": "Kamachiri Sankenari",
+      "custom": "Pishintaka"
+    },
+    "scoreLevel": {
+      "excellent": "Kametsa",
+      "good": "Kametsari",
+      "medium": "Tsika",
+      "low": "Tekatsi"
+    },
+    "howCalculated": "¿Tsikama okantaka?:",
+    "planLabel": "Kamachiri Antaro",
+    "scoreAriaLabel": "Katsinkabo {score} patakata, nivel {level}, modo {mode}",
+    "subScores": {
+      "compShort": "Comp",
+      "intShort": "H.Legal",
+      "transShort": "Trans",
+      "confShort": "Data",
+      "planShort": "Plan",
+      "of100": "patakata"
+    },
+    "confidenceBadge": {
+      "verified": "Sankenari chekari",
+      "partial": "Sankenari oijatzi",
+      "limited": "Sankenari otzimi",
+      "verifiedDesc": "Tasorintsi amëtakotërini kanmi oka apatotantsipëpaq",
+      "partialDesc": "Amëtakotërini chiqantsitanaki falta",
+      "limitedDesc": "Tsonkari amëtakotërini. Katsinkabo owakiraa atikuyta.",
+      "label": "Amëtakotsi:"
+    },
+    "integritySummary": {
+      "title": "Kamachiri Sankenari Okantziro",
+      "noRecords": "Tëjonka te wali pairani oñaantsi sankenaritsika",
+      "baseScore": "Owakiraa katsinkabo",
+      "finalScore": "Tukurentsi katsinkabo",
+      "penal": "Castigarentsi kamachiri",
+      "violenciaFamiliar": "Ayllu amënkëro",
+      "alimentos": "Shininkipë apayëro",
+      "laboral": "Antabëëtantsi mayintsi",
+      "contractual": "Trato te hunt'antsi",
+      "resignations": "Partidomanta aninkatantsiki",
+      "reinfo": "REINFO (Kori antabëëtantsi)"
     },
     "record": "pairani oñaantsi",
     "records": "pairaniki oñaantsiki",
@@ -1194,5 +1248,82 @@
     "configureNote": "Owakiraa kitëjerikëna",
     "metaTitle": "Yanabëntantsi | Ranking Apatotantsi Perú 2026",
     "metaDescription": "Yanabëntantsi te kori-manitsi irantërokë. Yanabëntantsikë plataforma aparoni te kori-manitsi."
+  },
+  "district": {
+    "notFound": "Tëjonka nampitsi tarisqa",
+    "metaTitle": "{name} Apatotantsipë - Ranking Apatotantsi 2026",
+    "metaDesc": "{name} nampitsiki Congresopaq apatotantsipëna ranking oimabëntantsi. Kenkitsarentsikë katsinkabo, kamachiri sankenari, oinabiinti amëñëro.",
+    "senatorsCount": "{count} senadorkë",
+    "deputiesCount": "{count} diputadokë",
+    "candidatesForSenator": "Senadorpaq Apatotantsipë",
+    "candidatesForDeputy": "Diputadopaq Apatotantsipë",
+    "noCandidates": "Tëjonka apatotantsipë sankenaritsitaka oka nampitsipaq.",
+    "viewAllCandidates": "TASORINTSI APATOTANTSIPË OIMABËNTANTSI"
+  },
+  "partyPage": {
+    "notFound": "Tëjonka partido tarisqa",
+    "registeredCandidates": "{count} apatotantsipë sankenaritsitaka",
+    "viewFinancing": "QULLQI CHURANTSI OIMABËNTANTSI",
+    "avgScores": "Tampatyaki Katsinkabokë",
+    "overallScore": "Tasorintsi Katsinkabo",
+    "average": "Tampatyaki",
+    "partyLegalHistory": "Partidona Kamachiri Sankenari Pairani Oñaantsi",
+    "noAlerts": "Tëjonka amëtakotërini",
+    "redAlert": "Kitëjaki amëtakotërini",
+    "amberAlert": "Tampatyaki amëtakotërini",
+    "totalAlerts": "Tasorintsi amëtakotërini",
+    "candidatesCount": "{count} apatotantsipë",
+    "noAlertsPercent": "Tëjonka amëtakotërini ({percent}%)",
+    "withAlertsPercent": "Amëtakotëriniyuq ({percent}%)",
+    "clean": "Kitësonkantsi",
+    "medium": "Tampatyaki",
+    "red": "Kitëjaki",
+    "distributionByCargo": "Antabëëtantsimanhina Owakiraantsi",
+    "bestRanked": "Antëromani Wamëtankë Rankingyuq",
+    "mostAlerts": "Antëromani Amëtakotëriniyuq",
+    "reinfoTitle": "Tëjonka Kamachiri Kori Antabëëtantsiru Tinkisqa Apatotantsipë (REINFO)",
+    "reinfoDesc": "REINFO nisqapi sankenaritsitaka (Registro Integral de Formalización Minera)",
+    "vigentes": "{count} kawsantsikë",
+    "exclSusp": "{count} excl/susp",
+    "financialTransparency": "Qullqi Oinabiinti {year}",
+    "publicFunding": "Nampitsi Qullqi",
+    "privateFunding": "Kimsir Qullqi",
+    "totalLabel": "Tasorintsi",
+    "donorsLabel": "Qullqi Apatantsipë",
+    "viewFullDetail": "Tasorintsi oimabëntantsi",
+    "noCandidatesParty": "Tëjonka apatotantsipë sankenaritsitaka oka partidopaq.",
+    "viewAllCandidates": "TASORINTSI APATOTANTSIPË OIMABËNTANTSI",
+    "ofTotal": "{percent}% tasorintsimanta",
+    "scoreLevelHigh": "Antëromani",
+    "scoreLevelGood": "Wamëtankë",
+    "scoreLevelRegular": "Tampatyaki",
+    "scoreLevelLow": "Tsonkari"
+  },
+  "partners": {
+    "forMedia": "Amëtakotërini Mediokëpaq",
+    "embeddableWidgets": "Churantsi Widgetkë",
+    "heroDesc": "Chiqantsitaka apatotantsi amëtakotërinita ñawirintsikëman apay. Widgetkëqa tëjonka kori-mani ari kikillanmanta obaekichay.",
+    "candidateWidget": "Apatotantsi Widget",
+    "candidateWidgetDesc": "Apatotantsina tsonkari perfilninta katsinkabontawan, subscorekëwan, tasorintsi perfil t'inkiwan oimabëntantsi.",
+    "viewExample": "Ejemplo oimabëntantsi",
+    "rankingWidget": "Ranking Widget",
+    "rankingWidgetDesc": "Antabëëtantsimanhina antëromani wamëtankë apatotantsipëta oimabëntantsi. Tsikapa apatotantsipëwan antabëëtantsi layawan irapiibë.",
+    "parameters": "Parámetrokë:",
+    "paramCargoDesc": "presidente, senador, diputado, parlamento_andino",
+    "paramLimitDesc": "1-10 (tsikapa apatotantsipë)",
+    "viewExamplePresidents": "Pinkatsari ejemplo oimabëntantsi",
+    "viewExampleSenators": "Senador ejemplo oimabëntantsi",
+    "benefits": "Amëtakotërini mediokipaq wamëtankë",
+    "free": "100% Tëjonka Kori-mani",
+    "freeDesc": "Tëjonka kori-mani tëjonka licencia",
+    "autoUpdate": "Kikillanmanta obaekichay",
+    "autoUpdateDesc": "Amëtakotërini sapa kuti obaekichasqa",
+    "officialSources": "Kamachi amëtakotërini",
+    "officialSourcesDesc": "JNE, ONPE, DJHV amëtakotërinimanta",
+    "responsive": "Responsive",
+    "responsiveDesc": "Tsika celularpipas antabëëtan",
+    "customQuestion": "¿Imatapas pishintaka munanki?",
+    "customDesc": "Ñokaykuwan arinabëëtantsi pishintaka widgetkë, APIkë, tëja sapaq t'inkiykëpaq.",
+    "contact": "Arinabëëtantsi"
   }
 }

@@ -6,6 +6,7 @@ import { Tooltip } from '@/components/ui/Tooltip'
 import { PRESETS, WEIGHT_LIMITS, PRESIDENTIAL_PRESETS, PRESIDENTIAL_WEIGHT_LIMITS, validateAndNormalizeWeights, validateAndNormalizePresidentialWeights } from '@/lib/constants'
 import type { PresetType, Weights, AnyWeights, PresidentialWeights, CargoType } from '@/types/database'
 import { isPresidentialWeights } from '@/types/database'
+import { useTranslations } from 'next-intl'
 
 interface PresetSelectorProps {
   value: PresetType
@@ -15,23 +16,7 @@ interface PresetSelectorProps {
   className?: string
 }
 
-const presetConfig: Record<Exclude<PresetType, 'custom'>, { label: string; description: string; descriptionPres?: string }> = {
-  balanced: {
-    label: 'Equilibrado',
-    description: 'Equilibra preparación e historial legal',
-    descriptionPres: 'Equilibra preparación, historial legal y plan de gobierno',
-  },
-  merit: {
-    label: 'Mérito',
-    description: 'Prioriza experiencia y estudios; mantiene historial legal como filtro clave',
-    descriptionPres: 'Prioriza experiencia y estudios; incluye viabilidad del plan',
-  },
-  integrity: {
-    label: 'Historial Legal',
-    description: 'Prioriza ausencia de antecedentes verificables',
-    descriptionPres: 'Prioriza ausencia de antecedentes; incluye viabilidad del plan',
-  },
-}
+const PRESET_KEYS: Array<Exclude<PresetType, 'custom'>> = ['balanced', 'merit', 'integrity']
 
 export function PresetSelector({
   value,
@@ -40,6 +25,8 @@ export function PresetSelector({
   cargo,
   className,
 }: PresetSelectorProps) {
+  const t = useTranslations('ranking.presets')
+  const tScores = useTranslations('candidate.scores')
   const isPresidential = cargo === 'presidente'
   const [showCustom, setShowCustom] = useState(value === 'custom')
   const [customWeights, setCustomWeights] = useState<AnyWeights>(
@@ -101,9 +88,9 @@ export function PresetSelector({
       {/* Preset Pills - NEO BRUTAL - Horizontal scroll on mobile */}
       <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 sm:overflow-visible">
         <div className="flex items-center gap-1 p-1 bg-[var(--muted)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)] min-w-max sm:min-w-0">
-          {(Object.keys(presetConfig) as Array<Exclude<PresetType, 'custom'>>).map(
+          {PRESET_KEYS.map(
             (preset) => (
-              <Tooltip key={preset} content={isPresidential ? (presetConfig[preset].descriptionPres || presetConfig[preset].description) : presetConfig[preset].description}>
+              <Tooltip key={preset} content={isPresidential ? t(`${preset}DescPres`) : t(`${preset}Desc`)}>
                 <button
                   onClick={() => handlePresetClick(preset)}
                   className={cn(
@@ -127,12 +114,12 @@ export function PresetSelector({
                         ]
                   )}
                 >
-                  {presetConfig[preset].label}
+                  {t(preset)}
                 </button>
               </Tooltip>
             )
           )}
-          <Tooltip content="Define tus pesos (con límites para evitar rankings engañosos)">
+          <Tooltip content={t('customDesc')}>
             <button
               onClick={handleCustomClick}
               className={cn(
@@ -158,8 +145,8 @@ export function PresetSelector({
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="square" strokeLinejoin="miter" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
               </svg>
-              <span className="hidden sm:inline">Custom</span>
-              <span className="sm:hidden">Ajustar</span>
+              <span className="hidden sm:inline">{t('custom')}</span>
+              <span className="sm:hidden">{t('adjust')}</span>
             </button>
           </Tooltip>
         </div>
@@ -170,7 +157,7 @@ export function PresetSelector({
         <div className="p-4 bg-[var(--muted)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)]">
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4 mb-4">
             <p className="text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wide lg:max-w-xs">
-              Ranking personalizado. La información no cambia, solo tus prioridades.
+              {t('customInfo')}
             </p>
             <button
               onClick={() => {
@@ -182,7 +169,7 @@ export function PresetSelector({
               }}
               className="text-xs font-bold text-[var(--primary)] hover:underline uppercase tracking-wide whitespace-nowrap"
             >
-              Resetear a Equilibrado
+              {t('resetToBalanced')}
             </button>
           </div>
 
@@ -192,21 +179,21 @@ export function PresetSelector({
             isPresidential ? 'lg:grid-cols-4' : 'lg:grid-cols-3'
           )}>
             <WeightSlider
-              label="Competencia"
+              label={tScores('competence')}
               value={(customWeights as unknown as Record<string, number>).wC}
               min={(isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS).wC.min}
               max={(isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS).wC.max}
               onChange={(v) => handleWeightChange('wC', v)}
             />
             <WeightSlider
-              label="Historial Legal"
+              label={tScores('integrity')}
               value={(customWeights as unknown as Record<string, number>).wI}
               min={(isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS).wI.min}
               max={(isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS).wI.max}
               onChange={(v) => handleWeightChange('wI', v)}
             />
             <WeightSlider
-              label="Transparencia"
+              label={tScores('transparency')}
               value={(customWeights as unknown as Record<string, number>).wT}
               min={(isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS).wT.min}
               max={(isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS).wT.max}
@@ -214,7 +201,7 @@ export function PresetSelector({
             />
             {isPresidential && (
               <WeightSlider
-                label="Plan de Gob."
+                label={tScores('plan')}
                 value={(customWeights as unknown as Record<string, number>).wP || PRESIDENTIAL_PRESETS.balanced.wP}
                 min={PRESIDENTIAL_WEIGHT_LIMITS.wP.min}
                 max={PRESIDENTIAL_WEIGHT_LIMITS.wP.max}

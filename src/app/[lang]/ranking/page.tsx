@@ -1,6 +1,17 @@
 import { Suspense } from 'react'
+import type { Metadata } from 'next'
 import { RankingContent } from './RankingContent'
 import { Header } from '@/components/layout/Header'
+
+export const metadata: Metadata = {
+  title: 'Ranking de Candidatos | Ranking Electoral Perú 2026',
+  description: 'Ranking algorítmico de candidatos a presidente, senador y diputado basado en competencia, historial legal y transparencia. Elecciones Perú 2026.',
+  openGraph: {
+    title: 'Ranking de Candidatos - Elecciones Perú 2026',
+    description: 'Ranking algorítmico de candidatos basado en datos públicos verificables.',
+    images: ['/api/og?type=ranking'],
+  },
+}
 
 function LoadingSkeleton() {
   return (

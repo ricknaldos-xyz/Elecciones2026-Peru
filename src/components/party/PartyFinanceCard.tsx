@@ -67,7 +67,7 @@ export function PartyFinanceCard({
             </svg>
             {t('totalIncome')}
           </h4>
-          <div className="text-2xl font-black text-[var(--foreground)] mb-4">
+          <div className="text-xl sm:text-2xl font-black text-[var(--foreground)] mb-4">
             {formatCurrency(totalIncome)}
           </div>
 
@@ -102,7 +102,7 @@ export function PartyFinanceCard({
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 divide-x-2 divide-[var(--border)]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 divide-y-2 sm:divide-y-0 sm:divide-x-2 divide-[var(--border)]">
           <div className="p-4 text-center">
             <div className="text-sm text-[var(--muted-foreground)] font-bold uppercase mb-1">{t('expenses')}</div>
             <div className="text-lg font-black text-[var(--flag-red-text)]">{formatCurrency(totalExpenses)}</div>

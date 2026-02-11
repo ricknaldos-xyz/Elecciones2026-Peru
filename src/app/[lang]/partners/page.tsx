@@ -1,17 +1,19 @@
 import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/routing'
 import { Header } from '@/components/layout/Header'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
-import { cn } from '@/lib/utils'
+
 
 export const metadata: Metadata = {
   title: 'Para Medios y Partners | Ranking Electoral Perú 2026',
   description: 'Embebe los widgets de Ranking Electoral en tu sitio web. Información electoral verificada y actualizada para tus lectores.',
 }
 
-export default function PartnersPage() {
+export default async function PartnersPage() {
+  const t = await getTranslations('partners')
   return (
     <div className="min-h-screen bg-[var(--background)]">
       <Header currentPath="/partners" />
@@ -20,13 +22,13 @@ export default function PartnersPage() {
         {/* Hero */}
         <div className="text-center mb-12">
           <Badge variant="primary" size="md" className="mb-4">
-            Para Medios
+            {t('forMedia')}
           </Badge>
           <h1 className="text-3xl sm:text-4xl font-black text-[var(--foreground)] uppercase mb-4">
-            Widgets Embebibles
+            {t('embeddableWidgets')}
           </h1>
           <p className="text-lg text-[var(--muted-foreground)] max-w-2xl mx-auto">
-            Lleva información electoral verificada a tus lectores. Nuestros widgets son gratuitos y se actualizan automáticamente.
+            {t('heroDesc')}
           </p>
         </div>
 
@@ -39,12 +41,12 @@ export default function PartnersPage() {
                 <div className="w-10 h-10 bg-[var(--primary)] border-2 border-[var(--border)] flex items-center justify-center">
                   <span className="text-white font-black text-sm">C</span>
                 </div>
-                Widget de Candidato
+                {t('candidateWidget')}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-[var(--muted-foreground)] mb-4">
-                Muestra el perfil resumido de un candidato con su score, subscores y enlace al perfil completo.
+                {t('candidateWidgetDesc')}
               </p>
 
               <div className="bg-[var(--muted)] p-4 border-2 border-[var(--border)] mb-4 overflow-x-auto">
@@ -62,7 +64,7 @@ export default function PartnersPage() {
               <div className="flex flex-wrap gap-3">
                 <Link href="/embed/candidate/keiko-fujimori" target="_blank">
                   <Button variant="secondary" size="sm">
-                    Ver ejemplo
+                    {t('viewExample')}
                     <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
@@ -79,12 +81,12 @@ export default function PartnersPage() {
                 <div className="w-10 h-10 bg-[var(--score-good)] border-2 border-[var(--border)] flex items-center justify-center">
                   <span className="text-white font-black text-sm">R</span>
                 </div>
-                Widget de Ranking
+                {t('rankingWidget')}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-[var(--muted-foreground)] mb-4">
-                Muestra el top de candidatos por cargo. Configurable por cantidad y tipo de cargo.
+                {t('rankingWidgetDesc')}
               </p>
 
               <div className="bg-[var(--muted)] p-4 border-2 border-[var(--border)] mb-4 overflow-x-auto">
@@ -99,16 +101,16 @@ export default function PartnersPage() {
                 </pre>
               </div>
 
-              <h4 className="font-bold text-[var(--foreground)] mb-2 uppercase text-sm">Parámetros:</h4>
+              <h4 className="font-bold text-[var(--foreground)] mb-2 uppercase text-sm">{t('parameters')}</h4>
               <ul className="text-sm text-[var(--muted-foreground)] space-y-1 mb-4">
-                <li><code className="bg-[var(--muted)] px-1">cargo</code>: presidente, senador, diputado, parlamento_andino</li>
-                <li><code className="bg-[var(--muted)] px-1">limit</code>: 1-10 (cantidad de candidatos)</li>
+                <li><code className="bg-[var(--muted)] px-1">cargo</code>: {t('paramCargoDesc')}</li>
+                <li><code className="bg-[var(--muted)] px-1">limit</code>: {t('paramLimitDesc')}</li>
               </ul>
 
               <div className="flex flex-wrap gap-3">
                 <Link href="/embed/ranking?cargo=presidente&limit=5" target="_blank">
                   <Button variant="secondary" size="sm">
-                    Ver ejemplo presidentes
+                    {t('viewExamplePresidents')}
                     <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
@@ -116,7 +118,7 @@ export default function PartnersPage() {
                 </Link>
                 <Link href="/embed/ranking?cargo=senador&limit=5" target="_blank">
                   <Button variant="outline" size="sm">
-                    Ver ejemplo senadores
+                    {t('viewExampleSenators')}
                   </Button>
                 </Link>
               </div>
@@ -127,7 +129,7 @@ export default function PartnersPage() {
         {/* Benefits */}
         <Card className="mb-12">
           <CardHeader>
-            <CardTitle>Beneficios para tu medio</CardTitle>
+            <CardTitle>{t('benefits')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid sm:grid-cols-2 gap-4">
@@ -138,8 +140,8 @@ export default function PartnersPage() {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-bold text-[var(--foreground)]">100% Gratuito</h4>
-                  <p className="text-sm text-[var(--muted-foreground)]">Sin costos ni licencias</p>
+                  <h4 className="font-bold text-[var(--foreground)]">{t('free')}</h4>
+                  <p className="text-sm text-[var(--muted-foreground)]">{t('freeDesc')}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -149,8 +151,8 @@ export default function PartnersPage() {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-bold text-[var(--foreground)]">Actualización automática</h4>
-                  <p className="text-sm text-[var(--muted-foreground)]">Datos siempre al día</p>
+                  <h4 className="font-bold text-[var(--foreground)]">{t('autoUpdate')}</h4>
+                  <p className="text-sm text-[var(--muted-foreground)]">{t('autoUpdateDesc')}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -160,8 +162,8 @@ export default function PartnersPage() {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-bold text-[var(--foreground)]">Fuentes oficiales</h4>
-                  <p className="text-sm text-[var(--muted-foreground)]">Datos de JNE, ONPE, DJHV</p>
+                  <h4 className="font-bold text-[var(--foreground)]">{t('officialSources')}</h4>
+                  <p className="text-sm text-[var(--muted-foreground)]">{t('officialSourcesDesc')}</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -171,8 +173,8 @@ export default function PartnersPage() {
                   </svg>
                 </div>
                 <div>
-                  <h4 className="font-bold text-[var(--foreground)]">Responsive</h4>
-                  <p className="text-sm text-[var(--muted-foreground)]">Funciona en cualquier dispositivo</p>
+                  <h4 className="font-bold text-[var(--foreground)]">{t('responsive')}</h4>
+                  <p className="text-sm text-[var(--muted-foreground)]">{t('responsiveDesc')}</p>
                 </div>
               </div>
             </div>
@@ -182,13 +184,13 @@ export default function PartnersPage() {
         {/* Contact */}
         <Card className="bg-[var(--foreground)] text-[var(--background)]">
           <CardContent className="py-8 text-center">
-            <h3 className="text-xl font-black uppercase mb-2">¿Necesitas algo personalizado?</h3>
+            <h3 className="text-xl font-black uppercase mb-2">{t('customQuestion')}</h3>
             <p className="text-[var(--background)]/70 mb-4">
-              Contáctanos para widgets personalizados, APIs o integraciones especiales.
+              {t('customDesc')}
             </p>
             <a href="mailto:contacto@rankinelectoral.pe">
               <Button className="bg-[var(--background)] text-[var(--foreground)] hover:bg-[var(--muted)]">
-                Contactar
+                {t('contact')}
               </Button>
             </a>
           </CardContent>

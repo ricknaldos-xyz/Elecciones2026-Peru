@@ -1,6 +1,7 @@
 'use client'
 
 import { cn } from '@/lib/utils'
+import { useTranslations } from 'next-intl'
 import type { FlagSeverity, FlagType } from '@/types/database'
 
 interface FlagChipProps {
@@ -56,27 +57,22 @@ function SeverityIcon({ severity, size }: { severity: FlagSeverity; size: 'sm' |
   }
 }
 
-// Severity labels for screen readers
-const severityLabels: Record<FlagSeverity, string> = {
-  RED: 'Alta severidad',
-  AMBER: 'Severidad media',
-  GRAY: 'Información',
-}
-
 export function FlagChip({ type, severity, title, onClick, size = 'sm', className }: FlagChipProps) {
+  const t = useTranslations('ranking')
   const isClickable = !!onClick
+  const severityLabel = t(`flagSeverityAria.${severity}`)
 
-  // NEO BRUTAL sizing - more padding, bolder
+  // NEO BRUTAL sizing - more padding, bolder + 44px mobile touch targets
   const sizeStyles = {
-    sm: 'px-2.5 py-1 text-xs gap-1.5',
-    md: 'px-3 py-1.5 text-sm gap-2',
+    sm: 'px-2.5 py-1 text-xs gap-1.5 min-h-[44px] sm:min-h-0',
+    md: 'px-3 py-1.5 text-sm gap-2 min-h-[44px] sm:min-h-0',
   }
 
   return (
     <button
       onClick={onClick}
       disabled={!isClickable}
-      aria-label={`${severityLabels[severity]}: ${title}`}
+      aria-label={`${severityLabel}: ${title}`}
       className={cn(
         // NEO BRUTAL chip
         'inline-flex items-center',
@@ -105,7 +101,7 @@ export function FlagChip({ type, severity, title, onClick, size = 'sm', classNam
     >
       {/* Severity icon - distinct shape for each level */}
       <SeverityIcon severity={severity} size={size} />
-      <span className="truncate max-w-[120px]">{title}</span>
+      <span className="truncate max-w-[180px] sm:max-w-[120px]">{title}</span>
     </button>
   )
 }
@@ -131,6 +127,7 @@ export function FlagChips({
   size = 'sm',
   className,
 }: FlagChipsProps) {
+  const t = useTranslations('ranking')
   if (flags.length === 0) return null
 
   // Sort by severity: RED first, then AMBER, then GRAY
@@ -164,7 +161,7 @@ export function FlagChips({
           'border-2 border-[var(--border)]',
           'shadow-[var(--shadow-brutal-sm)]',
         )}>
-          +{hiddenCount} más
+          {t('flagMore', { count: hiddenCount })}
         </span>
       )}
     </div>
