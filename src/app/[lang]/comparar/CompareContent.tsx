@@ -18,7 +18,7 @@ import { getScoreByMode } from '@/lib/scoring/utils'
 import { Link, useRouter } from '@/i18n/routing'
 import { FlagChips } from '@/components/candidate/FlagChip'
 import { SubScoreStat } from '@/components/candidate/SubScoreBar'
-import type { CandidateWithScores, PresetType, AnyWeights, PlanViabilityAnalysis } from '@/types/database'
+import type { CandidateWithScores, PresetType, AnyWeights, PlanViabilityAnalysis, CargoType } from '@/types/database'
 import { ProposalsCompare } from '@/components/proposals/ProposalsCompare'
 import { useLocale } from 'next-intl'
 
@@ -78,13 +78,13 @@ function CandidateSearch({
   className?: string
 }) {
   const [query, setQuery] = useState('')
-  const [results, setResults] = useState<CandidateWithScores[]>([])
+  const [results, setResults] = useState<(CandidateWithScores & { allCargos?: CargoType[] })[]>([])
   const [isSearching, setIsSearching] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // Server-side search on query change
+  // Server-side search on query change (deduplicate same person across cargos)
   useEffect(() => {
     if (query.length < 2) {
       setResults([])
@@ -93,10 +93,31 @@ function CandidateSearch({
     const timer = setTimeout(async () => {
       setIsSearching(true)
       try {
-        const params = new URLSearchParams({ search: query, limit: '8' })
+        const params = new URLSearchParams({ search: query, limit: '20' })
         const res = await fetch(`/api/candidates?${params}`)
         const data: CandidateWithScores[] = await res.json()
-        setResults(data.slice(0, 8))
+
+        // Deduplicate: group by full_name + party_id, keep highest scored, collect all cargos
+        const grouped = new Map<string, CandidateWithScores & { allCargos: CargoType[] }>()
+        for (const c of data) {
+          const key = `${c.full_name}::${c.party?.id || ''}`
+          const existing = grouped.get(key)
+          if (!existing) {
+            grouped.set(key, { ...c, allCargos: [c.cargo] })
+          } else {
+            if (!existing.allCargos.includes(c.cargo)) {
+              existing.allCargos.push(c.cargo)
+            }
+            // Keep the entry with the higher score
+            const existingScore = existing.scores.score_balanced_p ?? existing.scores.score_balanced
+            const newScore = c.scores.score_balanced_p ?? c.scores.score_balanced
+            if (newScore > existingScore) {
+              const allCargos = existing.allCargos
+              grouped.set(key, { ...c, allCargos })
+            }
+          }
+        }
+        setResults(Array.from(grouped.values()).slice(0, 8))
         setIsOpen(true)
       } catch {
         setResults([])
@@ -204,9 +225,11 @@ function CandidateSearch({
                         {c.party.short_name || c.party.name}
                       </span>
                     )}
-                    <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">
-                      {c.cargo}
-                    </span>
+                    {(c.allCargos || [c.cargo]).map((cargo) => (
+                      <span key={cargo} className="text-xs font-bold text-[var(--muted-foreground)] uppercase">
+                        {cargo}
+                      </span>
+                    ))}
                   </div>
                 </div>
                 {/* Score */}

@@ -9,7 +9,7 @@ import { LanguageSwitcher } from '@/components/i18n/LanguageSwitcher'
 import { AccessibilityButton } from '@/components/accessibility/AccessibilityButton'
 import { useSearchShortcut } from '@/hooks/useKeyboardShortcuts'
 import { CandidateImage } from '@/components/candidate/CandidateImage'
-import type { CandidateWithScores } from '@/types/database'
+import type { CandidateWithScores, CargoType } from '@/types/database'
 import type { Locale } from '@/i18n/config'
 
 interface HeaderProps {
@@ -24,7 +24,7 @@ export function Header({ currentPath }: HeaderProps) {
   const [searchOpen, setSearchOpen] = useState(false)
   const [moreMenuOpen, setMoreMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-  const [searchResults, setSearchResults] = useState<CandidateWithScores[]>([])
+  const [searchResults, setSearchResults] = useState<(CandidateWithScores & { allCargos?: CargoType[] })[]>([])
   const [isSearching, setIsSearching] = useState(false)
   const searchRef = useRef<HTMLDivElement>(null)
   const moreMenuRef = useRef<HTMLDivElement>(null)
@@ -111,10 +111,30 @@ export function Header({ currentPath }: HeaderProps) {
 
       setIsSearching(true)
       try {
-        const params = new URLSearchParams({ search: searchQuery, limit: '8' })
+        const params = new URLSearchParams({ search: searchQuery, limit: '20' })
         const response = await fetch(`/api/candidates?${params}`)
         const candidates: CandidateWithScores[] = await response.json()
-        setSearchResults(candidates.slice(0, 8))
+
+        // Deduplicate: group by full_name + party_id, keep highest scored, collect all cargos
+        const grouped = new Map<string, CandidateWithScores & { allCargos: CargoType[] }>()
+        for (const c of candidates) {
+          const key = `${c.full_name}::${c.party?.id || ''}`
+          const existing = grouped.get(key)
+          if (!existing) {
+            grouped.set(key, { ...c, allCargos: [c.cargo] })
+          } else {
+            if (!existing.allCargos.includes(c.cargo)) {
+              existing.allCargos.push(c.cargo)
+            }
+            const existingScore = existing.scores.score_balanced_p ?? existing.scores.score_balanced
+            const newScore = c.scores.score_balanced_p ?? c.scores.score_balanced
+            if (newScore > existingScore) {
+              const allCargos = existing.allCargos
+              grouped.set(key, { ...c, allCargos })
+            }
+          }
+        }
+        setSearchResults(Array.from(grouped.values()).slice(0, 8))
       } catch (error) {
         console.error('Search error:', error)
       } finally {
@@ -340,7 +360,7 @@ export function Header({ currentPath }: HeaderProps) {
                               {candidate.full_name}
                             </div>
                             <div className="text-xs font-medium text-[var(--muted-foreground)] truncate">
-                              {candidate.party?.short_name || candidate.party?.name || ''}{candidate.party ? ' · ' : ''}{candidate.cargo}
+                              {candidate.party?.short_name || candidate.party?.name || ''}{candidate.party ? ' · ' : ''}{(candidate.allCargos || [candidate.cargo]).join(' / ')}
                             </div>
                           </div>
                           <div className="text-xl font-black text-[var(--foreground)]">
