@@ -1344,7 +1344,8 @@
     "scoreLevelHigh": "Antëromani",
     "scoreLevelGood": "Wamëtankë",
     "scoreLevelRegular": "Tampatyaki",
-    "scoreLevelLow": "Tsonkari"
+    "scoreLevelLow": "Tsonkari",
+    "metaDesc": "{name} partidoki apatotantsipë ranking kenkitsatakoteri."
   },
   "proposals": {
     "governmentPlan": "Kamachiri Antirika",

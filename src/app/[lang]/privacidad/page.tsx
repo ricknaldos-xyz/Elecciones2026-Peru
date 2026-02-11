@@ -3,9 +3,15 @@ import { Header } from '@/components/layout/Header'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Link } from '@/i18n/routing'
 
-export const metadata: Metadata = {
-  title: 'Política de Privacidad - Ranking Electoral 2026',
-  description: 'Conoce cómo recopilamos, usamos y protegemos tus datos personales en Ranking Electoral.',
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Política de Privacidad - Ranking Electoral 2026',
+    description: 'Conoce cómo recopilamos, usamos y protegemos tus datos personales en Ranking Electoral.',
+    openGraph: {
+      title: 'Política de Privacidad - Ranking Electoral 2026',
+      description: 'Conoce cómo recopilamos, usamos y protegemos tus datos personales en Ranking Electoral.',
+    },
+  }
 }
 
 export default function PrivacidadPage() {

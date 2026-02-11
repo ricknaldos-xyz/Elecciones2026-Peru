@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/routing'
 import { getCandidates, getPartyBySlug, getPartyFinances } from '@/lib/db/queries'
 import { generatePoliticalPartySchema, generateBreadcrumbSchema } from '@/lib/schema'
+import { locales } from '@/i18n/config'
 import { Header } from '@/components/layout/Header'
 import { CandidateCard } from '@/components/candidate/CandidateCard'
 import { CandidateCardMini } from '@/components/candidate/CandidateCardMini'
@@ -13,6 +14,8 @@ import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { PartyLogo } from '@/components/party/PartyLogo'
 import type { CargoType, CandidateWithScores } from '@/types/database'
+
+export const revalidate = 86400
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -139,12 +142,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     avgScore: avgScore.toFixed(1),
   })
 
-  const t = await getTranslations('district')
+  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://votainformado.pe'
+  const t = await getTranslations('partyPage')
   return {
     title: `${party.name} - Ranking Electoral 2026`,
     description: t('metaDesc', { name: party.name as string }),
     openGraph: {
       images: [`/api/og?${ogParams.toString()}`],
+    },
+    alternates: {
+      canonical: `${BASE_URL}/es/partido/${slug}`,
+      languages: {
+        ...Object.fromEntries(
+          locales.map((l) => [l, `${BASE_URL}/${l}/partido/${slug}`])
+        ),
+        'x-default': `${BASE_URL}/es/partido/${slug}`,
+      },
     },
   }
 }

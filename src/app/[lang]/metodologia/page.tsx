@@ -6,13 +6,16 @@ import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { generateFAQSchema } from '@/lib/schema'
 
-export const metadata: Metadata = {
-  title: 'Metodología - Ranking Electoral 2026',
-  description: 'Conoce cómo calculamos los puntajes de los candidatos. Metodología transparente y verificable.',
-  openGraph: {
+export async function generateMetadata(): Promise<Metadata> {
+  return {
     title: 'Metodología - Ranking Electoral 2026',
-    description: 'Cómo calculamos los puntajes: competencia, historial legal y transparencia.',
-  },
+    description: 'Conoce cómo calculamos los puntajes de los candidatos. Metodología transparente y verificable.',
+    openGraph: {
+      title: 'Metodología - Ranking Electoral 2026',
+      description: 'Cómo calculamos los puntajes: competencia, historial legal y transparencia.',
+      images: ['/api/og?type=ranking'],
+    },
+  }
 }
 
 const FAQ_ITEMS = [

@@ -1346,7 +1346,8 @@
     "scoreLevelHigh": "Alto",
     "scoreLevelGood": "Bueno",
     "scoreLevelRegular": "Regular",
-    "scoreLevelLow": "Bajo"
+    "scoreLevelLow": "Bajo",
+    "metaDesc": "Ver ranking de candidatos de {name}. Compara scores de competencia, historial legal y transparencia."
   },
   "proposals": {
     "governmentPlan": "Plan de Gobierno",

@@ -3,10 +3,13 @@ import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/routing'
 import { getCandidates, getDistricts } from '@/lib/db/queries'
+import { locales } from '@/i18n/config'
 import { Header } from '@/components/layout/Header'
 import { CandidateCard } from '@/components/candidate/CandidateCard'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
+
+export const revalidate = 86400
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -34,12 +37,22 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     dtype: district.type || '',
   })
 
+  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://votainformado.pe'
   const t = await getTranslations('district')
   return {
     title: t('metaTitle', { name: district.name }),
     description: t('metaDesc', { name: district.name }),
     openGraph: {
       images: [`/api/og?${ogParams.toString()}`],
+    },
+    alternates: {
+      canonical: `${BASE_URL}/es/distrito/${slug}`,
+      languages: {
+        ...Object.fromEntries(
+          locales.map((l) => [l, `${BASE_URL}/${l}/distrito/${slug}`])
+        ),
+        'x-default': `${BASE_URL}/es/distrito/${slug}`,
+      },
     },
   }
 }

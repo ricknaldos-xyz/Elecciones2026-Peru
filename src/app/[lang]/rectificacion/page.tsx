@@ -3,9 +3,15 @@ import { Header } from '@/components/layout/Header'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Link } from '@/i18n/routing'
 
-export const metadata: Metadata = {
-  title: 'Solicitud de Rectificación - Ranking Electoral 2026',
-  description: 'Solicita la corrección de datos inexactos sobre candidatos. Derecho de rectificación conforme a la Ley N° 29733, Art. 20.',
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Solicitud de Rectificación - Ranking Electoral 2026',
+    description: 'Solicita la corrección de datos inexactos sobre candidatos. Derecho de rectificación conforme a la Ley N° 29733, Art. 20.',
+    openGraph: {
+      title: 'Solicitud de Rectificación - Ranking Electoral 2026',
+      description: 'Solicita la corrección de datos inexactos sobre candidatos. Derecho de rectificación conforme a la Ley N° 29733, Art. 20.',
+    },
+  }
 }
 
 export default function RectificacionPage() {

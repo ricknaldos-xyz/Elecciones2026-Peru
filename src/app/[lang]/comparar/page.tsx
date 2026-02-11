@@ -3,14 +3,16 @@ import type { Metadata } from 'next'
 import { CompareContent } from './CompareContent'
 import { Header } from '@/components/layout/Header'
 
-export const metadata: Metadata = {
-  title: 'Comparar Candidatos | Ranking Electoral Perú 2026',
-  description: 'Compara candidatos lado a lado en competencia, historial legal y transparencia. Elecciones Perú 2026.',
-  openGraph: {
-    title: 'Comparar Candidatos - Ranking Electoral Perú 2026',
-    description: 'Compara candidatos lado a lado en competencia, historial legal y transparencia.',
-    images: ['/api/og?type=compare'],
-  },
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: 'Comparar Candidatos | Ranking Electoral Perú 2026',
+    description: 'Compara candidatos lado a lado en competencia, historial legal y transparencia. Elecciones Perú 2026.',
+    openGraph: {
+      title: 'Comparar Candidatos - Ranking Electoral Perú 2026',
+      description: 'Compara candidatos lado a lado en competencia, historial legal y transparencia.',
+      images: ['/api/og?type=compare'],
+    },
+  }
 }
 
 function LoadingSkeleton() {

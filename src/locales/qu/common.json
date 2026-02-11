@@ -1344,7 +1344,8 @@
     "scoreLevelHigh": "Hatun",
     "scoreLevelGood": "Allin",
     "scoreLevelRegular": "Chawpi",
-    "scoreLevelLow": "Ura"
+    "scoreLevelLow": "Ura",
+    "metaDesc": "{name} partidomanta akllasqa runakunapa ranking qhaway."
   },
   "proposals": {
     "governmentPlan": "Kamachiy Ruranakuna",

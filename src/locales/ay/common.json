@@ -1344,7 +1344,8 @@
     "scoreLevelHigh": "Jach'a",
     "scoreLevelGood": "Suma",
     "scoreLevelRegular": "Taypi",
-    "scoreLevelLow": "Jisk'a"
+    "scoreLevelLow": "Jisk'a",
+    "metaDesc": "{name} partidona ajilanakana ranking uñjaña."
   },
   "proposals": {
     "governmentPlan": "Kamachi Lurawinaka",

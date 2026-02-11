@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server'
 import { getCandidateBySlug, getScoreBreakdown, getCandidateDetails, getVicePresidents, getSiblingCargos } from '@/lib/db/queries'
 import { CandidateProfileContent } from './CandidateProfileContent'
 import { generatePersonSchema, generateBreadcrumbSchema } from '@/lib/schema'
+import { locales } from '@/i18n/config'
 import type { CargoType } from '@/types/database'
 
 export const revalidate = 86400
@@ -48,6 +49,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     t: candidate.scores.transparency.toFixed(0),
   })
 
+  const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://votainformado.pe'
+
   return {
     title: `${candidate.full_name} - ${tMeta('title')}`,
     description: t('metaDescription', {
@@ -60,6 +63,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         score: effectiveScore.toFixed(1)
       }),
       images: [`/api/og?${ogParams.toString()}`],
+    },
+    alternates: {
+      canonical: `${BASE_URL}/es/candidato/${slug}`,
+      languages: {
+        ...Object.fromEntries(
+          locales.map((l) => [l, `${BASE_URL}/${l}/candidato/${slug}`])
+        ),
+        'x-default': `${BASE_URL}/es/candidato/${slug}`,
+      },
     },
   }
 }
