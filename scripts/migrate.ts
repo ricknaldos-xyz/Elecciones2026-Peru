@@ -2,7 +2,7 @@ import postgres from 'postgres'
 import fs from 'fs'
 import path from 'path'
 
-const DATABASE_URL = process.env.DATABASE_URL || 'postgresql://neondb_owner:npg_QsCV8j4rFmiW@ep-polished-mouse-ahxxvvbh-pooler.c-3.us-east-1.aws.neon.tech/neondb?sslmode=require'
+const DATABASE_URL = process.env.DATABASE_URL || ''
 
 async function migrate() {
   const sql = postgres(DATABASE_URL)
