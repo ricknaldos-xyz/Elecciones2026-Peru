@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
 import { CARGOS, DISTRICTS } from '@/lib/constants'
@@ -27,14 +28,6 @@ interface RankingFiltersProps {
   className?: string
 }
 
-const cargoLabels: Record<CargoType, string> = {
-  presidente: 'Presidente',
-  vicepresidente: 'Vicepresidente',
-  senador: 'Senador',
-  diputado: 'Diputado',
-  parlamento_andino: 'Parlamento Andino',
-}
-
 export function RankingFilters({
   cargo,
   distrito,
@@ -50,14 +43,16 @@ export function RankingFilters({
   onReset,
   className,
 }: RankingFiltersProps) {
+  const t = useTranslations('filters')
+  const tCargo = useTranslations('ranking.cargo')
   const showDistrito = cargo === 'diputado'
 
   return (
-    <form className={cn('space-y-5', className)} role="search" aria-label="Filtros de ranking">
+    <form className={cn('space-y-5', className)} role="search" aria-label={t('filterLabel')}>
       {/* Cargo - NEO BRUTAL */}
       <fieldset>
         <legend className="block text-sm font-bold text-[var(--foreground)] mb-2 uppercase tracking-wide">
-          ¿A qué cargo postulan?
+          {t('cargoQuestion')}
         </legend>
         <select
           value={cargo}
@@ -74,7 +69,7 @@ export function RankingFilters({
         >
           {Object.entries(CARGOS).map(([key, value]) => (
             <option key={value} value={value}>
-              {cargoLabels[value as CargoType]}
+              {tCargo(value as string)}
             </option>
           ))}
         </select>
@@ -84,7 +79,7 @@ export function RankingFilters({
       {showDistrito && (
         <fieldset>
           <legend className="block text-sm font-bold text-[var(--foreground)] mb-2 uppercase tracking-wide">
-            ¿De qué región?
+            {t('regionQuestion')}
           </legend>
           <select
             value={distrito || ''}
@@ -99,7 +94,7 @@ export function RankingFilters({
               'min-h-[48px]'
             )}
           >
-            <option value="">Todos los distritos</option>
+            <option value="">{t('allDistricts')}</option>
             {DISTRICTS.map((d) => (
               <option key={d.slug} value={d.slug}>
                 {d.name}
@@ -112,7 +107,7 @@ export function RankingFilters({
       {/* Partido - NEO BRUTAL */}
       <fieldset>
         <legend className="block text-sm font-bold text-[var(--foreground)] mb-2 uppercase tracking-wide">
-          ¿De qué partido?
+          {t('partyQuestion')}
         </legend>
         <select
           value={partyId || ''}
@@ -127,7 +122,7 @@ export function RankingFilters({
             'min-h-[48px]'
           )}
         >
-          <option value="">Todos los partidos</option>
+          <option value="">{t('allParties')}</option>
           {parties.map((p) => (
             <option key={p.id} value={p.id}>
               {p.name}
@@ -139,7 +134,7 @@ export function RankingFilters({
       {/* Min Confidence - NEO BRUTAL */}
       <fieldset>
         <legend className="block text-sm font-bold text-[var(--foreground)] mb-2 uppercase tracking-wide">
-          Nivel de información mínimo: <span className="text-[var(--primary)]">{minConfidence}%</span>
+          {t('minInfoLevel')}: <span className="text-[var(--primary)]">{minConfidence}%</span>
         </legend>
         <input
           type="range"
@@ -152,7 +147,7 @@ export function RankingFilters({
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={minConfidence}
-          aria-valuetext={`${minConfidence}% mínimo de información`}
+          aria-valuetext={`${minConfidence}% ${t('minInfoPercent')}`}
         />
         <div className="flex justify-between text-xs font-bold text-[var(--muted-foreground)] mt-1" aria-hidden="true">
           <span>0%</span>
@@ -181,7 +176,7 @@ export function RankingFilters({
           className="w-5 h-5 bg-[var(--background)] border-2 border-[var(--border)] text-[var(--primary)] focus:ring-[var(--primary)] focus:ring-2 cursor-pointer flex-shrink-0"
         />
         <span className="text-sm font-bold text-[var(--foreground)] uppercase tracking-wide">
-          Solo sin antecedentes negativos
+          {t('onlyClean')}
         </span>
       </label>
 
@@ -218,7 +213,7 @@ export function RankingFilters({
                 'hover:opacity-80 transition-opacity'
               )}
             >
-              {parties.find(p => p.id === partyId)?.short_name || 'Partido'}
+              {parties.find(p => p.id === partyId)?.short_name || t('party')}
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
@@ -236,7 +231,7 @@ export function RankingFilters({
                 'hover:opacity-80 transition-opacity'
               )}
             >
-              Info. mín. {minConfidence}%
+              {t('minInfoChip')} {minConfidence}%
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
@@ -254,7 +249,7 @@ export function RankingFilters({
                 'hover:opacity-80 transition-opacity'
               )}
             >
-              Sin antecedentes
+              {t('cleanFilter')}
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
@@ -265,7 +260,7 @@ export function RankingFilters({
 
       {/* Reset - NEO BRUTAL */}
       <Button variant="outline" size="sm" onClick={onReset} className="w-full min-h-[48px]" type="button">
-        Limpiar filtros
+        {t('resetFilters')}
       </Button>
     </form>
   )

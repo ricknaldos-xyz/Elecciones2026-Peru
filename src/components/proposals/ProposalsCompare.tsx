@@ -31,7 +31,7 @@ interface ProposalsCompareProps {
 }
 
 export function ProposalsCompare({ candidateIds, lang }: ProposalsCompareProps) {
-  const t = useTranslations()
+  const t = useTranslations('proposalsCompare')
   const [data, setData] = useState<CandidateProposals[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -87,7 +87,7 @@ export function ProposalsCompare({ candidateIds, lang }: ProposalsCompareProps) 
   if (data.length === 0) {
     return (
       <div className={styles.empty}>
-        <p>No hay candidatos seleccionados para comparar</p>
+        <p>{t('noCandidates')}</p>
       </div>
     )
   }
@@ -113,7 +113,7 @@ export function ProposalsCompare({ candidateIds, lang }: ProposalsCompareProps) 
           className={`${styles.filterButton} ${selectedCategory === 'all' ? styles.active : ''}`}
           onClick={() => setSelectedCategory('all')}
         >
-          Todas
+          {t('all')}
         </button>
         {PROPOSAL_CATEGORIES.map((category) => (
           <button
@@ -153,11 +153,11 @@ export function ProposalsCompare({ candidateIds, lang }: ProposalsCompareProps) 
                 rel="noopener noreferrer"
                 className={styles.pdfLink}
               >
-                📄 Ver Plan de Gobierno
+                {t('viewPlan')}
               </a>
             )}
             <Badge variant={candidate.proposals.length > 0 ? 'success' : 'default'} size="sm">
-              {candidate.proposals.length} propuestas
+              {candidate.proposals.length} {t('proposals')}
             </Badge>
           </div>
         ))}
@@ -166,8 +166,8 @@ export function ProposalsCompare({ candidateIds, lang }: ProposalsCompareProps) 
       {/* Proposals by category */}
       {categoriesWithProposals.length === 0 ? (
         <div className={styles.noProposals}>
-          <p>No hay propuestas extraídas para estos candidatos.</p>
-          <p className={styles.hint}>Las propuestas se extraen automáticamente de los planes de gobierno cuando están disponibles.</p>
+          <p>{t('noProposals')}</p>
+          <p className={styles.hint}>{t('autoExtractHint')}</p>
         </div>
       ) : (
         categoriesWithProposals.map((category) => (
@@ -182,7 +182,7 @@ export function ProposalsCompare({ candidateIds, lang }: ProposalsCompareProps) 
                   <div key={candidate.candidate_id} className={styles.proposalCell}>
                     {categoryProposals.length === 0 ? (
                       <div className={styles.noProposalCell}>
-                        <span>Sin propuestas en esta categoría</span>
+                        <span>{t('noCategoryProposals')}</span>
                       </div>
                     ) : (
                       categoryProposals.map((proposal) => (

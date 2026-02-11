@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { ProposalCategory } from '@/lib/sync/plans/extractor'
 
 // Export list of all proposal categories
@@ -86,6 +87,7 @@ export function CategoryBadge({
   size = 'md',
   showIcon = true,
 }: CategoryBadgeProps) {
+  const t = useTranslations('proposalCategories')
   const config = CATEGORY_CONFIG[category] || CATEGORY_CONFIG.otros
 
   const sizeClasses = {
@@ -99,7 +101,7 @@ export function CategoryBadge({
       className={`inline-flex items-center gap-1 font-medium rounded-full ${config.color} ${sizeClasses[size]}`}
     >
       {showIcon && <span>{config.icon}</span>}
-      <span>{config.label}</span>
+      <span>{t(category)}</span>
     </span>
   )
 }

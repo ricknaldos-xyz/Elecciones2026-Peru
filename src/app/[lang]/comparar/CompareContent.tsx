@@ -77,6 +77,7 @@ function CandidateSearch({
   placeholder: string
   className?: string
 }) {
+  const t = useTranslations('compare')
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<CandidateWithScores[]>([])
   const [isSearching, setIsSearching] = useState(false)
@@ -233,7 +234,7 @@ function CandidateSearch({
       {isOpen && query.length >= 2 && results.length === 0 && !isSearching && (
         <div className="absolute z-50 w-full mt-1 bg-[var(--card)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-lg)] px-4 py-6 text-center">
           <div className="text-sm font-bold text-[var(--muted-foreground)]">
-            No se encontraron candidatos
+            {t('noCandidatesFound')}
           </div>
         </div>
       )}
@@ -250,6 +251,7 @@ export function CompareContent() {
   const t = useTranslations('compare')
   const tCommon = useTranslations('common')
   const tCargo = useTranslations('ranking.cargo')
+  const tShare = useTranslations('share')
   const showSuccess = useSuccessToast()
   const locale = useLocale()
 
@@ -356,7 +358,7 @@ export function CompareContent() {
       })
     } else {
       navigator.clipboard.writeText(url)
-      showSuccess('Link copiado', 'El enlace está en tu portapapeles')
+      showSuccess(tShare('linkCopied'), tShare('clipboardMessage'))
     }
   }
 

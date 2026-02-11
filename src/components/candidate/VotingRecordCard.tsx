@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { cn } from '@/lib/utils'
@@ -23,6 +24,7 @@ interface VotingRecordCardProps {
 }
 
 export function VotingRecordCard({ candidateId }: VotingRecordCardProps) {
+  const t = useTranslations('votingRecord')
   const [data, setData] = useState<VotingSummary | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -57,7 +59,7 @@ export function VotingRecordCard({ candidateId }: VotingRecordCardProps) {
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="square" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
-            Historial de Votaciones
+            {t('title')}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -93,7 +95,7 @@ export function VotingRecordCard({ candidateId }: VotingRecordCardProps) {
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="square" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
           </svg>
-          Historial de Votaciones en Congreso
+          {t('congressTitle')}
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-4 space-y-4">
@@ -101,19 +103,19 @@ export function VotingRecordCard({ candidateId }: VotingRecordCardProps) {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <div className="p-3 bg-[var(--muted)] border-2 border-[var(--border)] text-center">
             <div className="text-2xl font-black text-[var(--foreground)]">{data.totalVotes}</div>
-            <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Total Votos</div>
+            <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('totalVotes')}</div>
           </div>
           <div className="p-3 bg-green-100 border-2 border-green-500 text-center">
             <div className="text-2xl font-black text-green-700">{data.votesInFavor}</div>
-            <div className="text-xs font-bold text-green-600 uppercase">A Favor</div>
+            <div className="text-xs font-bold text-green-600 uppercase">{t('inFavor')}</div>
           </div>
           <div className="p-3 bg-red-100 border-2 border-red-500 text-center">
             <div className="text-2xl font-black text-red-700">{data.votesAgainst}</div>
-            <div className="text-xs font-bold text-red-600 uppercase">En Contra</div>
+            <div className="text-xs font-bold text-red-600 uppercase">{t('against')}</div>
           </div>
           <div className="p-3 bg-gray-100 border-2 border-gray-400 text-center">
             <div className="text-2xl font-black text-gray-600">{data.abstentions + data.absences}</div>
-            <div className="text-xs font-bold text-gray-500 uppercase">Ausencias</div>
+            <div className="text-xs font-bold text-gray-500 uppercase">{t('absences')}</div>
           </div>
         </div>
 
@@ -125,28 +127,28 @@ export function VotingRecordCard({ candidateId }: VotingRecordCardProps) {
                 <div
                   className="bg-green-500 h-full"
                   style={{ width: `${(data.votesInFavor / data.totalVotes) * 100}%` }}
-                  title={`A favor: ${data.votesInFavor}`}
+                  title={`${t('inFavorLabel')}: ${data.votesInFavor}`}
                 />
               )}
               {data.votesAgainst > 0 && (
                 <div
                   className="bg-red-500 h-full"
                   style={{ width: `${(data.votesAgainst / data.totalVotes) * 100}%` }}
-                  title={`En contra: ${data.votesAgainst}`}
+                  title={`${t('againstLabel')}: ${data.votesAgainst}`}
                 />
               )}
               {(data.abstentions + data.absences) > 0 && (
                 <div
                   className="bg-gray-400 h-full"
                   style={{ width: `${((data.abstentions + data.absences) / data.totalVotes) * 100}%` }}
-                  title={`Ausencias: ${data.abstentions + data.absences}`}
+                  title={`${t('absencesLabel')}: ${data.abstentions + data.absences}`}
                 />
               )}
             </div>
             <div className="flex justify-between mt-1">
-              <span className="text-[10px] font-bold text-green-600 uppercase">A favor</span>
-              <span className="text-[10px] font-bold text-red-600 uppercase">En contra</span>
-              <span className="text-[10px] font-bold text-gray-500 uppercase">Ausencias</span>
+              <span className="text-[10px] font-bold text-green-600 uppercase">{t('inFavorLabel')}</span>
+              <span className="text-[10px] font-bold text-red-600 uppercase">{t('againstLabel')}</span>
+              <span className="text-[10px] font-bold text-gray-500 uppercase">{t('absencesLabel')}</span>
             </div>
           </div>
         )}
@@ -162,23 +164,23 @@ export function VotingRecordCard({ candidateId }: VotingRecordCardProps) {
               </div>
               <div>
                 <h4 className="font-black text-[var(--flag-red-text)] uppercase mb-1">
-                  Votos Controversiales Detectados
+                  {t('controversialDetected')}
                 </h4>
                 <div className="space-y-1 text-sm">
                   {data.proCrimeVotesInFavor > 0 && (
                     <p className="text-[var(--flag-red-text)]">
-                      • <strong>{data.proCrimeVotesInFavor}</strong> voto(s) a favor de leyes pro-crimen
+                      • <strong>{data.proCrimeVotesInFavor}</strong> {t('proCrimeVotes')}
                     </p>
                   )}
                   {data.antiDemocraticVotes > 0 && (
                     <p className="text-[var(--flag-red-text)]">
-                      • <strong>{data.antiDemocraticVotes}</strong> voto(s) contra la democracia/prensa
+                      • <strong>{data.antiDemocraticVotes}</strong> {t('antiDemocracyVotes')}
                     </p>
                   )}
                 </div>
                 <div className="mt-2 flex items-center gap-2">
                   <Badge variant="destructive">
-                    Penalización: -{data.integrityPenalty} pts
+                    {t('penalty')} -{data.integrityPenalty} pts
                   </Badge>
                 </div>
               </div>
@@ -192,7 +194,7 @@ export function VotingRecordCard({ candidateId }: VotingRecordCardProps) {
             href="#votaciones-controversiales"
             className="text-sm font-bold text-[var(--primary)] hover:underline"
           >
-            Ver detalle de leyes controversiales
+            {t('viewDetails')}
           </a>
         </div>
 
@@ -207,14 +209,14 @@ export function VotingRecordCard({ candidateId }: VotingRecordCardProps) {
               </div>
               <div>
                 <h4 className="font-black text-green-700 uppercase mb-1">
-                  Votos Positivos
+                  {t('positiveVotes')}
                 </h4>
                 <p className="text-sm text-green-600">
-                  Votó <strong>en contra</strong> de {data.proCrimeVotesAgainst} ley(es) pro-crimen
+                  {t('votedAgainst')} {data.proCrimeVotesAgainst} {t('proCrimeLaws')}
                 </p>
                 <div className="mt-2">
                   <Badge variant="success">
-                    Bonificación: +{data.integrityBonus} pts
+                    {t('bonus')} +{data.integrityBonus} pts
                   </Badge>
                 </div>
               </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { AIBadge } from '@/components/ui/AIBadge'
 import { cn } from '@/lib/utils'
@@ -66,6 +67,7 @@ function formatDate(dateStr: string): string {
 }
 
 export function SocialMentionsCard({ candidateId }: SocialMentionsCardProps) {
+  const t = useTranslations('social')
   const [data, setData] = useState<SocialData | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -96,7 +98,7 @@ export function SocialMentionsCard({ candidateId }: SocialMentionsCardProps) {
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="square" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
             </svg>
-            Menciones en Redes Sociales
+            {t('title')}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -123,7 +125,7 @@ export function SocialMentionsCard({ candidateId }: SocialMentionsCardProps) {
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="square" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
           </svg>
-          Menciones en Redes Sociales
+          {t('title')}
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-4 space-y-4">
@@ -131,15 +133,15 @@ export function SocialMentionsCard({ candidateId }: SocialMentionsCardProps) {
         <div className="grid grid-cols-3 gap-2">
           <div className="p-3 bg-[var(--muted)] border-2 border-[var(--border)] text-center">
             <div className="text-2xl font-black text-[var(--foreground)]">{formatNumber(stats.total_mentions)}</div>
-            <div className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">Menciones</div>
+            <div className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">{t('mentions')}</div>
           </div>
           <div className="p-3 bg-[var(--muted)] border-2 border-[var(--border)] text-center">
             <div className="text-2xl font-black text-[var(--foreground)]">{formatNumber(stats.total_engagement)}</div>
-            <div className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">Engagement</div>
+            <div className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">{t('engagement')}</div>
           </div>
           <div className="p-3 bg-[var(--muted)] border-2 border-[var(--border)] text-center">
             <div className="text-2xl font-black text-[var(--foreground)]">{formatNumber(stats.total_views)}</div>
-            <div className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">Vistas</div>
+            <div className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">{t('views')}</div>
           </div>
         </div>
 
@@ -168,34 +170,34 @@ export function SocialMentionsCard({ candidateId }: SocialMentionsCardProps) {
         {/* Sentiment bar */}
         {totalSentiment > 0 && (
           <div>
-            <h4 className="text-xs font-black uppercase text-[var(--muted-foreground)] mb-1">Sentimiento</h4>
+            <h4 className="text-xs font-black uppercase text-[var(--muted-foreground)] mb-1">{t('sentiment')}</h4>
             <div className="h-3 border-2 border-[var(--border)] flex overflow-hidden">
               {stats.positive_mentions > 0 && (
                 <div
                   className="bg-green-500 h-full"
                   style={{ width: `${(stats.positive_mentions / totalSentiment) * 100}%` }}
-                  title={`Positivo: ${stats.positive_mentions}`}
+                  title={`${t('positive')}: ${stats.positive_mentions}`}
                 />
               )}
               {stats.neutral_mentions > 0 && (
                 <div
                   className="bg-gray-400 h-full"
                   style={{ width: `${(stats.neutral_mentions / totalSentiment) * 100}%` }}
-                  title={`Neutral: ${stats.neutral_mentions}`}
+                  title={`${t('neutral')}: ${stats.neutral_mentions}`}
                 />
               )}
               {stats.negative_mentions > 0 && (
                 <div
                   className="bg-red-500 h-full"
                   style={{ width: `${(stats.negative_mentions / totalSentiment) * 100}%` }}
-                  title={`Negativo: ${stats.negative_mentions}`}
+                  title={`${t('negative')}: ${stats.negative_mentions}`}
                 />
               )}
             </div>
             <div className="flex justify-between mt-1">
-              <span className="text-[10px] font-bold text-green-600">Positivo ({stats.positive_mentions})</span>
-              <span className="text-[10px] font-bold text-gray-500">Neutral ({stats.neutral_mentions})</span>
-              <span className="text-[10px] font-bold text-red-600">Negativo ({stats.negative_mentions})</span>
+              <span className="text-[10px] font-bold text-green-600">{t('positive')} ({stats.positive_mentions})</span>
+              <span className="text-[10px] font-bold text-gray-500">{t('neutral')} ({stats.neutral_mentions})</span>
+              <span className="text-[10px] font-bold text-red-600">{t('negative')} ({stats.negative_mentions})</span>
             </div>
           </div>
         )}
@@ -204,7 +206,7 @@ export function SocialMentionsCard({ candidateId }: SocialMentionsCardProps) {
         {mentions.length > 0 && (
           <div className="space-y-2">
             <h4 className="text-xs font-black uppercase text-[var(--muted-foreground)]">
-              Top menciones por engagement
+              {t('topMentions')}
             </h4>
             {mentions.map((mention, idx) => {
               const platform = PLATFORM_CONFIG[mention.platform] || { label: mention.platform, color: '#666', bg: 'bg-gray-500' }
@@ -238,7 +240,7 @@ export function SocialMentionsCard({ candidateId }: SocialMentionsCardProps) {
                         rel="noopener noreferrer"
                         className="ml-auto text-[var(--primary)] font-bold hover:underline"
                       >
-                        Ver
+                        {t('view')}
                       </a>
                     )}
                   </div>

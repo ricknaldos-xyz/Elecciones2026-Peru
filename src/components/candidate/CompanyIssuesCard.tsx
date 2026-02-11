@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { cn } from '@/lib/utils'
@@ -41,6 +42,7 @@ interface CompanyIssuesCardProps {
 }
 
 export function CompanyIssuesCard({ candidateId }: CompanyIssuesCardProps) {
+  const t = useTranslations('companies')
   const [data, setData] = useState<CompanyData | null>(null)
   const [loading, setLoading] = useState(true)
   const [expanded, setExpanded] = useState(false)
@@ -73,7 +75,7 @@ export function CompanyIssuesCard({ candidateId }: CompanyIssuesCardProps) {
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="square" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
             </svg>
-            Empresas Vinculadas
+            {t('title')}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -94,20 +96,20 @@ export function CompanyIssuesCard({ candidateId }: CompanyIssuesCardProps) {
   const hasSeriousIssues = data.issuesSummary.byType.penal > 0 || data.issuesSummary.byType.laboral > 0
 
   const roleLabels: Record<string, string> = {
-    accionista: 'Accionista',
-    director: 'Director',
-    gerente_general: 'Gerente General',
-    representante_legal: 'Rep. Legal',
-    fundador: 'Fundador',
+    accionista: t('roleAccionista'),
+    director: t('roleDirector'),
+    gerente_general: t('roleGerenteGeneral'),
+    representante_legal: t('roleRepresentanteLegal'),
+    fundador: t('roleFundador'),
   }
 
   const issueTypeLabels: Record<string, { label: string; color: string }> = {
-    penal: { label: 'Penal', color: 'text-[var(--flag-red-text)]' },
-    laboral: { label: 'Laboral', color: 'text-[var(--flag-amber-text)]' },
-    ambiental: { label: 'Ambiental', color: 'text-[var(--flag-amber-text)]' },
-    consumidor: { label: 'Consumidor', color: 'text-[var(--muted-foreground)]' },
-    tributario: { label: 'Tributario', color: 'text-[var(--flag-amber-text)]' },
-    other: { label: 'Otros', color: 'text-[var(--muted-foreground)]' },
+    penal: { label: t('typePenal'), color: 'text-[var(--flag-red-text)]' },
+    laboral: { label: t('typeLaboral'), color: 'text-[var(--flag-amber-text)]' },
+    ambiental: { label: t('typeAmbiental'), color: 'text-[var(--flag-amber-text)]' },
+    consumidor: { label: t('typeConsumidor'), color: 'text-[var(--muted-foreground)]' },
+    tributario: { label: t('typeTributario'), color: 'text-[var(--flag-amber-text)]' },
+    other: { label: t('typeOther'), color: 'text-[var(--muted-foreground)]' },
   }
 
   const formatCurrency = (amount: number): string => {
@@ -136,10 +138,10 @@ export function CompanyIssuesCard({ candidateId }: CompanyIssuesCardProps) {
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="square" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
           </svg>
-          Empresas Vinculadas
+          {t('title')}
           {hasIssues && (
             <Badge variant="destructive" className="ml-auto">
-              {data.issuesSummary.totalIssues} problema{data.issuesSummary.totalIssues !== 1 ? 's' : ''}
+              {data.issuesSummary.totalIssues} {data.issuesSummary.totalIssues !== 1 ? t('problems') : t('problem')}
             </Badge>
           )}
         </CardTitle>
@@ -149,7 +151,7 @@ export function CompanyIssuesCard({ candidateId }: CompanyIssuesCardProps) {
         <div className="grid grid-cols-3 gap-2 text-center p-3 bg-[var(--muted)] border-2 border-[var(--border)]">
           <div>
             <div className="text-2xl font-black">{data.totalCompanies}</div>
-            <div className="text-xs text-[var(--muted-foreground)]">Empresas</div>
+            <div className="text-xs text-[var(--muted-foreground)]">{t('companiesLabel')}</div>
           </div>
           <div>
             <div className={cn(
@@ -158,7 +160,7 @@ export function CompanyIssuesCard({ candidateId }: CompanyIssuesCardProps) {
             )}>
               {data.companiesWithIssues}
             </div>
-            <div className="text-xs text-[var(--muted-foreground)]">Con Problemas</div>
+            <div className="text-xs text-[var(--muted-foreground)]">{t('withProblems')}</div>
           </div>
           <div>
             <div className={cn(
@@ -170,14 +172,14 @@ export function CompanyIssuesCard({ candidateId }: CompanyIssuesCardProps) {
                 : '-'
               }
             </div>
-            <div className="text-xs text-[var(--muted-foreground)]">En Multas</div>
+            <div className="text-xs text-[var(--muted-foreground)]">{t('inFines')}</div>
           </div>
         </div>
 
         {/* Issues by Type */}
         {hasIssues && (
           <div className="space-y-2">
-            <h4 className="font-black text-sm uppercase">Problemas por Tipo</h4>
+            <h4 className="font-black text-sm uppercase">{t('issuesByType')}</h4>
             <div className="flex flex-wrap gap-2">
               {Object.entries(data.issuesSummary.byType).map(([type, count]) => {
                 if (count === 0) return null
@@ -206,7 +208,7 @@ export function CompanyIssuesCard({ candidateId }: CompanyIssuesCardProps) {
             onClick={() => setExpanded(!expanded)}
             className="flex items-center justify-between w-full text-sm font-bold uppercase text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
           >
-            <span>Lista de Empresas</span>
+            <span>{t('companyList')}</span>
             <svg
               className={cn('w-4 h-4 transition-transform', expanded && 'rotate-180')}
               fill="none"
@@ -243,11 +245,11 @@ export function CompanyIssuesCard({ candidateId }: CompanyIssuesCardProps) {
                       </div>
                       <div className="flex flex-col items-end gap-1">
                         <Badge variant={company.isActive ? 'success' : 'secondary'}>
-                          {company.isActive ? 'Activo' : 'Inactivo'}
+                          {company.isActive ? t('active') : t('inactive')}
                         </Badge>
                         {company.hasLegalIssues && (
                           <Badge variant="warning">
-                            {company.issuesCount} problema{company.issuesCount !== 1 ? 's' : ''}
+                            {company.issuesCount} {company.issuesCount !== 1 ? t('problems') : t('problem')}
                           </Badge>
                         )}
                       </div>
@@ -257,26 +259,26 @@ export function CompanyIssuesCard({ candidateId }: CompanyIssuesCardProps) {
                     <div className="px-3 pb-3 pt-0 border-t border-[var(--border)] space-y-2">
                       <div className="grid grid-cols-2 gap-2 text-xs">
                         <div>
-                          <span className="font-bold text-[var(--muted-foreground)] uppercase">Rol</span>
+                          <span className="font-bold text-[var(--muted-foreground)] uppercase">{t('role')}</span>
                           <p className="font-bold">{roleLabels[company.role] || company.role}</p>
                         </div>
                         {company.ownershipPct != null && (
                           <div>
-                            <span className="font-bold text-[var(--muted-foreground)] uppercase">Participación</span>
+                            <span className="font-bold text-[var(--muted-foreground)] uppercase">{t('ownership')}</span>
                             <p className="font-bold">{company.ownershipPct}%</p>
                           </div>
                         )}
                         <div>
-                          <span className="font-bold text-[var(--muted-foreground)] uppercase">Estado</span>
+                          <span className="font-bold text-[var(--muted-foreground)] uppercase">{t('status')}</span>
                           <p className={cn('font-bold', company.isActive ? 'text-green-700' : 'text-[var(--muted-foreground)]')}>
-                            {company.isActive ? 'Activo' : 'Inactivo'}
+                            {company.isActive ? t('active') : t('inactive')}
                           </p>
                         </div>
                         {company.hasLegalIssues && (
                           <div>
-                            <span className="font-bold text-[var(--muted-foreground)] uppercase">Problemas</span>
+                            <span className="font-bold text-[var(--muted-foreground)] uppercase">{t('issuesByType')}</span>
                             <p className="font-bold text-[var(--flag-amber-text)]">
-                              {company.issuesCount} registrado{company.issuesCount !== 1 ? 's' : ''}
+                              {company.issuesCount} {company.issuesCount !== 1 ? t('recordedPlural') : t('recorded')}
                             </p>
                           </div>
                         )}
@@ -297,17 +299,17 @@ export function CompanyIssuesCard({ candidateId }: CompanyIssuesCardProps) {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
               </svg>
               <span className="font-black text-[var(--flag-red-text)]">
-                Penalización: -{data.issuesSummary.integrityPenalty} pts historial legal
+                {t('penalty')} -{data.issuesSummary.integrityPenalty} pts historial legal
               </span>
             </div>
             <p className="mt-1 text-xs text-[var(--muted-foreground)]">
-              Los problemas legales de empresas vinculadas afectan el score de historial legal del candidato.
+              {t('legalImpactNote')}
             </p>
           </div>
         )}
 
         <p className="text-xs text-[var(--muted-foreground)] pt-2 border-t-2 border-[var(--border)]">
-          Datos de empresas vinculadas vía SUNARP, INDECOPI, SUNAFIL y OEFA.
+          {t('dataSource')}
         </p>
       </CardContent>
     </Card>

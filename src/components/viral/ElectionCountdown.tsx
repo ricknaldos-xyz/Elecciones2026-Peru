@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 
 interface TimeLeft {
@@ -60,6 +61,7 @@ function TimeUnit({ value, label, size = 'default' }: { value: number; label: st
 }
 
 export function ElectionCountdown({ electionDate = ELECTION_DATE, className }: ElectionCountdownProps) {
+  const t = useTranslations('countdown')
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 })
   const [mounted, setMounted] = useState(false)
 
@@ -77,9 +79,9 @@ export function ElectionCountdown({ electionDate = ELECTION_DATE, className }: E
   if (!mounted) {
     return (
       <div className={cn('flex items-center justify-center gap-2 sm:gap-3', className)}>
-        <TimeUnit value={0} label="Días" size="large" />
-        <TimeUnit value={0} label="Horas" size="small" />
-        <TimeUnit value={0} label="Min" size="small" />
+        <TimeUnit value={0} label={t('days')} size="large" />
+        <TimeUnit value={0} label={t('hours')} size="small" />
+        <TimeUnit value={0} label={t('min')} size="small" />
       </div>
     )
   }
@@ -96,7 +98,7 @@ export function ElectionCountdown({ electionDate = ELECTION_DATE, className }: E
         className
       )}>
         <span className="text-xl sm:text-2xl font-black text-white uppercase">
-          ¡Hoy votamos!
+          {t('electionDay')}
         </span>
       </div>
     )
@@ -106,19 +108,19 @@ export function ElectionCountdown({ electionDate = ELECTION_DATE, className }: E
     <div className={cn('space-y-2 sm:space-y-3', className)}>
       <div className="flex items-end justify-center gap-1.5 sm:gap-2">
         {/* Days - Prominente */}
-        <TimeUnit value={timeLeft.days} label="Días" size="large" />
+        <TimeUnit value={timeLeft.days} label={t('days')} size="large" />
         <span className="text-lg sm:text-xl font-black text-[var(--muted-foreground)] mb-6 sm:mb-8">:</span>
-        <TimeUnit value={timeLeft.hours} label="Horas" size="small" />
+        <TimeUnit value={timeLeft.hours} label={t('hours')} size="small" />
         <span className="text-lg sm:text-xl font-black text-[var(--muted-foreground)] mb-6 sm:mb-8">:</span>
-        <TimeUnit value={timeLeft.minutes} label="Min" size="small" />
+        <TimeUnit value={timeLeft.minutes} label={t('min')} size="small" />
         {/* Seconds only on larger screens */}
         <span className="text-lg font-black text-[var(--muted-foreground)] mb-6 sm:mb-8 hidden md:block">:</span>
         <div className="hidden md:block">
-          <TimeUnit value={timeLeft.seconds} label="Seg" size="small" />
+          <TimeUnit value={timeLeft.seconds} label={t('sec')} size="small" />
         </div>
       </div>
       <p className="text-center text-[10px] sm:text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wide">
-        Elecciones Generales 2026
+        {t('electionTitle')}
       </p>
     </div>
   )

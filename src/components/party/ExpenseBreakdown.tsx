@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/Card'
 import { cn } from '@/lib/utils'
 
@@ -22,18 +23,6 @@ function formatCurrency(amount: number): string {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount)
-}
-
-const categoryLabels: Record<string, string> = {
-  publicidad: 'Publicidad',
-  propaganda: 'Propaganda',
-  eventos: 'Eventos',
-  personal: 'Personal',
-  transporte: 'Transporte',
-  alquiler: 'Alquiler',
-  materiales: 'Materiales',
-  servicios: 'Servicios',
-  otros: 'Otros',
 }
 
 const categoryColors: Record<string, string> = {
@@ -101,6 +90,20 @@ export function ExpenseBreakdown({
   className,
   showHeader = true,
 }: ExpenseBreakdownProps) {
+  const t = useTranslations('expenses')
+
+  const categoryLabels: Record<string, string> = {
+    publicidad: t('catPublicidad'),
+    propaganda: t('catPropaganda'),
+    eventos: t('catEventos'),
+    personal: t('catPersonal'),
+    transporte: t('catTransporte'),
+    alquiler: t('catAlquiler'),
+    materiales: t('catMateriales'),
+    servicios: t('catServicios'),
+    otros: t('catOtros'),
+  }
+
   const totalExpenses = expenses.reduce((sum, e) => sum + e.total_amount, 0)
   const sortedExpenses = [...expenses].sort((a, b) => b.total_amount - a.total_amount)
 
@@ -113,7 +116,7 @@ export function ExpenseBreakdown({
               <svg className="w-5 h-5 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="square" strokeLinejoin="miter" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
               </svg>
-              Desglose de Gastos
+              {t('title')}
             </CardTitle>
           </CardHeader>
         )}
@@ -122,7 +125,7 @@ export function ExpenseBreakdown({
             <svg className="w-12 h-12 mx-auto mb-3 text-[var(--muted-foreground)]/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="square" strokeLinejoin="miter" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
             </svg>
-            <p className="font-bold">No hay información de gastos disponible</p>
+            <p className="font-bold">{t('noExpenses')}</p>
           </div>
         </CardContent>
       </Card>
@@ -138,7 +141,7 @@ export function ExpenseBreakdown({
               <svg className="w-5 h-5 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="square" strokeLinejoin="miter" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
               </svg>
-              Desglose de Gastos
+              {t('title')}
             </CardTitle>
             <div className="text-lg font-black text-[var(--flag-red-text)]">
               {formatCurrency(totalExpenses)}
@@ -194,7 +197,7 @@ export function ExpenseBreakdown({
                     {categoryLabels[expense.category] || expense.category}
                   </div>
                   <div className="text-sm text-[var(--muted-foreground)] font-medium">
-                    {expense.transaction_count} transacción{expense.transaction_count !== 1 ? 'es' : ''}
+                    {expense.transaction_count} {expense.transaction_count !== 1 ? t('transactions') : t('transaction')}
                   </div>
                 </div>
 

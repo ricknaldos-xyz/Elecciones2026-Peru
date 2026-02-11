@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { cn } from '@/lib/utils'
@@ -87,6 +88,7 @@ function formatDate(dateStr: string): string {
 }
 
 export function ControversialVotesCard({ candidateId }: ControversialVotesCardProps) {
+  const t = useTranslations('controversialVotes')
   const [data, setData] = useState<VotingDetails | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -117,7 +119,7 @@ export function ControversialVotesCard({ candidateId }: ControversialVotesCardPr
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="square" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
-            Votaciones en Leyes Controversiales
+            {t('title')}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -148,7 +150,7 @@ export function ControversialVotesCard({ candidateId }: ControversialVotesCardPr
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="square" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
           </svg>
-          Votaciones en Leyes Controversiales
+          {t('title')}
         </CardTitle>
         <p className="text-xs text-[var(--muted-foreground)] font-bold mt-1">
           {data.controversialVotes.length} de {data.totalControversialLaws} leyes controversiales evaluadas
@@ -169,7 +171,7 @@ export function ControversialVotesCard({ candidateId }: ControversialVotesCardPr
             )}>
               {data.votedInFavor}
             </div>
-            <div className="text-[10px] font-bold uppercase text-[var(--muted-foreground)]">A Favor</div>
+            <div className="text-[10px] font-bold uppercase text-[var(--muted-foreground)]">{t('inFavor')}</div>
           </div>
           <div className={cn(
             'p-2 text-center border-2',
@@ -183,13 +185,13 @@ export function ControversialVotesCard({ candidateId }: ControversialVotesCardPr
             )}>
               {data.votedAgainst}
             </div>
-            <div className="text-[10px] font-bold uppercase text-[var(--muted-foreground)]">En Contra</div>
+            <div className="text-[10px] font-bold uppercase text-[var(--muted-foreground)]">{t('against')}</div>
           </div>
           <div className="p-2 text-center border-2 bg-[var(--muted)] border-[var(--border)]">
             <div className="text-xl font-black text-[var(--muted-foreground)]">
               {data.absent + data.abstentions}
             </div>
-            <div className="text-[10px] font-bold uppercase text-[var(--muted-foreground)]">Ausente</div>
+            <div className="text-[10px] font-bold uppercase text-[var(--muted-foreground)]">{t('absent')}</div>
           </div>
         </div>
 
@@ -208,7 +210,7 @@ export function ControversialVotesCard({ candidateId }: ControversialVotesCardPr
 
           return (
             <div className="mb-4 p-3 bg-[var(--muted)] border-2 border-[var(--border)]">
-              <h4 className="font-black text-xs uppercase text-[var(--muted-foreground)] mb-2">Votos a favor por categoría</h4>
+              <h4 className="font-black text-xs uppercase text-[var(--muted-foreground)] mb-2">{t('votesByCategory')}</h4>
               <div className="space-y-1.5">
                 {sortedCategories.map(([cat, count]) => (
                   <div key={cat} className="flex items-center gap-2">
@@ -279,7 +281,7 @@ export function ControversialVotesCard({ candidateId }: ControversialVotesCardPr
                     size="sm"
                     className="font-black"
                   >
-                    Votó: {config.label}
+                    {t('voted')} {config.label}
                   </Badge>
                   {vote.voteType === 'favor' && vote.penaltyPoints > 0 && (
                     <span className="text-xs font-black text-[var(--flag-red-text)]">
@@ -298,8 +300,7 @@ export function ControversialVotesCard({ candidateId }: ControversialVotesCardPr
         </div>
 
         <p className="text-xs text-[var(--muted-foreground)] pt-3 mt-3 border-t-2 border-[var(--border)]">
-          Fuente: Portal del Congreso de la República. Las leyes controversiales son identificadas
-          por organizaciones de sociedad civil y medios de investigación.
+          {t('sourceNote')}
         </p>
       </CardContent>
     </Card>

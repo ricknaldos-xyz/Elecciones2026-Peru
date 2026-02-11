@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Progress } from '@/components/ui/Progress'
@@ -23,10 +24,9 @@ function getScoreBg(score: number) {
   return 'bg-red-100 border-red-500'
 }
 
-function getRiskBadge(risk: 'low' | 'medium' | 'high') {
+function getRiskBadgeVariant(risk: 'low' | 'medium' | 'high') {
   const map = { low: 'success', medium: 'warning', high: 'danger' } as const
-  const labels = { low: 'Bajo', medium: 'Medio', high: 'Alto' }
-  return { variant: map[risk], label: labels[risk] }
+  return map[risk]
 }
 
 interface DimensionSectionProps {
@@ -39,6 +39,7 @@ interface DimensionSectionProps {
 
 function DimensionSection({ label, description, score, analysis, children }: DimensionSectionProps) {
   const [expanded, setExpanded] = useState(false)
+  const t = useTranslations('planViability')
 
   return (
     <div>
@@ -65,7 +66,7 @@ function DimensionSection({ label, description, score, analysis, children }: Dim
         >
           <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
         </svg>
-        {expanded ? 'Ocultar detalles' : 'Ver detalles'}
+        {expanded ? t('hideDetails') : t('showDetails')}
       </button>
 
       {expanded && (
@@ -82,6 +83,7 @@ function DimensionSection({ label, description, score, analysis, children }: Dim
 }
 
 export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
+  const t = useTranslations('planViability')
   const [data, setData] = useState<PlanViabilityAnalysis | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -112,7 +114,7 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="square" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
-            Análisis de Viabilidad del Plan de Gobierno
+            {t('title')}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -143,7 +145,7 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="square" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
           </svg>
-          Análisis de Viabilidad del Plan de Gobierno
+          {t('title')}
         </CardTitle>
       </CardHeader>
       <CardContent className="pt-4 space-y-4">
@@ -153,10 +155,10 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
             {data.overall_viability_score.toFixed(1)}
           </div>
           <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase mt-1">
-            Viabilidad General (1-10)
+            {t('overallScore')}
           </div>
           <div className="text-xs text-[var(--muted-foreground)] mt-1">
-            {data.proposals_analyzed} propuestas analizadas
+            {data.proposals_analyzed} {t('proposalsAnalyzed')}
           </div>
         </div>
 
@@ -173,8 +175,8 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
         <div className="space-y-4">
           {/* Fiscal Viability */}
           <DimensionSection
-            label="Viabilidad Fiscal"
-            description="¿Es compatible con la realidad fiscal del Perú?"
+            label={t('fiscalViability')}
+            description={t('fiscalDesc')}
             score={data.fiscal_viability_score}
             analysis={data.fiscal_viability_analysis}
           >
@@ -182,21 +184,21 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
               <div className="space-y-1.5 text-xs">
                 {fiscalDetails.estimated_cost_soles != null && (
                   <div className="flex justify-between">
-                    <span className="text-[var(--muted-foreground)]">Costo estimado:</span>
+                    <span className="text-[var(--muted-foreground)]">{t('estimatedCost')}</span>
                     <span className="font-bold">S/. {(fiscalDetails.estimated_cost_soles / 1e9).toFixed(1)}B</span>
                   </div>
                 )}
                 {fiscalDetails.budget_gap_pct != null && (
                   <div className="flex justify-between">
-                    <span className="text-[var(--muted-foreground)]">Brecha presupuestal:</span>
+                    <span className="text-[var(--muted-foreground)]">{t('budgetGap')}</span>
                     <span className="font-bold">{fiscalDetails.budget_gap_pct}%</span>
                   </div>
                 )}
                 {fiscalDetails.inflation_risk && (
                   <div className="flex justify-between items-center">
-                    <span className="text-[var(--muted-foreground)]">Riesgo de inflación:</span>
-                    <Badge variant={getRiskBadge(fiscalDetails.inflation_risk).variant} size="sm">
-                      {getRiskBadge(fiscalDetails.inflation_risk).label}
+                    <span className="text-[var(--muted-foreground)]">{t('inflationRisk')}</span>
+                    <Badge variant={getRiskBadgeVariant(fiscalDetails.inflation_risk)} size="sm">
+                      {fiscalDetails.inflation_risk === 'low' ? t('riskLow') : fiscalDetails.inflation_risk === 'medium' ? t('riskMedium') : t('riskHigh')}
                     </Badge>
                   </div>
                 )}
@@ -213,8 +215,8 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
 
           {/* Legal Viability */}
           <DimensionSection
-            label="Viabilidad Legal e Institucional"
-            description="¿Es factible jurídica e institucionalmente?"
+            label={t('legalViability')}
+            description={t('legalDesc')}
             score={data.legal_viability_score}
             analysis={data.legal_viability_analysis}
           >
@@ -222,26 +224,26 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
               <div className="space-y-1.5 text-xs">
                 {legalDetails.constitutional_amendments_needed > 0 && (
                   <div className="flex justify-between">
-                    <span className="text-[var(--muted-foreground)]">Enmiendas constitucionales:</span>
+                    <span className="text-[var(--muted-foreground)]">{t('constitutionalAmendments')}</span>
                     <Badge variant="danger" size="sm">{legalDetails.constitutional_amendments_needed}</Badge>
                   </div>
                 )}
                 {legalDetails.simple_legislation_needed > 0 && (
                   <div className="flex justify-between">
-                    <span className="text-[var(--muted-foreground)]">Leyes (mayoría simple):</span>
+                    <span className="text-[var(--muted-foreground)]">{t('simpleLegislation')}</span>
                     <Badge variant="warning" size="sm">{legalDetails.simple_legislation_needed}</Badge>
                   </div>
                 )}
                 {legalDetails.executive_decree_possible > 0 && (
                   <div className="flex justify-between">
-                    <span className="text-[var(--muted-foreground)]">Decretos ejecutivos:</span>
+                    <span className="text-[var(--muted-foreground)]">{t('executiveDecrees')}</span>
                     <Badge variant="success" size="sm">{legalDetails.executive_decree_possible}</Badge>
                   </div>
                 )}
                 <div className="flex justify-between items-center">
-                  <span className="text-[var(--muted-foreground)]">Cronograma realista:</span>
+                  <span className="text-[var(--muted-foreground)]">{t('realisticTimeline')}</span>
                   <Badge variant={legalDetails.timeline_realistic ? 'success' : 'danger'} size="sm">
-                    {legalDetails.timeline_realistic ? 'Sí' : 'No'}
+                    {legalDetails.timeline_realistic ? t('yes') : t('no')}
                   </Badge>
                 </div>
                 {legalDetails.key_findings?.length > 0 && (
@@ -257,8 +259,8 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
 
           {/* Coherence */}
           <DimensionSection
-            label="Coherencia Interna"
-            description="¿Son consistentes entre sí las propuestas?"
+            label={t('coherence')}
+            description={t('coherenceDesc')}
             score={data.coherence_score}
             analysis={data.coherence_analysis}
           >
@@ -267,7 +269,7 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
                 {coherenceDetails.contradictions?.length > 0 && (
                   <div>
                     <span className="font-bold text-[var(--muted-foreground)] uppercase block mb-1">
-                      Contradicciones:
+                      {t('contradictions')}
                     </span>
                     {coherenceDetails.contradictions.map((c, idx) => (
                       <div key={idx} className="p-2 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 mb-1">
@@ -282,7 +284,7 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
                 {coherenceDetails.coverage_gaps?.length > 0 && (
                   <div>
                     <span className="font-bold text-[var(--muted-foreground)] uppercase block mb-1">
-                      Brechas de cobertura:
+                      {t('coverageGaps')}
                     </span>
                     <div className="flex flex-wrap gap-1">
                       {coherenceDetails.coverage_gaps.map((gap, idx) => (
@@ -304,8 +306,8 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
 
           {/* Historical Comparison */}
           <DimensionSection
-            label="Comparación Histórica"
-            description="¿Hay precedentes que respalden las propuestas?"
+            label={t('historicalComparison')}
+            description={t('historicalDesc')}
             score={data.historical_score}
             analysis={data.historical_analysis}
           >
@@ -314,7 +316,7 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
                 {historicalDetails.similar_past_proposals?.length > 0 && (
                   <div>
                     <span className="font-bold text-[var(--muted-foreground)] uppercase block mb-1">
-                      Precedentes en Perú:
+                      {t('precedents')}
                     </span>
                     {historicalDetails.similar_past_proposals.map((p, idx) => (
                       <div key={idx} className="p-2 bg-[var(--background)] border border-[var(--border)] mb-1">
@@ -328,7 +330,7 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
                 {historicalDetails.international_comparisons?.length > 0 && (
                   <div>
                     <span className="font-bold text-[var(--muted-foreground)] uppercase block mb-1">
-                      Comparaciones internacionales:
+                      {t('internationalComparisons')}
                     </span>
                     {historicalDetails.international_comparisons.map((c, idx) => (
                       <div key={idx} className="p-2 bg-[var(--background)] border border-[var(--border)] mb-1">
@@ -341,7 +343,7 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
                 )}
                 {historicalDetails.expert_consensus_alignment && (
                   <div className="flex justify-between items-center">
-                    <span className="text-[var(--muted-foreground)]">Consenso de expertos:</span>
+                    <span className="text-[var(--muted-foreground)]">{t('expertConsensus')}</span>
                     <Badge
                       variant={
                         historicalDetails.expert_consensus_alignment === 'aligned'
@@ -353,10 +355,10 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
                       size="sm"
                     >
                       {historicalDetails.expert_consensus_alignment === 'aligned'
-                        ? 'Alineado'
+                        ? t('aligned')
                         : historicalDetails.expert_consensus_alignment === 'mixed'
-                          ? 'Mixto'
-                          : 'Divergente'}
+                          ? t('mixed')
+                          : t('divergent')}
                     </Badge>
                   </div>
                 )}
@@ -376,7 +378,7 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
         {data.key_strengths?.length > 0 && (
           <div className="pt-3 border-t-2 border-[var(--border)]">
             <h4 className="font-bold text-sm text-[var(--muted-foreground)] uppercase mb-2">
-              Principales Fortalezas
+              {t('strengths')}
             </h4>
             <div className="flex flex-wrap gap-1.5">
               {data.key_strengths.slice(0, 5).map((strength, idx) => (
@@ -392,7 +394,7 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
         {data.key_weaknesses?.length > 0 && (
           <div className="pt-3 border-t-2 border-[var(--border)]">
             <h4 className="font-bold text-sm text-[var(--muted-foreground)] uppercase mb-2">
-              Principales Debilidades
+              {t('weaknesses')}
             </h4>
             <div className="flex flex-wrap gap-1.5">
               {data.key_weaknesses.slice(0, 5).map((weakness, idx) => (
@@ -408,7 +410,7 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
         {data.key_risks?.length > 0 && (
           <div className="pt-3 border-t-2 border-[var(--border)]">
             <h4 className="font-bold text-sm text-[var(--muted-foreground)] uppercase mb-2">
-              Factores de Riesgo
+              {t('riskFactors')}
             </h4>
             <div className="flex flex-wrap gap-1.5">
               {data.key_risks.slice(0, 5).map((risk, idx) => (
@@ -422,8 +424,7 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
 
         {/* AI Disclaimer */}
         <p className="text-xs text-[var(--muted-foreground)] pt-2 border-t-2 border-[var(--border)]">
-          Análisis generado por IA (Gemini). Evalúa la viabilidad técnica del plan de gobierno,
-          no su orientación política.
+          {t('aiDisclaimer')}
         </p>
       </CardContent>
     </Card>

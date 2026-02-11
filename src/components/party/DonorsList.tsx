@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { cn } from '@/lib/utils'
@@ -21,10 +22,6 @@ function formatCurrency(amount: number): string {
   }).format(amount)
 }
 
-function getDonorTypeLabel(type: 'natural' | 'juridica'): string {
-  return type === 'natural' ? 'Persona Natural' : 'Persona Jurídica'
-}
-
 function getDonorTypeIcon(type: 'natural' | 'juridica') {
   if (type === 'natural') {
     return (
@@ -40,20 +37,26 @@ function getDonorTypeIcon(type: 'natural' | 'juridica') {
   )
 }
 
-function getDonationTypeLabel(type: 'efectivo' | 'especie' | 'servicios'): string {
-  switch (type) {
-    case 'efectivo': return 'Efectivo'
-    case 'especie': return 'En especie'
-    case 'servicios': return 'Servicios'
-  }
-}
-
 export function DonorsList({
   donors,
   className,
   maxItems,
   showHeader = true,
 }: DonorsListProps) {
+  const t = useTranslations('donors')
+
+  function getDonorTypeLabel(type: 'natural' | 'juridica'): string {
+    return type === 'natural' ? t('naturalPerson') : t('legalPerson')
+  }
+
+  function getDonationTypeLabel(type: 'efectivo' | 'especie' | 'servicios'): string {
+    switch (type) {
+      case 'efectivo': return t('cash')
+      case 'especie': return t('inKind')
+      case 'servicios': return t('services')
+    }
+  }
+
   const displayDonors = maxItems ? donors.slice(0, maxItems) : donors
   const totalAmount = donors.reduce((sum, d) => sum + d.amount, 0)
 
@@ -66,7 +69,7 @@ export function DonorsList({
               <svg className="w-5 h-5 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="square" strokeLinejoin="miter" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
-              Donantes
+              {t('title')}
             </CardTitle>
           </CardHeader>
         )}
@@ -75,7 +78,7 @@ export function DonorsList({
             <svg className="w-12 h-12 mx-auto mb-3 text-[var(--muted-foreground)]/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="square" strokeLinejoin="miter" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <p className="font-bold">No hay información de donantes disponible</p>
+            <p className="font-bold">{t('noDonors')}</p>
           </div>
         </CardContent>
       </Card>
@@ -91,7 +94,7 @@ export function DonorsList({
               <svg className="w-5 h-5 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="square" strokeLinejoin="miter" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
-              Principales Donantes
+              {t('topDonors')}
             </CardTitle>
             <Badge variant="outline">{donors.length} total</Badge>
           </div>
@@ -145,7 +148,7 @@ export function DonorsList({
                         <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                         </svg>
-                        Verificado
+                        {t('verified')}
                       </span>
                     </>
                   )}
@@ -158,7 +161,7 @@ export function DonorsList({
                   {formatCurrency(donor.amount)}
                 </div>
                 <div className="text-xs text-[var(--muted-foreground)] font-bold">
-                  {totalAmount > 0 ? ((donor.amount / totalAmount) * 100).toFixed(1) : 0}% del total
+                  {totalAmount > 0 ? ((donor.amount / totalAmount) * 100).toFixed(1) : 0}% {t('ofTotal')}
                 </div>
               </div>
             </div>
@@ -168,7 +171,7 @@ export function DonorsList({
         {maxItems && donors.length > maxItems && (
           <div className="p-4 bg-[var(--muted)] text-center border-t-2 border-[var(--border)]">
             <span className="text-sm text-[var(--muted-foreground)] font-bold">
-              +{donors.length - maxItems} donantes más
+              +{donors.length - maxItems} {t('moreDonors')}
             </span>
           </div>
         )}

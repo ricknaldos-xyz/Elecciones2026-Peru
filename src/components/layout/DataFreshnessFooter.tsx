@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 
 interface SyncSourceStatus {
@@ -48,6 +49,7 @@ function getFreshnessStyle(isoDate: string): string {
 }
 
 export function DataFreshnessFooter() {
+  const t = useTranslations('dataFreshness')
   const [data, setData] = useState<SyncStatusResponse | null>(null)
   const [expanded, setExpanded] = useState(false)
 
@@ -61,7 +63,7 @@ export function DataFreshnessFooter() {
   if (!data) {
     return (
       <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wide text-center">
-        Datos actualizados periódicamente
+        {t('updatedPeriodically')}
       </div>
     )
   }
@@ -73,7 +75,7 @@ export function DataFreshnessFooter() {
   if (completedSources.length === 0) {
     return (
       <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wide text-center">
-        Datos actualizados periódicamente
+        {t('updatedPeriodically')}
       </div>
     )
   }
@@ -84,7 +86,7 @@ export function DataFreshnessFooter() {
         onClick={() => setExpanded(!expanded)}
         className="w-full text-xs font-bold text-[var(--muted-foreground)] uppercase tracking-wide text-center hover:text-[var(--foreground)] transition-colors flex items-center justify-center gap-1"
       >
-        <span>Fuentes de datos</span>
+        <span>{t('dataSources')}</span>
         <svg
           className={cn('w-3 h-3 transition-transform', expanded && 'rotate-180')}
           fill="none"

@@ -46,6 +46,7 @@ export function RankingContent() {
   const searchParams = useSearchParams()
   const t = useTranslations('ranking')
   const tCommon = useTranslations('common')
+  const tShare = useTranslations('share')
   const showSuccess = useSuccessToast()
 
   // Get cargo labels from translations
@@ -246,7 +247,7 @@ export function RankingContent() {
     setSelectedForCompare((prev) => {
       const existing = prev.find((c) => c.id === id)
       if (existing) {
-        showSuccess('Eliminado de comparación')
+        showSuccess(t('removedFromComparison'))
         return prev.filter((c) => c.id !== id)
       }
       if (prev.length >= 4) {
@@ -254,7 +255,7 @@ export function RankingContent() {
       }
       const candidate = candidates.find((c) => c.id === id)
       if (candidate) {
-        showSuccess('Agregado a comparación', candidate.full_name)
+        showSuccess(t('addedToComparison'), candidate.full_name)
         return [...prev, candidate]
       }
       return prev
@@ -263,8 +264,8 @@ export function RankingContent() {
 
   const handleRemoveFromCompare = useCallback((id: string) => {
     setSelectedForCompare((prev) => prev.filter((c) => c.id !== id))
-    showSuccess('Eliminado de comparación')
-  }, [showSuccess])
+    showSuccess(t('removedFromComparison'))
+  }, [showSuccess, t])
 
   const handleClearCompare = useCallback(() => {
     setSelectedForCompare([])
@@ -297,9 +298,9 @@ export function RankingContent() {
       })
     } else {
       navigator.clipboard.writeText(url)
-      showSuccess('Link copiado', 'El enlace del ranking está en tu portapapeles')
+      showSuccess(tShare('linkCopied'), tShare('clipboardMessage'))
     }
-  }, [cargo, candidates.length, t, cargoLabels, showSuccess])
+  }, [cargo, candidates.length, t, tShare, cargoLabels, showSuccess])
 
   const selectedIds = useMemo(() => selectedForCompare.map((c) => c.id), [selectedForCompare])
 

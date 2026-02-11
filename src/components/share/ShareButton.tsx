@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
 import { useSuccessToast } from '@/components/ui/Toast'
@@ -48,6 +49,7 @@ export function ShareButton({
   const [copied, setCopied] = useState(false)
   const [showMenu, setShowMenu] = useState(false)
   const showSuccess = useSuccessToast()
+  const t = useTranslations('share')
 
   const shareUrl = url || (typeof window !== 'undefined' ? window.location.href : '')
   const shareText = description ? `${title}\n\n${description}` : title
@@ -80,7 +82,7 @@ export function ShareButton({
       case 'copy':
         await navigator.clipboard.writeText(`${shareText}\n\n${shareUrl}`)
         setCopied(true)
-        showSuccess('Link copiado', 'El enlace está en tu portapapeles')
+        showSuccess(t('linkCopied'), t('clipboardMessage'))
         setTimeout(() => setCopied(false), 2000)
         break
     }
@@ -120,7 +122,7 @@ export function ShareButton({
             'hover:shadow-[var(--shadow-brutal-sm)]',
             className
           )}
-          aria-label="Compartir"
+          aria-label={t('shareLabel')}
         >
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="square" strokeLinejoin="miter" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
@@ -149,7 +151,7 @@ export function ShareButton({
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                   <path d={SHARE_PLATFORMS[platform].icon} />
                 </svg>
-                {platform === 'copy' && copied ? 'Copiado!' : SHARE_PLATFORMS[platform].name}
+                {platform === 'copy' && copied ? t('copied') : platform === 'copy' ? t('copy') : SHARE_PLATFORMS[platform].name}
               </button>
             ))}
           </div>
@@ -179,7 +181,7 @@ export function ShareButton({
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
               <path d={SHARE_PLATFORMS[platform].icon} />
             </svg>
-            {platform === 'copy' && copied ? 'Copiado!' : SHARE_PLATFORMS[platform].name}
+            {platform === 'copy' && copied ? t('copied') : platform === 'copy' ? t('copy') : SHARE_PLATFORMS[platform].name}
           </button>
         ))}
       </div>
@@ -199,7 +201,7 @@ export function ShareButton({
           </svg>
         }
       >
-        Compartir
+        {t('share')}
       </Button>
 
       {showMenu && (
@@ -224,7 +226,7 @@ export function ShareButton({
               <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                 <path d={SHARE_PLATFORMS[platform].icon} />
               </svg>
-              {platform === 'copy' && copied ? 'Copiado!' : SHARE_PLATFORMS[platform].name}
+              {platform === 'copy' && copied ? t('copied') : platform === 'copy' ? t('copy') : SHARE_PLATFORMS[platform].name}
             </button>
           ))}
         </div>

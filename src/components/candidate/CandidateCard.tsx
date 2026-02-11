@@ -11,6 +11,7 @@ import { ScorePill } from './ScorePill'
 import { SubScoreStat } from './SubScoreBar'
 import { FlagChips } from './FlagChip'
 import { useSuccessToast } from '@/components/ui/Toast'
+import { useTranslations } from 'next-intl'
 import { getScoreByMode } from '@/lib/scoring/utils'
 import type { CandidateWithScores, PresetType, AnyWeights } from '@/types/database'
 
@@ -55,6 +56,7 @@ export const CandidateCard = memo(function CandidateCard({
 }: CandidateCardProps) {
   const router = useRouter()
   const showSuccess = useSuccessToast()
+  const tShare = useTranslations('share')
   const isPresidential = candidate.cargo === 'presidente'
   const hasPlan = candidate.scores.plan_viability != null
   const score = getScoreByMode(candidate.scores, mode, weights, isPresidential)
@@ -80,7 +82,7 @@ export const CandidateCard = memo(function CandidateCard({
         })
       } else {
         navigator.clipboard.writeText(url)
-        showSuccess('Link copiado', candidate.full_name)
+        showSuccess(tShare('linkCopied'), candidate.full_name)
       }
     }
   }
