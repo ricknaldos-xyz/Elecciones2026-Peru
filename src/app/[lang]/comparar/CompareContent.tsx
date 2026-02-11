@@ -198,13 +198,13 @@ function CandidateSearch({
                   <div className="flex items-center gap-1.5 mt-0.5">
                     {c.party && (
                       <span
-                        className="text-[10px] font-bold uppercase px-1.5 py-0.5 text-white"
+                        className="text-xs font-bold uppercase px-1.5 py-0.5 text-white"
                         style={{ backgroundColor: c.party.color || '#6B7280' }}
                       >
                         {c.party.short_name || c.party.name}
                       </span>
                     )}
-                    <span className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">
+                    <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">
                       {c.cargo}
                     </span>
                   </div>
@@ -219,7 +219,7 @@ function CandidateSearch({
                   ).toFixed(0)}
                 </div>
                 {isAdded && (
-                  <span className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">
+                  <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">
                     ✓
                   </span>
                 )}
@@ -503,7 +503,7 @@ export function CompareContent() {
                         {c.full_name.split(' ').slice(0, 2).join(' ')}
                       </div>
                       {/* Party */}
-                      <div className="text-[10px] font-bold opacity-60 truncate mt-0.5">
+                      <div className="text-xs font-bold opacity-60 truncate mt-0.5">
                         {c.party?.short_name || c.party?.name || ''}
                       </div>
                       {/* Score */}
@@ -580,7 +580,7 @@ export function CompareContent() {
                       onClick={() => removeCandidate(candidate)}
                       className={cn(
                         'absolute top-2 right-2 z-10',
-                        'w-9 h-9 flex items-center justify-center',
+                        'w-11 h-11 sm:w-9 sm:h-9 flex items-center justify-center',
                         'bg-[var(--muted)] border-2 border-[var(--border)]',
                         'text-[var(--muted-foreground)]',
                         'hover:bg-[var(--flag-red)] hover:text-white hover:border-[var(--flag-red)]',
@@ -594,7 +594,7 @@ export function CompareContent() {
                     </button>
 
                     {isBest && (
-                      <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[var(--score-excellent)] text-white text-[10px] sm:text-xs font-black uppercase px-2 py-1 border-2 border-[var(--border)]">
+                      <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[var(--score-excellent)] text-white text-xs sm:text-xs font-black uppercase px-2 py-1 border-2 border-[var(--border)]">
                         {t('best')}
                       </div>
                     )}
@@ -635,7 +635,7 @@ export function CompareContent() {
                         )}>
                           {score.toFixed(0)}
                         </div>
-                        <div className="text-[10px] sm:text-xs font-bold text-[var(--muted-foreground)] uppercase">
+                        <div className="text-xs sm:text-xs font-bold text-[var(--muted-foreground)] uppercase">
                           {t('outOf100')}
                         </div>
 
@@ -960,13 +960,13 @@ export function CompareContent() {
                                   {v.overall_viability_score.toFixed(1)}
                                 </div>
                               </div>
-                              <div className="text-[10px] font-black uppercase text-[var(--muted-foreground)]">
+                              <div className="text-xs font-black uppercase text-[var(--muted-foreground)]">
                                 {t('viabilityOverall')}
                               </div>
 
                               {/* Executive summary */}
                               <div>
-                                <h5 className="text-[10px] font-black uppercase text-[var(--muted-foreground)] mb-1">
+                                <h5 className="text-xs font-black uppercase text-[var(--muted-foreground)] mb-1">
                                   {t('viabilitySummary')}
                                 </h5>
                                 <p className="text-xs text-[var(--foreground)] line-clamp-4">
@@ -977,12 +977,12 @@ export function CompareContent() {
                               {/* Strengths */}
                               {v.key_strengths.length > 0 && (
                                 <div>
-                                  <h5 className="text-[10px] font-black uppercase text-green-600 mb-1">
+                                  <h5 className="text-xs font-black uppercase text-green-600 mb-1">
                                     {t('viabilityStrengths')}
                                   </h5>
                                   <div className="flex flex-wrap gap-1">
                                     {v.key_strengths.slice(0, 3).map((s, i) => (
-                                      <span key={i} className="text-[10px] px-1.5 py-0.5 bg-green-100 text-green-800 border border-green-300 font-bold">
+                                      <span key={i} className="text-xs px-1.5 py-0.5 bg-green-100 text-green-800 border border-green-300 font-bold">
                                         {s}
                                       </span>
                                     ))}
@@ -993,12 +993,12 @@ export function CompareContent() {
                               {/* Weaknesses */}
                               {v.key_weaknesses.length > 0 && (
                                 <div>
-                                  <h5 className="text-[10px] font-black uppercase text-red-600 mb-1">
+                                  <h5 className="text-xs font-black uppercase text-red-600 mb-1">
                                     {t('viabilityWeaknesses')}
                                   </h5>
                                   <div className="flex flex-wrap gap-1">
                                     {v.key_weaknesses.slice(0, 3).map((w, i) => (
-                                      <span key={i} className="text-[10px] px-1.5 py-0.5 bg-red-100 text-red-800 border border-red-300 font-bold">
+                                      <span key={i} className="text-xs px-1.5 py-0.5 bg-red-100 text-red-800 border border-red-300 font-bold">
                                         {w}
                                       </span>
                                     ))}
@@ -1009,12 +1009,12 @@ export function CompareContent() {
                               {/* Risks */}
                               {v.key_risks.length > 0 && (
                                 <div>
-                                  <h5 className="text-[10px] font-black uppercase text-[var(--flag-amber-text)] mb-1">
+                                  <h5 className="text-xs font-black uppercase text-[var(--flag-amber-text)] mb-1">
                                     {t('viabilityRisks')}
                                   </h5>
                                   <div className="flex flex-wrap gap-1">
                                     {v.key_risks.slice(0, 3).map((r, i) => (
-                                      <span key={i} className="text-[10px] px-1.5 py-0.5 bg-amber-100 text-amber-800 border border-amber-300 font-bold">
+                                      <span key={i} className="text-xs px-1.5 py-0.5 bg-amber-100 text-amber-800 border border-amber-300 font-bold">
                                         {r}
                                       </span>
                                     ))}

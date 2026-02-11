@@ -22,8 +22,8 @@ export function AdBanner({ slotId, adsenseSlot, className = '' }: AdBannerProps)
       <div className="hidden sm:flex lg:hidden justify-center">
         <AdSlot slotId={slotId} size="728x90" adsenseSlot={adsenseSlot} />
       </div>
-      {/* Mobile: 320x100 */}
-      <div className="flex sm:hidden justify-center">
+      {/* Mobile: 320x100 with max-width constraint */}
+      <div className="flex sm:hidden justify-center overflow-hidden">
         <AdSlot slotId={slotId} size="320x100" adsenseSlot={adsenseSlot} />
       </div>
     </div>

@@ -101,7 +101,7 @@ export function FlagChip({ type, severity, title, onClick, size = 'sm', classNam
     >
       {/* Severity icon - distinct shape for each level */}
       <SeverityIcon severity={severity} size={size} />
-      <span className="truncate max-w-[180px] sm:max-w-[120px]">{title}</span>
+      <span className="truncate max-w-[120px] sm:max-w-[180px]">{title}</span>
     </button>
   )
 }

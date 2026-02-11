@@ -269,7 +269,7 @@ export function SubScoreStat({
   const percentage = Math.min(Math.max(value, 0), 100)
 
   const sizeStyles = {
-    sm: { text: 'text-xl', label: 'text-[10px]', height: 'h-1' },
+    sm: { text: 'text-xl', label: 'text-xs', height: 'h-1' },
     md: { text: 'text-2xl', label: 'text-xs', height: 'h-1.5' },
     lg: { text: 'text-3xl', label: 'text-sm', height: 'h-2' },
   }

@@ -327,7 +327,7 @@ export function RankingContent() {
               <button
                 onClick={handleShareRanking}
                 className={cn(
-                  'p-2 min-w-[40px] min-h-[40px]',
+                  'p-2 min-w-[44px] min-h-[44px]',
                   'bg-[var(--muted)] border-2 border-[var(--border)]',
                   'hover:bg-[var(--primary)] hover:text-white',
                   'transition-all duration-100',
@@ -352,7 +352,7 @@ export function RankingContent() {
                   className={cn(
                     'px-3 py-2 text-xs font-bold uppercase tracking-wide whitespace-nowrap',
                     'border-2 transition-all duration-100',
-                    'min-h-[40px]',
+                    'min-h-[44px]',
                     cargo === c
                       ? 'bg-[var(--primary)] text-white border-[var(--border)] shadow-[var(--shadow-brutal-sm)]'
                       : 'bg-[var(--background)] text-[var(--foreground)] border-[var(--border)] hover:bg-[var(--muted)]'
@@ -424,7 +424,7 @@ export function RankingContent() {
               <button
                 onClick={() => setViewMode('list')}
                 className={cn(
-                  'p-2 border-2 transition-all duration-100',
+                  'p-2 min-w-[44px] min-h-[44px] flex items-center justify-center border-2 transition-all duration-100',
                   viewMode === 'list'
                     ? 'bg-[var(--primary)] text-white border-[var(--border)] shadow-[var(--shadow-brutal-sm)] -translate-x-0.5 -translate-y-0.5'
                     : 'bg-[var(--background)] text-[var(--foreground)] border-transparent hover:border-[var(--border)]'
@@ -438,7 +438,7 @@ export function RankingContent() {
               <button
                 onClick={() => setViewMode('grid')}
                 className={cn(
-                  'p-2 border-2 transition-all duration-100',
+                  'p-2 min-w-[44px] min-h-[44px] flex items-center justify-center border-2 transition-all duration-100',
                   viewMode === 'grid'
                     ? 'bg-[var(--primary)] text-white border-[var(--border)] shadow-[var(--shadow-brutal-sm)] -translate-x-0.5 -translate-y-0.5'
                     : 'bg-[var(--background)] text-[var(--foreground)] border-transparent hover:border-[var(--border)]'

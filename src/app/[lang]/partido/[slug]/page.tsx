@@ -450,7 +450,7 @@ export default async function PartidoPage({ params }: PageProps) {
                   </svg>
                   {t('bestRanked')}
                 </h2>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {stats.top3.map((c, i) => (
                     <CandidateCardMini
                       key={c.id}
@@ -479,7 +479,7 @@ export default async function PartidoPage({ params }: PageProps) {
                     </svg>
                     {t('mostAlerts')}
                   </h2>
-                  <div className="grid grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                     {stats.worst3.map((c, i) => (
                       <CandidateCardMini
                         key={c.id}

@@ -218,7 +218,7 @@ export default async function Home() {
             {/* Top 3 Grid */}
             {topCandidates.length > 0 ? (
               <div className="p-3 sm:p-4">
-                <div className="grid grid-cols-3 gap-2 sm:gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
                   {topCandidates.map((candidate, index) => (
                     <CandidateCardMini
                       key={candidate.id}

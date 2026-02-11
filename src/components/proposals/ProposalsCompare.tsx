@@ -127,7 +127,7 @@ export function ProposalsCompare({ candidateIds, lang }: ProposalsCompareProps) 
       </div>
 
       {/* Comparison grid */}
-      <div className={styles.compareGrid} style={{ gridTemplateColumns: `repeat(${data.length}, 1fr)` }}>
+      <div className={styles.compareGrid} style={{ '--cols': data.length } as React.CSSProperties}>
         {/* Header row with candidate info */}
         {data.map((candidate) => (
           <div key={candidate.candidate_id} className={styles.candidateHeader}>
@@ -175,7 +175,7 @@ export function ProposalsCompare({ candidateIds, lang }: ProposalsCompareProps) 
             <div className={styles.categoryHeader}>
               <CategoryBadge category={category} size="lg" />
             </div>
-            <div className={styles.proposalsRow} style={{ gridTemplateColumns: `repeat(${data.length}, 1fr)` }}>
+            <div className={styles.proposalsRow} style={{ '--cols': data.length } as React.CSSProperties}>
               {data.map((candidate) => {
                 const categoryProposals = candidate.proposals.filter((p) => p.category === category)
                 return (

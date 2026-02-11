@@ -150,7 +150,7 @@ export const CandidateCard = memo(function CandidateCard({
           {/* Sub-scores row */}
           <div className={cn(
             'grid gap-2 py-2 border-t-2 border-[var(--border)]',
-            hasPlan ? 'grid-cols-4' : 'grid-cols-3'
+            hasPlan ? 'grid-cols-2 sm:grid-cols-4' : 'grid-cols-3'
           )}>
             <div className="text-center">
               <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase">Comp.</div>
@@ -283,7 +283,7 @@ export const CandidateCard = memo(function CandidateCard({
         {/* Sub-scores grid - Reduced gap on mobile */}
         <div className={cn(
           'grid gap-2 sm:gap-3 py-3 sm:py-4 border-t-3 border-[var(--border)]',
-          hasPlan ? 'grid-cols-4' : 'grid-cols-3'
+          hasPlan ? 'grid-cols-2 sm:grid-cols-4' : 'grid-cols-3'
         )}>
           <SubScoreStat type="competence" value={candidate.scores.competence} size="sm" />
           <SubScoreStat type="integrity" value={candidate.scores.integrity} size="sm" />

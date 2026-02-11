@@ -74,6 +74,7 @@
 /* Compare Grid */
 .compareGrid {
   display: grid;
+  grid-template-columns: repeat(var(--cols, 2), 1fr);
   gap: var(--space-3);
 }
 
@@ -149,6 +150,7 @@
 
 .proposalsRow {
   display: grid;
+  grid-template-columns: repeat(var(--cols, 2), 1fr);
   gap: var(--space-3);
   padding: var(--space-3);
   background: var(--color-background);

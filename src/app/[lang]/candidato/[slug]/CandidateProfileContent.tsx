@@ -284,7 +284,7 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
 
       <main id="main-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {/* Breadcrumb Navigation */}
-        <nav className="mb-4 flex items-center gap-2 text-sm">
+        <nav className="mb-4 flex items-center gap-2 text-sm overflow-hidden min-w-0">
           <Link href="/ranking" className="text-[var(--muted-foreground)] hover:text-[var(--primary)] font-bold uppercase transition-colors">
             {tRanking('title')}
           </Link>
@@ -417,7 +417,7 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
           <div className="px-4 sm:px-6 lg:px-8 py-3 sm:py-4 bg-[var(--muted)] border-t-3 border-[var(--border)]">
             <div className={cn(
               'grid gap-2 sm:gap-4 lg:gap-6',
-              candidate.scores.plan_viability != null ? 'grid-cols-4' : 'grid-cols-3'
+              candidate.scores.plan_viability != null ? 'grid-cols-2 sm:grid-cols-4' : 'grid-cols-3'
             )}>
               <SubScoreStat type="competence" value={candidate.scores.competence} size="sm" />
               <SubScoreStat type="integrity" value={candidate.scores.integrity} size="sm" />
@@ -561,8 +561,8 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                             </svg>
                           </div>
                           <div className="flex-1">
-                            <div className="flex items-start justify-between">
-                              <div>
+                            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1">
+                              <div className="min-w-0">
                                 <h4 className="font-bold text-[var(--foreground)]">
                                   {edu.degree || edu.level}
                                 </h4>
@@ -571,7 +571,7 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                                   <p className="text-xs text-[var(--muted-foreground)]">{edu.field}</p>
                                 )}
                               </div>
-                              <Badge variant="outline" size="sm">
+                              <Badge variant="outline" size="sm" className="flex-shrink-0 self-start">
                                 {edu.year_end || (edu.completed ? t('completed') : t('inProgress'))}
                               </Badge>
                             </div>
@@ -616,13 +616,13 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                               <path strokeLinecap="square" strokeLinejoin="miter" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
                           </div>
-                          <div className="flex-1">
-                            <div className="flex items-start justify-between">
-                              <div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1">
+                              <div className="min-w-0">
                                 <h4 className="font-bold text-[var(--foreground)]">{exp.position}</h4>
                                 <p className="text-sm font-medium text-[var(--muted-foreground)]">{exp.institution}</p>
                               </div>
-                              <Badge variant={exp.type === 'publico' ? 'secondary' : 'outline'} size="sm">
+                              <Badge variant={exp.type === 'publico' ? 'secondary' : 'outline'} size="sm" className="flex-shrink-0 self-start">
                                 {exp.year_start && exp.year_end
                                   ? `${exp.year_start} - ${exp.year_end}`
                                   : exp.year_start
@@ -667,9 +667,9 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                               <path strokeLinecap="square" strokeLinejoin="miter" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                             </svg>
                           </div>
-                          <div className="flex-1">
-                            <div className="flex items-start justify-between">
-                              <div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1">
+                              <div className="min-w-0">
                                 <h4 className="font-bold text-[var(--foreground)]">
                                   {pol.position || (pol.type === 'afiliacion' ? t('partyAffiliation') : pol.type === 'candidatura' ? t('candidacy') : pol.type === 'cargo_publico' ? 'Cargo Público' : t('politicalPosition'))}
                                 </h4>
@@ -677,7 +677,7 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                                   {pol.party || pol.institution}
                                 </p>
                               </div>
-                              <div className="text-right">
+                              <div className="flex-shrink-0">
                                 {pol.year_start && (
                                   <Badge variant="outline" size="sm">
                                     {pol.year_start}{pol.year_end === null ? ` - ${t('present')}` : pol.year_end ? ` - ${pol.year_end}` : ''}
@@ -845,7 +845,7 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                           <span className="text-xs text-[var(--muted-foreground)] font-mono">{sentence.case_number}</span>
                         </div>
                         <p className="text-sm text-[var(--foreground)] mb-2 font-medium">{sentence.sentence}</p>
-                        <div className="grid grid-cols-2 gap-2 text-xs text-[var(--muted-foreground)]">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[var(--muted-foreground)]">
                           <div><strong>{t('court')}:</strong> {sentence.court}</div>
                           <div><strong>{t('date')}:</strong> {formatDate(sentence.date)}</div>
                           <div><strong>{t('status')}:</strong> {sentence.status}</div>
@@ -880,7 +880,7 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                             {t('amount')}: {formatCurrency(sentence.amount)}
                           </p>
                         )}
-                        <div className="grid grid-cols-2 gap-2 text-xs text-[var(--muted-foreground)]">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[var(--muted-foreground)]">
                           <div><strong>{t('court')}:</strong> {sentence.court}</div>
                           <div><strong>{t('date')}:</strong> {formatDate(sentence.date)}</div>
                           <div><strong>{t('status')}:</strong> {sentence.status}</div>
@@ -1347,7 +1347,7 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                       {sim.full_name}
                     </h3>
                     {sim.party && (
-                      <p className="text-[10px] font-bold text-[var(--muted-foreground)] truncate mt-0.5">
+                      <p className="text-xs font-bold text-[var(--muted-foreground)] truncate mt-0.5">
                         {sim.party.short_name || sim.party.name}
                       </p>
                     )}
