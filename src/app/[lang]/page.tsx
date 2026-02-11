@@ -9,6 +9,7 @@ import { CountdownBanner } from '@/components/viral/CountdownBanner'
 import { DailyFact } from '@/components/viral/DailyFact'
 import { TrendingNews } from '@/components/news/TrendingNews'
 import { CandidateCardMini } from '@/components/candidate/CandidateCardMini'
+import { CandidateImage } from '@/components/candidate/CandidateImage'
 import { AdBanner } from '@/components/ads/AdBanner'
 import { AdSlot } from '@/components/ads/AdSlot'
 import { PartiesGrid } from '@/components/home/PartiesGrid'
@@ -771,27 +772,43 @@ export default async function Home() {
 
             {/* Candidates grid */}
             <div className="p-3 sm:p-4">
-              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                 {reinfoCandidates.map((candidate) => (
                   <Link
                     key={candidate.id}
                     href={`/candidato/${candidate.slug}`}
-                    className="group flex flex-col bg-[var(--card)] border-2 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100 overflow-hidden"
+                    className="group flex flex-col bg-[var(--card)] border-2 border-[var(--border)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal)] transition-all duration-100 overflow-hidden"
                   >
-                    <div className="p-2 flex-1 flex flex-col">
-                      <div className={`self-start px-1.5 py-0.5 text-[10px] sm:text-xs font-black text-white uppercase mb-1 ${candidate.severity === 'RED' ? 'bg-[var(--score-low)]' : 'bg-orange-500'}`}>
-                        {candidate.severity}
+                    {/* Photo with severity overlay */}
+                    <div className="relative aspect-square bg-[var(--muted)] overflow-hidden">
+                      <CandidateImage
+                        src={candidate.photo_url}
+                        name={candidate.full_name}
+                        fill
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                      />
+                      <div className={`absolute top-2 left-2 flex items-center gap-1 px-2 py-1 text-xs font-black text-white uppercase ${candidate.severity === 'RED' ? 'bg-red-600/90' : 'bg-orange-500/90'}`}>
+                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                        </svg>
+                        {candidate.severity === 'RED' ? 'ALTO' : 'MEDIO'}
                       </div>
-                      <h3 className="text-xs font-black text-[var(--foreground)] uppercase leading-tight line-clamp-2 mb-1 group-hover:text-orange-700 transition-colors">
+                    </div>
+                    {/* Info */}
+                    <div className="p-3 flex-1 flex flex-col">
+                      <h3 className="text-sm font-black text-[var(--foreground)] uppercase leading-tight line-clamp-2 mb-1 group-hover:text-orange-700 transition-colors">
                         {candidate.full_name}
                       </h3>
                       {candidate.party_short_name && (
-                        <span className="text-[10px] sm:text-xs font-bold text-[var(--muted-foreground)] truncate uppercase">
+                        <span className="text-xs font-bold text-[var(--muted-foreground)] truncate uppercase">
                           {candidate.party_short_name}
                         </span>
                       )}
-                      <div className="mt-auto pt-1">
-                        <span className="text-[10px] sm:text-xs font-bold text-orange-700 dark:text-orange-400 uppercase">
+                      <div className="mt-auto pt-2 flex items-center gap-1.5">
+                        <svg className="w-4 h-4 text-orange-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M20.893 13.393l-1.135-1.135a2.252 2.252 0 01-.421-.585l-1.08-2.16a.414.414 0 00-.663-.107.827.827 0 01-.812.21l-1.273-.363a.89.89 0 00-.738 1.595l.587.39c.59.395.674 1.23.172 1.732l-.2.2c-.212.212-.33.498-.33.796v.41c0 .409-.11.809-.32 1.158l-1.315 2.191a2.11 2.11 0 01-1.81 1.025 1.055 1.055 0 01-1.055-1.055v-1.172c0-.92-.56-1.747-1.414-2.089l-.655-.261a2.25 2.25 0 01-1.383-2.46l.007-.042a2.25 2.25 0 01.29-.787l.09-.15a2.25 2.25 0 012.37-1.048l1.178.236a1.125 1.125 0 001.302-.795l.208-.73a1.125 1.125 0 00-.578-1.315l-.665-.332-.091.091a2.25 2.25 0 01-1.591.659h-.18c-.249 0-.487.1-.662.274a.931.931 0 01-1.458-1.137l1.411-2.353a2.25 2.25 0 00.286-.76m11.928 9.869A9 9 0 008.965 3.525m11.928 9.868A9 9 0 118.965 3.525" />
+                        </svg>
+                        <span className="text-xs font-bold text-orange-700 dark:text-orange-400 uppercase">
                           {candidate.concession_count} {candidate.concession_count === 1 ? t('concession') : t('concessions')}
                         </span>
                       </div>
@@ -810,55 +827,78 @@ export default async function Home() {
       {/* ══════════════════════════════════════════════════════════ */}
       {/* SECTION 4: ¿QUÉ PROPONEN? — Proposals by category */}
       {/* ══════════════════════════════════════════════════════════ */}
-      {proposalCategories.length > 0 && (
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight">
-                {t('proposalsTitle')}
-              </h2>
-              <p className="text-xs text-[var(--muted-foreground)] font-medium mt-1">
-                {t('proposalsSubtitle')}
-              </p>
-            </div>
-            <Link
-              href="/ranking?cargo=presidente"
-              className="text-xs font-bold text-[var(--primary)] hover:underline uppercase flex items-center gap-1"
-            >
-              {t('seeProposals')}
-              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-3">
-            {proposalCategories.map((cat) => {
-              const style = CATEGORY_STYLES[cat.category] || CATEGORY_STYLES.otros
-              const categoryKey = `propCategory_${cat.category}` as const
-              return (
-                <div
-                  key={cat.category}
-                  className="border-3 border-[var(--border)] bg-[var(--card)] p-3 sm:p-4 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal)] transition-all duration-100"
-                >
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className={`w-8 h-8 ${style.color} border-2 border-[var(--border)] flex items-center justify-center text-white text-sm`}>
-                      {style.icon}
-                    </div>
-                    <span className="text-xs font-black text-[var(--foreground)] uppercase leading-tight">
-                      {t.has(categoryKey) ? t(categoryKey) : cat.category.replace(/_/g, ' ')}
-                    </span>
+      {proposalCategories.length > 0 && (() => {
+        const maxCount = Math.max(...proposalCategories.map(c => c.count))
+        return (
+          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
+            <div className="border-3 border-[var(--border)] bg-[var(--card)] shadow-[var(--shadow-brutal-lg)]">
+              {/* Header */}
+              <div className="p-4 sm:p-5 border-b-3 border-[var(--border)] bg-[var(--muted)]">
+                <div className="flex items-center justify-between flex-wrap gap-2">
+                  <div>
+                    <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight">
+                      {t('proposalsTitle')}
+                    </h2>
+                    <p className="text-xs sm:text-sm text-[var(--muted-foreground)] font-medium mt-1">
+                      {t('proposalsSubtitle')}
+                    </p>
                   </div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-black text-[var(--primary)]">{cat.count}</span>
-                    <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('proposalsCount')}</span>
-                  </div>
+                  <Link
+                    href="/ranking?cargo=presidente"
+                    className="text-xs font-bold text-[var(--primary)] hover:underline uppercase flex items-center gap-1"
+                  >
+                    {t('seeProposals')}
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                      <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Link>
                 </div>
-              )
-            })}
-          </div>
-        </section>
-      )}
+              </div>
+
+              {/* Bar chart rows */}
+              <div className="divide-y-2 divide-[var(--border)]">
+                {proposalCategories.map((cat, index) => {
+                  const style = CATEGORY_STYLES[cat.category] || CATEGORY_STYLES.otros
+                  const categoryKey = `propCategory_${cat.category}` as const
+                  const percentage = (cat.count / maxCount) * 100
+                  return (
+                    <div
+                      key={cat.category}
+                      className="flex items-center gap-3 sm:gap-4 px-4 sm:px-5 py-3 sm:py-4 hover:bg-[var(--muted)]/50 transition-colors"
+                    >
+                      {/* Icon */}
+                      <div className={`w-9 h-9 sm:w-10 sm:h-10 ${style.color} border-2 border-[var(--border)] flex items-center justify-center text-white text-sm sm:text-base flex-shrink-0`}>
+                        {style.icon}
+                      </div>
+                      {/* Name + Bar */}
+                      <div className="flex-1 min-w-0">
+                        <span className="text-xs sm:text-sm font-black text-[var(--foreground)] uppercase leading-tight">
+                          {t.has(categoryKey) ? t(categoryKey) : cat.category.replace(/_/g, ' ')}
+                        </span>
+                        <div className="mt-1.5 h-3 sm:h-4 bg-[var(--muted)] border border-[var(--border)] overflow-hidden">
+                          <div
+                            className={`h-full ${style.color} ${index === 0 ? 'opacity-100' : 'opacity-75'} transition-all duration-500`}
+                            style={{ width: `${percentage}%` }}
+                          />
+                        </div>
+                      </div>
+                      {/* Count */}
+                      <div className="flex items-baseline gap-1 flex-shrink-0">
+                        <span className={`text-xl sm:text-2xl font-black ${index === 0 ? 'text-[var(--primary)]' : 'text-[var(--foreground)]'}`}>
+                          {cat.count}
+                        </span>
+                        <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase hidden sm:inline">
+                          {t('proposalsCount')}
+                        </span>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </section>
+        )
+      })()}
 
       {/* Daily Fact - Full width */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
@@ -917,38 +957,57 @@ export default async function Home() {
 
             {/* Bottom 5 grid */}
             <div className="p-3 sm:p-4">
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
                 {bottomCandidates.map((candidate, index) => (
                   <Link
                     key={candidate.id}
                     href={`/candidato/${candidate.slug}`}
                     className="group flex flex-col bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal)] transition-all duration-100 overflow-hidden"
                   >
-                    <div className="p-3 flex-1 flex flex-col">
+                    {/* Photo with position badge and gradient overlay */}
+                    <div className="relative aspect-[4/3] bg-[var(--muted)] overflow-hidden">
+                      <CandidateImage
+                        src={candidate.photo_url}
+                        name={candidate.full_name}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+                      />
                       {/* Position badge */}
-                      <div className="self-start w-6 h-6 bg-[var(--score-low)] border-2 border-[var(--border)] flex items-center justify-center mb-2">
-                        <span className="text-white font-black text-[10px]">{index + 1}</span>
+                      <div className="absolute top-2 left-2 w-8 h-8 bg-[var(--score-low)] border-2 border-[var(--border)] flex items-center justify-center">
+                        <span className="text-white font-black text-sm">{index + 1}</span>
                       </div>
-                      <h3 className="text-xs font-black text-[var(--foreground)] uppercase leading-tight line-clamp-2 mb-1 group-hover:text-[var(--score-low)] transition-colors">
-                        {candidate.full_name}
-                      </h3>
-                      {candidate.party_short_name && (
-                        <div className="flex items-center gap-1 mb-2">
-                          <div
-                            className="w-2.5 h-2.5 border border-[var(--border)] flex-shrink-0"
-                            style={{ backgroundColor: candidate.party_color || '#6B7280' }}
-                          />
-                          <span className="text-xs font-bold text-[var(--muted-foreground)] truncate uppercase">
-                            {candidate.party_short_name}
-                          </span>
-                        </div>
-                      )}
-                      <div className="mt-auto">
+                      {/* Gradient overlay with name */}
+                      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3 pt-8">
+                        <h3 className="text-sm font-black text-white uppercase leading-tight line-clamp-2">
+                          {candidate.full_name}
+                        </h3>
+                        {candidate.party_short_name && (
+                          <div className="flex items-center gap-1.5 mt-1">
+                            <div
+                              className="w-2.5 h-2.5 border border-white/50 flex-shrink-0"
+                              style={{ backgroundColor: candidate.party_color || '#6B7280' }}
+                            />
+                            <span className="text-xs font-bold text-white/80 truncate uppercase">
+                              {candidate.party_short_name}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    {/* Score bar */}
+                    <div className="p-3">
+                      <div className="flex items-center justify-between mb-1.5">
                         <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('scoreLabel')}</span>
-                        <div className={`inline-flex items-center gap-1 px-2 py-0.5 border-2 border-[var(--border)] font-black text-sm mt-0.5 ${candidate.score_balanced < 30 ? 'bg-[var(--score-low)] text-white' : candidate.score_balanced < 50 ? 'bg-[var(--score-medium)] text-black' : 'bg-[var(--score-good)] text-white'}`}>
+                        <div className={`inline-flex items-center gap-1 px-2 py-0.5 border-2 border-[var(--border)] font-black text-sm ${candidate.score_balanced < 30 ? 'bg-[var(--score-low)] text-white' : candidate.score_balanced < 50 ? 'bg-[var(--score-medium)] text-black' : 'bg-[var(--score-good)] text-white'}`}>
                           <span>{candidate.score_balanced.toFixed(0)}</span>
                           <span className="text-xs font-bold opacity-70">/100</span>
                         </div>
+                      </div>
+                      <div className="h-2.5 bg-[var(--muted)] border border-[var(--border)] overflow-hidden">
+                        <div
+                          className={`h-full transition-all duration-500 ${candidate.score_balanced < 30 ? 'bg-[var(--score-low)]' : candidate.score_balanced < 50 ? 'bg-[var(--score-medium)]' : 'bg-[var(--score-good)]'}`}
+                          style={{ width: `${candidate.score_balanced}%` }}
+                        />
                       </div>
                     </div>
                   </Link>
