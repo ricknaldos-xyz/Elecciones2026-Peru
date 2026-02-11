@@ -146,7 +146,6 @@ export function Header({ currentPath }: HeaderProps) {
     { href: '/transparencia' as const, labelKey: 'transparency' as const, descKey: 'transparencyDesc' as const, icon: '💰' },
     { href: '/metodologia' as const, labelKey: 'methodology' as const, descKey: 'methodologyDesc' as const, icon: '📊' },
     { href: '/docs' as const, labelKey: 'docs' as const, descKey: 'docsDesc' as const, icon: '📖' },
-    { href: '/donar' as const, labelKey: 'donate' as const, descKey: 'donateDesc' as const, icon: '❤️' },
   ]
 
   // All nav items for mobile menu
