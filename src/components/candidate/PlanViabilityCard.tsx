@@ -48,7 +48,7 @@ function DimensionSection({ label, description, score, analysis, children }: Dim
           {score.toFixed(1)}/10
         </span>
       </div>
-      <Progress value={score * 10} className="h-2" />
+      <Progress value={score * 10} size="sm" variant={score >= 7 ? 'success' : score >= 5 ? 'warning' : 'danger'} />
       <p className="text-xs text-[var(--muted-foreground)] mt-0.5">{description}</p>
 
       <button

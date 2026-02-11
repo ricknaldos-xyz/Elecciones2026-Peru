@@ -165,6 +165,22 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
     fetchTrajectoryContext()
   }, [candidate.id])
 
+  // Fetch similar candidates (same cargo, excluding current)
+  const [similarCandidates, setSimilarCandidates] = useState<CandidateWithScores[]>([])
+  useEffect(() => {
+    async function fetchSimilar() {
+      try {
+        const res = await fetch(`/api/candidates?cargo=${candidate.cargo}&limit=5`)
+        if (!res.ok) return
+        const data: CandidateWithScores[] = await res.json()
+        setSimilarCandidates(data.filter(c => c.id !== candidate.id).slice(0, 4))
+      } catch {
+        // Optional — silently fail
+      }
+    }
+    fetchSimilar()
+  }, [candidate.id, candidate.cargo])
+
   // Detect scroll to show/hide sticky bar
   useEffect(() => {
     const handleScroll = () => {
@@ -1315,23 +1331,43 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
             {t('otherCandidatesTo', { cargo: getCargoLabel(candidate.cargo) })}
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-            {/* Placeholder cards - will be filled with real data */}
-            {[1, 2, 3, 4].map((i) => (
+            {similarCandidates.length > 0 ? (
+              similarCandidates.map((sim) => {
+                const simScore = getScoreByMode(sim.scores, mode, undefined, sim.cargo === 'presidente')
+                return (
+                  <Link
+                    key={sim.id}
+                    href={`/candidato/${sim.slug}`}
+                    className="p-4 bg-[var(--muted)] border-2 border-[var(--border)] hover:shadow-[var(--shadow-brutal-sm)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 text-center"
+                  >
+                    <div className="w-12 h-12 mx-auto mb-2 border-2 border-[var(--border)] bg-[var(--background)] overflow-hidden relative">
+                      <CandidateImage src={sim.photo_url} name={sim.full_name} fill sizes="48px" containerClassName="text-sm" />
+                    </div>
+                    <h3 className="text-xs font-bold text-[var(--foreground)] uppercase leading-tight truncate">
+                      {sim.full_name}
+                    </h3>
+                    {sim.party && (
+                      <p className="text-[10px] font-bold text-[var(--muted-foreground)] truncate mt-0.5">
+                        {sim.party.short_name || sim.party.name}
+                      </p>
+                    )}
+                    <div className="mt-1.5 text-lg font-black text-[var(--primary)]">
+                      {simScore.toFixed(0)}
+                      <span className="text-xs font-bold text-[var(--muted-foreground)]">/100</span>
+                    </div>
+                  </Link>
+                )
+              })
+            ) : (
               <Link
-                key={i}
                 href={`/ranking?cargo=${candidate.cargo}`}
-                className="p-4 bg-[var(--muted)] border-2 border-[var(--border)] hover:shadow-[var(--shadow-brutal-sm)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 text-center"
+                className="col-span-full p-6 bg-[var(--muted)] border-2 border-[var(--border)] hover:shadow-[var(--shadow-brutal-sm)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100 text-center"
               >
-                <div className="w-12 h-12 mx-auto mb-2 bg-[var(--background)] border-2 border-[var(--border)] flex items-center justify-center">
-                  <svg className="w-6 h-6 text-[var(--muted-foreground)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="square" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </div>
-                <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">
+                <span className="text-sm font-bold text-[var(--muted-foreground)] uppercase">
                   {t('viewMoreCandidates')}
                 </span>
               </Link>
-            ))}
+            )}
           </div>
         </section>
 
