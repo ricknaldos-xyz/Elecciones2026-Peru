@@ -771,52 +771,49 @@ export default async function Home() {
               </p>
             </div>
 
-            {/* Candidates grid */}
-            <div className="p-3 sm:p-4">
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                {reinfoCandidates.map((candidate) => (
-                  <Link
-                    key={candidate.id}
-                    href={`/candidato/${candidate.slug}`}
-                    className="group flex flex-col bg-[var(--card)] border-2 border-[var(--border)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal)] transition-all duration-100 overflow-hidden"
-                  >
-                    {/* Photo with severity overlay */}
-                    <div className="relative aspect-[3/4] bg-[var(--muted)] overflow-hidden">
-                      <CandidateImage
-                        src={candidate.photo_url}
-                        name={candidate.full_name}
-                        fill
-                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                      />
-                      <div className={`absolute top-2 left-2 flex items-center gap-1 px-2 py-1 text-xs font-black text-white uppercase ${candidate.severity === 'RED' ? 'bg-red-600/90' : 'bg-orange-500/90'}`}>
-                        <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-                        </svg>
-                        {candidate.severity === 'RED' ? 'ALTO' : 'MEDIO'}
-                      </div>
+            {/* Candidates list */}
+            <div className="divide-y-2 divide-[var(--border)]">
+              {reinfoCandidates.map((candidate) => (
+                <Link
+                  key={candidate.id}
+                  href={`/candidato/${candidate.slug}`}
+                  className="group flex items-center gap-3 sm:gap-4 px-4 sm:px-5 py-3 sm:py-4 hover:bg-orange-50/50 dark:hover:bg-orange-950/10 transition-colors"
+                >
+                  {/* Photo */}
+                  <div className="relative w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 border-2 border-[var(--border)] bg-[var(--muted)] overflow-hidden">
+                    <CandidateImage
+                      src={candidate.photo_url}
+                      name={candidate.full_name}
+                      fill
+                      sizes="56px"
+                      containerClassName="text-xs"
+                    />
+                  </div>
+                  {/* Info */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-sm font-black text-[var(--foreground)] uppercase leading-tight truncate group-hover:text-orange-700 transition-colors">
+                      {candidate.full_name}
+                    </h3>
+                    {candidate.party_name && (
+                      <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">
+                        {displayPartyName(candidate.party_name)}
+                      </span>
+                    )}
+                  </div>
+                  {/* Severity + Concessions */}
+                  <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                    <span className="text-xs font-bold text-orange-700 dark:text-orange-400 uppercase hidden sm:inline">
+                      {candidate.concession_count} {candidate.concession_count === 1 ? t('concession') : t('concessions')}
+                    </span>
+                    <div className={`flex items-center gap-1 px-2 py-1 text-xs font-black text-white uppercase ${candidate.severity === 'RED' ? 'bg-red-600' : 'bg-orange-500'}`}>
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                      </svg>
+                      {candidate.severity === 'RED' ? 'ALTO' : 'MEDIO'}
                     </div>
-                    {/* Info */}
-                    <div className="p-3 flex-1 flex flex-col">
-                      <h3 className="text-sm font-black text-[var(--foreground)] uppercase leading-tight line-clamp-2 mb-1 group-hover:text-orange-700 transition-colors">
-                        {candidate.full_name}
-                      </h3>
-                      {candidate.party_name && (
-                        <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase line-clamp-1">
-                          {displayPartyName(candidate.party_name)}
-                        </span>
-                      )}
-                      <div className="mt-auto pt-2 flex items-center gap-1.5">
-                        <svg className="w-4 h-4 text-orange-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M20.893 13.393l-1.135-1.135a2.252 2.252 0 01-.421-.585l-1.08-2.16a.414.414 0 00-.663-.107.827.827 0 01-.812.21l-1.273-.363a.89.89 0 00-.738 1.595l.587.39c.59.395.674 1.23.172 1.732l-.2.2c-.212.212-.33.498-.33.796v.41c0 .409-.11.809-.32 1.158l-1.315 2.191a2.11 2.11 0 01-1.81 1.025 1.055 1.055 0 01-1.055-1.055v-1.172c0-.92-.56-1.747-1.414-2.089l-.655-.261a2.25 2.25 0 01-1.383-2.46l.007-.042a2.25 2.25 0 01.29-.787l.09-.15a2.25 2.25 0 012.37-1.048l1.178.236a1.125 1.125 0 001.302-.795l.208-.73a1.125 1.125 0 00-.578-1.315l-.665-.332-.091.091a2.25 2.25 0 01-1.591.659h-.18c-.249 0-.487.1-.662.274a.931.931 0 01-1.458-1.137l1.411-2.353a2.25 2.25 0 00.286-.76m11.928 9.869A9 9 0 008.965 3.525m11.928 9.868A9 9 0 118.965 3.525" />
-                        </svg>
-                        <span className="text-xs font-bold text-orange-700 dark:text-orange-400 uppercase">
-                          {candidate.concession_count} {candidate.concession_count === 1 ? t('concession') : t('concessions')}
-                        </span>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
         </section>
