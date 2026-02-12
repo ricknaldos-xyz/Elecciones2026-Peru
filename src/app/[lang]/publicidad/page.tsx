@@ -230,13 +230,13 @@ export default function PublicidadPage() {
             Escríbenos para recibir nuestro media kit con tarifas actualizadas, métricas de tráfico y opciones de patrocinio.
           </p>
           <a
-            href="mailto:publicidad@eleccionesperu2026.xyz"
+            href="mailto:contacto@eleccionesperu2026.xyz"
             className="inline-flex items-center gap-2 px-6 py-3 bg-white text-[var(--primary)] font-black text-sm uppercase border-3 border-[var(--border)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[4px_4px_0_0_rgba(0,0,0,0.3)] transition-all duration-100"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
             </svg>
-            publicidad@eleccionesperu2026.xyz
+            contacto@eleccionesperu2026.xyz
           </a>
           <p className="text-white/60 text-xs font-medium mt-4 uppercase">
             Respuesta en menos de 24 horas

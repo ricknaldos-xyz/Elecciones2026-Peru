@@ -188,7 +188,7 @@ export default async function PartnersPage() {
             <p className="text-[var(--background)]/70 mb-4">
               {t('customDesc')}
             </p>
-            <a href="mailto:contacto@rankinelectoral.pe">
+            <a href="mailto:contacto@eleccionesperu2026.xyz">
               <Button className="bg-[var(--background)] text-[var(--foreground)] hover:bg-[var(--muted)]">
                 {t('contact')}
               </Button>

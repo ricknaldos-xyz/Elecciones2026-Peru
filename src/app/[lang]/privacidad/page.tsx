@@ -191,10 +191,10 @@ export default function PrivacidadPage() {
             <div className="p-4 bg-[var(--muted)] border-2 border-[var(--border)]">
               <div className="font-black text-[var(--foreground)] uppercase mb-2">Email</div>
               <a
-                href="mailto:legal@rankingelectoral.pe"
+                href="mailto:contacto@eleccionesperu2026.xyz"
                 className="text-[var(--primary)] font-bold text-lg hover:underline"
               >
-                legal@rankingelectoral.pe
+                contacto@eleccionesperu2026.xyz
               </a>
               <p className="text-sm text-[var(--muted-foreground)] font-medium mt-3">
                 Nos comprometemos a responder en un máximo de 10 días hábiles.

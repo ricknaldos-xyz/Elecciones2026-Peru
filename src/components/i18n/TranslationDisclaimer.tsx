@@ -36,7 +36,7 @@ export function TranslationDisclaimer({ locale }: TranslationDisclaimerProps) {
           </span>
           <span className="text-[var(--muted-foreground)]">•</span>
           <a
-            href="mailto:contacto@rankingelectoral.pe?subject=Error de traducción"
+            href="mailto:contacto@eleccionesperu2026.xyz?subject=Error de traducción"
             className="text-[var(--primary)] underline hover:no-underline font-bold"
           >
             {t('reportError')}

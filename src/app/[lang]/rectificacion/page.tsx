@@ -153,10 +153,10 @@ export default function RectificacionPage() {
                     <span className="font-medium">
                       Enviar toda la documentación a:{' '}
                       <a
-                        href="mailto:legal@rankingelectoral.pe"
+                        href="mailto:contacto@eleccionesperu2026.xyz"
                         className="text-[var(--primary)] font-bold hover:underline"
                       >
-                        legal@rankingelectoral.pe
+                        contacto@eleccionesperu2026.xyz
                       </a>
                     </span>
                   </li>
@@ -208,10 +208,10 @@ export default function RectificacionPage() {
             <div className="p-4 bg-[var(--muted)] border-2 border-[var(--border)]">
               <div className="font-black text-[var(--foreground)] uppercase mb-2">Email</div>
               <a
-                href="mailto:legal@rankingelectoral.pe"
+                href="mailto:contacto@eleccionesperu2026.xyz"
                 className="text-[var(--primary)] font-bold text-lg hover:underline"
               >
-                legal@rankingelectoral.pe
+                contacto@eleccionesperu2026.xyz
               </a>
               <p className="text-sm text-[var(--muted-foreground)] font-medium mt-3">
                 Para más información sobre cómo protegemos tus datos, consulta nuestra{' '}

@@ -1205,8 +1205,8 @@ export default async function Home() {
               <div className="text-xs text-[var(--muted-foreground)] font-medium text-center md:text-right">
                 <span>{t('operatedBy')}</span>
                 <span className="mx-1">·</span>
-                <a href="mailto:legal@rankingelectoral.pe" className="hover:text-[var(--foreground)] transition-colors">
-                  legal@rankingelectoral.pe
+                <a href="mailto:contacto@eleccionesperu2026.xyz" className="hover:text-[var(--foreground)] transition-colors">
+                  contacto@eleccionesperu2026.xyz
                 </a>
               </div>
             </div>

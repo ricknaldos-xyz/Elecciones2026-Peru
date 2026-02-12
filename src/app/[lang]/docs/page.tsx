@@ -1063,7 +1063,7 @@ export default function DocsPage() {
                 <p className="text-sm text-[var(--foreground)] font-medium">
                   Para consultas legales, solicitudes de datos, o reportes de contenido:
                   <br />
-                  <strong>Email:</strong> legal@rankingelectoral.pe
+                  <strong>Email:</strong> contacto@eleccionesperu2026.xyz
                   <br />
                   <strong>Tiempo de respuesta:</strong> 48-72 horas hábiles
                 </p>

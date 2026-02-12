@@ -30,8 +30,8 @@ export function generateOrganizationSchema() {
     foundingDate: '2025',
     contactPoint: {
       '@type': 'ContactPoint',
-      email: 'legal@rankingelectoral.pe',
-      contactType: 'legal',
+      email: 'contacto@eleccionesperu2026.xyz',
+      contactType: 'customer service',
     },
   }
 }
