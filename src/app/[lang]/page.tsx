@@ -596,14 +596,14 @@ export default async function Home() {
                       <h3 className="text-xs font-black text-[var(--foreground)] uppercase leading-tight line-clamp-2 mb-1 group-hover:text-[var(--score-low)] transition-colors">
                         {candidate.full_name}
                       </h3>
-                      {candidate.party_short_name && (
+                      {candidate.party_name && (
                         <div className="flex items-center gap-1 mb-2">
                           <div
                             className="w-2.5 h-2.5 border border-[var(--border)] flex-shrink-0"
                             style={{ backgroundColor: candidate.party_color || '#6B7280' }}
                           />
-                          <span className="text-xs font-bold text-[var(--muted-foreground)] truncate uppercase">
-                            {candidate.party_short_name}
+                          <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase line-clamp-1">
+                            {candidate.party_name}
                           </span>
                         </div>
                       )}
@@ -685,14 +685,14 @@ export default async function Home() {
                       <h3 className="text-xs font-black text-[var(--foreground)] uppercase leading-tight line-clamp-2 mb-1 group-hover:text-[var(--primary)] transition-colors">
                         {voter.full_name}
                       </h3>
-                      {voter.party_short_name && (
+                      {voter.party_name && (
                         <div className="flex items-center gap-1 mb-2">
                           <div
                             className="w-2.5 h-2.5 border border-[var(--border)] flex-shrink-0"
                             style={{ backgroundColor: voter.party_color || '#6B7280' }}
                           />
-                          <span className="text-xs font-bold text-[var(--muted-foreground)] truncate uppercase">
-                            {voter.party_short_name}
+                          <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase line-clamp-1">
+                            {voter.party_name}
                           </span>
                         </div>
                       )}
@@ -799,9 +799,9 @@ export default async function Home() {
                       <h3 className="text-sm font-black text-[var(--foreground)] uppercase leading-tight line-clamp-2 mb-1 group-hover:text-orange-700 transition-colors">
                         {candidate.full_name}
                       </h3>
-                      {candidate.party_short_name && (
-                        <span className="text-xs font-bold text-[var(--muted-foreground)] truncate uppercase">
-                          {candidate.party_short_name}
+                      {candidate.party_name && (
+                        <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase line-clamp-1">
+                          {candidate.party_name}
                         </span>
                       )}
                       <div className="mt-auto pt-2 flex items-center gap-1.5">
@@ -981,14 +981,14 @@ export default async function Home() {
                         <h3 className="text-sm font-black text-white uppercase leading-tight line-clamp-2">
                           {candidate.full_name}
                         </h3>
-                        {candidate.party_short_name && (
+                        {candidate.party_name && (
                           <div className="flex items-center gap-1.5 mt-1">
                             <div
                               className="w-2.5 h-2.5 border border-white/50 flex-shrink-0"
                               style={{ backgroundColor: candidate.party_color || '#6B7280' }}
                             />
-                            <span className="text-xs font-bold text-white/80 truncate uppercase">
-                              {candidate.party_short_name}
+                            <span className="text-xs font-bold text-white/80 uppercase line-clamp-1">
+                              {candidate.party_name}
                             </span>
                           </div>
                         )}
