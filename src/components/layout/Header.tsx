@@ -156,7 +156,9 @@ export function Header({ currentPath }: HeaderProps) {
   // Secondary nav items - in "More" dropdown on desktop
   const secondaryNavItems = [
     { href: '/transparencia' as const, labelKey: 'transparency' as const, descKey: 'transparencyDesc' as const, icon: '💰' },
+    { href: '/franja-electoral' as const, labelKey: 'franjaElectoral' as const, descKey: 'franjaElectoralDesc' as const, icon: '📺' },
     { href: '/metodologia' as const, labelKey: 'methodology' as const, descKey: 'methodologyDesc' as const, icon: '📊' },
+    { href: '/publicidad' as const, labelKey: 'advertising' as const, descKey: 'advertisingDesc' as const, icon: '📢' },
     { href: '/docs' as const, labelKey: 'docs' as const, descKey: 'docsDesc' as const, icon: '📖' },
   ]
 

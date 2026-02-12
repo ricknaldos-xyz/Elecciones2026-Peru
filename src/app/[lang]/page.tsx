@@ -1187,6 +1187,12 @@ export default async function Home() {
               <Link href="/comparar" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
                 {t('compare')}
               </Link>
+              <Link href="/franja-electoral" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
+                {t('franjaElectoral')}
+              </Link>
+              <Link href="/publicidad" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
+                {t('advertising')}
+              </Link>
               <Link href="/privacidad" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
                 {t('privacy')}
               </Link>
