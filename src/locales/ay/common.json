@@ -8,7 +8,7 @@
   "nav": {
     "ranking": "Ranking",
     "news": "Yatiyawinaka",
-    "quiz": "Jiskhtanaka",
+    "quiz": "Thaki Irpiri",
     "compare": "Uñacht'ayaña",
     "transparency": "Q'umara",
     "methodology": "Kunjams lurawi",
@@ -343,7 +343,7 @@
     }
   },
   "quiz": {
-    "title": "Ajilana Jiskhtanaka",
+    "title": "Ajilana Thaki Irpiri",
     "subtitle": "Jikxataña kawkir ajilanaka jumanpi tupuqi",
     "start": "Qalltaña",
     "question": "Jiskhtawi",
@@ -717,7 +717,7 @@
     "new": "Machaq",
     "quizQuestion": "¿Khitis jumjam amuyt'i?",
     "quizDescription": "Tunka jiskhtawinaka suma ajilatam jikxatañataki",
-    "takeQuiz": "Jiskhtawi Luraña",
+    "takeQuiz": "Thaki Irpiri Luraña",
     "howWeEvaluate": "Kunjams jakhuñ",
     "viewFullMethodology": "Taqpach lurawi uñjaña",
     "competence": "Yatiqawi",
@@ -1031,7 +1031,7 @@
         "desc": "Sapa ajilatana taqpach yatiqawipa: yatiqawi, lurawinaka, antecedentes, imayuqnakanpi yatiyawinaka."
       },
       "quiz": {
-        "title": "Ajilana Quiz",
+        "title": "Ajilana Thaki Irpiri",
         "desc": "Tunka jiskhtawinaka kawkir ajilanaka jumanpi tupuqi jikxatañataki."
       },
       "compare": {

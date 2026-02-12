@@ -8,7 +8,7 @@
   "nav": {
     "ranking": "Ranking",
     "news": "Noticias",
-    "quiz": "Quiz",
+    "quiz": "Brújula",
     "compare": "Comparar",
     "transparency": "Transparencia",
     "methodology": "Metodología",
@@ -343,7 +343,7 @@
     }
   },
   "quiz": {
-    "title": "Quiz Electoral",
+    "title": "Brújula Electoral",
     "subtitle": "Descubre qué candidatos tienen posiciones más afines a las tuyas",
     "start": "Comenzar",
     "question": "Pregunta",
@@ -693,7 +693,7 @@
     "new": "Nuevo",
     "quizQuestion": "¿Quién piensa como tú?",
     "quizDescription": "10 preguntas para encontrar tu candidato ideal",
-    "takeQuiz": "Hacer el Quiz",
+    "takeQuiz": "Usar la Brújula",
     "howWeEvaluate": "Cómo evaluamos",
     "viewFullMethodology": "Ver metodología completa",
     "competence": "Competencia",
@@ -1007,7 +1007,7 @@
         "desc": "Información completa de cada candidato: educación, experiencia, antecedentes, bienes y noticias relacionadas."
       },
       "quiz": {
-        "title": "Quiz Electoral",
+        "title": "Brújula Electoral",
         "desc": "10 preguntas para descubrir qué candidatos tienen posiciones más afines a las tuyas."
       },
       "compare": {
@@ -1058,7 +1058,7 @@
         "partiesFinances": "Financiamiento de todos los partidos",
         "newsTrending": "Noticias trending con actividad",
         "districts": "Lista de distritos electorales",
-        "quizSubmit": "Enviar respuestas de quiz",
+        "quizSubmit": "Enviar respuestas de la brújula",
         "syncJne": "Sincronizar datos de JNE",
         "syncNews": "Sincronizar feeds RSS",
         "syncTwitter": "Sincronizar menciones Twitter",
@@ -1102,7 +1102,7 @@
       "privacyTitle": "Privacidad de Datos",
       "privacy1": "DNI de donantes: solo últimos 4 dígitos",
       "privacy2": "Recopilamos datos técnicos mínimos (identificador de sesión, páginas visitadas)",
-      "privacy3": "Quiz responses: anónimas con session ID temporal",
+      "privacy3": "Respuestas de la brújula: anónimas con session ID temporal",
       "infraTitle": "Infraestructura",
       "infra1": "Hosting en Vercel (SOC 2 compliant)",
       "infra2": "Base de datos en Neon (encriptada)",

@@ -8,7 +8,7 @@
   "nav": {
     "ranking": "Ranking",
     "news": "Amëtakotërini",
-    "quiz": "Amatabeentsi",
+    "quiz": "Oinkantsi",
     "compare": "Amëñëro",
     "transparency": "Oinabiinti",
     "methodology": "Irapiibë",
@@ -343,7 +343,7 @@
     }
   },
   "quiz": {
-    "title": "Amatabeentsi Apatotantsi",
+    "title": "Oinkantsi Apatotantsi",
     "subtitle": "Amatabeentsi kawkir apatotantsipë aniro",
     "start": "Owakiraa",
     "question": "Amatabeentsi",
@@ -717,7 +717,7 @@
     "new": "Obaeki",
     "quizQuestion": "¿Tsikarika aniki aniro?",
     "quizDescription": "Isëkoni amatabeentsi suma apatotantsi jikxatañataki",
-    "takeQuiz": "Amatabeentsi Luraña",
+    "takeQuiz": "Oinkantsi Luraña",
     "howWeEvaluate": "Irapiibë katsinkabo",
     "viewFullMethodology": "Tasorintsi irapiibë oimabëntantsi",
     "competence": "Kenkitsarentsikë",
@@ -1031,7 +1031,7 @@
         "desc": "Sapa apatotantsina tasorintsi amëtakotërinitu: kenkitsarentsikë, antabëëtantsikë, antecedentes, osankënarintsiwan amëtakotërini."
       },
       "quiz": {
-        "title": "Apatotantsi Quiz",
+        "title": "Oinkantsi Apatotantsi",
         "desc": "Isëkoni amatabeentsi kawkir apatotantsipë aniro tupaq jikxatañataki."
       },
       "compare": {

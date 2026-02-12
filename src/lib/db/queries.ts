@@ -147,10 +147,14 @@ export async function getCandidates(options?: {
       )
       AND NOT EXISTS (
         SELECT 1 FROM candidates c2
-        WHERE c2.full_name = c.full_name
-          AND c2.is_active = true
+        WHERE c2.is_active = true
           AND c2.party_id IS NOT DISTINCT FROM c.party_id
           AND c2.id != c.id
+          AND (
+            c2.full_name = c.full_name
+            OR (SELECT ARRAY(SELECT unnest(string_to_array(LOWER(TRIM(c2.full_name)), ' ')) ORDER BY 1))
+             = (SELECT ARRAY(SELECT unnest(string_to_array(LOWER(TRIM(c.full_name)), ' ')) ORDER BY 1))
+          )
           AND CASE c2.cargo
             WHEN 'presidente' THEN 1
             WHEN 'vicepresidente' THEN 2
@@ -264,10 +268,14 @@ export async function getSiblingCargos(candidateId: string, fullName: string, pa
   const rows = await sql`
     SELECT c.cargo, c.slug
     FROM candidates c
-    WHERE c.full_name = ${fullName}
-      AND c.is_active = true
+    WHERE c.is_active = true
       AND c.id != ${candidateId}
       AND (${partyId}::uuid IS NULL OR c.party_id = ${partyId}::uuid)
+      AND (
+        c.full_name = ${fullName}
+        OR (SELECT ARRAY(SELECT unnest(string_to_array(LOWER(TRIM(c.full_name)), ' ')) ORDER BY 1))
+         = (SELECT ARRAY(SELECT unnest(string_to_array(LOWER(TRIM(${fullName})), ' ')) ORDER BY 1))
+      )
     ORDER BY
       CASE c.cargo
         WHEN 'presidente' THEN 1

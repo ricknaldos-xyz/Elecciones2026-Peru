@@ -12,44 +12,30 @@ const navSections = [
       { id: 'vision', label: 'Visión y Misión', number: 1 },
       { id: 'problema', label: 'El Problema', number: 2 },
       { id: 'solucion', label: 'Nuestra Solución', number: 3 },
-      { id: 'features', label: 'Funcionalidades', number: 8 },
-    ],
-  },
-  {
-    category: 'Técnico',
-    icon: '⚙️',
-    items: [
-      { id: 'arquitectura', label: 'Arquitectura', number: 4 },
-      { id: 'tech-stack', label: 'Stack Tecnológico', number: 5 },
-      { id: 'database', label: 'Base de Datos', number: 9 },
-      { id: 'api', label: 'API Reference', number: 10 },
-      { id: 'design-system', label: 'Sistema de Diseño', number: 11 },
+      { id: 'features', label: 'Funcionalidades', number: 6 },
     ],
   },
   {
     category: 'Metodología',
     icon: '📊',
     items: [
-      { id: 'metodologia', label: 'Scoring', number: 6 },
-      { id: 'fuentes', label: 'Fuentes de Datos', number: 7 },
-      { id: 'seguridad', label: 'Seguridad', number: 12 },
+      { id: 'metodologia', label: 'Scoring', number: 4 },
+      { id: 'fuentes', label: 'Fuentes de Datos', number: 5 },
     ],
   },
   {
-    category: 'Negocio',
-    icon: '💼',
+    category: 'Diseño',
+    icon: '🎨',
     items: [
-      { id: 'modelo-negocio', label: 'Modelo de Negocio', number: 13 },
-      { id: 'go-to-market', label: 'Go-to-Market', number: 14 },
-      { id: 'roadmap', label: 'Product Roadmap', number: 15 },
+      { id: 'design-system', label: 'Sistema de Diseño', number: 7 },
     ],
   },
   {
-    category: 'Legal & Ops',
+    category: 'Legal',
     icon: '⚖️',
     items: [
-      { id: 'legal', label: 'Legal & Compliance', number: 16 },
-      { id: 'operaciones', label: 'Operaciones', number: 17 },
+      { id: 'seguridad', label: 'Seguridad y Privacidad', number: 8 },
+      { id: 'legal', label: 'Legal y Compliance', number: 9 },
     ],
   },
 ]

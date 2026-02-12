@@ -118,10 +118,22 @@ export function Header({ currentPath }: HeaderProps) {
 
       setIsSearching(true)
       try {
-        const params = new URLSearchParams({ search: searchQuery, limit: '10' })
+        const params = new URLSearchParams({ search: searchQuery, limit: '20' })
         const response = await fetch(`/api/candidates?${params}`)
         const candidates: CandidateWithScores[] = await response.json()
-        setSearchResults(candidates.slice(0, 8))
+        // Deduplicate: keep highest-priority cargo per person (by normalized name + party)
+        const cargoPriority: Record<string, number> = {
+          presidente: 1, vicepresidente: 2, senador: 3, diputado: 4, parlamento_andino: 5,
+        }
+        const seen = new Map<string, CandidateWithScores>()
+        for (const c of candidates) {
+          const nameKey = c.full_name.toLowerCase().split(/\s+/).sort().join(' ') + '|' + (c.party?.name || '')
+          const existing = seen.get(nameKey)
+          if (!existing || (cargoPriority[c.cargo] || 99) < (cargoPriority[existing.cargo] || 99)) {
+            seen.set(nameKey, c)
+          }
+        }
+        setSearchResults(Array.from(seen.values()).slice(0, 8))
       } catch (error) {
         console.error('Search error:', error)
       } finally {

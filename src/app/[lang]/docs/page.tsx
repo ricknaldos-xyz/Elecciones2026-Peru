@@ -8,11 +8,11 @@ import { DocsContent } from './DocsContent'
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Documentación Completa - Ranking Electoral 2026',
-    description: 'Documentación técnica completa del Ranking Electoral Perú 2026. Arquitectura, metodología, fuentes de datos, diseño y más.',
+    title: 'Documentación - Ranking Electoral 2026',
+    description: 'Conoce la metodología, fuentes de datos y funcionamiento del Ranking Electoral Perú 2026. Transparencia total en cómo evaluamos candidatos.',
     openGraph: {
-      title: 'Documentación Técnica - Ranking Electoral 2026',
-      description: 'Arquitectura, metodología, fuentes de datos y diseño del Ranking Electoral Perú 2026.',
+      title: 'Documentación - Ranking Electoral 2026',
+      description: 'Metodología, fuentes de datos y funcionamiento del Ranking Electoral Perú 2026.',
       images: ['/api/og?type=ranking'],
     },
   }
@@ -26,7 +26,7 @@ export default function DocsPage() {
       <DocsContent>
         {/* Hero - Compact for sidebar layout */}
         <div className="mb-10">
-          <Badge variant="default" size="md" className="mb-4">DOCUMENTACIÓN TÉCNICA</Badge>
+          <Badge variant="default" size="md" className="mb-4">DOCUMENTACIÓN</Badge>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[var(--foreground)] mb-4 uppercase tracking-tight">
             Ranking Electoral Perú 2026
           </h1>
@@ -38,13 +38,10 @@ export default function DocsPage() {
           {/* Quick stats */}
           <div className="flex flex-wrap gap-3 mt-6">
             <div className="px-3 py-2 bg-[var(--primary)]/10 border-2 border-[var(--primary)]">
-              <span className="text-xs font-bold text-[var(--primary)]">17 SECCIONES</span>
+              <span className="text-xs font-bold text-[var(--primary)]">9 SECCIONES</span>
             </div>
             <div className="px-3 py-2 bg-[var(--muted)] border-2 border-[var(--border)]">
-              <span className="text-xs font-bold text-[var(--muted-foreground)]">OPEN SOURCE</span>
-            </div>
-            <div className="px-3 py-2 bg-[var(--muted)] border-2 border-[var(--border)]">
-              <span className="text-xs font-bold text-[var(--muted-foreground)]">MIT LICENSE</span>
+              <span className="text-xs font-bold text-[var(--muted-foreground)]">METODOLOGÍA TRANSPARENTE</span>
             </div>
           </div>
         </div>
@@ -235,262 +232,12 @@ export default function DocsPage() {
           </Card>
         </section>
 
-        {/* Section 4: Architecture */}
-        <section id="arquitectura" className="mb-12 scroll-mt-20">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3">
-                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">4</span>
-                ARQUITECTURA DEL SISTEMA
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <p className="text-[var(--muted-foreground)] font-medium">
-                La arquitectura sigue un modelo de capas con separación clara de responsabilidades:
-              </p>
-
-              {/* Architecture Diagram */}
-              <div className="p-6 bg-[var(--muted)] border-2 border-[var(--border)] font-mono text-sm overflow-x-auto">
-                <pre className="text-[var(--foreground)]">{`
-┌─────────────────────────────────────────────────────────────────┐
-│                         CAPA DE PRESENTACIÓN                     │
-│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐           │
-│  │  Pages   │ │Components│ │   UI     │ │  Hooks   │           │
-│  │(Next.js) │ │ (React)  │ │ Library  │ │(Custom)  │           │
-│  └──────────┘ └──────────┘ └──────────┘ └──────────┘           │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                          CAPA DE API                             │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │                   Next.js API Routes                      │  │
-│  │  /api/candidates  /api/parties  /api/news  /api/quiz     │  │
-│  │  /api/districts   /api/sync/*                             │  │
-│  └──────────────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                       CAPA DE LÓGICA                             │
-│  ┌────────────┐ ┌────────────┐ ┌────────────┐ ┌────────────┐  │
-│  │  Scoring   │ │   Quiz     │ │    Sync    │ │     AI     │  │
-│  │ Algorithm  │ │  Matcher   │ │  Pipeline  │ │  Analyzer  │  │
-│  └────────────┘ └────────────┘ └────────────┘ └────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                        CAPA DE DATOS                             │
-│  ┌────────────────────────────────────────────────────────┐    │
-│  │              PostgreSQL (Neon Serverless)              │    │
-│  │  candidates | scores | parties | news | flags | etc.   │    │
-│  └────────────────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    FUENTES EXTERNAS                              │
-│  ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐ ┌────────────┐   │
-│  │  JNE   │ │  ONPE  │ │Judicial│ │  RSS   │ │Social Media│   │
-│  │(DJHV)  │ │(Financ)│ │(Sents) │ │ (News) │ │(X/TikTok)  │   │
-│  └────────┘ └────────┘ └────────┘ └────────┘ └────────────────┘   │
-└─────────────────────────────────────────────────────────────────┘
-`}</pre>
-              </div>
-
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-2 uppercase text-sm">Estructura de Carpetas</h4>
-                  <div className="font-mono text-xs text-[var(--muted-foreground)] space-y-1">
-                    <div><span className="text-[var(--primary)]">src/</span></div>
-                    <div className="ml-4">├── <span className="text-[var(--score-competence-text)]">app/</span> (Pages & API Routes)</div>
-                    <div className="ml-4">├── <span className="text-[var(--score-integrity-text)]">components/</span> (React Components)</div>
-                    <div className="ml-4">├── <span className="text-[var(--score-transparency-text)]">lib/</span> (Utilities & Logic)</div>
-                    <div className="ml-4">├── <span className="text-[var(--primary)]">types/</span> (TypeScript Types)</div>
-                    <div className="ml-4">└── <span className="text-[var(--primary)]">hooks/</span> (Custom Hooks)</div>
-                    <div><span className="text-[var(--primary)]">supabase/</span></div>
-                    <div className="ml-4">└── <span className="text-[var(--primary)]">migrations/</span> (SQL Migrations)</div>
-                  </div>
-                </div>
-                <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-2 uppercase text-sm">Patrones Arquitectónicos</h4>
-                  <ul className="text-sm text-[var(--muted-foreground)] font-medium space-y-2">
-                    <li className="flex items-start gap-2">
-                      <div className="w-2 h-2 bg-[var(--primary)] mt-1.5 flex-shrink-0" />
-                      <span><strong>Server Components:</strong> Rendering del lado del servidor para SEO y performance</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <div className="w-2 h-2 bg-[var(--primary)] mt-1.5 flex-shrink-0" />
-                      <span><strong>API Routes:</strong> Endpoints serverless con caching inteligente</span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <div className="w-2 h-2 bg-[var(--primary)] mt-1.5 flex-shrink-0" />
-                      <span><strong>Cron Jobs:</strong> Sincronización periódica de datos externos</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Section 5: Tech Stack */}
-        <section id="tech-stack" className="mb-12 scroll-mt-20">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3">
-                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">5</span>
-                STACK TECNOLÓGICO
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {/* Frontend */}
-                <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm flex items-center gap-2">
-                    <div className="w-3 h-3 bg-[var(--score-competence)]" />
-                    Frontend
-                  </h4>
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex justify-between">
-                      <span className="font-bold text-[var(--foreground)]">Next.js</span>
-                      <Badge size="sm">v16.1.1</Badge>
-                    </li>
-                    <li className="flex justify-between">
-                      <span className="font-bold text-[var(--foreground)]">React</span>
-                      <Badge size="sm">v19.2.3</Badge>
-                    </li>
-                    <li className="flex justify-between">
-                      <span className="font-bold text-[var(--foreground)]">TypeScript</span>
-                      <Badge size="sm">v5</Badge>
-                    </li>
-                    <li className="flex justify-between">
-                      <span className="font-bold text-[var(--foreground)]">Tailwind CSS</span>
-                      <Badge size="sm">v4</Badge>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Backend */}
-                <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm flex items-center gap-2">
-                    <div className="w-3 h-3 bg-[var(--score-integrity)]" />
-                    Backend
-                  </h4>
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex justify-between">
-                      <span className="font-bold text-[var(--foreground)]">Node.js</span>
-                      <Badge size="sm">Runtime</Badge>
-                    </li>
-                    <li className="flex justify-between">
-                      <span className="font-bold text-[var(--foreground)]">Next.js API</span>
-                      <Badge size="sm">Serverless</Badge>
-                    </li>
-                    <li className="flex justify-between">
-                      <span className="font-bold text-[var(--foreground)]">Vercel</span>
-                      <Badge size="sm">Hosting</Badge>
-                    </li>
-                    <li className="flex justify-between">
-                      <span className="font-bold text-[var(--foreground)]">Cron Jobs</span>
-                      <Badge size="sm">Scheduled</Badge>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Database */}
-                <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm flex items-center gap-2">
-                    <div className="w-3 h-3 bg-[var(--score-transparency)]" />
-                    Base de Datos
-                  </h4>
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex justify-between">
-                      <span className="font-bold text-[var(--foreground)]">PostgreSQL</span>
-                      <Badge size="sm">Relacional</Badge>
-                    </li>
-                    <li className="flex justify-between">
-                      <span className="font-bold text-[var(--foreground)]">Neon</span>
-                      <Badge size="sm">Serverless</Badge>
-                    </li>
-                    <li className="flex justify-between">
-                      <span className="font-bold text-[var(--foreground)]">Supabase</span>
-                      <Badge size="sm">BaaS</Badge>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* AI */}
-                <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm flex items-center gap-2">
-                    <div className="w-3 h-3 bg-[var(--primary)]" />
-                    Inteligencia Artificial
-                  </h4>
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex justify-between">
-                      <span className="font-bold text-[var(--foreground)]">Anthropic Claude</span>
-                      <Badge size="sm">NLP</Badge>
-                    </li>
-                    <li className="text-xs text-[var(--muted-foreground)] font-medium">
-                      Usado para: análisis de sentimiento, extracción de entidades, detección de flags en noticias y redes sociales.
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Scraping */}
-                <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm flex items-center gap-2">
-                    <div className="w-3 h-3 bg-[var(--primary)]" />
-                    Data Collection
-                  </h4>
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex justify-between">
-                      <span className="font-bold text-[var(--foreground)]">Puppeteer</span>
-                      <Badge size="sm">Scraping</Badge>
-                    </li>
-                    <li className="flex justify-between">
-                      <span className="font-bold text-[var(--foreground)]">Cheerio</span>
-                      <Badge size="sm">HTML Parser</Badge>
-                    </li>
-                    <li className="flex justify-between">
-                      <span className="font-bold text-[var(--foreground)]">RSS Parser</span>
-                      <Badge size="sm">News Feeds</Badge>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* DevOps */}
-                <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm flex items-center gap-2">
-                    <div className="w-3 h-3 bg-[var(--primary)]" />
-                    DevOps
-                  </h4>
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex justify-between">
-                      <span className="font-bold text-[var(--foreground)]">ESLint</span>
-                      <Badge size="sm">v9</Badge>
-                    </li>
-                    <li className="flex justify-between">
-                      <span className="font-bold text-[var(--foreground)]">Git</span>
-                      <Badge size="sm">VCS</Badge>
-                    </li>
-                    <li className="flex justify-between">
-                      <span className="font-bold text-[var(--foreground)]">Vercel CLI</span>
-                      <Badge size="sm">Deploy</Badge>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Section 6: Methodology */}
+        {/* Section 4: Methodology */}
         <section id="metodologia" className="mb-12 scroll-mt-20">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
-                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">6</span>
+                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">4</span>
                 METODOLOGÍA DE SCORING
               </CardTitle>
             </CardHeader>
@@ -754,46 +501,15 @@ export default function DocsPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
-                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">7</span>
+                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">5</span>
                 FUENTES DE DATOS
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <p className="text-[var(--muted-foreground)] font-medium">
-                Toda la información proviene de fuentes oficiales y públicas, procesadas mediante pipelines automatizados:
+                Toda la información proviene de fuentes oficiales y públicas. Los datos se recopilan, verifican
+                y actualizan periódicamente para mantener la información lo más precisa posible.
               </p>
-
-              {/* Data Pipeline Diagram */}
-              <div className="p-4 bg-[var(--muted)] border-2 border-[var(--border)] font-mono text-xs overflow-x-auto">
-                <pre className="text-[var(--foreground)]">{`
-┌─────────────────────────────────────────────────────────────────────────┐
-│                        PIPELINE DE DATOS                                 │
-└─────────────────────────────────────────────────────────────────────────┘
-
-  ┌─────────┐    ┌─────────┐    ┌─────────┐    ┌─────────┐    ┌─────────┐
-  │   JNE   │    │  ONPE   │    │Judicial │    │   RSS   │    │ Social  │
-  │  DJHV   │    │ Financ  │    │ Records │    │  News   │    │  Media  │
-  └────┬────┘    └────┬────┘    └────┬────┘    └────┬────┘    └────┬────┘
-       │              │              │              │              │
-       ▼              ▼              ▼              ▼              ▼
-  ┌────────────────────────────────────────────────────────────────────┐
-  │                         SCRAPERS & PARSERS                          │
-  │  jne/scraper.ts  │  onpe/scraper.ts  │  rss-fetcher.ts  │ etc...  │
-  └────────────────────────────────────────────────────────────────────┘
-       │              │              │              │              │
-       ▼              ▼              ▼              ▼              ▼
-  ┌────────────────────────────────────────────────────────────────────┐
-  │                         AI ANALYZER (Claude)                        │
-  │  Sentiment Analysis │ Entity Extraction │ Flag Detection           │
-  └────────────────────────────────────────────────────────────────────┘
-       │              │              │              │              │
-       ▼              ▼              ▼              ▼              ▼
-  ┌────────────────────────────────────────────────────────────────────┐
-  │                         BASE DE DATOS                               │
-  │  candidates │ scores │ flags │ news_mentions │ social_mentions     │
-  └────────────────────────────────────────────────────────────────────┘
-`}</pre>
-              </div>
 
               {/* Source Details */}
               <div className="grid sm:grid-cols-2 gap-4">
@@ -944,20 +660,10 @@ export default function DocsPage() {
               {/* Sync Schedule */}
               <div className="p-4 bg-[var(--primary)]/10 border-2 border-[var(--primary)]">
                 <h4 className="font-black text-[var(--primary)] mb-2 uppercase">Frecuencia de Actualización</h4>
-                <div className="grid sm:grid-cols-3 gap-4 text-sm">
-                  <div>
-                    <span className="font-bold text-[var(--foreground)]">JNE/ONPE:</span>
-                    <span className="text-[var(--muted-foreground)]"> Diario</span>
-                  </div>
-                  <div>
-                    <span className="font-bold text-[var(--foreground)]">Noticias:</span>
-                    <span className="text-[var(--muted-foreground)]"> Cada 4 horas</span>
-                  </div>
-                  <div>
-                    <span className="font-bold text-[var(--foreground)]">Redes Sociales:</span>
-                    <span className="text-[var(--muted-foreground)]"> Cada 6 horas</span>
-                  </div>
-                </div>
+                <p className="text-sm text-[var(--foreground)] font-medium">
+                  Los datos se actualizan periódicamente de forma automática: las fuentes oficiales (JNE, ONPE) se sincronizan diariamente,
+                  mientras que noticias y redes sociales se actualizan varias veces al día para mantener la información lo más vigente posible.
+                </p>
               </div>
             </CardContent>
           </Card>
@@ -968,7 +674,7 @@ export default function DocsPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
-                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">8</span>
+                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">6</span>
                 FUNCIONALIDADES
               </CardTitle>
             </CardHeader>
@@ -1017,7 +723,7 @@ export default function DocsPage() {
                       </svg>
                     </div>
                     <div>
-                      <h4 className="font-black text-[var(--foreground)] uppercase">Quiz Electoral</h4>
+                      <h4 className="font-black text-[var(--foreground)] uppercase">Brújula Electoral</h4>
                       <p className="text-sm text-[var(--muted-foreground)] font-medium">
                         10 preguntas para descubrir qué candidatos tienen posiciones más afines a las tuyas.
                       </p>
@@ -1114,342 +820,12 @@ export default function DocsPage() {
           </Card>
         </section>
 
-        {/* Section 9: Database */}
-        <section id="database" className="mb-12 scroll-mt-20">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3">
-                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">9</span>
-                ESQUEMA DE BASE DE DATOS
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <p className="text-[var(--muted-foreground)] font-medium">
-                PostgreSQL con 15+ tablas organizadas en dominios funcionales:
-              </p>
-
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {/* Core Tables */}
-                <div className="p-4 border-2 border-[var(--score-competence)]">
-                  <h4 className="font-black text-[var(--score-competence-text)] mb-3 uppercase text-sm">Core</h4>
-                  <ul className="text-sm text-[var(--muted-foreground)] space-y-1 font-mono">
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[var(--score-competence)]" />
-                      candidates
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[var(--score-competence)]" />
-                      scores
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[var(--score-competence)]" />
-                      score_breakdowns
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[var(--score-competence)]" />
-                      flags
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[var(--score-competence)]" />
-                      parties
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[var(--score-competence)]" />
-                      districts
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Finance Tables */}
-                <div className="p-4 border-2 border-[var(--score-integrity)]">
-                  <h4 className="font-black text-[var(--score-integrity-text)] mb-3 uppercase text-sm">Financiamiento</h4>
-                  <ul className="text-sm text-[var(--muted-foreground)] space-y-1 font-mono">
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[var(--score-integrity)]" />
-                      party_finances
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[var(--score-integrity)]" />
-                      party_donors
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[var(--score-integrity)]" />
-                      party_expenses
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Content Tables */}
-                <div className="p-4 border-2 border-[var(--score-transparency)]">
-                  <h4 className="font-black text-[var(--score-transparency-text)] mb-3 uppercase text-sm">Contenido</h4>
-                  <ul className="text-sm text-[var(--muted-foreground)] space-y-1 font-mono">
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[var(--score-transparency)]" />
-                      news_mentions
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[var(--score-transparency)]" />
-                      social_mentions
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[var(--score-transparency)]" />
-                      daily_facts
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Engagement Tables */}
-                <div className="p-4 border-2 border-[var(--primary)]">
-                  <h4 className="font-black text-[var(--primary)] mb-3 uppercase text-sm">Engagement</h4>
-                  <ul className="text-sm text-[var(--muted-foreground)] space-y-1 font-mono">
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[var(--primary)]" />
-                      quiz_responses
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[var(--primary)]" />
-                      candidate_positions
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[var(--primary)]" />
-                      users (infraestructura)
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Sync Tables */}
-                <div className="p-4 border-2 border-[var(--border)] sm:col-span-2 lg:col-span-2">
-                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Sincronización</h4>
-                  <ul className="text-sm text-[var(--muted-foreground)] space-y-1 font-mono grid grid-cols-2 gap-x-4">
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[var(--muted-foreground)]" />
-                      sync_jobs
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-[var(--muted-foreground)]" />
-                      sync_logs
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-              {/* Key Schema Details */}
-              <div className="p-4 bg-[var(--muted)] border-2 border-[var(--border)] font-mono text-xs overflow-x-auto">
-                <pre className="text-[var(--foreground)]">{`
--- Tabla principal: candidates
-CREATE TABLE candidates (
-  id UUID PRIMARY KEY,
-  slug TEXT UNIQUE NOT NULL,
-  full_name TEXT NOT NULL,
-  photo_url TEXT,
-  cargo ENUM('presidente','vicepresidente','senador','diputado','parlamento_andino'),
-  party_id UUID REFERENCES parties(id),
-  district_id UUID REFERENCES districts(id),
-
-  -- Datos personales
-  birth_date DATE,
-  dni TEXT,
-
-  -- Educación y experiencia (JSONB para flexibilidad)
-  education_level TEXT,
-  education_details JSONB,    -- [{level, institution, degree, dates, is_verified}]
-  experience_details JSONB,    -- [{position, organization, sector, dates}]
-  political_trajectory JSONB,  -- [{position, party, dates, is_elected}]
-
-  -- Declaraciones
-  assets_declaration JSONB,    -- {total_income, real_estate[], vehicles[]}
-  penal_sentences JSONB,       -- [{type, description, date, status}]
-  civil_sentences JSONB,
-  party_resignations INT DEFAULT 0,
-
-  -- Metadatos
-  djhv_url TEXT,
-  jne_id TEXT,
-  is_active BOOLEAN DEFAULT true,
-  data_verified BOOLEAN DEFAULT false,
-  last_updated TIMESTAMPTZ DEFAULT NOW()
-);
-
--- Tabla de scores (1:1 con candidates)
-CREATE TABLE scores (
-  id UUID PRIMARY KEY,
-  candidate_id UUID UNIQUE REFERENCES candidates(id),
-  competence DECIMAL(5,2) CHECK (competence BETWEEN 0 AND 100),
-  integrity DECIMAL(5,2) CHECK (integrity BETWEEN 0 AND 100),
-  transparency DECIMAL(5,2) CHECK (transparency BETWEEN 0 AND 100),
-  confidence DECIMAL(5,2) CHECK (confidence BETWEEN 0 AND 100),
-  score_balanced DECIMAL(5,2) GENERATED ALWAYS AS (
-    0.45 * competence + 0.45 * integrity + 0.10 * transparency
-  ) STORED,
-  score_merit DECIMAL(5,2) GENERATED ALWAYS AS (
-    0.60 * competence + 0.30 * integrity + 0.10 * transparency
-  ) STORED,
-  score_integrity DECIMAL(5,2) GENERATED ALWAYS AS (
-    0.30 * competence + 0.60 * integrity + 0.10 * transparency
-  ) STORED,
-  updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-`}</pre>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Section 10: API */}
-        <section id="api" className="mb-12 scroll-mt-20">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3">
-                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">10</span>
-                API REFERENCE
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <p className="text-[var(--muted-foreground)] font-medium">
-                RESTful API con endpoints públicos y protegidos. Los endpoints de sync requieren autenticación.
-              </p>
-
-              {/* Public Endpoints */}
-              <div>
-                <h4 className="font-black text-[var(--foreground)] mb-3 uppercase flex items-center gap-2">
-                  <Badge variant="default" size="sm">PÚBLICO</Badge>
-                  Endpoints Públicos
-                </h4>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b-2 border-[var(--border)]">
-                        <th className="text-left py-2 font-bold text-[var(--foreground)]">Método</th>
-                        <th className="text-left py-2 font-bold text-[var(--foreground)]">Endpoint</th>
-                        <th className="text-left py-2 font-bold text-[var(--foreground)]">Descripción</th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-[var(--muted-foreground)] font-mono text-xs">
-                      <tr className="border-b border-[var(--border)]">
-                        <td className="py-2"><Badge variant="default" size="sm">GET</Badge></td>
-                        <td className="py-2">/api/candidates</td>
-                        <td className="py-2 font-sans">Lista candidatos con filtros (cargo, distrito, partido)</td>
-                      </tr>
-                      <tr className="border-b border-[var(--border)]">
-                        <td className="py-2"><Badge variant="default" size="sm">GET</Badge></td>
-                        <td className="py-2">/api/candidates/by-slug/[slug]</td>
-                        <td className="py-2 font-sans">Detalle de candidato específico</td>
-                      </tr>
-                      <tr className="border-b border-[var(--border)]">
-                        <td className="py-2"><Badge variant="default" size="sm">GET</Badge></td>
-                        <td className="py-2">/api/parties</td>
-                        <td className="py-2 font-sans">Lista de partidos políticos</td>
-                      </tr>
-                      <tr className="border-b border-[var(--border)]">
-                        <td className="py-2"><Badge variant="default" size="sm">GET</Badge></td>
-                        <td className="py-2">/api/parties/finances</td>
-                        <td className="py-2 font-sans">Financiamiento de todos los partidos</td>
-                      </tr>
-                      <tr className="border-b border-[var(--border)]">
-                        <td className="py-2"><Badge variant="default" size="sm">GET</Badge></td>
-                        <td className="py-2">/api/news/trending</td>
-                        <td className="py-2 font-sans">Noticias trending con actividad</td>
-                      </tr>
-                      <tr className="border-b border-[var(--border)]">
-                        <td className="py-2"><Badge variant="default" size="sm">GET</Badge></td>
-                        <td className="py-2">/api/districts</td>
-                        <td className="py-2 font-sans">Lista de distritos electorales</td>
-                      </tr>
-                      <tr>
-                        <td className="py-2"><Badge variant="secondary" size="sm">POST</Badge></td>
-                        <td className="py-2">/api/quiz/submit</td>
-                        <td className="py-2 font-sans">Enviar respuestas de quiz</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              {/* Protected Endpoints */}
-              <div>
-                <h4 className="font-black text-[var(--foreground)] mb-3 uppercase flex items-center gap-2">
-                  <Badge variant="destructive" size="sm">PROTEGIDO</Badge>
-                  Endpoints de Sincronización
-                </h4>
-                <p className="text-xs text-[var(--muted-foreground)] mb-3 font-medium">
-                  Requieren header <code className="bg-[var(--muted)] px-1">CRON_SECRET</code> o autenticación de Vercel Cron.
-                </p>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b-2 border-[var(--border)]">
-                        <th className="text-left py-2 font-bold text-[var(--foreground)]">Método</th>
-                        <th className="text-left py-2 font-bold text-[var(--foreground)]">Endpoint</th>
-                        <th className="text-left py-2 font-bold text-[var(--foreground)]">Descripción</th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-[var(--muted-foreground)] font-mono text-xs">
-                      <tr className="border-b border-[var(--border)]">
-                        <td className="py-2"><Badge variant="secondary" size="sm">POST</Badge></td>
-                        <td className="py-2">/api/sync/jne</td>
-                        <td className="py-2 font-sans">Sincronizar datos de JNE</td>
-                      </tr>
-                      <tr className="border-b border-[var(--border)]">
-                        <td className="py-2"><Badge variant="secondary" size="sm">POST</Badge></td>
-                        <td className="py-2">/api/sync/news</td>
-                        <td className="py-2 font-sans">Sincronizar feeds RSS</td>
-                      </tr>
-                      <tr className="border-b border-[var(--border)]">
-                        <td className="py-2"><Badge variant="secondary" size="sm">POST</Badge></td>
-                        <td className="py-2">/api/sync/twitter</td>
-                        <td className="py-2 font-sans">Sincronizar menciones Twitter</td>
-                      </tr>
-                      <tr className="border-b border-[var(--border)]">
-                        <td className="py-2"><Badge variant="secondary" size="sm">POST</Badge></td>
-                        <td className="py-2">/api/sync/ai-analysis</td>
-                        <td className="py-2 font-sans">Ejecutar análisis IA en contenido</td>
-                      </tr>
-                      <tr>
-                        <td className="py-2"><Badge variant="default" size="sm">GET</Badge></td>
-                        <td className="py-2">/api/sync/status</td>
-                        <td className="py-2 font-sans">Estado de jobs de sync</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-
-              {/* Example Response */}
-              <div className="p-4 bg-[var(--muted)] border-2 border-[var(--border)]">
-                <h5 className="font-bold text-[var(--foreground)] mb-2 text-sm">Ejemplo de Respuesta: GET /api/candidates/by-slug/[slug]</h5>
-                <pre className="font-mono text-xs text-[var(--foreground)] overflow-x-auto">{`{
-  "id": "uuid",
-  "slug": "keiko-fujimori",
-  "full_name": "KEIKO SOFIA FUJIMORI HIGUCHI",
-  "cargo": "presidente",
-  "party": { "id": "uuid", "name": "Fuerza Popular", "short_name": "FP" },
-  "scores": {
-    "competence": 72.5,
-    "integrity": 45.0,
-    "transparency": 68.0,
-    "confidence": 85.0,
-    "score_balanced": 58.8,
-    "score_merit": 60.3,
-    "score_integrity": 57.3
-  },
-  "flags": [
-    { "type": "PENAL_SENTENCE", "severity": "RED", "title": "..." }
-  ],
-  "education_details": [...],
-  "experience_details": [...],
-  ...
-}`}</pre>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Section 11: Design System */}
+        {/* Section 7: Design System */}
         <section id="design-system" className="mb-12 scroll-mt-20">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
-                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">11</span>
+                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">7</span>
                 SISTEMA DE DISEÑO
               </CardTitle>
             </CardHeader>
@@ -1564,503 +940,58 @@ CREATE TABLE scores (
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
-                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">12</span>
+                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">8</span>
                 SEGURIDAD Y PRIVACIDAD
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-2 uppercase text-sm">Autenticación</h4>
+                  <h4 className="font-black text-[var(--foreground)] mb-2 uppercase text-sm">Protección de Datos</h4>
                   <ul className="text-sm text-[var(--muted-foreground)] space-y-1 font-medium">
-                    <li>• CRON_SECRET para endpoints de sync</li>
-                    <li>• Verificación de Vercel Cron headers</li>
-                    <li>• Supabase Auth para usuarios (futuro)</li>
+                    <li>• Endpoints administrativos protegidos con autenticación segura</li>
+                    <li>• Infraestructura con certificación SOC 2</li>
+                    <li>• Base de datos encriptada en reposo y en tránsito</li>
+                    <li>• HTTPS obligatorio en todo el sitio</li>
                   </ul>
                 </div>
                 <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-2 uppercase text-sm">Privacidad de Datos</h4>
+                  <h4 className="font-black text-[var(--foreground)] mb-2 uppercase text-sm">Privacidad del Usuario</h4>
                   <ul className="text-sm text-[var(--muted-foreground)] space-y-1 font-medium">
-                    <li>• DNI de donantes: solo últimos 4 dígitos</li>
-                    <li>• Recopilamos datos técnicos mínimos (identificador de sesión, páginas visitadas) para mejorar la plataforma</li>
-                    <li>• Quiz responses: anónimas con session ID temporal</li>
+                    <li>• DNI de donantes: solo últimos 4 dígitos visibles</li>
+                    <li>• Datos técnicos mínimos recopilados (sesión, páginas visitadas)</li>
+                    <li>• Respuestas del quiz son completamente anónimas</li>
                     <li>• No compartimos datos con terceros</li>
-                  </ul>
-                </div>
-                <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-2 uppercase text-sm">Infraestructura</h4>
-                  <ul className="text-sm text-[var(--muted-foreground)] space-y-1 font-medium">
-                    <li>• Hosting en Vercel (SOC 2 compliant)</li>
-                    <li>• Base de datos en Neon (encriptada)</li>
-                    <li>• HTTPS obligatorio</li>
                   </ul>
                 </div>
                 <div className="p-4 border-2 border-[var(--border)]">
                   <h4 className="font-black text-[var(--foreground)] mb-2 uppercase text-sm">Neutralidad</h4>
                   <ul className="text-sm text-[var(--muted-foreground)] space-y-1 font-medium">
-                    <li>• Sin afiliación política</li>
+                    <li>• Sin afiliación a ningún partido político</li>
                     <li>• Metodología pública y auditable</li>
-                    <li>• Reportes de errores abiertos</li>
+                    <li>• Canal abierto para reportar errores o sesgos</li>
+                    <li>• No aceptamos financiamiento político</li>
                   </ul>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Section 13: Business Model */}
-        <section id="modelo-negocio" className="mb-12 scroll-mt-20">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3">
-                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">13</span>
-                MODELO DE NEGOCIO
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Value Proposition */}
-              <div className="p-4 border-2 border-[var(--primary)] bg-[var(--primary)]/5">
-                <h4 className="font-black text-[var(--primary)] mb-2 uppercase">Propuesta de Valor</h4>
-                <p className="text-sm text-[var(--foreground)] font-medium">
-                  Plataforma de <strong>bien público</strong> que democratiza el acceso a información electoral
-                  verificada y objetiva, permitiendo a los ciudadanos tomar decisiones informadas basadas en
-                  datos, no en promesas vacías o propaganda.
-                </p>
-              </div>
-
-              <div className="grid sm:grid-cols-2 gap-4">
-                {/* User Segments */}
                 <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Segmentos de Usuario</h4>
-                  <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
-                    <li className="flex items-start gap-2">
-                      <span className="text-[var(--primary)]">👤</span>
-                      <div><strong>Votantes informados:</strong> Ciudadanos que buscan datos objetivos</div>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-[var(--primary)]">📰</span>
-                      <div><strong>Periodistas:</strong> Medios que necesitan fuentes verificadas</div>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-[var(--primary)]">🎓</span>
-                      <div><strong>Academia:</strong> Investigadores y estudiantes de ciencias políticas</div>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-[var(--primary)]">🏛️</span>
-                      <div><strong>ONGs:</strong> Organizaciones de transparencia y anticorrupción</div>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Revenue Sources */}
-                <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Fuentes de Financiamiento</h4>
-                  <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
-                    <li className="flex items-start gap-2">
-                      <span className="text-green-600">💚</span>
-                      <div><strong>Grants:</strong> Fondos de organizaciones pro-transparencia (NED, USAID, Open Society)</div>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-blue-600">💙</span>
-                      <div><strong>Donaciones:</strong> Ciudadanos comprometidos con la democracia</div>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-purple-600">💜</span>
-                      <div><strong>Partnerships:</strong> Medios de comunicación (licencia de datos)</div>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-orange-600">🧡</span>
-                      <div><strong>API Premium:</strong> Acceso comercial para aplicaciones de terceros</div>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Cost Structure */}
-                <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Estructura de Costos (Mensual)</h4>
-                  <div className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
-                    <div className="font-black text-[var(--foreground)] text-xs uppercase mb-2">Infraestructura</div>
-                    <ul className="space-y-1 mb-3">
-                      <li>• <strong>Vercel Pro:</strong> $20 (base) + ~$50-200 (picos electorales)</li>
-                      <li>• <strong>Neon Database:</strong> $19-69 (según tráfico)</li>
-                      <li>• <strong>Dominio .pe:</strong> S/150/año (~$40/año)</li>
-                    </ul>
-                    <div className="font-black text-[var(--foreground)] text-xs uppercase mb-2">APIs y Servicios</div>
-                    <ul className="space-y-1 mb-3">
-                      <li>• <strong>Claude API (Anthropic):</strong> $100-300 (análisis de planes)</li>
-                      <li>• <strong>Scraping/Proxies:</strong> $30-50</li>
-                      <li>• <strong>Email (Resend):</strong> $0-20</li>
-                    </ul>
-                    <div className="font-black text-[var(--foreground)] text-xs uppercase mb-2">Desarrollo</div>
-                    <ul className="space-y-1 mb-3">
-                      <li>• <strong>Desarrollo inicial:</strong> ~$5,000-10,000 (one-time)</li>
-                      <li>• <strong>Mantenimiento:</strong> ~$500-1,000/mes</li>
-                    </ul>
-                    <div className="mt-3 pt-3 border-t border-[var(--border)]">
-                      <div className="flex justify-between">
-                        <span className="font-black">TOTAL OPERATIVO:</span>
-                        <span className="font-black text-[var(--primary)]">$250-700/mes</span>
-                      </div>
-                      <div className="flex justify-between text-xs mt-1">
-                        <span>Pico electoral (Mar-Abr 2026):</span>
-                        <span className="text-orange-600">~$1,500-2,500/mes</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Key Partners */}
-                <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Socios Clave</h4>
+                  <h4 className="font-black text-[var(--foreground)] mb-2 uppercase text-sm">Transparencia</h4>
                   <ul className="text-sm text-[var(--muted-foreground)] space-y-1 font-medium">
-                    <li>• <strong>JNE / ONPE:</strong> Fuentes de datos oficiales</li>
-                    <li>• <strong>Medios independientes:</strong> Distribución y credibilidad</li>
-                    <li>• <strong>Universidades:</strong> Validación metodológica</li>
-                    <li>• <strong>Fact-checkers:</strong> Verificación de información</li>
-                    <li>• <strong>Observatorios electorales:</strong> Alcance internacional</li>
+                    <li>• Todas las fuentes de datos son públicas</li>
+                    <li>• Metodología de scoring documentada</li>
+                    <li>• Código abierto y auditable</li>
                   </ul>
-                </div>
-              </div>
-
-              {/* Sustainability */}
-              <div className="p-4 bg-green-50 dark:bg-green-900/20 border-2 border-green-500">
-                <h4 className="font-black text-green-700 dark:text-green-400 mb-2 uppercase text-sm">Sostenibilidad</h4>
-                <p className="text-sm text-[var(--foreground)] font-medium">
-                  El modelo prioriza la <strong>independencia editorial</strong> sobre la monetización.
-                  No aceptamos publicidad política ni patrocinios de partidos/candidatos.
-                  La transparencia en el financiamiento está disponible públicamente.
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Section 14: Go-to-Market */}
-        <section id="go-to-market" className="mb-12 scroll-mt-20">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3">
-                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">14</span>
-                GO-TO-MARKET STRATEGY
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Market Context */}
-              <div className="p-4 border-2 border-[var(--border)] bg-[var(--muted)]/30 mb-4">
-                <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Contexto del Mercado Peruano</h4>
-                <div className="grid sm:grid-cols-4 gap-3 text-center text-sm">
-                  <div className="p-2 bg-white dark:bg-gray-800 border border-[var(--border)]">
-                    <div className="text-xl font-black text-[var(--primary)]">25M</div>
-                    <div className="text-xs text-[var(--muted-foreground)]">Electores habilitados</div>
-                  </div>
-                  <div className="p-2 bg-white dark:bg-gray-800 border border-[var(--border)]">
-                    <div className="text-xl font-black text-[var(--primary)]">78%</div>
-                    <div className="text-xs text-[var(--muted-foreground)]">Penetración internet</div>
-                  </div>
-                  <div className="p-2 bg-white dark:bg-gray-800 border border-[var(--border)]">
-                    <div className="text-xl font-black text-[var(--primary)]">85%</div>
-                    <div className="text-xs text-[var(--muted-foreground)]">Uso smartphone</div>
-                  </div>
-                  <div className="p-2 bg-white dark:bg-gray-800 border border-[var(--border)]">
-                    <div className="text-xl font-black text-[var(--primary)]">94%</div>
-                    <div className="text-xs text-[var(--muted-foreground)]">Participación electoral</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Target Audience */}
-              <div className="p-4 border-2 border-[var(--primary)] bg-[var(--primary)]/5">
-                <h4 className="font-black text-[var(--primary)] mb-3 uppercase">Target Audience (TAM → SAM → SOM)</h4>
-                <div className="grid sm:grid-cols-3 gap-4 text-sm">
-                  <div className="text-center p-3 bg-white dark:bg-gray-800 border border-[var(--border)]">
-                    <div className="text-3xl mb-2">🎯</div>
-                    <div className="font-black text-[var(--foreground)]">TAM: 19.5M</div>
-                    <div className="text-[var(--muted-foreground)] font-medium">Electores con acceso a internet (78% de 25M)</div>
-                  </div>
-                  <div className="text-center p-3 bg-white dark:bg-gray-800 border border-[var(--border)]">
-                    <div className="text-3xl mb-2">📱</div>
-                    <div className="font-black text-[var(--foreground)]">SAM: 8M</div>
-                    <div className="text-[var(--muted-foreground)] font-medium">18-45 años, urbanos, buscan info electoral online</div>
-                  </div>
-                  <div className="text-center p-3 bg-white dark:bg-gray-800 border border-[var(--border)]">
-                    <div className="text-3xl mb-2">📊</div>
-                    <div className="font-black text-[var(--foreground)]">SOM: 500K-1M</div>
-                    <div className="text-[var(--muted-foreground)] font-medium">Usuarios activos objetivo (2-4% del SAM)</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid sm:grid-cols-2 gap-4">
-                {/* Distribution Channels */}
-                <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Canales de Distribución (Perú)</h4>
-                  <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
-                    <li className="flex items-start gap-2">
-                      <span>📱</span>
-                      <div><strong>Facebook (92% penetración):</strong> Grupos locales, memes informativos, lives con análisis</div>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span>💬</span>
-                      <div><strong>WhatsApp (89%):</strong> Cadenas virales, stickers, links directos al ranking</div>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span>🎵</span>
-                      <div><strong>TikTok (45% Gen Z):</strong> Duets, #VotaInformado, datos en 60 segundos</div>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span>📺</span>
-                      <div><strong>YouTube:</strong> Análisis largos, podcasts, entrevistas</div>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span>🐦</span>
-                      <div><strong>Twitter/X:</strong> Opinion leaders, periodistas, debates en tiempo real</div>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Launch Strategy */}
-                <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Estrategia de Lanzamiento</h4>
-                  <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
-                    <li><strong>Fase 1 - Seed (Ene-Mar 2025):</strong> Beta privada con 50 periodistas, ONGs (Transparencia, Ojo Público)</li>
-                    <li><strong>Fase 2 - Early Adopters (Abr-Jun):</strong> Launch público, PR en medios digitales (Útero, Sudaca)</li>
-                    <li><strong>Fase 3 - Growth (Jul-Oct):</strong> Campaña orgánica, influencers de nicho, universidades</li>
-                    <li><strong>Fase 4 - Viral (Nov-Feb 2026):</strong> Quiz electoral como gancho viral, comparador de candidatos</li>
-                    <li><strong>Fase 5 - Peak (Mar-Abr 2026):</strong> Cobertura debates, alianzas con medios, WhatsApp Business</li>
-                  </ul>
-                </div>
-              </div>
-
-              {/* KPIs */}
-              <div className="p-4 border-2 border-[var(--border)]">
-                <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Métricas de Éxito (KPIs) - Proyección Realista</h4>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center mb-4">
-                  <div className="p-3 bg-[var(--primary)]/10 border border-[var(--border)]">
-                    <div className="text-xl font-black text-[var(--primary)]">500K</div>
-                    <div className="text-xs text-[var(--muted-foreground)] font-medium">Usuarios únicos (meta)</div>
-                    <div className="text-[10px] text-[var(--muted-foreground)]">2% del SAM</div>
-                  </div>
-                  <div className="p-3 bg-[var(--primary)]/10 border border-[var(--border)]">
-                    <div className="text-xl font-black text-[var(--primary)]">2:30</div>
-                    <div className="text-xs text-[var(--muted-foreground)] font-medium">Tiempo promedio</div>
-                    <div className="text-[10px] text-[var(--muted-foreground)]">Benchmark: 1:45</div>
-                  </div>
-                  <div className="p-3 bg-[var(--primary)]/10 border border-[var(--border)]">
-                    <div className="text-xl font-black text-[var(--primary)]">75K</div>
-                    <div className="text-xs text-[var(--muted-foreground)] font-medium">Quiz completados</div>
-                    <div className="text-[10px] text-[var(--muted-foreground)]">15% conversion</div>
-                  </div>
-                  <div className="p-3 bg-[var(--primary)]/10 border border-[var(--border)]">
-                    <div className="text-xl font-black text-[var(--primary)]">25K</div>
-                    <div className="text-xs text-[var(--muted-foreground)] font-medium">Comparaciones</div>
-                    <div className="text-[10px] text-[var(--muted-foreground)]">5% conversion</div>
-                  </div>
-                </div>
-                <div className="grid grid-cols-3 gap-3 text-center text-xs">
-                  <div className="p-2 bg-green-50 dark:bg-green-900/20 border border-green-500">
-                    <div className="font-black text-green-700 dark:text-green-400">$0.10-0.30</div>
-                    <div className="text-[var(--muted-foreground)]">CAC objetivo (orgánico)</div>
-                  </div>
-                  <div className="p-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-500">
-                    <div className="font-black text-blue-700 dark:text-blue-400">15%</div>
-                    <div className="text-[var(--muted-foreground)]">Share rate target</div>
-                  </div>
-                  <div className="p-2 bg-purple-50 dark:bg-purple-900/20 border border-purple-500">
-                    <div className="font-black text-purple-700 dark:text-purple-400">40%</div>
-                    <div className="text-[var(--muted-foreground)]">Return visitors</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Timeline */}
-              <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border-2 border-blue-500">
-                <h4 className="font-black text-blue-700 dark:text-blue-400 mb-3 uppercase text-sm">Timeline Electoral Perú 2026</h4>
-                <div className="space-y-2 text-xs font-medium">
-                  <div className="flex items-center gap-2">
-                    <span className="px-2 py-1 bg-green-200 dark:bg-green-800 text-green-800 dark:text-green-200 min-w-[90px] text-center">Ene 2025</span>
-                    <span className="text-[var(--muted-foreground)]">✓ MVP lanzado - Ranking básico operativo</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="px-2 py-1 bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200 min-w-[90px] text-center">Jun 2025</span>
-                    <span className="text-[var(--muted-foreground)]">Convocatoria oficial elecciones por JNE</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="px-2 py-1 bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200 min-w-[90px] text-center">Ago-Oct 2025</span>
-                    <span className="text-[var(--muted-foreground)]">Inscripción de candidatos en JNE</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="px-2 py-1 bg-blue-200 dark:bg-blue-800 text-blue-800 dark:text-blue-200 min-w-[90px] text-center">Nov 2025</span>
-                    <span className="text-[var(--muted-foreground)]">Inicio campaña electoral oficial</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="px-2 py-1 bg-orange-200 dark:bg-orange-800 text-orange-800 dark:text-orange-200 min-w-[90px] text-center">Ene-Mar 2026</span>
-                    <span className="text-[var(--muted-foreground)]">Campaña intensa - Debates presidenciales</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="px-2 py-1 bg-red-300 dark:bg-red-800 text-red-800 dark:text-red-200 font-black min-w-[90px] text-center">12 Abr 2026</span>
-                    <span className="text-[var(--foreground)] font-black">🗳️ PRIMERA VUELTA - Día D</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="px-2 py-1 bg-red-200 dark:bg-red-800 text-red-800 dark:text-red-200 min-w-[90px] text-center">Jun 2026</span>
-                    <span className="text-[var(--muted-foreground)]">Segunda vuelta (si aplica)</span>
-                  </div>
                 </div>
               </div>
             </CardContent>
           </Card>
         </section>
 
-        {/* Section 15: Product Roadmap */}
-        <section id="roadmap" className="mb-12 scroll-mt-20">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3">
-                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">15</span>
-                PRODUCT ROADMAP
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Timeline */}
-              <div className="space-y-4">
-                {/* Q1 2025 */}
-                <div className="p-4 border-2 border-green-500 bg-green-50 dark:bg-green-900/20">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="px-2 py-1 bg-green-500 text-white text-xs font-black">Q1 2025</span>
-                    <span className="text-green-700 dark:text-green-400 font-black">MVP LANZADO ✓</span>
-                  </div>
-                  <div className="grid sm:grid-cols-2 gap-2 text-sm text-[var(--muted-foreground)] font-medium">
-                    <div>✅ Ranking dinámico de candidatos</div>
-                    <div>✅ Perfiles detallados con datos JNE</div>
-                    <div>✅ Sistema de scoring objetivo</div>
-                    <div>✅ Comparador de candidatos</div>
-                    <div>✅ Quiz electoral interactivo</div>
-                    <div>✅ Feed de noticias en tiempo real</div>
-                    <div>✅ Transparencia financiera de partidos</div>
-                    <div>✅ Multi-idioma (ES, QU, AY, ASE)</div>
-                  </div>
-                </div>
-
-                {/* Q2 2025 */}
-                <div className="p-4 border-2 border-blue-500 bg-blue-50 dark:bg-blue-900/20">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="px-2 py-1 bg-blue-500 text-white text-xs font-black">Q2 2025</span>
-                    <span className="text-blue-700 dark:text-blue-400 font-black">ENGAGEMENT</span>
-                  </div>
-                  <div className="grid sm:grid-cols-2 gap-2 text-sm text-[var(--muted-foreground)] font-medium">
-                    <div>🔄 Comparador de propuestas por tema</div>
-                    <div>🔄 Quiz mejorado con más preguntas</div>
-                    <div>🔄 Alertas personalizadas de noticias</div>
-                    <div>🔄 Historial de cambios en candidatos</div>
-                    <div>🔄 Verificación de datos con AI</div>
-                    <div>🔄 Integración con redes sociales</div>
-                  </div>
-                </div>
-
-                {/* Q3 2025 */}
-                <div className="p-4 border-2 border-purple-500 bg-purple-50 dark:bg-purple-900/20">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="px-2 py-1 bg-purple-500 text-white text-xs font-black">Q3 2025</span>
-                    <span className="text-purple-700 dark:text-purple-400 font-black">EXPANSIÓN</span>
-                  </div>
-                  <div className="grid sm:grid-cols-2 gap-2 text-sm text-[var(--muted-foreground)] font-medium">
-                    <div>📱 App móvil (PWA optimizada)</div>
-                    <div>🔌 Widgets embebibles para medios</div>
-                    <div>🗳️ Simulador de resultados</div>
-                    <div>📊 Dashboard para periodistas</div>
-                    <div>🔔 Push notifications</div>
-                    <div>🌐 Cobertura de elecciones regionales</div>
-                  </div>
-                </div>
-
-                {/* Q4 2025 */}
-                <div className="p-4 border-2 border-orange-500 bg-orange-50 dark:bg-orange-900/20">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="px-2 py-1 bg-orange-500 text-white text-xs font-black">Q4 2025</span>
-                    <span className="text-orange-700 dark:text-orange-400 font-black">MADUREZ</span>
-                  </div>
-                  <div className="grid sm:grid-cols-2 gap-2 text-sm text-[var(--muted-foreground)] font-medium">
-                    <div>🔓 API pública documentada</div>
-                    <div>📺 Tracking de debates en vivo</div>
-                    <div>🤖 Chatbot electoral con AI</div>
-                    <div>📈 Predicciones basadas en datos</div>
-                    <div>🔍 Fact-checking automatizado</div>
-                    <div>🏆 Gamificación del engagement cívico</div>
-                  </div>
-                </div>
-
-                {/* Q1 2026 - Election */}
-                <div className="p-4 border-2 border-red-500 bg-red-50 dark:bg-red-900/20">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="px-2 py-1 bg-red-500 text-white text-xs font-black">Q1-Q2 2026</span>
-                    <span className="text-red-700 dark:text-red-400 font-black">🗳️ ELECCIONES</span>
-                  </div>
-                  <div className="grid sm:grid-cols-2 gap-2 text-sm text-[var(--muted-foreground)] font-medium">
-                    <div>🔴 Cobertura en tiempo real</div>
-                    <div>📊 Resultados por distrito</div>
-                    <div>📱 Peak de tráfico - infraestructura escalada</div>
-                    <div>🗄️ Archivo histórico post-elección</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Competitive Analysis */}
-              <div className="p-4 border-2 border-[var(--border)]">
-                <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Diferenciadores vs Competencia</h4>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b-2 border-[var(--border)]">
-                        <th className="text-left py-2 font-black">Feature</th>
-                        <th className="text-center py-2 font-black">Nosotros</th>
-                        <th className="text-center py-2 font-black">JNE</th>
-                        <th className="text-center py-2 font-black">Medios</th>
-                      </tr>
-                    </thead>
-                    <tbody className="text-[var(--muted-foreground)] font-medium">
-                      <tr className="border-b border-[var(--border)]">
-                        <td className="py-2">Scoring objetivo</td>
-                        <td className="text-center text-green-600">✓</td>
-                        <td className="text-center text-red-600">✗</td>
-                        <td className="text-center text-red-600">✗</td>
-                      </tr>
-                      <tr className="border-b border-[var(--border)]">
-                        <td className="py-2">Comparador interactivo</td>
-                        <td className="text-center text-green-600">✓</td>
-                        <td className="text-center text-red-600">✗</td>
-                        <td className="text-center text-yellow-600">~</td>
-                      </tr>
-                      <tr className="border-b border-[var(--border)]">
-                        <td className="py-2">Quiz personalizado</td>
-                        <td className="text-center text-green-600">✓</td>
-                        <td className="text-center text-red-600">✗</td>
-                        <td className="text-center text-red-600">✗</td>
-                      </tr>
-                      <tr className="border-b border-[var(--border)]">
-                        <td className="py-2">Multi-idioma nativo</td>
-                        <td className="text-center text-green-600">✓</td>
-                        <td className="text-center text-red-600">✗</td>
-                        <td className="text-center text-red-600">✗</td>
-                      </tr>
-                      <tr>
-                        <td className="py-2">Open source / Auditable</td>
-                        <td className="text-center text-green-600">✓</td>
-                        <td className="text-center text-red-600">✗</td>
-                        <td className="text-center text-red-600">✗</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Section 16: Legal & Compliance */}
+        {/* Section 9: Legal & Compliance */}
         <section id="legal" className="mb-12 scroll-mt-20">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
-                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">16</span>
+                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">9</span>
                 LEGAL Y COMPLIANCE
               </CardTitle>
             </CardHeader>
@@ -2136,117 +1067,6 @@ CREATE TABLE scores (
                   <br />
                   <strong>Tiempo de respuesta:</strong> 48-72 horas hábiles
                 </p>
-              </div>
-            </CardContent>
-          </Card>
-        </section>
-
-        {/* Section 17: Operations */}
-        <section id="operaciones" className="mb-12 scroll-mt-20">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3">
-                <span className="w-8 h-8 bg-[var(--primary)] text-white flex items-center justify-center font-black text-sm">17</span>
-                OPERACIONES Y DESARROLLO
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Local Setup */}
-              <div className="p-4 border-2 border-[var(--border)]">
-                <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Setup de Desarrollo Local</h4>
-                <div className="bg-[var(--code-bg)] p-4 text-sm font-mono overflow-x-auto">
-                  <pre className="text-[var(--code-text)]">{`# 1. Clonar repositorio
-git clone https://github.com/rowhq/test26.git
-cd test26
-
-# 2. Instalar dependencias
-npm install
-
-# 3. Configurar variables de entorno
-cp .env.local.example .env.local
-# Editar .env.local con tus credenciales
-
-# 4. Iniciar base de datos (opcional - usar Neon/Supabase)
-# Las migraciones están en /supabase/migrations
-
-# 5. Iniciar servidor de desarrollo
-npm run dev
-
-# Abrir http://localhost:3000`}</pre>
-                </div>
-              </div>
-
-              <div className="grid sm:grid-cols-2 gap-4">
-                {/* Contributing */}
-                <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Guía de Contribución</h4>
-                  <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
-                    <li><strong>1.</strong> Fork del repositorio</li>
-                    <li><strong>2.</strong> Crear branch: <code className="bg-[var(--code-bg)] px-1">git checkout -b feat/mi-feature</code></li>
-                    <li><strong>3.</strong> Commits semánticos: <code className="bg-[var(--code-bg)] px-1">feat:</code>, <code className="bg-[var(--code-bg)] px-1">fix:</code>, <code className="bg-[var(--code-bg)] px-1">docs:</code></li>
-                    <li><strong>4.</strong> Tests: <code className="bg-[var(--code-bg)] px-1">npm run test</code></li>
-                    <li><strong>5.</strong> Lint: <code className="bg-[var(--code-bg)] px-1">npm run lint</code></li>
-                    <li><strong>6.</strong> Pull Request con descripción clara</li>
-                  </ul>
-                </div>
-
-                {/* Deployment */}
-                <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Proceso de Deploy</h4>
-                  <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
-                    <li><strong>Preview:</strong> Cada PR genera deploy automático</li>
-                    <li><strong>Production:</strong> Merge a <code className="bg-[var(--code-bg)] px-1">main</code> despliega automáticamente</li>
-                    <li><strong>Rollback:</strong> Via Vercel dashboard o CLI</li>
-                    <li><strong>Env vars:</strong> Configuradas en Vercel dashboard</li>
-                    <li><strong>Dominio:</strong> rankingelectoral.pe (próximamente)</li>
-                  </ul>
-                </div>
-
-                {/* Monitoring */}
-                <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Monitoreo</h4>
-                  <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
-                    <li>• <strong>Vercel Analytics:</strong> Tráfico, Web Vitals</li>
-                    <li>• <strong>Vercel Logs:</strong> Errores en tiempo real</li>
-                    <li>• <strong>Supabase Dashboard:</strong> Queries, storage</li>
-                    <li>• <strong>Sync Logs:</strong> /admin/sync (interno)</li>
-                    <li>• <strong>Uptime:</strong> Vercel Status + Better Uptime</li>
-                  </ul>
-                </div>
-
-                {/* Cron Jobs */}
-                <div className="p-4 border-2 border-[var(--border)]">
-                  <h4 className="font-black text-[var(--foreground)] mb-3 uppercase text-sm">Cron Jobs</h4>
-                  <ul className="text-sm text-[var(--muted-foreground)] space-y-2 font-medium">
-                    <li>• <strong>JNE Sync:</strong> Diario 3:00 AM PET</li>
-                    <li>• <strong>News Sync:</strong> Cada 4 horas</li>
-                    <li>• <strong>AI Analysis:</strong> Manual / Bajo demanda</li>
-                    <li>• <strong>Cache Refresh:</strong> Cada 1 hora</li>
-                    <li>• Configurado en <code className="bg-[var(--code-bg)] px-1">vercel.json</code></li>
-                  </ul>
-                </div>
-              </div>
-
-              {/* Tech Requirements */}
-              <div className="p-4 bg-[var(--primary)]/5 border-2 border-[var(--primary)]">
-                <h4 className="font-black text-[var(--primary)] mb-3 uppercase text-sm">Requisitos Técnicos</h4>
-                <div className="grid sm:grid-cols-3 gap-4 text-sm text-[var(--muted-foreground)] font-medium">
-                  <div>
-                    <strong>Node.js:</strong> 18.x o superior
-                    <br />
-                    <strong>npm:</strong> 9.x o superior
-                  </div>
-                  <div>
-                    <strong>PostgreSQL:</strong> 15.x (Neon/Supabase)
-                    <br />
-                    <strong>Redis:</strong> Opcional (caching)
-                  </div>
-                  <div>
-                    <strong>Vercel CLI:</strong> Último
-                    <br />
-                    <strong>Git:</strong> 2.x o superior
-                  </div>
-                </div>
               </div>
             </CardContent>
           </Card>

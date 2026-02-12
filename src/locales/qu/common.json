@@ -8,7 +8,7 @@
   "nav": {
     "ranking": "Ranking",
     "news": "Willakuykuna",
-    "quiz": "Tapukuykuna",
+    "quiz": "Ñan Pusaq",
     "compare": "Tupachiy",
     "transparency": "Sut'i kay",
     "methodology": "Imayna ruwaykuna",
@@ -343,7 +343,7 @@
     }
   },
   "quiz": {
-    "title": "Akllana Tapukuy",
+    "title": "Akllana Ñan Pusaq",
     "subtitle": "Tarikuy mayqin akllasqa runakuna qanwan tupaq",
     "start": "Qallariy",
     "question": "Tapukuy",
@@ -717,7 +717,7 @@
     "new": "Musuq",
     "quizQuestion": "¿Pitaq qanhina yuyaychkan?",
     "quizDescription": "Chunka tapukuykuna allin akllasqa runata tarinaykipaq",
-    "takeQuiz": "Tapukuy Ruway",
+    "takeQuiz": "Ñan Pusaq Ruway",
     "howWeEvaluate": "Imayna chaninchaykuna",
     "viewFullMethodology": "Tukuy ruwayta qhaway",
     "competence": "Yachay",
@@ -1031,7 +1031,7 @@
         "desc": "Sapa akllasqa runapa tukuy yachaynin: yachay, ruwaykuna, antecedentes, imakunawan willakuykuna."
       },
       "quiz": {
-        "title": "Akllana Quiz",
+        "title": "Akllana Ñan Pusaq",
         "desc": "Chunka tapukuykuna mayqin akllasqa runakuna qanwan tupaq tarinaykipaq."
       },
       "compare": {
