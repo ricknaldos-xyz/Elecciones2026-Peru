@@ -641,7 +641,8 @@ export default async function PartidoPage({ params }: PageProps) {
                     {tFranja('partyAllocation')}
                   </h2>
                   <div className="flex items-center gap-2">
-                    {franjaData.renounced && <Badge variant="warning">{tFranja('renounced')}</Badge>}
+                    {(franjaData.status === 'renounced_full' || franjaData.status === 'renounced_partial') && <Badge variant="warning">{franjaData.status === 'renounced_full' ? tFranja('renounced') : tFranja('renouncedPartial')}</Badge>}
+                    {franjaData.status === 'withdrawn' && <Badge variant="danger">{tFranja('withdrawn')}</Badge>}
                     {franjaData.underInvestigation && <Badge variant="danger">{tFranja('underInvestigation')}</Badge>}
                     <Badge variant="outline">ONPE</Badge>
                   </div>

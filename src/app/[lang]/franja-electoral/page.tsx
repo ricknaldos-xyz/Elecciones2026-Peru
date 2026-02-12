@@ -36,6 +36,26 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 }
 
+function getStatusBadge(status: string, t: (key: string) => string) {
+  switch (status) {
+    case 'renounced_full':
+      return <Badge variant="warning">{t('renounced')}</Badge>
+    case 'renounced_partial':
+      return <Badge variant="warning">{t('renouncedPartial')}</Badge>
+    case 'withdrawn':
+      return <Badge variant="danger">{t('withdrawn')}</Badge>
+    default:
+      return null
+  }
+}
+
+function getBarColor(status: string, underInvestigation: boolean): string {
+  if (underInvestigation) return 'bg-[var(--score-low)]'
+  if (status === 'renounced_full' || status === 'withdrawn') return 'bg-gray-400 dark:bg-gray-600'
+  if (status === 'renounced_partial') return 'bg-amber-400 dark:bg-amber-600'
+  return 'bg-[var(--primary)]'
+}
+
 export default async function FranjaElectoralPage({ params }: PageProps) {
   const { lang } = await params
   const t = await getTranslations({ locale: lang, namespace: 'franjaElectoral' })
@@ -78,7 +98,7 @@ export default async function FranjaElectoralPage({ params }: PageProps) {
           <Card className="p-4">
             <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase mb-1">{t('period')}</div>
             <div className="text-lg sm:text-xl font-black text-[var(--foreground)]">
-              60 {t('days')}
+              {FRANJA_ELECTORAL.broadcastDays} {t('days')}
             </div>
             <div className="text-xs text-[var(--muted-foreground)] mt-1">11 feb — 9 abr 2026</div>
           </Card>
@@ -150,6 +170,13 @@ export default async function FranjaElectoralPage({ params }: PageProps) {
                 </div>
               </div>
             </div>
+
+            {/* Acción Popular note */}
+            <div className="bg-[var(--muted)] border-2 border-[var(--border)] p-3 mt-4">
+              <p className="text-xs text-[var(--muted-foreground)]">
+                <span className="font-black text-[var(--foreground)]">{t('accionPopularNote')}</span>
+              </p>
+            </div>
           </CardContent>
         </Card>
 
@@ -177,11 +204,7 @@ export default async function FranjaElectoralPage({ params }: PageProps) {
                   {/* Bar */}
                   <div className="flex-1 h-5 bg-[var(--muted)] border border-[var(--border)]">
                     <div
-                      className={`h-full transition-all ${
-                        party.underInvestigation ? 'bg-[var(--score-low)]' :
-                        party.renounced ? 'bg-amber-400 dark:bg-amber-600' :
-                        'bg-[var(--primary)]'
-                      }`}
+                      className={`h-full transition-all ${getBarColor(party.status, party.underInvestigation)}`}
                       style={{ width: `${(party.totalAllocation / maxAllocation) * 100}%` }}
                     />
                   </div>
@@ -194,14 +217,12 @@ export default async function FranjaElectoralPage({ params }: PageProps) {
                   </div>
 
                   {/* Status */}
-                  <div className="w-24 flex-shrink-0 text-right">
-                    {party.renounced && (
-                      <Badge variant="warning">{t('renounced')}</Badge>
-                    )}
+                  <div className="w-28 flex-shrink-0 text-right">
                     {party.underInvestigation && (
                       <Badge variant="danger">{t('underInvestigation')}</Badge>
                     )}
-                    {!party.renounced && !party.underInvestigation && (
+                    {!party.underInvestigation && getStatusBadge(party.status, t)}
+                    {!party.underInvestigation && party.status === 'active' && (
                       <span className="text-xs text-[var(--muted-foreground)]">{t('active')}</span>
                     )}
                   </div>
@@ -234,6 +255,10 @@ export default async function FranjaElectoralPage({ params }: PageProps) {
             <div className="border-l-4 border-amber-400 pl-4">
               <h3 className="text-sm font-black text-[var(--foreground)] uppercase">{t('alertRenounced')}</h3>
               <p className="text-sm text-[var(--muted-foreground)] mt-1">{t('alertRenouncedDesc')}</p>
+            </div>
+            <div className="border-l-4 border-gray-400 pl-4">
+              <h3 className="text-sm font-black text-[var(--foreground)] uppercase">{t('alertWithdrawn')}</h3>
+              <p className="text-sm text-[var(--muted-foreground)] mt-1">{t('alertWithdrawnDesc')}</p>
             </div>
           </CardContent>
         </Card>
@@ -276,6 +301,10 @@ export default async function FranjaElectoralPage({ params }: PageProps) {
               <li className="flex items-center gap-2">
                 <Badge variant="outline">ONPE</Badge>
                 <span>Resolución Jefatural N° 000020-2026-JN/ONPE — Modificaciones</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Badge variant="outline">JNE</Badge>
+                <span>Resolución N° 0602-2021-JNE — Distribución de escaños 2021</span>
               </li>
               <li className="flex items-center gap-2">
                 <Badge variant="outline">LEY</Badge>
