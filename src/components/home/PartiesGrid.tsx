@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
+import { displayPartyName } from '@/lib/utils'
 
 interface PartyWithCount {
   id: string
@@ -53,7 +54,7 @@ export function PartiesGrid({ parties }: { parties: PartyWithCount[] }) {
             </div>
             <div className="flex-1 min-w-0">
               <div className="text-xs font-black text-[var(--foreground)] uppercase leading-tight line-clamp-2 group-hover:text-[var(--primary)] transition-colors">
-                {party.name}
+                {displayPartyName(party.name)}
               </div>
               <div className="text-xs text-[var(--muted-foreground)] font-medium">
                 {party.candidate_count} {t('candidates')}

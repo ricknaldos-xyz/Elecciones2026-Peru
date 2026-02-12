@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server'
 import { Link } from '@/i18n/routing'
 import { getCandidates, getPartyBySlug, getPartyFinances } from '@/lib/db/queries'
 import { generatePoliticalPartySchema, generateBreadcrumbSchema } from '@/lib/schema'
+import { displayPartyName } from '@/lib/utils'
 import { locales } from '@/i18n/config'
 import { Header } from '@/components/layout/Header'
 import { CandidateCard } from '@/components/candidate/CandidateCard'
@@ -135,7 +136,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const ogParams = new URLSearchParams({
     type: 'party',
-    name: party.name,
+    name: displayPartyName(party.name),
     short_name: party.short_name || '',
     color: party.color || '#DC2626',
     candidates: candidates.length.toString(),
@@ -145,8 +146,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://eleccionesperu2026.xyz'
   const t = await getTranslations('partyPage')
   return {
-    title: `${party.name} - Ranking Electoral 2026`,
-    description: t('metaDesc', { name: party.name as string }),
+    title: `${displayPartyName(party.name)} - Ranking Electoral 2026`,
+    description: t('metaDesc', { name: displayPartyName(party.name) }),
     openGraph: {
       images: [`/api/og?${ogParams.toString()}`],
     },
@@ -191,7 +192,7 @@ export default async function PartidoPage({ params }: PageProps) {
   const partySchema = generatePoliticalPartySchema(party as { name: string; short_name?: string | null; logo_url?: string | null }, slug)
   const breadcrumbSchema = generateBreadcrumbSchema([
     { name: 'Ranking', url: `${baseUrl}/es/ranking` },
-    { name: (party.name as string), url: `${baseUrl}/es/partido/${slug}` },
+    { name: displayPartyName(party.name), url: `${baseUrl}/es/partido/${slug}` },
   ])
 
   return (
@@ -214,7 +215,7 @@ export default async function PartidoPage({ params }: PageProps) {
             />
             <div>
               <h1 className="text-3xl font-black text-[var(--foreground)] uppercase tracking-tight">
-                {party.name}
+                {displayPartyName(party.name)}
               </h1>
               <p className="text-[var(--muted-foreground)] font-medium">
                 {t('registeredCandidates', { count: candidates.length })}
