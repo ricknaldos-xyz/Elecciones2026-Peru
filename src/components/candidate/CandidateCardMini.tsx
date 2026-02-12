@@ -2,7 +2,7 @@
 
 import { memo } from 'react'
 import { Link } from '@/i18n/routing'
-import { cn } from '@/lib/utils'
+import { cn, displayPartyName } from '@/lib/utils'
 import { CandidateImage } from './CandidateImage'
 
 interface TopCandidate {
@@ -112,7 +112,7 @@ export const CandidateCardMini = memo(function CandidateCardMini({ rank, candida
               style={{ backgroundColor: candidate.party_color || '#6B7280' }}
             />
             <span className="text-xs sm:text-sm font-bold text-[var(--muted-foreground)] uppercase leading-tight">
-              {candidate.party_name || candidate.party_short_name}
+              {displayPartyName(candidate.party_name) || candidate.party_short_name}
             </span>
           </div>
         )}

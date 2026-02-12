@@ -4,6 +4,7 @@ import { getTranslations } from 'next-intl/server'
 import { getCandidateBySlug, getScoreBreakdown, getCandidateDetails, getVicePresidents, getSiblingCargos } from '@/lib/db/queries'
 import { CandidateProfileContent } from './CandidateProfileContent'
 import { generatePersonSchema, generateBreadcrumbSchema } from '@/lib/schema'
+import { displayPartyName } from '@/lib/utils'
 import { locales } from '@/i18n/config'
 import type { CargoType } from '@/types/database'
 
@@ -41,7 +42,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const ogParams = new URLSearchParams({
     name: candidate.full_name,
-    party: candidate.party?.name || candidate.party?.short_name || '',
+    party: displayPartyName(candidate.party?.name) || candidate.party?.short_name || '',
     cargo: candidate.cargo,
     score: effectiveScore.toFixed(1),
     c: candidate.scores.competence.toFixed(0),

@@ -2,7 +2,7 @@
 
 import { memo } from 'react'
 import { useRouter } from '@/i18n/routing'
-import { cn } from '@/lib/utils'
+import { cn, displayPartyName } from '@/lib/utils'
 import { CandidateImage } from './CandidateImage'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -140,7 +140,7 @@ export const CandidateCard = memo(function CandidateCard({
               <div className="flex items-center gap-1.5 mt-1">
                 {candidate.party && (
                   <Badge variant="primary" size="sm">
-                    {candidate.party.name || candidate.party.short_name}
+                    {displayPartyName(candidate.party.name) || candidate.party.short_name}
                   </Badge>
                 )}
               </div>
@@ -272,7 +272,7 @@ export const CandidateCard = memo(function CandidateCard({
           <div className="flex items-center gap-1.5 sm:gap-2 mt-2 flex-wrap">
             {candidate.party && (
               <Badge variant="primary" size="sm">
-                {candidate.party.name || candidate.party.short_name}
+                {displayPartyName(candidate.party.name) || candidate.party.short_name}
               </Badge>
             )}
             {candidate.district && (

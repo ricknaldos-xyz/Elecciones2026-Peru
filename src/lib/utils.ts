@@ -13,6 +13,12 @@ export function formatPercentage(value: number): string {
   return `${Math.round(value)}%`
 }
 
+export function displayPartyName(name: string | null | undefined): string {
+  if (!name) return ''
+  const idx = name.indexOf(' - ')
+  return idx > 0 ? name.substring(0, idx) : name
+}
+
 export function slugify(text: string): string {
   return text
     .toLowerCase()

@@ -7,7 +7,7 @@ import dynamic from 'next/dynamic'
 import { CandidateImage } from '@/components/candidate/CandidateImage'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { cn } from '@/lib/utils'
+import { cn, displayPartyName } from '@/lib/utils'
 import { Header } from '@/components/layout/Header'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -1234,7 +1234,7 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                     />
                     <div className="flex-1 min-w-0">
                       <div className="text-xs font-bold text-[var(--foreground)] truncate uppercase">
-                        {candidate.party.name || candidate.party.short_name}
+                        {displayPartyName(candidate.party.name) || candidate.party.short_name}
                       </div>
                       <div className="text-xs text-[var(--muted-foreground)]">{t('viewParty')}</div>
                     </div>
@@ -1357,7 +1357,7 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                     </h3>
                     {sim.party && (
                       <p className="text-xs font-bold text-[var(--muted-foreground)] truncate mt-0.5">
-                        {sim.party.name || sim.party.short_name}
+                        {displayPartyName(sim.party.name) || sim.party.short_name}
                       </p>
                     )}
                     <div className="mt-1.5 text-lg font-black text-[var(--primary)]">

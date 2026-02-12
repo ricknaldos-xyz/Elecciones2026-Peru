@@ -13,6 +13,7 @@ import { CandidateImage } from '@/components/candidate/CandidateImage'
 import { AdBanner } from '@/components/ads/AdBanner'
 import { AdSlot } from '@/components/ads/AdSlot'
 import { PartiesGrid } from '@/components/home/PartiesGrid'
+import { displayPartyName } from '@/lib/utils'
 import { DISTRICTS } from '@/lib/constants'
 import { sql } from '@/lib/db'
 import { generateWebSiteSchema, generateOrganizationSchema } from '@/lib/schema'
@@ -603,7 +604,7 @@ export default async function Home() {
                             style={{ backgroundColor: candidate.party_color || '#6B7280' }}
                           />
                           <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase line-clamp-1">
-                            {candidate.party_name}
+                            {displayPartyName(candidate.party_name)}
                           </span>
                         </div>
                       )}
@@ -692,7 +693,7 @@ export default async function Home() {
                             style={{ backgroundColor: voter.party_color || '#6B7280' }}
                           />
                           <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase line-clamp-1">
-                            {voter.party_name}
+                            {displayPartyName(voter.party_name)}
                           </span>
                         </div>
                       )}
@@ -801,7 +802,7 @@ export default async function Home() {
                       </h3>
                       {candidate.party_name && (
                         <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase line-clamp-1">
-                          {candidate.party_name}
+                          {displayPartyName(candidate.party_name)}
                         </span>
                       )}
                       <div className="mt-auto pt-2 flex items-center gap-1.5">
@@ -988,7 +989,7 @@ export default async function Home() {
                               style={{ backgroundColor: candidate.party_color || '#6B7280' }}
                             />
                             <span className="text-xs font-bold text-white/80 uppercase line-clamp-1">
-                              {candidate.party_name}
+                              {displayPartyName(candidate.party_name)}
                             </span>
                           </div>
                         )}
