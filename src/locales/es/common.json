@@ -1675,5 +1675,24 @@
   "partiesGrid": {
     "candidates": "candidatos",
     "viewAllParties": "Ver los {count} partidos"
+  },
+  "votaciones": {
+    "title": "Historial de Votaciones Congresales",
+    "subtitle": "Cómo votaron los excongresistas que ahora son candidatos en las leyes más controversiales",
+    "totalLaws": "Leyes Controversiales",
+    "candidatesWithVotes": "Excongresistas con Registros",
+    "categories": "Categorías",
+    "lawsList": "Las 17 Leyes Controversiales",
+    "voteMatrix": "Votaciones por Candidato",
+    "inFavor": "A favor",
+    "against": "En contra",
+    "absent": "Ausente",
+    "abstention": "Abstención",
+    "penaltyPoints": "Penalidad",
+    "bonusPoints": "Bonificación",
+    "howItWorks": "Cómo Funciona",
+    "howItWorksDesc": "Estos registros documentan cómo votaron los actuales candidatos cuando fueron congresistas. Votar a favor de leyes que debilitan la justicia, protegen la corrupción o limitan la fiscalización reduce el score de integridad del candidato.",
+    "sourceNote": "Fuente: Registros oficiales del Congreso de la República del Perú, verificados por Transparencia.",
+    "backToHome": "Volver al inicio"
   }
 }

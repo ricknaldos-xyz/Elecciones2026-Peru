@@ -1673,5 +1673,24 @@
   "partiesGrid": {
     "candidates": "ajilirinaxa",
     "viewAllParties": "{count} partidonaka uñjaña"
+  },
+  "votaciones": {
+    "title": "Congresun Votacionanakan Historialapa",
+    "subtitle": "Kunjamatix jichhür ajilirinakaxa nayra congresistanakajj votapxatayna juk'ampï controversiales leyanakanxa",
+    "totalLaws": "Leyanaka Controversiales",
+    "candidatesWithVotes": "Excongresistas Registraniwa",
+    "categories": "Categorías",
+    "lawsList": "17 Leyanaka Controversiales",
+    "voteMatrix": "Votacionanaka Ajilirinakata",
+    "inFavor": "Favor",
+    "against": "Contra",
+    "absent": "Jan jutiri",
+    "abstention": "Abstencion",
+    "penaltyPoints": "Penalidad",
+    "bonusPoints": "Bonificación",
+    "howItWorks": "Kunjamatix Irnaqasi",
+    "howItWorksDesc": "Aka registronakax uñacht'ayi kunjamatix jichhür ajilirinakaxa votapxatayna congresista jilïripxanxa. Favor ukampi votasiñaxa leyanakata justiciata jisk'achayi, corrupcionta jark'aqi jan ukax fiscalizaciónta limitayi.",
+    "sourceNote": "Phaqsi: Congreso de la Repúblican registronakapa, Transparencia ukampi verificata.",
+    "backToHome": "Qalltawi tuqiru kutiña"
   }
 }

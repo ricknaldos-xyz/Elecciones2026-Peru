@@ -1673,5 +1673,24 @@
   "partiesGrid": {
     "candidates": "akllasqakuna",
     "viewAllParties": "{count} partidokunata qhaway"
+  },
+  "votaciones": {
+    "title": "Congreso Votacionkunap Historialninpi",
+    "subtitle": "Imaynatan kunan akllasqakuna ñawpaq congresistakuna kaspa votarqanku aswan controversialkuna leykunapi",
+    "totalLaws": "Leykuna Controversiales",
+    "candidatesWithVotes": "Excongresistas Registroyuq",
+    "categories": "Categorías",
+    "lawsList": "17 Leykuna Controversiales",
+    "voteMatrix": "Votacionkuna Akllasqa",
+    "inFavor": "Favor",
+    "against": "Contra",
+    "absent": "Mana kaq",
+    "abstention": "Abstencion",
+    "penaltyPoints": "Penalidad",
+    "bonusPoints": "Bonificación",
+    "howItWorks": "Imaynan Llamkan",
+    "howItWorksDesc": "Kay registrokuna willakun imaynatan kunan akllasqakuna votarqanku congresista kaspanku. Favor votaspa leykunapaq justiciata pisiyachinku, corrupcionta waqaychanku utaq fiscalizaciónta limitanku.",
+    "sourceNote": "Pukyun: Congreso de la Repúblicap registronkuna, Transparencia nisqawan verificasqa.",
+    "backToHome": "Qallariypi kutiy"
   }
 }

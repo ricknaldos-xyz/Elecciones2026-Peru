@@ -1673,5 +1673,24 @@
   "partiesGrid": {
     "candidates": "apatotantsipë",
     "viewAllParties": "{count} partidokite oñaagantsi"
+  },
+  "votaciones": {
+    "title": "Congresoki Votacionkite Historialiri",
+    "subtitle": "Tsika okantanakari irashi apatotantsipë noshikaite congressistaite votakaganakë leyakirite asaninkaperotantsiki",
+    "totalLaws": "Leyakiri Controversiales",
+    "candidatesWithVotes": "Excongresistas Registroniriki",
+    "categories": "Categorías",
+    "lawsList": "17 Leyakiri Controversiales",
+    "voteMatrix": "Votacionkite Apatotantsipë",
+    "inFavor": "Favor",
+    "against": "Contra",
+    "absent": "Te ipokiri",
+    "abstention": "Abstencion",
+    "penaltyPoints": "Penalidad",
+    "bonusPoints": "Bonificación",
+    "howItWorks": "Tsika Okantanakari",
+    "howItWorksDesc": "Oka registrokite oñaagantsi tsika okantanakari irashi apatotantsipë votakaganakë congressistaite opitanakë. Favor votantsiri leyakiri justiciata pisiyashiretaganakë, corrupcionta okantimoganakë.",
+    "sourceNote": "Kantantsi: Congreso de la Repúblicaki registrokite, Transparencia otishiganakë.",
+    "backToHome": "Okaratsi ketëki"
   }
 }

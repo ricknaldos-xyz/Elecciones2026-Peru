@@ -656,7 +656,7 @@ export default async function Home() {
                   </div>
                 </div>
                 <Link
-                  href="/ranking?cargo=presidente"
+                  href="/votaciones"
                   className="text-xs font-bold text-[var(--score-low)] hover:underline uppercase flex items-center gap-1"
                 >
                   {t('seeVotingRecords')}
