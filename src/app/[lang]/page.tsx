@@ -781,7 +781,7 @@ export default async function Home() {
                     className="group flex flex-col bg-[var(--card)] border-2 border-[var(--border)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal)] transition-all duration-100 overflow-hidden"
                   >
                     {/* Photo with severity overlay */}
-                    <div className="relative aspect-square bg-[var(--muted)] overflow-hidden">
+                    <div className="relative aspect-[3/4] bg-[var(--muted)] overflow-hidden">
                       <CandidateImage
                         src={candidate.photo_url}
                         name={candidate.full_name}
