@@ -13,7 +13,7 @@ import { Badge } from '@/components/ui/Badge'
 import { PresetSelector } from '@/components/ranking/PresetSelector'
 import { useCandidatesByIds } from '@/hooks/useCandidates'
 import { useSuccessToast } from '@/components/ui/Toast'
-import { PRESETS, PRESIDENTIAL_PRESETS } from '@/lib/constants'
+import { PRESETS, CARGO_PRESETS } from '@/lib/constants'
 import { getScoreByMode } from '@/lib/scoring/utils'
 import { Link, useRouter } from '@/i18n/routing'
 import { FlagChips } from '@/components/candidate/FlagChip'
@@ -218,11 +218,9 @@ function CandidateSearch({
                 </div>
                 {/* Score */}
                 <div className={cn('text-lg font-black', getScoreColor(
-                  c.cargo === 'presidente' && c.scores.score_balanced_p != null
-                    ? c.scores.score_balanced_p : c.scores.score_balanced
+                  c.scores.score_balanced_p ?? c.scores.score_balanced
                 ))}>
-                  {(c.cargo === 'presidente' && c.scores.score_balanced_p != null
-                    ? c.scores.score_balanced_p : c.scores.score_balanced
+                  {(c.scores.score_balanced_p ?? c.scores.score_balanced
                   ).toFixed(0)}
                 </div>
                 {isAdded && (
@@ -289,7 +287,7 @@ export function CompareContent() {
   const [viabilityLoading, setViabilityLoading] = useState(false)
 
   useEffect(() => {
-    const presidentialCandidates = candidates.filter(c => c.cargo === 'presidente' && c.scores.plan_viability != null)
+    const presidentialCandidates = candidates.filter(c => c.scores.plan_viability != null)
     if (presidentialCandidates.length < 2) {
       setViabilityData({})
       return
@@ -335,13 +333,12 @@ export function CompareContent() {
   }
 
   // Detect if comparing presidential candidates (at least one has plan_viability)
-  const hasPresidential = candidates.some(c => c.cargo === 'presidente' && c.scores.plan_viability != null)
-  const currentWeights = mode === 'custom' ? customWeights : (hasPresidential ? PRESIDENTIAL_PRESETS[mode] : PRESETS[mode])
+  const hasPlanViability = candidates.some(c => c.scores.plan_viability != null)
+  const currentWeights = mode === 'custom' ? customWeights : (hasPlanViability ? CARGO_PRESETS[candidates[0]?.cargo || 'diputado'][mode] : PRESETS[mode])
 
   const getMetricValue = (candidate: CandidateWithScores, key: CompareMetric['key']): number => {
     if (key === 'total') {
-      const isPres = candidate.cargo === 'presidente' && candidate.scores.plan_viability != null
-      return getScoreByMode(candidate.scores, mode, currentWeights, isPres)
+      return getScoreByMode(candidate.scores, mode, currentWeights)
     }
     if (key === 'plan') {
       return candidate.scores.plan_viability ?? 0
@@ -421,7 +418,7 @@ export function CompareContent() {
           <PresetSelector
             value={mode}
             weights={customWeights}
-            cargo={hasPresidential ? 'presidente' : undefined}
+            cargo={hasPlanViability ? (candidates[0]?.cargo || 'diputado') : undefined}
             onChange={(newMode, newWeights) => {
               setMode(newMode)
               if (newWeights) {
@@ -517,11 +514,9 @@ export function CompareContent() {
                       {/* Score */}
                       <div className={cn(
                         'text-lg font-black mt-1 group-hover:text-white',
-                        getScoreColor(c.cargo === 'presidente' && c.scores.score_balanced_p != null
-                          ? c.scores.score_balanced_p : c.scores.score_balanced)
+                        getScoreColor(c.scores.score_balanced_p ?? c.scores.score_balanced)
                       )}>
-                        {(c.cargo === 'presidente' && c.scores.score_balanced_p != null
-                          ? c.scores.score_balanced_p : c.scores.score_balanced
+                        {(c.scores.score_balanced_p ?? c.scores.score_balanced
                         ).toFixed(0)}
                       </div>
                     </button>
@@ -569,8 +564,7 @@ export function CompareContent() {
               candidates.length === 2 && 'grid-cols-1 sm:grid-cols-2',
             )}>
               {candidates.map((candidate) => {
-                const isPres = candidate.cargo === 'presidente' && candidate.scores.plan_viability != null
-                const score = getScoreByMode(candidate.scores, mode, currentWeights, isPres)
+                const score = getScoreByMode(candidate.scores, mode, currentWeights)
                 const isBest = score === getBestScore('total') && candidates.length > 1
 
                 return (
@@ -650,12 +644,12 @@ export function CompareContent() {
                         {/* Sub-scores */}
                         <div className={cn(
                           'w-full grid gap-2 mt-3 pt-3 border-t-2 border-[var(--border)]',
-                          isPres ? 'grid-cols-4' : 'grid-cols-3'
+                          candidate.scores.plan_viability != null ? 'grid-cols-4' : 'grid-cols-3'
                         )}>
                           <SubScoreStat type="competence" value={candidate.scores.competence} size="sm" />
                           <SubScoreStat type="integrity" value={candidate.scores.integrity} size="sm" />
                           <SubScoreStat type="transparency" value={candidate.scores.transparency} size="sm" />
-                          {isPres && (
+                          {candidate.scores.plan_viability != null && (
                             <SubScoreStat type="plan" value={candidate.scores.plan_viability!} size="sm" />
                           )}
                         </div>
@@ -731,7 +725,7 @@ export function CompareContent() {
 
                   {/* Metric rows */}
                   <div className="space-y-5">
-                    {metrics.filter(m => !m.presidentialOnly || hasPresidential).map((metric) => {
+                    {metrics.filter(m => !m.presidentialOnly || hasPlanViability).map((metric) => {
                       const best = getBestScore(metric.key)
                       return (
                         <div key={metric.key}>
@@ -791,7 +785,7 @@ export function CompareContent() {
                         </tr>
                       </thead>
                       <tbody>
-                        {metrics.filter(m => !m.presidentialOnly || hasPresidential).map((metric) => {
+                        {metrics.filter(m => !m.presidentialOnly || hasPlanViability).map((metric) => {
                           const best = getBestScore(metric.key)
 
                           return (
@@ -875,7 +869,7 @@ export function CompareContent() {
             )}
 
             {/* ─── PLAN VIABILITY COMPARISON ─── */}
-            {hasPresidential && candidates.length >= 2 && (
+            {hasPlanViability && candidates.length >= 2 && (
               <div className="mt-8">
                 <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight mb-4">
                   {t('viabilityComparison')}

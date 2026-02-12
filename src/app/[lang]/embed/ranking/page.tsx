@@ -16,7 +16,6 @@ interface RankingCandidate {
 
 async function getTopCandidates(cargo = 'presidente', limit = 5): Promise<RankingCandidate[]> {
   try {
-    const isPresidential = cargo === 'presidente'
     const result = await sql`
       SELECT
         c.id,
@@ -24,7 +23,7 @@ async function getTopCandidates(cargo = 'presidente', limit = 5): Promise<Rankin
         c.slug,
         c.cargo,
         c.photo_url,
-        COALESCE(${isPresidential ? sql`s.score_balanced_p` : sql`s.score_balanced`}, s.score_balanced) as score,
+        COALESCE(s.score_balanced_p, s.score_balanced) as score,
         p.name as party_name,
         p.color as party_color
       FROM candidates c

@@ -37,7 +37,7 @@ const SocialMentionsCard = dynamic(() => import('@/components/candidate/SocialMe
 const CandidateProposals = dynamic(() => import('@/components/proposals/CandidateProposals').then(m => ({ default: m.CandidateProposals })), { ssr: false })
 const VotingRecordCard = dynamic(() => import('@/components/candidate/VotingRecordCard').then(m => ({ default: m.VotingRecordCard })), { ssr: false })
 const CandidateNewsSection = dynamic(() => import('@/components/news/CandidateNewsSection').then(m => ({ default: m.CandidateNewsSection })), { ssr: false })
-import { PRESETS, PRESIDENTIAL_PRESETS } from '@/lib/constants'
+import { PRESETS, CARGO_PRESETS } from '@/lib/constants'
 import { getScoreByMode } from '@/lib/scoring/utils'
 import type { CandidateWithScores, PresetType, ScoreBreakdown, CargoType } from '@/types/database'
 import type { CandidateDetails, VicePresident } from '@/lib/db/queries'
@@ -194,13 +194,13 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const isPresidential = candidate.cargo === 'presidente'
-  const activeWeights = isPresidential && candidate.scores.plan_viability != null
-    ? PRESIDENTIAL_PRESETS[mode as keyof typeof PRESIDENTIAL_PRESETS]
+  const cargoPresets = CARGO_PRESETS[candidate.cargo] || CARGO_PRESETS.diputado
+  const activeWeights = candidate.scores.plan_viability != null
+    ? cargoPresets[mode as keyof typeof cargoPresets]
     : PRESETS[mode as keyof typeof PRESETS]
 
   const getScore = () => {
-    return getScoreByMode(candidate.scores, mode, activeWeights, isPresidential)
+    return getScoreByMode(candidate.scores, mode, activeWeights)
   }
 
   const getCargoLabel = (cargo: string) => {
@@ -1342,7 +1342,7 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {similarCandidates.length > 0 ? (
               similarCandidates.map((sim) => {
-                const simScore = getScoreByMode(sim.scores, mode, undefined, sim.cargo === 'presidente')
+                const simScore = getScoreByMode(sim.scores, mode)
                 return (
                   <Link
                     key={sim.id}

@@ -1697,5 +1697,28 @@
     "howItWorksDesc": "Oka registrokite oñaagantsi tsika okantanakari irashi apatotantsipë votakaganakë congressistaite opitanakë. Favor votantsiri leyakiri justiciata pisiyashiretaganakë, corrupcionta okantimoganakë.",
     "sourceNote": "Kantantsi: Congreso de la Repúblicaki registrokite, Transparencia otishiganakë.",
     "backToHome": "Okaratsi ketëki"
+  },
+  "antecedentes": {
+    "title": "Nampitsi Kisakotagantsi",
+    "subtitle": "Postulanteegi antecedente penalpeki, civilpeki, disciplinariopeki, kamachiri sankenariite kengagantsi",
+    "totalFlagged": "Antecedenteyegi",
+    "totalCandidates": "Maaroini Postulanteegi",
+    "penalRecords": "Penal Sentenciaegi",
+    "violenceRecords": "Katsimaveitaneri",
+    "ofTotal": "maaroinimpa",
+    "byType": "Antecedente Jananeki Karagiteegi",
+    "candidates": "postulanteegi",
+    "byCargo": "Cargo Karagiteegi",
+    "flagged": "antecedenteyegi",
+    "candidateList": "Antecedenteyegi Postulanteegi",
+    "redFlags": "tsompiariegi",
+    "amberFlags": "otsitinaegi",
+    "integrityScore": "Legal Kisakotagantsi",
+    "viewProfile": "Perfil ñagantsi",
+    "noCandidates": "Tekatsi antecedenteyegi postulanteegi jokatsiri.",
+    "disclaimer": "Oka kisakotagantsiegi kamachiri sankenariite kengatsiri: JNE Yotagantsi Raphi, Poder Judicial sankenariiteegi. Tekatsi postulanteegi kitejisanoriegi.",
+    "sourceNote": "Jananeki: JNE, Poder Judicial, chikapa sankenariiteegi",
+    "viewMethodology": "Maaroini metodología ñagantsi",
+    "backToHome": "Okatagantsi panaru antagantsi"
   }
 }

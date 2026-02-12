@@ -1697,5 +1697,28 @@
     "howItWorksDesc": "Kay registrokuna willakun imaynatan kunan akllasqakuna votarqanku congresista kaspanku. Favor votaspa leykunapaq justiciata pisiyachinku, corrupcionta waqaychanku utaq fiscalizaciónta limitanku.",
     "sourceNote": "Pukyun: Congreso de la Repúblicap registronkuna, Transparencia nisqawan verificasqa.",
     "backToHome": "Qallariypi kutiy"
+  },
+  "antecedentes": {
+    "title": "Llaqta Yuyaychay",
+    "subtitle": "Huchallisqa willakuyniyuq postulantekuna: penal, civil, disciplinario, kamachiy qillqasqamanta",
+    "totalFlagged": "Antecedenteyuq",
+    "totalCandidates": "Tukuy Postulantekuna",
+    "penalRecords": "Penal Sentenciakuna",
+    "violenceRecords": "Atipanakuy",
+    "ofTotal": "tukuymanta",
+    "byType": "Antecedente Laya Rakinakuy",
+    "candidates": "postulantekuna",
+    "byCargo": "Cargo Rakinakuy",
+    "flagged": "antecedenteyuq",
+    "candidateList": "Antecedenteyuq Postulantekuna",
+    "redFlags": "sinchi",
+    "amberFlags": "chawpi",
+    "integrityScore": "Legal Willakuy",
+    "viewProfile": "Perfilta qhaway",
+    "noCandidates": "Mana antecedenteyuq postulantekunata tarikunchu.",
+    "disclaimer": "Kay willakuykuna kamachiy qillqasqamanta lluqsimun: JNE Kawsay Raphi Juramento, Poder Judicial qillqasqakuna. Manan postulantekuna huchachasqachu.",
+    "sourceNote": "Pukyumanta: JNE, Poder Judicial, chiqap qillqasqakuna",
+    "viewMethodology": "Tukuy metodologiata qhaway",
+    "backToHome": "Qallariy panaman kutiy"
   }
 }

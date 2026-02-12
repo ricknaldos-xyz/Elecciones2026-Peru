@@ -573,7 +573,7 @@ export default async function Home() {
                   </div>
                 </div>
                 <Link
-                  href="/ranking?cargo=presidente&preset=integrity"
+                  href="/antecedentes"
                   className="text-xs font-bold text-[var(--score-low)] hover:underline uppercase flex items-center gap-1"
                 >
                   {t('seeAllFlags')}

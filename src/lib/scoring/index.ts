@@ -8,7 +8,7 @@
  */
 
 import type { CargoType, PresidentialWeights } from '@/types/database'
-import { PRESIDENTIAL_PRESETS } from '@/lib/constants'
+import { CARGO_PRESETS } from '@/lib/constants'
 
 // ============================================
 // TYPES
@@ -940,7 +940,7 @@ export function calculateEnhancedScores(
     { wC: 0.30, wI: 0.60, wT: 0.10 }
   )
 
-  // Presidential 4-pillar scores (when plan viability data is available)
+  // 4-pillar scores (when plan viability data is available — all cargos)
   const planViability = planViabilityRaw != null ? Math.round(planViabilityRaw * 10) : undefined
 
   let balancedP: number | undefined
@@ -948,17 +948,18 @@ export function calculateEnhancedScores(
   let integrityFirstP: number | undefined
 
   if (planViability != null) {
+    const cargoPresets = CARGO_PRESETS[cargo] || CARGO_PRESETS.diputado
     balancedP = calculatePresidentialWeightedScore(
       competence.total, integrity.total, transparency.total, planViability,
-      PRESIDENTIAL_PRESETS.balanced as unknown as PresidentialWeights
+      cargoPresets.balanced as unknown as PresidentialWeights
     )
     meritP = calculatePresidentialWeightedScore(
       competence.total, integrity.total, transparency.total, planViability,
-      PRESIDENTIAL_PRESETS.merit as unknown as PresidentialWeights
+      cargoPresets.merit as unknown as PresidentialWeights
     )
     integrityFirstP = calculatePresidentialWeightedScore(
       competence.total, integrity.total, transparency.total, planViability,
-      PRESIDENTIAL_PRESETS.integrity as unknown as PresidentialWeights
+      cargoPresets.integrity as unknown as PresidentialWeights
     )
   }
 

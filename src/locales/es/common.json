@@ -1699,5 +1699,28 @@
     "howItWorksDesc": "Estos registros documentan cómo votaron los actuales candidatos cuando fueron congresistas. Votar a favor de leyes que debilitan la justicia, protegen la corrupción o limitan la fiscalización reduce el score de integridad del candidato.",
     "sourceNote": "Fuente: Registros oficiales del Congreso de la República del Perú, verificados por Transparencia.",
     "backToHome": "Volver al inicio"
+  },
+  "antecedentes": {
+    "title": "Alerta Ciudadana",
+    "subtitle": "Candidatos con antecedentes penales, civiles y disciplinarios documentados en fuentes oficiales",
+    "totalFlagged": "Con Antecedentes",
+    "totalCandidates": "Total Candidatos",
+    "penalRecords": "Sentencias Penales",
+    "violenceRecords": "Violencia",
+    "ofTotal": "del total",
+    "byType": "Distribución por Tipo de Antecedente",
+    "candidates": "candidatos",
+    "byCargo": "Por Cargo",
+    "flagged": "con antecedentes",
+    "candidateList": "Candidatos con Antecedentes Documentados",
+    "redFlags": "críticos",
+    "amberFlags": "moderados",
+    "integrityScore": "Historial Legal",
+    "viewProfile": "Ver perfil",
+    "noCandidates": "No se encontraron candidatos con antecedentes documentados.",
+    "disclaimer": "Datos obtenidos de fuentes oficiales: Declaración Jurada de Hoja de Vida (JNE), registros del Poder Judicial y fuentes públicas verificables. No constituye juicio de valor sobre los candidatos.",
+    "sourceNote": "Fuente: JNE, Poder Judicial, registros públicos verificados",
+    "viewMethodology": "Ver metodología completa",
+    "backToHome": "Volver al inicio"
   }
 }

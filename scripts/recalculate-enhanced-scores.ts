@@ -494,10 +494,10 @@ async function recalculateEnhancedScores() {
   console.log('🚀 Recalculando scores con datos mejorados...\n')
   console.log('='.repeat(60))
 
-  // Get all candidates
+  // Get all candidates (include party_id for plan viability propagation)
   const candidates = await sql`
     SELECT
-      id, slug, full_name, cargo,
+      id, slug, full_name, cargo, party_id,
       education_level, education_details,
       experience_details, political_trajectory,
       penal_sentences, civil_sentences,
@@ -508,6 +508,38 @@ async function recalculateEnhancedScores() {
   `
 
   console.log(`📋 Candidatos a procesar: ${candidates.length}\n`)
+
+  // Build party → plan_viability map from presidential candidates
+  // This allows propagating the plan score to ALL party members
+  const partyPlanMap = new Map<string, {
+    overall: number
+    fiscal: number
+    legal: number
+    coherence: number
+    historical: number
+  }>()
+
+  const presViability = await sql`
+    SELECT c.party_id, pva.overall_viability_score,
+           pva.fiscal_viability_score, pva.legal_viability_score,
+           pva.coherence_score, pva.historical_score
+    FROM candidates c
+    JOIN plan_viability_analysis pva ON c.id = pva.candidate_id
+    WHERE c.cargo = 'presidente' AND c.is_active = true AND c.party_id IS NOT NULL
+  `
+
+  for (const row of presViability) {
+    partyPlanMap.set(row.party_id as string, {
+      overall: Number(row.overall_viability_score),
+      fiscal: Number(row.fiscal_viability_score),
+      legal: Number(row.legal_viability_score),
+      coherence: Number(row.coherence_score),
+      historical: Number(row.historical_score),
+    })
+  }
+
+  console.log(`📊 Partidos con plan analizado: ${partyPlanMap.size}`)
+  console.log(`   Partidos sin plan: candidatos usarán valor neutro (5.0)\n`)
 
   let processed = 0
   let errors = 0
@@ -526,10 +558,12 @@ async function recalculateEnhancedScores() {
     // Transform to enhanced scoring data
     const scoringData = await transformToEnhancedScoringData(candidate)
 
-    // Fetch plan viability for presidential candidates
+    // Get plan viability: presidents from their own analysis, others from party's presidential candidate
     let planViabilityRaw: number | undefined
     let planViabilityBreakdown: { fiscal: number; legal: number; coherence: number; historical: number } | undefined
+
     if (candidate.cargo === 'presidente') {
+      // Presidential candidates: use their own direct analysis
       const pva = await sql`
         SELECT overall_viability_score, fiscal_viability_score,
                legal_viability_score, coherence_score, historical_score
@@ -546,9 +580,25 @@ async function recalculateEnhancedScores() {
           historical: Number(pva[0].historical_score),
         }
       }
+    } else if (candidate.party_id) {
+      // Non-presidential candidates: use their party's presidential candidate's plan viability
+      const partyPlan = partyPlanMap.get(candidate.party_id as string)
+      if (partyPlan) {
+        planViabilityRaw = partyPlan.overall
+        planViabilityBreakdown = {
+          fiscal: partyPlan.fiscal,
+          legal: partyPlan.legal,
+          coherence: partyPlan.coherence,
+          historical: partyPlan.historical,
+        }
+      } else {
+        // Party has no presidential candidate with analyzed plan → neutral value
+        planViabilityRaw = 5.0 // Normalizes to 50/100
+        planViabilityBreakdown = { fiscal: 5, legal: 5, coherence: 5, historical: 5 }
+      }
     }
 
-    // Calculate enhanced scores (with optional plan viability for presidents)
+    // Calculate enhanced scores (with plan viability for ALL candidates)
     const result = calculateEnhancedScores(scoringData, candidate.cargo, planViabilityRaw)
     const experienceOverlap = calculateTotalExperienceYears(scoringData.experience)
 

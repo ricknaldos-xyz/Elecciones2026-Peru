@@ -1697,5 +1697,28 @@
     "howItWorksDesc": "Aka registronakax uñacht'ayi kunjamatix jichhür ajilirinakaxa votapxatayna congresista jilïripxanxa. Favor ukampi votasiñaxa leyanakata justiciata jisk'achayi, corrupcionta jark'aqi jan ukax fiscalizaciónta limitayi.",
     "sourceNote": "Phaqsi: Congreso de la Repúblican registronakapa, Transparencia ukampi verificata.",
     "backToHome": "Qalltawi tuqiru kutiña"
+  },
+  "antecedentes": {
+    "title": "Marka Yatiyawi",
+    "subtitle": "Penal, civil, disciplinario antecedentanakani postulantanaka, kamachi qillqatanakampi yatiyata",
+    "totalFlagged": "Antecedentanakani",
+    "totalCandidates": "Taqi Postulantanaka",
+    "penalRecords": "Penal Sentencianaka",
+    "violenceRecords": "Ch'axwa",
+    "ofTotal": "taqipacha",
+    "byType": "Antecedente Luraña Jaljtawi",
+    "candidates": "postulantanaka",
+    "byCargo": "Cargo Jaljtawi",
+    "flagged": "antecedentanakani",
+    "candidateList": "Antecedentanakani Postulantanaka",
+    "redFlags": "jach'a",
+    "amberFlags": "taypi",
+    "integrityScore": "Legal Yatiyawi",
+    "viewProfile": "Perfil uñjaña",
+    "noCandidates": "Janiw antecedentanakani postulantan jikisiti.",
+    "disclaimer": "Aka yatiyawinakax kamachi qillqatanakampi lurata: JNE Jacañ Raphi Juramento, Poder Judicial qillqatanaka. Janiw postulantan juchanchatäkiti.",
+    "sourceNote": "Manqhampi: JNE, Poder Judicial, chiqapa qillqatanaka",
+    "viewMethodology": "Taqi metodología uñjaña",
+    "backToHome": "Qalltañ panaru kutiña"
   }
 }

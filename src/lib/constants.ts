@@ -10,12 +10,40 @@ export const PRESETS = {
 
 export type PresetType = keyof typeof PRESETS
 
-// Presidential 4-pillar presets (Plan de Gobierno as 4th weight)
-export const PRESIDENTIAL_PRESETS = {
-  balanced: { wC: 0.30, wI: 0.30, wT: 0.10, wP: 0.30 },
-  merit: { wC: 0.40, wI: 0.25, wT: 0.10, wP: 0.25 },
-  integrity: { wC: 0.25, wI: 0.40, wT: 0.10, wP: 0.25 },
+// 4-pillar presets per cargo (Plan de Gobierno weight varies by role relevance)
+// presidente/vicepresidente: 30% plan (executive, directly implements plan)
+// senador/diputado: 20% plan (legislative, party agenda influence)
+// parlamento_andino: 10% plan (supranational, least tied to national plan)
+export const CARGO_PRESETS = {
+  presidente: {
+    balanced:  { wC: 0.30, wI: 0.30, wT: 0.10, wP: 0.30 },
+    merit:     { wC: 0.40, wI: 0.25, wT: 0.10, wP: 0.25 },
+    integrity: { wC: 0.25, wI: 0.40, wT: 0.10, wP: 0.25 },
+  },
+  vicepresidente: {
+    balanced:  { wC: 0.30, wI: 0.30, wT: 0.10, wP: 0.30 },
+    merit:     { wC: 0.40, wI: 0.25, wT: 0.10, wP: 0.25 },
+    integrity: { wC: 0.25, wI: 0.40, wT: 0.10, wP: 0.25 },
+  },
+  senador: {
+    balanced:  { wC: 0.35, wI: 0.35, wT: 0.10, wP: 0.20 },
+    merit:     { wC: 0.45, wI: 0.25, wT: 0.10, wP: 0.20 },
+    integrity: { wC: 0.25, wI: 0.45, wT: 0.10, wP: 0.20 },
+  },
+  diputado: {
+    balanced:  { wC: 0.35, wI: 0.35, wT: 0.10, wP: 0.20 },
+    merit:     { wC: 0.45, wI: 0.25, wT: 0.10, wP: 0.20 },
+    integrity: { wC: 0.25, wI: 0.45, wT: 0.10, wP: 0.20 },
+  },
+  parlamento_andino: {
+    balanced:  { wC: 0.40, wI: 0.40, wT: 0.10, wP: 0.10 },
+    merit:     { wC: 0.50, wI: 0.25, wT: 0.10, wP: 0.15 },
+    integrity: { wC: 0.25, wI: 0.50, wT: 0.10, wP: 0.15 },
+  },
 } as const
+
+// Backward compat alias
+export const PRESIDENTIAL_PRESETS = CARGO_PRESETS.presidente
 
 // Guardrails para modo custom
 // Límites ajustados para que la suma máxima no exceda 1.0 significativamente
@@ -131,17 +159,19 @@ export function validateAndNormalizePresidentialWeights(weights: { wC: number; w
 }
 
 /**
- * Get presets for a given cargo type
+ * Get 4-pillar presets for a given cargo type.
+ * All cargos now use 4 pillars (Plan de Gobierno propagated from party).
  */
 export function getPresetsForCargo(cargo: CargoType) {
-  return cargo === 'presidente' ? PRESIDENTIAL_PRESETS : PRESETS
+  return CARGO_PRESETS[cargo] || CARGO_PRESETS.diputado
 }
 
 /**
- * Get weight limits for a given cargo type
+ * Get weight limits for a given cargo type.
+ * All cargos now use 4-pillar limits.
  */
 export function getWeightLimitsForCargo(cargo: CargoType) {
-  return cargo === 'presidente' ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS
+  return PRESIDENTIAL_WEIGHT_LIMITS
 }
 
 // ============================================

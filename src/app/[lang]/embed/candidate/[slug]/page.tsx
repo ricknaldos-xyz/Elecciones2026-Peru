@@ -38,10 +38,7 @@ export default async function EmbedCandidatePage({ params }: PageProps) {
     notFound()
   }
 
-  const isPresidential = candidate.cargo === 'presidente'
-  const score = isPresidential && candidate.scores.score_balanced_p != null
-    ? candidate.scores.score_balanced_p
-    : candidate.scores.score_balanced
+  const score = candidate.scores.score_balanced_p ?? candidate.scores.score_balanced
 
   return (
     <div className="p-4 bg-[var(--background)] min-h-screen flex items-center justify-center">

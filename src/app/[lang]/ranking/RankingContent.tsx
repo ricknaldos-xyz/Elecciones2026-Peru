@@ -17,7 +17,7 @@ import { CompareTray } from '@/components/compare/CompareTray'
 import { useSuccessToast } from '@/components/ui/Toast'
 import { AdBanner } from '@/components/ads/AdBanner'
 import { useCandidates } from '@/hooks/useCandidates'
-import { PRESETS, WEIGHT_LIMITS, PRESIDENTIAL_PRESETS, DISTRICTS, validateAndNormalizeWeights } from '@/lib/constants'
+import { CARGO_PRESETS, PRESIDENTIAL_WEIGHT_LIMITS, DISTRICTS, validateAndNormalizePresidentialWeights } from '@/lib/constants'
 // Party type for filter dropdown
 interface PartyOption {
   id: string
@@ -32,11 +32,10 @@ function sortCandidatesByScore(
   candidates: CandidateWithScores[],
   mode: PresetType,
   weights?: AnyWeights,
-  isPresidential?: boolean
 ): CandidateWithScores[] {
   return [...candidates].sort((a, b) => {
-    const scoreA = getScoreByMode(a.scores, mode, weights, isPresidential)
-    const scoreB = getScoreByMode(b.scores, mode, weights, isPresidential)
+    const scoreA = getScoreByMode(a.scores, mode, weights)
+    const scoreB = getScoreByMode(b.scores, mode, weights)
     return scoreB - scoreA
   })
 }
@@ -72,15 +71,17 @@ export function RankingContent() {
     const wC = searchParams.get('wC')
     const wI = searchParams.get('wI')
     const wT = searchParams.get('wT')
-    if (wC && wI && wT) {
+    const wP = searchParams.get('wP')
+    if (wC && wI && wT && wP) {
       // Use centralized validation to ensure weights sum to 1.0
-      return validateAndNormalizeWeights({
+      return validateAndNormalizePresidentialWeights({
         wC: parseFloat(wC),
         wI: parseFloat(wI),
         wT: parseFloat(wT),
+        wP: parseFloat(wP),
       })
     }
-    return PRESETS.balanced
+    return CARGO_PRESETS.presidente.balanced
   })
 
   // Estado de filtros
@@ -190,30 +191,27 @@ export function RankingContent() {
       )
     }
 
-    return sortCandidatesByScore(filtered, mode, customWeights, cargo === 'presidente')
+    return sortCandidatesByScore(filtered, mode, customWeights)
   }, [rawCandidates, mode, searchQuery, customWeights, cargo])
 
   // Pesos actuales
   const currentWeights = useMemo(() => {
     if (mode === 'custom') return customWeights
-    return cargo === 'presidente' ? PRESIDENTIAL_PRESETS[mode] : PRESETS[mode]
+    const cargoPresets = CARGO_PRESETS[cargo || 'diputado']
+    return cargoPresets[mode]
   }, [mode, customWeights, cargo])
 
   // Handlers
   const handleCargoChange = useCallback((newCargo: CargoType) => {
-    // Reset weights when switching to/from presidente (4-pillar vs 3-pillar)
-    if ((newCargo === 'presidente') !== (cargo === 'presidente')) {
-      const newDefaults = newCargo === 'presidente'
-        ? PRESIDENTIAL_PRESETS.balanced
-        : PRESETS.balanced
-      setCustomWeights(newDefaults)
-      setMode('balanced')
-    }
+    // All cargos use 4-pillar scoring; reset to cargo-specific defaults
+    const newDefaults = CARGO_PRESETS[newCargo].balanced
+    setCustomWeights(newDefaults)
+    setMode('balanced')
     setCargo(newCargo)
     setDistrito(undefined)
     setSelectedForCompare([])
     updateURL({ cargo: newCargo, distrito: '' })
-  }, [cargo, updateURL])
+  }, [updateURL])
 
   const handleDistritoChange = useCallback((newDistrito?: string) => {
     setDistrito(newDistrito)
@@ -471,7 +469,7 @@ export function RankingContent() {
               <span className="px-2 py-1 bg-[var(--score-transparency-bg)] text-[var(--score-transparency-text)] border border-[var(--border)]">
                 T: {(currentWeights.wT * 100).toFixed(0)}%
               </span>
-              {cargo === 'presidente' && isPresidentialWeights(currentWeights) && (
+              {isPresidentialWeights(currentWeights) && (
                 <span className="px-2 py-1 bg-[var(--score-medium-bg)] text-[var(--score-plan-text)] border border-[var(--border)]">
                   P: {(currentWeights.wP * 100).toFixed(0)}%
                 </span>

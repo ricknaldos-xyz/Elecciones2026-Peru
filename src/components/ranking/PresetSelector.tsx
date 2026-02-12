@@ -3,9 +3,8 @@
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { Tooltip } from '@/components/ui/Tooltip'
-import { PRESETS, WEIGHT_LIMITS, PRESIDENTIAL_PRESETS, PRESIDENTIAL_WEIGHT_LIMITS, validateAndNormalizeWeights, validateAndNormalizePresidentialWeights } from '@/lib/constants'
-import type { PresetType, Weights, AnyWeights, PresidentialWeights, CargoType } from '@/types/database'
-import { isPresidentialWeights } from '@/types/database'
+import { CARGO_PRESETS, PRESIDENTIAL_WEIGHT_LIMITS, validateAndNormalizePresidentialWeights } from '@/lib/constants'
+import type { PresetType, AnyWeights, PresidentialWeights, CargoType } from '@/types/database'
 import { useTranslations } from 'next-intl'
 
 interface PresetSelectorProps {
@@ -27,10 +26,10 @@ export function PresetSelector({
 }: PresetSelectorProps) {
   const t = useTranslations('ranking.presets')
   const tScores = useTranslations('candidate.scores')
-  const isPresidential = cargo === 'presidente'
+  const cargoPresets = CARGO_PRESETS[cargo || 'diputado']
   const [showCustom, setShowCustom] = useState(value === 'custom')
   const [customWeights, setCustomWeights] = useState<AnyWeights>(
-    weights || (isPresidential ? PRESIDENTIAL_PRESETS.balanced : PRESETS.balanced)
+    weights || cargoPresets.balanced
   )
 
   const handlePresetClick = (preset: Exclude<PresetType, 'custom'>) => {
@@ -42,16 +41,14 @@ export function PresetSelector({
     setShowCustom(!showCustom)
     if (!showCustom) {
       // Initialize custom weights with proper pillar count
-      const defaultCustom = isPresidential
-        ? { ...PRESIDENTIAL_PRESETS.balanced }
-        : { ...PRESETS.balanced }
+      const defaultCustom = { ...cargoPresets.balanced }
       setCustomWeights(defaultCustom)
       onChange('custom', defaultCustom)
     }
   }
 
   const handleWeightChange = (key: string, newValue: number) => {
-    const currentLimits = isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS
+    const currentLimits = PRESIDENTIAL_WEIGHT_LIMITS
     const limits = currentLimits[key as keyof typeof currentLimits]
     const clampedValue = Math.max(limits.min, Math.min(limits.max, newValue))
 
@@ -75,9 +72,7 @@ export function PresetSelector({
     }
 
     // Use centralized validation and normalization
-    const newWeights = isPresidential
-      ? validateAndNormalizePresidentialWeights(prelimWeights as unknown as PresidentialWeights)
-      : validateAndNormalizeWeights(prelimWeights as unknown as Weights)
+    const newWeights = validateAndNormalizePresidentialWeights(prelimWeights as unknown as PresidentialWeights)
 
     setCustomWeights(newWeights as AnyWeights)
     onChange('custom', newWeights as AnyWeights)
@@ -90,7 +85,7 @@ export function PresetSelector({
         <div className="flex items-center gap-1 p-1 bg-[var(--muted)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)] min-w-max sm:min-w-0">
           {PRESET_KEYS.map(
             (preset) => (
-              <Tooltip key={preset} content={isPresidential ? t(`${preset}DescPres`) : t(`${preset}Desc`)}>
+              <Tooltip key={preset} content={t(`${preset}DescPres`)}>
                 <button
                   onClick={() => handlePresetClick(preset)}
                   className={cn(
@@ -161,9 +156,7 @@ export function PresetSelector({
             </p>
             <button
               onClick={() => {
-                const defaults = isPresidential
-                  ? { ...PRESIDENTIAL_PRESETS.balanced }
-                  : { ...PRESETS.balanced }
+                const defaults = { ...cargoPresets.balanced }
                 setCustomWeights(defaults)
                 onChange('custom', defaults as AnyWeights)
               }}
@@ -174,40 +167,35 @@ export function PresetSelector({
           </div>
 
           {/* Sliders - columns on desktop, stack on mobile */}
-          <div className={cn(
-            'grid grid-cols-1 gap-4 lg:gap-6',
-            isPresidential ? 'lg:grid-cols-4' : 'lg:grid-cols-3'
-          )}>
+          <div className="grid grid-cols-1 gap-4 lg:gap-6 lg:grid-cols-4">
             <WeightSlider
               label={tScores('competence')}
               value={(customWeights as unknown as Record<string, number>).wC}
-              min={(isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS).wC.min}
-              max={(isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS).wC.max}
+              min={PRESIDENTIAL_WEIGHT_LIMITS.wC.min}
+              max={PRESIDENTIAL_WEIGHT_LIMITS.wC.max}
               onChange={(v) => handleWeightChange('wC', v)}
             />
             <WeightSlider
               label={tScores('integrity')}
               value={(customWeights as unknown as Record<string, number>).wI}
-              min={(isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS).wI.min}
-              max={(isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS).wI.max}
+              min={PRESIDENTIAL_WEIGHT_LIMITS.wI.min}
+              max={PRESIDENTIAL_WEIGHT_LIMITS.wI.max}
               onChange={(v) => handleWeightChange('wI', v)}
             />
             <WeightSlider
               label={tScores('transparency')}
               value={(customWeights as unknown as Record<string, number>).wT}
-              min={(isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS).wT.min}
-              max={(isPresidential ? PRESIDENTIAL_WEIGHT_LIMITS : WEIGHT_LIMITS).wT.max}
+              min={PRESIDENTIAL_WEIGHT_LIMITS.wT.min}
+              max={PRESIDENTIAL_WEIGHT_LIMITS.wT.max}
               onChange={(v) => handleWeightChange('wT', v)}
             />
-            {isPresidential && (
-              <WeightSlider
-                label={tScores('plan')}
-                value={(customWeights as unknown as Record<string, number>).wP || PRESIDENTIAL_PRESETS.balanced.wP}
-                min={PRESIDENTIAL_WEIGHT_LIMITS.wP.min}
-                max={PRESIDENTIAL_WEIGHT_LIMITS.wP.max}
-                onChange={(v) => handleWeightChange('wP', v)}
-              />
-            )}
+            <WeightSlider
+              label={tScores('plan')}
+              value={(customWeights as unknown as Record<string, number>).wP || cargoPresets.balanced.wP}
+              min={PRESIDENTIAL_WEIGHT_LIMITS.wP.min}
+              max={PRESIDENTIAL_WEIGHT_LIMITS.wP.max}
+              onChange={(v) => handleWeightChange('wP', v)}
+            />
           </div>
         </div>
       )}

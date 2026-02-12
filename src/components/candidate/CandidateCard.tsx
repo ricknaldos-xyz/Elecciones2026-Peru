@@ -58,9 +58,8 @@ export const CandidateCard = memo(function CandidateCard({
   const showSuccess = useSuccessToast()
   const tShare = useTranslations('share')
   const t = useTranslations('candidateCard')
-  const isPresidential = candidate.cargo === 'presidente'
   const hasPlan = candidate.scores.plan_viability != null
-  const score = getScoreByMode(candidate.scores, mode, weights, isPresidential)
+  const score = getScoreByMode(candidate.scores, mode, weights)
 
   const handleView = () => {
     if (onView) {

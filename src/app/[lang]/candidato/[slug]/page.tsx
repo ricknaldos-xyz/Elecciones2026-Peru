@@ -35,10 +35,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     }
   }
 
-  const isPresidential = candidate.cargo === 'presidente'
-  const effectiveScore = isPresidential && candidate.scores.score_balanced_p != null
-    ? candidate.scores.score_balanced_p
-    : candidate.scores.score_balanced
+  const effectiveScore = candidate.scores.score_balanced_p ?? candidate.scores.score_balanced
 
   const ogParams = new URLSearchParams({
     name: candidate.full_name,

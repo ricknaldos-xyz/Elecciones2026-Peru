@@ -5,10 +5,9 @@ export function getScoreByMode(
   scores: CandidateWithScores['scores'],
   mode: PresetType,
   weights?: AnyWeights,
-  isPresidential?: boolean
 ): number {
-  // Presidential 4-pillar scoring
-  if (isPresidential && scores.plan_viability != null) {
+  // 4-pillar scoring when plan viability is available (all cargos)
+  if (scores.plan_viability != null) {
     if (mode === 'custom' && weights && isPresidentialWeights(weights)) {
       return (
         weights.wC * scores.competence +
@@ -17,7 +16,7 @@ export function getScoreByMode(
         weights.wP * scores.plan_viability
       )
     }
-    // Use pre-calculated presidential scores when available
+    // Use pre-calculated 4-pillar scores when available
     switch (mode) {
       case 'merit':
         return scores.score_merit_p ?? scores.score_merit
@@ -28,7 +27,7 @@ export function getScoreByMode(
     }
   }
 
-  // Standard 3-pillar scoring
+  // Standard 3-pillar scoring (fallback for candidates without plan data)
   if (mode === 'custom' && weights) {
     return (
       weights.wC * scores.competence +
