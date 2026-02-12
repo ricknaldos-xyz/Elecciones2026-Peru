@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const ogParams = new URLSearchParams({
     name: candidate.full_name,
-    party: candidate.party?.short_name || candidate.party?.name || '',
+    party: candidate.party?.name || candidate.party?.short_name || '',
     cargo: candidate.cargo,
     score: effectiveScore.toFixed(1),
     c: candidate.scores.competence.toFixed(0),

@@ -183,7 +183,7 @@ function CandidateSearch({
                 key={c.id}
                 onClick={() => !isAdded && handleSelect(c.slug)}
                 disabled={isAdded}
-                aria-label={`${c.full_name} — ${c.cargo}${c.party ? `, ${c.party.short_name || c.party.name}` : ''}`}
+                aria-label={`${c.full_name} — ${c.cargo}${c.party ? `, ${c.party.name || c.party.short_name}` : ''}`}
                 className={cn(
                   'w-full flex items-center gap-3 px-4 py-3 text-left',
                   'border-b-2 border-[var(--border)] last:border-b-0',
@@ -208,7 +208,7 @@ function CandidateSearch({
                         className="text-xs font-bold uppercase px-1.5 py-0.5 text-white"
                         style={{ backgroundColor: c.party.color || '#6B7280' }}
                       >
-                        {c.party.short_name || c.party.name}
+                        {c.party.name || c.party.short_name}
                       </span>
                     )}
                     <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">
@@ -512,7 +512,7 @@ export function CompareContent() {
                       </div>
                       {/* Party */}
                       <div className="text-xs font-bold opacity-60 truncate mt-0.5">
-                        {c.party?.short_name || c.party?.name || ''}
+                        {c.party?.name || c.party?.short_name || ''}
                       </div>
                       {/* Score */}
                       <div className={cn(
@@ -628,7 +628,7 @@ export function CompareContent() {
                                 color: '#fff',
                               }}
                             >
-                              {candidate.party.short_name || candidate.party.name}
+                              {candidate.party.name || candidate.party.short_name}
                             </Badge>
                           )}
                           <Badge variant="outline" size="sm">

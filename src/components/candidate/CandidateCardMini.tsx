@@ -112,7 +112,7 @@ export const CandidateCardMini = memo(function CandidateCardMini({ rank, candida
               style={{ backgroundColor: candidate.party_color || '#6B7280' }}
             />
             <span className="text-xs sm:text-sm font-bold text-[var(--muted-foreground)] truncate uppercase">
-              {candidate.party_short_name || candidate.party_name}
+              {candidate.party_name || candidate.party_short_name}
             </span>
           </div>
         )}

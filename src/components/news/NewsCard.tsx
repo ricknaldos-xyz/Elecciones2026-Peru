@@ -131,7 +131,7 @@ export const NewsCard = memo(function NewsCard({
               'border-2 border-[var(--border)]',
               'min-h-[44px]'
             )}>
-              <span className="truncate max-w-[120px] sm:max-w-[150px]">{party_name}</span>
+              <span className="truncate max-w-[200px] sm:max-w-[280px]">{party_name}</span>
             </span>
           )}
         </div>
