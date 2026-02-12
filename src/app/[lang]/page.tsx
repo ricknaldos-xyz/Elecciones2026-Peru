@@ -676,7 +676,7 @@ export default async function Home() {
 
             {/* Voters grid */}
             <div className="p-3 sm:p-4">
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2 sm:gap-3">
                 {worstVotersData.voters.map((voter) => (
                   <Link
                     key={voter.id}
@@ -684,12 +684,12 @@ export default async function Home() {
                     className="group flex flex-col bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal)] transition-all duration-100 overflow-hidden"
                   >
                     {/* Photo */}
-                    <div className="relative aspect-square overflow-hidden border-b-3 border-[var(--border)] bg-[var(--muted)]">
+                    <div className="relative aspect-[3/4] overflow-hidden border-b-3 border-[var(--border)] bg-[var(--muted)]">
                       <CandidateImage
                         src={voter.photo_url}
                         name={voter.full_name}
                         fill
-                        sizes="(max-width: 640px) 50vw, 25vw"
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 12.5vw"
                       />
                     </div>
                     <div className="p-3 flex-1 flex flex-col">
