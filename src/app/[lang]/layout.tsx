@@ -5,6 +5,7 @@ import { locales, type Locale, localeNames } from '@/i18n/config';
 import { TranslationDisclaimer } from '@/components/i18n/TranslationDisclaimer';
 import { ClientProviders } from '@/components/providers/ClientProviders';
 import { VedaElectoral } from '@/components/legal/VedaElectoral';
+import { Footer } from '@/components/layout/Footer';
 
 type Props = {
   children: React.ReactNode;
@@ -82,6 +83,7 @@ export default async function LocaleLayout({ children, params }: Props) {
         <TranslationDisclaimer locale={locale} />
         <VedaElectoral />
         {children}
+        <Footer />
       </ClientProviders>
     </NextIntlClientProvider>
   );

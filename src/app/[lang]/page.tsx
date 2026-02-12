@@ -17,7 +17,6 @@ import { displayPartyName } from '@/lib/utils'
 import { DISTRICTS } from '@/lib/constants'
 import { sql } from '@/lib/db'
 import { generateWebSiteSchema, generateOrganizationSchema } from '@/lib/schema'
-import { DataFreshnessFooter } from '@/components/layout/DataFreshnessFooter'
 
 interface HomePageProps {
   params: Promise<{ lang: string }>
@@ -1163,56 +1162,6 @@ export default async function Home() {
       {/* Ad Banner - Footer */}
       <AdBanner slotId="home-footer" className="py-2" />
       </main>
-
-      {/* Footer - NEO BRUTAL - Mobile Optimized */}
-      <footer className="border-t-4 border-[var(--border)] bg-[var(--card)]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6 md:gap-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-[var(--primary)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal-sm)] flex items-center justify-center">
-                <span className="text-white font-black text-sm">PE</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-sm sm:text-base font-black text-[var(--foreground)] uppercase">{t('rankingElectoral')}</span>
-                <span className="text-xs text-[var(--primary)] font-bold uppercase tracking-widest">{t('peru2026')}</span>
-              </div>
-            </div>
-            <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
-              <Link href="/metodologia" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
-                {t('methodology')}
-              </Link>
-              <Link href="/ranking" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
-                {t('rankings')}
-              </Link>
-              <Link href="/comparar" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
-                {t('compare')}
-              </Link>
-              <Link href="/franja-electoral" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
-                {t('franjaElectoral')}
-              </Link>
-              <Link href="/publicidad" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
-                {t('advertising')}
-              </Link>
-              <Link href="/privacidad" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
-                {t('privacy')}
-              </Link>
-              <Link href="/rectificacion" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
-                {t('rectification')}
-              </Link>
-            </div>
-            <div className="flex flex-col items-center md:items-end gap-2">
-              <DataFreshnessFooter />
-              <div className="text-xs text-[var(--muted-foreground)] font-medium text-center md:text-right">
-                <span>{t('operatedBy')}</span>
-                <span className="mx-1">·</span>
-                <a href="mailto:contacto@eleccionesperu2026.xyz" className="hover:text-[var(--foreground)] transition-colors">
-                  contacto@eleccionesperu2026.xyz
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   )
 }
