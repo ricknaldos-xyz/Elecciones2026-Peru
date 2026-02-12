@@ -1,8 +1,8 @@
 {
   "meta": {
-    "title": "Ajilanaka Ranking Perú 2026",
+    "title": "EleccionesPerú2026 - Ajilana",
     "description": "Ajilanakana ranking, yatiqawinakampi, kamachi qillqampi. Jach'a Ajilana 12 abril 2026.",
-    "ogTitle": "Ajilanaka Ranking Perú 2026",
+    "ogTitle": "EleccionesPerú2026 - Ajilana",
     "ogDescription": "Jakhunakanpi ajila, jan arumpi. Suma ranking ajilanakaru."
   },
   "nav": {
@@ -38,7 +38,7 @@
     "donateDesc": "Aka luräwi yanapaña jan qullqipataki"
   },
   "hero": {
-    "title": "Ajilanaka Ranking Perú 2026",
+    "title": "EleccionesPerú2026 - Ajilana",
     "subtitle": "Jakhunakanpi ajila, jan arumpi",
     "description": "Ajilanakana yatiqawipa, kamachi qillqapa uñjaña ranking plataforma. Jach'a Ajilana 12 abril 2026.",
     "cta": "Taqi Ranking uñjaña",
@@ -554,7 +554,7 @@
     "aboutSourceDesc": "Taqpach yatiyawinakaxa ONPE Portal CLARIDAD ukat Perú Markana Jist'arata Yatiyawinakapat jutiri. Partidonakana kamachi yatiyawinakapa.",
     "aboutUpdateTitle": "Machaqchawi",
     "aboutUpdateDesc": "Yatiyawinakaxa machaqchasi partidonaka qullqi yatiyawinaka ONPE-ru churasipxirina uñjaña. Qhipa machaqchawi Enero 2026 jutiri.",
-    "metaTitle": "Qullqi Q'umara | Ajilana Ranking Perú 2026",
+    "metaTitle": "Qullqi Q'umara | EleccionesPerú2026",
     "metaDescription": "Perú markana partidonakana qullqi yatiyawinaka. Yanapt'awinaka, qullqi churirinaka, kampaña qhatinaka."
   },
   "methodology": {
@@ -736,7 +736,7 @@
     "deputiesByDistrict": "Diputadonaka Suyut",
     "viewAll": "Taqpach uñjaña",
     "more": "jilïri",
-    "rankingElectoral": "Ajilana Ranking",
+    "rankingElectoral": "EleccionesPerú2026",
     "peru2026": "Perú 2026",
     "methodology": "Lurawinaka",
     "rankings": "Rankingnaka",
@@ -745,7 +745,7 @@
     "rectification": "Chiqanchawi Mayiña",
     "franjaElectoral": "Franja Electoral",
     "advertising": "Publicidad",
-    "operatedBy": "Ajilana Ranking Perú lurawi",
+    "operatedBy": "EleccionesPerú2026 lurawi",
     "legalContact": "contacto@eleccionesperu2026.xyz",
     "politicalParties": "Kamachi Tantachäwinaka",
     "partiesCount": "partidonaka",
@@ -835,11 +835,11 @@
   },
   "docs": {
     "meta": {
-      "title": "Taqpach Qillqanaka - Ajilana Ranking 2026",
-      "description": "Taqpach técnico qillqanaka Ajilana Ranking Perú 2026. Arquitectura, lurawinaka, yatiqawi phuqtunaka, diseño jilïrinakampi."
+      "title": "Taqpach Qillqanaka - EleccionesPerú2026",
+      "description": "Taqpach técnico qillqanaka EleccionesPerú2026. Arquitectura, lurawinaka, yatiqawi phuqtunaka, diseño jilïrinakampi."
     },
     "badge": "TÉCNICO QILLQANAKA",
-    "title": "Ajilana Ranking Perú 2026",
+    "title": "EleccionesPerú2026",
     "description": "Plataforma ajilanakana yatiqawipa, kamachi qillqapa uñjaña ranking ruwaq. Jach'a Ajilana 12 abril 2026.",
     "toc": {
       "title": "QILLQA ÍNDICE",
@@ -887,7 +887,7 @@
     },
     "solution": {
       "title": "ASKICHAWISAXA",
-      "intro": "Ajilana Ranking Perú 2026 plataforma taqpachani:",
+      "intro": "EleccionesPerú2026 plataforma taqpachani:",
       "feature1Title": "Yatiqawi Tantaña",
       "feature1Desc": "Walja kamachi phuqtunakatxa yatiqawinaka tantasa maya yatiqawi utana.",
       "feature2Title": "Chiqa Jakhunaka",
@@ -1299,12 +1299,12 @@
     "viewTransparency": "Q'umara Yatiyawi Uñjaña",
     "qrPlaceholder": "QR código suyt'aski",
     "configureNote": "Jutir urunakan",
-    "metaTitle": "Yanapaña | Ajilanaka Ranking Perú 2026",
+    "metaTitle": "Yanapaña | EleccionesPerú2026",
     "metaDescription": "Aka jan qullqipataki luräwi yanapaña. Yanapt'amampi plataforma sapaki janikiniw qullqini."
   },
   "district": {
     "notFound": "Suyu janiw jikxatatäkiti",
-    "metaTitle": "{name} Ajilanaka - Ajilana Ranking 2026",
+    "metaTitle": "{name} Ajilanaka - EleccionesPerú2026",
     "metaDesc": "{name} suyuna Congresotaki ajilanakana rankingpa uñjaña. Yatiqawi jakhunakanaka, kamachi qillqa, q'umara uñacht'ayaña.",
     "senatorsCount": "{count} senadornaka",
     "deputiesCount": "{count} diputadonaka",

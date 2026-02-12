@@ -131,7 +131,7 @@ export default async function EmbedCandidatePage({ params }: PageProps) {
             'hover:bg-[var(--primary)]/90 transition-colors'
           )}
         >
-          Ver perfil completo en Ranking Electoral
+          Ver perfil completo en EleccionesPerú2026
         </Link>
       </div>
     </div>

@@ -11,7 +11,7 @@ import { generateNewsListSchema, generateBreadcrumbSchema } from '@/lib/schema'
 export const revalidate = 600
 
 export const metadata: Metadata = {
-  title: 'Noticias Electorales | Ranking Electoral Perú 2026',
+  title: 'Noticias Electorales | EleccionesPerú2026',
   description: 'Las últimas noticias de las elecciones Perú 2026. Cobertura de candidatos presidenciales, congresales y partidos políticos de los principales medios.',
   openGraph: {
     title: 'Noticias Electorales Perú 2026',

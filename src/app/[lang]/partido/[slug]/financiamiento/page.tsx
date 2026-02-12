@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return {
-    title: `Financiamiento ${data.party.name} - Ranking Electoral 2026`,
+    title: `Financiamiento ${data.party.name} - EleccionesPerú2026`,
     description: `Información financiera de ${data.party.name}. Aportes públicos, donantes privados, gastos y transparencia.`,
   }
 }

@@ -8,8 +8,8 @@ import { Badge } from '@/components/ui/Badge'
 
 
 export const metadata: Metadata = {
-  title: 'Para Medios y Partners | Ranking Electoral Perú 2026',
-  description: 'Embebe los widgets de Ranking Electoral en tu sitio web. Información electoral verificada y actualizada para tus lectores.',
+  title: 'Para Medios y Partners | EleccionesPerú2026',
+  description: 'Embebe los widgets de EleccionesPerú2026 en tu sitio web. Información electoral verificada y actualizada para tus lectores.',
 }
 
 export default async function PartnersPage() {
@@ -52,7 +52,7 @@ export default async function PartnersPage() {
               <div className="bg-[var(--muted)] p-4 border-2 border-[var(--border)] mb-4 overflow-x-auto">
                 <pre className="text-sm text-[var(--foreground)]">
 {`<iframe
-  src="https://rankinelectoral.pe/embed/candidate/keiko-fujimori"
+  src="https://eleccionesperu2026.xyz/embed/candidate/keiko-fujimori"
   width="400"
   height="220"
   frameborder="0"
@@ -92,7 +92,7 @@ export default async function PartnersPage() {
               <div className="bg-[var(--muted)] p-4 border-2 border-[var(--border)] mb-4 overflow-x-auto">
                 <pre className="text-sm text-[var(--foreground)]">
 {`<iframe
-  src="https://rankinelectoral.pe/embed/ranking?cargo=presidente&limit=5"
+  src="https://eleccionesperu2026.xyz/embed/ranking?cargo=presidente&limit=5"
   width="450"
   height="500"
   frameborder="0"

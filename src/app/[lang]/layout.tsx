@@ -22,10 +22,10 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const locale = lang as Locale;
 
   const titles: Record<Locale, string> = {
-    es: 'Ranking Electoral Perú 2026',
-    qu: 'Akllana Ranking Perú 2026',
-    ay: 'Ajilanaka Ranking Perú 2026',
-    ase: 'Ranking Apatotantsi Perú 2026',
+    es: 'EleccionesPerú2026',
+    qu: 'EleccionesPerú2026 - Akllana',
+    ay: 'EleccionesPerú2026 - Ajilana',
+    ase: 'EleccionesPerú2026 - Apatotantsi',
   };
 
   const descriptions: Record<Locale, string> = {

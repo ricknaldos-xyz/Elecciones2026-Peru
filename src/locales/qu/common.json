@@ -1,8 +1,8 @@
 {
   "meta": {
-    "title": "Akllana Ranking Perú 2026",
+    "title": "EleccionesPerú2026 - Akllana",
     "description": "Akllasqa runakunapa ranking, yachayninwan, kamachiy qillqanwan. Hatun Akllana 12 abril 2026.",
-    "ogTitle": "Akllana Ranking Perú 2026",
+    "ogTitle": "EleccionesPerú2026 - Akllana",
     "ogDescription": "Yupaykunawan akllay, ama rimaykunawanchu. Sut'i ranking akllasqa runakunapaq."
   },
   "nav": {
@@ -38,7 +38,7 @@
     "donateDesc": "Kay llamk'ayta yanapay mana qullqipaq"
   },
   "hero": {
-    "title": "Akllana Ranking Perú 2026",
+    "title": "EleccionesPerú2026 - Akllana",
     "subtitle": "Yupaykunawan akllay, ama rimaykunawanchu",
     "description": "Akllasqa runakunapa yachayninta, kamachiy qillqanta qhawaspa ranking ruwaq plataforma. Hatun Akllana 12 abril 2026.",
     "cta": "Tukuy Ranking qhaway",
@@ -554,7 +554,7 @@
     "aboutSourceDesc": "Tukuy willaykuna ONPE Portal CLARIDAD nisqamanta hamun, Perú Suyupa Kichasqa Willayninkunamantawan. Partidokunapa kamachiq willayninkuna kanku.",
     "aboutUpdateTitle": "Musuqchay",
     "aboutUpdateDesc": "Willaykuna musuqchakun partidokuna qullqi willaykunata ONPE-man qusqankuman hina. Qhipa musuqchayqa Enero 2026 hamun.",
-    "metaTitle": "Qullqi Sut'i Kay | Akllana Ranking Perú 2026",
+    "metaTitle": "Qullqi Sut'i Kay | EleccionesPerú2026",
     "metaDescription": "Perú suyupi partidokunapa qullqi willaynin. Yanapakuykuna, qullqi quqkuna, kampaña gastokuna."
   },
   "methodology": {
@@ -736,7 +736,7 @@
     "deputiesByDistrict": "Diputadokuna Suyumanta",
     "viewAll": "Tukuyta qhaway",
     "more": "aswan",
-    "rankingElectoral": "Akllana Ranking",
+    "rankingElectoral": "EleccionesPerú2026",
     "peru2026": "Perú 2026",
     "methodology": "Ruwaykuna",
     "rankings": "Rankingkuna",
@@ -745,7 +745,7 @@
     "rectification": "Allichay Mañakuy",
     "franjaElectoral": "Franja Electoral",
     "advertising": "Publicidad",
-    "operatedBy": "Akllana Ranking Perú ruwasqa",
+    "operatedBy": "EleccionesPerú2026 ruwasqa",
     "legalContact": "contacto@eleccionesperu2026.xyz",
     "politicalParties": "Kamachiy Tantanakuykuna",
     "partiesCount": "partidokuna",
@@ -835,11 +835,11 @@
   },
   "docs": {
     "meta": {
-      "title": "Tukuy Qillqakuna - Akllana Ranking 2026",
-      "description": "Tukuy técnico qillqakuna Akllana Ranking Perú 2026. Arquitectura, ruwaykuna, yachay pukyukuna, diseño aswantawan."
+      "title": "Tukuy Qillqakuna - EleccionesPerú2026",
+      "description": "Tukuy técnico qillqakuna EleccionesPerú2026. Arquitectura, ruwaykuna, yachay pukyukuna, diseño aswantawan."
     },
     "badge": "TÉCNICO QILLQAKUNA",
-    "title": "Akllana Ranking Perú 2026",
+    "title": "EleccionesPerú2026",
     "description": "Plataforma akllasqa runakunapa yachayninta, kamachiy qillqanta qhawaspa ranking ruwaq. Hatun Akllana 12 abril 2026.",
     "toc": {
       "title": "QILLQA ÍNDICE",
@@ -887,7 +887,7 @@
     },
     "solution": {
       "title": "ALLICHAYNIYKUQA",
-      "intro": "Akllana Ranking Perú 2026 plataforma tukuyniyuq:",
+      "intro": "EleccionesPerú2026 plataforma tukuyniyuq:",
       "feature1Title": "Yachay Huñuy",
       "feature1Desc": "Achka kamachiq pukyukunamanta yachaykuna huñuspa huk yachay wasipi.",
       "feature2Title": "Chiqap Chanin",
@@ -1299,12 +1299,12 @@
     "viewTransparency": "Sut'i Willakuyta Qhaway",
     "qrPlaceholder": "QR codigo suyachkan",
     "configureNote": "Hamuq p'unchaykunapi",
-    "metaTitle": "Yanapay | Akllana Ranking Perú 2026",
+    "metaTitle": "Yanapay | EleccionesPerú2026",
     "metaDescription": "Kay mana qullqipaq llamk'ayta yanapay. Yanapayniykiwan plataforma sapanchasqa qasi kaq."
   },
   "district": {
     "notFound": "Mana suyu tarikurkuchu",
-    "metaTitle": "{name} Akllasqa Runakuna - Akllana Ranking 2026",
+    "metaTitle": "{name} Akllasqa Runakuna - EleccionesPerú2026",
     "metaDesc": "{name} suyupi Congresopaq akllasqa runakunapa rankingninta qhaway. Yachay chaninkuna, kamachiy qillqa, sut'i kayta tupachiy.",
     "senatorsCount": "{count} senadorkunakuna",
     "deputiesCount": "{count} diputadokunakuna",

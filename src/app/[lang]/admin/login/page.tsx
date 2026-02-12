@@ -3,7 +3,7 @@ import { Suspense } from 'react'
 import { AdminLoginForm } from './AdminLoginForm'
 
 export const metadata: Metadata = {
-  title: 'Admin Login - Voto Informado',
+  title: 'Admin Login - EleccionesPerú2026',
   robots: 'noindex, nofollow',
 }
 

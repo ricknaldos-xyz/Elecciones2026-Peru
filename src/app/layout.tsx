@@ -22,7 +22,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Ranking Electoral Perú 2026",
+  title: "EleccionesPerú2026 - Elige con datos, no con promesas",
   description: "Ranking transparente de candidatos basado en mérito, historial legal y evidencia. Elecciones Generales 12 de abril 2026.",
   keywords: ["elecciones", "perú", "2026", "candidatos", "ranking", "votación"],
   verification: {
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: 'website',
-    siteName: 'Ranking Electoral Perú 2026',
+    siteName: 'EleccionesPerú2026',
     locale: 'es_PE',
   },
 };

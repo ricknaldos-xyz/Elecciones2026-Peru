@@ -130,11 +130,11 @@ export async function GET(request: NextRequest) {
                 <span style={{ fontSize: '18px', fontWeight: 900, color: 'white' }}>PE</span>
               </div>
               <span style={{ fontSize: '24px', fontWeight: 700, color: 'white' }}>
-                Ranking Electoral Peru 2026
+                EleccionesPeru2026
               </span>
             </div>
             <span style={{ fontSize: '20px', color: '#94A3B8' }}>
-              rankinelectoral.pe/quiz
+              eleccionesperu2026.xyz/quiz
             </span>
           </div>
         </div>
@@ -186,7 +186,7 @@ export async function GET(request: NextRequest) {
               <div style={{ width: '48px', height: '48px', backgroundColor: '#DC2626', border: '3px solid #FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <span style={{ fontSize: '18px', fontWeight: 900, color: 'white' }}>PE</span>
               </div>
-              <span style={{ fontSize: '24px', fontWeight: 700, color: 'white' }}>Ranking Electoral Peru 2026</span>
+              <span style={{ fontSize: '24px', fontWeight: 700, color: 'white' }}>EleccionesPeru2026</span>
             </div>
             <span style={{ fontSize: '18px', color: '#94A3B8' }}>eleccionesperu2026.xyz</span>
           </div>
@@ -220,7 +220,7 @@ export async function GET(request: NextRequest) {
               <div style={{ width: '48px', height: '48px', backgroundColor: '#DC2626', border: '3px solid #FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <span style={{ fontSize: '18px', fontWeight: 900, color: 'white' }}>PE</span>
               </div>
-              <span style={{ fontSize: '24px', fontWeight: 700, color: 'white' }}>Ranking Electoral Peru 2026</span>
+              <span style={{ fontSize: '24px', fontWeight: 700, color: 'white' }}>EleccionesPeru2026</span>
             </div>
             <span style={{ fontSize: '20px', color: '#94A3B8' }}>eleccionesperu2026.xyz/noticias</span>
           </div>
@@ -260,7 +260,7 @@ export async function GET(request: NextRequest) {
               <div style={{ width: '48px', height: '48px', backgroundColor: '#DC2626', border: '3px solid #FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <span style={{ fontSize: '18px', fontWeight: 900, color: 'white' }}>PE</span>
               </div>
-              <span style={{ fontSize: '24px', fontWeight: 700, color: 'white' }}>Ranking Electoral Peru 2026</span>
+              <span style={{ fontSize: '24px', fontWeight: 700, color: 'white' }}>EleccionesPeru2026</span>
             </div>
             <span style={{ fontSize: '18px', color: '#94A3B8' }}>eleccionesperu2026.xyz</span>
           </div>
@@ -505,7 +505,7 @@ export async function GET(request: NextRequest) {
               <span style={{ fontSize: '18px', fontWeight: 900, color: 'white' }}>PE</span>
             </div>
             <span style={{ fontSize: '24px', fontWeight: 700, color: 'white' }}>
-              Ranking Electoral Peru 2026
+              EleccionesPeru2026
             </span>
           </div>
           <span style={{ fontSize: '18px', color: '#94A3B8' }}>

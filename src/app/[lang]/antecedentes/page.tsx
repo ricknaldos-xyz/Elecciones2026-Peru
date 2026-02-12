@@ -194,10 +194,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://eleccionesperu2026.xyz'
 
   return {
-    title: `${t('title')} - Ranking Electoral 2026`,
+    title: `${t('title')} - EleccionesPerú2026`,
     description: t('subtitle'),
     openGraph: {
-      title: `${t('title')} - Ranking Electoral 2026`,
+      title: `${t('title')} - EleccionesPerú2026`,
       description: t('subtitle'),
       images: ['/api/og?type=ranking'],
     },

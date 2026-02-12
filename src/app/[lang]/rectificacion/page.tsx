@@ -5,10 +5,10 @@ import { Link } from '@/i18n/routing'
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Solicitud de Rectificación - Ranking Electoral 2026',
+    title: 'Solicitud de Rectificación - EleccionesPerú2026',
     description: 'Solicita la corrección de datos inexactos sobre candidatos. Derecho de rectificación conforme a la Ley N° 29733, Art. 20.',
     openGraph: {
-      title: 'Solicitud de Rectificación - Ranking Electoral 2026',
+      title: 'Solicitud de Rectificación - EleccionesPerú2026',
       description: 'Solicita la corrección de datos inexactos sobre candidatos. Derecho de rectificación conforme a la Ley N° 29733, Art. 20.',
     },
   }

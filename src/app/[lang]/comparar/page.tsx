@@ -5,10 +5,10 @@ import { Header } from '@/components/layout/Header'
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Comparar Candidatos | Ranking Electoral Perú 2026',
+    title: 'Comparar Candidatos | EleccionesPerú2026',
     description: 'Compara candidatos lado a lado en competencia, historial legal y transparencia. Elecciones Perú 2026.',
     openGraph: {
-      title: 'Comparar Candidatos - Ranking Electoral Perú 2026',
+      title: 'Comparar Candidatos - EleccionesPerú2026',
       description: 'Compara candidatos lado a lado en competencia, historial legal y transparencia.',
       images: ['/api/og?type=compare'],
     },

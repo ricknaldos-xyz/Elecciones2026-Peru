@@ -208,7 +208,7 @@ export function Header({ currentPath }: HeaderProps) {
               </div>
               <div className="flex flex-col">
                 <span className="text-sm sm:text-base lg:text-lg font-black text-[var(--foreground)] leading-tight tracking-tight uppercase">
-                  Ranking Electoral
+                  Elecciones
                 </span>
                 <span className="text-xs text-[var(--primary)] font-bold leading-tight uppercase tracking-widest">
                   Perú 2026

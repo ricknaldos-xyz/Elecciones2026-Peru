@@ -159,7 +159,7 @@ export default function AdminLayout({
       <footer className="border-t-2 border-[var(--border)] mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <p className="text-sm text-[var(--muted-foreground)] text-center">
-            Panel de Administración - Voto Informado
+            Panel de Administración - EleccionesPerú2026
           </p>
         </div>
       </footer>

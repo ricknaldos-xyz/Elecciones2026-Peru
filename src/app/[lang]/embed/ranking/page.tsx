@@ -81,7 +81,7 @@ export default async function EmbedRankingPage({ searchParams }: PageProps) {
             </div>
             <div>
               <h2 className="font-black uppercase text-lg leading-tight">
-                Ranking Electoral
+                EleccionesPerú2026
               </h2>
               <p className="text-xs font-bold text-white/80 uppercase">
                 Top {limit} {cargoLabels[cargo] || cargo}

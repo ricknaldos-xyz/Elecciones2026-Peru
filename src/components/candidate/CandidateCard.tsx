@@ -76,7 +76,7 @@ export const CandidateCard = memo(function CandidateCard({
       const url = `${window.location.origin}/candidato/${candidate.slug}`
       if (navigator.share) {
         navigator.share({
-          title: `${candidate.full_name} - Ranking Electoral 2026`,
+          title: `${candidate.full_name} - EleccionesPerú2026`,
           text: `Score: ${score.toFixed(1)}/100`,
           url,
         })

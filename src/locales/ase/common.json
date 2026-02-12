@@ -1,8 +1,8 @@
 {
   "meta": {
-    "title": "Ranking Apatotantsi Perú 2026",
+    "title": "EleccionesPerú2026 - Apatotantsi",
     "description": "Ranking kenkitsarentsikë apatotantsipë. Antëromani Apatotantsi 12 abril 2026.",
-    "ogTitle": "Ranking Apatotantsi Perú 2026",
+    "ogTitle": "EleccionesPerú2026 - Apatotantsi",
     "ogDescription": "Amatabeentsi katsinkabo, tëjantsibë arininatsi. Oinabiinti ranking apatotantsipë."
   },
   "nav": {
@@ -38,7 +38,7 @@
     "donateDesc": "Yanabëntantsi jëkako kori-mani"
   },
   "hero": {
-    "title": "Ranking Apatotantsi Perú 2026",
+    "title": "EleccionesPerú2026 - Apatotantsi",
     "subtitle": "Amatabeentsi katsinkabo, tëjantsibë arininatsi",
     "description": "Plataforma oimabëntantsi apatotantsipë kenkitsarentsikë. Antëromani Apatotantsi 12 abril 2026.",
     "cta": "Oimabëntantsi Ranking tasorintsi",
@@ -554,7 +554,7 @@
     "aboutSourceDesc": "Tasorintsi amëtakotërinixa ONPE Portal CLARIDAD ukat Perú Markana Jist'arata Amëtakotërinipat jutiri. Partidokëna kamachi amëtakotërinipa.",
     "aboutUpdateTitle": "Machaqchawi",
     "aboutUpdateDesc": "Amëtakotërinixa machaqchasi partidokë qullqi amëtakotërini ONPE-ru churasipxirina uñjaña. Qhipa machaqchawi Enero 2026 jutiri.",
-    "metaTitle": "Qullqi Oinabiinti | Apatotantsi Ranking Perú 2026",
+    "metaTitle": "Qullqi Oinabiinti | EleccionesPerú2026",
     "metaDescription": "Perú markana partidokëna qullqi amëtakotërini. Yanapt'awinaka, qullqi apatantsipë, kampaña antabëëtantsi."
   },
   "methodology": {
@@ -736,7 +736,7 @@
     "deputiesByDistrict": "Diputadokë Nampitsi",
     "viewAll": "Tasorintsi oimabëntantsi",
     "more": "ampiki",
-    "rankingElectoral": "Apatotantsi Ranking",
+    "rankingElectoral": "EleccionesPerú2026",
     "peru2026": "Perú 2026",
     "methodology": "Irapiibë",
     "rankings": "Rankingkë",
@@ -745,7 +745,7 @@
     "rectification": "Chiqanchawi Mayintsi",
     "franjaElectoral": "Franja Electoral",
     "advertising": "Publicidad",
-    "operatedBy": "Apatotantsi Ranking Perú lurawi",
+    "operatedBy": "EleccionesPerú2026 lurawi",
     "legalContact": "contacto@eleccionesperu2026.xyz",
     "politicalParties": "Kamachiri Jananekikë",
     "partiesCount": "partidokite",
@@ -835,11 +835,11 @@
   },
   "docs": {
     "meta": {
-      "title": "Tasorintsi Osankënarintsi - Apatotantsi Ranking 2026",
-      "description": "Tasorintsi técnico osankënarintsi Apatotantsi Ranking Perú 2026. Arquitectura, irapiibë, amëtakotërini pukyukuna, diseño ampikitawan."
+      "title": "Tasorintsi Osankënarintsi - EleccionesPerú2026",
+      "description": "Tasorintsi técnico osankënarintsi EleccionesPerú2026. Arquitectura, irapiibë, amëtakotërini pukyukuna, diseño ampikitawan."
     },
     "badge": "TÉCNICO OSANKËNARINTSI",
-    "title": "Apatotantsi Ranking Perú 2026",
+    "title": "EleccionesPerú2026",
     "description": "Plataforma apatotantsipëna kenkitsarentsikëpa, kamachiri sankenaripa oimabëntantsi ranking ruwaq. Antëromani Apatotantsi 12 abril 2026.",
     "toc": {
       "title": "OSANKËNARINTSI ÍNDICE",
@@ -887,7 +887,7 @@
     },
     "solution": {
       "title": "ASKICHAWISATZI",
-      "intro": "Apatotantsi Ranking Perú 2026 plataforma tasorintsiyuq:",
+      "intro": "EleccionesPerú2026 plataforma tasorintsiyuq:",
       "feature1Title": "Amëtakotërini Tantaña",
       "feature1Desc": "Ampiki kamachiq pukyukunamanta amëtakotërini tantaspa maya amëtakotërini pankotsipi.",
       "feature2Title": "Chiqap Katsinkabo",
@@ -1299,12 +1299,12 @@
     "viewTransparency": "Oinabiinti Amëtakotërini Oinkëro",
     "qrPlaceholder": "QR código suyantsi",
     "configureNote": "Owakiraa kitëjerikëna",
-    "metaTitle": "Yanabëntantsi | Ranking Apatotantsi Perú 2026",
+    "metaTitle": "Yanabëntantsi | EleccionesPerú2026",
     "metaDescription": "Yanabëntantsi te kori-manitsi irantërokë. Yanabëntantsikë plataforma aparoni te kori-manitsi."
   },
   "district": {
     "notFound": "Tëjonka nampitsi tarisqa",
-    "metaTitle": "{name} Apatotantsipë - Ranking Apatotantsi 2026",
+    "metaTitle": "{name} Apatotantsipë - EleccionesPerú2026",
     "metaDesc": "{name} nampitsiki Congresopaq apatotantsipëna ranking oimabëntantsi. Kenkitsarentsikë katsinkabo, kamachiri sankenari, oinabiinti amëñëro.",
     "senatorsCount": "{count} senadorkë",
     "deputiesCount": "{count} diputadokë",

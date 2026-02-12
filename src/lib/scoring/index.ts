@@ -1,5 +1,5 @@
 /**
- * SCORING ENGINE - Ranking Electoral Perú 2026
+ * SCORING ENGINE - EleccionesPerú2026
  *
  * Calculates candidate scores based on:
  * - Competence (Education, Experience, Leadership)

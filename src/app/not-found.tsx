@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Página no encontrada - Ranking Electoral Perú 2026',
+  title: 'Página no encontrada - EleccionesPerú2026',
   description: 'La página que buscas no existe.',
   robots: 'noindex',
 }

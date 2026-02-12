@@ -2,7 +2,7 @@ import { Metadata } from 'next'
 import { AdminDashboard } from './AdminDashboard'
 
 export const metadata: Metadata = {
-  title: 'Admin Panel - Voto Informado',
+  title: 'Admin Panel - EleccionesPerú2026',
   robots: 'noindex, nofollow',
 }
 

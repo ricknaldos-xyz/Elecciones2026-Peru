@@ -4,7 +4,7 @@ import { QuizContent } from './QuizContent'
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Brújula Electoral: ¿Quién Piensa Como Tú? | Ranking Electoral Perú 2026',
+    title: 'Brújula Electoral: ¿Quién Piensa Como Tú? | EleccionesPerú2026',
     description: 'Responde 10 preguntas sobre temas políticos clave y descubre qué candidatos presidenciales tienen posiciones más cercanas a las tuyas.',
     openGraph: {
       title: 'Brújula Electoral: ¿Quién Piensa Como Tú?',

@@ -5,11 +5,11 @@ import { Link } from '@/i18n/routing'
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Política de Privacidad - Ranking Electoral 2026',
-    description: 'Conoce cómo recopilamos, usamos y protegemos tus datos personales en Ranking Electoral.',
+    title: 'Política de Privacidad - EleccionesPerú2026',
+    description: 'Conoce cómo recopilamos, usamos y protegemos tus datos personales en EleccionesPerú2026.',
     openGraph: {
-      title: 'Política de Privacidad - Ranking Electoral 2026',
-      description: 'Conoce cómo recopilamos, usamos y protegemos tus datos personales en Ranking Electoral.',
+      title: 'Política de Privacidad - EleccionesPerú2026',
+      description: 'Conoce cómo recopilamos, usamos y protegemos tus datos personales en EleccionesPerú2026.',
     },
   }
 }

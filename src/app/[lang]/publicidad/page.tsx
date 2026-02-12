@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/Badge'
 export async function generateMetadata(): Promise<Metadata> {
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://eleccionesperu2026.xyz'
   return {
-    title: 'Publicidad - Ranking Electoral Perú 2026',
+    title: 'Publicidad - EleccionesPerú2026',
     description: 'Anuncia tu marca en la plataforma electoral más transparente del Perú. Espacios publicitarios para empresas y organizaciones responsables.',
     alternates: {
       canonical: `${BASE_URL}/es/publicidad`,
@@ -67,7 +67,7 @@ export default function PublicidadPage() {
         <div className="text-center mb-12">
           <Badge variant="outline" className="mb-4">ESPACIOS PUBLICITARIOS</Badge>
           <h1 className="text-3xl sm:text-4xl font-black text-[var(--foreground)] mb-4 uppercase tracking-tight">
-            Anuncia en Ranking Electoral
+            Anuncia en EleccionesPerú2026
           </h1>
           <p className="text-lg text-[var(--muted-foreground)] font-medium max-w-2xl mx-auto">
             Conecta tu marca con cientos de miles de ciudadanos peruanos informados durante las elecciones generales 2026.
@@ -175,7 +175,7 @@ export default function PublicidadPage() {
                   Política editorial de publicidad
                 </h2>
                 <p className="text-sm text-[var(--muted-foreground)] mb-4">
-                  Ranking Electoral es una plataforma independiente y transparente. Para mantener nuestra credibilidad, aplicamos las siguientes políticas:
+                  EleccionesPerú2026 es una plataforma independiente y transparente. Para mantener nuestra credibilidad, aplicamos las siguientes políticas:
                 </p>
                 <ul className="space-y-2">
                   {[

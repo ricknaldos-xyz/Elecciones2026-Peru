@@ -147,7 +147,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://eleccionesperu2026.xyz'
   const t = await getTranslations('partyPage')
   return {
-    title: `${displayPartyName(party.name)} - Ranking Electoral 2026`,
+    title: `${displayPartyName(party.name)} - EleccionesPerú2026`,
     description: t('metaDesc', { name: displayPartyName(party.name) }),
     openGraph: {
       images: [`/api/og?${ogParams.toString()}`],

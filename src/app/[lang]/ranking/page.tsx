@@ -7,7 +7,7 @@ export const revalidate = 3600
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Ranking de Candidatos | Ranking Electoral Perú 2026',
+    title: 'Ranking de Candidatos | EleccionesPerú2026',
     description: 'Ranking algorítmico de candidatos a presidente, senador y diputado basado en competencia, historial legal y transparencia. Elecciones Perú 2026.',
     openGraph: {
       title: 'Ranking de Candidatos - Elecciones Perú 2026',

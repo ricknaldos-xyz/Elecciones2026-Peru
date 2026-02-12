@@ -1,8 +1,8 @@
 {
   "meta": {
-    "title": "Ranking Electoral Perú 2026",
+    "title": "EleccionesPerú2026",
     "description": "Ranking transparente de candidatos basado en mérito, historial legal y evidencia. Elecciones Generales 12 de abril 2026.",
-    "ogTitle": "Ranking Electoral Perú 2026",
+    "ogTitle": "EleccionesPerú2026",
     "ogDescription": "Elige con datos, no con slogans. Ranking transparente de candidatos."
   },
   "nav": {
@@ -38,7 +38,7 @@
     "donateDesc": "Apoya este proyecto sin fines de lucro"
   },
   "hero": {
-    "title": "Ranking Electoral Perú 2026",
+    "title": "EleccionesPerú2026",
     "subtitle": "Elige con datos, no con promesas",
     "description": "Plataforma de inteligencia electoral que proporciona rankings transparentes y basados en evidencia para las Elecciones Generales del 12 de abril de 2026.",
     "cta": "Ver Ranking Completo",
@@ -309,7 +309,7 @@
     "viewMoreCandidates": "Ver más candidatos",
     "notFound": "Candidato no encontrado",
     "metaDescription": "Perfil de {name} - Puntaje: {score}/100 basado en competencia, historial legal y transparencia.",
-    "metaOgDescription": "Candidato con puntaje de {score}/100 en el Ranking Electoral Perú 2026.",
+    "metaOgDescription": "Candidato con puntaje de {score}/100 en EleccionesPerú2026.",
     "planViability": {
       "title": "Análisis de Viabilidad del Plan de Gobierno",
       "overallScore": "Viabilidad General",
@@ -439,7 +439,7 @@
     "scoresVaryByMode": "Los puntajes varían según el modo seleccionado.",
     "viewMethodology": "Ver metodología",
     "removeFromComparison": "Quitar de comparación",
-    "shareTitle": "Comparación de Candidatos - Ranking Electoral 2026",
+    "shareTitle": "Comparación de Candidatos - EleccionesPerú2026",
     "shareText": "Comparando {names}",
     "proposalsComparison": "Comparación de Propuestas",
     "proposalsDescription": "Compara las propuestas de cada candidato extraídas de sus planes de gobierno.",
@@ -554,7 +554,7 @@
     "aboutSourceDesc": "Toda la información proviene del Portal CLARIDAD de la ONPE y de Datos Abiertos del Estado Peruano. Los datos corresponden a declaraciones oficiales de los partidos políticos.",
     "aboutUpdateTitle": "Actualización",
     "aboutUpdateDesc": "Los datos se actualizan periódicamente conforme los partidos presentan sus reportes financieros ante la ONPE. La última sincronización corresponde a enero 2026.",
-    "metaTitle": "Transparencia Financiera | Ranking Electoral Perú 2026",
+    "metaTitle": "Transparencia Financiera | EleccionesPerú2026",
     "metaDescription": "Información sobre el financiamiento de partidos políticos en Perú. Aportes, donantes, gastos de campaña y financiamiento público."
   },
   "methodology": {
@@ -712,7 +712,7 @@
     "deputiesByDistrict": "Diputados por Distrito",
     "viewAll": "Ver todos",
     "more": "más",
-    "rankingElectoral": "Ranking Electoral",
+    "rankingElectoral": "EleccionesPerú2026",
     "peru2026": "Perú 2026",
     "methodology": "Metodología",
     "rankings": "Rankings",
@@ -721,7 +721,7 @@
     "rectification": "Rectificación",
     "franjaElectoral": "Franja Electoral",
     "advertising": "Publicidad",
-    "operatedBy": "Operado por Ranking Electoral Perú",
+    "operatedBy": "Operado por EleccionesPerú2026",
     "legalContact": "contacto@eleccionesperu2026.xyz",
     "politicalParties": "Partidos Políticos",
     "partiesCount": "partidos",
@@ -811,11 +811,11 @@
   },
   "docs": {
     "meta": {
-      "title": "Documentación Completa - Ranking Electoral 2026",
-      "description": "Documentación técnica completa del Ranking Electoral Perú 2026. Arquitectura, metodología, fuentes de datos, diseño y más."
+      "title": "Documentación Completa - EleccionesPerú2026",
+      "description": "Documentación técnica completa de EleccionesPerú2026. Arquitectura, metodología, fuentes de datos, diseño y más."
     },
     "badge": "DOCUMENTACIÓN TÉCNICA",
-    "title": "Ranking Electoral Perú 2026",
+    "title": "EleccionesPerú2026",
     "description": "Plataforma de inteligencia electoral que proporciona rankings transparentes y basados en evidencia para las Elecciones Generales del 12 de abril de 2026.",
     "toc": {
       "title": "ÍNDICE DE CONTENIDOS",
@@ -863,7 +863,7 @@
     },
     "solution": {
       "title": "NUESTRA SOLUCIÓN",
-      "intro": "Ranking Electoral Perú 2026 es una plataforma integral que combina:",
+      "intro": "EleccionesPerú2026 es una plataforma integral que combina:",
       "feature1Title": "Agregación de Datos",
       "feature1Desc": "Recopilamos y consolidamos datos de múltiples fuentes oficiales en una base de datos unificada.",
       "feature2Title": "Scoring Objetivo",
@@ -1301,12 +1301,12 @@
     "viewTransparency": "Ver Reporte de Transparencia",
     "qrPlaceholder": "Código QR pendiente",
     "configureNote": "Próximamente",
-    "metaTitle": "Donar | Ranking Electoral Perú 2026",
+    "metaTitle": "Donar | EleccionesPerú2026",
     "metaDescription": "Apoya este proyecto sin fines de lucro. Tu donación mantiene la plataforma independiente y gratuita."
   },
   "district": {
     "notFound": "Distrito no encontrado",
-    "metaTitle": "Candidatos de {name} - Ranking Electoral 2026",
+    "metaTitle": "Candidatos de {name} - EleccionesPerú2026",
     "metaDesc": "Ver ranking de candidatos al Congreso por {name}. Compara scores de competencia, historial legal y transparencia.",
     "senatorsCount": "{count} senadores",
     "deputiesCount": "{count} diputados",

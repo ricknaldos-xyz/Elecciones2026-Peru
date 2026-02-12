@@ -8,7 +8,7 @@ export function generateWebSiteSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'Ranking Electoral Peru 2026',
+    name: 'EleccionesPerú2026',
     url: BASE_URL,
     description: 'Plataforma de inteligencia electoral con ranking transparente de candidatos basado en mérito, historial legal y evidencia.',
     inLanguage: ['es', 'qu', 'ay'],
@@ -24,7 +24,7 @@ export function generateOrganizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Ranking Electoral Peru',
+    name: 'EleccionesPerú2026',
     url: BASE_URL,
     description: 'Plataforma independiente de transparencia electoral, operada como proyecto sin fines de lucro para las elecciones generales de Peru 2026.',
     foundingDate: '2025',
