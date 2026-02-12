@@ -208,14 +208,14 @@ async function getWorstVoters(): Promise<{ voters: WorstVoter[]; totalLaws: numb
           p.name as party_name,
           p.short_name as party_short_name,
           p.color as party_color,
-          COUNT(CASE WHEN cv.vote = 'favor' THEN 1 END) as favor_count
+          COUNT(CASE WHEN cv.vote_type = 'favor' THEN 1 END) as favor_count
         FROM candidates c
         JOIN congressional_votes cv ON c.id = cv.candidate_id
         LEFT JOIN parties p ON c.party_id = p.id
-        WHERE cv.vote = 'favor'
+        WHERE cv.vote_type = 'favor'
         GROUP BY c.id, c.full_name, c.slug, c.photo_url, c.cargo, p.name, p.short_name, p.color
         ORDER BY favor_count DESC
-        LIMIT 6
+        LIMIT 8
       `,
       sql`SELECT COUNT(*) as total FROM controversial_laws`
     ])
@@ -635,18 +635,19 @@ export default async function Home() {
       {/* ══════════════════════════════════════════════════════════ */}
       {worstVotersData.voters.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-          <div className="border-3 border-[var(--border)] bg-[var(--card)] shadow-[var(--shadow-brutal-lg)]">
+          <div className="border-3 border-[var(--score-low)] bg-[var(--card)] shadow-[var(--shadow-brutal-lg)]">
             {/* Header */}
-            <div className="p-4 sm:p-5 border-b-3 border-[var(--border)] bg-[var(--muted)]">
+            <div className="p-4 sm:p-5 border-b-3 border-[var(--score-low)] bg-red-50 dark:bg-red-950/30">
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-[var(--primary)] border-2 border-[var(--border)] flex items-center justify-center">
+                  <div className="w-10 h-10 bg-[var(--score-low)] border-2 border-[var(--border)] flex items-center justify-center">
                     <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 15h2.25m8.024-9.75c.011.05.028.1.052.148.591 1.2.924 2.55.924 3.977a8.96 8.96 0 01-.999 4.125m.023-8.25c-.076-.365.183-.75.575-.75h.908c.889 0 1.713.518 1.972 1.368.339 1.11.521 2.287.521 3.507 0 1.553-.295 3.036-.831 4.398C20.613 14.547 19.833 15 19 15h-1.053c-.472 0-.745-.556-.5-.96a8.95 8.95 0 00.303-.54m.023-8.25H16.48a4.5 4.5 0 01-1.423-.23l-3.114-1.04a4.5 4.5 0 00-1.423-.23H6.504c-.694 0-1.352.353-1.725.926L2.1 12.262a2.25 2.25 0 00-.165.871v.112c0 .796.418 1.534 1.1 1.945l.005.003c.168.097.324.217.455.36l.115.126a2.67 2.67 0 002.395 1.07l.292-.039c.252-.034.503-.076.752-.126" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 15.75h.007v.008H12v-.008z" />
                     </svg>
                   </div>
                   <div>
-                    <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight">
+                    <h2 className="text-lg sm:text-xl font-black text-[var(--score-low)] uppercase tracking-tight">
                       {t('votedAgainstTitle')}
                     </h2>
                     <p className="text-xs sm:text-sm text-[var(--muted-foreground)] font-medium">
@@ -656,7 +657,7 @@ export default async function Home() {
                 </div>
                 <Link
                   href="/ranking?cargo=presidente"
-                  className="text-xs font-bold text-[var(--primary)] hover:underline uppercase flex items-center gap-1"
+                  className="text-xs font-bold text-[var(--score-low)] hover:underline uppercase flex items-center gap-1"
                 >
                   {t('seeVotingRecords')}
                   <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
@@ -667,7 +668,7 @@ export default async function Home() {
             </div>
 
             {/* Info banner */}
-            <div className="px-4 py-3 bg-amber-50 dark:bg-amber-950/20 border-b-2 border-[var(--border)]">
+            <div className="px-4 py-3 bg-red-50/50 dark:bg-red-950/10 border-b-2 border-[var(--score-low)]">
               <p className="text-xs text-[var(--muted-foreground)] font-medium">
                 <span className="font-black text-[var(--foreground)]">{worstVotersData.totalLaws}</span> {t('controversialLaws')}. {t('lawCategories')}
               </p>
@@ -675,15 +676,24 @@ export default async function Home() {
 
             {/* Voters grid */}
             <div className="p-3 sm:p-4">
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
                 {worstVotersData.voters.map((voter) => (
                   <Link
                     key={voter.id}
                     href={`/candidato/${voter.slug}`}
                     className="group flex flex-col bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal)] transition-all duration-100 overflow-hidden"
                   >
+                    {/* Photo */}
+                    <div className="relative aspect-square overflow-hidden border-b-3 border-[var(--border)] bg-[var(--muted)]">
+                      <CandidateImage
+                        src={voter.photo_url}
+                        name={voter.full_name}
+                        fill
+                        sizes="(max-width: 640px) 50vw, 25vw"
+                      />
+                    </div>
                     <div className="p-3 flex-1 flex flex-col">
-                      <h3 className="text-xs font-black text-[var(--foreground)] uppercase leading-tight line-clamp-2 mb-1 group-hover:text-[var(--primary)] transition-colors">
+                      <h3 className="text-xs font-black text-[var(--foreground)] uppercase leading-tight line-clamp-2 mb-1 group-hover:text-[var(--score-low)] transition-colors">
                         {voter.full_name}
                       </h3>
                       {voter.party_name && (
@@ -698,10 +708,15 @@ export default async function Home() {
                         </div>
                       )}
                       <div className="mt-auto">
-                        <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('votedInFavor')}</span>
-                        <div className="flex items-baseline gap-1 mt-0.5">
-                          <span className="text-lg font-black text-[var(--score-low)]">{voter.favor_count}</span>
-                          <span className="text-xs font-bold text-[var(--muted-foreground)]">{t('of17Laws')}</span>
+                        <span className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">{t('votedInFavor')}</span>
+                        <div className="flex items-center gap-2 mt-1">
+                          <div className="flex-1 h-2 bg-[var(--muted)] border border-[var(--border)]">
+                            <div
+                              className="h-full bg-[var(--score-low)]"
+                              style={{ width: `${(voter.favor_count / worstVotersData.totalLaws) * 100}%` }}
+                            />
+                          </div>
+                          <span className="text-xs font-black text-[var(--score-low)] whitespace-nowrap">{voter.favor_count}/{worstVotersData.totalLaws}</span>
                         </div>
                       </div>
                     </div>

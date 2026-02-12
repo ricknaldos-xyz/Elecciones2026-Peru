@@ -14,6 +14,7 @@ import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { PartyLogo } from '@/components/party/PartyLogo'
+import { FRANJA_ELECTORAL, getPartyFranjaData, formatSoles } from '@/lib/data/franja-electoral'
 import type { CargoType, CandidateWithScores } from '@/types/database'
 
 export const revalidate = 86400
@@ -171,12 +172,13 @@ export default async function PartidoPage({ params }: PageProps) {
     notFound()
   }
 
-  const [candidates, finances, t, tCargo, tScores] = await Promise.all([
+  const [candidates, finances, t, tCargo, tScores, tFranja] = await Promise.all([
     getCandidates({ partyId: party.id as string }),
     getPartyFinances(party.id as string),
     getTranslations('partyPage'),
     getTranslations('ranking.cargo'),
     getTranslations('candidate.scores'),
+    getTranslations('franjaElectoral'),
   ])
 
   const latestFinance = finances.length > 0 ? finances[0] : null
@@ -622,6 +624,62 @@ export default async function PartidoPage({ params }: PageProps) {
             </Card>
           </Link>
         )}
+
+        {/* ========== FRANJA ELECTORAL ========== */}
+        {(() => {
+          const franjaData = getPartyFranjaData(party.short_name as string)
+          if (!franjaData) return null
+          const pct = ((franjaData.totalAllocation / FRANJA_ELECTORAL.totalBudget) * 100).toFixed(1)
+          return (
+            <Link href="/franja-electoral">
+              <Card className="mb-8 p-5 hover:shadow-[var(--shadow-brutal)] hover:-translate-x-1 hover:-translate-y-1 transition-all duration-100 cursor-pointer">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-black text-[var(--foreground)] flex items-center gap-2 uppercase">
+                    <svg className="w-5 h-5 text-[var(--primary)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125z" />
+                    </svg>
+                    {tFranja('partyAllocation')}
+                  </h2>
+                  <div className="flex items-center gap-2">
+                    {franjaData.renounced && <Badge variant="warning">{tFranja('renounced')}</Badge>}
+                    {franjaData.underInvestigation && <Badge variant="danger">{tFranja('underInvestigation')}</Badge>}
+                    <Badge variant="outline">ONPE</Badge>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div>
+                    <div className="text-xs sm:text-sm text-[var(--muted-foreground)] font-bold uppercase">{tFranja('allocation')}</div>
+                    <div className="text-xl sm:text-2xl font-black text-[var(--primary)]">{formatSoles(franjaData.totalAllocation)}</div>
+                  </div>
+                  {franjaData.congressionalSeats2021 > 0 && (
+                    <div>
+                      <div className="text-xs sm:text-sm text-[var(--muted-foreground)] font-bold uppercase">{tFranja('calculationBase')}</div>
+                      <div className="text-xl sm:text-2xl font-black text-[var(--foreground)]">{franjaData.congressionalSeats2021} {tFranja('seats2021')}</div>
+                    </div>
+                  )}
+                </div>
+                {/* Progress bar */}
+                <div className="mb-2">
+                  <div className="h-3 bg-[var(--muted)] border-2 border-[var(--border)]">
+                    <div
+                      className="h-full bg-[var(--primary)] transition-all"
+                      style={{ width: `${(franjaData.totalAllocation / FRANJA_ELECTORAL.maxAllocation) * 100}%` }}
+                    />
+                  </div>
+                  <div className="text-xs text-[var(--muted-foreground)] mt-1 font-bold">
+                    {pct}% {tFranja('ofTotalBudget')} ({formatSoles(FRANJA_ELECTORAL.totalBudget)})
+                  </div>
+                </div>
+                <div className="mt-3 flex items-center text-sm text-[var(--primary)] font-bold uppercase">
+                  {tFranja('seeFullDetail')}
+                  <svg className="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </Card>
+            </Link>
+          )
+        })()}
 
         {/* ========== CANDIDATOS POR CARGO ========== */}
         {cargoOrder.map(cargo => {
