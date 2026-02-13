@@ -409,10 +409,14 @@ async function transformToEnhancedScoringData(candidate: any): Promise<EnhancedI
   if (candidate.birth_date) completeness += 10
   if (candidate.assets_declaration) completeness += 20
 
-  // Verification level
-  let verificationLevel = 50
-  if (candidate.data_verified) verificationLevel += 30
-  if (candidate.data_source?.includes('verified')) verificationLevel += 20
+  // Verification level - based on actual cross-referenced data sources
+  let verificationLevel = 40 // base: exists in JNE/ONPE registry
+  if (candidate.jne_id && String(candidate.jne_id) !== '0') verificationLevel += 15 // confirmed JNE hoja de vida
+  if (education.length > 0) verificationLevel += 10 // education data cross-referenced
+  if (allExperience.length >= 2) verificationLevel += 10 // multiple experience entries verified
+  if (penalSentences.length > 0 || civilSentences.length > 0) verificationLevel += 10 // judicial records checked
+  if (candidate.assets_declaration) verificationLevel += 15 // assets declaration on file
+  verificationLevel = Math.min(verificationLevel, 100)
 
   // Fetch ONPE sanctions from flags
   const onpeFlags = await sql`
@@ -459,7 +463,7 @@ async function transformToEnhancedScoringData(candidate: any): Promise<EnhancedI
     declarationConsistency: completeness,
     assetsQuality: candidate.assets_declaration ? 60 : 30,
     verificationLevel,
-    coverageLevel: verificationLevel,
+    coverageLevel: completeness,
     onpeSanctionCount,
 
     // New data sources
