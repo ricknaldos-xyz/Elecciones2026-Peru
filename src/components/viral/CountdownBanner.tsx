@@ -69,6 +69,7 @@ export function CountdownBanner({ className }: CountdownBannerProps) {
   return (
     <div className={cn(
       'bg-[var(--foreground)] border-b-4 border-[var(--border)]',
+      'dark:bg-[var(--card)] dark:border-[var(--border)]',
       'py-2 sm:py-3 px-4',
       className
     )}>
@@ -79,7 +80,7 @@ export function CountdownBanner({ className }: CountdownBannerProps) {
         </span>
 
         {/* Time units - Horizontal compact */}
-        <div className="flex items-center gap-1 sm:gap-2">
+        <div className="flex flex-wrap justify-center items-center gap-1 sm:gap-2">
           {/* Days */}
           <div className="flex items-center gap-1">
             <span className="bg-[var(--primary)] text-white font-black text-lg sm:text-2xl px-2 sm:px-3 py-1 border-2 border-[var(--background)] tabular-nums">
@@ -92,7 +93,7 @@ export function CountdownBanner({ className }: CountdownBannerProps) {
 
           {/* Hours */}
           <div className="flex items-center gap-1">
-            <span className="bg-[var(--background)] text-[var(--foreground)] font-black text-lg sm:text-2xl px-2 sm:px-3 py-1 border-2 border-[var(--background)] tabular-nums">
+            <span className="bg-[var(--background)] text-[var(--foreground)] font-black text-lg sm:text-2xl px-2 sm:px-3 py-1 border-2 border-[var(--background)] dark:bg-[var(--foreground)] dark:text-[var(--background)] dark:border-[var(--foreground)] tabular-nums">
               {mounted ? String(timeLeft.hours).padStart(2, '0') : '00'}
             </span>
             <span className="text-xs font-bold text-[var(--background)] uppercase">{t('hours').charAt(0)}</span>
@@ -102,7 +103,7 @@ export function CountdownBanner({ className }: CountdownBannerProps) {
 
           {/* Minutes */}
           <div className="flex items-center gap-1">
-            <span className="bg-[var(--background)] text-[var(--foreground)] font-black text-lg sm:text-2xl px-2 sm:px-3 py-1 border-2 border-[var(--background)] tabular-nums">
+            <span className="bg-[var(--background)] text-[var(--foreground)] font-black text-lg sm:text-2xl px-2 sm:px-3 py-1 border-2 border-[var(--background)] dark:bg-[var(--foreground)] dark:text-[var(--background)] dark:border-[var(--foreground)] tabular-nums">
               {mounted ? String(timeLeft.minutes).padStart(2, '0') : '00'}
             </span>
             <span className="text-xs font-bold text-[var(--background)] uppercase">{t('minutes').charAt(0)}</span>
@@ -111,7 +112,7 @@ export function CountdownBanner({ className }: CountdownBannerProps) {
           {/* Seconds - hidden on mobile */}
           <span className="text-[var(--background)] font-black text-lg sm:text-xl hidden sm:block">:</span>
           <div className="hidden sm:flex items-center gap-1">
-            <span className="bg-[var(--background)] text-[var(--foreground)] font-black text-lg sm:text-2xl px-2 sm:px-3 py-1 border-2 border-[var(--background)] tabular-nums">
+            <span className="bg-[var(--background)] text-[var(--foreground)] font-black text-lg sm:text-2xl px-2 sm:px-3 py-1 border-2 border-[var(--background)] dark:bg-[var(--foreground)] dark:text-[var(--background)] dark:border-[var(--foreground)] tabular-nums">
               {mounted ? String(timeLeft.seconds).padStart(2, '0') : '00'}
             </span>
             <span className="text-xs font-bold text-[var(--background)] uppercase">{t('seconds').charAt(0)}</span>

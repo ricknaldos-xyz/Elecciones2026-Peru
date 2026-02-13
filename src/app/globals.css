@@ -101,6 +101,33 @@
   /* Sombras active (más pequeñas) */
   --shadow-brutal-active: 2px 2px 0px 0px #000000;
   --shadow-brutal-pressed: 1px 1px 0px 0px #000000;
+
+  /* Category colors */
+  --cat-economia: #059669;
+  --cat-seguridad: #B91C1C;
+  --cat-infraestructura: #D97706;
+  --cat-reforma: #1D4ED8;
+  --cat-educacion: #7C3AED;
+  --cat-mineria: #C2410C;
+  --cat-social: #DB2777;
+  --cat-salud: #0D9488;
+  --cat-corrupcion: #4338CA;
+  --cat-otros: #4B5563;
+
+  /* REINFO */
+  --reinfo-border: #EA580C;
+  --reinfo-bg: #FFF7ED;
+  --reinfo-text: #C2410C;
+  --reinfo-icon-bg: #EA580C;
+
+  /* Party default */
+  --party-default: #6B7280;
+
+  /* Quiz gradient */
+  --primary-via: #8B0000;
+
+  /* Ring offset */
+  --ring-offset-background: var(--background);
 }
 
 /* === DARK MODE === */
@@ -170,6 +197,33 @@
   --shadow-brutal-lg-hover: 8px 8px 0px 0px #FFFFFF;
   --shadow-brutal-active: 2px 2px 0px 0px #FFFFFF;
   --shadow-brutal-pressed: 1px 1px 0px 0px #FFFFFF;
+
+  /* Category colors - dark mode */
+  --cat-economia: #34D399;
+  --cat-seguridad: #FCA5A5;
+  --cat-infraestructura: #FCD34D;
+  --cat-reforma: #93C5FD;
+  --cat-educacion: #C4B5FD;
+  --cat-mineria: #FDBA74;
+  --cat-social: #F9A8D4;
+  --cat-salud: #5EEAD4;
+  --cat-corrupcion: #A5B4FC;
+  --cat-otros: #9CA3AF;
+
+  /* REINFO */
+  --reinfo-border: #FB923C;
+  --reinfo-bg: rgba(154, 52, 18, 0.15);
+  --reinfo-text: #FB923C;
+  --reinfo-icon-bg: #F97316;
+
+  /* Party default */
+  --party-default: #9CA3AF;
+
+  /* Brutal red bg dark override */
+  --brutal-red-bg: #2D1215;
+
+  /* Quiz gradient */
+  --primary-via: #D91023;
 }
 
 /* === TAILWIND THEME INLINE === */
@@ -1123,5 +1177,24 @@ body {
   to {
     opacity: 0;
     transform: translateX(100%);
+  }
+}
+
+/* === MOBILE SHADOW REDUCTION === */
+@media (max-width: 639px) {
+  :root {
+    --shadow-brutal-lg: 4px 4px 0px 0px #000000;
+    --shadow-brutal-xl: 5px 5px 0px 0px #000000;
+  }
+  .dark {
+    --shadow-brutal-lg: 4px 4px 0px 0px #FFFFFF;
+    --shadow-brutal-xl: 5px 5px 0px 0px #FFFFFF;
+  }
+}
+
+/* Space Grotesk max weight is 700; remap font-black to avoid faux-bold */
+@layer utilities {
+  .font-black {
+    font-weight: 700;
   }
 }

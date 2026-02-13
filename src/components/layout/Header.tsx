@@ -247,7 +247,7 @@ export function Header({ currentPath }: HeaderProps) {
               >
                 {t(link.labelKey)}
                 {link.isNew && (
-                  <span className="text-xs font-black bg-[var(--score-medium)] text-black px-1.5 py-0.5 leading-none">
+                  <span className="text-xs font-black bg-[var(--score-medium)] text-[var(--score-medium-text)] px-1.5 py-0.5 leading-none border border-[var(--border)]">
                     {t('new')}
                   </span>
                 )}
@@ -309,7 +309,7 @@ export function Header({ currentPath }: HeaderProps) {
                         'text-[var(--foreground)]',
                         'font-bold',
                         'placeholder:text-[var(--muted-foreground)] placeholder:font-medium',
-                        'focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2'
+                        'focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--background)]'
                       )}
                       autoFocus
                       aria-describedby="search-status"
@@ -552,7 +552,7 @@ export function Header({ currentPath }: HeaderProps) {
                 >
                   {t(link.labelKey)}
                   {'isNew' in link && link.isNew && (
-                    <span className="text-xs font-black bg-[var(--score-medium)] text-black px-1.5 py-0.5 leading-none">
+                    <span className="text-xs font-black bg-[var(--score-medium)] text-[var(--score-medium-text)] px-1.5 py-0.5 leading-none border border-[var(--border)]">
                       {t('new')}
                     </span>
                   )}

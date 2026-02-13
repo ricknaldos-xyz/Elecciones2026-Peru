@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { getSponsor, type AdSlotId } from '@/lib/ads/sponsors'
+import { cn } from '@/lib/utils'
 
 interface AdSlotProps {
   slotId: AdSlotId
@@ -20,7 +21,7 @@ const SIZE_MAP = {
   'responsive': { width: 970, height: 250 },
 }
 
-export function AdSlot({ slotId, size, className = '', adsenseSlot }: AdSlotProps) {
+export function AdSlot({ slotId, size, className, adsenseSlot }: AdSlotProps) {
   const adRef = useRef<HTMLDivElement>(null)
   const sponsor = getSponsor(slotId)
   const adsenseId = process.env.NEXT_PUBLIC_ADSENSE_ID
@@ -43,12 +44,12 @@ export function AdSlot({ slotId, size, className = '', adsenseSlot }: AdSlotProp
   // Priority 1: Direct sponsor
   if (sponsor) {
     return (
-      <div className={`relative ${className}`}>
+      <div className={cn('relative', className)}>
         <a
           href={sponsor.linkUrl}
           target="_blank"
           rel="noopener noreferrer sponsored"
-          className="block border-3 border-[var(--border)] bg-[var(--card)] overflow-hidden hover:shadow-[var(--shadow-brutal-sm)] transition-shadow"
+          className="block border-3 border-[var(--border)] bg-[var(--card)] overflow-hidden hover:shadow-[var(--shadow-brutal-sm)] hover:-translate-x-0.5 hover:-translate-y-0.5 transition-all duration-100"
         >
           <Image
             src={sponsor.imageUrl}
@@ -68,7 +69,7 @@ export function AdSlot({ slotId, size, className = '', adsenseSlot }: AdSlotProp
   // Priority 2: Google AdSense
   if (adsenseId && resolvedAdsenseSlot) {
     return (
-      <div className={`relative ${className}`} ref={adRef}>
+      <div className={cn('relative', className)} ref={adRef}>
         <div className="border-3 border-[var(--border)] bg-[var(--card)] overflow-hidden">
           <ins
             className="adsbygoogle"
@@ -92,7 +93,7 @@ export function AdSlot({ slotId, size, className = '', adsenseSlot }: AdSlotProp
 
   // Priority 3: Placeholder
   return (
-    <div className={`relative ${className}`}>
+    <div className={cn('relative', className)}>
       <div
         className="border-3 border-dashed border-[var(--border)] bg-[var(--muted)]/50 flex items-center justify-center"
         style={{

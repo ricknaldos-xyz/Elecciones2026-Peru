@@ -53,32 +53,32 @@ export function Footer() {
             </h3>
             <ul className="space-y-0.5" role="list">
               <li>
-                <Link href="/ranking" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
+                <Link href="/ranking" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:underline transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
                   {t('ranking')}
                 </Link>
               </li>
               <li>
-                <Link href="/comparar" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
+                <Link href="/comparar" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:underline transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
                   {t('compare')}
                 </Link>
               </li>
               <li>
-                <Link href="/quiz" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
+                <Link href="/quiz" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:underline transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
                   {t('quiz')}
                 </Link>
               </li>
               <li>
-                <Link href="/noticias" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
+                <Link href="/noticias" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:underline transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
                   {t('news')}
                 </Link>
               </li>
               <li>
-                <Link href="/franja-electoral" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
+                <Link href="/franja-electoral" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:underline transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
                   {t('franjaElectoral')}
                 </Link>
               </li>
               <li>
-                <Link href="/transparencia" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
+                <Link href="/transparencia" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:underline transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
                   {t('transparency')}
                 </Link>
               </li>
@@ -92,17 +92,17 @@ export function Footer() {
             </h3>
             <ul className="space-y-0.5" role="list">
               <li>
-                <Link href="/privacidad" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
+                <Link href="/privacidad" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:underline transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
                   {t('privacy')}
                 </Link>
               </li>
               <li>
-                <Link href="/rectificacion" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
+                <Link href="/rectificacion" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:underline transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
                   {t('rectification')}
                 </Link>
               </li>
               <li>
-                <Link href="/publicidad" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
+                <Link href="/publicidad" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:underline transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
                   {t('advertising')}
                 </Link>
               </li>
@@ -116,27 +116,27 @@ export function Footer() {
             </h3>
             <ul className="space-y-0.5" role="list">
               <li>
-                <Link href="/metodologia" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
+                <Link href="/metodologia" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:underline transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
                   {t('methodology')}
                 </Link>
               </li>
               <li>
-                <Link href="/docs" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
+                <Link href="/docs" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:underline transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
                   {t('docs')}
                 </Link>
               </li>
               <li>
-                <Link href="/partners" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
+                <Link href="/partners" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:underline transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
                   {t('partners')}
                 </Link>
               </li>
               <li>
-                <Link href="/antecedentes" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
+                <Link href="/antecedentes" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:underline transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
                   {t('records')}
                 </Link>
               </li>
               <li>
-                <Link href="/votaciones" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
+                <Link href="/votaciones" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:underline transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
                   {t('votes')}
                 </Link>
               </li>
@@ -172,7 +172,7 @@ export function Footer() {
             <span className="hidden sm:inline" aria-hidden="true">·</span>
             <a
               href="mailto:contacto@eleccionesperu2026.xyz"
-              className="hover:text-[var(--foreground)] transition-colors"
+              className="hover:text-[var(--foreground)] hover:underline transition-colors min-h-[44px] inline-flex items-center"
             >
               contacto@eleccionesperu2026.xyz
             </a>

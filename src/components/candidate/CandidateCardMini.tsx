@@ -36,10 +36,10 @@ function getRankStyle(rank: number): { bg: string; text: string; border: string 
 }
 
 function getScoreColor(score: number): string {
-  if (score >= 70) return 'bg-[var(--score-excellent)] text-white'
-  if (score >= 50) return 'bg-[var(--score-good)] text-white'
-  if (score >= 30) return 'bg-[var(--score-medium)] text-black'
-  return 'bg-[var(--score-low)] text-white'
+  if (score >= 70) return 'bg-[var(--score-excellent-bg)] text-[var(--score-excellent-text)]'
+  if (score >= 50) return 'bg-[var(--score-good-bg)] text-[var(--score-good-text)]'
+  if (score >= 30) return 'bg-[var(--score-medium-bg)] text-[var(--score-medium-text)]'
+  return 'bg-[var(--score-low-bg)] text-[var(--score-low-text)]'
 }
 
 function getScoreLevelKey(score: number): 'excellent' | 'good' | 'medium' | 'low' {
@@ -61,6 +61,7 @@ export const CandidateCardMini = memo(function CandidateCardMini({ rank, candida
         'bg-[var(--card)]',
         'border-3 border-[var(--border)]',
         'hover:-translate-x-1 hover:-translate-y-1',
+        'active:translate-x-0.5 active:translate-y-0.5 active:shadow-[var(--shadow-brutal-pressed)]',
         'hover:shadow-[var(--shadow-brutal)]',
         'transition-all duration-100',
         'overflow-hidden',
@@ -109,7 +110,7 @@ export const CandidateCardMini = memo(function CandidateCardMini({ rank, candida
             <div
               aria-hidden="true"
               className="w-3 h-3 border border-[var(--border)] flex-shrink-0"
-              style={{ backgroundColor: candidate.party_color || '#6B7280' }}
+              style={{ backgroundColor: candidate.party_color || 'var(--party-default)' }}
             />
             <span className="text-xs sm:text-sm font-bold text-[var(--muted-foreground)] uppercase leading-tight">
               {displayPartyName(candidate.party_name) || candidate.party_short_name}
@@ -128,7 +129,7 @@ export const CandidateCardMini = memo(function CandidateCardMini({ rank, candida
               scoreColor
             )}
           >
-            <span>{candidate.score_balanced.toFixed(0)}</span>
+            <span className="tabular-nums">{candidate.score_balanced.toFixed(0)}</span>
             <span className="text-xs font-bold opacity-70">/100</span>
           </div>
         </div>

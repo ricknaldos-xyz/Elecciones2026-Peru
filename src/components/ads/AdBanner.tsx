@@ -1,5 +1,6 @@
 import { AdSlot } from './AdSlot'
 import type { AdSlotId } from '@/lib/ads/sponsors'
+import { cn } from '@/lib/utils'
 
 interface AdBannerProps {
   slotId: AdSlotId
@@ -11,9 +12,9 @@ interface AdBannerProps {
  * Full-width horizontal ad banner.
  * Responsive: 970x250 on large desktop, 728x90 on tablet, 320x100 on mobile.
  */
-export function AdBanner({ slotId, adsenseSlot, className = '' }: AdBannerProps) {
+export function AdBanner({ slotId, adsenseSlot, className }: AdBannerProps) {
   return (
-    <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 ${className}`}>
+    <div className={cn('max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2', className)}>
       {/* Large desktop: 970x250 */}
       <div className="hidden lg:flex justify-center">
         <AdSlot slotId={slotId} size="970x250" adsenseSlot={adsenseSlot} />

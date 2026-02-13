@@ -48,7 +48,7 @@ export function NewsSentimentBadge({
         'font-bold uppercase',
         config.color,
         config.textColor,
-        size === 'sm' && 'px-1.5 py-0.5 text-[10px]',
+        size === 'sm' && 'px-1.5 py-0.5 text-xs',
         size === 'md' && 'px-2 py-1 text-xs',
         className
       )}

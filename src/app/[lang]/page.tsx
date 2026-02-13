@@ -17,6 +17,7 @@ import { displayPartyName } from '@/lib/utils'
 import { DISTRICTS } from '@/lib/constants'
 import { sql } from '@/lib/db'
 import { generateWebSiteSchema, generateOrganizationSchema } from '@/lib/schema'
+import { ScrollToTop } from '@/components/layout/ScrollToTop'
 
 interface HomePageProps {
   params: Promise<{ lang: string }>
@@ -350,16 +351,16 @@ async function getBottomPresidentialCandidates(): Promise<TopCandidate[]> {
 
 // ── Category icons/colors for proposals ──
 const CATEGORY_STYLES: Record<string, { icon: string; color: string }> = {
-  economia: { icon: '💰', color: 'bg-emerald-600' },
-  seguridad: { icon: '🛡️', color: 'bg-red-700' },
-  infraestructura: { icon: '🏗️', color: 'bg-amber-600' },
-  reforma_politica: { icon: '⚖️', color: 'bg-blue-700' },
-  educacion: { icon: '📚', color: 'bg-purple-600' },
-  mineria_ambiente: { icon: '⛏️', color: 'bg-orange-700' },
-  social: { icon: '🤝', color: 'bg-pink-600' },
-  salud: { icon: '🏥', color: 'bg-teal-600' },
-  corrupcion: { icon: '🔍', color: 'bg-indigo-700' },
-  otros: { icon: '📋', color: 'bg-gray-600' },
+  economia: { icon: '💰', color: 'bg-[var(--cat-economia)]' },
+  seguridad: { icon: '🛡️', color: 'bg-[var(--cat-seguridad)]' },
+  infraestructura: { icon: '🏗️', color: 'bg-[var(--cat-infraestructura)]' },
+  reforma_politica: { icon: '⚖️', color: 'bg-[var(--cat-reforma)]' },
+  educacion: { icon: '📚', color: 'bg-[var(--cat-educacion)]' },
+  mineria_ambiente: { icon: '⛏️', color: 'bg-[var(--cat-mineria)]' },
+  social: { icon: '🤝', color: 'bg-[var(--cat-social)]' },
+  salud: { icon: '🏥', color: 'bg-[var(--cat-salud)]' },
+  corrupcion: { icon: '🔍', color: 'bg-[var(--cat-corrupcion)]' },
+  otros: { icon: '📋', color: 'bg-[var(--cat-otros)]' },
 }
 
 export default async function Home() {
@@ -391,7 +392,7 @@ export default async function Home() {
         <CountdownBanner />
 
       {/* Hero Section: CTA + Top 5 Side by Side, with lateral ads */}
-      <section className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
         <div className="flex gap-4">
           {/* Left sidebar ad */}
           <aside className="hidden xl:block w-[160px] flex-shrink-0">
@@ -435,7 +436,7 @@ export default async function Home() {
 
               <div className="flex flex-wrap gap-2 sm:gap-3">
                 <Link href="/ranking">
-                  <Button size="lg" className="bg-white text-[var(--primary)] hover:bg-[var(--muted)] border-[var(--border)]">
+                  <Button size="lg" className="bg-[var(--background)] text-[var(--primary)] hover:bg-[var(--muted)] border-[var(--border)]">
                     {t('viewRanking')}
                   </Button>
                 </Link>
@@ -526,7 +527,7 @@ export default async function Home() {
       {/* Quiz CTA - Full width accent */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-4">
         <Link href="/quiz" className="block">
-          <div className="bg-gradient-to-r from-[var(--primary)] via-[#8B0000] to-[var(--primary)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal)] p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-3 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal-xl)] transition-all duration-100">
+          <div className="bg-gradient-to-r from-[var(--primary)] via-[var(--primary-via)] to-[var(--primary)] border-3 border-[var(--border)] shadow-[var(--shadow-brutal)] p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-3 hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0.5 active:translate-y-0.5 active:shadow-[var(--shadow-brutal-pressed)] hover:shadow-[var(--shadow-brutal-xl)] transition-all duration-100">
             <div className="flex items-center gap-3">
               <Badge variant="warning" size="sm">{t('new')}</Badge>
               <span className="text-base sm:text-lg font-black text-white uppercase">
@@ -553,7 +554,7 @@ export default async function Home() {
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="border-3 border-[var(--score-low)] bg-[var(--card)] shadow-[var(--shadow-brutal-lg)]">
             {/* Header */}
-            <div className="p-4 sm:p-5 border-b-3 border-[var(--score-low)] bg-red-50 dark:bg-red-950/30">
+            <div className="p-4 sm:p-5 border-b-3 border-[var(--score-low)] bg-[var(--brutal-red-bg)]">
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-[var(--score-low)] border-2 border-[var(--border)] flex items-center justify-center">
@@ -590,7 +591,7 @@ export default async function Home() {
                   <Link
                     key={candidate.id}
                     href={`/candidato/${candidate.slug}`}
-                    className="group flex flex-col bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal)] transition-all duration-100 overflow-hidden"
+                    className="group flex flex-col bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0.5 active:translate-y-0.5 active:shadow-[var(--shadow-brutal-pressed)] hover:shadow-[var(--shadow-brutal)] transition-all duration-100 overflow-hidden"
                   >
                     <div className="p-3 flex-1 flex flex-col">
                       <h3 className="text-xs font-black text-[var(--foreground)] uppercase leading-tight line-clamp-2 mb-1 group-hover:text-[var(--score-low)] transition-colors">
@@ -600,7 +601,7 @@ export default async function Home() {
                         <div className="flex items-center gap-1 mb-2">
                           <div
                             className="w-2.5 h-2.5 border border-[var(--border)] flex-shrink-0"
-                            style={{ backgroundColor: candidate.party_color || '#6B7280' }}
+                            style={{ backgroundColor: candidate.party_color || 'var(--party-default)' }}
                           />
                           <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase line-clamp-1">
                             {displayPartyName(candidate.party_name)}
@@ -609,7 +610,7 @@ export default async function Home() {
                       )}
                       <div className="mt-auto space-y-1">
                         {candidate.flag_count > 0 && (
-                          <span className="inline-block text-xs font-black text-[var(--score-low)] bg-red-50 dark:bg-red-950/30 px-1.5 py-0.5 border border-[var(--score-low)] uppercase">
+                          <span className="inline-block text-xs font-black text-[var(--score-low)] bg-[var(--brutal-red-bg)] px-1.5 py-0.5 border border-[var(--score-low)] uppercase">
                             {candidate.flag_count} {t('flagsCount')}
                           </span>
                         )}
@@ -636,7 +637,7 @@ export default async function Home() {
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="border-3 border-[var(--score-low)] bg-[var(--card)] shadow-[var(--shadow-brutal-lg)]">
             {/* Header */}
-            <div className="p-4 sm:p-5 border-b-3 border-[var(--score-low)] bg-red-50 dark:bg-red-950/30">
+            <div className="p-4 sm:p-5 border-b-3 border-[var(--score-low)] bg-[var(--brutal-red-bg)]">
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-[var(--score-low)] border-2 border-[var(--border)] flex items-center justify-center">
@@ -667,7 +668,7 @@ export default async function Home() {
             </div>
 
             {/* Info banner */}
-            <div className="px-4 py-3 bg-red-50/50 dark:bg-red-950/10 border-b-2 border-[var(--score-low)]">
+            <div className="px-4 py-3 bg-[var(--brutal-red-bg)]/50 border-b-2 border-[var(--score-low)]">
               <p className="text-xs text-[var(--muted-foreground)] font-medium">
                 <span className="font-black text-[var(--foreground)]">{worstVotersData.totalLaws}</span> {t('controversialLaws')}. {t('lawCategories')}
               </p>
@@ -680,7 +681,7 @@ export default async function Home() {
                   <Link
                     key={voter.id}
                     href={`/candidato/${voter.slug}`}
-                    className="group flex flex-col bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal)] transition-all duration-100 overflow-hidden"
+                    className="group flex flex-col bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0.5 active:translate-y-0.5 active:shadow-[var(--shadow-brutal-pressed)] hover:shadow-[var(--shadow-brutal)] transition-all duration-100 overflow-hidden"
                   >
                     {/* Photo */}
                     <div className="relative aspect-[3/4] overflow-hidden border-b-3 border-[var(--border)] bg-[var(--muted)]">
@@ -699,7 +700,7 @@ export default async function Home() {
                         <div className="flex items-center gap-1 mb-2">
                           <div
                             className="w-2.5 h-2.5 border border-[var(--border)] flex-shrink-0"
-                            style={{ backgroundColor: voter.party_color || '#6B7280' }}
+                            style={{ backgroundColor: voter.party_color || 'var(--party-default)' }}
                           />
                           <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase line-clamp-1">
                             {displayPartyName(voter.party_name)}
@@ -707,7 +708,7 @@ export default async function Home() {
                         </div>
                       )}
                       <div className="mt-auto">
-                        <span className="text-[10px] font-bold text-[var(--muted-foreground)] uppercase">{t('votedInFavor')}</span>
+                        <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('votedInFavor')}</span>
                         <div className="flex items-center gap-2 mt-1">
                           <div className="flex-1 h-2 bg-[var(--muted)] border border-[var(--border)]">
                             <div
@@ -747,18 +748,18 @@ export default async function Home() {
       {/* ══════════════════════════════════════════════════════════ */}
       {reinfoCandidates.length > 0 && (
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-          <div className="border-3 border-orange-600 bg-[var(--card)] shadow-[var(--shadow-brutal-lg)]">
+          <div className="border-3 border-[var(--reinfo-border)] bg-[var(--card)] shadow-[var(--shadow-brutal-lg)]">
             {/* Header */}
-            <div className="p-4 sm:p-5 border-b-3 border-orange-600 bg-orange-50 dark:bg-orange-950/30">
+            <div className="p-4 sm:p-5 border-b-3 border-[var(--reinfo-border)] bg-[var(--reinfo-bg)]">
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-orange-600 border-2 border-[var(--border)] flex items-center justify-center">
+                  <div className="w-10 h-10 bg-[var(--reinfo-icon-bg)] border-2 border-[var(--border)] flex items-center justify-center">
                     <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M20.893 13.393l-1.135-1.135a2.252 2.252 0 01-.421-.585l-1.08-2.16a.414.414 0 00-.663-.107.827.827 0 01-.812.21l-1.273-.363a.89.89 0 00-.738 1.595l.587.39c.59.395.674 1.23.172 1.732l-.2.2c-.212.212-.33.498-.33.796v.41c0 .409-.11.809-.32 1.158l-1.315 2.191a2.11 2.11 0 01-1.81 1.025 1.055 1.055 0 01-1.055-1.055v-1.172c0-.92-.56-1.747-1.414-2.089l-.655-.261a2.25 2.25 0 01-1.383-2.46l.007-.042a2.25 2.25 0 01.29-.787l.09-.15a2.25 2.25 0 012.37-1.048l1.178.236a1.125 1.125 0 001.302-.795l.208-.73a1.125 1.125 0 00-.578-1.315l-.665-.332-.091.091a2.25 2.25 0 01-1.591.659h-.18c-.249 0-.487.1-.662.274a.931.931 0 01-1.458-1.137l1.411-2.353a2.25 2.25 0 00.286-.76m11.928 9.869A9 9 0 008.965 3.525m11.928 9.868A9 9 0 118.965 3.525" />
                     </svg>
                   </div>
                   <div>
-                    <h2 className="text-lg sm:text-xl font-black text-orange-700 dark:text-orange-400 uppercase tracking-tight">
+                    <h2 className="text-lg sm:text-xl font-black text-[var(--reinfo-text)] uppercase tracking-tight">
                       {t('reinfoTitle')}
                     </h2>
                     <p className="text-xs sm:text-sm text-[var(--muted-foreground)] font-medium">
@@ -768,7 +769,7 @@ export default async function Home() {
                 </div>
                 <Link
                   href="/ranking?cargo=presidente"
-                  className="text-xs font-bold text-orange-700 dark:text-orange-400 hover:underline uppercase flex items-center gap-1"
+                  className="text-xs font-bold text-[var(--reinfo-text)] hover:underline uppercase flex items-center gap-1"
                 >
                   {t('seeAllReinfo')}
                   <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
@@ -779,8 +780,8 @@ export default async function Home() {
             </div>
 
             {/* Source */}
-            <div className="px-4 py-2 bg-orange-50/50 dark:bg-orange-950/10 border-b-2 border-[var(--border)]">
-              <p className="text-[10px] text-[var(--muted-foreground)] font-medium uppercase tracking-wide">
+            <div className="px-4 py-2 bg-[var(--reinfo-bg)] border-b-2 border-[var(--border)]">
+              <p className="text-xs text-[var(--muted-foreground)] font-medium uppercase tracking-wide">
                 {t('reinfoSource')}
               </p>
             </div>
@@ -791,7 +792,7 @@ export default async function Home() {
                 <Link
                   key={candidate.id}
                   href={`/candidato/${candidate.slug}`}
-                  className="group flex items-center gap-3 sm:gap-4 px-4 sm:px-5 py-3 sm:py-4 hover:bg-orange-50/50 dark:hover:bg-orange-950/10 transition-colors"
+                  className="group flex items-center gap-3 sm:gap-4 px-4 sm:px-5 py-3 sm:py-4 hover:bg-[var(--reinfo-bg)] transition-colors"
                 >
                   {/* Photo */}
                   <div className="relative w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 border-2 border-[var(--border)] bg-[var(--muted)] overflow-hidden">
@@ -805,7 +806,7 @@ export default async function Home() {
                   </div>
                   {/* Info */}
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-black text-[var(--foreground)] uppercase leading-tight truncate group-hover:text-orange-700 transition-colors">
+                    <h3 className="text-sm font-black text-[var(--foreground)] uppercase leading-tight truncate group-hover:text-[var(--reinfo-text)] transition-colors">
                       {candidate.full_name}
                     </h3>
                     {candidate.party_name && (
@@ -816,7 +817,7 @@ export default async function Home() {
                   </div>
                   {/* Severity + Concessions */}
                   <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                    <span className="text-xs font-bold text-orange-700 dark:text-orange-400 uppercase hidden sm:inline">
+                    <span className="text-xs font-bold text-[var(--reinfo-text)] uppercase hidden sm:inline">
                       {candidate.concession_count} {candidate.concession_count === 1 ? t('concession') : t('concessions')}
                     </span>
                     <div className={`flex items-center gap-1 px-2 py-1 text-xs font-black text-white uppercase ${candidate.severity === 'RED' ? 'bg-red-600' : 'bg-orange-500'}`}>
@@ -974,7 +975,7 @@ export default async function Home() {
                   <Link
                     key={candidate.id}
                     href={`/candidato/${candidate.slug}`}
-                    className="group flex flex-col bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal)] transition-all duration-100 overflow-hidden"
+                    className="group flex flex-col bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0.5 active:translate-y-0.5 active:shadow-[var(--shadow-brutal-pressed)] hover:shadow-[var(--shadow-brutal)] transition-all duration-100 overflow-hidden"
                   >
                     {/* Photo with position badge and gradient overlay */}
                     <div className="relative aspect-[4/3] bg-[var(--muted)] overflow-hidden">
@@ -997,7 +998,7 @@ export default async function Home() {
                           <div className="flex items-center gap-1.5 mt-1">
                             <div
                               className="w-2.5 h-2.5 border border-white/50 flex-shrink-0"
-                              style={{ backgroundColor: candidate.party_color || '#6B7280' }}
+                              style={{ backgroundColor: candidate.party_color || 'var(--party-default)' }}
                             />
                             <span className="text-xs font-bold text-white/80 uppercase line-clamp-1">
                               {displayPartyName(candidate.party_name)}
@@ -1010,7 +1011,7 @@ export default async function Home() {
                     <div className="p-3">
                       <div className="flex items-center justify-between mb-1.5">
                         <span className="text-xs font-bold text-[var(--muted-foreground)] uppercase">{t('scoreLabel')}</span>
-                        <div className={`inline-flex items-center gap-1 px-2 py-0.5 border-2 border-[var(--border)] font-black text-sm ${candidate.score_balanced < 30 ? 'bg-[var(--score-low)] text-white' : candidate.score_balanced < 50 ? 'bg-[var(--score-medium)] text-black' : 'bg-[var(--score-good)] text-white'}`}>
+                        <div className={`inline-flex items-center gap-1 px-2 py-0.5 border-2 border-[var(--border)] font-black text-sm tabular-nums ${candidate.score_balanced < 30 ? 'bg-[var(--score-low)] text-white' : candidate.score_balanced < 50 ? 'bg-[var(--score-medium)] text-black' : 'bg-[var(--score-good)] text-white'}`}>
                           <span>{candidate.score_balanced.toFixed(0)}</span>
                           <span className="text-xs font-bold opacity-70">/100</span>
                         </div>
@@ -1036,7 +1037,7 @@ export default async function Home() {
           <h2 className="text-lg sm:text-xl font-black text-[var(--foreground)] uppercase tracking-tight">
             {t('howWeEvaluate')}
           </h2>
-          <Link href="/metodologia" className="text-sm font-bold text-[var(--primary)] hover:underline uppercase flex items-center gap-1">
+          <Link href="/metodologia" className="text-sm font-bold text-[var(--primary)] hover:underline uppercase flex items-center gap-1 min-h-[44px]">
             {t('viewFullMethodology')}
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="square" strokeLinejoin="miter" d="M9 5l7 7-7 7" />
@@ -1046,7 +1047,7 @@ export default async function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <Link href="/metodologia#competencia" className="group">
-            <Card className="p-4 h-full hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal-lg)] transition-all duration-100">
+            <Card className="p-4 h-full hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0.5 active:translate-y-0.5 active:shadow-[var(--shadow-brutal-pressed)] hover:shadow-[var(--shadow-brutal-lg)] transition-all duration-100">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[var(--score-competence)] border-3 border-[var(--border)] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                   <span className="text-lg sm:text-xl font-black text-white">C</span>
@@ -1064,7 +1065,7 @@ export default async function Home() {
           </Link>
 
           <Link href="/metodologia#historial-legal" className="group">
-            <Card className="p-4 h-full hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal-lg)] transition-all duration-100">
+            <Card className="p-4 h-full hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0.5 active:translate-y-0.5 active:shadow-[var(--shadow-brutal-pressed)] hover:shadow-[var(--shadow-brutal-lg)] transition-all duration-100">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[var(--score-integrity)] border-3 border-[var(--border)] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                   <span className="text-lg sm:text-xl font-black text-white">I</span>
@@ -1082,7 +1083,7 @@ export default async function Home() {
           </Link>
 
           <Link href="/metodologia#transparencia" className="group">
-            <Card className="p-4 h-full hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[var(--shadow-brutal-lg)] transition-all duration-100">
+            <Card className="p-4 h-full hover:-translate-x-1 hover:-translate-y-1 active:translate-x-0.5 active:translate-y-0.5 active:shadow-[var(--shadow-brutal-pressed)] hover:shadow-[var(--shadow-brutal-lg)] transition-all duration-100">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 bg-[var(--score-transparency)] border-3 border-[var(--border)] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                   <span className="text-lg sm:text-xl font-black text-black">T</span>
@@ -1130,7 +1131,7 @@ export default async function Home() {
             <h2 className="text-sm sm:text-base font-black text-[var(--foreground)] uppercase tracking-tight">
               {t('deputiesByDistrict')}
             </h2>
-            <Link href="/ranking?cargo=diputado" className="text-xs font-bold text-[var(--primary)] hover:underline uppercase">
+            <Link href="/ranking?cargo=diputado" className="text-xs font-bold text-[var(--primary)] hover:underline uppercase min-h-[44px] inline-flex items-center">
               {t('viewAll')} →
             </Link>
           </div>
@@ -1161,6 +1162,7 @@ export default async function Home() {
       </section>
       {/* Ad Banner - Footer */}
       <AdBanner slotId="home-footer" className="py-2" />
+      <ScrollToTop />
       </main>
     </div>
   )

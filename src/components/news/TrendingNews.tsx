@@ -162,6 +162,7 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
                 'border-3 border-[var(--border)]',
                 'shadow-[var(--shadow-brutal-sm)]',
                 'hover:-translate-x-1 hover:-translate-y-1',
+                'active:translate-x-0.5 active:translate-y-0.5 active:shadow-[var(--shadow-brutal-pressed)]',
                 'hover:shadow-[var(--shadow-brutal)]',
                 'transition-all duration-100'
               )}
@@ -273,7 +274,7 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
                   key={candidate.candidate_slug}
                   href={`/candidato/${candidate.candidate_slug}`}
                   className={cn(
-                    'inline-flex items-center gap-1.5 px-2 py-1',
+                    'inline-flex items-center gap-1.5 px-2 py-1 min-h-[36px]',
                     'text-xs font-bold',
                     'bg-[var(--muted)]',
                     'border-2 border-[var(--border)]',
@@ -299,7 +300,7 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block"
+                  className="block min-h-[44px]"
                 >
                   <p className="text-sm font-medium text-[var(--foreground)] line-clamp-2 group-hover:text-[var(--primary)] transition-colors">
                     {item.title}

@@ -29,11 +29,11 @@ export function PartiesGrid({ parties }: { parties: PartyWithCount[] }) {
           <Link
             key={party.id}
             href={`/partido/${party.id}`}
-            className="group flex items-center gap-3 p-3 bg-[var(--card)] border-2 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100"
+            className="group flex items-center gap-3 p-3 bg-[var(--card)] border-3 border-[var(--border)] hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0 active:translate-y-0 active:shadow-none hover:shadow-[var(--shadow-brutal-sm)] transition-all duration-100 cursor-pointer"
           >
             <div
               className="w-10 h-10 sm:w-12 sm:h-12 border-2 border-[var(--border)] flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform overflow-hidden"
-              style={{ backgroundColor: party.color || '#6B7280' }}
+              style={{ backgroundColor: party.color || 'var(--party-default)' }}
             >
               {party.logo_url ? (
                 // eslint-disable-next-line @next/next/no-img-element

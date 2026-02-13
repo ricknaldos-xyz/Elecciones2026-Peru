@@ -81,7 +81,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           !isGhost && 'active:translate-x-0.5 active:translate-y-0.5',
           !isGhost && 'active:shadow-[var(--shadow-brutal-pressed)]',
           // Focus
-          'focus:outline-none focus-visible:ring-3 focus-visible:ring-[var(--primary)] focus-visible:ring-offset-2',
+          'focus:outline-none focus-visible:ring-3 focus-visible:ring-[var(--primary)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]',
           // Disabled
           'disabled:opacity-50 disabled:cursor-not-allowed',
           'disabled:hover:translate-x-0 disabled:hover:translate-y-0',

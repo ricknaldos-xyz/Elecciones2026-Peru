@@ -99,7 +99,7 @@ export function DailyFact({ className, variant = 'card' }: DailyFactProps) {
     return (
       <div className={cn(
         'flex items-center gap-3 p-3 sm:p-4',
-        'bg-[var(--score-good)]/10',
+        'bg-[var(--score-good)]/10 dark:bg-[var(--score-good)]/20',
         'border-2 border-[var(--score-good)]',
         className
       )}>
@@ -178,7 +178,7 @@ export function DailyFact({ className, variant = 'card' }: DailyFactProps) {
               href={fact.source_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-xs font-bold text-[var(--muted-foreground)] hover:text-[var(--primary)] mt-2 transition-colors"
+              className="inline-flex items-center gap-1 text-xs font-bold text-[var(--muted-foreground)] hover:text-[var(--primary)] mt-2 transition-colors min-h-[44px] py-2 flex items-center"
             >
               {t('viewSource')}
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
