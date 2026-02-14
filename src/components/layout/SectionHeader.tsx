@@ -1,6 +1,6 @@
 'use client'
 
-import Link from 'next/link'
+import { Link } from '@/i18n/routing'
 import { ChevronRight } from '@/components/ui/icons'
 import { cn } from '@/lib/utils'
 
