@@ -192,17 +192,26 @@ Responde SOLO con JSON array (sin markdown):
 ]`
 
 // Candidates ordered by page count (smallest first for quick wins)
+// Round 2: under-extracted candidates (<1 proposal/page ratio)
 const CANDIDATES_TO_REEXTRACT = [
-  'LUNA GALVEZ JOSE LEON',                   // 77 págs
-  'VALDERRAMA PEÑA PITTER ENRIQUE',          // 107 págs
-  'LOPEZ CHAU NAVA PABLO ALFONSO',           // 146 págs
-  'JOSÉ WILLIAMS ZAPATA',                    // 156 págs
-  'CHIABRA LEON ROBERTO ENRIQUE',            // 159 págs
-  'VIZCARRA CORNEJO MARIO ENRIQUE',          // 179 págs
-  'GROZO COSTA WOLFGANG MARIO',              // 283 págs
-  'MOLINELLI ARISTONDO FIORELLA GIANNINA',   // 335 págs
-  'GUEVARA AMASIFUEN MESIAS ANTONIO',        // 386 págs
-  'ALEX GONZALES CASTILLO',                  // 457 págs
+  'MASSE FERNANDEZ ARMANDO JOAQUIN',           // 32 págs, 19 propuestas
+  'SANCHEZ PALOMINO ROBERTO HELBERT',          // 74 págs, 38 propuestas (Juntos por el Perú)
+  'YONHY LESCANO ANCIETA',                     // 18 págs, 40 propuestas
+  'DIEZ-CANSECO TÁVARA FRANCISCO ERNESTO',     // 25 págs, 43 propuestas
+  'ESPA Y GARCES-ALVEAR ALFONSO CARLOS',       // 36 págs, 44 propuestas
+  'PAZ DE LA BARRA FREIGEIRO ALVARO GONZALO',  // 33 págs, 46 propuestas
+  'ACUÑA PERALTA CESAR',                       // 79 págs, 48 propuestas
+  'CERRON ROJAS VLADIMIR ROY',                 // 66 págs, 50 propuestas
+  'BELMONT CASSINELLI RICARDO PABLO',          // 27 págs, 54 propuestas
+  'CHIRINOS PURIZAGA WALTER GILMER',           // 52 págs, 54 propuestas
+  'OLIVERA VEGA LUIS FERNANDO',                // 52 págs, 57 propuestas
+  'CALLER GUTIERREZ HERBERT',                  // 33 págs, 59 propuestas
+  'BELAUNDE LLOSA RAFAEL JORGE',              // 87 págs, 60 propuestas
+  'ALVAREZ LOAYZA CARLOS GONSALO',            // 53 págs, 62 propuestas
+  'LOPEZ ALIAGA CAZORLA RAFAEL BERNARDO',     // 25 págs, 62 propuestas
+  'ATENCIO SOTOMAYOR RONALD DARWIN',          // 53 págs, 64 propuestas
+  'FERNANDEZ BAZAN ROSARIO DEL PILAR',        // 30 págs, 70 propuestas
+  'JORGE NIETO MONTESINOS',                   // 98 págs, 77 propuestas
 ]
 
 async function main() {
