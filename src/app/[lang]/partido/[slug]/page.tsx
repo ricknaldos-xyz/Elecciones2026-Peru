@@ -50,10 +50,7 @@ function getScoreLevel(score: number, t: (key: string) => string): { label: stri
 }
 
 function getEffectiveScore(c: CandidateWithScores): number {
-  if (c.cargo === 'presidente' && c.scores.score_balanced_p != null) {
-    return c.scores.score_balanced_p
-  }
-  return c.scores.score_balanced
+  return c.scores.score_balanced_p ?? c.scores.score_balanced
 }
 
 function computePartyStats(candidates: CandidateWithScores[], tCargo: (key: string) => string) {
@@ -129,8 +126,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const candidates = await getCandidates({ partyId: party.id as string })
   const avgScore = candidates.length > 0
     ? candidates.reduce((sum, c) => {
-        const score = c.cargo === 'presidente' && c.scores.score_balanced_p != null
-          ? c.scores.score_balanced_p : c.scores.score_balanced
+        const score = c.scores.score_balanced_p ?? c.scores.score_balanced
         return sum + score
       }, 0) / candidates.length
     : 0
