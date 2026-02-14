@@ -13,7 +13,7 @@ import { CandidateImage } from '@/components/candidate/CandidateImage'
 import { AdBanner } from '@/components/ads/AdBanner'
 import { AdSlot } from '@/components/ads/AdSlot'
 import { PartiesGrid } from '@/components/home/PartiesGrid'
-import { displayPartyName } from '@/lib/utils'
+import { displayPartyName, formatName } from '@/lib/utils'
 import { DISTRICTS } from '@/lib/constants'
 import { sql } from '@/lib/db'
 import { generateWebSiteSchema, generateOrganizationSchema } from '@/lib/schema'
@@ -113,7 +113,7 @@ async function getTopPresidentialCandidates(): Promise<TopCandidate[]> {
     `
     return result.map(row => ({
       id: row.id as string,
-      full_name: row.full_name as string,
+      full_name: formatName(row.full_name as string),
       slug: row.slug as string,
       photo_url: row.photo_url as string | null,
       score_balanced: Number(row.score) || 0,
@@ -168,7 +168,7 @@ async function getWorstIntegrityCandidates(): Promise<AlertCandidate[]> {
     `
     return result.map(row => ({
       id: row.id as string,
-      full_name: row.full_name as string,
+      full_name: formatName(row.full_name as string),
       slug: row.slug as string,
       photo_url: row.photo_url as string | null,
       integrity_score: Number(row.integrity_score) || 0,
@@ -223,7 +223,7 @@ async function getWorstVoters(): Promise<{ voters: WorstVoter[]; totalLaws: numb
     return {
       voters: votersResult.map(row => ({
         id: row.id as string,
-        full_name: row.full_name as string,
+        full_name: formatName(row.full_name as string),
         slug: row.slug as string,
         photo_url: row.photo_url as string | null,
         party_name: row.party_name as string | null,
@@ -278,7 +278,7 @@ async function getReinfoCandidates(): Promise<ReinfoCandidate[]> {
     `
     return result.map(row => ({
       id: row.id as string,
-      full_name: row.full_name as string,
+      full_name: formatName(row.full_name as string),
       slug: row.slug as string,
       photo_url: row.photo_url as string | null,
       party_name: row.party_name as string | null,
@@ -336,7 +336,7 @@ async function getBottomPresidentialCandidates(): Promise<TopCandidate[]> {
     `
     return result.map(row => ({
       id: row.id as string,
-      full_name: row.full_name as string,
+      full_name: formatName(row.full_name as string),
       slug: row.slug as string,
       photo_url: row.photo_url as string | null,
       score_balanced: Number(row.score) || 0,

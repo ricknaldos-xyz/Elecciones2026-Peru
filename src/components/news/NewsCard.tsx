@@ -3,7 +3,7 @@
 import { memo } from 'react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/routing'
-import { cn } from '@/lib/utils'
+import { cn, formatName } from '@/lib/utils'
 import { Card } from '@/components/ui/Card'
 import { NewsSentimentBadge } from './NewsSentimentBadge'
 import { NewsSourceBadge } from './NewsSourceBadge'
@@ -120,7 +120,7 @@ export const NewsCard = memo(function NewsCard({
               <svg aria-hidden="true" className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
-              <span className="truncate max-w-[140px] sm:max-w-[200px]">{candidate_name}</span>
+              <span className="truncate max-w-[140px] sm:max-w-[200px]">{formatName(candidate_name)}</span>
             </Link>
           )}
           {party_name && (

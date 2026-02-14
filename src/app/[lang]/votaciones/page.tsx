@@ -5,7 +5,7 @@ import { Header } from '@/components/layout/Header'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { CandidateImage } from '@/components/candidate/CandidateImage'
-import { displayPartyName } from '@/lib/utils'
+import { displayPartyName, formatName } from '@/lib/utils'
 import { locales } from '@/i18n/config'
 import { sql } from '@/lib/db'
 
@@ -115,7 +115,7 @@ async function getData() {
 
     const candidates: CandidateVoteRow[] = candidatesResult.map(r => ({
       id: r.id as string,
-      full_name: r.full_name as string,
+      full_name: formatName(r.full_name as string),
       slug: r.slug as string,
       photo_url: r.photo_url as string | null,
       cargo: r.cargo as string,

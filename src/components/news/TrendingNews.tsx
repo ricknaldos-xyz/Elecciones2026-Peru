@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/routing'
-import { cn } from '@/lib/utils'
+import { cn, formatName } from '@/lib/utils'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { NewsSentimentBadge } from './NewsSentimentBadge'
@@ -139,7 +139,7 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
                     'transition-colors'
                   )}
                 >
-                  {candidate.candidate_name.split(' ').pop()}
+                  {formatName(candidate.candidate_name).split(' ').pop()}
                   <span className="text-[var(--muted-foreground)]">{candidate.news_count}</span>
                 </Link>
               ))}
@@ -195,7 +195,7 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
                     'bg-[var(--primary)] text-white',
                     'border-2 border-[var(--border)]'
                   )}>
-                    {item.candidate_name.split(' ').pop()}
+                    {formatName(item.candidate_name || '').split(' ').pop()}
                   </span>
                   {item.sentiment && (
                     <NewsSentimentBadge sentiment={item.sentiment} size="sm" />
@@ -282,7 +282,7 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
                     'transition-colors'
                   )}
                 >
-                  <span>{candidate.candidate_name.split(' ').pop()}</span>
+                  <span>{formatName(candidate.candidate_name).split(' ').pop()}</span>
                   <span className="text-[var(--muted-foreground)]">{candidate.news_count}</span>
                 </Link>
               ))}
@@ -321,7 +321,7 @@ export function TrendingNews({ className, limit = 5, variant = 'list' }: Trendin
                       href={`/candidato/${item.candidate_slug}`}
                       className="text-xs font-bold text-[var(--primary)] hover:underline"
                     >
-                      {item.candidate_name.split(' ').pop()}
+                      {formatName(item.candidate_name || '').split(' ').pop()}
                     </Link>
                   )}
                 </div>

@@ -1,4 +1,5 @@
 import { sql } from './index'
+import { formatName } from '@/lib/utils'
 import type { CandidateWithScores, CargoType, Flag, ScoreBreakdown, CivilPenalty } from '@/types/database'
 
 interface CandidateRow {
@@ -34,7 +35,7 @@ function mapRowToCandidate(row: CandidateRow, flags: Flag[] = []): CandidateWith
   return {
     id: row.id,
     slug: row.slug,
-    full_name: row.full_name,
+    full_name: formatName(row.full_name),
     photo_url: row.photo_url,
     cargo: row.cargo,
     party: row.party_id ? {

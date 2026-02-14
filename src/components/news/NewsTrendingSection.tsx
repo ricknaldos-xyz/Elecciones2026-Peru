@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useTranslations } from 'next-intl'
 import { Link } from '@/i18n/routing'
-import { cn } from '@/lib/utils'
+import { cn, formatName } from '@/lib/utils'
 import { Card } from '@/components/ui/Card'
 import { NewsSourceBadge } from './NewsSourceBadge'
 
@@ -82,7 +82,7 @@ export function NewsTrendingSection() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between gap-2 mb-1">
                           <span className="text-sm font-bold text-[var(--foreground)] truncate group-hover:text-[var(--primary)] transition-colors">
-                            {c.candidate_name}
+                            {formatName(c.candidate_name)}
                           </span>
                           <span className="text-xs font-black text-[var(--muted-foreground)] flex-shrink-0">
                             {total}

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/db'
+import { formatName } from '@/lib/utils'
 import { PROPOSAL_CATEGORIES } from '@/lib/sync/plans/extractor'
 import { proposalsQuerySchema } from '@/lib/validation/schemas'
 import { parseSearchParams } from '@/lib/validation/helpers'
@@ -141,7 +142,7 @@ export async function GET(request: NextRequest) {
         if (!byCandidate[cId]) {
           byCandidate[cId] = {
             candidateId: cId,
-            candidateName: row.candidate_name as string,
+            candidateName: formatName(row.candidate_name as string),
             candidateSlug: row.candidate_slug as string,
             photoUrl: row.photo_url as string | null,
             proposals: [],
