@@ -25,6 +25,7 @@ export const metadata: Metadata = {
   title: "EleccionesPerú2026 - Elige con datos, no con promesas",
   description: "Ranking transparente de candidatos basado en mérito, historial legal y evidencia. Elecciones Generales 12 de abril 2026.",
   keywords: ["elecciones", "perú", "2026", "candidatos", "ranking", "votación"],
+  manifest: '/site.webmanifest',
   verification: {
     google: "nMAuw8fQRVDOyTUnn_ENESPlWSLOipm6v0n5pAKzQ3A",
   },

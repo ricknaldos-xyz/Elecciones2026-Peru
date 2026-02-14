@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/db'
 import { cookies } from 'next/headers'
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit'
+
+const RATE_LIMIT = { name: 'share-analytics', max: 30, windowSec: 60 }
 
 export async function POST(request: NextRequest) {
   try {
+    const { limited } = checkRateLimit(getClientIp(request), RATE_LIMIT)
+    if (limited) {
+      return NextResponse.json({ success: true }) // silent fail for analytics
+    }
     const body = await request.json()
     const { platform, url, contentType = 'page', contentId } = body
 

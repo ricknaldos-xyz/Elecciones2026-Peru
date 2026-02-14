@@ -3,9 +3,19 @@ import { sql } from '@/lib/db'
 import { cookies } from 'next/headers'
 import { quizSubmitSchema } from '@/lib/validation/schemas'
 import { parseBody } from '@/lib/validation/helpers'
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit'
+
+const RATE_LIMIT = { name: 'quiz-submit', max: 10, windowSec: 60 }
 
 export async function POST(request: NextRequest) {
   try {
+    const { limited } = checkRateLimit(getClientIp(request), RATE_LIMIT)
+    if (limited) {
+      return NextResponse.json(
+        { error: 'Demasiadas solicitudes. Intenta de nuevo en un minuto.' },
+        { status: 429 }
+      )
+    }
     const parsed = await parseBody(request, quizSubmitSchema)
     if (!parsed.success) return parsed.response
 

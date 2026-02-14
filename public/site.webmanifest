@@ -1,0 +1,16 @@
+{
+  "name": "EleccionesPerú2026",
+  "short_name": "EP2026",
+  "description": "Elige con datos, no con promesas. Ranking transparente de candidatos.",
+  "start_url": "/es",
+  "display": "standalone",
+  "background_color": "#FAFAF5",
+  "theme_color": "#D52B1E",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
