@@ -725,9 +725,13 @@
     }
   },
   "disclaimer": {
-    "aiTranslation": "IA osankënarintsi jaqukipata",
-    "reportError": "Irotiro amëtakotërini",
-    "helpImprove": "Yanabëntantsi wamëtantsikëtaki"
+    "aiTranslation": "IA yanabëntantsi jaqukipata — irotiro katsinkabo utjaspawa",
+    "aiTranslationDetail": "Español aru chiqapa versión ukawa. Asháninka arut parliritatxa, yanabëntam aka jaqukipata wamëtantsikëtaki.",
+    "reportError": "Wamëtantsi apayaña",
+    "helpImprove": "Yanabëntantsi wamëtantsikëtaki",
+    "officialVersion": "Español aruxa chiqapawa, tëjantsibë tupuqïtanxa.",
+    "footerNotice": "IA jaqukipata — chiqapa versión español arunxa",
+    "footerNoticeLink": "Jaqukipata irotiro yatiyaña"
   },
   "home": {
     "electionDate": "12 Abril 2026",

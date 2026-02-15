@@ -701,9 +701,13 @@
     "copied": "Copiado"
   },
   "disclaimer": {
-    "aiTranslation": "Traducción generada con inteligencia artificial",
-    "reportError": "Reportar error",
-    "helpImprove": "Ayúdanos a mejorar"
+    "aiTranslation": "Traducción asistida por inteligencia artificial — puede contener imprecisiones",
+    "aiTranslationDetail": "La versión en español es la versión oficial. Si eres hablante nativo, ayúdanos a mejorar esta traducción.",
+    "reportError": "Enviar corrección",
+    "helpImprove": "Ayúdanos a mejorar",
+    "officialVersion": "La versión en español prevalece en caso de discrepancia.",
+    "footerNotice": "Traducción IA — versión oficial en español",
+    "footerNoticeLink": "Reportar error de traducción"
   },
   "home": {
     "electionDate": "12 de Abril 2026",

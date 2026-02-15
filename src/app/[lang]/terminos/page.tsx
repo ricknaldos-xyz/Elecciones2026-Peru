@@ -242,10 +242,58 @@ export default function TerminosPage() {
           </CardContent>
         </Card>
 
+        {/* Traducciones a lenguas originarias */}
+        <Card className="mb-8 border-[var(--flag-amber)]">
+          <CardHeader>
+            <CardTitle>7. TRADUCCIONES A LENGUAS ORIGINARIAS</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4 text-[var(--muted-foreground)] font-medium">
+              <p>
+                <strong className="text-[var(--foreground)]">Traducciones asistidas por IA:</strong>{' '}
+                Las traducciones a quechua (Runasimi), aymara y asháninka han sido generadas con asistencia
+                de inteligencia artificial y pueden contener imprecisiones lingüísticas, errores gramaticales
+                o traducciones aproximadas.
+              </p>
+              <p>
+                <strong className="text-[var(--foreground)]">Versión oficial:</strong>{' '}
+                La versión en español constituye la versión oficial y autoritativa de todo el contenido
+                de la plataforma. En caso de discrepancia entre la versión en español y cualquier traducción
+                a lengua originaria, prevalecerá la versión en español.
+              </p>
+              <p>
+                <strong className="text-[var(--foreground)]">Sin responsabilidad por imprecisiones:</strong>{' '}
+                EleccionesPerú2026 no se hace responsable por decisiones tomadas en base a traducciones
+                que pudieran contener errores. Recomendamos a los usuarios verificar información crítica
+                en la versión en español.
+              </p>
+              <p>
+                <strong className="text-[var(--foreground)]">Compromiso con las lenguas originarias:</strong>{' '}
+                Reconocemos la importancia de las lenguas originarias del Perú conforme a la Ley N° 29735 —
+                Ley de Lenguas. Ofrecemos estas traducciones como un esfuerzo de inclusión y accesibilidad,
+                e invitamos activamente a hablantes nativos a contribuir con correcciones y mejoras.
+              </p>
+              <div className="p-4 bg-[var(--muted)] border-2 border-[var(--border)]">
+                <p className="text-sm text-[var(--foreground)] font-medium">
+                  Si eres hablante nativo de quechua, aymara o asháninka, puedes enviar correcciones
+                  y sugerencias a{' '}
+                  <a
+                    href="mailto:contacto@eleccionesperu2026.xyz?subject=Corrección de traducción"
+                    className="text-[var(--primary)] font-bold underline hover:no-underline"
+                  >
+                    contacto@eleccionesperu2026.xyz
+                  </a>
+                  . Toda contribución será revisada y acreditada.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Propiedad intelectual */}
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>7. PROPIEDAD INTELECTUAL</CardTitle>
+            <CardTitle>8. PROPIEDAD INTELECTUAL</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-[var(--muted-foreground)] font-medium mb-4">
@@ -263,7 +311,7 @@ export default function TerminosPage() {
         {/* Modificaciones */}
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>8. MODIFICACIONES</CardTitle>
+            <CardTitle>9. MODIFICACIONES</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-[var(--muted-foreground)] font-medium">

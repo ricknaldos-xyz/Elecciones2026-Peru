@@ -725,9 +725,13 @@
     }
   },
   "disclaimer": {
-    "aiTranslation": "IA nisqawan tikrasqa",
-    "reportError": "Pantayta willay",
-    "helpImprove": "Yanapawayku allinchanaypaq"
+    "aiTranslation": "IA yanapaywan tikrasqa — pantaykuna kanmanmi",
+    "aiTranslationDetail": "Español simipi qillqasqam chiqap kaq. Runasimipi rimaqchu kanki chayqa, yanapawayku kay tikrayta allinchanaypaq.",
+    "reportError": "Allinchay apachiy",
+    "helpImprove": "Yanapawayku allinchanaypaq",
+    "officialVersion": "Español simipim chiqap kaq, mana tupaptinqa.",
+    "footerNotice": "IA tikrasqa — chiqap kaq español simipi",
+    "footerNoticeLink": "Tikray pantayta willay"
   },
   "home": {
     "electionDate": "12 Abril 2026",

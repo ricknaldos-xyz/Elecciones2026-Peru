@@ -725,9 +725,13 @@
     }
   },
   "disclaimer": {
-    "aiTranslation": "IA ukatjam jaqukipata",
-    "reportError": "Pantjawi yatiyaña",
-    "helpImprove": "Yanapt'am sumart'ayañataki"
+    "aiTranslation": "IA yanapt'atampi jaqukipata — pantjawinaka utjaspawa",
+    "aiTranslationDetail": "Español aruxa chiqapa versión ukawa. Aymara arut parliritatxa, yanapt'am aka jaqukipata sumart'ayañataki.",
+    "reportError": "Sumart'awi apayaña",
+    "helpImprove": "Yanapt'am sumart'ayañataki",
+    "officialVersion": "Español aruxa chiqapawa, jan tupuqïtanxa.",
+    "footerNotice": "IA jaqukipata — chiqapa versión español arunxa",
+    "footerNoticeLink": "Jaqukipata pantjawi yatiyaña"
   },
   "home": {
     "electionDate": "12 Abril 2026",

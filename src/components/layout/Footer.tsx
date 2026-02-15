@@ -1,11 +1,14 @@
 'use client'
 
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { Link } from '@/i18n/routing'
 import { DataFreshnessFooter } from './DataFreshnessFooter'
+import { isAiTranslated, type Locale } from '@/i18n/config'
 
 export function Footer() {
   const t = useTranslations('footer')
+  const td = useTranslations('disclaimer')
+  const locale = useLocale() as Locale
 
   return (
     <footer className="border-t-4 border-[var(--border)] bg-[var(--card)]" aria-label={t('siteFooter')}>
@@ -172,7 +175,25 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Section D: Bottom Bar */}
+      {/* Section D: AI Translation Notice (persistent, non-dismissable) */}
+      {isAiTranslated(locale) && (
+        <div className="border-t-2 border-[var(--flag-amber)]/50 bg-[var(--flag-amber)]/10">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <p className="text-xs text-[var(--muted-foreground)] text-center leading-relaxed">
+              <span className="font-black uppercase">⚠️ {td('footerNotice')}</span>
+              {' — '}
+              <a
+                href="mailto:contacto@eleccionesperu2026.xyz?subject=Corrección de traducción"
+                className="text-[var(--primary)] underline hover:no-underline font-bold"
+              >
+                {td('footerNoticeLink')}
+              </a>
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Section E: Bottom Bar */}
       <div className="border-t-3 border-[var(--border)] bg-[var(--muted)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-xs text-[var(--muted-foreground)] font-medium">
