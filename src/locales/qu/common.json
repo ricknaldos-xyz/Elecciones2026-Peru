@@ -22,18 +22,18 @@
     "menu": "Ñit'inakuna",
     "changeTheme": "Rikch'ay tikray",
     "new": "MUSUQ",
-    "skipToContent": "Qallariy qillqaman pasay",
+    "skipToContent": "Hatun qillqaman pasay",
     "mainNavigation": "Hatun purichina",
     "mobileNavigation": "Celularpaq purichina",
     "moreMenu": "Aswan akllanakuna",
     "more": "Aswan",
-    "transparencyDesc": "Partidokunapa qullqi japiqiynin",
-    "methodologyDesc": "Imaynatas yupaykunata ruraniku",
+    "transparencyDesc": "Partidokunapa qullqi haykuynin",
+    "methodologyDesc": "Imaynatas chaninkunata ruwanchik",
     "docsDesc": "Técnico qillqakuna API-wan",
     "franjaElectoral": "Akllana Franja",
     "franjaElectoralDesc": "S/ 80M llaqta qullqiwan propaganda",
     "advertising": "Rantikuy",
-    "advertisingDesc": "Rantikuy k'itikunam kanku",
+    "advertisingDesc": "Rantikuy k'itikunam kan",
     "donate": "Yanapay",
     "donateDesc": "Kay llamk'ayta yanapay mana qullqipaq"
   },
@@ -72,12 +72,12 @@
       "balancedDescPres": "Yachay, kamachiy qillqa, kamachiy ruway tupachisqa",
       "merit": "Yachay",
       "meritDesc": "Yachayninta aswan qhaway; kamachiy qillqata t'aqawan",
-      "meritDescPres": "Yachayninta aswan qhaway; kamachiy ruwaypa ruwanapaq",
+      "meritDescPres": "Yachayninta aswan qhaway; kamachikuy planpa atipayninpas",
       "integrity": "Kamachiy Qillqa",
       "integrityDesc": "Mana antecedente kayninta qhaway",
-      "integrityDescPres": "Mana antecedente kayninta qhaway; kamachiy ruwaypa ruwanapaq",
+      "integrityDescPres": "Mana antecedente kayninta aswan qhaway; kamachikuy planpa atipayninpas",
       "custom": "Munayniyuq",
-      "customDesc": "Llasaqkunata churay (mana pantachiq rankinpaq t'aqawan)",
+      "customDesc": "Llasaqkunata churay (mana pantachiq rankingpaq limitewan)",
       "customInfo": "Munayniyuq ranking. Yachayqa mana tikrakurqanchu, munayniykillaña.",
       "resetToBalanced": "Chawpiman kutichiy",
       "adjust": "Tikray"
@@ -93,7 +93,7 @@
       "vicepresidente": "Iskay Ñiqin Kamachiq",
       "senador": "Hatun Kamachiq",
       "diputado": "Kamachiq",
-      "parlamento_andino": "Antikuna Parlamento"
+      "parlamento_andino": "Antikunapa Parlamentun"
     },
     "table": {
       "rank": "#",
@@ -129,15 +129,15 @@
     "noRecords": "Mana antecedenteyuqchu",
     "clearSearch": "Maskasqata pichay",
     "clearFilters": "Filtrokuna pichay",
-    "tryOtherCargo": "Huk cargowan pruebay:"
+    "tryOtherCargo": "Huk llamk'aywan pruebay:"
   },
   "candidate": {
     "profile": "Akllakuq Runapa Perfilnin",
     "overview": "Qhawarina",
     "education": "Yachay",
-    "experience": "Ruwaykuna",
+    "experience": "Llamk'ay Yachaynin",
     "trajectory": "Kamachikuy Ñan",
-    "assets": "Imakuna willay",
+    "assets": "Imayuq Willay",
     "flags": "Yuyaychaykuna",
     "news": "Willakuykuna",
     "similar": "Kikiq Akllakuq Runakuna",
@@ -145,7 +145,7 @@
       "summary": "Qhawarina",
       "proposals": "Rimaykunata",
       "news": "Willakuykuna",
-      "evidence": "Rikuchiy",
+      "evidence": "Rikuchiykuna",
       "breakdown": "T'aqasqa chanin"
     },
     "personalData": "Kikin Yachaykuna",
@@ -211,9 +211,9 @@
       "transparency": "Sut'i kay",
       "transparencyDesc": "Willasqa yachaypa kamachiy qillqan",
       "confidence": "Yachay Iñiy",
-      "confidenceDesc": "Imayna chiqap kanku yachaykuna",
+      "confidenceDesc": "Imayna chiqapchasqa kanku willaykuna",
       "scoreDisclaimer": "Algoritmo puntaje llaqta willaykunamanta. Mana chaninchaymi kanchu.",
-      "plan": "Kamachiy Ruway"
+      "plan": "Kamachikuy Plan"
     },
     "educationLevels": {
       "doctorado": "Yachay Hatun Kamaq",
@@ -231,8 +231,8 @@
     "flagTypes": {
       "PENAL_SENTENCE": "Huchachay Kamachiy",
       "CIVIL_SENTENCE": "Llaqta Huchachay",
-      "VIOLENCE": "Ayllu Maqanakuy",
-      "ALIMENTOS": "Wawaman Mana Quy",
+      "VIOLENCE": "Wasi Ukhupi Maqay",
+      "ALIMENTOS": "Wawakunata Mana Mikhuchiy",
       "LABORAL": "Llamk'ay Huchachay",
       "CONTRACTUAL": "Trato Huchachay",
       "MULTIPLE_RESIGNATIONS": "Achka Saqiy",
@@ -277,7 +277,7 @@
       "partial": "Pisilla willay",
       "limited": "Ancha pisi willay",
       "verifiedDesc": "Tukuy yachaykuna kanmi kay akllakuq runapaq",
-      "partialDesc": "Wakin yachaykuna chiqapchanapaq falta",
+      "partialDesc": "Wakin willaykuna manaraq chiqapchasqachu",
       "limitedDesc": "Pisi yachay kan. Chaninqa tikrakuyta atin.",
       "label": "Iñiy:"
     },
@@ -358,7 +358,7 @@
     "finish": "Taripakuykuna Qhaway",
     "intro": {
       "title": "¿Pitaq qanhina yuyaychkan?",
-      "description": "Chunka tapukuykuna kutichiyta, ima akllakuq runakuna qanwan tupaq tarikuy.",
+      "description": "Chunka tapukuykunata kutichiy, ima akllakuq runakuna qanwan tupaq tarikuy.",
       "questions": "Tapukuykuna",
       "minutes": "Minutukuna",
       "disclaimer": "Kay tapukuy willaypaq, mana imayna akllanaykipaqchu.",
@@ -379,8 +379,8 @@
       "shareDescription": "Akllakuq runakuna qanwan tupaq: {candidates}",
       "challengeFriends": "Masikikunata atipachiy",
       "challengeText": "Ñuqaqa {profile} kani. ¿Qanri? Política perfilniykita tariy: {url}",
-      "copiedChallenge": "Atipachiy copiasqa",
-      "copyChallenge": "Atipachiy copiy"
+      "copiedChallenge": "Atipachiy kikinchasqa",
+      "copyChallenge": "Atipachiy kikinchay"
     },
     "answers": {
       "stronglyDisagree": "Anchata mana hunichu",
@@ -685,7 +685,7 @@
   },
   "veda": {
     "title": "Akllana Hark'ay",
-    "message": "Art. 191 Akllana Kamachiy nisqanman hina, kay llika ranking nisqakunata harkan akllana p'unchawpa 7 p'unchaw ñawpaqninpi.",
+    "message": "Art. 191 Akllana Kamachiy nisqanman hina, kay p'anqa ranking nisqakunata hark'an akllana p'unchawpa 7 p'unchaw ñawpaqninpi.",
     "exemptNote": "Ruwaykuna, pakasqa kay, allichay mañakuy p'anqakunaman yaykuyta atinki.",
     "viewMethodology": "Ruwaykunata Qhaway",
     "viewDocs": "Qillqakuna",
@@ -708,7 +708,7 @@
     "viewLess": "Pisita qhaway",
     "share": "Rakinakuy",
     "copy": "Kikinchasqa",
-    "copied": "Kikinchasqa",
+    "copied": "Kikinchasqaña",
     "months": {
       "jan": "qul",
       "feb": "hat",
@@ -806,7 +806,7 @@
     "proposalsCount": "propuestakuna",
     "seeProposals": "Propuestakunata qhaway",
     "propCategory_economia": "Qullqi Llamk'ay",
-    "propCategory_seguridad": "Waqaychay",
+    "propCategory_seguridad": "Kawsay Waqaychay",
     "propCategory_infraestructura": "Ruway Hatun",
     "propCategory_reforma_politica": "Kamachiy T'ikray",
     "propCategory_educacion": "Yachachiy",
@@ -823,7 +823,7 @@
   "dailyFact": {
     "didYouKnow": "¿Yacharqankichu...?",
     "loading": "Apamuchkan...",
-    "error": "Pantay chaqamuchkanku",
+    "error": "Willay mana apamuy atikurqanchu",
     "noFact": "Mana willaykuna kanchu",
     "viewSource": "Pukyuta qhaway",
     "fallbackFacts": {
@@ -839,7 +839,7 @@
     "viewAll": "Tukuy willakuykunata qhaway",
     "trending": "Aswan rimakuqkuna",
     "loading": "Willakuykunata apamuchkan...",
-    "error": "Pantay willakuykuna chaqamuchkanku",
+    "error": "Willakuykuna mana apamuy atikurqanchu",
     "noNews": "Mana willakuykuna kanchu",
     "readMore": "Aswanta ñawiriy",
     "hoursAgo": "{hours}h ñawpaq",
@@ -862,7 +862,7 @@
     "remove": "Hurquy",
     "compare": "Tupachiy",
     "compareShort": "Tup.",
-    "viewMore": "Astawan qhaway"
+    "viewMore": "Aswanta qhaway"
   },
   "docs": {
     "meta": {

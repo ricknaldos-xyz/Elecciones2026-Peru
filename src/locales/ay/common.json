@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "EleccionesPerú2026 - Ajilana",
-    "description": "Ajilanakana ranking, yatiqawinakampi, kamachi qillqampi. Jach'a Ajilana 12 abril 2026.",
+    "description": "Ajilanakana ranking, yatiyawinakampi, kamachi qillqampi. Jach'a Ajilana 12 abril 2026.",
     "ogTitle": "EleccionesPerú2026 - Ajilana",
     "ogDescription": "Jakhunakanpi ajlliña, jan arst'awimpi. Suma ranking ajilanakaru."
   },
@@ -35,12 +35,12 @@
     "advertising": "Uñacht'ayawi",
     "advertisingDesc": "Uñacht'ayaña chiqanaka utjiwa",
     "donate": "Yanapaña",
-    "donateDesc": "Aka luräwi yanapaña jan qullqipataki"
+    "donateDesc": "Aka luräwi yanapaña jan qullqi thakhataki"
   },
   "hero": {
     "title": "EleccionesPerú2026 - Ajilana",
     "subtitle": "Jakhunakanpi ajlliña, jan arst'awimpi",
-    "description": "Ajilanakana yatiqawipa, kamachi qillqapa uñjaña ranking plataforma. Jach'a Ajilana 12 abril 2026.",
+    "description": "Ajilanakana yatiyawipa, kamachi qillqapa uñjaña ranking plataforma. Jach'a Ajilana 12 abril 2026.",
     "cta": "Taqi Ranking uñjaña",
     "countdown": {
       "title": "Ajilana 2026",
@@ -52,12 +52,12 @@
   },
   "ranking": {
     "title": "Ajilanakana Ranking",
-    "subtitle": "Ajilanaka uñjaña yatiqawimpi, kamachi qillqampi",
+    "subtitle": "Ajilanaka uñjaña yatiyawimpi, kamachi qillqampi",
     "filters": {
       "cargo": "Irnaqa Chiqa",
       "district": "Suyu",
       "party": "Tantachawi",
-      "confidence": "Askin iyawsaña",
+      "confidence": "Jisk'a iyawsaña",
       "all": "Taqi",
       "search": "Sutimp thaqaña",
       "filters": "T'aqanaka",
@@ -211,7 +211,7 @@
       "transparency": "Q'umara",
       "transparencyDesc": "Yatiyatana suma jakaña",
       "confidence": "Yatiqawi Iyawsaña",
-      "confidenceDesc": "Kunjams chiqa yatiqawinaka",
+      "confidenceDesc": "Kunjamsa chiqanchatawa yatiyawinakaxa",
       "scoreDisclaimer": "Algoritmo puntaje marka yatiyawinakata. Janiw chaninchañäkiti.",
       "plan": "Kamachi Luraña"
     },
@@ -225,13 +225,13 @@
       "tecnico_inc": "Técnico Jan Tukuyata",
       "secundaria_comp": "Secundaria Tukuyata",
       "secundaria_inc": "Secundaria Jan Tukuyata",
-      "primaria": "Primaria",
+      "primaria": "Qalltawi Yatiqawi",
       "sin_informacion": "Jan Yatiyawi"
     },
     "flagTypes": {
       "PENAL_SENTENCE": "Juchañchäwi Uñt'ayäwi",
       "CIVIL_SENTENCE": "Markana Uñt'ayäwi",
-      "VIOLENCE": "Nuwasiña",
+      "VIOLENCE": "Ch'axwawi",
       "ALIMENTOS": "Wawaru Jan Churaña",
       "LABORAL": "Irnaqa Sentencia",
       "CONTRACTUAL": "Trato Sentencia",
@@ -383,11 +383,11 @@
       "copyChallenge": "Jiskhtawi copiaña"
     },
     "answers": {
-      "stronglyDisagree": "Sinti jan tupuqi",
-      "disagree": "Jan tupuqi",
+      "stronglyDisagree": "Sinti jan iyawsaña",
+      "disagree": "Jan iyawsaña",
       "neutral": "Taypiku",
-      "agree": "Tupuqi",
-      "stronglyAgree": "Sinti tupuqi"
+      "agree": "Iyawsaña",
+      "stronglyAgree": "Sinti iyawsaña"
     },
     "savedProgress": "Jan tukuyata jiskhtanakanakam utji. ¿Jaytawimata qaltaña?",
     "continueQuiz": "Sarantaña",
@@ -539,7 +539,7 @@
     "totalIncome": "Mantawinaka",
     "totalExpensesLabel": "Qhatinaka",
     "balance": "Tupäwi",
-    "avgDonors": "chika",
+    "avgDonors": "chawpi jakhu",
     "balanceTitle": "QULLQI TUPÄWI TAQPACH",
     "balanceDesc": "Mantawinaka ukat qhatinaka sapa partidona tupachiyata",
     "partyCol": "Tantachawi",
@@ -632,7 +632,7 @@
     "assetQualityDescription": "¿Imayuqnaka yatiyawixa q'uma chiqanchatati?",
     "confidence": "Yatiqawi Iyawsaña",
     "confidenceTitle": "YATIQAWI IYAWSAÑA (0-100)",
-    "confidenceDescription": "Kunjams taqpach chiqanchataw ajilatana yatiqawipa uñachtayaña. Jakhunakar jan irnaqiti, ukampisa entiendiwipar.",
+    "confidenceDescription": "Kunjams taqpach chiqanchataw ajilatana yatiyawipa uñachtayaña. Jakhunakar jan irnaqiti, ukampisa entiendiwipar.",
     "highConfidence": "Jach'a iyawsaña",
     "mediumConfidence": "Taypi",
     "lowConfidence": "Jisk'a",
@@ -806,7 +806,7 @@
     "proposalsCount": "propuestanaka",
     "seeProposals": "Propuestanaka uñjam",
     "propCategory_economia": "Qullqi Irnaqawi",
-    "propCategory_seguridad": "Jark'awi",
+    "propCategory_seguridad": "Jark'aqawi",
     "propCategory_infraestructura": "Jach'a Lurawi",
     "propCategory_reforma_politica": "Kamachi T'ikjawi",
     "propCategory_educacion": "Yatichawi",
@@ -867,11 +867,11 @@
   "docs": {
     "meta": {
       "title": "Taqpach Qillqanaka - EleccionesPerú2026",
-      "description": "Taqpach técnico qillqanaka EleccionesPerú2026. Arquitectura, lurawinaka, yatiqawi phuqtunaka, diseño jilïrinakampi."
+      "description": "Taqpach técnico qillqanaka EleccionesPerú2026. Arquitectura, lurawinaka, yatiyawi phuqtunaka, diseño jilïrinakampi."
     },
     "badge": "TÉCNICO QILLQANAKA",
     "title": "EleccionesPerú2026",
-    "description": "Plataforma ajilanakana yatiqawipa, kamachi qillqapa uñjaña ranking ruwaq. Jach'a Ajilana 12 abril 2026.",
+    "description": "Plataforma ajilanakana yatiyawipa, kamachi qillqapa uñjaña ranking ruwaq. Jach'a Ajilana 12 abril 2026.",
     "toc": {
       "title": "QILLQA ÍNDICE",
       "vision": "1. Uñakipawi Lurawi",
@@ -890,9 +890,9 @@
     "vision": {
       "title": "UÑAKIPAWI LURAWI",
       "slogan": "Jakhunakanpi ajlliña, jan arst'awimpi",
-      "mission": "Lurawisaw Perú marka jakenakaru q'uma yatiqawimpi yanapt'aña suma ajilanakaru.",
+      "mission": "Lurawisaw Perú marka jakenakaru q'uma yatiyawimpi yanapt'aña suma ajilanakaru.",
       "visionTitle": "Uñakipawi",
-      "visionText": "Perú suyuna jilïri iyawsaña ajilana yatiqawi phuqtuqa kañataki, jilïri q'uma participativo democraciata irpasa.",
+      "visionText": "Perú suyuna jilïri iyawsaña ajilana yatiyawi phuqtuqa kañataki, jilïri q'uma participativo democraciata irpasa.",
       "valuesTitle": "Jakhunakanaka",
       "value1": "Taqpach q'umara",
       "value2": "Jan política lado",
@@ -901,11 +901,11 @@
     },
     "problem": {
       "title": "CH'AMAWI ASKICHANXA",
-      "intro": "Perú suyuna ajilana lurawipi walja ch'amawinaka utji suma yatiqawi jikxatañataki:",
-      "issue1Title": "T'aqata Yatiqawi",
-      "issue1Desc": "Ajilanakana yatiqawipa walja phuqtunakanpi t'aqata (JNE, ONPE, Poder Judicial) jan maya mantiwampi.",
+      "intro": "Perú suyuna ajilana lurawipi walja ch'amawinaka utji suma yatiyawi jikxatañataki:",
+      "issue1Title": "T'aqata Yatiyawi",
+      "issue1Desc": "Ajilanakana yatiyawipa walja phuqtunakanpi t'aqata (JNE, ONPE, Poder Judicial) jan maya mantiwampi.",
       "issue2Title": "Jan Contexto",
-      "issue2Desc": "Lluq'u yatiqawinaka jan tupuqi contextota churiti entiendiñataki ajilatana yatiqawipatxa.",
+      "issue2Desc": "Lluq'u yatiyawinaka jan tupuqi contextota churiti entiendiñataki ajilatana yatiyawipatxa.",
       "issue3Title": "Media Sesgo",
       "issue3Desc": "Yatiyawinaka política qullqi interésnakanpi irnaqata, sasawa chiqa jakhuñataki.",
       "issue4Title": "Ajilana Ch'amawi",
@@ -920,13 +920,13 @@
       "title": "ASKICHAWISAXA",
       "intro": "EleccionesPerú2026 plataforma taqpachani:",
       "feature1Title": "Yatiqawi Tantaña",
-      "feature1Desc": "Walja kamachi phuqtunakatxa yatiqawinaka tantasa maya yatiqawi utana.",
+      "feature1Desc": "Walja kamachi phuqtunakatxa yatiyawinaka tantasa maya yatiyawi utana.",
       "feature2Title": "Chiqa Jakhunaka",
       "feature2Desc": "Q'uma chiqanchata lurawinaka 3 partina ajilanaka jakhuñataki.",
       "feature3Title": "Ist'aña UX",
       "feature3Desc": "Yatiqawi q'uma ist'aña formana uñachtayaña kawkir marka jakatakirusa.",
       "uvpTitle": "Sapüri Jakhuñawi",
-      "uvpDesc": "Sapüri plataformasax JNE/ONPE kamachi yatiqawinaka IA análisimpi tantasa q'uma tupuqi jakhunakanaka taqpach ajilanakaru."
+      "uvpDesc": "Sapüri plataformasax JNE/ONPE kamachi yatiyawinaka IA análisimpi tantasa q'uma tupuqi jakhunakanaka taqpach ajilanakaru."
     },
     "architecture": {
       "title": "SISTEMA ARQUITECTURA",
@@ -942,7 +942,7 @@
       "patternsTitle": "Arquitectura Patrones",
       "pattern1": "Server Components: Servidor ladona lurata SEO performance ukataki",
       "pattern2": "API Routes: Serverless endpoints amuyt'a cache ukampi",
-      "pattern3": "Cron Jobs: Jawa yatiqawi sincronización"
+      "pattern3": "Cron Jobs: Jawa yatiyawi sincronización"
     },
     "techStack": {
       "title": "TECNOLOGÍA STACK",
@@ -1020,7 +1020,7 @@
       },
       "confidence": {
         "title": "IYAWSAÑA ÍNDICE (0-100)",
-        "desc": "Kunjams taqpach chiqanchataw ajilatana yatiqawipa uñachtayaña.",
+        "desc": "Kunjams taqpach chiqanchataw ajilatana yatiyawipa uñachtayaña.",
         "note": "Qhipa jakhunakar jan irnaqiti, ukampisa entiendiwipar yanapt'i.",
         "high": "Jach'a",
         "medium": "Taypi",
@@ -1065,7 +1065,7 @@
       },
       "profiles": {
         "title": "Taqpach Perfil",
-        "desc": "Sapa ajilatana taqpach yatiqawipa: yatiqawi, lurawinaka, antecedentes, imayuqnakanpi yatiyawinaka."
+        "desc": "Sapa ajilatana taqpach yatiyawipa: yatiqawi, lurawinaka, antecedentes, imayuqnakanpi yatiyawinaka."
       },
       "quiz": {
         "title": "Ajilana Thaki Irpiri",
@@ -1081,11 +1081,11 @@
       },
       "transparency": {
         "title": "Qullqi Q'umara",
-        "desc": "Partidonakana qullqi yatiqawinaka: marka mantawi, donantes kampaña qhatinaka."
+        "desc": "Partidonakana qullqi yatiyawinaka: marka mantawi, donantes kampaña qhatinaka."
       },
       "countdown": {
         "title": "Ajilana Countdown",
-        "desc": "12 abril 2026 kama cuenta regresiva sapa uru destacada yatiqawinakanpi."
+        "desc": "12 abril 2026 kama cuenta regresiva sapa uru destacada yatiyawinakanpi."
       },
       "widgets": {
         "title": "Embed Widgets",
@@ -1114,13 +1114,13 @@
       },
       "endpoints": {
         "candidates": "Ajilanaka t'aqanakanpi (irnaqa, suyu, partido)",
-        "candidateDetail": "Maya ajilata taqpach yatiqawipa",
+        "candidateDetail": "Maya ajilata taqpach yatiyawipa",
         "parties": "Partidonaka lista",
         "partiesFinances": "Taqpach partidonakana qullqi",
         "newsTrending": "Trending yatiyawinaka",
         "districts": "Suyunaka lista",
         "quizSubmit": "Quiz jaysawi apayaña",
-        "syncJne": "JNE yatiqawi sincronizar",
+        "syncJne": "JNE yatiyawi sincronizar",
         "syncNews": "RSS feeds sincronizar",
         "syncTwitter": "Twitter mencionesnaka sincronizar",
         "syncAi": "IA análisis luraña",
@@ -1160,13 +1160,13 @@
       "auth1": "CRON_SECRET sync endpointsnakaru",
       "auth2": "Vercel Cron headers chiqanchata",
       "auth3": "Supabase Auth jakenakaru (jutiri)",
-      "privacyTitle": "Yatiqawi Imantata Jakaña",
+      "privacyTitle": "Yatiyawi Imantata Jakaña",
       "privacy1": "Donantes DNI: qhipa 4 jakhukiwa",
-      "privacy2": "Juk'a técnico yatiqawinaka apthapipxtwa (sesión uñacht'iri, uñjata p'iqinaka)",
+      "privacy2": "Juk'a técnico yatiyawinaka apthapipxtwa (sesión uñacht'iri, uñjata p'iqinaka)",
       "privacy3": "Quiz jaysawi: anónimo session ID temporal ukampi",
       "infraTitle": "Infraestructura",
       "infra1": "Vercel hosting (SOC 2 compliant)",
-      "infra2": "Neon yatiqawi uta (cifrada)",
+      "infra2": "Neon yatiyawi uta (cifrada)",
       "infra3": "HTTPS obligatorio",
       "neutralityTitle": "Jan Lado",
       "neutrality1": "Jan política partidompi",
@@ -1175,7 +1175,7 @@
     },
     "disclaimer": {
       "title": "Legal Yatiyawi",
-      "text": "Aka ranking yatiyawi herramienta q'uma yatiqawinakanpi lurata. Jan ajilana kamachiwiti jan ukasti ajilatana taqpach yatiqawipana jakhuñawati. Jakenakax aka yatiyawi kikin propuesta jakhuñawampi phuqtayañapawa. Plataformaw jan partido político ajilatampisa irnaqiti."
+      "text": "Aka ranking yatiyawi herramienta q'uma yatiyawinakanpi lurata. Jan ajilana kamachiwiti jan ukasti ajilatana taqpach yatiyawipana jakhuñawati. Jakenakax aka yatiyawi kikin propuesta jakhuñawampi phuqtayañapawa. Plataformaw jan partido político ajilatampisa irnaqiti."
     },
     "cta": {
       "viewRanking": "RANKING UÑJAÑA",
@@ -1207,7 +1207,7 @@
     "donorCount": "{count} qullqi churirinaka",
     "publicPercentage": "Marka: {percentage}%",
     "privatePercentage": "Kikin: {percentage}%",
-    "noData": "Jan qullqi yatiqawi utjiti"
+    "noData": "Jan qullqi yatiyawi utjiti"
   },
   "syncDashboard": {
     "title": "Tupthapi Uñakipawi",
@@ -1217,7 +1217,7 @@
       "onpe": "ONPE",
       "onpeDesc": "Partido qullqinaka",
       "judicial": "Kamachiwi",
-      "judicialDesc": "Juchañchaña yatiqawinaka",
+      "judicialDesc": "Juchañchaña yatiyawinaka",
       "rss": "RSS Yatiyawi",
       "rssDesc": "15+ Perú yatiyawinaka",
       "youtube": "YouTube",
@@ -1255,7 +1255,7 @@
       "created": "Lurata:",
       "duration": "Pacha:",
       "lastSync": "Qhipa tupthapi:",
-      "noSyncData": "Jan tupthapi yatiqawi utjiti"
+      "noSyncData": "Jan tupthapi yatiyawi utjiti"
     },
     "actions": {
       "syncing": "Tupthapisipkiwa...",
@@ -1309,7 +1309,7 @@
   "donate": {
     "badge": "Jan Qullqipataki",
     "title": "Democracia Yanapaña",
-    "subtitle": "Yanapat'amampix aka plataforma sapaki, janiw qullqini, q'umarataki taqpach peruanonakataki.",
+    "subtitle": "Yanapat'amampix aka plataforma sapaki, janiw qullqinitaki, q'umarataki taqpach peruanonakataki.",
     "yapeTitle": "Yape-mpi yanapaña",
     "plinTitle": "Plin-mpi yanapaña",
     "scanQr": "Aka QR códigota app-mampi escanea",
