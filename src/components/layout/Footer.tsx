@@ -106,6 +106,16 @@ export function Footer() {
                   {t('advertising')}
                 </Link>
               </li>
+              <li>
+                <Link href="/terminos" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:underline transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
+                  {t('terms')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/sobre-nosotros" className="text-sm font-bold text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:underline transition-colors uppercase tracking-wide min-h-[44px] flex items-center">
+                  {t('aboutUs')}
+                </Link>
+              </li>
             </ul>
           </nav>
 
