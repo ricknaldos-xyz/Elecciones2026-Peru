@@ -23,6 +23,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: '/terminos', priority: 0.3, changeFrequency: 'monthly' as const },
     { path: '/rectificacion', priority: 0.3, changeFrequency: 'monthly' as const },
     { path: '/sobre-nosotros', priority: 0.5, changeFrequency: 'monthly' as const },
+    { path: '/franja-electoral', priority: 0.7, changeFrequency: 'weekly' as const },
+    { path: '/partners', priority: 0.4, changeFrequency: 'monthly' as const },
+    { path: '/antecedentes', priority: 0.6, changeFrequency: 'weekly' as const },
+    { path: '/votaciones', priority: 0.6, changeFrequency: 'weekly' as const },
   ]
 
   for (const page of staticPages) {
