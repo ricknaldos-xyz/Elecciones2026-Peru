@@ -194,7 +194,7 @@
       "totalExperience": "Tukuy Ruwaykuna",
       "relevantExperience": "Tupaq Ruwaykuna",
       "leadershipSeniority": "Umalliqpa Ñawpaqnin",
-      "leadershipStability": "Umalliqpa Takiynin",
+      "leadershipStability": "Umalliqpa Kaqlla Kaynin",
       "baseScore": "Qallariy Chanin",
       "completeness": "Tukuynin",
       "consistency": "Tupaq Kay",
@@ -212,7 +212,7 @@
       "transparencyDesc": "Willasqa yachaypa kamachiy qillqan",
       "confidence": "Yachay Iñiy",
       "confidenceDesc": "Imayna chiqap kanku yachaykuna",
-      "scoreDisclaimer": "Algoritmo puntaje llaqta yachaykunamanta. Mana chaninchaymi kanchu.",
+      "scoreDisclaimer": "Algoritmo puntaje llaqta willaykunamanta. Mana chaninchaymi kanchu.",
       "plan": "Kamachiy Ruway"
     },
     "educationLevels": {
@@ -226,7 +226,7 @@
       "secundaria_comp": "Iskay Ñiqin Yachay Tukusqa",
       "secundaria_inc": "Iskay Ñiqin Yachay Mana Tukusqa",
       "primaria": "Qallariy Yachay",
-      "sin_informacion": "Mana Yachay"
+      "sin_informacion": "Mana Willasqa"
     },
     "flagTypes": {
       "PENAL_SENTENCE": "Huchachay Kamachiy",
@@ -238,7 +238,7 @@
       "MULTIPLE_RESIGNATIONS": "Achka Saqiy",
       "INCONSISTENCY": "Mana Tupaq",
       "OTHER": "Huknin",
-      "REINFO": "Quri Qullqi Hurquy Qillqana (REINFO)"
+      "REINFO": "Mana Kamachiq Quri Hurquy Qillqana (REINFO)"
     },
     "flagSeverity": {
       "RED": "Hatun Sasachakuy",
@@ -319,7 +319,7 @@
       "fiscalDesc": "¿Perúpa qullqi kawsayninwan tupanchu?",
       "legal": "Kamachiy Ruwanapaq",
       "legalDesc": "¿Kamachiykunawan ruwaymanchu?",
-      "coherence": "Ukhu Tupanakuy",
+      "coherence": "Ukhu Huñunakuy",
       "coherenceDesc": "¿Rimaykunaqa kikinpura tupanchu?",
       "historical": "Ñawpa Pacha Tupachiy",
       "historicalDesc": "¿Ñawpa pachapi kayhina ruwakurqanchu?",
@@ -662,7 +662,7 @@
     "quiz": "Akllana Pusula",
     "news": "Willakuykuna",
     "franjaElectoral": "Akllana Franja",
-    "transparency": "Ch'uya kay",
+    "transparency": "Sut'i kay",
     "legal": "Kamachiy",
     "privacy": "Pakasqa kay",
     "rectification": "Allichay",
@@ -1333,8 +1333,8 @@
     "notFound": "Mana suyu tarikurkuchu",
     "metaTitle": "{name} Akllasqa Runakuna - EleccionesPerú2026",
     "metaDesc": "{name} suyupi Congresopaq akllasqa runakunapa rankingninta qhaway. Yachay chaninkuna, kamachiy qillqa, sut'i kayta tupachiy.",
-    "senatorsCount": "{count} senadorkunakuna",
-    "deputiesCount": "{count} diputadokunakuna",
+    "senatorsCount": "{count} senadorkuna",
+    "deputiesCount": "{count} diputadokuna",
     "candidatesForSenator": "Senadorpaq Akllasqa Runakuna",
     "candidatesForDeputy": "Diputadopaq Akllasqa Runakuna",
     "noCandidates": "Mana akllasqa runakuna qillqasqa kanchu kay suyupaq.",
@@ -1382,7 +1382,7 @@
   },
   "proposals": {
     "governmentPlan": "Kamachiy Ruranakuna",
-    "loadingProposals": "Kamachiy ruranakuna chaqachkanki...",
+    "loadingProposals": "Rimaykunata apamuchkan...",
     "errorLoading": "Kamachiy ruranakuna chaqay pantasqa",
     "connectionError": "Tinkiy pantasqa",
     "unknownError": "Mana riqsisqa pantasqa"
@@ -1511,7 +1511,7 @@
     "coherenceDesc": "¿Rimaykunaqa kikinpura tupanchu?",
     "historicalComparison": "Ñawpa Pacha Tupachiy",
     "historicalDesc": "¿Ñawpa pachapi kayhina ruwakurqanchu?",
-    "estimatedCost": "Yupaychay qullqi:",
+    "estimatedCost": "Yupasqa qullqi:",
     "budgetGap": "Qullqi chiqan:",
     "inflationRisk": "Chanin wiñay manchay:",
     "constitutionalAmendments": "Hatun kamachiy tikraykuna:",
@@ -1628,7 +1628,7 @@
     "dataSource": "Qullqi ruwasqa willaykuna MEF nisqamanta, Contraloría General auditoria willakuykuna."
   },
   "overlap": {
-    "overlapsDetected": "Chawpi pacha tarisqa",
+    "overlapsDetected": "Kikin pacha chawpinakuy tarisqa",
     "declaredExperience": "Willasqa ruwaykuna:",
     "uniqueExperience": "Sapaq ruwaykuna:",
     "deduplicatedNote": "{years} wata chawpi pacha pichakurqa iskay yupay ama kananpaq.",
@@ -1746,6 +1746,6 @@
     "disclaimer": "Kay willakuykuna kamachiy qillqasqamanta lluqsimun: JNE Kawsay Raphi Juramento, Poder Judicial qillqasqakuna. Manan postulantekuna huchachasqachu.",
     "sourceNote": "Pukyumanta: JNE, Poder Judicial, chiqap qillqasqakuna",
     "viewMethodology": "Tukuy metodologiata qhaway",
-    "backToHome": "Qallariy panaman kutiy"
+    "backToHome": "Qallariy p'anqaman kutiy"
   }
 }

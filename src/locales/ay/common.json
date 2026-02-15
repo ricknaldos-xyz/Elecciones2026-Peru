@@ -24,7 +24,7 @@
     "new": "MACHAQ",
     "skipToContent": "Qalltawir qillqar pasaña",
     "mainNavigation": "Jach'a sartawi",
-    "mobileNavigation": "Celularpaq sartawi",
+    "mobileNavigation": "Celulartaki sartawi",
     "moreMenu": "Juk'amp ajllinaka",
     "more": "Juk'amp",
     "transparencyDesc": "Tantachawinakan qullqi katuqäwipa",
@@ -93,7 +93,7 @@
       "vicepresidente": "Payïri Irpiri",
       "senador": "Jach'a Arsuiri",
       "diputado": "Arsuiri",
-      "parlamento_andino": "Qullanaka Parlamento"
+      "parlamento_andino": "Qullasuyu Parlamento"
     },
     "table": {
       "rank": "#",
@@ -122,8 +122,8 @@
     "error": "Pantjawi",
     "shareTitle": "{cargo} Ranking - Ajilana 2026",
     "shareText": "{count} ajilanaka jakhuta",
-    "noSearchResults": "Janiw thaqt'atax jikisitkiti",
-    "noCandidatesFound": "Janiw candidatunakax jikisiskiti",
+    "noSearchResults": "Janiw thaqhatax jikxatatäkiti",
+    "noCandidatesFound": "Janiw ajilanakax jikxatatäkiti",
     "searchingFor": "Thaqtata:",
     "partyFiltered": "Partido ajllita",
     "noRecords": "Janiw antecedentenakax utjkiti",
@@ -139,7 +139,7 @@
     "trajectory": "Política Thakhi",
     "assets": "Imanaka yatiyawi",
     "flags": "Yatiyawinaka",
-    "news": "Willakuynaka",
+    "news": "Yatiyawinaka",
     "similar": "Ukat ajilanaka",
     "tabs": {
       "summary": "Uñakipaña",
@@ -212,7 +212,7 @@
       "transparencyDesc": "Yatiyatana suma jakaña",
       "confidence": "Yatiqawi Iyawsaña",
       "confidenceDesc": "Kunjams chiqa yatiqawinaka",
-      "scoreDisclaimer": "Algoritmo puntaje llaqta yatiqawinakata. Jan chaninchaykiti.",
+      "scoreDisclaimer": "Algoritmo puntaje marka yatiyawinakata. Janiw chaninchañäkiti.",
       "plan": "Kamachi Luraña"
     },
     "educationLevels": {
@@ -226,7 +226,7 @@
       "secundaria_comp": "Secundaria Tukuyata",
       "secundaria_inc": "Secundaria Jan Tukuyata",
       "primaria": "Primaria",
-      "sin_informacion": "Jan Yatiqawi"
+      "sin_informacion": "Jan Yatiyawi"
     },
     "flagTypes": {
       "PENAL_SENTENCE": "Juchañchäwi Uñt'ayäwi",
@@ -238,7 +238,7 @@
       "MULTIPLE_RESIGNATIONS": "Walja Saraña",
       "INCONSISTENCY": "Jan Tupuqi",
       "OTHER": "Yaqha",
-      "REINFO": "Quri Qullqi Apthapi Qillqata (REINFO)"
+      "REINFO": "Jan Kamachi Quri Apthapi Qillqata (REINFO)"
     },
     "flagSeverity": {
       "RED": "Sinti Ch'ama",
@@ -658,11 +658,11 @@
     "noPoliticalAffiliation": "Janiw político tantachawimpi",
     "platform": "Plataforma",
     "ranking": "Ranking",
-    "compare": "Taqichana",
+    "compare": "Tupayaña",
     "quiz": "Ajilana Brújula",
     "news": "Yatiyawinaka",
     "franjaElectoral": "Ajilana Franja",
-    "transparency": "Q'aphna",
+    "transparency": "Q'umara",
     "legal": "Kamachi",
     "privacy": "Imt'aña",
     "rectification": "Chiqanchawi",
@@ -1300,7 +1300,7 @@
     "resetAll": "Taqpach kutiyaña",
     "preview": "Saminaka uñjaña",
     "previewDescription": "Saminaka uñjaña: suma, wali, taypi, juk'a, yatiyawi",
-    "close": "Jark'aña"
+    "close": "Jist'araña"
   },
   "donate": {
     "badge": "Jan Qullqipataki",
@@ -1703,7 +1703,7 @@
     "compare": "Tupaña"
   },
   "partiesGrid": {
-    "candidates": "ajilirinaxa",
+    "candidates": "ajilanaka",
     "viewAllParties": "{count} partidonaka uñjaña"
   },
   "votaciones": {
