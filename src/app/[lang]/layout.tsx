@@ -26,14 +26,12 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     es: 'EleccionesPerú2026',
     qu: 'EleccionesPerú2026 - Akllana',
     ay: 'EleccionesPerú2026 - Ajilana',
-    ase: 'EleccionesPerú2026 - Apatotantsi',
   };
 
   const descriptions: Record<Locale, string> = {
     es: 'Ranking transparente de candidatos basado en mérito, historial legal y evidencia. Elecciones Generales 12 de abril 2026.',
-    qu: 'Akllasqa runakunapa ranking, yachayninwan, allin kayninwan. Hatun Akllana 12 abril 2026.',
+    qu: 'Akllakuq runakunapa ranking, yachayninwan, allin kayninwan. Hatun Akllana 12 abril 2026.',
     ay: 'Ajilanakana ranking, yatiqawinakampi, kamachi qillqampi. Jach\'a Ajilana 12 abril 2026.',
-    ase: 'Ranking kenkitsarentsikë apatotantsipë. Antëromani Apatotantsi 12 abril 2026.',
   };
 
   return {

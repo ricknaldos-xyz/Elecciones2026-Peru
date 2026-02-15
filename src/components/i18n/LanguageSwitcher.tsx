@@ -207,7 +207,7 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
                   {locale === 'es' && 'Español'}
                   {locale === 'qu' && 'Quechua Sureño'}
                   {locale === 'ay' && 'Aymara Central'}
-                  {locale === 'ase' && 'Asháninka'}
+                  {/* ase (Asháninka) disabled until native speaker translation available */}
                 </div>
               </div>
               {locale === currentLocale && (
