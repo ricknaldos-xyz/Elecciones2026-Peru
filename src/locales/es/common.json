@@ -237,7 +237,8 @@
       "CONTRACTUAL": "Sentencia Contractual",
       "MULTIPLE_RESIGNATIONS": "Múltiples Renuncias",
       "INCONSISTENCY": "Inconsistencia",
-      "OTHER": "Otro"
+      "OTHER": "Otro",
+      "REINFO": "Registro Minería Informal (REINFO)"
     },
     "flagSeverity": {
       "RED": "Crítico",

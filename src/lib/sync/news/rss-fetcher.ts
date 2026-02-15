@@ -33,7 +33,7 @@ const NEWS_SOURCES: RSSSource[] = [
   {
     name: 'Gestión',
     id: 'gestion',
-    url: 'https://gestion.pe/arc/outboundfeeds/rss/category/peru/politica-peru/?outputType=xml',
+    url: 'https://gestion.pe/arc/outboundfeeds/rss/?outputType=xml',
     type: 'rss',
   },
   {

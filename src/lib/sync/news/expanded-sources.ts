@@ -38,7 +38,7 @@ export const ORIGINAL_SOURCES: RSSSource[] = [
   {
     id: 'gestion',
     name: 'Gestión',
-    url: 'https://gestion.pe/arc/outboundfeeds/rss/category/peru/politica-peru/?outputType=xml',
+    url: 'https://gestion.pe/arc/outboundfeeds/rss/?outputType=xml',
     category: 'mainstream',
     language: 'es',
     priority: 8,

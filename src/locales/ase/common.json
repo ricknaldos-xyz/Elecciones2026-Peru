@@ -237,7 +237,8 @@
       "CONTRACTUAL": "Trato Sentencia",
       "MULTIPLE_RESIGNATIONS": "Ampiki aninkatantsi",
       "INCONSISTENCY": "Tëkatsitonka",
-      "OTHER": "Yapita"
+      "OTHER": "Yapita",
+      "REINFO": "Aninkëtantsi Minería (REINFO)"
     },
     "flagSeverity": {
       "RED": "Kitëkiyaki",
