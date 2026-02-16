@@ -77,15 +77,40 @@ export interface CivilSentence {
   year?: number
 }
 
+export interface AssetsDeclaration {
+  total_income: number
+  public_salary: number
+  public_rent: number
+  other_public: number
+  private_salary: number
+  private_rent: number
+  other_private: number
+  vehicle_count: number
+  vehicle_total: number
+  real_estate_count: number
+  real_estate_total: number
+}
+
+export interface ProfileFields {
+  educationCount: number
+  experienceCount: number
+  politicalCount: number
+  hasBirthDate: boolean
+  hasDni: boolean
+  hasPlanUrl: boolean
+  hasDjhvUrl: boolean
+  hasPenalArray: boolean
+  hasCivilArray: boolean
+}
+
 export interface CandidateData {
   education: EducationDetail[]
   experience: Experience[]
   penalSentences: PenalSentence[]
   civilSentences: CivilSentence[]
   partyResignations: number
-  declarationCompleteness: number
-  declarationConsistency: number
-  assetsQuality: number
+  assetsDeclaration?: AssetsDeclaration
+  profileFields?: ProfileFields
   verificationLevel: number
   coverageLevel: number
   onpeSanctionCount?: number
@@ -512,6 +537,146 @@ export function calculateIntegrity(data: CandidateData): {
   }
 }
 
+/**
+ * Calculate completeness sub-score (max 35) — "How much did they declare?"
+ */
+function calculateCompleteness(profile?: ProfileFields, assets?: AssetsDeclaration): number {
+  let score = 0
+
+  // Profile fields (max 15)
+  if (profile) {
+    // Education entries: 0→0, 1→2, 2→3, 3+→4
+    if (profile.educationCount >= 3) score += 4
+    else if (profile.educationCount === 2) score += 3
+    else if (profile.educationCount === 1) score += 2
+
+    // Experience entries: same scale
+    if (profile.experienceCount >= 3) score += 4
+    else if (profile.experienceCount === 2) score += 3
+    else if (profile.experienceCount === 1) score += 2
+
+    // Political trajectory: 0→0, 1→1, 2+→2
+    if (profile.politicalCount >= 2) score += 2
+    else if (profile.politicalCount === 1) score += 1
+
+    if (profile.hasBirthDate) score += 2
+    if (profile.hasPlanUrl) score += 3
+  }
+
+  // Financial completeness (max 20)
+  if (assets) {
+    score += 5 // Has assets declaration at all
+
+    if (assets.total_income > 0) score += 3
+    // At least one income source reported
+    const incomeSources = [assets.public_salary, assets.public_rent, assets.other_public,
+      assets.private_salary, assets.private_rent, assets.other_private]
+    if (incomeSources.some(s => s > 0)) score += 3
+
+    if (assets.vehicle_count > 0 || assets.vehicle_total > 0) score += 3
+    if (assets.real_estate_count > 0 || assets.real_estate_total > 0) score += 3
+
+    // Penal/civil array presence (1.5 each, round at the end)
+    if (profile?.hasPenalArray) score += 1.5
+    if (profile?.hasCivilArray) score += 1.5
+  }
+
+  return Math.min(Math.round(score), 35)
+}
+
+/**
+ * Calculate consistency sub-score (max 35) — "Do the numbers add up?"
+ */
+function calculateConsistency(assets?: AssetsDeclaration): number {
+  if (!assets) return 0
+
+  const incomeSources = [assets.public_salary, assets.public_rent, assets.other_public,
+    assets.private_salary, assets.private_rent, assets.other_private]
+  const sourceSum = incomeSources.reduce((sum, v) => sum + (v || 0), 0)
+  const allZero = incomeSources.every(v => !v || v === 0)
+
+  // If ALL income fields are 0 (undeclared income): flat 5
+  if (allZero && (!assets.total_income || assets.total_income === 0)) return 5
+
+  let score = 0
+
+  // Income sum matches total (max 10)
+  if (assets.total_income > 0 && sourceSum > 0) {
+    const ratio = Math.abs(sourceSum - assets.total_income) / assets.total_income
+    if (ratio <= 0.05) score += 10
+    else if (ratio <= 0.20) score += 7
+    else if (ratio <= 0.50) score += 4
+  }
+  // Contradiction: total=0 but sources>0 or vice versa
+  if ((assets.total_income === 0 && sourceSum > 0) ||
+      (assets.total_income > 0 && sourceSum === 0)) {
+    score -= 5
+  }
+
+  // Vehicle count↔total match (max 5)
+  if (assets.vehicle_count > 0 && assets.vehicle_total > 0) score += 5
+  else if (assets.vehicle_count === 0 && assets.vehicle_total === 0) score += 5
+  // Mismatch: count>0 but total=0 or vice versa = 0 pts
+
+  // Real estate count↔total match (max 5)
+  if (assets.real_estate_count > 0 && assets.real_estate_total > 0) score += 5
+  else if (assets.real_estate_count === 0 && assets.real_estate_total === 0) score += 5
+
+  // Income source diversity bonus (max 5)
+  const nonZeroSources = incomeSources.filter(v => v > 0).length
+  if (nonZeroSources >= 2) score += 5
+  else if (nonZeroSources === 1) score += 2
+
+  // Income vs assets plausibility (max 5)
+  if (assets.total_income > 0) {
+    const totalAssets = (assets.vehicle_total || 0) + (assets.real_estate_total || 0)
+    // Having some assets relative to income is plausible
+    if (totalAssets > 0) score += 5
+  } else if ((assets.vehicle_total || 0) + (assets.real_estate_total || 0) > 0) {
+    // Has assets but no income — somewhat questionable but still some points
+    score += 2
+  }
+
+  return Math.max(0, Math.min(Math.round(score), 35))
+}
+
+/**
+ * Calculate assets quality sub-score (max 30) — "How detailed and granular?"
+ */
+function calculateAssetsQuality(assets?: AssetsDeclaration): number {
+  if (!assets) return 0
+
+  let score = 0
+
+  // Income granularity: non-zero income sources (max 15)
+  const incomeSources = [assets.public_salary, assets.public_rent, assets.other_public,
+    assets.private_salary, assets.private_rent, assets.other_private]
+  const nonZeroSources = incomeSources.filter(v => v > 0).length
+  if (nonZeroSources >= 4) score += 15
+  else if (nonZeroSources === 3) score += 12
+  else if (nonZeroSources === 2) score += 8
+  else if (nonZeroSources === 1) score += 4
+
+  // Asset detail: vehicles complete (max 5)
+  if (assets.vehicle_count > 0 && assets.vehicle_total > 0) score += 5
+
+  // Asset detail: real estate complete (max 5)
+  if (assets.real_estate_count > 0 && assets.real_estate_total > 0) score += 5
+
+  // Reasonable values (max 5)
+  if (assets.total_income > 0) score += 3
+  if (assets.vehicle_count > 0 && assets.vehicle_total > 0) {
+    const avgVehicle = assets.vehicle_total / assets.vehicle_count
+    if (avgVehicle >= 5000 && avgVehicle <= 500000) score += 1
+  }
+  if (assets.real_estate_count > 0 && assets.real_estate_total > 0) {
+    const avgProperty = assets.real_estate_total / assets.real_estate_count
+    if (avgProperty >= 20000 && avgProperty <= 5000000) score += 1
+  }
+
+  return Math.min(Math.round(score), 30)
+}
+
 export function calculateTransparency(data: CandidateData): {
   completeness: number
   consistency: number
@@ -519,9 +684,9 @@ export function calculateTransparency(data: CandidateData): {
   onpePenalty: number
   total: number
 } {
-  const completeness = Math.round((data.declarationCompleteness / 100) * 35)
-  const consistency = Math.round((data.declarationConsistency / 100) * 35)
-  const assetsQuality = Math.round((data.assetsQuality / 100) * 30)
+  const completeness = calculateCompleteness(data.profileFields, data.assetsDeclaration)
+  const consistency = calculateConsistency(data.assetsDeclaration)
+  const assetsQuality = calculateAssetsQuality(data.assetsDeclaration)
 
   // ONPE sanctions: -15 pts per sanction (not submitting campaign finance reports)
   const onpePenalty = Math.min((data.onpeSanctionCount || 0) * 15, 30)

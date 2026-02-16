@@ -23,6 +23,8 @@ import {
   type SeniorityLevel,
   type PenalSentence,
   type CivilSentence,
+  type AssetsDeclaration,
+  type ProfileFields,
 } from '../src/lib/scoring'
 
 // Load DATABASE_URL from .env.local
@@ -402,12 +404,37 @@ async function transformToEnhancedScoringData(candidate: any): Promise<EnhancedI
     }
   })
 
-  // Calculate completeness based on available data
-  let completeness = 30
-  if (education.length > 0) completeness += 20
-  if (allExperience.length > 0) completeness += 20
-  if (candidate.birth_date) completeness += 10
-  if (candidate.assets_declaration) completeness += 20
+  // Parse assets_declaration into typed structure
+  let assetsDeclaration: AssetsDeclaration | undefined
+  if (candidate.assets_declaration) {
+    const ad = candidate.assets_declaration as any
+    assetsDeclaration = {
+      total_income: Number(ad.total_income) || 0,
+      public_salary: Number(ad.public_salary) || 0,
+      public_rent: Number(ad.public_rent) || 0,
+      other_public: Number(ad.other_public) || 0,
+      private_salary: Number(ad.private_salary) || 0,
+      private_rent: Number(ad.private_rent) || 0,
+      other_private: Number(ad.other_private) || 0,
+      vehicle_count: Number(ad.vehicle_count) || 0,
+      vehicle_total: Number(ad.vehicle_total) || 0,
+      real_estate_count: Number(ad.real_estate_count) || 0,
+      real_estate_total: Number(ad.real_estate_total) || 0,
+    }
+  }
+
+  // Build profile fields for transparency scoring
+  const profileFields: ProfileFields = {
+    educationCount: education.length,
+    experienceCount: allExperience.length,
+    politicalCount: (candidate.political_trajectory || []).length,
+    hasBirthDate: Boolean(candidate.birth_date),
+    hasDni: Boolean(candidate.dni),
+    hasPlanUrl: Boolean(candidate.plan_gobierno_url),
+    hasDjhvUrl: Boolean(candidate.djhv_url),
+    hasPenalArray: Array.isArray(candidate.penal_sentences),
+    hasCivilArray: Array.isArray(candidate.civil_sentences),
+  }
 
   // Verification level - based on actual cross-referenced data sources
   let verificationLevel = 40 // base: exists in JNE/ONPE registry
@@ -459,11 +486,10 @@ async function transformToEnhancedScoringData(candidate: any): Promise<EnhancedI
     penalSentences,
     civilSentences,
     partyResignations: candidate.party_resignations || 0,
-    declarationCompleteness: completeness,
-    declarationConsistency: completeness,
-    assetsQuality: candidate.assets_declaration ? 60 : 30,
+    assetsDeclaration,
+    profileFields,
     verificationLevel,
-    coverageLevel: completeness,
+    coverageLevel: verificationLevel,
     onpeSanctionCount,
 
     // New data sources
@@ -506,7 +532,8 @@ async function recalculateEnhancedScores() {
       experience_details, political_trajectory,
       penal_sentences, civil_sentences,
       party_resignations, assets_declaration,
-      birth_date, data_verified, data_source
+      birth_date, dni, data_verified, data_source,
+      plan_gobierno_url, djhv_url, jne_id
     FROM candidates
     ORDER BY cargo, full_name
   `

@@ -22,6 +22,8 @@ import {
   type EducationDetail,
   type Experience,
   type EnhancedIntegrityData,
+  type AssetsDeclaration,
+  type ProfileFields,
 } from '../index'
 
 // Fix current year for deterministic tests
@@ -38,6 +40,32 @@ afterEach(() => {
 // Helper factories
 // ============================================
 
+const FULL_ASSETS: AssetsDeclaration = {
+  total_income: 120000,
+  public_salary: 60000,
+  public_rent: 0,
+  other_public: 0,
+  private_salary: 50000,
+  private_rent: 10000,
+  other_private: 0,
+  vehicle_count: 2,
+  vehicle_total: 80000,
+  real_estate_count: 1,
+  real_estate_total: 250000,
+}
+
+const FULL_PROFILE: ProfileFields = {
+  educationCount: 3,
+  experienceCount: 4,
+  politicalCount: 2,
+  hasBirthDate: true,
+  hasDni: true,
+  hasPlanUrl: true,
+  hasDjhvUrl: true,
+  hasPenalArray: true,
+  hasCivilArray: true,
+}
+
 function makeCandidate(overrides: Partial<CandidateData> = {}): CandidateData {
   return {
     education: [],
@@ -45,9 +73,8 @@ function makeCandidate(overrides: Partial<CandidateData> = {}): CandidateData {
     penalSentences: [],
     civilSentences: [],
     partyResignations: 0,
-    declarationCompleteness: 100,
-    declarationConsistency: 100,
-    assetsQuality: 100,
+    assetsDeclaration: FULL_ASSETS,
+    profileFields: FULL_PROFILE,
     verificationLevel: 100,
     coverageLevel: 100,
     ...overrides,
@@ -479,14 +506,15 @@ describe('calculateIntegrity', () => {
   it('caps per-type civil penalties', () => {
     const data = makeCandidate({
       civilSentences: [
-        { type: 'alimentos', description: 'a' },
-        { type: 'alimentos', description: 'b' },
-        { type: 'alimentos', description: 'c' },
+        { type: 'laboral', description: 'a' },
+        { type: 'laboral', description: 'b' },
+        { type: 'laboral', description: 'c' },
       ],
     })
     const result = calculateIntegrity(data)
-    // 35 + 17.5 + 8.75 = 61.25, capped at 50
-    expect(result.civilPenalties[0].penalty).toBe(50)
+    // 25 + 12.5 + 6.25 = 43.75, capped at 40
+    expect(result.civilPenalties[0].penalty).toBe(40)
+    expect(result.civilPenalties[0].capped).toBe(true)
   })
 
   it('caps total civil penalty at 85', () => {
@@ -539,51 +567,202 @@ describe('calculateIntegrity', () => {
 // ============================================
 
 describe('calculateTransparency', () => {
-  it('returns 100 for perfect transparency', () => {
+  it('scores high for complete and consistent declaration', () => {
     const data = makeCandidate({
-      declarationCompleteness: 100,
-      declarationConsistency: 100,
-      assetsQuality: 100,
+      assetsDeclaration: FULL_ASSETS,
+      profileFields: FULL_PROFILE,
     })
     const result = calculateTransparency(data)
-    expect(result.total).toBe(100)
+    // Full profile + consistent assets + good quality
+    expect(result.completeness).toBeGreaterThanOrEqual(30)
+    expect(result.consistency).toBeGreaterThanOrEqual(25)
+    expect(result.assetsQuality).toBeGreaterThanOrEqual(15)
+    expect(result.total).toBeGreaterThanOrEqual(70)
   })
 
-  it('returns 50 for half values', () => {
+  it('returns 0 for no data at all', () => {
     const data = makeCandidate({
-      declarationCompleteness: 50,
-      declarationConsistency: 50,
-      assetsQuality: 50,
+      assetsDeclaration: undefined,
+      profileFields: undefined,
     })
     const result = calculateTransparency(data)
-    // 17.5 + 17.5 + 15 = 50 (rounded: 18+18+15=51 or 17+17+15=49)
-    expect(result.total).toBeGreaterThanOrEqual(49)
-    expect(result.total).toBeLessThanOrEqual(51)
+    expect(result.completeness).toBe(0)
+    expect(result.consistency).toBe(0)
+    expect(result.assetsQuality).toBe(0)
+    expect(result.total).toBe(0)
+  })
+
+  it('gives low completeness for sparse profile', () => {
+    const data = makeCandidate({
+      assetsDeclaration: undefined,
+      profileFields: {
+        educationCount: 0,
+        experienceCount: 0,
+        politicalCount: 0,
+        hasBirthDate: false,
+        hasDni: false,
+        hasPlanUrl: false,
+        hasDjhvUrl: false,
+        hasPenalArray: false,
+        hasCivilArray: false,
+      },
+    })
+    const result = calculateTransparency(data)
+    expect(result.completeness).toBe(0)
+  })
+
+  it('gives partial completeness for profile-only data', () => {
+    const data = makeCandidate({
+      assetsDeclaration: undefined,
+      profileFields: {
+        educationCount: 2,
+        experienceCount: 3,
+        politicalCount: 1,
+        hasBirthDate: true,
+        hasDni: true,
+        hasPlanUrl: true,
+        hasDjhvUrl: true,
+        hasPenalArray: true,
+        hasCivilArray: true,
+      },
+    })
+    const result = calculateTransparency(data)
+    // Profile fields only (no financial) — edu(3)+exp(4)+pol(1)+birth(2)+plan(3) = 13
+    expect(result.completeness).toBe(13)
+    expect(result.consistency).toBe(0)
+    expect(result.assetsQuality).toBe(0)
+  })
+
+  it('detects income inconsistency (total vs sources mismatch)', () => {
+    const data = makeCandidate({
+      assetsDeclaration: {
+        ...FULL_ASSETS,
+        total_income: 100000,
+        public_salary: 10000, // Sources sum = 10K but total = 100K
+        public_rent: 0, other_public: 0,
+        private_salary: 0, private_rent: 0, other_private: 0,
+      },
+    })
+    const result = calculateTransparency(data)
+    // Ratio = |10000-100000|/100000 = 0.9 → 0 points for match
+    expect(result.consistency).toBeLessThan(25)
+  })
+
+  it('rewards consistent income declaration', () => {
+    const data = makeCandidate({
+      assetsDeclaration: {
+        ...FULL_ASSETS,
+        total_income: 110000,
+        public_salary: 60000,
+        private_salary: 50000,
+        // Sum = 110000 = total → perfect match
+      },
+    })
+    const result = calculateTransparency(data)
+    expect(result.consistency).toBeGreaterThanOrEqual(25)
+  })
+
+  it('gives flat 5 consistency for fully undeclared income', () => {
+    const data = makeCandidate({
+      assetsDeclaration: {
+        total_income: 0,
+        public_salary: 0, public_rent: 0, other_public: 0,
+        private_salary: 0, private_rent: 0, other_private: 0,
+        vehicle_count: 0, vehicle_total: 0,
+        real_estate_count: 0, real_estate_total: 0,
+      },
+    })
+    const result = calculateTransparency(data)
+    expect(result.consistency).toBe(5)
+  })
+
+  it('rewards income granularity in assets quality', () => {
+    const multiSource = makeCandidate({
+      assetsDeclaration: {
+        ...FULL_ASSETS,
+        public_salary: 50000,
+        private_salary: 30000,
+        private_rent: 20000,
+        other_private: 10000,
+        // 4 non-zero sources → 15 pts granularity
+      },
+    })
+    const singleSource = makeCandidate({
+      assetsDeclaration: {
+        ...FULL_ASSETS,
+        total_income: 100000,
+        public_salary: 100000,
+        public_rent: 0, other_public: 0,
+        private_salary: 0, private_rent: 0, other_private: 0,
+        // 1 non-zero source → 4 pts granularity
+      },
+    })
+    const multiResult = calculateTransparency(multiSource)
+    const singleResult = calculateTransparency(singleSource)
+    expect(multiResult.assetsQuality).toBeGreaterThan(singleResult.assetsQuality)
   })
 
   it('applies ONPE sanction penalty at -15 per sanction', () => {
     const data = makeCandidate({ onpeSanctionCount: 1 })
     const result = calculateTransparency(data)
     expect(result.onpePenalty).toBe(15)
-    expect(result.total).toBe(85) // 100 - 15
+    const withoutPenalty = calculateTransparency(makeCandidate())
+    expect(result.total).toBe(withoutPenalty.total - 15)
   })
 
   it('caps ONPE penalty at 30', () => {
     const data = makeCandidate({ onpeSanctionCount: 5 })
     const result = calculateTransparency(data)
     expect(result.onpePenalty).toBe(30)
-    expect(result.total).toBe(70) // 100 - 30
   })
 
   it('floors total at 0', () => {
     const data = makeCandidate({
-      declarationCompleteness: 0,
-      declarationConsistency: 0,
-      assetsQuality: 0,
+      assetsDeclaration: undefined,
+      profileFields: undefined,
       onpeSanctionCount: 2,
     })
     const result = calculateTransparency(data)
     expect(result.total).toBe(0)
+  })
+
+  it('differentiates between candidates with varying data quality', () => {
+    // Candidate with rich declaration
+    const rich = makeCandidate({
+      assetsDeclaration: {
+        total_income: 200000,
+        public_salary: 80000, public_rent: 20000, other_public: 0,
+        private_salary: 60000, private_rent: 30000, other_private: 10000,
+        vehicle_count: 3, vehicle_total: 150000,
+        real_estate_count: 2, real_estate_total: 400000,
+      },
+      profileFields: FULL_PROFILE,
+    })
+    // Candidate with minimal declaration
+    const minimal = makeCandidate({
+      assetsDeclaration: {
+        total_income: 0,
+        public_salary: 0, public_rent: 0, other_public: 0,
+        private_salary: 0, private_rent: 0, other_private: 0,
+        vehicle_count: 1, vehicle_total: 0,
+        real_estate_count: 0, real_estate_total: 0,
+      },
+      profileFields: {
+        educationCount: 1,
+        experienceCount: 0,
+        politicalCount: 0,
+        hasBirthDate: true,
+        hasDni: true,
+        hasPlanUrl: false,
+        hasDjhvUrl: false,
+        hasPenalArray: true,
+        hasCivilArray: true,
+      },
+    })
+    const richResult = calculateTransparency(rich)
+    const minimalResult = calculateTransparency(minimal)
+    // Rich should score significantly higher
+    expect(richResult.total).toBeGreaterThan(minimalResult.total + 20)
   })
 })
 
@@ -940,7 +1119,7 @@ describe('calculateAllScores', () => {
     expect(result.scores.integrityFirst).toBeDefined()
   })
 
-  it('returns max scores for perfect candidate', () => {
+  it('returns high scores for well-documented candidate', () => {
     const data = makeCandidate({
       education: [
         makeEducation('doctorado'),
@@ -958,13 +1137,22 @@ describe('calculateAllScores', () => {
           seniorityLevel: 'direccion',
         }),
       ],
+      assetsDeclaration: {
+        total_income: 200000,
+        public_salary: 80000, public_rent: 20000, other_public: 10000,
+        private_salary: 50000, private_rent: 30000, other_private: 10000,
+        vehicle_count: 2, vehicle_total: 100000,
+        real_estate_count: 2, real_estate_total: 500000,
+      },
+      profileFields: FULL_PROFILE,
     })
     const result = calculateAllScores(data, 'presidente')
 
     expect(result.scores.competence).toBe(100)
     expect(result.scores.integrity).toBe(100)
-    expect(result.scores.transparency).toBe(100)
-    expect(result.scores.balanced).toBe(100)
+    // 6 non-zero sources = max transparency with perfect consistency
+    expect(result.scores.transparency).toBeGreaterThanOrEqual(90)
+    expect(result.scores.balanced).toBeGreaterThan(95)
   })
 })
 

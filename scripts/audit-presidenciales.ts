@@ -641,9 +641,6 @@ function transformToScoringData(candidate: any): CandidateData {
     penalSentences,
     civilSentences,
     partyResignations: candidate.party_resignations || 0,
-    declarationCompleteness: completeness,
-    declarationConsistency: completeness,
-    assetsQuality: candidate.assets_declaration ? 60 : 30,
     verificationLevel,
     coverageLevel: verificationLevel
   }
