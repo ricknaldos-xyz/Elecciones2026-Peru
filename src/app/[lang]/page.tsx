@@ -30,6 +30,9 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
   return {
     title: t('title'),
     description: t('description'),
+    openGraph: {
+      images: ['/api/og?type=home'],
+    },
   }
 }
 

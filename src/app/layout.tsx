@@ -33,6 +33,7 @@ export const metadata: Metadata = {
     type: 'website',
     siteName: 'EleccionesPerú2026',
     locale: 'es_PE',
+    images: ['/api/og?type=home'],
   },
 };
 

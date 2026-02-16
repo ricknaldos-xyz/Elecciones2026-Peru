@@ -21,6 +21,135 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
   const type = searchParams.get('type') || 'candidate'
 
+  // Home / Default Site OG Image
+  if (type === 'home') {
+    return new ImageResponse(
+      (
+        <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', backgroundColor: '#FFFFFF', position: 'relative' }}>
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '8px', backgroundColor: '#DC2626' }} />
+          <div style={{ flex: 1, display: 'flex', padding: '60px', gap: '60px' }}>
+            {/* Left side - Branding */}
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '24px' }}>
+                <div style={{ width: '80px', height: '80px', backgroundColor: '#DC2626', border: '4px solid #000000', boxShadow: '6px 6px 0 #000000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <span style={{ fontSize: '32px', fontWeight: 900, color: 'white' }}>PE</span>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <span style={{ fontSize: '20px', fontWeight: 900, color: '#DC2626', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Elecciones</span>
+                  <span style={{ fontSize: '20px', fontWeight: 900, color: '#000000', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Peru 2026</span>
+                </div>
+              </div>
+              <div style={{ fontSize: '52px', fontWeight: 900, color: '#000000', textTransform: 'uppercase', lineHeight: 1.1, marginBottom: '20px' }}>
+                Elige con datos,
+                <br />
+                no con promesas
+              </div>
+              <div style={{ fontSize: '24px', color: '#64748B', fontWeight: 600, lineHeight: 1.4 }}>
+                Ranking transparente de candidatos basado en merito, historial legal y evidencia
+              </div>
+            </div>
+            {/* Right side - Election date box */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: '240px', height: '240px', backgroundColor: '#DC2626', border: '6px solid #000000', boxShadow: '10px 10px 0 #000000', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ fontSize: '72px', fontWeight: 900, color: 'white', lineHeight: 1 }}>12</span>
+                <span style={{ fontSize: '28px', fontWeight: 700, color: 'rgba(255,255,255,0.9)', textTransform: 'uppercase' }}>Abril</span>
+                <span style={{ fontSize: '48px', fontWeight: 900, color: 'white', lineHeight: 1 }}>2026</span>
+                <div style={{ width: '60%', height: '3px', backgroundColor: 'rgba(255,255,255,0.4)', marginTop: '12px', marginBottom: '8px' }} />
+                <span style={{ fontSize: '14px', fontWeight: 700, color: 'rgba(255,255,255,0.8)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Elecciones Generales</span>
+              </div>
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px 60px', backgroundColor: '#000000' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div style={{ width: '48px', height: '48px', backgroundColor: '#DC2626', border: '3px solid #FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ fontSize: '18px', fontWeight: 900, color: 'white' }}>PE</span>
+              </div>
+              <span style={{ fontSize: '24px', fontWeight: 700, color: 'white' }}>EleccionesPeru2026</span>
+            </div>
+            <span style={{ fontSize: '20px', color: '#94A3B8' }}>eleccionesperu2026.xyz</span>
+          </div>
+        </div>
+      ),
+      { width: 1200, height: 630 }
+    )
+  }
+
+  // Ranking OG Image
+  if (type === 'ranking') {
+    return new ImageResponse(
+      (
+        <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', backgroundColor: '#FFFFFF', position: 'relative' }}>
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '8px', backgroundColor: '#DC2626' }} />
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px' }}>
+            <div style={{ width: '100px', height: '100px', backgroundColor: '#DC2626', border: '4px solid #000000', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '30px', boxShadow: '6px 6px 0 #000000' }}>
+              <span style={{ fontSize: '48px', color: 'white', fontWeight: 900 }}>#</span>
+            </div>
+            <div style={{ fontSize: '64px', fontWeight: 900, color: '#000000', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.1, marginBottom: '20px' }}>
+              Ranking de
+              <br />
+              Candidatos
+            </div>
+            <div style={{ fontSize: '28px', color: '#64748B', textAlign: 'center', maxWidth: '700px' }}>
+              Competencia, historial legal y transparencia — basado en datos oficiales del JNE y ONPE
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px 60px', backgroundColor: '#000000' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div style={{ width: '48px', height: '48px', backgroundColor: '#DC2626', border: '3px solid #FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ fontSize: '18px', fontWeight: 900, color: 'white' }}>PE</span>
+              </div>
+              <span style={{ fontSize: '24px', fontWeight: 700, color: 'white' }}>EleccionesPeru2026</span>
+            </div>
+            <span style={{ fontSize: '20px', color: '#94A3B8' }}>eleccionesperu2026.xyz/ranking</span>
+          </div>
+        </div>
+      ),
+      { width: 1200, height: 630 }
+    )
+  }
+
+  // Compare OG Image
+  if (type === 'compare') {
+    return new ImageResponse(
+      (
+        <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', backgroundColor: '#FFFFFF', position: 'relative' }}>
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '8px', backgroundColor: '#DC2626' }} />
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px' }}>
+            <div style={{ display: 'flex', gap: '24px', marginBottom: '30px' }}>
+              <div style={{ width: '80px', height: '80px', backgroundColor: '#3B82F6', border: '4px solid #000000', boxShadow: '6px 6px 0 #000000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ fontSize: '36px', color: 'white', fontWeight: 900 }}>A</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <span style={{ fontSize: '48px', fontWeight: 900, color: '#000000' }}>VS</span>
+              </div>
+              <div style={{ width: '80px', height: '80px', backgroundColor: '#DC2626', border: '4px solid #000000', boxShadow: '6px 6px 0 #000000', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ fontSize: '36px', color: 'white', fontWeight: 900 }}>B</span>
+              </div>
+            </div>
+            <div style={{ fontSize: '64px', fontWeight: 900, color: '#000000', textTransform: 'uppercase', textAlign: 'center', lineHeight: 1.1, marginBottom: '20px' }}>
+              Comparar
+              <br />
+              Candidatos
+            </div>
+            <div style={{ fontSize: '28px', color: '#64748B', textAlign: 'center', maxWidth: '700px' }}>
+              Compara candidatos lado a lado en competencia, historial legal y transparencia
+            </div>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px 60px', backgroundColor: '#000000' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div style={{ width: '48px', height: '48px', backgroundColor: '#DC2626', border: '3px solid #FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ fontSize: '18px', fontWeight: 900, color: 'white' }}>PE</span>
+              </div>
+              <span style={{ fontSize: '24px', fontWeight: 700, color: 'white' }}>EleccionesPeru2026</span>
+            </div>
+            <span style={{ fontSize: '20px', color: '#94A3B8' }}>eleccionesperu2026.xyz/comparar</span>
+          </div>
+        </div>
+      ),
+      { width: 1200, height: 630 }
+    )
+  }
+
   // Quiz OG Image
   if (type === 'quiz') {
     return new ImageResponse(
