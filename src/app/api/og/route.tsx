@@ -22,12 +22,33 @@ export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
   const type = searchParams.get('type') || 'candidate'
 
-  // Test minimal OG Image
+  // Test: same structure as quiz but simplified
   if (type === 'test') {
     return new ImageResponse(
       (
-        <div style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#DC2626' }}>
-          <span style={{ fontSize: '80px', fontWeight: 900, color: 'white' }}>TEST OK</span>
+        <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', backgroundColor: '#FFFFFF' }}>
+          <div style={{ height: '8px', backgroundColor: '#DC2626', width: '100%' }} />
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px' }}>
+            <div style={{ width: '100px', height: '100px', backgroundColor: '#DC2626', border: '4px solid #000000', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '30px' }}>
+              <span style={{ fontSize: '48px', color: 'white' }}>?</span>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <span style={{ fontSize: '64px', fontWeight: 900, color: '#000000', textTransform: 'uppercase' }}>QUIEN PIENSA</span>
+              <span style={{ fontSize: '64px', fontWeight: 900, color: '#000000', textTransform: 'uppercase' }}>COMO TU?</span>
+            </div>
+            <span style={{ fontSize: '28px', color: '#64748B', textAlign: 'center', marginTop: '20px' }}>
+              Responde 10 preguntas y descubre que candidatos piensan como tu
+            </span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px 60px', backgroundColor: '#000000' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+              <div style={{ width: '48px', height: '48px', backgroundColor: '#DC2626', border: '3px solid #FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span style={{ fontSize: '18px', fontWeight: 900, color: 'white' }}>PE</span>
+              </div>
+              <span style={{ fontSize: '24px', fontWeight: 700, color: 'white' }}>EleccionesPeru2026</span>
+            </div>
+            <span style={{ fontSize: '20px', color: '#94A3B8' }}>eleccionesperu2026.xyz/quiz</span>
+          </div>
         </div>
       ),
       { width: 1200, height: 630 }
