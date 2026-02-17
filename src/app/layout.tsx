@@ -29,6 +29,9 @@ export const metadata: Metadata = {
   verification: {
     google: "nMAuw8fQRVDOyTUnn_ENESPlWSLOipm6v0n5pAKzQ3A",
   },
+  other: {
+    'google-adsense-account': 'ca-pub-2258149004493967',
+  },
   openGraph: {
     type: 'website',
     siteName: 'EleccionesPerú2026',
