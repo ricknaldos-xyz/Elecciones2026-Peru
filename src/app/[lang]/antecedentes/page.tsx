@@ -10,7 +10,7 @@ import { locales } from '@/i18n/config'
 import { sql } from '@/lib/db'
 import type { FlagType, FlagSeverity } from '@/types/database'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 interface PageProps {
   params: Promise<{ lang: string }>

@@ -19,6 +19,9 @@ import { sql } from '@/lib/db'
 import { generateWebSiteSchema, generateOrganizationSchema } from '@/lib/schema'
 import { ScrollToTop } from '@/components/layout/ScrollToTop'
 
+// ISR: cache page for 5 minutes to avoid Neon cold-start timeouts
+export const revalidate = 300
+
 interface HomePageProps {
   params: Promise<{ lang: string }>
 }

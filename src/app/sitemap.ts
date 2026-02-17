@@ -1,6 +1,8 @@
 import { MetadataRoute } from 'next'
 import { sql } from '@/lib/db'
 
+export const revalidate = 3600
+
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://eleccionesperu2026.xyz'
 const LOCALES = ['es', 'qu', 'ay']
 

@@ -9,7 +9,7 @@ import { displayPartyName, formatName } from '@/lib/utils'
 import { locales } from '@/i18n/config'
 import { sql } from '@/lib/db'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 interface PageProps {
   params: Promise<{ lang: string }>
