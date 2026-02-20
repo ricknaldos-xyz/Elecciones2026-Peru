@@ -365,7 +365,21 @@ export async function GET(request: NextRequest) {
     ),
     { width: 1200, height: 630 }
   )
-  } catch (e) {
-    return new Response(`OG Error: ${e instanceof Error ? e.message : String(e)}`, { status: 500 })
+  } catch {
+    // Return a simple fallback image instead of 500 to avoid AdSense "site not available"
+    return new ImageResponse(
+      (
+        <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', backgroundColor: '#1A1A2E' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div style={{ width: '64px', height: '64px', backgroundColor: '#DC2626', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ fontSize: '36px', fontWeight: 900, color: 'white' }}>EP</span>
+            </div>
+            <span style={{ fontSize: '48px', fontWeight: 900, color: 'white' }}>EleccionesPerú2026</span>
+          </div>
+          <span style={{ fontSize: '24px', color: '#94A3B8', marginTop: '16px' }}>Elige con datos, no con promesas</span>
+        </div>
+      ),
+      { width: 1200, height: 630 }
+    )
   }
 }

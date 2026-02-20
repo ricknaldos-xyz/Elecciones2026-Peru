@@ -19,8 +19,13 @@ import { sql } from '@/lib/db'
 import { generateWebSiteSchema, generateOrganizationSchema } from '@/lib/schema'
 import { ScrollToTop } from '@/components/layout/ScrollToTop'
 
-// ISR: cache page for 5 minutes to avoid Neon cold-start timeouts
-export const revalidate = 300
+// ISR: cache page for 1 hour to minimize Neon cold-start timeouts
+// Short revalidation (5m) caused frequent rebuilds → DB timeouts → 500 errors
+// which made AdSense crawler see "site not available"
+export const revalidate = 3600
+
+// Allow up to 60s for ISR rebuild (Neon cold starts can take 3-5s × 9 queries)
+export const maxDuration = 60
 
 interface HomePageProps {
   params: Promise<{ lang: string }>
