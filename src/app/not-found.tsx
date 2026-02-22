@@ -18,7 +18,7 @@ export default function NotFound() {
           La página que buscas no existe o fue movida.
         </p>
         <Link
-          href="/es/ranking"
+          href="/ranking"
           className="inline-block px-6 py-3 bg-[var(--primary)] text-white font-bold uppercase border-2 border-[var(--border)] shadow-[var(--shadow-brutal-sm)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal)] transition-all"
         >
           Ir al Ranking
