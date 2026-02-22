@@ -4,7 +4,16 @@ import { sql } from '@/lib/db'
 export const revalidate = 3600
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://eleccionesperu2026.xyz'
-const LOCALES = ['es', 'qu', 'ay']
+const DEFAULT_LOCALE = 'es'
+const ALT_LOCALES = ['qu', 'ay']
+const ALL_LOCALES = [DEFAULT_LOCALE, ...ALT_LOCALES]
+
+// Helper: default locale has no prefix, others get /{locale} prefix
+function localeUrl(base: string, locale: string, path: string): string {
+  return locale === DEFAULT_LOCALE
+    ? `${base}${path}`
+    : `${base}/${locale}${path}`
+}
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = []
@@ -32,9 +41,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]
 
   for (const page of staticPages) {
-    for (const locale of LOCALES) {
+    for (const locale of ALL_LOCALES) {
       entries.push({
-        url: `${BASE_URL}/${locale}${page.path}`,
+        url: localeUrl(BASE_URL, locale, page.path),
         lastModified: new Date(),
         changeFrequency: page.changeFrequency,
         priority: page.priority,
@@ -52,9 +61,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     `
 
     for (const candidate of candidates) {
-      for (const locale of LOCALES) {
+      for (const locale of ALL_LOCALES) {
         entries.push({
-          url: `${BASE_URL}/${locale}/candidato/${candidate.slug}`,
+          url: localeUrl(BASE_URL, locale, `/candidato/${candidate.slug}`),
           lastModified: candidate.created_at ? new Date(candidate.created_at as string) : new Date(),
           changeFrequency: 'weekly',
           priority: 0.8,
@@ -71,9 +80,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     `
 
     for (const party of parties) {
-      for (const locale of LOCALES) {
+      for (const locale of ALL_LOCALES) {
         entries.push({
-          url: `${BASE_URL}/${locale}/partido/${party.id}`,
+          url: localeUrl(BASE_URL, locale, `/partido/${party.id}`),
           lastModified: new Date(),
           changeFrequency: 'weekly',
           priority: 0.6,
@@ -89,9 +98,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     `
 
     for (const district of districts) {
-      for (const locale of LOCALES) {
+      for (const locale of ALL_LOCALES) {
         entries.push({
-          url: `${BASE_URL}/${locale}/distrito/${district.slug}`,
+          url: localeUrl(BASE_URL, locale, `/distrito/${district.slug}`),
           lastModified: new Date(),
           changeFrequency: 'weekly',
           priority: 0.6,
@@ -110,8 +119,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const existingUrls = new Set(entries.map(e => e.url))
     for (const row of newsActiveCandidates) {
-      for (const locale of LOCALES) {
-        const url = `${BASE_URL}/${locale}/candidato/${row.candidate_slug}`
+      for (const locale of ALL_LOCALES) {
+        const url = localeUrl(BASE_URL, locale, `/candidato/${row.candidate_slug}`)
         if (!existingUrls.has(url)) {
           entries.push({
             url,

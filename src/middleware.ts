@@ -9,7 +9,7 @@ export default intlMiddleware;
 export const config = {
   matcher: [
     '/',
-    '/(es|qu|ay|ase)/:path*',
+    '/(qu|ay)/:path*',
     '/((?!api|_next|_vercel|.*\\..*).*)',
   ],
 };

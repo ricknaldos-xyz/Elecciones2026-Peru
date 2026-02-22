@@ -1018,7 +1018,7 @@ export default function DocsPage() {
                     <li>• <strong>No usamos cookies publicitarias.</strong> Usamos cookies funcionales para sesiones</li>
                     <li>• No compartimos datos con terceros</li>
                     <li>• DNIs de donantes se muestran <strong>parcialmente ocultos</strong></li>
-                    <li>• Consulta nuestra <a href="/es/privacidad" className="underline font-bold text-[var(--foreground)]">Política de Privacidad completa</a></li>
+                    <li>• Consulta nuestra <a href="/privacidad" className="underline font-bold text-[var(--foreground)]">Política de Privacidad completa</a></li>
                   </ul>
                 </div>
 

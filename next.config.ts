@@ -44,7 +44,7 @@ const nextConfig: NextConfig = {
     {
       source: '/(.*)',
       headers: [
-        { key: 'X-Frame-Options', value: 'DENY' },
+        { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
         { key: 'X-Content-Type-Options', value: 'nosniff' },
         { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
         { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
@@ -59,7 +59,7 @@ const nextConfig: NextConfig = {
             "img-src 'self' data: blob: https: http:",
             "connect-src 'self' https://pagead2.googlesyndication.com https://www.google-analytics.com https://*.google.com https://*.googlesyndication.com https://*.doubleclick.net https://www.googletagservices.com https://*.adtrafficquality.google",
             "frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://www.google.com https://ep1.adtrafficquality.google https://ep2.adtrafficquality.google https://*.googlesyndication.com",
-            "frame-ancestors 'none'",
+            "frame-ancestors 'self' https://googleads.g.doubleclick.net https://*.google.com https://*.googlesyndication.com",
           ].join('; '),
         },
       ],

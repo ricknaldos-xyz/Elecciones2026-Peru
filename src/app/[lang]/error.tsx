@@ -44,7 +44,7 @@ export default function Error({
               Reintentar
             </button>
             <Link
-              href="/es/ranking"
+              href="/ranking"
               className="px-6 py-3 bg-[var(--card)] text-[var(--foreground)] font-bold uppercase border-2 border-[var(--border)] shadow-[var(--shadow-brutal-sm)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[var(--shadow-brutal)] transition-all"
             >
               Ver Ranking
@@ -57,22 +57,22 @@ export default function Error({
               Secciones disponibles
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              <Link href="/es/ranking" className="px-3 py-2 text-xs font-bold uppercase bg-[var(--muted)] border-2 border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-colors">
+              <Link href="/ranking" className="px-3 py-2 text-xs font-bold uppercase bg-[var(--muted)] border-2 border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-colors">
                 Ranking de candidatos
               </Link>
-              <Link href="/es/comparar" className="px-3 py-2 text-xs font-bold uppercase bg-[var(--muted)] border-2 border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-colors">
+              <Link href="/comparar" className="px-3 py-2 text-xs font-bold uppercase bg-[var(--muted)] border-2 border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-colors">
                 Comparar candidatos
               </Link>
-              <Link href="/es/noticias" className="px-3 py-2 text-xs font-bold uppercase bg-[var(--muted)] border-2 border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-colors">
+              <Link href="/noticias" className="px-3 py-2 text-xs font-bold uppercase bg-[var(--muted)] border-2 border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-colors">
                 Noticias electorales
               </Link>
-              <Link href="/es/quiz" className="px-3 py-2 text-xs font-bold uppercase bg-[var(--muted)] border-2 border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-colors">
+              <Link href="/quiz" className="px-3 py-2 text-xs font-bold uppercase bg-[var(--muted)] border-2 border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-colors">
                 Quiz electoral
               </Link>
-              <Link href="/es/transparencia" className="px-3 py-2 text-xs font-bold uppercase bg-[var(--muted)] border-2 border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-colors">
+              <Link href="/transparencia" className="px-3 py-2 text-xs font-bold uppercase bg-[var(--muted)] border-2 border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-colors">
                 Transparencia financiera
               </Link>
-              <Link href="/es/metodologia" className="px-3 py-2 text-xs font-bold uppercase bg-[var(--muted)] border-2 border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-colors">
+              <Link href="/metodologia" className="px-3 py-2 text-xs font-bold uppercase bg-[var(--muted)] border-2 border-[var(--border)] hover:bg-[var(--primary)] hover:text-white transition-colors">
                 Metodología
               </Link>
             </div>
