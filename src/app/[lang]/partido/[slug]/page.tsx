@@ -149,7 +149,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       images: [`/api/og?${ogParams.toString()}`],
     },
     alternates: {
-      canonical: `${BASE_URL}/es/partido/${slug}`,
+      canonical: `${BASE_URL}/partido/${slug}`,
       languages: {
         ...Object.fromEntries(
           locales.map((l) => [l, `${BASE_URL}/${l}/partido/${slug}`])

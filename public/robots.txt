@@ -1,0 +1,16 @@
+User-Agent: Mediapartners-Google
+Allow: /
+
+User-Agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /embed/
+
+User-Agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /embed/
+
+Sitemap: https://eleccionesperu2026.xyz/sitemap.xml

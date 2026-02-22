@@ -9,7 +9,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: 'Publicidad - EleccionesPerú2026',
     description: 'Anuncia tu marca en la plataforma electoral más transparente del Perú. Espacios publicitarios para empresas y organizaciones responsables.',
     alternates: {
-      canonical: `${BASE_URL}/es/publicidad`,
+      canonical: `${BASE_URL}/publicidad`,
     },
   }
 }
@@ -218,6 +218,35 @@ export default function PublicidadPage() {
                 </div>
               ))}
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Google AdSense */}
+        <Card className="mb-12">
+          <CardContent className="p-6 sm:p-8">
+            <h2 className="text-lg font-black text-[var(--foreground)] uppercase tracking-tight mb-4">
+              Publicidad programática — Google AdSense
+            </h2>
+            <p className="text-sm text-[var(--muted-foreground)] font-medium mb-4">
+              Además de los espacios de patrocinio directo, utilizamos <strong>Google AdSense</strong> como
+              proveedor de publicidad programática para llenar el inventario disponible. Esto nos permite:
+            </p>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="p-3 border-2 border-[var(--border)]">
+                <span className="text-sm font-black text-[var(--foreground)] uppercase">Monetización sostenible</span>
+                <p className="text-xs text-[var(--muted-foreground)] mt-1">Financiar la operación continua de la plataforma sin depender de intereses políticos.</p>
+              </div>
+              <div className="p-3 border-2 border-[var(--border)]">
+                <span className="text-sm font-black text-[var(--foreground)] uppercase">Anuncios relevantes</span>
+                <p className="text-xs text-[var(--muted-foreground)] mt-1">Google muestra anuncios contextuales relevantes para la audiencia, respetando nuestra política editorial.</p>
+              </div>
+            </div>
+            <p className="text-xs text-[var(--muted-foreground)] font-medium mt-4">
+              Los anuncios programáticos están claramente identificados y nunca influyen en nuestro contenido editorial,
+              rankings ni scores de candidatos. Consulta nuestra{' '}
+              <a href="/privacidad" className="underline font-bold text-[var(--foreground)]">política de privacidad</a>{' '}
+              para más información sobre cookies publicitarias.
+            </p>
           </CardContent>
         </Card>
 

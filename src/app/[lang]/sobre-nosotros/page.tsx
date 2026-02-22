@@ -109,6 +109,37 @@ export default function SobreNosotrosPage() {
           </CardContent>
         </Card>
 
+        {/* Modelo de financiamiento */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>MODELO DE FINANCIAMIENTO</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-[var(--muted-foreground)] font-medium mb-4">
+              EleccionesPerú2026 es un proyecto independiente que se financia a través de publicidad digital
+              para mantener el acceso gratuito a toda la información electoral:
+            </p>
+            <div className="space-y-3">
+              <div className="p-4 bg-[var(--muted)] border-2 border-[var(--border)]">
+                <h4 className="font-black text-[var(--foreground)] uppercase mb-1">Google AdSense</h4>
+                <p className="text-sm text-[var(--muted-foreground)] font-medium">
+                  Utilizamos Google AdSense para mostrar anuncios no intrusivos que nos permiten cubrir
+                  los costos de servidores, bases de datos y desarrollo. Los anuncios no influyen en
+                  nuestros rankings ni contenido editorial.
+                </p>
+              </div>
+              <div className="p-4 bg-[var(--muted)] border-2 border-[var(--border)]">
+                <h4 className="font-black text-[var(--foreground)] uppercase mb-1">Patrocinios directos</h4>
+                <p className="text-sm text-[var(--muted-foreground)] font-medium">
+                  Aceptamos patrocinios de empresas y organizaciones que compartan nuestros valores de
+                  transparencia. No aceptamos patrocinios de partidos políticos ni candidatos. Consulta nuestra{' '}
+                  <Link href="/publicidad" className="underline font-bold text-[var(--foreground)]">página de publicidad</Link>.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Independencia editorial */}
         <Card className="mb-8 border-orange-600 shadow-[var(--shadow-brutal)]">
           <CardHeader>
