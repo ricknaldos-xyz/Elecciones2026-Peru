@@ -155,7 +155,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       images: ['/api/og?type=ranking'],
     },
     alternates: {
-      canonical: `${BASE_URL}/es/votaciones`,
+      canonical: `${BASE_URL}/votaciones`,
       languages: {
         ...Object.fromEntries(
           locales.map((l) => [l, `${BASE_URL}/${l}/votaciones`])

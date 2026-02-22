@@ -77,6 +77,27 @@ export default function Error({
               </Link>
             </div>
           </div>
+
+          {/* Legal links for crawlers - critical for AdSense */}
+          <div className="border-t-2 border-[var(--border)] pt-4 mt-4">
+            <div className="flex flex-wrap gap-4 text-xs font-bold text-[var(--muted-foreground)] uppercase">
+              <Link href="/privacidad" className="hover:text-[var(--foreground)] hover:underline transition-colors">
+                Política de Privacidad
+              </Link>
+              <Link href="/terminos" className="hover:text-[var(--foreground)] hover:underline transition-colors">
+                Términos de Uso
+              </Link>
+              <Link href="/sobre-nosotros" className="hover:text-[var(--foreground)] hover:underline transition-colors">
+                Sobre Nosotros
+              </Link>
+              <Link href="/publicidad" className="hover:text-[var(--foreground)] hover:underline transition-colors">
+                Publicidad
+              </Link>
+              <a href="mailto:contacto@eleccionesperu2026.xyz" className="hover:text-[var(--foreground)] hover:underline transition-colors">
+                Contacto
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>

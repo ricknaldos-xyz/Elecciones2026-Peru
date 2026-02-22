@@ -85,27 +85,71 @@ export default function PrivacidadPage() {
           </CardHeader>
           <CardContent>
             <p className="text-[var(--muted-foreground)] font-medium mb-4">
-              Solo utilizamos cookies funcionales estrictamente necesarias para el funcionamiento de la plataforma.
+              Utilizamos cookies funcionales para el funcionamiento de la plataforma, así como cookies de terceros para la publicidad:
             </p>
             <div className="p-4 bg-[var(--muted)] border-2 border-[var(--border)]">
               <ul className="space-y-2 text-sm text-[var(--foreground)] font-medium">
                 <li className="flex items-start gap-2">
                   <span className="font-black text-[var(--score-excellent-text)]">SÍ</span>
-                  <span>Cookies funcionales para gestión de sesiones</span>
+                  <span>Cookies funcionales para gestión de sesiones y preferencias de usuario</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="font-black text-[var(--flag-red-text)]">NO</span>
-                  <span>Cookies publicitarias</span>
+                  <span className="font-black text-[var(--score-excellent-text)]">SÍ</span>
+                  <span>Cookies de Google AdSense para mostrar anuncios relevantes</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="font-black text-[var(--flag-red-text)]">NO</span>
-                  <span>Cookies de rastreo de terceros</span>
+                  <span className="font-black text-[var(--score-excellent-text)]">SÍ</span>
+                  <span>Cookies de Vercel Analytics para métricas de rendimiento anónimas</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="font-black text-[var(--flag-red-text)]">NO</span>
                   <span>Cookies de redes sociales</span>
                 </li>
               </ul>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Publicidad y Google AdSense */}
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>PUBLICIDAD Y GOOGLE ADSENSE</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-[var(--muted-foreground)] font-medium mb-4">
+              Este sitio utiliza <strong>Google AdSense</strong> para mostrar anuncios publicitarios que nos permiten
+              financiar la operación de la plataforma de forma independiente. Google AdSense es un servicio de publicidad
+              proporcionado por Google LLC.
+            </p>
+            <div className="space-y-4">
+              <div className="p-4 bg-[var(--muted)] border-2 border-[var(--border)]">
+                <h4 className="font-black text-[var(--foreground)] uppercase mb-2">Cómo funciona</h4>
+                <ul className="space-y-1.5 text-sm text-[var(--muted-foreground)] font-medium">
+                  <li>Google AdSense puede utilizar cookies y tecnologías similares para mostrar anuncios basados en visitas previas a este sitio u otros sitios web.</li>
+                  <li>Google utiliza la cookie DART para servir anuncios basados en la visita del usuario a este sitio y otros sitios de Internet.</li>
+                  <li>Los usuarios pueden optar por no usar la cookie DART visitando la{' '}
+                    <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener noreferrer" className="underline font-bold text-[var(--foreground)]">
+                      página de políticas de publicidad de Google
+                    </a>.
+                  </li>
+                </ul>
+              </div>
+              <div className="p-4 bg-[var(--muted)] border-2 border-[var(--border)]">
+                <h4 className="font-black text-[var(--foreground)] uppercase mb-2">Tus opciones</h4>
+                <ul className="space-y-1.5 text-sm text-[var(--muted-foreground)] font-medium">
+                  <li>Puedes desactivar la publicidad personalizada en la{' '}
+                    <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener noreferrer" className="underline font-bold text-[var(--foreground)]">
+                      configuración de anuncios de Google
+                    </a>.
+                  </li>
+                  <li>Puedes optar por no participar en el uso de cookies de terceros visitando{' '}
+                    <a href="https://www.aboutads.info/choices/" target="_blank" rel="noopener noreferrer" className="underline font-bold text-[var(--foreground)]">
+                      aboutads.info
+                    </a>.
+                  </li>
+                  <li>La publicidad <strong>no influye</strong> en nuestros rankings, scores ni contenido editorial.</li>
+                </ul>
+              </div>
             </div>
           </CardContent>
         </Card>
