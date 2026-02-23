@@ -110,11 +110,13 @@ export default function RootLayout({
     <html lang="es" suppressHydrationWarning>
       <head>
         <InitScript />
+        {/* TODO: Re-enable after AdSense approval
         <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2258149004493967"
           crossOrigin="anonymous"
         />
+        */}
       </head>
       <body
         className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} antialiased`}
