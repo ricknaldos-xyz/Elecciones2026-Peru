@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/routing'
 import { Header } from '@/components/layout/Header'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -13,6 +13,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { lang } = await params
+  setRequestLocale(lang)
   const t = await getTranslations({ locale: lang, namespace: 'franjaElectoral' })
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://eleccionesperu2026.xyz'
 
@@ -28,9 +29,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       canonical: `${BASE_URL}/franja-electoral`,
       languages: {
         ...Object.fromEntries(
-          locales.map((l) => [l, `${BASE_URL}/${l}/franja-electoral`])
+          locales.map((l) => [l, l === 'es' ? `${BASE_URL}/franja-electoral` : `${BASE_URL}/${l}/franja-electoral`])
         ),
-        'x-default': `${BASE_URL}/es/franja-electoral`,
+        'x-default': `${BASE_URL}/franja-electoral`,
       },
     },
   }
@@ -58,6 +59,7 @@ function getBarColor(status: string, underInvestigation: boolean): string {
 
 export default async function FranjaElectoralPage({ params }: PageProps) {
   const { lang } = await params
+  setRequestLocale(lang)
   const t = await getTranslations({ locale: lang, namespace: 'franjaElectoral' })
 
   const maxAllocation = PARTY_ALLOCATIONS[0].totalAllocation

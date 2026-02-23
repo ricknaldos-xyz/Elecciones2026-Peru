@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/routing'
 import { Header } from '@/components/layout/Header'
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card'
@@ -12,8 +12,14 @@ export const metadata: Metadata = {
   description: 'Embebe los widgets de EleccionesPerú2026 en tu sitio web. Información electoral verificada y actualizada para tus lectores.',
 }
 
-export default async function PartnersPage() {
-  const t = await getTranslations('partners')
+interface PageProps {
+  params: Promise<{ lang: string }>
+}
+
+export default async function PartnersPage({ params }: PageProps) {
+  const { lang } = await params
+  setRequestLocale(lang)
+  const t = await getTranslations({ locale: lang, namespace: 'partners' })
   return (
     <div className="min-h-screen bg-[var(--background)]">
       <Header currentPath="/partners" />

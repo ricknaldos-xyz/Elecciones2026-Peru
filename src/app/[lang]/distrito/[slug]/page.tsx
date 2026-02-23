@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/routing'
 import { getCandidates, getDistricts } from '@/lib/db/queries'
 import { locales } from '@/i18n/config'
@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/Button'
 export const revalidate = 86400
 
 interface PageProps {
-  params: Promise<{ slug: string }>
+  params: Promise<{ slug: string; lang: string }>
 }
 
 async function getDistrict(slug: string) {
@@ -21,7 +21,8 @@ async function getDistrict(slug: string) {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = await params
+  const { slug, lang } = await params
+  setRequestLocale(lang)
   const district = await getDistrict(slug)
 
   if (!district) {
@@ -49,16 +50,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       canonical: `${BASE_URL}/distrito/${slug}`,
       languages: {
         ...Object.fromEntries(
-          locales.map((l) => [l, `${BASE_URL}/${l}/distrito/${slug}`])
+          locales.map((l) => [l, l === 'es' ? `${BASE_URL}/distrito/${slug}` : `${BASE_URL}/${l}/distrito/${slug}`])
         ),
-        'x-default': `${BASE_URL}/es/distrito/${slug}`,
+        'x-default': `${BASE_URL}/distrito/${slug}`,
       },
     },
   }
 }
 
 export default async function DistritoPage({ params }: PageProps) {
-  const { slug } = await params
+  const { slug, lang } = await params
+  setRequestLocale(lang)
   const district = await getDistrict(slug)
 
   if (!district) {

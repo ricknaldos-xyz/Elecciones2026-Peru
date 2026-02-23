@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/routing'
 import { Header } from '@/components/layout/Header'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -143,6 +143,7 @@ async function getData() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { lang } = await params
+  setRequestLocale(lang)
   const t = await getTranslations({ locale: lang, namespace: 'votaciones' })
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://eleccionesperu2026.xyz'
 
@@ -158,9 +159,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       canonical: `${BASE_URL}/votaciones`,
       languages: {
         ...Object.fromEntries(
-          locales.map((l) => [l, `${BASE_URL}/${l}/votaciones`])
+          locales.map((l) => [l, l === 'es' ? `${BASE_URL}/votaciones` : `${BASE_URL}/${l}/votaciones`])
         ),
-        'x-default': `${BASE_URL}/es/votaciones`,
+        'x-default': `${BASE_URL}/votaciones`,
       },
     },
   }
@@ -168,6 +169,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function VotacionesPage({ params }: PageProps) {
   const { lang } = await params
+  setRequestLocale(lang)
   const t = await getTranslations({ locale: lang, namespace: 'votaciones' })
   const { laws, candidates, totalCandidates, categories } = await getData()
 

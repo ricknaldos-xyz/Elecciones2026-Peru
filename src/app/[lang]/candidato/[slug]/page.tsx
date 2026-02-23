@@ -1,6 +1,6 @@
 import { notFound, redirect } from 'next/navigation'
 import { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { getCandidateBySlug, getScoreBreakdown, getCandidateDetails, getVicePresidents, getSiblingCargos } from '@/lib/db/queries'
 import { CandidateProfileContent } from './CandidateProfileContent'
 import { generatePersonSchema, generateBreadcrumbSchema } from '@/lib/schema'
@@ -25,6 +25,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug, lang } = await params
+  setRequestLocale(lang)
   const t = await getTranslations({ locale: lang, namespace: 'candidate' })
   const tMeta = await getTranslations({ locale: lang, namespace: 'meta' })
   const candidate = await getCandidateBySlug(slug)
@@ -66,9 +67,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       canonical: `${BASE_URL}/candidato/${slug}`,
       languages: {
         ...Object.fromEntries(
-          locales.map((l) => [l, `${BASE_URL}/${l}/candidato/${slug}`])
+          locales.map((l) => [l, l === 'es' ? `${BASE_URL}/candidato/${slug}` : `${BASE_URL}/${l}/candidato/${slug}`])
         ),
-        'x-default': `${BASE_URL}/es/candidato/${slug}`,
+        'x-default': `${BASE_URL}/candidato/${slug}`,
       },
     },
   }
@@ -76,6 +77,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function CandidatePage({ params }: PageProps) {
   const { slug, lang } = await params
+  setRequestLocale(lang)
   const candidate = await getCandidateBySlug(slug)
 
   if (!candidate) {
