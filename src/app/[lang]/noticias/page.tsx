@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Header } from '@/components/layout/Header'
 import { Badge } from '@/components/ui/Badge'
 import { Card } from '@/components/ui/Card'
@@ -48,8 +48,14 @@ function LoadingFallback() {
   )
 }
 
-export default async function NoticiasPage() {
-  const t = await getTranslations('news')
+interface PageProps {
+  params: Promise<{ lang: string }>
+}
+
+export default async function NoticiasPage({ params }: PageProps) {
+  const { lang } = await params
+  setRequestLocale(lang)
+  const t = await getTranslations({ locale: lang, namespace: 'news' })
 
   // Fetch recent news for JSON-LD
   const recentNews = await sql`

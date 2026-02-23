@@ -51,9 +51,9 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
     alternates: {
       languages: {
         ...Object.fromEntries(
-          locales.map((l) => [l, `${BASE_URL}/${l}`])
+          locales.map((l) => [l, l === 'es' ? BASE_URL : `${BASE_URL}/${l}`])
         ),
-        'x-default': `${BASE_URL}/es`,
+        'x-default': BASE_URL,
       },
     },
   };

@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/routing'
 import { Header } from '@/components/layout/Header'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card'
@@ -190,6 +190,7 @@ function getIntegrityBg(score: number): string {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { lang } = await params
+  setRequestLocale(lang)
   const t = await getTranslations({ locale: lang, namespace: 'antecedentes' })
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://eleccionesperu2026.xyz'
 
@@ -205,9 +206,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       canonical: `${BASE_URL}/antecedentes`,
       languages: {
         ...Object.fromEntries(
-          locales.map((l) => [l, `${BASE_URL}/${l}/antecedentes`])
+          locales.map((l) => [l, l === 'es' ? `${BASE_URL}/antecedentes` : `${BASE_URL}/${l}/antecedentes`])
         ),
-        'x-default': `${BASE_URL}/es/antecedentes`,
+        'x-default': `${BASE_URL}/antecedentes`,
       },
     },
   }
@@ -215,6 +216,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function AntecedentesPage({ params }: PageProps) {
   const { lang } = await params
+  setRequestLocale(lang)
   const t = await getTranslations({ locale: lang, namespace: 'antecedentes' })
   const tCandidate = await getTranslations({ locale: lang, namespace: 'candidate' })
   const tRanking = await getTranslations({ locale: lang, namespace: 'ranking' })

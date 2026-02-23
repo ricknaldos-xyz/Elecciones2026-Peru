@@ -1,5 +1,5 @@
 import { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/routing'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
@@ -15,6 +15,7 @@ import { AdSlot } from '@/components/ads/AdSlot'
 import { PartiesGrid } from '@/components/home/PartiesGrid'
 import { displayPartyName, formatName } from '@/lib/utils'
 import { DISTRICTS } from '@/lib/constants'
+import { locales, defaultLocale } from '@/i18n/config'
 import { sql } from '@/lib/db'
 import { generateWebSiteSchema, generateOrganizationSchema } from '@/lib/schema'
 import { ScrollToTop } from '@/components/layout/ScrollToTop'
@@ -33,13 +34,24 @@ interface HomePageProps {
 
 export async function generateMetadata({ params }: HomePageProps): Promise<Metadata> {
   const { lang } = await params
+  setRequestLocale(lang)
   const t = await getTranslations({ locale: lang, namespace: 'meta' })
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://eleccionesperu2026.xyz'
 
   return {
     title: t('title'),
     description: t('description'),
     openGraph: {
       images: ['/api/og?type=home'],
+    },
+    alternates: {
+      canonical: lang === defaultLocale ? BASE_URL : `${BASE_URL}/${lang}`,
+      languages: {
+        ...Object.fromEntries(
+          locales.map((l) => [l, l === defaultLocale ? BASE_URL : `${BASE_URL}/${l}`])
+        ),
+        'x-default': BASE_URL,
+      },
     },
   }
 }
@@ -374,7 +386,10 @@ const CATEGORY_STYLES: Record<string, { icon: string; color: string }> = {
   otros: { icon: '📋', color: 'bg-[var(--cat-otros)]' },
 }
 
-export default async function Home() {
+export default async function Home({ params }: HomePageProps) {
+  const { lang } = await params
+  setRequestLocale(lang)
+
   const [stats, topCandidates, parties, alertCandidates, worstVotersData, reinfoCandidates, proposalCategories, bottomCandidates, t] = await Promise.all([
     getStats(),
     getTopPresidentialCandidates(),

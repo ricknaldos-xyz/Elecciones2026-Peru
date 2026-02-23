@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { Metadata } from 'next'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/routing'
 import { getCandidates, getPartyBySlug, getPartyFinances } from '@/lib/db/queries'
 import { generatePoliticalPartySchema, generateBreadcrumbSchema } from '@/lib/schema'
@@ -20,7 +20,7 @@ import type { CargoType, CandidateWithScores } from '@/types/database'
 export const revalidate = 86400
 
 interface PageProps {
-  params: Promise<{ slug: string }>
+  params: Promise<{ slug: string; lang: string }>
 }
 
 const cargoColors: Record<CargoType, string> = {
@@ -115,7 +115,8 @@ function computePartyStats(candidates: CandidateWithScores[], tCargo: (key: stri
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = await params
+  const { slug, lang } = await params
+  setRequestLocale(lang)
   const party = await getPartyBySlug(slug)
 
   if (!party) {
@@ -152,16 +153,17 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       canonical: `${BASE_URL}/partido/${slug}`,
       languages: {
         ...Object.fromEntries(
-          locales.map((l) => [l, `${BASE_URL}/${l}/partido/${slug}`])
+          locales.map((l) => [l, l === 'es' ? `${BASE_URL}/partido/${slug}` : `${BASE_URL}/${l}/partido/${slug}`])
         ),
-        'x-default': `${BASE_URL}/es/partido/${slug}`,
+        'x-default': `${BASE_URL}/partido/${slug}`,
       },
     },
   }
 }
 
 export default async function PartidoPage({ params }: PageProps) {
-  const { slug } = await params
+  const { slug, lang } = await params
+  setRequestLocale(lang)
   const party = await getPartyBySlug(slug)
 
   if (!party) {
