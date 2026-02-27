@@ -37,6 +37,7 @@ const SocialMentionsCard = dynamic(() => import('@/components/candidate/SocialMe
 const CandidateProposals = dynamic(() => import('@/components/proposals/CandidateProposals').then(m => ({ default: m.CandidateProposals })), { ssr: false })
 const VotingRecordCard = dynamic(() => import('@/components/candidate/VotingRecordCard').then(m => ({ default: m.VotingRecordCard })), { ssr: false })
 const CandidateNewsSection = dynamic(() => import('@/components/news/CandidateNewsSection').then(m => ({ default: m.CandidateNewsSection })), { ssr: false })
+const MetaAdSpendingCard = dynamic(() => import('@/components/candidate/MetaAdSpendingCard').then(m => ({ default: m.MetaAdSpendingCard })), { ssr: false })
 import { PRESETS, CARGO_PRESETS } from '@/lib/constants'
 import { getScoreByMode } from '@/lib/scoring/utils'
 import type { CandidateWithScores, PresetType, ScoreBreakdown, CargoType } from '@/types/database'
@@ -834,6 +835,9 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
 
               {/* Menciones en Redes Sociales */}
               <SocialMentionsCard candidateId={candidate.id} />
+
+              {/* Inversión en Publicidad Meta */}
+              <MetaAdSpendingCard candidateId={candidate.id} />
 
               {/* Sentencias Penales */}
               {details && details.penal_sentences.length > 0 && (

@@ -1,0 +1,27 @@
+{
+  "pageOverrides": {
+    "317113615022843": { "candidateSlug": "cesar-acuna", "isCandidatePage": true },
+    "101665683225827": { "candidateSlug": "jose-luna-galvez", "isCandidatePage": true },
+    "129936434473": { "candidateSlug": "george-forsyth", "isCandidatePage": true },
+    "417528315113106": { "candidateSlug": "fiorella-molinelli", "isCandidatePage": true },
+    "1005578649510033": { "candidateSlug": "enrique-valderrama", "isCandidatePage": true },
+    "410488262672355": { "candidateSlug": "carlos-jaico", "isCandidatePage": true },
+    "102910315056842": { "candidateSlug": "paul-jaimes", "isCandidatePage": true },
+    "100469969061008": { "candidateSlug": "jose-williams", "isCandidatePage": true },
+    "105786558537217": { "candidateSlug": "mesias-guevara", "isCandidatePage": true },
+    "942322112300533": { "candidateSlug": "antonio-ortiz", "isCandidatePage": true },
+    "643403425797969": { "candidateSlug": "jose-luna-galvez", "isCandidatePage": false },
+    "116937091779490": { "candidateSlug": "keiko-fujimori", "isCandidatePage": false },
+    "566970220173238": { "partyShortName": "PODEMOS", "isCandidatePage": false }
+  },
+  "excludePages": [],
+  "nameAliases": {
+    "Pepe Luna": "jose-luna-galvez",
+    "Jose Luna Galvez": "jose-luna-galvez",
+    "Mesias Guevara Presidente": "mesias-guevara",
+    "Antonio Ortiz - Presidente": "antonio-ortiz",
+    "Carlos Jaico - Abogado": "carlos-jaico",
+    "Paul Jaimes Oficial": "paul-jaimes",
+    "Jose Williams Zapata": "jose-williams"
+  }
+}

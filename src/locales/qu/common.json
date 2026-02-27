@@ -1751,5 +1751,21 @@
     "sourceNote": "Pukyumanta: JNE, Poder Judicial, chiqap qillqasqakuna",
     "viewMethodology": "Tukuy metodologiata qhaway",
     "backToHome": "Qallariy p'anqaman kutiy"
+  },
+  "metaAds": {
+    "title": "Meta Rikuchiypi Qullqi Churay",
+    "totalSpent": "Tukuy Qullqi Churasqa",
+    "ads": "rikuchiykuna",
+    "pages": "p'anqakuna",
+    "period": "Pacha: {start} - {end}",
+    "vsParty": "vs. Tukuy Partidomanta ({party})",
+    "candidate": "Akllakuq",
+    "partyTotal": "Tukuy Partido",
+    "pageBreakdown": "Sapa P'anqamanta Rakiy",
+    "partyPage": "Partido",
+    "fundedBy": "Qullqi churaq",
+    "viewOnMeta": "Meta Rikuchiy Qillqana Wasipipi Qhaway",
+    "noData": "Mana Meta rikuchiy willaykunachu",
+    "source": "Pukyumanta: Meta Ad Library Report"
   }
 }
