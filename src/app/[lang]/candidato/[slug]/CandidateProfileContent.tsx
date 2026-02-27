@@ -783,10 +783,6 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                 </Card>
               )}
 
-              {/* Inversión en Publicidad Meta */}
-              {candidate.cargo === 'presidente' && (
-                <MetaAdSpendingCard candidateId={candidate.id} />
-              )}
             </div>
           </TabPanel>
 
@@ -840,6 +836,9 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
 
               {/* Menciones en Redes Sociales */}
               <SocialMentionsCard candidateId={candidate.id} />
+
+              {/* Inversión en Publicidad Meta */}
+              <MetaAdSpendingCard candidateId={candidate.id} />
 
               {/* Sentencias Penales */}
               {details && details.penal_sentences.length > 0 && (
