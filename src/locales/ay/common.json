@@ -1758,6 +1758,7 @@
     "ads": "uñacht'ayawinaka",
     "pages": "p'iqinaka",
     "period": "Pacha: {start} - {end}",
+    "periodLabel": "Pacha",
     "vsParty": "vs. Taqi Partidompi ({party})",
     "candidate": "Ajlliri",
     "partyTotal": "Taqi Partido",

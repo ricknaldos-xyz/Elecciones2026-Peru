@@ -3,6 +3,7 @@ import { Metadata } from 'next'
 import { getTranslations, setRequestLocale } from 'next-intl/server'
 import { Link } from '@/i18n/routing'
 import { getCandidates, getPartyBySlug, getPartyFinances } from '@/lib/db/queries'
+import { sql } from '@/lib/db'
 import { generatePoliticalPartySchema, generateBreadcrumbSchema } from '@/lib/schema'
 import { displayPartyName } from '@/lib/utils'
 import { locales } from '@/i18n/config'
@@ -170,16 +171,41 @@ export default async function PartidoPage({ params }: PageProps) {
     notFound()
   }
 
-  const [candidates, finances, t, tCargo, tScores, tFranja] = await Promise.all([
+  const [candidates, finances, metaAdRows, t, tCargo, tScores, tFranja, tMeta] = await Promise.all([
     getCandidates({ partyId: party.id as string }),
     getPartyFinances(party.id as string),
+    sql`
+      SELECT
+        COUNT(DISTINCT map.page_id)::int AS pages_count,
+        COALESCE(SUM(mas.number_of_ads), 0)::int AS total_ads,
+        COALESCE(SUM(mas.amount_spent_lower), 0)::numeric AS total_spent_lower,
+        COALESCE(SUM(mas.amount_spent_upper), 0)::numeric AS total_spent_upper,
+        COALESCE(SUM(mas.amount_spent_mid), 0)::numeric AS total_spent_mid,
+        MIN(mas.period_start) AS earliest_period,
+        MAX(mas.period_end) AS latest_period,
+        MAX(mas.currency) AS currency
+      FROM meta_ad_pages map
+      JOIN meta_ad_spending mas ON map.page_id = mas.page_id
+      WHERE map.party_id = ${party.id}::uuid
+    `,
     getTranslations('partyPage'),
     getTranslations('ranking.cargo'),
     getTranslations('candidate.scores'),
     getTranslations('franjaElectoral'),
+    getTranslations('metaAds'),
   ])
 
   const latestFinance = finances.length > 0 ? finances[0] : null
+  const metaAd = metaAdRows[0] && Number(metaAdRows[0].total_ads) > 0 ? {
+    pages_count: Number(metaAdRows[0].pages_count),
+    total_ads: Number(metaAdRows[0].total_ads),
+    total_spent_lower: Number(metaAdRows[0].total_spent_lower),
+    total_spent_upper: Number(metaAdRows[0].total_spent_upper),
+    total_spent_mid: Number(metaAdRows[0].total_spent_mid),
+    earliest_period: metaAdRows[0].earliest_period as string,
+    latest_period: metaAdRows[0].latest_period as string,
+    currency: (metaAdRows[0].currency as string) || 'PEN',
+  } : null
   const stats = computePartyStats(candidates, tCargo)
 
   const groupedByCargo = candidates.reduce((acc, c) => {
@@ -621,6 +647,55 @@ export default async function PartidoPage({ params }: PageProps) {
               </div>
             </Card>
           </Link>
+        )}
+
+        {/* ========== META AD SPENDING ========== */}
+        {metaAd && (
+          <Card className="mb-8 p-5">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-black text-[var(--foreground)] flex items-center gap-2 uppercase">
+                <svg className="w-5 h-5 text-[var(--primary)]" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                </svg>
+                {tMeta('title')}
+              </h2>
+              <Badge variant="outline">Meta Ad Library</Badge>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+              <div>
+                <div className="text-xs sm:text-sm text-[var(--muted-foreground)] font-bold uppercase">{tMeta('totalSpent')}</div>
+                <div className="text-base sm:text-lg font-black text-[var(--foreground)]">
+                  {metaAd.total_spent_lower !== metaAd.total_spent_upper
+                    ? `${formatCurrency(metaAd.total_spent_lower)} - ${formatCurrency(metaAd.total_spent_upper)}`
+                    : formatCurrency(metaAd.total_spent_mid)}
+                </div>
+              </div>
+              <div>
+                <div className="text-xs sm:text-sm text-[var(--muted-foreground)] font-bold uppercase">{tMeta('ads')}</div>
+                <div className="text-base sm:text-lg font-black text-[var(--foreground)]">{metaAd.total_ads.toLocaleString('es-PE')}</div>
+              </div>
+              <div>
+                <div className="text-xs sm:text-sm text-[var(--muted-foreground)] font-bold uppercase">{tMeta('pages')}</div>
+                <div className="text-base sm:text-lg font-black text-[var(--foreground)]">{metaAd.pages_count}</div>
+              </div>
+              <div>
+                <div className="text-xs sm:text-sm text-[var(--muted-foreground)] font-bold uppercase">{tMeta('periodLabel')}</div>
+                <div className="text-xs sm:text-sm font-bold text-[var(--muted-foreground)]">
+                  {new Date(metaAd.earliest_period).toLocaleDateString('es-PE', { month: 'short', year: 'numeric' })} - {new Date(metaAd.latest_period).toLocaleDateString('es-PE', { month: 'short', year: 'numeric' })}
+                </div>
+              </div>
+            </div>
+            <div className="text-center pt-3 border-t-2 border-[var(--border)]">
+              <a
+                href="https://www.facebook.com/ads/library/?active_status=all&ad_type=political_and_issue_ads&country=PE"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-bold text-[var(--primary)] hover:underline uppercase"
+              >
+                {tMeta('viewOnMeta')}
+              </a>
+            </div>
+          </Card>
         )}
 
         {/* ========== FRANJA ELECTORAL ========== */}
