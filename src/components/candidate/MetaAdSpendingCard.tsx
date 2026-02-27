@@ -53,7 +53,9 @@ function formatNumber(n: number): string {
 
 function formatDate(dateStr: string): string {
   try {
-    return new Date(dateStr + 'T00:00:00').toLocaleDateString('es-PE', {
+    const d = dateStr.includes('T') ? new Date(dateStr) : new Date(dateStr + 'T00:00:00')
+    if (isNaN(d.getTime())) return dateStr
+    return d.toLocaleDateString('es-PE', {
       month: 'short',
       day: 'numeric',
       year: 'numeric',
@@ -112,7 +114,16 @@ export function MetaAdSpendingCard({ candidateId }: MetaAdSpendingCardProps) {
 
   if (!data?.summary) return null
 
-  const { summary, pages, party_total_spent_mid, party_name } = data
+  const { pages, party_name } = data
+  const summary = {
+    ...data.summary!,
+    total_ads: Number(data.summary!.total_ads),
+    total_spent_lower: Number(data.summary!.total_spent_lower),
+    total_spent_upper: Number(data.summary!.total_spent_upper),
+    total_spent_mid: Number(data.summary!.total_spent_mid),
+    pages_count: Number(data.summary!.pages_count),
+  }
+  const party_total_spent_mid = data.party_total_spent_mid != null ? Number(data.party_total_spent_mid) : null
   const showRange = summary.total_spent_lower !== summary.total_spent_upper
 
   return (
@@ -195,10 +206,10 @@ export function MetaAdSpendingCard({ candidateId }: MetaAdSpendingCardProps) {
                 </div>
                 <div className="text-right">
                   <div className="text-xs font-black">
-                    {formatCurrency(page.amount_spent_mid, summary.currency)}
+                    {formatCurrency(Number(page.amount_spent_mid), summary.currency)}
                   </div>
                   <div className="text-[10px] text-[var(--muted-foreground)]">
-                    {formatNumber(page.total_ads)} {t('ads')}
+                    {formatNumber(Number(page.total_ads))} {t('ads')}
                   </div>
                 </div>
               </div>
