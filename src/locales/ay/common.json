@@ -1751,5 +1751,21 @@
     "sourceNote": "Manqhampi: JNE, Poder Judicial, chiqapa qillqatanaka",
     "viewMethodology": "Taqi metodología uñjaña",
     "backToHome": "Qalltawi tuqiru kutiña"
+  },
+  "metaAds": {
+    "title": "Meta Uñacht'ayañanxa Qullqi Uchantawi",
+    "totalSpent": "Taqi Qullqi Uchata",
+    "ads": "uñacht'ayawinaka",
+    "pages": "p'iqinaka",
+    "period": "Pacha: {start} - {end}",
+    "vsParty": "vs. Taqi Partidompi ({party})",
+    "candidate": "Ajlliri",
+    "partyTotal": "Taqi Partido",
+    "pageBreakdown": "Sapa P'iqimpi T'aqawi",
+    "partyPage": "Partido",
+    "fundedBy": "Qullqi churiri",
+    "viewOnMeta": "Meta Uñacht'ayawi Pankanakanxa Uñjam",
+    "noData": "Janiwa Meta uñacht'ayawi yatiyawinakakiti",
+    "source": "Yatxatatampi: Meta Ad Library Report"
   }
 }

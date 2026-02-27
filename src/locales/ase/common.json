@@ -1751,5 +1751,21 @@
     "sourceNote": "Jananeki: JNE, Poder Judicial, chikapa sankenariiteegi",
     "viewMethodology": "Maaroini metodología ñagantsi",
     "backToHome": "Okatagantsi panaru antagantsi"
+  },
+  "metaAds": {
+    "title": "Meta Oiyotzinkamantiriri Kenketsatakoteri",
+    "totalSpent": "Maaroni Kenketsatakoteri",
+    "ads": "oiyotzinkakantsi",
+    "pages": "pankotsi",
+    "period": "Kitejeri: {start} - {end}",
+    "vsParty": "vs. Maaroni Partidomashi ({party})",
+    "candidate": "Aatakoteri",
+    "partyTotal": "Maaroni Partido",
+    "pageBreakdown": "Jirinka Pankotsi Jokatsinkari",
+    "partyPage": "Partido",
+    "fundedBy": "Kenketsatakoteriri",
+    "viewOnMeta": "Meta Oiyotzinkakantsi Pankotsiki Oñateri",
+    "noData": "Tekatsi Meta oiyotzinkakantsi yotaneri",
+    "source": "Yotaneri: Meta Ad Library Report"
   }
 }

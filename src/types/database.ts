@@ -677,3 +677,69 @@ export interface CandidateDetailResponse {
   breakdown: ScoreBreakdown
   similar_candidates: CandidateWithScores[]
 }
+
+// ============================================
+// META AD LIBRARY TYPES
+// ============================================
+
+export interface MetaAdPage {
+  id: string
+  page_id: string
+  page_name: string
+  candidate_id: string | null
+  party_id: string | null
+  is_candidate_page: boolean
+  verified: boolean
+}
+
+export interface MetaAdSpending {
+  id: string
+  page_id: string
+  disclaimer: string | null
+  amount_spent_lower: number
+  amount_spent_upper: number
+  amount_spent_mid: number
+  currency: string
+  number_of_ads: number
+  period_start: string
+  period_end: string
+}
+
+export interface CandidateMetaAdSummary {
+  candidate_id: string
+  candidate_name: string
+  candidate_slug: string
+  party_name: string | null
+  pages_count: number
+  total_ads: number
+  total_spent_lower: number
+  total_spent_upper: number
+  total_spent_mid: number
+  earliest_period: string
+  latest_period: string
+  disclaimers: string[]
+  last_updated: string
+}
+
+export interface MetaAdCardData {
+  summary: {
+    total_ads: number
+    total_spent_lower: number
+    total_spent_upper: number
+    total_spent_mid: number
+    currency: string
+    pages_count: number
+    earliest_period: string
+    latest_period: string
+    disclaimers: string[]
+  } | null
+  pages: {
+    page_name: string
+    page_id: string
+    is_candidate_page: boolean
+    total_ads: number
+    amount_spent_mid: number
+  }[]
+  party_total_spent_mid: number | null
+  party_name: string | null
+}

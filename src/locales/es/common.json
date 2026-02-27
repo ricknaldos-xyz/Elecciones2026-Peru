@@ -1753,5 +1753,21 @@
     "sourceNote": "Fuente: JNE, Poder Judicial, registros públicos verificados",
     "viewMethodology": "Ver metodología completa",
     "backToHome": "Volver al inicio"
+  },
+  "metaAds": {
+    "title": "Inversión en Publicidad Meta",
+    "totalSpent": "Inversión Total Estimada",
+    "ads": "anuncios",
+    "pages": "páginas",
+    "period": "Período: {start} - {end}",
+    "vsParty": "vs. Total del Partido ({party})",
+    "candidate": "Candidato",
+    "partyTotal": "Total Partido",
+    "pageBreakdown": "Desglose por Página",
+    "partyPage": "Partido",
+    "fundedBy": "Financiado por",
+    "viewOnMeta": "Ver en Biblioteca de Anuncios de Meta",
+    "noData": "Sin datos de publicidad en Meta",
+    "source": "Fuente: Meta Ad Library Report"
   }
 }
