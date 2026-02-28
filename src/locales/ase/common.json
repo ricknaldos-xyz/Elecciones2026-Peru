@@ -1758,6 +1758,7 @@
     "ads": "oiyotzinkakantsi",
     "pages": "pankotsi",
     "period": "Kitejeri: {start} - {end}",
+    "periodLabel": "Kitejeri",
     "vsParty": "vs. Maaroni Partidomashi ({party})",
     "candidate": "Aatakoteri",
     "partyTotal": "Maaroni Partido",

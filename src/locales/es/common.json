@@ -1760,6 +1760,7 @@
     "ads": "anuncios",
     "pages": "páginas",
     "period": "Período: {start} - {end}",
+    "periodLabel": "Período",
     "vsParty": "vs. Total del Partido ({party})",
     "candidate": "Candidato",
     "partyTotal": "Total Partido",
