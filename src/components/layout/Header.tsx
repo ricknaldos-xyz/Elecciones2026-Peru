@@ -637,14 +637,6 @@ export function Header({ currentPath }: HeaderProps) {
         />
       )}
 
-      {/* Search dropdown backdrop - mobile only */}
-      {searchOpen && (
-        <div
-          className="fixed inset-0 bg-black/30 z-[55] sm:hidden"
-          onClick={() => setSearchOpen(false)}
-          aria-hidden="true"
-        />
-      )}
     </>
   )
 }

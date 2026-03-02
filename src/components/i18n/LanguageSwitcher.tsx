@@ -122,7 +122,10 @@ export function LanguageSwitcher({ currentLocale, onOpen, closeSignal }: Languag
     <div ref={dropdownRef} className="relative">
       <button
         onClick={() => {
-          if (!isOpen) onOpen?.();
+          if (!isOpen) {
+            onOpen?.();
+            setPrevCloseSignal(s => (s ?? 0) + 1);
+          }
           setIsOpen(!isOpen);
         }}
         className={cn(
