@@ -140,8 +140,8 @@ export function AccessibilityPanel({ isOpen, onClose }: AccessibilityPanelProps)
           ref={firstFocusableRef}
           onClick={onClose}
           className={cn(
-            'p-1.5',
-            'min-w-[36px] min-h-[36px]',
+            'p-2',
+            'min-w-[44px] min-h-[44px]',
             'flex items-center justify-center',
             'text-[var(--foreground)]',
             'border-2 border-transparent',
