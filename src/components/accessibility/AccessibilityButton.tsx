@@ -25,7 +25,10 @@ export function AccessibilityButton({ onOpen, closeSignal }: AccessibilityButton
     <div className="relative">
       <button
         onClick={() => {
-          if (!isOpen) onOpen?.()
+          if (!isOpen) {
+            onOpen?.()
+            setPrevCloseSignal(s => (s ?? 0) + 1)
+          }
           setIsOpen(!isOpen)
         }}
         className={cn(
