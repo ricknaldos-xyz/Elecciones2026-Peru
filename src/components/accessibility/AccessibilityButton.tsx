@@ -5,14 +5,29 @@ import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { AccessibilityPanel } from './AccessibilityPanel'
 
-export function AccessibilityButton() {
+interface AccessibilityButtonProps {
+  onOpen?: () => void
+  closeSignal?: number
+}
+
+export function AccessibilityButton({ onOpen, closeSignal }: AccessibilityButtonProps) {
   const t = useTranslations('accessibility')
   const [isOpen, setIsOpen] = useState(false)
+
+  // Close when parent signals (mutual exclusivity) - derived state pattern
+  const [prevCloseSignal, setPrevCloseSignal] = useState(closeSignal)
+  if (closeSignal && closeSignal !== prevCloseSignal) {
+    setPrevCloseSignal(closeSignal)
+    setIsOpen(false)
+  }
 
   return (
     <div className="relative">
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          if (!isOpen) onOpen?.()
+          setIsOpen(!isOpen)
+        }}
         className={cn(
           'p-2.5 sm:p-2',
           'min-w-[44px] min-h-[44px]',

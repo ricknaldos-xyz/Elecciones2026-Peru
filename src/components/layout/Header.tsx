@@ -23,6 +23,7 @@ export function Header({ currentPath }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [moreMenuOpen, setMoreMenuOpen] = useState(false)
+  const [closeSignal, setCloseSignal] = useState(0)
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<CandidateWithScores[]>([])
   const [isSearching, setIsSearching] = useState(false)
@@ -32,12 +33,19 @@ export function Header({ currentPath }: HeaderProps) {
   const mobileMenuButtonRef = useRef<HTMLButtonElement>(null)
   const searchInputRef = useRef<HTMLInputElement>(null)
 
+  // Close all dropdowns and signal children to close
+  const closeAllDropdowns = useCallback(() => {
+    setSearchOpen(false)
+    setMobileMenuOpen(false)
+    setMoreMenuOpen(false)
+    setCloseSignal(prev => prev + 1)
+  }, [])
+
   // Keyboard shortcut: "/" to open search
   const openSearch = useCallback(() => {
+    closeAllDropdowns()
     setSearchOpen(true)
-    // Focus input after state update
-    setTimeout(() => searchInputRef.current?.focus(), 50)
-  }, [])
+  }, [closeAllDropdowns])
   useSearchShortcut(openSearch)
 
   // Focus trap for mobile menu (accessibility)
@@ -73,10 +81,11 @@ export function Header({ currentPath }: HeaderProps) {
     // Focus first element when menu opens
     firstElement?.focus()
 
+    const triggerButton = mobileMenuButtonRef.current
     return () => {
       document.removeEventListener('keydown', handleTabKey)
       // Return focus to the menu trigger button when menu closes
-      mobileMenuButtonRef.current?.focus()
+      triggerButton?.focus()
     }
   }, [mobileMenuOpen])
 
@@ -108,6 +117,36 @@ export function Header({ currentPath }: HeaderProps) {
     document.addEventListener('keydown', handleEscape)
     return () => document.removeEventListener('keydown', handleEscape)
   }, [searchOpen, mobileMenuOpen, moreMenuOpen])
+
+  // Body scroll lock when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      const scrollY = window.scrollY
+      document.body.style.position = 'fixed'
+      document.body.style.top = `-${scrollY}px`
+      document.body.style.left = '0'
+      document.body.style.right = '0'
+      document.body.style.overflow = 'hidden'
+      return () => {
+        document.body.style.position = ''
+        document.body.style.top = ''
+        document.body.style.left = ''
+        document.body.style.right = ''
+        document.body.style.overflow = ''
+        window.scrollTo(0, scrollY)
+      }
+    }
+  }, [mobileMenuOpen])
+
+  // Focus search input when dropdown opens (with preventScroll for iOS)
+  useEffect(() => {
+    if (searchOpen) {
+      const timer = setTimeout(() => {
+        searchInputRef.current?.focus({ preventScroll: true })
+      }, 50)
+      return () => clearTimeout(timer)
+    }
+  }, [searchOpen])
 
   useEffect(() => {
     const search = async () => {
@@ -260,7 +299,10 @@ export function Header({ currentPath }: HeaderProps) {
             {/* Search Button - NEO BRUTAL - 44px Touch Target */}
             <div ref={searchRef} className="relative">
               <button
-                onClick={() => setSearchOpen(!searchOpen)}
+                onClick={() => {
+                if (!searchOpen) closeAllDropdowns()
+                setSearchOpen(!searchOpen)
+              }}
                 className={cn(
                   'p-2.5 sm:p-2',
                   'min-w-[44px] min-h-[44px]',
@@ -288,12 +330,16 @@ export function Header({ currentPath }: HeaderProps) {
               {/* Search Dropdown - NEO BRUTAL - Mobile Responsive */}
               {searchOpen && (
                 <div className={cn(
-                  'absolute right-0 top-full mt-2',
-                  'w-[calc(100vw-2rem)] sm:w-80 max-w-md',
+                  // Mobile: fixed full-width below header
+                  'fixed top-[calc(3.5rem+4px)] inset-x-4',
+                  // Desktop: absolute from search button
+                  'sm:absolute sm:inset-x-auto sm:right-0 sm:top-full sm:mt-2',
+                  'sm:w-80',
                   'bg-[var(--card)]',
                   'border-3 border-[var(--border)]',
                   'shadow-[var(--shadow-brutal-lg)]',
-                  'overflow-hidden'
+                  'overflow-hidden',
+                  'z-[60]'
                 )}>
                   <div className="p-3">
                     <input
@@ -311,7 +357,6 @@ export function Header({ currentPath }: HeaderProps) {
                         'placeholder:text-[var(--muted-foreground)] placeholder:font-medium',
                         'focus:outline-none focus:ring-2 focus:ring-[var(--primary)] focus:ring-offset-2 focus:ring-offset-[var(--background)]'
                       )}
-                      autoFocus
                       aria-describedby="search-status"
                     />
                   </div>
@@ -335,7 +380,7 @@ export function Header({ currentPath }: HeaderProps) {
                     </div>
                   )}
                   {searchResults.length > 0 && (
-                    <div className="border-t-3 border-[var(--border)]">
+                    <div className="border-t-3 border-[var(--border)] max-h-[50vh] overflow-y-auto">
                       {searchResults.map((candidate) => (
                         <button
                           key={candidate.id}
@@ -380,15 +425,18 @@ export function Header({ currentPath }: HeaderProps) {
             </div>
 
             {/* Language Switcher */}
-            <LanguageSwitcher currentLocale={locale} />
+            <LanguageSwitcher currentLocale={locale} onOpen={closeAllDropdowns} closeSignal={closeSignal} />
 
             {/* Accessibility Button */}
-            <AccessibilityButton />
+            <AccessibilityButton onOpen={closeAllDropdowns} closeSignal={closeSignal} />
 
             {/* More Menu - Desktop Only */}
             <div ref={moreMenuRef} className="relative hidden md:block">
               <button
-                onClick={() => setMoreMenuOpen(!moreMenuOpen)}
+                onClick={() => {
+                  if (!moreMenuOpen) closeAllDropdowns()
+                  setMoreMenuOpen(!moreMenuOpen)
+                }}
                 aria-expanded={moreMenuOpen}
                 aria-haspopup="true"
                 aria-controls="more-menu"
@@ -486,7 +534,10 @@ export function Header({ currentPath }: HeaderProps) {
             {/* Mobile Menu Button - NEO BRUTAL - 44px Touch Target */}
             <button
               ref={mobileMenuButtonRef}
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={() => {
+                if (!mobileMenuOpen) closeAllDropdowns()
+                setMobileMenuOpen(!mobileMenuOpen)
+              }}
               className={cn(
                 'md:hidden p-2.5',
                 'min-w-[44px] min-h-[44px]',
@@ -518,7 +569,7 @@ export function Header({ currentPath }: HeaderProps) {
 
         {/* Mobile Menu - NEO BRUTAL - Improved Touch Targets */}
         {mobileMenuOpen && (
-          <div ref={mobileMenuRef} id="mobile-menu" className="md:hidden border-t-3 border-[var(--border)] py-4">
+          <div ref={mobileMenuRef} id="mobile-menu" className="md:hidden border-t-3 border-[var(--border)] py-4 max-h-[calc(100dvh-3.5rem-4px)] overflow-y-auto">
             <nav className="flex flex-col gap-2" aria-label={t('mobileNavigation')}>
               {allNavItems.map((link) => (
                 <Link

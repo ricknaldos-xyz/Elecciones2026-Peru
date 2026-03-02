@@ -32,7 +32,7 @@ export function CompareTray({
         'bg-[var(--card)]',
         'border-t-4 border-[var(--border)]',
         'shadow-[0_-4px_0_0_var(--border)]',
-        'z-50',
+        'z-40',
         'pb-[env(safe-area-inset-bottom)]',
         className
       )}
