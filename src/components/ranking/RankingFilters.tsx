@@ -143,7 +143,7 @@ export function RankingFilters({
           step={10}
           value={minConfidence}
           onChange={(e) => onMinConfidenceChange(Number(e.target.value))}
-          className="w-full h-4 bg-[var(--muted)] border-2 border-[var(--border)] appearance-none cursor-pointer accent-[var(--primary)]"
+          className="w-full h-6 sm:h-4 bg-[var(--muted)] border-2 border-[var(--border)] appearance-none cursor-pointer accent-[var(--primary)]"
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={minConfidence}

@@ -245,7 +245,7 @@ function ToastContainer({ toasts, removeToast }: { toasts: Toast[]; removeToast:
   return (
     <div
       className={cn(
-        'fixed bottom-4 right-4 z-[100]',
+        'fixed bottom-[calc(1rem+env(safe-area-inset-bottom,0px))] right-[calc(1rem+env(safe-area-inset-right,0px))] z-[100]',
         'flex flex-col gap-3',
         'max-w-sm w-full',
         'pointer-events-none',

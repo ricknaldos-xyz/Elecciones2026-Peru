@@ -339,6 +339,11 @@ body {
   box-shadow: var(--shadow-brutal-xl);
 }
 
+.card-brutal:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-brutal-pressed);
+}
+
 /* === TIPOGRAFÍA BRUTAL === */
 .text-brutal-title {
   font-weight: 700;

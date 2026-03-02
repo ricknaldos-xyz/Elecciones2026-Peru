@@ -314,6 +314,8 @@ export function Header({ currentPath }: HeaderProps) {
                   'hover:border-[var(--border)]',
                   'hover:-translate-x-0.5 hover:-translate-y-0.5',
                   'hover:shadow-[var(--shadow-brutal-sm)]',
+                  'active:bg-[var(--muted)]',
+                  'active:border-[var(--border)]',
                   searchOpen && [
                     'bg-[var(--muted)]',
                     'border-[var(--border)]',
@@ -345,7 +347,7 @@ export function Header({ currentPath }: HeaderProps) {
                     <input
                       ref={searchInputRef}
                       type="text"
-                      placeholder={`${t('searchPlaceholder')} (presiona /)`}
+                      placeholder={t('searchPlaceholder')}
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className={cn(
@@ -394,6 +396,7 @@ export function Header({ currentPath }: HeaderProps) {
                             'flex items-center gap-3',
                             'transition-all duration-100',
                             'hover:bg-[var(--muted)]',
+                            'active:bg-[var(--muted)]',
                             'border-b-2 border-[var(--border)] last:border-b-0'
                           )}
                         >
@@ -452,6 +455,8 @@ export function Header({ currentPath }: HeaderProps) {
                   'hover:border-[var(--border)]',
                   'hover:-translate-x-0.5 hover:-translate-y-0.5',
                   'hover:shadow-[var(--shadow-brutal-sm)]',
+                  'active:bg-[var(--muted)]',
+                  'active:border-[var(--border)]',
                   moreMenuOpen && [
                     'bg-[var(--muted)]',
                     'border-[var(--border)]',
@@ -547,6 +552,8 @@ export function Header({ currentPath }: HeaderProps) {
                 'transition-all duration-100',
                 'hover:bg-[var(--muted)]',
                 'hover:border-[var(--border)]',
+                'active:bg-[var(--muted)]',
+                'active:border-[var(--border)]',
                 mobileMenuOpen && [
                   'bg-[var(--muted)]',
                   'border-[var(--border)]',
@@ -620,6 +627,24 @@ export function Header({ currentPath }: HeaderProps) {
         )}
       </div>
     </header>
+
+      {/* Mobile menu backdrop */}
+      {mobileMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/30 z-40 md:hidden"
+          onClick={() => setMobileMenuOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* Search dropdown backdrop - mobile only */}
+      {searchOpen && (
+        <div
+          className="fixed inset-0 bg-black/30 z-[55] sm:hidden"
+          onClick={() => setSearchOpen(false)}
+          aria-hidden="true"
+        />
+      )}
     </>
   )
 }

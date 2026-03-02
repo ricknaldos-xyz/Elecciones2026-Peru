@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
@@ -50,6 +50,29 @@ export function ShareButton({
   const [showMenu, setShowMenu] = useState(false)
   const showSuccess = useSuccessToast()
   const t = useTranslations('share')
+  const menuRef = useRef<HTMLDivElement>(null)
+
+  // Close dropdown on click outside
+  useEffect(() => {
+    if (!showMenu) return
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setShowMenu(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [showMenu])
+
+  // Close dropdown on Escape key
+  useEffect(() => {
+    if (!showMenu) return
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') setShowMenu(false)
+    }
+    document.addEventListener('keydown', handleEscape)
+    return () => document.removeEventListener('keydown', handleEscape)
+  }, [showMenu])
 
   const shareUrl = url || (typeof window !== 'undefined' ? window.location.href : '')
   const shareText = description ? `${title}\n\n${description}` : title
@@ -108,7 +131,7 @@ export function ShareButton({
 
   if (variant === 'icon') {
     return (
-      <div className="relative">
+      <div ref={menuRef} className="relative">
         <button
           onClick={handleNativeShare}
           className={cn(
@@ -190,7 +213,7 @@ export function ShareButton({
 
   // Default button variant
   return (
-    <div className="relative">
+    <div ref={menuRef} className="relative">
       <Button
         variant="secondary"
         onClick={handleNativeShare}
