@@ -41,9 +41,11 @@ function LocaleFlag({ locale, size = 'md' }: { locale: Locale; size?: 'sm' | 'md
 
 interface LanguageSwitcherProps {
   currentLocale: Locale;
+  onOpen?: () => void;
+  closeSignal?: number;
 }
 
-export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
+export function LanguageSwitcher({ currentLocale, onOpen, closeSignal }: LanguageSwitcherProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const listboxRef = useRef<HTMLDivElement>(null);
@@ -70,6 +72,13 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
   }, [isOpen]);
+
+  // Close when parent signals (mutual exclusivity) - derived state pattern
+  const [prevCloseSignal, setPrevCloseSignal] = useState(closeSignal);
+  if (closeSignal && closeSignal !== prevCloseSignal) {
+    setPrevCloseSignal(closeSignal);
+    setIsOpen(false);
+  }
 
   const handleLocaleChange = (newLocale: Locale) => {
     router.replace(pathname, { locale: newLocale });
@@ -112,7 +121,10 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
   return (
     <div ref={dropdownRef} className="relative">
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          if (!isOpen) onOpen?.();
+          setIsOpen(!isOpen);
+        }}
         className={cn(
           'px-3 py-2',
           'min-w-[44px] min-h-[44px]',
