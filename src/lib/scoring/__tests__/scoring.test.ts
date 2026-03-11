@@ -467,15 +467,28 @@ describe('calculateIntegrity', () => {
     expect(result.total).toBe(15)
   })
 
-  it('applies 35 per pending penal case', () => {
+  it('applies 30 per pending penal case (legacy without status)', () => {
     const data = makeCandidate({
       penalSentences: [
         { type: 'penal', description: 'pending', isFirm: false },
       ],
     })
     const result = calculateIntegrity(data)
-    expect(result.penalPenalty).toBe(35)
-    expect(result.total).toBe(65)
+    expect(result.penalPenalty).toBe(30)
+    expect(result.total).toBe(70)
+  })
+
+  it('applies granular penalties by status', () => {
+    const data = makeCandidate({
+      penalSentences: [
+        { type: 'penal', description: 'acusacion', isFirm: false, status: 'acusacion_fiscal' },
+        { type: 'penal', description: 'investigacion', isFirm: false, status: 'investigacion_preparatoria' },
+      ],
+    })
+    const result = calculateIntegrity(data)
+    expect(result.penalPenalty).toBe(45) // -30 + -15
+    expect(result.penalPenalties).toHaveLength(2)
+    expect(result.total).toBe(55)
   })
 
   it('caps pending penal penalties at 85 total', () => {

@@ -64,10 +64,24 @@ export type SeniorityLevel =
   | 'gerencia'
   | 'direccion'
 
+export type PenalStatus =
+  | 'condenado'       // Sentencia firme
+  | 'firme'           // Sentencia firme (alias)
+  | 'proceso'         // En juicio oral
+  | 'acusacion_fiscal' // Acusación fiscal formalizada
+  | 'investigacion_preparatoria' // Investigación formalizada
+  | 'investigacion'   // Investigación activa
+  | 'investigacion_preliminar' // Investigación preliminar
+  | 'juicio_anulado'  // Juicio anulado
+  | 'anulada_rehacer' // Sentencia anulada, debe rehacerse
+  | 'observacion'     // Solo observación
+  | 'confirmado'      // Confirmado (alias for firme in some contexts)
+
 export interface PenalSentence {
   type: 'penal'
   description: string
   isFirm: boolean
+  status?: PenalStatus
   year?: number
 }
 
@@ -441,9 +455,25 @@ export function calculateCompetence(
   }
 }
 
+// Penalty per penal status level
+const PENAL_STATUS_PENALTY: Record<string, number> = {
+  condenado: 70,
+  firme: 70,
+  confirmado: 70,
+  proceso: 30,
+  acusacion_fiscal: 30,
+  investigacion_preparatoria: 15,
+  investigacion: 10,
+  investigacion_preliminar: 10,
+  juicio_anulado: 5,
+  anulada_rehacer: 5,
+  observacion: 5,
+}
+
 export function calculateIntegrity(data: CandidateData): {
   base: number
   penalPenalty: number
+  penalPenalties: { status: string; description: string; penalty: number }[]
   civilPenalties: { type: string; penalty: number; count: number; capped: boolean }[]
   totalCivilPenalty: number
   civilPenaltiesCapped: boolean
@@ -453,21 +483,49 @@ export function calculateIntegrity(data: CandidateData): {
   let score = 100
   const civilPenalties: { type: string; penalty: number; count: number; capped: boolean }[] = []
 
-  // Sentencias penales firmes (mayor penalidad)
-  const firmPenalCount = data.penalSentences.filter((s) => s.isFirm).length
-  // Sentencias penales en proceso/apelación (penalidad menor pero significativa)
-  const pendingPenalCount = data.penalSentences.filter((s) => !s.isFirm).length
-
+  // Penalidades penales por nivel de gravedad
+  const penalPenalties: { status: string; description: string; penalty: number }[] = []
   let penalPenalty = 0
-  // Penalidad por sentencias firmes
-  if (firmPenalCount >= 2) {
-    penalPenalty = 85
-  } else if (firmPenalCount === 1) {
-    penalPenalty = 70
-  }
-  // Penalidad adicional por casos en proceso/apelación (35 puntos por caso)
-  if (pendingPenalCount > 0 && penalPenalty < 85) {
-    penalPenalty += Math.min(pendingPenalCount * 35, 85 - penalPenalty)
+
+  // If sentences have status field, use granular scale
+  const hasStatusInfo = data.penalSentences.some(s => s.status)
+
+  if (hasStatusInfo) {
+    // Granular penalty by status
+    for (const sentence of data.penalSentences) {
+      const status = sentence.status || (sentence.isFirm ? 'condenado' : 'proceso')
+      const penalty = PENAL_STATUS_PENALTY[status] || 10
+      penalPenalties.push({ status, description: sentence.description, penalty })
+    }
+    // Cap firm sentences: 2+ firm = 85 max
+    const firmCount = data.penalSentences.filter(s =>
+      s.status === 'condenado' || s.status === 'firme' || s.status === 'confirmado'
+    ).length
+    if (firmCount >= 2) {
+      // Recalculate: cap firm at 85, add non-firm on top up to 85
+      const firmTotal = Math.min(85, penalPenalties
+        .filter(p => p.status === 'condenado' || p.status === 'firme' || p.status === 'confirmado')
+        .reduce((sum, p) => sum + p.penalty, 0))
+      const nonFirmTotal = penalPenalties
+        .filter(p => p.status !== 'condenado' && p.status !== 'firme' && p.status !== 'confirmado')
+        .reduce((sum, p) => sum + p.penalty, 0)
+      penalPenalty = Math.min(85, firmTotal + nonFirmTotal)
+    } else {
+      penalPenalty = Math.min(85, penalPenalties.reduce((sum, p) => sum + p.penalty, 0))
+    }
+  } else {
+    // Legacy: use isFirm boolean
+    const firmPenalCount = data.penalSentences.filter((s) => s.isFirm).length
+    const pendingPenalCount = data.penalSentences.filter((s) => !s.isFirm).length
+
+    if (firmPenalCount >= 2) {
+      penalPenalty = 85
+    } else if (firmPenalCount === 1) {
+      penalPenalty = 70
+    }
+    if (pendingPenalCount > 0 && penalPenalty < 85) {
+      penalPenalty += Math.min(pendingPenalCount * 30, 85 - penalPenalty)
+    }
   }
   score -= penalPenalty
 
@@ -529,6 +587,7 @@ export function calculateIntegrity(data: CandidateData): {
   return {
     base: 100,
     penalPenalty,
+    penalPenalties,
     civilPenalties,
     totalCivilPenalty: finalCivilPenalty,
     civilPenaltiesCapped: anyCapped,
