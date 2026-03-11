@@ -99,26 +99,45 @@ const PUBLIC_JUDICIAL_DATA: JudicialRecord[] = [
     penal_sentences: [
       {
         delito: 'Lavado de activos - Caso Odebrecht (aportes de campaña)',
-        estado: 'proceso',
-        modalidad: 'PROCESO',
+        estado: 'sobreseido',
+        modalidad: 'SOBRESEIDO',
         expediente: '00299-2017',
         juzgado: 'Primer Juzgado de Investigación Preparatoria Nacional',
-        pena_impuesta: 'Fiscal solicita 30 años 10 meses',
-        fecha_sentencia: '2018-10-10',
+        pena_impuesta: 'Sobreseído - enero 2026',
+        fecha_sentencia: '2026-01-15',
         source: 'poder_judicial',
       },
       {
         delito: 'Organización criminal',
+        estado: 'sobreseido',
+        modalidad: 'SOBRESEIDO',
+        expediente: '00299-2017',
+        juzgado: 'Primer Juzgado de Investigación Preparatoria Nacional',
+        pena_impuesta: 'Sobreseído - enero 2026',
+        fecha_sentencia: '2026-01-15',
+        source: 'poder_judicial',
+      },
+      {
+        delito: 'Falsedad genérica y falsa declaración ante ONPE - Caso Cócteles',
         estado: 'proceso',
         modalidad: 'PROCESO',
         expediente: '00299-2017',
         juzgado: 'Primer Juzgado de Investigación Preparatoria Nacional',
-        fecha_sentencia: '2020-01-28',
+        fecha_sentencia: '2026-01-15',
         source: 'poder_judicial',
+      },
+      {
+        delito: 'Lavado de activos - Campaña 2021 ("Caso Lavamoto")',
+        estado: 'investigacion',
+        modalidad: 'INVESTIGACION',
+        expediente: 'Caso Lavamoto - Aportes campaña 2021',
+        juzgado: 'Primera Fiscalía Corporativa Supraprovincial Especializada en Lavado de Activos',
+        fecha_sentencia: '2025-09-30',
+        source: 'ministerio_publico',
       },
     ],
     civil_sentences: [],
-    notes: 'Juicio oral en curso por caso Odebrecht. Prisión preventiva cumplida (2018-2020).',
+    notes: 'Cargos de lavado de activos y organización criminal sobreseídos en enero 2026. Permanecen: falsedad genérica en proceso + nueva investigación por lavado de activos campaña 2021 (Caso Lavamoto, formalizada sep 2025). Prisión preventiva cumplida (2018-2020).',
   },
   {
     slug: 'luna-galvez-jose-leon',
@@ -199,7 +218,16 @@ const PUBLIC_JUDICIAL_DATA: JudicialRecord[] = [
   {
     slug: 'lopez-aliaga-cazorla-rafael-bernardo',
     fullName: 'LOPEZ ALIAGA CAZORLA RAFAEL BERNARDO',
-    penal_sentences: [],
+    penal_sentences: [
+      {
+        type: 'lavado_activos',
+        court: 'Poder Judicial - Investigación preparatoria ampliada 24 meses',
+        status: 'investigacion',
+        sentence: 'Investigación preparatoria por lavado de activos vinculada a Panama Papers y grupo ACRES. Presunto daño al Estado superior a S/37 millones.',
+        case_number: 'Caso Panama Papers - ACRES',
+        date: '2025-09-01',
+      },
+    ],
     civil_sentences: [
       {
         tipo: 'laboral',
@@ -219,7 +247,16 @@ const PUBLIC_JUDICIAL_DATA: JudicialRecord[] = [
   {
     slug: 'forsyth-sommer-george-patrick',
     fullName: 'George Patrick Forsyth Sommer',
-    penal_sentences: [],
+    penal_sentences: [
+      {
+        type: 'colusion_agravada',
+        court: 'Fiscalía - Investigación preparatoria',
+        status: 'investigacion',
+        sentence: 'Investigación por colusión agravada y negociación incompatible durante gestión como alcalde de La Victoria. Ampliada 8 meses hasta mayo 2026.',
+        case_number: 'Caso Gestión La Victoria',
+        date: '2025-10-01',
+      },
+    ],
     civil_sentences: [
       {
         tipo: 'contractual',
@@ -293,7 +330,16 @@ const PUBLIC_JUDICIAL_DATA: JudicialRecord[] = [
   {
     slug: 'nieto-montesinos-jorge',
     fullName: 'Jorge Nieto Montesinos',
-    penal_sentences: [],
+    penal_sentences: [
+      {
+        type: 'lavado_activos',
+        court: 'Fiscalía - Equipo Especial Lava Jato',
+        status: 'proceso',
+        sentence: 'Investigación preparatoria formalizada por lavado de activos en Caso Odebrecht. Presuntamente recibió USD 120,000 de OAS. Juicio oral instalado septiembre 2025.',
+        case_number: 'Caso Odebrecht - Villarán',
+        date: '2023-07-25',
+      },
+    ],
     civil_sentences: [],
   },
   {

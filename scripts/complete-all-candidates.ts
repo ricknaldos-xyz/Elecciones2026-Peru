@@ -598,8 +598,8 @@ const VERIFIED_DATA: VerifiedCandidateData[] = [
     penal_sentences: [
       {
         type: 'penal_dolosa',
-        description: 'Investigación preparatoria por lavado de activos - Caso Odebrecht y OAS - Presuntamente recibió USD 120,000-129,000 de OAS por asesoría a Susana Villarán',
-        status: 'apelacion',
+        description: 'Lavado de activos - Caso Odebrecht y OAS - Presuntamente recibió USD 120,000-129,000 de OAS por asesoría a Susana Villarán. En juicio oral.',
+        status: 'proceso',
         source: 'El Comercio, RPP, Infobae'
       }
     ],
@@ -1142,6 +1142,8 @@ const VERIFIED_DATA: VerifiedCandidateData[] = [
     source: 'Wikipedia, Congreso, RPP, La Ley'
   },
 
+  // ⚠️ DATA CONFLICT: This entry may mix data from Francisco Diez Canseco Terry (business/CONFIEP)
+  // and a different person. Verify experience data against JNE hoja de vida before trusting.
   // FRANCISCO DIEZ CANSECO TÁVARA
   {
     slug: 'francisco-diez-canseco-terry',

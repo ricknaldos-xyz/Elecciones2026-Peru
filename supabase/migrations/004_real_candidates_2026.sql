@@ -108,7 +108,7 @@ INSERT INTO candidates (id, slug, full_name, cargo, party_id, education_level) V
   -- 19. Charlie Carrasco - PDUP
   ('22222222-2222-2222-2222-222222220019', 'charlie-carrasco', 'Charlie Arturo Carrasco Chacón', 'presidente', '11111111-1111-1111-1111-111111111019', 'Título profesional'),
   -- 20. Armando Massé - PDF
-  ('22222222-2222-2222-2222-222222220020', 'armando-masse', 'Armando Antonio Massé Fernández', 'presidente', '11111111-1111-1111-1111-111111111020', 'Título profesional'),
+  ('22222222-2222-2222-2222-222222220020', 'armando-masse', 'Armando Joaquín Massé Fernández', 'presidente', '11111111-1111-1111-1111-111111111020', 'Título profesional'),
   -- 21. Wolfgang Grozo - ID
   ('22222222-2222-2222-2222-222222220021', 'wolfgang-grozo', 'Wolfgang Grozo Horna', 'presidente', '11111111-1111-1111-1111-111111111021', 'Título profesional'),
   -- 22. Carlos Jaico - PPM
@@ -120,13 +120,13 @@ INSERT INTO candidates (id, slug, full_name, cargo, party_id, education_level) V
   -- 25. Roberto Sánchez - JPP
   ('22222222-2222-2222-2222-222222220025', 'roberto-sanchez', 'Roberto Enrique Sánchez Palomino', 'presidente', '11111111-1111-1111-1111-111111111025', 'Maestría'),
   -- 26. Rafael Belaunde - PLP
-  ('22222222-2222-2222-2222-222222220026', 'rafael-belaunde', 'Rafael Belaunde Aubry', 'presidente', '11111111-1111-1111-1111-111111111026', 'Título profesional'),
+  ('22222222-2222-2222-2222-222222220026', 'rafael-belaunde', 'Rafael Jorge Belaúnde Llosa', 'presidente', '11111111-1111-1111-1111-111111111026', 'Título profesional'),
   -- 27. Fernando Olivera - FE21
   ('22222222-2222-2222-2222-222222220027', 'fernando-olivera', 'Fernando Olivera Vega', 'presidente', '11111111-1111-1111-1111-111111111027', 'Título profesional'),
   -- 28. Carlos Álvarez - PPT
   ('22222222-2222-2222-2222-222222220028', 'carlos-alvarez', 'Carlos Álvarez Sánchez', 'presidente', '11111111-1111-1111-1111-111111111028', 'Título profesional'),
-  -- 29. Francisco Diez Canseco - PA
-  ('22222222-2222-2222-2222-222222220029', 'francisco-diez-canseco', 'Francisco Diez Canseco Terry', 'presidente', '11111111-1111-1111-1111-111111111029', 'Maestría'),
+  -- 29. Francisco Diez-Canseco Tavara - PA
+  ('22222222-2222-2222-2222-222222220029', 'francisco-diez-canseco', 'Francisco Diez-Canseco Tavara', 'presidente', '11111111-1111-1111-1111-111111111029', 'Maestría'),
   -- 30. Mario Vizcarra - PP
   ('22222222-2222-2222-2222-222222220030', 'mario-vizcarra', 'Mario Vizcarra Andrade', 'presidente', '11111111-1111-1111-1111-111111111030', 'Título profesional'),
   -- 31. Walter Chirinos - PRIN

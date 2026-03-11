@@ -435,7 +435,7 @@ const CANDIDATES_DATA: CandidateFullData[] = [
   {
     slug: 'jorge-nieto',
     dni: '10007788',
-    birth_date: '1949-04-23',
+    birth_date: '1951-10-29',
     photo_url: '/candidates/jorge-nieto.jpg',
     education_level: 'doctorado',
     education_details: [
@@ -619,7 +619,7 @@ const CANDIDATES_DATA: CandidateFullData[] = [
   {
     slug: 'yonhy-lescano',
     dni: '10010011',
-    birth_date: '1959-09-23',
+    birth_date: '1959-02-15',
     photo_url: '/candidates/yonhy-lescano.jpg',
     education_level: 'titulo_profesional',
     education_details: [
@@ -660,7 +660,7 @@ const CANDIDATES_DATA: CandidateFullData[] = [
   {
     slug: 'roberto-chiabra',
     dni: '10011122',
-    birth_date: '1950-11-08',
+    birth_date: '1949-07-15',
     photo_url: '/candidates/roberto-chiabra.jpg',
     education_level: 'maestria',
     education_details: [
@@ -724,7 +724,7 @@ const CANDIDATES_DATA: CandidateFullData[] = [
   {
     slug: 'francisco-diez-canseco',
     dni: '10012233',
-    birth_date: '1948-07-25',
+    birth_date: '1946-04-18',
     photo_url: '/candidates/francisco-diez-canseco.jpg',
     education_level: 'maestria',
     education_details: [
@@ -829,7 +829,7 @@ const CANDIDATES_DATA: CandidateFullData[] = [
   {
     slug: 'fernando-olivera',
     dni: '10014455',
-    birth_date: '1962-06-06',
+    birth_date: '1958-07-26',
     photo_url: '/candidates/fernando-olivera.jpg',
     education_level: 'titulo_profesional',
     education_details: [
@@ -885,7 +885,7 @@ const CANDIDATES_DATA: CandidateFullData[] = [
   {
     slug: 'ricardo-belmont',
     dni: '10015566',
-    birth_date: '1945-12-25',
+    birth_date: '1945-08-29',
     photo_url: '/candidates/ricardo-belmont.jpg',
     education_level: 'secundaria_completa',
     education_details: [
@@ -933,7 +933,7 @@ const CANDIDATES_DATA: CandidateFullData[] = [
   {
     slug: 'fiorella-molinelli',
     dni: '10016677',
-    birth_date: '1970-02-14',
+    birth_date: '1974-03-20',
     photo_url: '/candidates/fiorella-molinelli.jpg',
     education_level: 'maestria',
     education_details: [
