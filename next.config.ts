@@ -18,9 +18,9 @@ const nextConfig: NextConfig = {
   },
   headers: async () => [
     {
-      source: '/api/candidates',
+      source: '/api/candidates/:path*',
       headers: [
-        { key: 'Cache-Control', value: 'public, s-maxage=600, stale-while-revalidate=86400' },
+        { key: 'Cache-Control', value: 'public, s-maxage=60, stale-while-revalidate=30' },
       ],
     },
     {

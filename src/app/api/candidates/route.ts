@@ -7,7 +7,6 @@ import { checkRateLimit, getClientIp } from '@/lib/rate-limit'
 const RATE_LIMIT = { name: 'candidates-api', max: 60, windowSec: 60 }
 
 export const dynamic = 'force-dynamic'
-export const revalidate = 600
 
 export async function GET(request: NextRequest) {
   try {
@@ -34,7 +33,11 @@ export async function GET(request: NextRequest) {
       offset,
     })
 
-    return NextResponse.json(candidates)
+    return NextResponse.json(candidates, {
+      headers: {
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=30',
+      },
+    })
   } catch (error) {
     console.error('Error fetching candidates:', error)
     return NextResponse.json(

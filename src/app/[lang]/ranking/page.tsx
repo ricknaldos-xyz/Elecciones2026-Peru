@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import { RankingContent } from './RankingContent'
 import { Header } from '@/components/layout/Header'
 
-export const revalidate = 3600
+export const revalidate = 60
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
