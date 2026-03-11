@@ -1168,6 +1168,7 @@ export async function getScoreBreakdown(candidateId: string): Promise<ScoreBreak
       candidate_id,
       education_level_points, education_depth_points,
       experience_total_points, experience_relevant_points,
+      experience_raw_years, experience_unique_years, experience_has_overlap,
       leadership_seniority_points, leadership_stability_points,
       integrity_base, penal_penalty, penal_penalties, civil_penalties, resignation_penalty, reinfo_penalty,
       company_penalty, voting_penalty, voting_bonus, tax_penalty, omission_penalty,
