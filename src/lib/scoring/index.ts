@@ -455,25 +455,121 @@ export function calculateCompetence(
   }
 }
 
-// Penalty per penal status level
-const PENAL_STATUS_PENALTY: Record<string, number> = {
-  condenado: 70,
-  firme: 70,
-  confirmado: 70,
-  proceso: 30,
-  acusacion_fiscal: 30,
-  investigacion_preparatoria: 15,
-  investigacion: 10,
-  investigacion_preliminar: 10,
-  juicio_anulado: 5,
-  anulada_rehacer: 5,
-  observacion: 5,
+// ============================================
+// 2D PENALTY SYSTEM: stage base × crime severity
+// ============================================
+
+// Stage base penalties (judicial progress)
+const STAGE_BASE_PENALTY: Record<string, number> = {
+  condenado: 50,
+  firme: 50,
+  confirmado: 50,
+  proceso: 20,
+  acusacion_fiscal: 20,
+  investigacion_preparatoria: 10,
+  investigacion: 7,
+  investigacion_preliminar: 5,
+  juicio_anulado: 3,
+  anulada_rehacer: 3,
+  archivado: 2,
+  observacion: 2,
+}
+
+// Crime severity multipliers
+export type CrimeSeverity = 'gravisimo' | 'grave' | 'moderado' | 'leve'
+
+const SEVERITY_MULTIPLIER: Record<CrimeSeverity, number> = {
+  gravisimo: 1.5,  // Org criminal, terrorismo, narco, lavado de activos
+  grave: 1.2,      // Colusión agravada, cohecho, peculado, enriquecimiento ilícito
+  moderado: 1.0,   // Negociación incompatible, estafa, usurpación, concusión
+  leve: 0.7,       // Difamación, falsa declaración, omisión de funciones
+}
+
+// Keywords → severity classification
+const SEVERITY_KEYWORDS: { severity: CrimeSeverity; patterns: RegExp[] }[] = [
+  {
+    severity: 'gravisimo',
+    patterns: [
+      /organizaci[oó]n criminal/i,
+      /terrorismo/i,
+      /narcotr[aá]fico/i,
+      /tr[aá]fico il[ií]cito de drogas/i,
+      /lavado de activos/i,
+      /homicidio/i,
+      /sicariato/i,
+      /secuestro/i,
+      /trata de personas/i,
+      /violaci[oó]n sexual/i,
+    ],
+  },
+  {
+    severity: 'grave',
+    patterns: [
+      /colusi[oó]n(?:\s+(?:simple|agravada|desleal))?/i,
+      /cohecho/i,
+      /peculado/i,
+      /enriquecimiento il[ií]cito/i,
+      /malversaci[oó]n/i,
+      /tr[aá]fico de influencias/i,
+      /soborno/i,
+      /corrupci[oó]n/i,
+      /defraudaci[oó]n/i,
+    ],
+  },
+  {
+    severity: 'moderado',
+    patterns: [
+      /negociaci[oó]n incompatible/i,
+      /estafa/i,
+      /usurpaci[oó]n/i,
+      /concusi[oó]n/i,
+      /abuso de autoridad/i,
+      /apropiaci[oó]n/i,
+      /da[ñn]o/i,
+      /lesiones/i,
+      /falsificaci[oó]n/i,
+      /fraude/i,
+    ],
+  },
+  {
+    severity: 'leve',
+    patterns: [
+      /difamaci[oó]n/i,
+      /falsa declaraci[oó]n/i,
+      /omisi[oó]n/i,
+      /injuria/i,
+      /calumnia/i,
+      /desobediencia/i,
+      /incumplimiento/i,
+    ],
+  },
+]
+
+/** Classify a crime description into a severity category */
+export function classifyCrimeSeverity(description: string): CrimeSeverity {
+  for (const { severity, patterns } of SEVERITY_KEYWORDS) {
+    for (const pattern of patterns) {
+      if (pattern.test(description)) {
+        return severity
+      }
+    }
+  }
+  return 'moderado' // default for unclassified crimes
+}
+
+/** Calculate 2D penalty: stage base × severity multiplier */
+function calculate2DPenalty(status: string, description: string): { penalty: number; severity: CrimeSeverity } {
+  const stageBase = STAGE_BASE_PENALTY[status] || 7
+  const severity = classifyCrimeSeverity(description)
+  const multiplier = SEVERITY_MULTIPLIER[severity]
+  const penalty = Math.round(stageBase * multiplier)
+  return { penalty, severity }
 }
 
 export function calculateIntegrity(data: CandidateData): {
   base: number
   penalPenalty: number
-  penalPenalties: { status: string; description: string; penalty: number }[]
+  penalPenalties: { status: string; description: string; penalty: number; severity: CrimeSeverity }[]
   civilPenalties: { type: string; penalty: number; count: number; capped: boolean }[]
   totalCivilPenalty: number
   civilPenaltiesCapped: boolean
@@ -483,48 +579,33 @@ export function calculateIntegrity(data: CandidateData): {
   let score = 100
   const civilPenalties: { type: string; penalty: number; count: number; capped: boolean }[] = []
 
-  // Penalidades penales por nivel de gravedad
-  const penalPenalties: { status: string; description: string; penalty: number }[] = []
+  // Penalidades penales — 2D system: stage × severity
+  const penalPenalties: { status: string; description: string; penalty: number; severity: CrimeSeverity }[] = []
   let penalPenalty = 0
 
-  // If sentences have status field, use granular scale
+  // If sentences have status field, use 2D penalty system
   const hasStatusInfo = data.penalSentences.some(s => s.status)
 
   if (hasStatusInfo) {
-    // Granular penalty by status
     for (const sentence of data.penalSentences) {
       const status = sentence.status || (sentence.isFirm ? 'condenado' : 'proceso')
-      const penalty = PENAL_STATUS_PENALTY[status] || 10
-      penalPenalties.push({ status, description: sentence.description, penalty })
+      const { penalty, severity } = calculate2DPenalty(status, sentence.description)
+      penalPenalties.push({ status, description: sentence.description, penalty, severity })
     }
-    // Cap firm sentences: 2+ firm = 85 max
-    const firmCount = data.penalSentences.filter(s =>
-      s.status === 'condenado' || s.status === 'firme' || s.status === 'confirmado'
-    ).length
-    if (firmCount >= 2) {
-      // Recalculate: cap firm at 85, add non-firm on top up to 85
-      const firmTotal = Math.min(85, penalPenalties
-        .filter(p => p.status === 'condenado' || p.status === 'firme' || p.status === 'confirmado')
-        .reduce((sum, p) => sum + p.penalty, 0))
-      const nonFirmTotal = penalPenalties
-        .filter(p => p.status !== 'condenado' && p.status !== 'firme' && p.status !== 'confirmado')
-        .reduce((sum, p) => sum + p.penalty, 0)
-      penalPenalty = Math.min(85, firmTotal + nonFirmTotal)
-    } else {
-      penalPenalty = Math.min(85, penalPenalties.reduce((sum, p) => sum + p.penalty, 0))
-    }
+    // Cap total penal penalty at 85
+    penalPenalty = Math.min(85, penalPenalties.reduce((sum, p) => sum + p.penalty, 0))
   } else {
-    // Legacy: use isFirm boolean
+    // Legacy: use isFirm boolean with default moderado severity
     const firmPenalCount = data.penalSentences.filter((s) => s.isFirm).length
     const pendingPenalCount = data.penalSentences.filter((s) => !s.isFirm).length
 
     if (firmPenalCount >= 2) {
       penalPenalty = 85
     } else if (firmPenalCount === 1) {
-      penalPenalty = 70
+      penalPenalty = 50
     }
     if (pendingPenalCount > 0 && penalPenalty < 85) {
-      penalPenalty += Math.min(pendingPenalCount * 30, 85 - penalPenalty)
+      penalPenalty += Math.min(pendingPenalCount * 20, 85 - penalPenalty)
     }
   }
   score -= penalPenalty

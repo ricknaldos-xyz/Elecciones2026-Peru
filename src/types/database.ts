@@ -428,6 +428,7 @@ export interface PenalPenalty {
   status: string
   description: string
   penalty: number
+  severity?: 'gravisimo' | 'grave' | 'moderado' | 'leve'
 }
 
 export interface AssetsDeclaration {
