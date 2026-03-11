@@ -525,6 +525,11 @@ export interface ScoreBreakdown {
     civil_penalties: CivilPenalty[]
     resignation_penalty: number
     reinfo_penalty: number
+    company_penalty: number
+    voting_penalty: number
+    voting_bonus: number
+    tax_penalty: number
+    omission_penalty: number
     final: number
   }
   // Transparencia

@@ -1170,6 +1170,7 @@ export async function getScoreBreakdown(candidateId: string): Promise<ScoreBreak
       experience_total_points, experience_relevant_points,
       leadership_seniority_points, leadership_stability_points,
       integrity_base, penal_penalty, penal_penalties, civil_penalties, resignation_penalty, reinfo_penalty,
+      company_penalty, voting_penalty, voting_bonus, tax_penalty, omission_penalty,
       completeness_points, consistency_points, assets_quality_points,
       verification_points, coverage_points,
       plan_viability_overall, plan_viability_fiscal,
@@ -1224,6 +1225,11 @@ export async function getScoreBreakdown(candidateId: string): Promise<ScoreBreak
       })(),
       resignation_penalty: Number(row.resignation_penalty),
       reinfo_penalty: Number(row.reinfo_penalty) || 0,
+      company_penalty: Number(row.company_penalty) || 0,
+      voting_penalty: Number(row.voting_penalty) || 0,
+      voting_bonus: Number(row.voting_bonus) || 0,
+      tax_penalty: Number(row.tax_penalty) || 0,
+      omission_penalty: Number(row.omission_penalty) || 0,
       final: (() => {
         const civilPenaltiesSum = (() => {
           try {
@@ -1233,7 +1239,18 @@ export async function getScoreBreakdown(candidateId: string): Promise<ScoreBreak
             return parsed.reduce((sum: number, p: CivilPenalty) => sum + (Number(p.penalty) || 0), 0)
           } catch { return 0 }
         })()
-        return Math.max(0, Number(row.integrity_base) - Number(row.penal_penalty) - civilPenaltiesSum - Number(row.resignation_penalty) - (Number(row.reinfo_penalty) || 0))
+        return Math.min(100, Math.max(0,
+          Number(row.integrity_base)
+          - Number(row.penal_penalty)
+          - civilPenaltiesSum
+          - Number(row.resignation_penalty)
+          - (Number(row.reinfo_penalty) || 0)
+          - (Number(row.company_penalty) || 0)
+          - (Number(row.voting_penalty) || 0)
+          + (Number(row.voting_bonus) || 0)
+          - (Number(row.tax_penalty) || 0)
+          - (Number(row.omission_penalty) || 0)
+        ))
       })(),
     },
     transparency: {
