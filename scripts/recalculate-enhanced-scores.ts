@@ -42,6 +42,10 @@ function mapEducationDetail(ed: any): EducationLevel {
   const degree = (ed.degree || '').toLowerCase()
 
   if (level.includes('doctorado') || (level.includes('posgrado') && degree.includes('doctor'))) {
+    // Incomplete or revoked doctorates count as maestría (next lower)
+    if (ed.is_completed === false || ed.revoked === true) {
+      return 'maestria'
+    }
     return 'doctorado'
   }
   if (level.includes('maestria') || level.includes('posgrado') || level.includes('postgrado') ||
@@ -345,8 +349,8 @@ async function transformToEnhancedScoringData(candidate: any): Promise<EnhancedI
   const experience: Experience[] = (candidate.experience_details || []).map((exp: any) => {
     const startYear = exp.start_year ? parseInt(exp.start_year) : parseYear(exp.start_date)
     const endYear = exp.is_current ? undefined : (exp.end_year ? parseInt(exp.end_year) : parseYear(exp.end_date))
-    const roleType = exp.role_type ? inferRoleType(exp.position, exp.organization) : inferRoleType(exp.position, exp.organization)
-    const seniorityLevel = exp.seniority_level ? inferSeniorityLevel(exp.position, exp.organization) : inferSeniorityLevel(exp.position, exp.organization)
+    const roleType: RoleType = exp.role_type && exp.role_type !== '?' ? (exp.role_type as RoleType) : inferRoleType(exp.position, exp.organization)
+    const seniorityLevel: SeniorityLevel = exp.seniority_level && exp.seniority_level !== '?' ? (exp.seniority_level as SeniorityLevel) : inferSeniorityLevel(exp.position, exp.organization)
     const isLeadership = ['direccion', 'gerencia', 'jefatura'].includes(seniorityLevel)
 
     return {
@@ -360,25 +364,36 @@ async function transformToEnhancedScoringData(candidate: any): Promise<EnhancedI
     }
   })
 
-  // Add political trajectory as experience
-  const politicalExp: Experience[] = (candidate.political_trajectory || []).map((pt: any) => {
-    // political_trajectory uses year_start/year_end as integers (after migration)
-    const startYear = pt.year_start || pt.year || new Date().getFullYear()
-    const endYear = pt.year_end || undefined
-    const isElected = pt.type === 'cargo_electivo' || pt.is_elected
-    const roleType: RoleType = isElected ? 'electivo_alto' :
-      pt.type === 'cargo_publico' ? 'ejecutivo_publico_alto' : 'partidario'
+  // Add political trajectory as experience (skip entries already migrated to experience_details)
+  const alreadyMigratedSources = new Set(
+    (candidate.experience_details || [])
+      .filter((e: any) => e.source === 'political_trajectory')
+      .map((e: any) => `${(e.position || '').toLowerCase().substring(0, 20)}-${e.start_year || ''}`)
+  )
 
-    return {
-      role: pt.position,
-      roleType,
-      organization: pt.party || pt.institution || 'Gobierno',
-      startYear,
-      endYear,
-      isLeadership: isElected || pt.type === 'cargo_publico',
-      seniorityLevel: (isElected || pt.type === 'cargo_publico' ? 'direccion' : 'coordinador') as SeniorityLevel,
-    }
-  })
+  const politicalExp: Experience[] = (candidate.political_trajectory || [])
+    .filter((pt: any) => {
+      // Skip if already migrated to experience_details
+      const key = `${(pt.position || '').toLowerCase().substring(0, 20)}-${pt.year_start || pt.year || ''}`
+      return !alreadyMigratedSources.has(key)
+    })
+    .map((pt: any) => {
+      const startYear = pt.year_start || pt.year || new Date().getFullYear()
+      const endYear = pt.year_end || undefined
+      const isElected = pt.type === 'cargo_electivo' || pt.is_elected
+      const roleType: RoleType = isElected ? 'electivo_alto' :
+        pt.type === 'cargo_publico' ? 'ejecutivo_publico_alto' : 'partidario'
+
+      return {
+        role: pt.position,
+        roleType,
+        organization: pt.party || pt.institution || 'Gobierno',
+        startYear,
+        endYear,
+        isLeadership: isElected || pt.type === 'cargo_publico',
+        seniorityLevel: (isElected || pt.type === 'cargo_publico' ? 'direccion' : 'coordinador') as SeniorityLevel,
+      }
+    })
 
   const allExperience = [...experience, ...politicalExp]
 
@@ -720,6 +735,7 @@ async function recalculateEnhancedScores() {
         experience_total_points, experience_relevant_points,
         experience_raw_years, experience_unique_years, experience_has_overlap,
         leadership_points, leadership_seniority, leadership_stability,
+        leadership_seniority_points, leadership_stability_points,
         integrity_base, penal_penalty, civil_penalties, resignation_penalty,
         company_penalty, voting_penalty, voting_bonus, tax_penalty, omission_penalty, reinfo_penalty,
         completeness_points, consistency_points, assets_quality_points, onpe_penalty,
@@ -732,6 +748,7 @@ async function recalculateEnhancedScores() {
         ${breakdownData.experience_total_points}, ${breakdownData.experience_relevant_points},
         ${breakdownData.experience_raw_years}, ${breakdownData.experience_unique_years}, ${breakdownData.experience_has_overlap},
         ${breakdownData.leadership_points}, ${breakdownData.leadership_seniority}, ${breakdownData.leadership_stability},
+        ${breakdownData.leadership_seniority}, ${breakdownData.leadership_stability},
         ${breakdownData.integrity_base}, ${breakdownData.penal_penalty},
         ${JSON.stringify(breakdownData.civil_penalties)}::jsonb, ${breakdownData.resignation_penalty},
         ${breakdownData.company_penalty}, ${breakdownData.voting_penalty}, ${breakdownData.voting_bonus},
@@ -753,6 +770,8 @@ async function recalculateEnhancedScores() {
         leadership_points = EXCLUDED.leadership_points,
         leadership_seniority = EXCLUDED.leadership_seniority,
         leadership_stability = EXCLUDED.leadership_stability,
+        leadership_seniority_points = EXCLUDED.leadership_seniority_points,
+        leadership_stability_points = EXCLUDED.leadership_stability_points,
         integrity_base = EXCLUDED.integrity_base,
         penal_penalty = EXCLUDED.penal_penalty,
         civil_penalties = EXCLUDED.civil_penalties,

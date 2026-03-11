@@ -986,9 +986,9 @@ export function calculateVotingPenalty(data: EnhancedIntegrityData): {
   const bonus = data.votingIntegrityBonus || 0
 
   return {
-    penalty: Math.min(penalty, 85), // Cap at 85
-    bonus: Math.min(bonus, 15), // Cap bonus at 15
-    net: Math.max(-85, bonus - penalty), // Net impact
+    penalty: Math.min(penalty, 30), // Cap at 30 — votes are concerning but less severe than criminal convictions
+    bonus: Math.min(bonus, 10), // Cap bonus at 10
+    net: Math.max(-30, bonus - penalty), // Net impact
   }
 }
 
