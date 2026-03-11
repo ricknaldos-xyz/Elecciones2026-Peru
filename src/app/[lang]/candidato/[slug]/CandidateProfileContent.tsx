@@ -852,7 +852,8 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="pt-4">
-                    {details.penal_sentences.map((sentence: Record<string, unknown>, idx: number) => {
+                    {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                    {(details.penal_sentences as any[]).map((sentence: any, idx: number) => {
                       const statusLabels: Record<string, string> = {
                         condenado: 'Sentencia firme',
                         firme: 'Sentencia firme',
@@ -1082,24 +1083,39 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                       <div className="space-y-3">
                         <BreakdownBar label={t('breakdown.baseScore')} value={breakdown.integrity.base} max={100} color="integrity" />
                         {breakdown.integrity.penal_penalties && breakdown.integrity.penal_penalties.length > 0 ? (
-                          breakdown.integrity.penal_penalties.map((penalty, idx) => (
-                            <div key={`penal-${idx}`} className={`flex items-center gap-3 p-2 border-2 ${
-                              penalty.status === 'condenado' || penalty.status === 'firme'
-                                ? 'bg-[var(--flag-red)]/10 border-[var(--flag-red)]'
-                                : 'bg-[var(--flag-amber)]/10 border-[var(--flag-amber)]'
-                            }`}>
-                              <span className={`text-xs font-bold flex-1 uppercase ${
-                                penalty.status === 'condenado' || penalty.status === 'firme'
-                                  ? 'text-[var(--flag-red-text)]'
-                                  : 'text-[var(--flag-amber-text)]'
-                              }`}>{penalty.description}</span>
-                              <span className={`font-black ${
-                                penalty.status === 'condenado' || penalty.status === 'firme'
-                                  ? 'text-[var(--flag-red-text)]'
-                                  : 'text-[var(--flag-amber-text)]'
-                              }`}>-{penalty.penalty.toFixed(0)}</span>
-                            </div>
-                          ))
+                          breakdown.integrity.penal_penalties.map((penalty, idx) => {
+                            const severityLabels: Record<string, string> = {
+                              gravisimo: 'Gravísimo',
+                              grave: 'Grave',
+                              moderado: 'Moderado',
+                              leve: 'Leve',
+                            }
+                            const severityColors: Record<string, string> = {
+                              gravisimo: 'bg-red-900/20 border-red-700 text-red-300',
+                              grave: 'bg-[var(--flag-red)]/10 border-[var(--flag-red)] text-[var(--flag-red-text)]',
+                              moderado: 'bg-[var(--flag-amber)]/10 border-[var(--flag-amber)] text-[var(--flag-amber-text)]',
+                              leve: 'bg-yellow-500/10 border-yellow-600 text-yellow-300',
+                            }
+                            const sev = penalty.severity || 'moderado'
+                            const colorClass = severityColors[sev] || severityColors.moderado
+                            return (
+                              <div key={`penal-${idx}`} className={`flex items-center gap-3 p-2 border-2 ${colorClass.split(' ').slice(0, 2).join(' ')}`}>
+                                <div className="flex-1 min-w-0">
+                                  <span className={`text-xs font-bold uppercase ${colorClass.split(' ').slice(2).join(' ')}`}>
+                                    {penalty.description}
+                                  </span>
+                                  {penalty.severity && (
+                                    <span className={`ml-2 text-[10px] font-black px-1.5 py-0.5 border ${colorClass}`}>
+                                      {severityLabels[sev] || sev}
+                                    </span>
+                                  )}
+                                </div>
+                                <span className={`font-black whitespace-nowrap ${colorClass.split(' ').slice(2).join(' ')}`}>
+                                  -{penalty.penalty.toFixed(0)}
+                                </span>
+                              </div>
+                            )
+                          })
                         ) : breakdown.integrity.penal_penalty > 0 ? (
                           <div className="flex items-center gap-3 p-2 bg-[var(--flag-red)]/10 border-2 border-[var(--flag-red)]">
                             <span className="text-xs font-bold text-[var(--flag-red-text)] flex-1 uppercase">{t('penalSentences')}</span>

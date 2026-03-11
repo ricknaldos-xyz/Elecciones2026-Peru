@@ -13,14 +13,14 @@ interface PlanViabilityCardProps {
 }
 
 function getScoreColor(score: number) {
-  if (score >= 7) return 'text-green-600'
-  if (score >= 5) return 'text-yellow-600'
+  if (score >= 70) return 'text-green-600'
+  if (score >= 50) return 'text-yellow-600'
   return 'text-red-600'
 }
 
 function getScoreBg(score: number) {
-  if (score >= 7) return 'bg-green-100 border-green-500'
-  if (score >= 5) return 'bg-yellow-100 border-yellow-500'
+  if (score >= 70) return 'bg-green-100 border-green-500'
+  if (score >= 50) return 'bg-yellow-100 border-yellow-500'
   return 'bg-red-100 border-red-500'
 }
 
@@ -46,10 +46,10 @@ function DimensionSection({ label, description, score, analysis, children }: Dim
       <div className="flex items-center justify-between text-sm mb-1">
         <span className="font-bold uppercase text-[var(--muted-foreground)]">{label}</span>
         <span className={cn('font-black', getScoreColor(score))}>
-          {score.toFixed(1)}/10
+          {score.toFixed(0)}/100
         </span>
       </div>
-      <Progress value={score * 10} size="sm" variant={score >= 7 ? 'success' : score >= 5 ? 'warning' : 'danger'} />
+      <Progress value={score} size="sm" variant={score >= 70 ? 'success' : score >= 50 ? 'warning' : 'danger'} />
       <p className="text-xs text-[var(--muted-foreground)] mt-0.5">{description}</p>
 
       <button
@@ -150,12 +150,12 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
       </CardHeader>
       <CardContent className="pt-4 space-y-4">
         {/* Overall Score */}
-        <div className={cn('text-center p-4 border-2', getScoreBg(data.overall_viability_score))}>
-          <div className={cn('text-4xl font-black', getScoreColor(data.overall_viability_score))}>
-            {data.overall_viability_score.toFixed(1)}
+        <div className={cn('text-center p-4 border-2', getScoreBg(data.overall_viability_score * 10))}>
+          <div className={cn('text-4xl font-black', getScoreColor(data.overall_viability_score * 10))}>
+            {(data.overall_viability_score * 10).toFixed(0)}
           </div>
           <div className="text-xs font-bold text-[var(--muted-foreground)] uppercase mt-1">
-            {t('overallScore')}
+            {t('overallScore')} /100
           </div>
           <div className="text-xs text-[var(--muted-foreground)] mt-1">
             {data.proposals_analyzed} {t('proposalsAnalyzed')}
@@ -177,7 +177,7 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
           <DimensionSection
             label={t('fiscalViability')}
             description={t('fiscalDesc')}
-            score={data.fiscal_viability_score}
+            score={data.fiscal_viability_score * 10}
             analysis={data.fiscal_viability_analysis}
           >
             {fiscalDetails && (
@@ -217,7 +217,7 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
           <DimensionSection
             label={t('legalViability')}
             description={t('legalDesc')}
-            score={data.legal_viability_score}
+            score={data.legal_viability_score * 10}
             analysis={data.legal_viability_analysis}
           >
             {legalDetails && (
@@ -261,7 +261,7 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
           <DimensionSection
             label={t('coherence')}
             description={t('coherenceDesc')}
-            score={data.coherence_score}
+            score={data.coherence_score * 10}
             analysis={data.coherence_analysis}
           >
             {coherenceDetails && (
@@ -308,7 +308,7 @@ export function PlanViabilityCard({ candidateId }: PlanViabilityCardProps) {
           <DimensionSection
             label={t('historicalComparison')}
             description={t('historicalDesc')}
-            score={data.historical_score}
+            score={data.historical_score * 10}
             analysis={data.historical_analysis}
           >
             {historicalDetails && (

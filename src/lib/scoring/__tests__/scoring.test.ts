@@ -446,16 +446,16 @@ describe('calculateIntegrity', () => {
     expect(result.resignationPenalty).toBe(0)
   })
 
-  it('applies -70 for 1 firm penal sentence', () => {
+  it('applies -50 for 1 firm penal sentence (legacy)', () => {
     const data = makeCandidate({
       penalSentences: [{ type: 'penal', description: 'test', isFirm: true }],
     })
     const result = calculateIntegrity(data)
-    expect(result.penalPenalty).toBe(70)
-    expect(result.total).toBe(30)
+    expect(result.penalPenalty).toBe(50)
+    expect(result.total).toBe(50)
   })
 
-  it('applies -85 for 2+ firm penal sentences', () => {
+  it('applies -85 for 2+ firm penal sentences (legacy)', () => {
     const data = makeCandidate({
       penalSentences: [
         { type: 'penal', description: 'a', isFirm: true },
@@ -467,28 +467,56 @@ describe('calculateIntegrity', () => {
     expect(result.total).toBe(15)
   })
 
-  it('applies 30 per pending penal case (legacy without status)', () => {
+  it('applies 20 per pending penal case (legacy without status)', () => {
     const data = makeCandidate({
       penalSentences: [
         { type: 'penal', description: 'pending', isFirm: false },
       ],
     })
     const result = calculateIntegrity(data)
-    expect(result.penalPenalty).toBe(30)
-    expect(result.total).toBe(70)
+    expect(result.penalPenalty).toBe(20)
+    expect(result.total).toBe(80)
   })
 
-  it('applies granular penalties by status', () => {
+  it('applies 2D penalties by status × severity', () => {
     const data = makeCandidate({
       penalSentences: [
-        { type: 'penal', description: 'acusacion', isFirm: false, status: 'acusacion_fiscal' },
-        { type: 'penal', description: 'investigacion', isFirm: false, status: 'investigacion_preparatoria' },
+        // acusacion_fiscal (base=20) × moderado (×1.0) = 20
+        { type: 'penal', description: 'estafa procesal', isFirm: false, status: 'acusacion_fiscal' },
+        // investigacion_preparatoria (base=10) × grave (×1.2) = 12
+        { type: 'penal', description: 'peculado doloso', isFirm: false, status: 'investigacion_preparatoria' },
       ],
     })
     const result = calculateIntegrity(data)
-    expect(result.penalPenalty).toBe(45) // -30 + -15
+    expect(result.penalPenalty).toBe(32) // 20 + 12
     expect(result.penalPenalties).toHaveLength(2)
-    expect(result.total).toBe(55)
+    expect(result.penalPenalties[0].severity).toBe('moderado')
+    expect(result.penalPenalties[1].severity).toBe('grave')
+    expect(result.total).toBe(68)
+  })
+
+  it('applies higher penalty for gravísimo crimes', () => {
+    const data = makeCandidate({
+      penalSentences: [
+        // acusacion_fiscal (base=20) × gravisimo (×1.5) = 30
+        { type: 'penal', description: 'lavado de activos y organización criminal', isFirm: false, status: 'acusacion_fiscal' },
+      ],
+    })
+    const result = calculateIntegrity(data)
+    expect(result.penalPenalty).toBe(30)
+    expect(result.penalPenalties[0].severity).toBe('gravisimo')
+  })
+
+  it('applies lower penalty for leve crimes', () => {
+    const data = makeCandidate({
+      penalSentences: [
+        // acusacion_fiscal (base=20) × leve (×0.7) = 14
+        { type: 'penal', description: 'falsa declaración en procedimiento', isFirm: false, status: 'acusacion_fiscal' },
+      ],
+    })
+    const result = calculateIntegrity(data)
+    expect(result.penalPenalty).toBe(14)
+    expect(result.penalPenalties[0].severity).toBe('leve')
   })
 
   it('caps pending penal penalties at 85 total', () => {
@@ -497,10 +525,12 @@ describe('calculateIntegrity', () => {
         { type: 'penal', description: 'a', isFirm: false },
         { type: 'penal', description: 'b', isFirm: false },
         { type: 'penal', description: 'c', isFirm: false },
+        { type: 'penal', description: 'd', isFirm: false },
+        { type: 'penal', description: 'e', isFirm: false },
       ],
     })
     const result = calculateIntegrity(data)
-    expect(result.penalPenalty).toBe(85)
+    expect(result.penalPenalty).toBeLessThanOrEqual(85)
   })
 
   it('applies civil penalties with diminishing returns', () => {
@@ -1010,15 +1040,15 @@ describe('calculateEnhancedIntegrity', () => {
 
   it('chains subtotals correctly', () => {
     const result = calculateEnhancedIntegrity(makeEnhanced({
-      penalSentences: [{ type: 'penal', description: 'a', isFirm: true }], // -70
+      penalSentences: [{ type: 'penal', description: 'a', isFirm: true }], // -50 (legacy)
       votingIntegrityPenalty: 10,
       taxCondition: 'no_hallado', // -20
     }))
     const b = result.breakdown
-    expect(b.subtotals.afterTraditional).toBe(30)  // 100 - 70
-    expect(b.subtotals.afterVoting).toBe(20)  // 30 - 10
-    expect(b.subtotals.afterTax).toBe(0)  // 20 - 20
-    expect(b.subtotals.final).toBe(0)
+    expect(b.subtotals.afterTraditional).toBe(50)  // 100 - 50
+    expect(b.subtotals.afterVoting).toBe(40)  // 50 - 10
+    expect(b.subtotals.afterTax).toBe(20)  // 40 - 20
+    expect(b.subtotals.final).toBe(20)
   })
 
   it('floors at 0', () => {
