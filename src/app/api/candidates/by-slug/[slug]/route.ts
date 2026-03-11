@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getCandidateBySlug } from '@/lib/db/queries'
 
-export const revalidate = 600
+export const dynamic = 'force-dynamic'
 
 export async function GET(
   request: NextRequest,

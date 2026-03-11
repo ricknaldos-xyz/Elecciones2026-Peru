@@ -4,7 +4,6 @@ import { candidateByIdsSchema } from '@/lib/validation/schemas'
 import { parseSearchParams } from '@/lib/validation/helpers'
 
 export const dynamic = 'force-dynamic'
-export const revalidate = 600
 
 export async function GET(request: NextRequest) {
   try {
