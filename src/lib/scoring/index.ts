@@ -385,7 +385,7 @@ export function calculateLeadership(experience: Experience[]): {
   total: number
 } {
   const currentYear = new Date().getFullYear()
-  const leadershipExps = experience.filter((e) => e.isLeadership && e.seniorityLevel)
+  const leadershipExps = experience.filter((e) => e.seniorityLevel && (e.isLeadership !== false) && e.seniorityLevel !== 'individual_contributor')
 
   if (leadershipExps.length === 0) {
     return { seniority: 0, stability: 0, total: 0 }

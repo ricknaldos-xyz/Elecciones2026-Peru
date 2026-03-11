@@ -7,6 +7,19 @@
 
 import { neon } from '@neondatabase/serverless'
 
+/**
+ * ⚠️ DEPRECATED - DO NOT RUN THIS SCRIPT ⚠️
+ *
+ * The hardcoded score values in this script are outdated and incorrect.
+ * Migration 025 (025_fix_all_candidate_scores.sql) contains the audited
+ * and verified scores for all 36 candidates.
+ *
+ * Running this script will OVERWRITE the corrected scores with wrong values.
+ *
+ * If you need to recalculate scores, use the scoring engine in
+ * src/lib/scoring/index.ts instead of hardcoded values.
+ */
+
 const sql = neon(process.env.DATABASE_URL!)
 
 /**
@@ -167,9 +180,9 @@ async function applyNewPenalties() {
     SET
       competence = COALESCE((
         SELECT CASE c.slug
-          WHEN 'marisol-perez-tello' THEN 82
+          WHEN 'marisol-perez-tello' THEN 80
           WHEN 'jorge-nieto-montesinos' THEN 82
-          WHEN 'fiorella-molinelli-aristondo' THEN 76
+          WHEN 'fiorella-molinelli-aristondo' THEN 78
           WHEN 'francisco-diez-canseco-terry' THEN 75
           WHEN 'rosario-fernandez-figueroa' THEN 72
           WHEN 'alfonso-lopez-chau-nava' THEN 80
@@ -177,31 +190,31 @@ async function applyNewPenalties() {
           WHEN 'rafael-lopez-aliaga-cazorla' THEN 78
           WHEN 'rafael-belaunde-aubry' THEN 65
           WHEN 'roberto-chiabra-leon' THEN 68
-          WHEN 'george-patrick-forsyth-sommer' THEN 75
+          WHEN 'george-patrick-forsyth-sommer' THEN 52
           WHEN 'keiko-sofia-fujimori-higuchi' THEN 70
-          WHEN 'cesar-acuna-peralta' THEN 68
-          WHEN 'jose-luna-galvez' THEN 60
-          WHEN 'vladimir-roy-cerron-rojas' THEN 45
+          WHEN 'cesar-acuna-peralta' THEN 75
+          WHEN 'jose-luna-galvez' THEN 70
+          WHEN 'vladimir-roy-cerron-rojas' THEN 72
           ELSE 55
         END
         FROM candidates c WHERE c.id = s.candidate_id
       ), 55),
       integrity = COALESCE((
         SELECT CASE c.slug
-          WHEN 'marisol-perez-tello' THEN 92
-          WHEN 'jorge-nieto-montesinos' THEN 85
-          WHEN 'fiorella-molinelli-aristondo' THEN 78
+          WHEN 'marisol-perez-tello' THEN 90
+          WHEN 'jorge-nieto-montesinos' THEN 65
+          WHEN 'fiorella-molinelli-aristondo' THEN 65
           WHEN 'francisco-diez-canseco-terry' THEN 80
           WHEN 'rosario-fernandez-figueroa' THEN 82
-          WHEN 'alfonso-lopez-chau-nava' THEN 78
+          WHEN 'alfonso-lopez-chau-nava' THEN 65
           WHEN 'jose-williams-zapata' THEN 80
-          WHEN 'rafael-lopez-aliaga-cazorla' THEN 72
+          WHEN 'rafael-lopez-aliaga-cazorla' THEN 40
           WHEN 'rafael-belaunde-aubry' THEN 78
           WHEN 'roberto-chiabra-leon' THEN 75
-          WHEN 'george-patrick-forsyth-sommer' THEN 78
-          WHEN 'keiko-sofia-fujimori-higuchi' THEN 35
-          WHEN 'cesar-acuna-peralta' THEN 55
-          WHEN 'jose-luna-galvez' THEN 30
+          WHEN 'george-patrick-forsyth-sommer' THEN 55
+          WHEN 'keiko-sofia-fujimori-higuchi' THEN 30
+          WHEN 'cesar-acuna-peralta' THEN 50
+          WHEN 'jose-luna-galvez' THEN 5
           WHEN 'vladimir-roy-cerron-rojas' THEN 10
           ELSE 70
         END

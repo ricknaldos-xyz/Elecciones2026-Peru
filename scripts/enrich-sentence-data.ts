@@ -179,6 +179,49 @@ const SENTENCE_UPDATES: Record<string, {
     civil_sentences: []
   },
 
+  // FUJIMORI - Lavado de activos y organización criminal sobreseídos enero 2026, queda falsedad genérica
+  'FUJIMORI HIGUCHI': {
+    penal_sentences: [
+      {
+        type: 'lavado_activos',
+        case_number: '00299-2017',
+        court: 'Primer Juzgado de Investigación Preparatoria Nacional',
+        date: '2026-01-15',
+        sentence: 'Lavado de activos - Caso Odebrecht (aportes de campaña). Sobreseído en enero 2026 por el Poder Judicial.',
+        status: 'sobreseido',
+        source: 'poder_judicial'
+      },
+      {
+        type: 'organizacion_criminal',
+        case_number: '00299-2017',
+        court: 'Primer Juzgado de Investigación Preparatoria Nacional',
+        date: '2026-01-15',
+        sentence: 'Organización criminal - Caso Odebrecht. Sobreseído en enero 2026 por el Poder Judicial.',
+        status: 'sobreseido',
+        source: 'poder_judicial'
+      },
+      {
+        type: 'falsedad_generica',
+        case_number: '00299-2017',
+        court: 'Primer Juzgado de Investigación Preparatoria Nacional',
+        date: '2026-01-15',
+        sentence: 'Falsedad genérica y falsa declaración ante ONPE - Caso Cócteles. Cargo remanente tras sobreseimiento de lavado de activos y organización criminal.',
+        status: 'proceso',
+        source: 'poder_judicial'
+      },
+      {
+        type: 'lavado_activos',
+        case_number: 'CASO-LAVAMOTO-2021',
+        court: 'Primera Fiscalía Corporativa Supraprovincial Especializada en Lavado de Activos',
+        date: '2025-09-30',
+        sentence: 'Lavado de activos - Aportes ilícitos campaña 2021 (Caso Lavamoto). Investigación preparatoria formalizada septiembre 2025.',
+        status: 'investigacion',
+        source: 'ministerio_publico'
+      }
+    ],
+    civil_sentences: []
+  },
+
   // NIETO MONTESINOS - Active lavado de activos investigation
   'NIETO MONTESINOS': {
     penal_sentences: [
