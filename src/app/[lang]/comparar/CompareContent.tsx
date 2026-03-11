@@ -921,7 +921,7 @@ export function CompareContent() {
                                       />
                                     </div>
                                     <div className={cn('w-10 text-right text-sm font-black', getScoreColor(normalized))}>
-                                      {score.toFixed(1)}
+                                      {normalized.toFixed(0)}
                                     </div>
                                   </div>
                                 )
@@ -959,7 +959,7 @@ export function CompareContent() {
                               <div className="flex items-center justify-between">
                                 <div className="text-sm font-bold truncate">{c.full_name.split(' ').slice(-2).join(' ')}</div>
                                 <div className={cn('text-2xl font-black', getScoreColor(overallPct))}>
-                                  {v.overall_viability_score.toFixed(1)}
+                                  {overallPct.toFixed(0)}
                                 </div>
                               </div>
                               <div className="text-xs font-black uppercase text-[var(--muted-foreground)]">

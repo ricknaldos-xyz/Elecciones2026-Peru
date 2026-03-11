@@ -1508,7 +1508,7 @@
   },
   "planViability": {
     "title": "Análisis de Viabilidad del Plan de Gobierno",
-    "overallScore": "Viabilidad General (1-10)",
+    "overallScore": "Viabilidad General",
     "proposalsAnalyzed": "propuestas analizadas",
     "fiscalViability": "Viabilidad Fiscal",
     "fiscalDesc": "¿Es compatible con la realidad fiscal del Perú?",
