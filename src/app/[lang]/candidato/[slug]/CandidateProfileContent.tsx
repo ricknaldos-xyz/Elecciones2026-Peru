@@ -852,21 +852,48 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="pt-4">
-                    {details.penal_sentences.map((sentence, idx) => (
-                      <div key={idx} className="p-4 bg-[var(--flag-red)]/10 border-2 border-[var(--flag-red)] mb-3 last:mb-0">
-                        <div className="flex justify-between items-start mb-2">
-                          <Badge variant="destructive">{sentence.type}</Badge>
-                          <span className="text-xs text-[var(--muted-foreground)] font-mono">{sentence.case_number}</span>
+                    {details.penal_sentences.map((sentence: Record<string, unknown>, idx: number) => {
+                      const statusLabels: Record<string, string> = {
+                        condenado: 'Sentencia firme',
+                        firme: 'Sentencia firme',
+                        confirmado: 'Sentencia confirmada',
+                        proceso: 'Juicio oral',
+                        acusacion_fiscal: 'Acusaci\u00f3n fiscal',
+                        investigacion_preparatoria: 'Investigaci\u00f3n formalizada',
+                        investigacion: 'Investigaci\u00f3n activa',
+                        investigacion_preliminar: 'Investigaci\u00f3n preliminar',
+                        juicio_anulado: 'Juicio anulado',
+                        anulada_rehacer: 'Sentencia anulada',
+                        archivado: 'Archivado',
+                        observacion: 'Observaci\u00f3n',
+                      }
+                      const status = String(sentence.status || '')
+                      const statusLabel = statusLabels[status] || status
+                      const isFirm = status === 'condenado' || status === 'firme' || status === 'confirmado'
+                      const borderColor = isFirm ? 'border-[var(--flag-red)]' : 'border-[var(--flag-amber)]'
+                      const bgColor = isFirm ? 'bg-[var(--flag-red)]/10' : 'bg-[var(--flag-amber)]/10'
+                      const badgeVariant = isFirm ? 'destructive' as const : 'warning' as const
+
+                      return (
+                        <div key={idx} className={`p-4 ${bgColor} border-2 ${borderColor} mb-3 last:mb-0`}>
+                          <div className="flex justify-between items-start mb-2">
+                            <Badge variant={badgeVariant}>{statusLabel}</Badge>
+                            {sentence.year && <span className="text-xs text-[var(--muted-foreground)] font-mono">{String(sentence.year)}</span>}
+                          </div>
+                          <p className="text-sm text-[var(--foreground)] mb-2 font-bold">{String(sentence.description || '')}</p>
+                          {sentence.citation && (
+                            <p className="text-xs text-[var(--muted-foreground)] italic">{String(sentence.citation)}</p>
+                          )}
+                          {(sentence.juzgado || sentence.expediente || sentence.source) && (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[var(--muted-foreground)] mt-2">
+                              {sentence.juzgado && <div><strong>{t('court')}:</strong> {String(sentence.juzgado)}</div>}
+                              {sentence.expediente && <div><strong>Exp:</strong> {String(sentence.expediente)}</div>}
+                              {sentence.source && <div><strong>{t('source')}:</strong> {String(sentence.source)}</div>}
+                            </div>
+                          )}
                         </div>
-                        <p className="text-sm text-[var(--foreground)] mb-2 font-medium">{sentence.sentence}</p>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-[var(--muted-foreground)]">
-                          <div><strong>{t('court')}:</strong> {sentence.court}</div>
-                          <div><strong>{t('date')}:</strong> {formatDate(sentence.date)}</div>
-                          <div><strong>{t('status')}:</strong> {sentence.status}</div>
-                          <div><strong>{t('source')}:</strong> {sentence.source}</div>
-                        </div>
-                      </div>
-                    ))}
+                      )
+                    })}
                   </CardContent>
                 </Card>
               )}
