@@ -870,30 +870,30 @@ describe('calculateVotingPenalty', () => {
     expect(result).toEqual({ penalty: 0, bonus: 0, net: 0 })
   })
 
-  it('caps penalty at 85', () => {
+  it('caps penalty at 30', () => {
     const result = calculateVotingPenalty(makeEnhanced({ votingIntegrityPenalty: 100 }))
-    expect(result.penalty).toBe(85)
+    expect(result.penalty).toBe(30)
   })
 
-  it('caps bonus at 15', () => {
+  it('caps bonus at 10', () => {
     const result = calculateVotingPenalty(makeEnhanced({ votingIntegrityBonus: 50 }))
-    expect(result.bonus).toBe(15)
+    expect(result.bonus).toBe(10)
   })
 
   it('calculates net correctly', () => {
     const result = calculateVotingPenalty(makeEnhanced({
-      votingIntegrityPenalty: 30,
-      votingIntegrityBonus: 10,
+      votingIntegrityPenalty: 20,
+      votingIntegrityBonus: 5,
     }))
-    expect(result.net).toBe(-20) // 10 - 30
+    expect(result.net).toBe(-15) // 5 - 20
   })
 
-  it('caps net at -85', () => {
+  it('caps net at -30', () => {
     const result = calculateVotingPenalty(makeEnhanced({
       votingIntegrityPenalty: 200,
       votingIntegrityBonus: 0,
     }))
-    expect(result.net).toBe(-85)
+    expect(result.net).toBe(-30)
   })
 })
 
