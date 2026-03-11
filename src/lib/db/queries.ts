@@ -1,6 +1,6 @@
 import { sql } from './index'
 import { formatName } from '@/lib/utils'
-import type { CandidateWithScores, CargoType, Flag, ScoreBreakdown, CivilPenalty } from '@/types/database'
+import type { CandidateWithScores, CargoType, Flag, ScoreBreakdown, CivilPenalty, PenalPenalty } from '@/types/database'
 
 interface CandidateRow {
   id: string
@@ -1169,7 +1169,8 @@ export async function getScoreBreakdown(candidateId: string): Promise<ScoreBreak
       education_level_points, education_depth_points,
       experience_total_points, experience_relevant_points,
       leadership_seniority_points, leadership_stability_points,
-      integrity_base, penal_penalty, civil_penalties, resignation_penalty, reinfo_penalty,
+      integrity_base, penal_penalty, penal_penalties, civil_penalties, resignation_penalty, reinfo_penalty,
+      company_penalty, voting_penalty, voting_bonus, tax_penalty, omission_penalty,
       completeness_points, consistency_points, assets_quality_points,
       verification_points, coverage_points,
       plan_viability_overall, plan_viability_fiscal,
@@ -1202,6 +1203,16 @@ export async function getScoreBreakdown(candidateId: string): Promise<ScoreBreak
     integrity: {
       base: Number(row.integrity_base),
       penal_penalty: Number(row.penal_penalty),
+      penal_penalties: (() => {
+        try {
+          if (typeof row.penal_penalties === 'string') {
+            return JSON.parse(row.penal_penalties) as PenalPenalty[]
+          }
+          return (row.penal_penalties as PenalPenalty[]) || []
+        } catch {
+          return []
+        }
+      })(),
       civil_penalties: (() => {
         try {
           if (typeof row.civil_penalties === 'string') {
@@ -1214,7 +1225,33 @@ export async function getScoreBreakdown(candidateId: string): Promise<ScoreBreak
       })(),
       resignation_penalty: Number(row.resignation_penalty),
       reinfo_penalty: Number(row.reinfo_penalty) || 0,
-      final: Number(row.integrity_base) - Number(row.penal_penalty) - Number(row.resignation_penalty) - (Number(row.reinfo_penalty) || 0),
+      company_penalty: Number(row.company_penalty) || 0,
+      voting_penalty: Number(row.voting_penalty) || 0,
+      voting_bonus: Number(row.voting_bonus) || 0,
+      tax_penalty: Number(row.tax_penalty) || 0,
+      omission_penalty: Number(row.omission_penalty) || 0,
+      final: (() => {
+        const civilPenaltiesSum = (() => {
+          try {
+            const parsed = typeof row.civil_penalties === 'string'
+              ? JSON.parse(row.civil_penalties) as CivilPenalty[]
+              : (row.civil_penalties as CivilPenalty[]) || []
+            return parsed.reduce((sum: number, p: CivilPenalty) => sum + (Number(p.penalty) || 0), 0)
+          } catch { return 0 }
+        })()
+        return Math.min(100, Math.max(0,
+          Number(row.integrity_base)
+          - Number(row.penal_penalty)
+          - civilPenaltiesSum
+          - Number(row.resignation_penalty)
+          - (Number(row.reinfo_penalty) || 0)
+          - (Number(row.company_penalty) || 0)
+          - (Number(row.voting_penalty) || 0)
+          + (Number(row.voting_bonus) || 0)
+          - (Number(row.tax_penalty) || 0)
+          - (Number(row.omission_penalty) || 0)
+        ))
+      })(),
     },
     transparency: {
       completeness: Number(row.completeness_points),

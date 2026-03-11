@@ -1054,12 +1054,31 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                       </div>
                       <div className="space-y-3">
                         <BreakdownBar label={t('breakdown.baseScore')} value={breakdown.integrity.base} max={100} color="integrity" />
-                        {breakdown.integrity.penal_penalty > 0 && (
+                        {breakdown.integrity.penal_penalties && breakdown.integrity.penal_penalties.length > 0 ? (
+                          breakdown.integrity.penal_penalties.map((penalty, idx) => (
+                            <div key={`penal-${idx}`} className={`flex items-center gap-3 p-2 border-2 ${
+                              penalty.status === 'condenado' || penalty.status === 'firme'
+                                ? 'bg-[var(--flag-red)]/10 border-[var(--flag-red)]'
+                                : 'bg-[var(--flag-amber)]/10 border-[var(--flag-amber)]'
+                            }`}>
+                              <span className={`text-xs font-bold flex-1 uppercase ${
+                                penalty.status === 'condenado' || penalty.status === 'firme'
+                                  ? 'text-[var(--flag-red-text)]'
+                                  : 'text-[var(--flag-amber-text)]'
+                              }`}>{penalty.description}</span>
+                              <span className={`font-black ${
+                                penalty.status === 'condenado' || penalty.status === 'firme'
+                                  ? 'text-[var(--flag-red-text)]'
+                                  : 'text-[var(--flag-amber-text)]'
+                              }`}>-{penalty.penalty.toFixed(0)}</span>
+                            </div>
+                          ))
+                        ) : breakdown.integrity.penal_penalty > 0 ? (
                           <div className="flex items-center gap-3 p-2 bg-[var(--flag-red)]/10 border-2 border-[var(--flag-red)]">
                             <span className="text-xs font-bold text-[var(--flag-red-text)] flex-1 uppercase">{t('penalSentences')}</span>
                             <span className="font-black text-[var(--flag-red-text)]">-{breakdown.integrity.penal_penalty.toFixed(0)}</span>
                           </div>
-                        )}
+                        ) : null}
                         {breakdown.integrity.civil_penalties.map((penalty, idx) => (
                           <div key={idx} className="flex items-center gap-3 p-2 bg-[var(--flag-amber)]/10 border-2 border-[var(--flag-amber)]">
                             <span className="text-xs font-bold text-[var(--flag-amber-text)] flex-1 uppercase">{t('civilSentence')} ({penalty.type})</span>
@@ -1078,6 +1097,48 @@ export function CandidateProfileContent({ candidate, breakdown, details, vicePre
                             <span className="font-black text-[var(--flag-red-text)]">-{breakdown.integrity.reinfo_penalty.toFixed(0)}</span>
                           </div>
                         )}
+                        {breakdown.integrity.company_penalty > 0 && (
+                          <div className="flex items-center gap-3 p-2 bg-[var(--flag-red)]/10 border-2 border-[var(--flag-red)]">
+                            <span className="text-xs font-bold text-[var(--flag-red-text)] flex-1 uppercase">Empresas (INDECOPI/SUNAFIL/OEFA)</span>
+                            <span className="font-black text-[var(--flag-red-text)]">-{breakdown.integrity.company_penalty.toFixed(0)}</span>
+                          </div>
+                        )}
+                        {breakdown.integrity.voting_penalty > 0 && (
+                          <div className="flex items-center gap-3 p-2 bg-[var(--flag-red)]/10 border-2 border-[var(--flag-red)]">
+                            <span className="text-xs font-bold text-[var(--flag-red-text)] flex-1 uppercase">Votación pro-impunidad en Congreso</span>
+                            <span className="font-black text-[var(--flag-red-text)]">-{breakdown.integrity.voting_penalty.toFixed(0)}</span>
+                          </div>
+                        )}
+                        {breakdown.integrity.voting_bonus > 0 && (
+                          <div className="flex items-center gap-3 p-2 bg-green-100 border-2 border-green-600">
+                            <span className="text-xs font-bold text-green-800 flex-1 uppercase">Votación anti-impunidad en Congreso</span>
+                            <span className="font-black text-green-800">+{breakdown.integrity.voting_bonus.toFixed(0)}</span>
+                          </div>
+                        )}
+                        {breakdown.integrity.tax_penalty > 0 && (
+                          <div className="flex items-center gap-3 p-2 bg-[var(--flag-amber)]/10 border-2 border-[var(--flag-amber)]">
+                            <span className="text-xs font-bold text-[var(--flag-amber-text)] flex-1 uppercase">Irregularidades tributarias (SUNAT)</span>
+                            <span className="font-black text-[var(--flag-amber-text)]">-{breakdown.integrity.tax_penalty.toFixed(0)}</span>
+                          </div>
+                        )}
+                        {breakdown.integrity.omission_penalty > 0 && (
+                          <div className="flex items-center gap-3 p-2 bg-[var(--flag-amber)]/10 border-2 border-[var(--flag-amber)]">
+                            <span className="text-xs font-bold text-[var(--flag-amber-text)] flex-1 uppercase">Casos judiciales no declarados</span>
+                            <span className="font-black text-[var(--flag-amber-text)]">-{breakdown.integrity.omission_penalty.toFixed(0)}</span>
+                          </div>
+                        )}
+                        {(() => {
+                          const auditDiff = Math.round(candidate.scores.integrity - breakdown.integrity.final)
+                          if (auditDiff !== 0) {
+                            return (
+                              <div className="flex items-center gap-3 p-2 bg-[var(--flag-red)]/10 border-2 border-[var(--flag-red)]">
+                                <span className="text-xs font-bold text-[var(--flag-red-text)] flex-1 uppercase">{t('auditAdjustment')}</span>
+                                <span className="font-black text-[var(--flag-red-text)]">{auditDiff > 0 ? '+' : ''}{auditDiff}</span>
+                              </div>
+                            )
+                          }
+                          return null
+                        })()}
                       </div>
                     </div>
 

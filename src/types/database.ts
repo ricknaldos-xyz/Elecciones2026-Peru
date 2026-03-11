@@ -424,6 +424,12 @@ export interface CivilPenalty {
   penalty: number
 }
 
+export interface PenalPenalty {
+  status: string
+  description: string
+  penalty: number
+}
+
 export interface AssetsDeclaration {
   total_income?: number
   real_estate?: AssetItem[]
@@ -515,9 +521,15 @@ export interface ScoreBreakdown {
   integrity: {
     base: number
     penal_penalty: number
+    penal_penalties: PenalPenalty[]
     civil_penalties: CivilPenalty[]
     resignation_penalty: number
     reinfo_penalty: number
+    company_penalty: number
+    voting_penalty: number
+    voting_bonus: number
+    tax_penalty: number
+    omission_penalty: number
     final: number
   }
   // Transparencia
