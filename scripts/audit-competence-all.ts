@@ -111,18 +111,46 @@ interface PoliticalEntry {
   institution?: string
 }
 
+function mapEducationLevel(e: EducationEntry): string {
+  const level = (e.level || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  const degree = (e.degree || '').toLowerCase()
+  const isCompleted = e.is_completed ?? e.completed ?? true
+
+  if (level.includes('doctorado') || (level.includes('posgrado') && degree.includes('doctor'))) {
+    if (!isCompleted || (e as any).revoked === true) return 'maestria'
+    return 'doctorado'
+  }
+  if (level.includes('maestria') || level.includes('posgrado') || level.includes('postgrado') ||
+      degree.includes('magister') || degree.includes('maestro') || degree.includes('maestria') || degree.includes('master')) {
+    return 'maestria'
+  }
+  if (level.includes('universitario') || level.includes('universidad')) {
+    if ((e as any).has_title || degree.includes('titulo') || degree.includes('ingeniero') ||
+        degree.includes('abogado') || degree.includes('medico') || degree.includes('licenciado') ||
+        degree.includes('contador') || degree.includes('arquitecto')) {
+      return 'titulo_profesional'
+    }
+    if (isCompleted || (e as any).has_bachelor || degree.includes('bachiller')) {
+      return 'universitario_completo'
+    }
+    return 'universitario_incompleto'
+  }
+  if (level.includes('tecnico') || level.includes('tecnologico')) {
+    return isCompleted ? 'tecnico_completo' : 'tecnico_incompleto'
+  }
+  if (level.includes('secundaria')) {
+    return isCompleted ? 'secundaria_completa' : 'secundaria_incompleta'
+  }
+  if (level.includes('primaria')) return 'primaria'
+  return 'sin_informacion'
+}
+
 function calculateEducation(entries: EducationEntry[]): { level: number; depth: number; total: number } {
   if (!entries || entries.length === 0) return { level: 0, depth: 0, total: 0 }
 
   const levels = entries.map(e => {
-    const isCompleted = e.is_completed ?? e.completed ?? true
-    let level = String(e.level || '').toLowerCase()
-
-    // If not completed and it's a degree, downgrade
-    if (!isCompleted && level === 'doctorado') level = 'maestria' // incomplete doctorate = next lower
-    if (!isCompleted && level === 'maestria') level = 'universitario_completo'
-
-    return EDUCATION_POINTS[level] || 0
+    const mapped = mapEducationLevel(e)
+    return EDUCATION_POINTS[mapped] || 0
   })
 
   const maxLevel = Math.max(...levels)
@@ -205,7 +233,7 @@ function calculateLeadership(entries: ExperienceEntry[]): { seniority: number; s
   const currentYear = 2026
   const leaders = entries.filter(e => {
     const sl = e.seniority_level || ''
-    return sl && sl !== 'individual_contributor' && sl !== 'individual'
+    return ['direccion', 'gerencia', 'jefatura'].includes(sl)
   })
 
   if (leaders.length === 0) return { seniority: 0, stability: 0, total: 0 }
@@ -262,11 +290,36 @@ async function main() {
     const exp = (c.experience_details || []) as ExperienceEntry[]
     const pol = (c.political_trajectory || []) as PoliticalEntry[]
 
+    // Merge political trajectory into experience (same as recalculate script)
+    const alreadyMigratedSources = new Set(
+      exp.filter(e => (e as any).source === 'political_trajectory')
+        .map(e => `${(e.position || '').toLowerCase().substring(0, 20)}-${e.start_year || e.year_start || ''}`)
+    )
+    const polExp: ExperienceEntry[] = pol
+      .filter(pt => {
+        const key = `${(pt.position || '').toLowerCase().substring(0, 20)}-${pt.start_year || pt.year_start || ''}`
+        return !alreadyMigratedSources.has(key)
+      })
+      .map(pt => {
+        const isElected = pt.type === 'cargo_electivo' || pt.is_elected
+        return {
+          position: pt.position,
+          organization: pt.party || pt.institution || 'Gobierno',
+          role_type: isElected ? 'electivo_alto' : pt.type === 'cargo_publico' ? 'ejecutivo_publico_alto' : 'partidario',
+          seniority_level: (isElected || pt.type === 'cargo_publico') ? 'direccion' : 'coordinador',
+          start_year: pt.start_year || pt.year_start,
+          end_year: pt.end_year || pt.year_end,
+          is_current: false,
+          is_leadership: isElected || pt.type === 'cargo_publico',
+        }
+      })
+    const allExp = [...exp, ...polExp]
+
     // Calculate using algorithm
     const education = calculateEducation(edu)
-    const expTotal = calculateExperienceTotal(exp)
-    const expRelevant = calculateExperienceRelevant(exp)
-    const leadership = calculateLeadership(exp)
+    const expTotal = calculateExperienceTotal(allExp)
+    const expRelevant = calculateExperienceRelevant(allExp)
+    const leadership = calculateLeadership(allExp)
     const calculatedCompetence = Math.min(education.total + expTotal + expRelevant + leadership.total, 100)
 
     const stored = Number(c.stored_competence) || 0
